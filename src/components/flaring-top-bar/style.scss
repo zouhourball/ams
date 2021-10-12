@@ -1,0 +1,26 @@
+.flaring {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 10px;
+  background-color: white;
+
+  .switch-view {
+    margin: 0 8px;
+    border-radius: 5px;
+    background: rgba($color: #000, $alpha: 0.05);
+
+    &-btn {
+      width: 28px;
+      height: 28px;
+      margin: 2px;
+      padding: 0;
+      border-radius: 5px;
+      line-height: 1;
+
+      &.active {
+        background: #fff;
+      }
+    }
+  }
+}
