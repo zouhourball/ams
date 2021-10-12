@@ -6,6 +6,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { PrimeContext } from 'components/app/context'
 
+import GenericForm from 'components/generic-form-permit'
+
 import './style.scss'
 
 const queryClient = new QueryClient()
@@ -39,5 +41,7 @@ const Home = ({ location: { pathname } }) => {
 export default Home
 
 const Div = () => {
-  return <div>AMS</div>
+  return <div>AMS
+    <GenericForm />
+  </div>
 }
