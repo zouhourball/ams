@@ -21,7 +21,7 @@ const SupportedDocument = ({ oldFiles }) => {
   }
 
   return (
-    <div>
+    <div className="supported-document">
       <Dropzone
         onDrop={onUpload}
         accept="image/*"
