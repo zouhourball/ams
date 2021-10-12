@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, MenuButton, Avatar } from 'react-md'
+import { Button, MenuButton, ListItem } from 'react-md'
 
 import { cls } from 'reactutils'
 
@@ -8,7 +8,7 @@ import analyticView from './images/analytic_view.svg'
 
 import './style.scss'
 
-const FlaringTopBar = () => {
+const FlaringTopBar = ({ onUploadAnnualReport, onUploadMonthlyReport, onUploadDailyReport, onDownloadTemplate, onDownloadAnnualPlanTemplate }) => {
   const [currentView, setCurrentView] = useState('file')
   return (
     <div className="flaring">
@@ -16,18 +16,74 @@ const FlaringTopBar = () => {
       <div className="flaring-title">
         Flaring
       </div>
+      <div className="flaring-buttons">
+        <div className="flaring-buttons-list">
+          {onUploadDailyReport && <Button
+            id="save"
+            className="flaring-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onUploadDailyReport && onUploadDailyReport()
+            }}
+          >Upload Daily Flaring Report
+          </Button>}
+          {onUploadMonthlyReport && <Button
+            id="save"
+            className="flaring-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onUploadMonthlyReport && onUploadMonthlyReport()
+            }}
+          >Upload Monthly Flaring Report
+          </Button>}
+          {onUploadAnnualReport && <Button
+            id="save"
+            className="flaring-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onUploadAnnualReport && onUploadAnnualReport()
+            }}
+          >Upload Annual Flaring Report
+          </Button>}
+          {onDownloadTemplate && <Button
+            id="save"
+            className="flaring-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onDownloadTemplate && onDownloadTemplate()
+            }}
+          >Download Template
+          </Button>}
+          {onDownloadAnnualPlanTemplate && <Button
+            id="save"
+            className="flaring-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onDownloadAnnualPlanTemplate && onDownloadAnnualPlanTemplate()
+            }}
+          >Download Annual Plan Template
+          </Button>}
+        </div>
 
-      <div>
+        <div className="flaring-buttons-icons">
 
-        <div>
-
-          <div className="switch-view">
+          <div className="flaring-buttons-switch-view">
             <Button
               icon
               onClick={() => setCurrentView('file')}
               tooltipLabel={'list'}
               className={cls(
-                'switch-view-btn',
+                'flaring-buttons-switch-view-btn',
                 currentView === 'file' && 'active',
               )}
               iconEl={<img src={listView} />}
@@ -37,7 +93,7 @@ const FlaringTopBar = () => {
               onClick={() => setCurrentView('dashboard')}
               tooltipLabel={'dashboard'}
               className={cls(
-                'switch-view-btn',
+                'flaring-buttons-switch-view-btn',
                 currentView === 'dashboard' && 'active',
               )}
               iconEl={<img src={analyticView} />}
@@ -46,12 +102,15 @@ const FlaringTopBar = () => {
           <MenuButton
             id="menu-button-2"
             icon
-            menuItems={[]}
+            menuItems={[
+              <ListItem key={1} primaryText="Edit" onClick={e => null} />,
+              <ListItem key={3} primaryText="Delete" onClick={e => null} />,
+            ]}
             anchor={{
               x: MenuButton.HorizontalAnchors.RIGHT,
               y: MenuButton.VerticalAnchors.BOTTOM,
             }}
-            menuClassName="top-asset-card-menuButton"
+            menuClassName=""
           >
           more_vert
           </MenuButton>
@@ -61,3 +120,8 @@ const FlaringTopBar = () => {
 }
 
 export default FlaringTopBar
+FlaringTopBar.defaultProps = {
+  onUploadAnnualReport: () => {},
+  onDownloadTemplate: () => {},
+  onDownloadAnnualPlanTemplate: () => {},
+}

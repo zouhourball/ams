@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { PrimeContext } from 'components/app/context'
-import FlaringTopBar from 'components/flaring-top-bar'
 
 import './style.scss'
 
@@ -40,8 +39,5 @@ const Home = ({ location: { pathname } }) => {
 export default Home
 
 const Div = () => {
-  return <div>
-    <FlaringTopBar/>
-    AMS
-  </div>
+  return <div>AMS</div>
 }
