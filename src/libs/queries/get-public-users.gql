@@ -1,0 +1,18 @@
+query allPublicUsers($where: PublicUserSearchInput, $offset: Int) {
+  allPublicUsers(limit: 100, offset: $offset, where: $where) {
+    totalCount
+    userItems {
+      username
+      subject
+      email
+      title
+      pictureURL
+      countryId
+      stateId
+      skills {
+        skillID
+        skillName
+      }
+    }
+  }
+}

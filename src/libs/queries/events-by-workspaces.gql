@@ -1,0 +1,15 @@
+query eventsByWorkspaces($offset: Int, $limit: Int, $workspaces: [ID!]) {
+  eventsByWorkspaces(offset: $offset, limit: $limit, workspaces: $workspaces) {
+    events {
+      id
+      brief
+      createdDate
+      createdBy {
+        profile {
+          fullName
+          photo
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+apiVersion: v2
+name: prime-fe
+version: 0.1.0
+appVersion: 0.1.0
+description: A Helm chart for prime-fe
+keywords:
+#  - talent ## namespace Suffix
+# home: The URL of this project's home page (optional)
+# sources:
+#   - A list of URLs to source code for this project (optional)
+# dependencies: # A list of the chart requirements (optional)
+#   - name: accesscontrol-be
+#     version: 3.0.0
+#     condition: accesscontrol-be.enabled
+#     repository: https://chartmuseum.dev.meeraspace.com/
+# maintainers: # (optional)
+#   - name: CHANGME
+#     email: CHANGME
+# url: A URL for the maintainer (optional for each maintainer)
+# icon: A URL to an SVG or PNG image to be used as an icon (optional).
+# appVersion: The version of the app that this contains (optional). This needn't be SemVer.

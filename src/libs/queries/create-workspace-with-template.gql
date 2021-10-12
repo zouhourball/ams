@@ -1,0 +1,8 @@
+mutation createWorkspaceWithTemplate(
+  $input: CreateWorkspaceWithTemplateInput!
+) {
+  createWorkspaceWithTemplate(input: $input) {
+    id
+    name
+  }
+}

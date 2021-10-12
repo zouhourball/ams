@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>edit</title>
+    <desc>Created with Sketch.</desc>
+    <g id="task+member-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="edit">
+            <circle id="Oval-Copy" fill="#fff" opacity="1" cx="11" cy="11" r="11"></circle>
+            <g id="edit-[#1483]" transform="translate(6.000000, 6.000000)" fill-rule="nonzero">
+                <rect id="Rectangle" fill="#000000" opacity="0" x="0" y="0" width="10" height="10"></rect>
+                <path d="M0,10 L9.8175,10 L9.8175,9.021 L0,9.021 L0,10 Z M3.436,6.5735 L3.436,5.257 L6.2355,2.672 L7.213,3.747 L4.716,6.5735 L3.436,6.5735 L3.436,6.5735 Z M7.736,1.3225 L8.5995,2.1815 L7.9265,2.894 L7.0265,1.9965 L7.7355,1.3225 L7.736,1.3225 Z M10,2.3225 L7.682,0 L2.455,4.844 L2.455,7.5525 L5.137,7.5525 L10,2.3225 Z" id="Shape" fill="#1979FF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

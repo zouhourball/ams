@@ -1,0 +1,9 @@
+query allCountryStateCities {
+  allCountries(limit: 1000) {
+    countries {
+      countryName
+      countryCode
+      id
+    }
+  }
+}

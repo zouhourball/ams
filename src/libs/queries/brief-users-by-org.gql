@@ -1,0 +1,20 @@
+query allBriefUsersInOrg($organisationID: String!, $filter: UserSearchInput) {
+  allBriefUsersInOrg(
+    organisationID: $organisationID
+    filter: $filter
+    cursor: { limit: 1000, offset: 0 }
+  ) {
+    userItems {
+      username
+      subject
+      email
+      title
+      pictureURL
+      userOrgInfo {
+        orgID
+        orgName
+      }
+    }
+    totalCount
+  }
+}

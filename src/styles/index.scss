@@ -1,0 +1,221 @@
+@import '~reset-css/reset';
+@import '~styles/globals';
+
+@include react-md-everything;
+
+@font-face {
+  font-family: 'proxima_novaregular';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proximanova-regular-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proximanova-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_nova_altbold';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_alt_bold-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_alt_bold-webfont.woff')
+    format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_nova_altlight';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_alt_light-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_alt_light-webfont.woff')
+    format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_nova_altthin';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_alt_thin-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_alt_thin-webfont.woff')
+    format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_novablack';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_black-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_black-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_novabold';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_bold-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_bold-webfont.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_novaextrabold';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_extrabold-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_extrabold-webfont.woff')
+    format('woff');
+}
+
+@font-face {
+  font-family: 'proxima_novathin';
+  font-style: normal;
+  font-weight: normal;
+  src:
+    url('../fonts/proxima-nova/proxima_nova_thin-webfont.woff2')
+    format('woff2'),
+    url('../fonts/proxima-nova/proxima_nova_thin-webfont.woff') format('woff');
+}
+
+.app-shellwrapper {
+  &-container {
+    display: flex;
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #f1f3f4;
+  }
+
+  &-content {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+
+    > div {
+      height: 100%;
+
+      .splitter-screen {
+        max-height: 100%;
+      }
+    }
+  }
+
+  &-expand-messenger {
+    position: absolute;
+    z-index: 11;
+    width: 100%;
+    height: 100%;
+    margin-left: -2px;
+  }
+}
+
+body {
+  background-color: #f7f7f7 !important;
+  color: #2f3842;
+  font-family: 'proxima_novaregular', sans-serif;
+  font-size: 14px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  button,
+  input,
+  textarea,
+  html,
+  div {
+    font-family: inherit;
+  }
+
+  .target-app-shell-appshell-bottom {
+    // will-change will break dragging of `react-beautiful-dnd`.
+    // It's either browsers or react-beautiful-dnd's bug
+    will-change: unset;
+  }
+
+  .target-app-shell-appshell-content-right {
+    max-width: 100vw;
+  }
+
+  .target-app-shell-topbar-right {
+    .target-app-shell-topbar-actions {
+      > button.target-app-shell-topbar-icon {
+        display: none;
+      }
+    }
+  }
+
+  .md-dialog--centered {
+    max-height: calc(100% - 120px);
+  }
+}
+
+html,
+body,
+.addressBook-root {
+  height: 100%;
+}
+
+.md-snackbar {
+  top: 50px;
+  bottom: auto;
+  background: #fff;
+  -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+
+  &--toast {
+    padding: 0;
+    color: rgba(0, 0, 0, 0.75);
+  }
+}
+
+.md-snackbar-enter,
+.md-snackbar-leave.md-snackbar-leave-active {
+  transform: translate3d(-50%, -100%, 0);
+}
+
+.md-snackbar-enter.md-snackbar-enter-active,
+.md-snackbar-leave {
+  transform: translate3d(-50%, 0, 0);
+}
+
+.md-dialog-footer--inline {
+  padding: 16px;
+  border-top: 1px solid #eee;
+
+  .md-btn--text {
+    height: 30px;
+    margin-left: 8px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-family: 'proxima_novabold', sans-serif;
+
+    &.md-text {
+      background: rgba(0, 0, 0, 0.1);
+
+      &--disabled {
+        background: rgba($color: #1979ff, $alpha: 0.1);
+        color: #7583a0;
+      }
+
+      &--theme-primary {
+        background: rgba($color: #1979ff, $alpha: 0.1);
+        color: #1979ff;
+      }
+    }
+  }
+}

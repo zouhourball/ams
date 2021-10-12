@@ -1,0 +1,13 @@
+query workers($organizationID: String!, $wsIDs: [String!]) {
+  workers(organizationID: $organizationID, wsIDs: $wsIDs) {
+    profile {
+      subject
+      email
+      fullName
+      userID
+      pictureURL
+      nationality
+      title
+    }
+  }
+}

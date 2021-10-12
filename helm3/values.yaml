@@ -1,0 +1,168 @@
+##  helm3 template --set global.env=ops  ./
+global:
+  nsPrefix: dev-meeraspace
+  baseUrl: dev.meeraspace.com
+  gateway: default/gateway
+
+replicaCount: 1
+
+envs:
+  enabled: true
+
+job:
+  initdb:
+    enabled: false
+
+## set up the DependenciesSvcName, base on requirements.yaml
+DependenciesSvcName:
+  ## If false, DependenciesSvc will not be installed
+  ## If true, DependenciesSvc will  be installed, and then exec ` helm dependency update  `
+  # enabled: true
+  enabled: false
+
+
+job:
+  initdb:
+    enabled: false
+
+replicaCount: 1
+
+configmapEnvVars:
+  enabled: false
+
+image:
+  repository: registry.gitlab.com/target-digital-transformation/prime-fe/master
+  tag: latest
+  pullPolicy: Always
+  # pullPolicy: IfNotPresent
+  ports:
+  - name: http
+    containerPort: 80
+    protocol: TCP
+
+  extraCommand: []
+
+  extraEnv:
+    MEERA_APP_OAUTH_CLIENT_ID: prime
+    MEERA_APP_OAUTH_CLIENT_SECRET: DzXZxyDObSpsnR7qLqQ4p1LEVoIiE49e
+
+
+  extraENVRulehandled:
+    ENVS_HTTP_ADDR: envs.$nsPrefix-envs:9112
+    MEERA_APP_OAUTH_HOST: https://sso.$baseUrl
+    MEERA_APP_OAUTH_CALLBACK_HOST: https://company.$baseUrl
+    MEERA_APP_PRODUCT_WORKSPACE_URL: https://$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_API: https://api.$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_PROFILE: https://profile.$baseUrl
+    MEERA_APP_ENV_VAR_ME_TO: https://profile.$baseUrl
+
+    MEERA_APP_PRODUCT_URL_CRM: https://manager.$baseUrl
+    MEERA_APP_PRODUCT_URL_LANG: https://i18n.$baseUrl
+    MEERA_APP_PRODUCT_URL_GRPC_API: https://api.$baseUrl/grpc-web/permit/v1
+    MEERA_APP_BASE_ENV_URL: https://$baseUrl
+    MEERA_APP_MEETING_URL: https://meeting.$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_EDGE: https://wasl.$baseUrl
+    MEERA_APP_PRODUCT_BI_URL: https://bi.$baseUrl
+    MEERA_APP_PRODUCT_URL_CONFIGURATOR: https://configurator.$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_PLANNER: https://planner.$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_MAP: 'https://map.$baseUrl/'
+    MEERA_APP_PRODUCT_APP_URL_CSR: 'https://csr.$baseUrl/'
+    MEERA_APP_PRODUCT_APP_URL_CADRE: 'https://cadre.$baseUrl'
+    MEERA_APP_PRODUCT_URL_HCM: 'https://hcm.$baseUrl'
+    MEERA_APP_PRODUCT_URL_ORGANIZATION: 'https://organization.$baseUrl'
+    MEERA_APP_PRODUCT_URL_OKR: 'https://okr.$baseUrl'
+    MEERA_APP_PRODUCT_APP_URL_TROVE: 'https://was.$baseUrl'
+    MEERA_APP_PRODUCT_APP_URL_REACH: 'https://reach.$baseUrl'
+    MEERA_APP_PRODUCT_APP_URL_PDO: 'https://pdo.$baseUrl'
+    MEERA_APP_PRODUCT_URL_AMC: 'https://amc.$baseUrl'
+    MEERA_APP_PRODUCT_URL_PERMITS: 'https://permit.$baseUrl'
+    MEERA_APP_PRODUCT_APP_URL_PSA: https://psa.$baseUrl
+    MEERA_APP_PRODUCT_APP_URL_REGULATION: https://cm.$baseUrl
+    MEERA_APP_PRODUCT_URL_PEOPLEANALYTICS: https://peopleanalytics.$baseUrl
+    MEERA_APP_PRODUCT_URL_TIMESHEET: 'https://timesheet.$baseUrl'
+    MEERA_APP_PRODUCT_URL_TALENTSOURCING: 'https://talent.$baseUrl'
+  config: {}
+
+service:
+  type: ClusterIP
+  ports:
+  - port: 80
+    name: http
+    targetPort: 80
+
+istio:
+  envoyfilter:
+    enabled: false
+  virtualservice:
+    enabled: true
+    host: prime
+    http:
+    - match:
+      - uri:
+          prefix: /
+      route:
+      - destination:
+          host: prime-fe
+          port:
+            number: 80
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+volumeMounts:
+## If true,  Pod volumes to mount into the container's filesystem
+  enabled: false
+  # enabled: true
+  volumeMounts:
+  - name: CHANGEME
+    mountPath: CHANGEME
+    subpath: CHANGEME
+
+volumes:
+## If true, will create/use a Volume, configmap nfs hostPath emptyDir
+  enabled: false
+  # enabled: true
+
+## `name: {{ template "APPfullname"  }}-config`
+  configmap:
+    enabled: true
+
+  volumes:
+
+secretDB:
+  enabled: false
+
+configmap:
+  enabled: false
+  # enabled: true
+
+  configurationFiles: {}
+    # dex-config: |
+    #   issuer: china-ssodigitalenergycloudcom
+
+  configurationEnv: {}
+    # cache_host: memcached-gcxt
+
+persistentVolumeClaim1:
+  ## If true,  will create/use a Persistent Volume Claim
+  enabled: false
+  # enabled: true
+
+  name: CHANGEME
+
+  ## supported values: "ReadOnlyMany", "ReadWriteMany", "ReadWriteOnce"
+  accessModes:
+    - ReadWriteOnce
+
+  annotations: {}
+
+  # existingClaim: ""
+
+  size: 4Gi
+
+  storageClass: "standard"

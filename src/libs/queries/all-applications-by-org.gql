@@ -1,0 +1,10 @@
+query allApplicationsByOrg($orgID: String!) {
+  allApplicationsByOrg(orgID: $orgID) {
+    name
+    icon
+    uRL
+    bgColor
+    enabled
+    description
+  }
+}

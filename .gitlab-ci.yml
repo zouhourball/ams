@@ -1,0 +1,81 @@
+variables:
+  APP_CHART_NAME: ams-regulator-reporting-fe ## replace the right chart name
+  RELEASE_NAME: ams-regulator-reporting-fe
+  KUBECONFIG: /etc/deploy/config
+  SLACK_CHANNEL: gitlab-notifications
+  DOCKER_DRIVER: overlay2
+  manifests_ci_token: $manifests_ci_token_ams_regulator_reporting_fe
+  manifests_repo: gitlab.com/target-digital-transformation/devops-group/manifests/ams/ams-regulator-reporting-fe.git
+
+stages:
+  - test
+  - build
+  - deploy_to_dev
+  - push_incubator_chart
+  - deploy_to_test
+  - push_stable_chart
+  - release_request
+  - deploy_to_staging
+  - deploy_to_demo
+  - deploy_to_prod
+
+include:
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/01_build_reuse_image.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/02_v2_deploy_to_dev.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/03_v2_push_Incubator_chart.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/04_v2_deploy_to_test.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/05_v2_push_stable_chart.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/06_v2_release_request.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/07_v2_deploy_to_staging.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/07_v2_deploy_to_prod_odp_azure.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/07_v2_deploy_to_prod_eks_fluxble.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/07_v2_deploy_to_prod.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/02_v3_deploy_to_dev_via_argocd.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/04_v3_deploy_to_test_via_argocd.yml
+  - remote: https://target-digital-transformation.gitlab.io/pipeline/07_v3_deploy_to_prod_via_argocd.yml
+
+build_single_image:
+  extends: .build_fe_image
+  variables:
+    DOKCERFILE_NAME: Dockerfile
+    BUILD_ALIAS: app-fe
+  only:
+    - main
+    - tags
+    - develop
+  tags:
+    - 32G-mem
+
+0-0-dev-gke-dev:
+  interruptible: true
+  extends: .deploy_to_dev_v3_via_argocd
+  only:
+    - main
+    - develop
+
+1-0-test-gke-test:
+  interruptible: true
+  extends: .deploy_to_test_v3_via_argocd
+  only:
+    - tags
+
+#4-0-prod-eks-fluxble-target  it will use values-target.yaml to deploy
+4-0-prod-eks-fluxble-target:
+  stage: deploy_to_prod
+  interruptible: true
+  extends: .deploy_to_prod_v3_via_argocd
+
+4-0-prod-eks-fluxble-workspace:
+  stage: deploy_to_prod
+  interruptible: true
+  extends: .deploy_to_prod_v3_via_argocd
+
+4-0-prod-eks-fluxble-energy:
+  stage: deploy_to_prod
+  interruptible: true
+  extends: .deploy_to_prod_v3_via_argocd
+
+4-0-prod-eks-talentsandjobs:
+  stage: deploy_to_prod
+  interruptible: true
+  extends: .deploy_to_prod_v3_via_argocd

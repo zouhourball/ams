@@ -1,0 +1,8 @@
+query allSkills($where: SkillFilter) {
+  allSkills(where: $where, limit: 1000) {
+    skills {
+      id
+      skillName
+    }
+  }
+}

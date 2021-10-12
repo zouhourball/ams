@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="22px" viewBox="0 0 23 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>timeline_enable</title>
+    <desc>Created with Sketch.</desc>
+    <g id="task+member-1-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="timeline_enable" transform="translate(0.500000, 0.000000)">
+            <circle id="Oval-Copy" fill="#FF6B6B" cx="11" cy="11" r="11"></circle>
+            <g id="Group-95" transform="translate(6.500000, 6.000000)" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3">
+                <line x1="0.781222173" y1="1.74345642" x2="3.04108626" y2="1.74345642" id="Line-4-Copy"></line>
+                <rect id="Rectangle" x="3.35912852" y="-2.22044605e-16" width="6.21844231" height="3.48691284" rx="1.5"></rect>
+                <line x1="0.781222173" y1="7.91178454" x2="3.04108626" y2="7.91178454" id="Line-4-Copy"></line>
+                <rect id="Rectangle" x="3.35912852" y="6.15384615" width="6.21844231" height="3.51587677" rx="1.5"></rect>
+                <line x1="0.384615385" y1="-6.40513283e-17" x2="0.384615385" y2="10" id="Line-4"></line>
+            </g>
+        </g>
+    </g>
+</svg>

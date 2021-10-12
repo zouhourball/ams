@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package tes.helloworld;
+
+option go_package = "helloworldpb";
+option java_multiple_files = true;
+option java_generic_services = true;
+option java_package = "com.tes.HelloWorld";
+option java_outer_classname = "HelloWorldProto";
+
+
+// VersionRequest is a request to fetch version info.
+message VersionRequest{}
+
+// VersionResponse describes the version information for the platform.
+message VersionResponse {
+    string version = 1;
+    string api_version = 2;
+    string db_version = 3;
+}
+
+service HelloWorld{
+    // GetVersion returns version information of the server.
+    rpc GetVersion(VersionRequest) returns (VersionResponse) {};
+}

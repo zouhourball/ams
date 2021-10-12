@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>files_disable</title>
+    <desc>Created with Sketch.</desc>
+    <g id="task+member-1-copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="files_disable">
+            <circle id="Oval-Copy" fill="#05CB92" opacity="0.13" cx="11" cy="11" r="11"></circle>
+            <g id="Group-93" transform="translate(6.000000, 5.000000)" stroke="#1ADDA5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5.62974045,-6.21724894e-15 L1.12594809,-6.21724894e-15 C0.504104131,-6.21724894e-15 -2.38919995e-13,0.504104131 -2.38919995e-13,1.12594809 L-2.38919995e-13,10.1335328 C-2.38919995e-13,10.7553768 0.504104131,11.2594809 1.12594809,11.2594809 L7.88163663,11.2594809 C8.50348059,11.2594809 9.00758472,10.7553768 9.00758472,10.1335328 L9.00758472,3.37784427 L5.62974045,-6.21724894e-15 Z" id="Path"></path>
+                <polyline id="Path" points="5.62974045 2.66453526e-14 5.62974045 3.37784427 9.00758472 3.37784427"></polyline>
+                <line x1="3.37784427" y1="3.94081832" x2="2.25189618" y2="3.94081832" id="Path"></line>
+                <line x1="6.75568854" y1="6.1927145" x2="2.25189618" y2="6.1927145" id="Path"></line>
+                <line x1="6.75568854" y1="8.44461068" x2="2.25189618" y2="8.44461068" id="Path"></line>
+            </g>
+        </g>
+    </g>
+</svg>
