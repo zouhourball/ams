@@ -6,8 +6,6 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 import { PrimeContext } from 'components/app/context'
 
-import GenericForm from 'components/generic-form-permit'
-
 import './style.scss'
 import Production from 'components/module-production'
 import Reserves from 'components/module-reserves'
