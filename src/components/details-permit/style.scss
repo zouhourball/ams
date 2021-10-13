@@ -1,0 +1,63 @@
+$borderColor: #f0f2f5;
+$titleColor: #878d92;
+
+.details-permit {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+
+    span {
+      color: $titleColor;
+    }
+  }
+
+  .file {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin: 0 15px 10px 0;
+    padding: 5px 10px;
+    border-radius: 7px;
+    background-color: $borderColor;
+
+    img {
+      width: auto;
+      height: 40px;
+      padding: 0 5px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+
+      .croppedText {
+        display: inline-block;
+        width: 180px;
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      span:last-child {
+        color: $titleColor;
+      }
+    }
+  }
+
+  .title {
+    margin-bottom: 10px;
+    color: $titleColor;
+    font-weight: 600;
+  }
+
+  .fileSection {
+    display: flex;
+  }
+}

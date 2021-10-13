@@ -5,84 +5,133 @@ import {
   DatePicker,
   FontIcon,
 } from 'react-md'
-// import { uploadFileTus } from 'libs/api/tus-upload'
+import Dropzone from 'react-dropzone'
 
-import FileUploader from './file-uploader'
+import { uploadFileTus } from 'libs/api/tus-upload'
 
 import uploadIcon from './upload.png'
 
 import './style.scss'
+import { useState } from 'react'
 
 const GenericForm = ({ fields }) => {
+  const [files, setFiles] = useState([])
+
+  const uploadFiles = (allFiles) => {
+    let newFiles = []
+    //setLoading(true)
+    Promise.all(
+      allFiles.map((file) =>
+        uploadFileTus(file, null, null, null, (res) => {
+          newFiles = [
+            ...newFiles,
+            {
+              id: res?.url,
+              url: res?.url,
+              size: res?.fie?.size,
+
+              filename: res?.file?.name,
+              contentType: res?.file?.type,
+            },
+          ]
+        }),
+      ),
+    ).then(() => {
+      setFiles([...newFiles])
+      //setLoading(false)
+    })
+  }
+
   const renderFields = () =>
     fields.map((field) => {
-      if (field.input === 'checkbox') {
-        return (
-          <Checkbox
-            id={field.id}
-            className={`${field.cellWidth} checkBox `}
-            required={field.required}
-            label={field.title}
-          />
-        )
-      } else if (field.input === 'select') {
-        return (
-          <SelectField
-            id={field.id}
-            className={`${field.cellWidth} field selectField`}
-            required={field.required}
-            menuItems={field.menuItems}
-            position={SelectField.Positions.BOTTOM_RIGHT}
-            sameWidth
-            placeholder={field.title}
-            block
-          />
-        )
-      } else if (field.input === 'date') {
-        return (
-          <DatePicker
-            id={field.id}
-            className={`${field.cellWidth} field datePicker`}
-            required={field.required}
-            placeholder={field.title}
-            icon={false}
-            rightIcon={<FontIcon className="mdi mdi-calendar" />}
-            block
-          />
-        )
-      } else if (field.input === 'textArea') {
-        return (
-          <TextField
-            id={field.id}
-            rows={field.rows}
-            className={`${field.cellWidth} field`}
-            required={field.required}
-            placeholder={field.title}
-            block
-          />
-        )
-      } else if (field.input === 'fileInput') {
-        return (
-          <>
-          <div className="title">{field.title}</div>
-          <FileUploader
-            // onUpload={onUpload}
-            accept="image/jpeg, image/png, image/jpg, application/pdf"
-            icon={<img src={uploadIcon} />}
-            classes={`file-upload ${field.cellWidth}`}
-          />
-          </>
-        )
-      } else {
-        return (
-          <TextField
-            id={field.id}
-            className={`${field.cellWidth} field`}
-            required={field.required}
-            placeholder={field.title}
-            block
-          />
-        )
+      switch (field.input) {
+        case 'checkbox':
+          return (
+            <Checkbox
+              id={field.id}
+              className={`${field.cellWidth} checkBox `}
+              required={field.required}
+              label={field.title}
+            />
+          )
+        case 'select':
+          return (
+            <SelectField
+              id={field.id}
+              className={`${field.cellWidth} field selectField`}
+              required={field.required}
+              menuItems={field.menuItems}
+              position={SelectField.Positions.BOTTOM_RIGHT}
+              sameWidth
+              placeholder={field.title}
+              block
+            />
+          )
+        case 'date':
+          return (
+            <DatePicker
+              id={field.id}
+              className={`${field.cellWidth} field datePicker`}
+              required={field.required}
+              placeholder={field.title}
+              icon={false}
+              rightIcon={<FontIcon className="mdi mdi-calendar" />}
+              block
+            />
+          )
+        case 'textArea':
+          return (
+            <TextField
+              id={field.id}
+              rows={field.rows}
+              className={`${field.cellWidth} field`}
+              required={field.required}
+              placeholder={field.title}
+              block
+            />
+          )
+        case 'fileInput':
+          return (
+            <>
+              <div className="title">{field.title}</div>
+
+              <Dropzone
+                onDrop={(files) => {
+                  uploadFiles(files)
+                }}
+                accept="application/pdf"
+              >
+                {({ getRootProps, getInputProps }) => (
+                  <div
+                    className={`file-upload ${field.cellWidth}`}
+                    {...getRootProps()}
+                  >
+                    <img src={uploadIcon} />
+                    <input {...getInputProps()} />
+                    <p>
+                      {'Drag the file here or'}{' '}
+                      <span
+                        className="dropzone-wrapper-blue-text"
+                        onClick={(e) => {}}
+                      >
+                        {'click to upload'}
+                      </span>
+                    </p>
+                  </div>
+                )}
+              </Dropzone>
+            </>
+          )
+        default:
+          return (
+            <TextField
+              id={field.id}
+              className={`${field.cellWidth} field`}
+              required={field.required}
+              placeholder={field.title}
+              block
+            />
+          )
       }
     })
 

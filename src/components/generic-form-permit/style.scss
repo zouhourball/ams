@@ -3,6 +3,7 @@ $bgColor : #f6f8fa;
 
 .genericForm {
   max-width: 1200px;
+  margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
   background-color: white;
@@ -37,6 +38,7 @@ $bgColor : #f6f8fa;
 
   .file-upload {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100px;
