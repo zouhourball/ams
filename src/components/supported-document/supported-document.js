@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FontIcon, Button } from 'react-md'
 import Dropzone from 'react-dropzone'
 
-import { fileManagerUpload } from 'libs/api'
+import { uploadFileTus } from 'libs/api/tus-upload'
 
 import './style.scss'
 
@@ -15,10 +15,30 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
   // }, [oldFiles])
 
   const onUpload = documents => {
-    fileManagerUpload(documents).then(res => {
-      if (res?.files) {
-        setFiles([...files, ...res?.files])
-      }
+    let newFiles = []
+    Promise.all(
+      documents.map(document =>
+        uploadFileTus(
+          document,
+          null,
+          res => {
+            newFiles = [
+              ...newFiles,
+              {
+                id: res?.url,
+                url: res?.url,
+                size: res?.file?.size,
+
+                filename: res?.file?.name,
+                contentType: res?.file?.type,
+              },
+            ]
+          },
+          true,
+        ),
+      ),
+    ).then(() => {
+      setFiles([...files, ...newFiles])
     })
   }
 
@@ -144,6 +164,7 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
 
 export default SupportedDocument
 SupportedDocument.defaultProps = {
+
   oldFiles:
     [
       {
