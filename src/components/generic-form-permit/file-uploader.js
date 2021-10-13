@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { CircularProgress, FontIcon } from 'react-md'
 import Dropzone from 'react-dropzone'
 import { withTranslation } from 'libs/langs'
