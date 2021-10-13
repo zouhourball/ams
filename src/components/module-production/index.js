@@ -1,4 +1,7 @@
+import TopBarDetail from 'components/top-bar-detail'
 const Production = () => {
-  return <div>Production</div>
+  return <div>
+    <TopBarDetail/>
+    Production</div>
 }
 export default Production

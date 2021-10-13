@@ -1,0 +1,90 @@
+.top-bar-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+
+  &-left {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-information {
+      &-titles {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 10px;
+
+        &-title {
+          color: #6d7895;
+          font-size: 18px;
+          font-weight: 800;
+        }
+      }
+
+      &-details {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 10px;
+
+        &-item {
+          display: flex;
+          align-items: center;
+
+          &-key {
+            margin: 0 2px;
+            color: #9ba3bd;
+          }
+
+          &-value {
+            margin: 0 2px;
+            color: #6d7893;
+          }
+
+          &-sep {
+            width: 1px;
+            height: 15px;
+            margin: 0 8px;
+            background: #ddd;
+          }
+        }
+      }
+    }
+  }
+
+
+  &-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-list {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &-item-btn {
+        margin: 5px 10px;
+        border-radius: 8px;
+        background-color: #e3eefe;
+        color: #3080fc;
+        font-family: 'proxima_novabold', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+
+        &:active {
+          background-color: #3080fc;
+          color: white;
+        }
+
+        &:hover {
+          background-color: #3080fc;
+          color: white;
+        }
+      }
+    }
+  }
+}
