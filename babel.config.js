@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true)
 
   const isProd = process.env.NODE_ENV === 'production'
@@ -36,8 +36,8 @@ module.exports = function(api) {
         targets: 'last 2 versions, ie >= 11, safari >= 7',
         modules: false,
         loose: true,
+        corejs: 3,
         useBuiltIns: 'usage',
-        corejs: '3.6.5',
         exclude: ['transform-regenerator', 'transform-async-to-generator'],
       },
     ])
@@ -65,7 +65,7 @@ module.exports = function(api) {
           browsers: ['last 2 versions', 'ie >= 11', 'safari >= 7'],
         },
         useBuiltIns: 'entry',
-        corejs: '3.6.5',
+        corejs: '3.0.0',
       },
     ])
     plugins.push('@babel/plugin-syntax-object-rest-spread')

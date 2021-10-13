@@ -4,7 +4,7 @@ import { OauthHelper } from '@target-energysolutions/hoc-oauth'
 
 import { getAuthToken } from 'libs/utils/oauth-token'
 
-export function initAxiosInterceptors() {
+export function initAxiosInterceptors () {
   axios.interceptors.request.use((config) => {
     let shouldAddToken = false
     for (const keyword of API_KEYWORDS) {

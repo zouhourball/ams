@@ -1,6 +1,6 @@
 const Hook = require('tapable/lib/Hook')
 class ReverseIt extends Hook {
-  compile() {
+  compile () {
     return (pluginArgs) => {
       const assets = Object.assign({}, pluginArgs.assets, {
         css: [...(pluginArgs.assets.css || [])].reverse(),
@@ -11,7 +11,7 @@ class ReverseIt extends Hook {
   }
 }
 class CssReversePlugin {
-  apply(
+  apply (
     /** @type {import('webpack').Compiler} */
     compiler,
   ) {

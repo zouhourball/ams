@@ -21,7 +21,7 @@ const useResizeHook = (
     currentPosVal = undefined
   }, [identifier])
 
-  const onResize = e => {
+  const onResize = (e) => {
     if (curCol) {
       diffX = e.pageX - pageX
       if (curColWidth + diffX > 0) {
@@ -31,7 +31,7 @@ const useResizeHook = (
   }
 
   const onStopResize = useCallback(
-    e => {
+    (e) => {
       document.removeEventListener('mousemove', onResize, false)
       document.removeEventListener('mouseup', onStopResize, false)
       const container = document.getElementById(containerId)

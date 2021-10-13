@@ -5,28 +5,25 @@ import {
 import * as React from 'react'
 import { fetchJSON } from 'libs/fetch'
 
-export const {
-  Wrapper,
-  withTranslation,
-  useTranslation,
-} = createTinyI18NWrapper({
-  productName: 'bayen',
-  translateVersion: 'v1',
-})
+export const { Wrapper, withTranslation, useTranslation } =
+  createTinyI18NWrapper({
+    productName: 'bayen',
+    translateVersion: 'v1',
+  })
 
 const ctx = React.createContext({
   change: () => 0,
   lang: 'ar',
 })
 
-export function useChangeLanguage() {
+export function useChangeLanguage () {
   return React.useContext(ctx).change
 }
-export function useCurrentLang() {
+export function useCurrentLang () {
   return React.useContext(ctx).lang
 }
-export function withTranslationEx(Com) {
-  function TransEx(props) {
+export function withTranslationEx (Com) {
+  function TransEx (props) {
     const { t } = useTranslation()
     const lang = useCurrentLang()
     const change = useChangeLanguage()
@@ -35,7 +32,7 @@ export function withTranslationEx(Com) {
   return TransEx
 }
 
-function defaultLang() {
+function defaultLang () {
   const lang = localStorage.getItem('language')
   if (lang === 'zh') {
     return 'zh-CN'
@@ -45,9 +42,9 @@ function defaultLang() {
   }
   return lang || 'ar'
 }
-export function LangProvider({ children }) {
+export function LangProvider ({ children }) {
   const [lang, changeLang] = React.useState(defaultLang())
-  const change = React.useCallback(lang => {
+  const change = React.useCallback((lang) => {
     localStorage.setItem('language', lang)
     if (lang === 'ar') {
       document.dir = 'rtl'
@@ -75,7 +72,7 @@ export function LangProvider({ children }) {
     </ctx.Provider>
   )
 }
-export function useSupportedLangs() {
+export function useSupportedLangs () {
   const [langs, setLangs] = React.useState([
     {
       key: 'en-US',
@@ -99,17 +96,19 @@ export function useSupportedLangs() {
     },
   ])
   React.useEffect(() => {
-    fetchJSON(`${PRODUCT_APP_URL_LANG}/rest/languages/v1/bayen`).then(resp => {
-      if (resp.success) {
-        setLangs(
-          resp.data.map(i => ({
-            key: i.code,
-            label: i.text,
-            name: i.text,
-          })),
-        )
-      }
-    })
+    fetchJSON(`${PRODUCT_APP_URL_LANG}/rest/languages/v1/bayen`).then(
+      (resp) => {
+        if (resp.success) {
+          setLangs(
+            resp.data.map((i) => ({
+              key: i.code,
+              label: i.text,
+              name: i.text,
+            })),
+          )
+        }
+      },
+    )
   }, [])
 
   return langs

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="15px" viewBox="0 0 17 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>map_view_enable</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="map_view_enable" transform="translate(1.358251, 1.354644)" stroke="#7583A0" stroke-width="1.5">
+            <polyline id="Path" points="0 2.36696566 4.73393133 0 9.46786266 2.36696566 14.201794 0 14.201794 10.2568512 9.46786266 12.6238169 4.73393133 10.2568512 0 12.6238169 0 2.36696566"></polyline>
+            <line x1="4.73393133" y1="0" x2="4.73393133" y2="10.2568512" id="Path"></line>
+            <line x1="9.46786266" y1="2.36696566" x2="9.46786266" y2="12.6238169" id="Path"></line>
+        </g>
+    </g>
+</svg>
