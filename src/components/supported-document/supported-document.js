@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { FontIcon, Button } from 'react-md'
-
 import Dropzone from 'react-dropzone'
 
 import { fileManagerUpload } from 'libs/api'
@@ -8,7 +7,7 @@ import { fileManagerUpload } from 'libs/api'
 import './style.scss'
 
 const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoading }) => {
-  const [files, setFiles] = useState([...oldFiles])
+  const [files, setFiles] = useState(oldFiles)
   const [filesToDelete, setFilesToDelete] = useState([])
 
   // useEffect(() => {
@@ -24,7 +23,7 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
   }
 
   const customIncludes = (fileName) => {
-    let extension = fileName && fileName?.split('.').reverse()[0]
+    const extension = fileName && fileName?.split('.').reverse()[0]
     switch (extension) {
       case 'jfif':
       case 'jpg':
@@ -53,6 +52,15 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
     }
   }
 
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes'
+    if (bytes === '') return '-'
+    const k = 1000
+    const sizes = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb', 'Eb', 'Zb', 'Yb']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }
+
   const renderFiles = () => {
     return (
       files?.map((file) => {
@@ -67,7 +75,7 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
                 />
                 <div className="file-details">
                   <span>{file.filename}</span>
-                  <span>{(file.size / 1024).toFixed(2)} MB</span>
+                  <span>{formatFileSize(file.size)}</span>
                 </div>
 
               </div>
