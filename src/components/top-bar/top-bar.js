@@ -11,7 +11,7 @@ import './style.scss'
 const TopBar = ({ title, actions, menuItems }) => {
   const [currentView, setCurrentView] = useState('file')
   const renderListButtons = () => {
-    return actions().map(btn => btn)
+    return actions?.map(btn => btn)
   }
   return (
     <div className="top-bar">
@@ -67,8 +67,8 @@ const TopBar = ({ title, actions, menuItems }) => {
 export default TopBar
 TopBar.defaultProps = {
   title: 'Flaring',
-  actions: () => {
-    return [
+  actions:
+    [
       <Button
         key='1'
         id="save"
@@ -102,8 +102,7 @@ TopBar.defaultProps = {
         }}
       >Upload Annual Flaring Report
       </Button>,
-    ]
-  },
+    ],
   menuItems: () => {
     return [
       <ListItem key={1} primaryText="Edit" onClick={e => null} />,
