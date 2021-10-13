@@ -1,7 +1,9 @@
+import SupportedDocument from 'components/supported-document'
+
 const Production = () => {
   return (
     <div>
-      Production
+      <SupportedDocument onSaveUpload={(files, filesToDelete) => { console.log('files:', files, 'files to delete:', filesToDelete, 'here') }}/>
     </div>
   )
 }
