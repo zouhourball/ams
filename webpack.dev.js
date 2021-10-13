@@ -14,7 +14,7 @@ const CONFIG = {
 }
 
 baseConfig.module.rules.find(
-  rule => rule.loader === 'babel-loader',
+  (rule) => rule.loader === 'babel-loader',
 ).options.cacheDirectory = true
 module.exports = merge(baseConfig, {
   mode: 'development',

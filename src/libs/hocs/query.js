@@ -1,7 +1,7 @@
 import React from 'react'
 import query from '@target-energysolutions/react-hoc-query'
 import { isFunction, camelCase } from 'lodash-es'
-function capitalize(name) {
+function capitalize (name) {
   return name.charAt(0).toUpperCase() + name.substr(1)
 }
 
@@ -15,7 +15,7 @@ function capitalize(name) {
  *    }
  * }
  */
-export default function queries(option) {
+export default function queries (option) {
   return (Comp) => {
     let groups = Object.keys(option)
     // [ ['apiOfGroup0','...'], ['apiOfGroup1']]
@@ -25,7 +25,7 @@ export default function queries(option) {
     })
 
     class Wrapper extends React.PureComponent {
-      render() {
+      render () {
         let loading = false
         const errors = []
         for (let i = 0; i < groups.length; i++) {

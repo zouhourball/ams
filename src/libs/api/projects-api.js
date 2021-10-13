@@ -6,7 +6,7 @@ const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 // const wsUrl =
 //   process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_WORKSPACE : ''
 
-export const createProjects = async(orgId, params) => {
+export const createProjects = async (orgId, params) => {
   let res
   try {
     res = await fetchJSON(
@@ -24,7 +24,7 @@ export const createProjects = async(orgId, params) => {
   return res
 }
 
-export const updateProjects = async({ id, body }) => {
+export const updateProjects = async ({ id, body }) => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/projects-be/api/v1/projects/${id}`, {
@@ -38,7 +38,7 @@ export const updateProjects = async({ id, body }) => {
   }
   return res
 }
-export const addProjectDetails = async(params, projectId) => {
+export const addProjectDetails = async (params, projectId) => {
   let res
   try {
     res = await fetchJSON(
@@ -56,7 +56,7 @@ export const addProjectDetails = async(params, projectId) => {
   return res
 }
 
-export const addProjectPhases = async(params, projectId) => {
+export const addProjectPhases = async (params, projectId) => {
   let res
   try {
     res = await fetchJSON(
@@ -74,7 +74,7 @@ export const addProjectPhases = async(params, projectId) => {
   return res
 }
 
-export const getProjectsBySubject = async() => {
+export const getProjectsBySubject = async () => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/projects-be/api/v1/projects/me`, {
@@ -88,7 +88,7 @@ export const getProjectsBySubject = async() => {
   return res
 }
 
-export const getProjectsById = async({ queryKey }) => {
+export const getProjectsById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
@@ -105,7 +105,7 @@ export const getProjectsById = async({ queryKey }) => {
   return res
 }
 
-export const getProjectsStatisticsById = async({ queryKey }) => {
+export const getProjectsStatisticsById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
@@ -122,7 +122,7 @@ export const getProjectsStatisticsById = async({ queryKey }) => {
   return res
 }
 
-export const getProjectsByOrgId = async({ queryKey }) => {
+export const getProjectsByOrgId = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
@@ -140,7 +140,7 @@ export const getProjectsByOrgId = async({ queryKey }) => {
   return res
 }
 
-export const deleteProject = async({ projectId }) => {
+export const deleteProject = async ({ projectId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -157,7 +157,7 @@ export const deleteProject = async({ projectId }) => {
   return res
 }
 
-export const archiveProject = async(projectID) => {
+export const archiveProject = async (projectID) => {
   let res
   try {
     res = await fetchJSON(
@@ -174,7 +174,7 @@ export const archiveProject = async(projectID) => {
   return res
 }
 
-export const restoreProject = async(projectID) => {
+export const restoreProject = async (projectID) => {
   let res
   try {
     res = await fetchJSON(
@@ -193,7 +193,7 @@ export const restoreProject = async(projectID) => {
 
 const endDate = new Date(3000, 1, 1)
 
-export const getListOfMeetingsByWsIds = async(wsIds, start, end = endDate) => {
+export const getListOfMeetingsByWsIds = async (wsIds, start, end = endDate) => {
   return fetchJSON(
     `${appUrl}/mp/api/v2/workspaces/meetings?workspaceIds=${wsIds.join(
       ',',
@@ -201,7 +201,7 @@ export const getListOfMeetingsByWsIds = async(wsIds, start, end = endDate) => {
   )
 }
 
-export const tasksApiPromise = async(variables) => {
+export const tasksApiPromise = async (variables) => {
   const query = `query searchTasks($workspaceID: ID!, $streams: [ID!]) {
     searchTasks(workspaceID: $workspaceID, streams: $streams) {
       name
@@ -269,9 +269,9 @@ export const tasksApiPromise = async(variables) => {
   return res
 }
 
-export const getTasks = async({ queryKey }) => {
-  const list = Object.keys(queryKey[1]).map(wId => {
-    return { workspaceID: wId, streams: queryKey[1][wId].map(v => v.id) }
+export const getTasks = async ({ queryKey }) => {
+  const list = Object.keys(queryKey[1]).map((wId) => {
+    return { workspaceID: wId, streams: queryKey[1][wId].map((v) => v.id) }
   })
   const tasksPromises = list.map((variables) => tasksApiPromise(variables))
   let returnValue = []
@@ -287,7 +287,7 @@ export const getTasks = async({ queryKey }) => {
   return returnValue
 }
 
-export const deleteTaskFromSprint = async(sprintId, taskId) => {
+export const deleteTaskFromSprint = async (sprintId, taskId) => {
   let res
   try {
     res = await fetchJSON(
@@ -304,7 +304,7 @@ export const deleteTaskFromSprint = async(sprintId, taskId) => {
   return res
 }
 
-export const getWorkspacesByOrgID = async(orgId) => {
+export const getWorkspacesByOrgID = async (orgId) => {
   let res
   try {
     res = await fetchJSON(
@@ -321,7 +321,7 @@ export const getWorkspacesByOrgID = async(orgId) => {
   return res
 }
 
-export const getPhasesByProjectId = async(id, orgId) => {
+export const getPhasesByProjectId = async (id, orgId) => {
   let res
   try {
     res = await fetchJSON(
@@ -338,7 +338,7 @@ export const getPhasesByProjectId = async(id, orgId) => {
   return res
 }
 
-export const getSprintsByPhaseId = async(id) => {
+export const getSprintsByPhaseId = async (id) => {
   let res
   try {
     res = await fetchJSON(
@@ -355,7 +355,7 @@ export const getSprintsByPhaseId = async(id) => {
   return res
 }
 
-export const createSprint = async({ phaseId, params }) => {
+export const createSprint = async ({ phaseId, params }) => {
   let res
   try {
     res = await fetchJSON(
@@ -373,7 +373,7 @@ export const createSprint = async({ phaseId, params }) => {
   return res
 }
 
-export const getTasksByWorkspace = async(variables) => {
+export const getTasksByWorkspace = async (variables) => {
   const query = `query searchTasks($workspaceID: ID!, $streams: [ID!]) {
     searchTasks(workspaceID: $workspaceID, streams: $streams) {
       tasks {
@@ -429,7 +429,7 @@ export const getTasksByWorkspace = async(variables) => {
   return res
 }
 
-export const getSprintsById = async(phaseId, sprintId) => {
+export const getSprintsById = async (phaseId, sprintId) => {
   let res
   try {
     res = await fetchJSON(
@@ -446,7 +446,7 @@ export const getSprintsById = async(phaseId, sprintId) => {
   return res
 }
 
-export const getPhaseById = async(phaseId, orgId) => {
+export const getPhaseById = async (phaseId, orgId) => {
   let res
   try {
     res = await fetchJSON(
@@ -462,7 +462,7 @@ export const getPhaseById = async(phaseId, orgId) => {
   }
   return res
 }
-export const getMembersByWorkspace = async(wId) => {
+export const getMembersByWorkspace = async (wId) => {
   const query = `query workspaceMembers($wId: Int!) {
     workspaceMembers(wsID: $wId) {
       Members {
@@ -503,7 +503,7 @@ export const getMembersByWorkspace = async(wId) => {
   return res
 }
 
-export const getWorkspaceById = async(id) => {
+export const getWorkspaceById = async (id) => {
   const query = `query workspaceByID($id: ID!) {
     workspaceByID(id: $id) {
       id
@@ -545,7 +545,7 @@ export const getWorkspaceById = async(id) => {
   return res
 }
 
-export const getMemberByIdGraphql = async(subject) => {
+export const getMemberByIdGraphql = async (subject) => {
   const query = `query seeUserProfileBySubject($subject: String!) {
     seeUserProfileBySubject(subject: $subject) {
       user {
@@ -604,7 +604,7 @@ export const getMemberByIdGraphql = async(subject) => {
   return res
 }
 
-export const assignTaskToSprint = async({ sprintId, params }) => {
+export const assignTaskToSprint = async ({ sprintId, params }) => {
   let res
   try {
     res = await fetchJSON(
@@ -622,8 +622,8 @@ export const assignTaskToSprint = async({ sprintId, params }) => {
   return res
 }
 
-export const getWorkspaces = async({ queryKey }) => {
-  const getWorkspacesPromises = queryKey[1].map(id => getWorkspaceById(id))
+export const getWorkspaces = async ({ queryKey }) => {
+  const getWorkspacesPromises = queryKey[1].map((id) => getWorkspaceById(id))
 
   let returnValue = []
   await Promise.all(getWorkspacesPromises)
@@ -636,7 +636,7 @@ export const getWorkspaces = async({ queryKey }) => {
   return returnValue
 }
 
-export const getMemberByPhase = async(phaseId) => {
+export const getMemberByPhase = async (phaseId) => {
   let res
   try {
     res = await fetchJSON(
@@ -653,7 +653,7 @@ export const getMemberByPhase = async(phaseId) => {
   return res
 }
 
-export const createMember = async({ phaseId, params }) => {
+export const createMember = async ({ phaseId, params }) => {
   let res
   try {
     res = await fetchJSON(
@@ -671,7 +671,7 @@ export const createMember = async({ phaseId, params }) => {
   }
   return res
 }
-export const getMemberById = async(memberId, phaseId) => {
+export const getMemberById = async (memberId, phaseId) => {
   let res
   try {
     res = await fetchJSON(
@@ -688,7 +688,7 @@ export const getMemberById = async(memberId, phaseId) => {
   return res
 }
 
-export const calculateCurrentSpend = async(
+export const calculateCurrentSpend = async (
   memberId,
   orgId,
   phaseId,
@@ -710,7 +710,7 @@ export const calculateCurrentSpend = async(
   }
   return res
 }
-export const getWorkspaceByOrgIDGraphql = async(organizationID) => {
+export const getWorkspaceByOrgIDGraphql = async (organizationID) => {
   const query = `query workspacesByOrganizationID($organizationID: String!) {
     workspacesByOrganizationID(organizationID: $organizationID) {
       name
@@ -733,7 +733,7 @@ export const getWorkspaceByOrgIDGraphql = async(organizationID) => {
   return res
 }
 
-export const exportExcelTasks = async({ projectID }) => {
+export const exportExcelTasks = async ({ projectID }) => {
   const zoneId = Intl.DateTimeFormat().resolvedOptions().timeZone
   const url = `${PRODUCT_APP_URL_API}/projects-be/api/v1/projects/${projectID}/phase-report-xlsx?zoneId=${zoneId}`
   const apiResponseBlob = await await fetchGeneric(url).then((response) =>
@@ -745,7 +745,7 @@ export const exportExcelTasks = async({ projectID }) => {
   )
 }
 
-export const updateTasks = async(input) => {
+export const updateTasks = async (input) => {
   const query = `mutation updateTaskEx($input: [UpdateTaskInput!]!) {
     updateTasks(input: $input) {
       id
@@ -766,7 +766,7 @@ export const updateTasks = async(input) => {
   return res
 }
 
-export const addTasks = async(input) => {
+export const addTasks = async (input) => {
   const query = `mutation addTask($name: String!, $streamID: ID!) {
     createNewTask(input: {streamID: $streamID, name: $name }) {
       id
@@ -790,7 +790,7 @@ export const addTasks = async(input) => {
   return res
 }
 
-export const getStreamById = async(id) => {
+export const getStreamById = async (id) => {
   const query = `query streamByID($id: ID!) {
     streamByID(id: $id) {
       
@@ -814,7 +814,7 @@ export const getStreamById = async(id) => {
   return res
 }
 
-export const addStreamByWsId = async(wsID, name) => {
+export const addStreamByWsId = async (wsID, name) => {
   const query = `mutation addStream($wsID: ID!, $name: String!) {
     createNewStream(input: {wsID: $wsID, name: $name}) {
       id
@@ -837,8 +837,8 @@ export const addStreamByWsId = async(wsID, name) => {
   return res
 }
 
-export const getStreams = async({ queryKey }) => {
-  const getStreamsPromises = queryKey[1].map(id => getStreamById(id))
+export const getStreams = async ({ queryKey }) => {
+  const getStreamsPromises = queryKey[1].map((id) => getStreamById(id))
   let returnValue = []
   await Promise.all(getStreamsPromises)
     .then((values) => {
@@ -850,7 +850,7 @@ export const getStreams = async({ queryKey }) => {
   return returnValue
 }
 
-export const getTasksByProject = async(projectID) => {
+export const getTasksByProject = async (projectID) => {
   let res
   try {
     res = await fetchJSON(
@@ -867,7 +867,7 @@ export const getTasksByProject = async(projectID) => {
   return res
 }
 
-export const updateTask = async(input) => {
+export const updateTask = async (input) => {
   const query = `mutation updateTaskEx($input:UpdateTaskExInput!) {
     updateTaskEx(input: $input) {
       id
@@ -888,7 +888,7 @@ export const updateTask = async(input) => {
   return res
 }
 
-export const getAllProjectMembers = async({ queryKey }) => {
+export const getAllProjectMembers = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(

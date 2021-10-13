@@ -12,7 +12,7 @@ const oauthConfig = {
   scopes: ['openid', 'email', 'groups', 'profile', 'offline_access'],
 }
 
-export function initOauthHelper(jump) {
+export function initOauthHelper (jump) {
   OauthHelper.init(oauthConfig, {
     isDev: process.env.NODE_ENV !== 'production',
     historyReplace: (prevUrl) => {

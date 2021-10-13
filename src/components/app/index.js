@@ -77,7 +77,7 @@ export default class AppShellWrapper extends Component {
     navBarCollapsed: true,
   }
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps (props) {
     const [, subModule] = props.location.pathname.split('/')
     return {
       activeNavSubModule: subModule,
@@ -93,7 +93,7 @@ export default class AppShellWrapper extends Component {
   handleNavigateJump = (value) => {
     navigate(`/${value}`)
   }
-  render() {
+  render () {
     const {
       // organizationID,
       me,
@@ -317,7 +317,7 @@ export default class AppShellWrapper extends Component {
   }
 }
 
-export function WSAppShell(props) {
+export function WSAppShell (props) {
   const langs = useSupportedLangs()
 
   return <AppShellSide languages={langs} {...props} />

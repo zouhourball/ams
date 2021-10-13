@@ -26,17 +26,17 @@ const initialState = {
 
 export default handleActions(
   {
-    [addToast](state, { payload }) {
+    [addToast] (state, { payload }) {
       return update(state, {
         toasts: { $push: [payload] },
       })
     },
-    [setOrganizationId](state = initialState, { payload: { organizationID } }) {
+    [setOrganizationId] (state = initialState, { payload: { organizationID } }) {
       return update(state, {
         organizationID: { $set: organizationID },
       })
     },
-    [setCreateWsVisible](
+    [setCreateWsVisible] (
       state = initialState,
       { payload: { createWsVisible } },
     ) {
@@ -44,34 +44,34 @@ export default handleActions(
         createWsVisible: { $set: createWsVisible },
       })
     },
-    [dismissToast](state) {
+    [dismissToast] (state) {
       return update(state, {
         toasts: { $splice: [[0, 1]] },
       })
     },
-    [setUserInfos](state = initialState, { payload: { userInfos } }) {
+    [setUserInfos] (state = initialState, { payload: { userInfos } }) {
       return update(state, {
         userInfos: { $set: userInfos },
       })
     },
-    [setDashboardId](state = initialState, { payload: { dashboardId } }) {
+    [setDashboardId] (state = initialState, { payload: { dashboardId } }) {
       return update(state, {
         dashboardId: { $set: dashboardId },
       })
     },
 
-    [setCategoryId](state = initialState, { payload: { categoryId } }) {
+    [setCategoryId] (state = initialState, { payload: { categoryId } }) {
       return update(state, {
         categoryId: { $set: categoryId },
       })
     },
 
-    [setUserType](state = initialState, { payload: { isEnterprise } }) {
+    [setUserType] (state = initialState, { payload: { isEnterprise } }) {
       return update(state, {
         isEnterprise: { $set: isEnterprise },
       })
     },
-    [setSideCollapsed](state = initialState, { payload: { sideCollapsed } }) {
+    [setSideCollapsed] (state = initialState, { payload: { sideCollapsed } }) {
       return update(state, {
         sideCollapsed: { $set: sideCollapsed },
       })

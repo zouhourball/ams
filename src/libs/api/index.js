@@ -1,7 +1,7 @@
 import { fetchJSON } from 'libs/fetch'
 import { stringify } from 'querystring'
 
-export async function refresh(token) {
+export async function refresh (token) {
   const body = stringify({
     grant_type: 'refresh_token',
     refresh_token: token,
@@ -21,7 +21,7 @@ export async function refresh(token) {
   return res
 }
 
-export async function me() {
+export async function me () {
   const res = await fetchJSON('/uaa/me')
   return res
 }
@@ -33,7 +33,7 @@ export async function me() {
  * @param {String} userName - User name
  * @param {String} channelId - Discussion channel Number
  */
-export async function addMemberToChannelDiscussion(
+export async function addMemberToChannelDiscussion (
   fullName,
   userName,
   channelId,
@@ -49,7 +49,7 @@ export async function addMemberToChannelDiscussion(
   return res
 }
 
-export async function getInfosUser() {
+export async function getInfosUser () {
   const res = await fetchJSON(`/wf/api/v1/info`)
   return res
 }
@@ -59,7 +59,7 @@ const appendFileToForm = (form, file) => {
   return form
 }
 
-export function fileManagerUpload(files, bucket = 'upload') {
+export function fileManagerUpload (files, bucket = 'upload') {
   const uploadURL = `/fm/upload?bucket=${bucket}&share_with=${'sys:anonymous'},sys:authenticated&permission=${'view'}`
   const opts = {
     method: 'POST',
@@ -80,7 +80,7 @@ export function fileManagerUpload(files, bucket = 'upload') {
 //   return res
 // }
 
-export async function updateMyPassword(params) {
+export async function updateMyPassword (params) {
   let res
   try {
     res = await fetchJSON(`${OAUTH_HOST}/update-password`, {

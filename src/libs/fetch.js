@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch'
 import * as cookies from 'tiny-cookie'
 import * as api from 'libs/api'
-export async function refresh() {
+export async function refresh () {
   const oldRefreshToken = cookies.get('refresh_token')
   if (!oldRefreshToken) {
     return false
@@ -15,7 +15,7 @@ export async function refresh() {
   return false
 }
 
-export function fetchGeneric(url, opts, auth = true) {
+export function fetchGeneric (url, opts, auth = true) {
   let token
   if (auth && process.env.NODE_ENV !== 'production') {
     token = localStorage.getItem('access_token')
@@ -38,7 +38,7 @@ export function fetchGeneric(url, opts, auth = true) {
   })
 }
 
-export async function fetchJSON(url, opts, auth = true) {
+export async function fetchJSON (url, opts, auth = true) {
   const res = await fetchGeneric(url, opts, auth)
 
   if (!res.ok) {
@@ -83,7 +83,7 @@ export async function fetchJSON(url, opts, auth = true) {
 
   return json
 }
-export function uploadFormData(url, { body, ...rest }) {
+export function uploadFormData (url, { body, ...rest }) {
   return fetchJSON(url, {
     isFormData: true,
     body,
@@ -91,7 +91,7 @@ export function uploadFormData(url, { body, ...rest }) {
   })
 }
 
-export async function uploadFile(url, file, opts) {
+export async function uploadFile (url, file, opts) {
   const fileData = new FormData()
   fileData.append('file', file)
   const json = await fetchJSON(url, {

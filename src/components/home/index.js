@@ -23,13 +23,10 @@ const Home = ({ location: { pathname } }) => {
     <PrimeContext.Provider value={{ vision, mission, setVision, setMission }}>
       <QueryClientProvider client={queryClient}>
         <Suspense fallback={loader}>
-
           <Router>
             <Redirect from="/" to="/ams/test" noThrow />
             <Div path="/test">AMS</Div>
-
           </Router>
-
         </Suspense>
         <ReactQueryDevtools initialIsOpen={false} position="top-right" />
       </QueryClientProvider>
