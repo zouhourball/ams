@@ -1,21 +1,6 @@
 const { resolve } = require('path')
-
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-
-// const { existsSync, mkdirSync, writeFileSync } = require('fs')
-
-// const rimraf = require('rimraf')
-// const babel = require('@babel/core')
-
-// // generate babel helpers source
-// const helpersDirPath = resolve(__dirname, './.babel-helpers-source')
-// const helpersFilePath = resolve(helpersDirPath, './index.js')
-// if (existsSync(helpersDirPath)) {
-//   rimraf.sync(helpersDirPath)
-// }
-// mkdirSync(helpersDirPath)
-// writeFileSync(helpersFilePath, babel.buildExternalHelpers(), { flag: 'wx' })
 
 // if the size of resource is bigger than threshold,
 // it will be splitted into additional file
@@ -24,8 +9,6 @@ const resourceThreshold = 8192
 
 module.exports = {
   entry: {
-    // babel: helpersFilePath,
-
     app: ['@babel/polyfill', 'url-polyfill', './src/index.js'],
   },
 
@@ -49,10 +32,11 @@ module.exports = {
         options: {},
       },
       {
-        test: /\.(graphql|gql)$/,
+        test: /\.(graphql|gql)$/i,
         exclude: /node_modules/,
         loader: 'graphql-tag/loader',
       },
+
       {
         test: /\.proto$/,
         loader: 'webpack-grpc-web-loader',
@@ -61,7 +45,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
+        test: /\.(png|jpe?g|gif|svg|pdf|docx)$/i,
         loader: 'url-loader',
         options: {
           limit: resourceThreshold,
@@ -96,9 +80,6 @@ module.exports = {
   resolve: {
     modules: [resolve(__dirname, './src'), 'node_modules'],
     extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
-    alias: {
-      lodash: 'lodash-es',
-    },
   },
 
   plugins: [
@@ -125,6 +106,11 @@ module.exports = {
         to: 'static',
         ignore: ['.*'],
       },
+      // {
+      //   from: resolve(__dirname, './src/images/logo_elevate_blue.png'),
+      //   to: 'images/logo_elevate_blue.png',
+      //   ignore: ['.*'],
+      // },
     ]),
   ],
 }
