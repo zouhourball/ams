@@ -1,0 +1,37 @@
+$borderColor: #f0f2f5;
+$bgColor : #f6f8fa;
+
+.genericForm {
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+
+  .field {
+    padding: 0 10px;
+    border: 1px solid $borderColor;
+    border-radius: 7px;
+
+    &.datePicker {
+      border: unset;
+      background-color: $bgColor;
+
+      & > div {
+        padding: 8px 0;
+      }
+    }
+
+    & .md-text-field-multiline-container {
+      padding: 10px 0;
+    }
+  }
+
+  .selectField {
+    border: unset;
+    background-color: $bgColor;
+
+    hr {
+      display: none;
+    }
+  }
+}
