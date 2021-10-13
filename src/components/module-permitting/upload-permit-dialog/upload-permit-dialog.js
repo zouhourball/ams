@@ -11,24 +11,29 @@ import moment from 'moment'
 
 import './style.scss'
 
-const UploadPermitDialog = ({ visible, onHide, onContinue, information, setInformation }) => {
+const UploadPermitDialog = ({
+  visible,
+  onHide,
+  onContinue,
+  information,
+  setInformation,
+}) => {
   // const [information, setInformation] = useState({})
   const [datePickerState, setDatePickerState] = useState(false)
 
-  const actions = []
-  actions.push(
-    <Button flat onClick={() => onHide && onHide()}>
+  const actions = [
+    <Button key={1} flat onClick={() => onHide && onHide()}>
       Discard
     </Button>,
-    <Button flat primary onClick={() => onContinue && onContinue()} >
+    <Button key={2} flat primary onClick={() => onContinue && onContinue()}>
       Continue
     </Button>,
-  )
+  ]
 
   return (
     <DialogContainer
-      id="new-project-dialog"
-      visible={true}
+      id="upload-permit-dialog"
+      visible={visible}
       onHide={() => onHide && onHide()}
       actions={actions}
       title={'Upload Permit to Drill Report'}
@@ -45,7 +50,7 @@ const UploadPermitDialog = ({ visible, onHide, onContinue, information, setInfor
           position={SelectField.Positions.BELOW}
           label={'Select Block'}
           onChange={(v) => setInformation({ ...information, block: v })}
-          className="new-project-dialog-selectField  md-cell md-cell--6 md-cell--4-tablet md-cell--4-phone"
+          className="upload-permit-dialog-selectField  md-cell md-cell--6 md-cell--4-tablet md-cell--4-phone"
           menuItems={['block 10']}
         />
       </div>
