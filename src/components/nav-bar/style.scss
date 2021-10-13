@@ -1,0 +1,47 @@
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  // margin-bottom: 8px;
+  border-bottom: solid 1px #eaeaea;
+  border-radius: 4px 4px 0 0;
+  background: white;
+
+  &-list {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    padding: 0 8px;
+
+    &-title {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 8px;
+      padding: 8px 16px;
+      transition: all 0.2s ease-in-out;
+      color: rgba(#000, 0.35);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: capitalize;
+      cursor: pointer;
+
+      &.active {
+        position: relative;
+        color: #1979ff;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: auto;
+          right: 16px;
+          bottom: 0;
+          left: 16px;
+          height: 3px;
+          border-radius: 8px 8px 0 0;
+          background-color: #1979ff;
+        }
+      }
+    }
+  }
+}
