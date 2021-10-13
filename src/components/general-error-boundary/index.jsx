@@ -6,7 +6,7 @@ export default class GeneralErrorBoundary extends React.Component {
     hasError: false,
   }
 
-  render() {
+  render () {
     if (this.state.hasError) {
       return <Error />
     } else {
@@ -14,7 +14,7 @@ export default class GeneralErrorBoundary extends React.Component {
     }
   }
 
-  componentDidCatch() {
+  componentDidCatch () {
     this.setState({ hasError: true })
   }
 }

@@ -6,7 +6,7 @@ const appendFileToForm = (form, file) => {
   return form
 }
 
-export function fileManagerUpload(files, isPublic) {
+export function fileManagerUpload (files, isPublic) {
   const uploadURL = `${PRODUCT_APP_URL_API}/fm/upload?bucket=${'upload'}&share_with=${
     isPublic ? 'sys:anonymous' : 'sys:authenticated'
   }&permission=${'view'}`
@@ -20,7 +20,7 @@ export function fileManagerUpload(files, isPublic) {
 
   return fetchJSON(uploadURL, opts)
 }
-export async function fileDownload(URL, fileNameOnDownload) {
+export async function fileDownload (URL, fileNameOnDownload) {
   const apiResponseBlob = await fetch(URL, {
     responseType: 'blob',
   }).then((response) => response.blob())
@@ -30,11 +30,11 @@ export async function fileDownload(URL, fileNameOnDownload) {
     fileNameOnDownload || URL.split('/').reverse()[0],
   )
 }
-export function fileManagerUploadPublic(files) {
+export function fileManagerUploadPublic (files) {
   return fileManagerUpload(files, true)
 }
 
-export function getPublicUrl(fileID) {
+export function getPublicUrl (fileID) {
   if (!fileID) {
     // This test is useful to enable shortcuts such as "src={getPublicUrl(cardData.pictureURL) || defaultCompanyLogo}"
     return null
@@ -42,7 +42,7 @@ export function getPublicUrl(fileID) {
   return `${PRODUCT_APP_URL_API}/fm/download/${fileID}`
 }
 
-export function AvatarUpload(files, isPublic) {
+export function AvatarUpload (files, isPublic) {
   const uploadURL = `${PRODUCT_APP_URL_API}/fm/upload?bucket=${'upload'}&share_with=sys:anonymous,sys:authenticated&permission=${'view'}`
   const opts = {
     method: 'POST',

@@ -4,10 +4,10 @@ import ClientOauth2 from 'client-oauth2'
 import oauthConfig from 'libs/oauth'
 import { getAuthToken } from 'libs/utils/oauth-token'
 
-export default function configureApolloClient() {
+export default function configureApolloClient () {
   return new ApolloClient({
     // uri: GRAPHQL_API,
-    request(operation) {
+    request (operation) {
       const accessToken = getAuthToken()
       operation.setContext(({ headers }) => {
         return {
@@ -18,7 +18,7 @@ export default function configureApolloClient() {
         }
       })
     },
-    onError({ graphQLErrors, networkError }) {
+    onError ({ graphQLErrors, networkError }) {
       const client = new ClientOauth2(oauthConfig)
       const redirectToSSO = () => {
         localStorage.setItem('redirectTo', window.location.pathname)

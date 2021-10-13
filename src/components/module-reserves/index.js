@@ -1,8 +1,4 @@
 const Reserves = () => {
-  return (
-    <div>
-      Reserves
-    </div>
-  )
+  return <div>Reserves</div>
 }
 export default Reserves

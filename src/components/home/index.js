@@ -34,7 +34,6 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
     <PrimeContext.Provider value={{ vision, mission, setVision, setMission }}>
       <QueryClientProvider client={queryClient}>
         <Suspense fallback={loader}>
-
           <Router>
             <Redirect from="/" to={`/ams/${defaultModule}`} noThrow />
             {/* <Div path="/test">AMS</Div> */}
@@ -50,7 +49,6 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
             <Agreement path="/agreement" />
             <Audit path="/audit" />
           </Router>
-
         </Suspense>
         <ReactQueryDevtools initialIsOpen={false} position="top-right" />
       </QueryClientProvider>

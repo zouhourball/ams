@@ -3,7 +3,7 @@ import { getAccessToken } from 'libs/utils/helpers'
 export const studioProtocol = `/service/`
 export const geoServerProtocol = `/spatial/`
 
-export async function getEntity({ entityName }) {
+export async function getEntity ({ entityName }) {
   const URL = `${studioProtocol}${entityName}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -25,7 +25,7 @@ export async function getEntity({ entityName }) {
   return res
 }
 
-export async function saveEntity({ data, entityName }) {
+export async function saveEntity ({ data, entityName }) {
   const resquestBody = {
     studio: {
       entityName: `${entityName}`,
@@ -54,7 +54,7 @@ export async function saveEntity({ data, entityName }) {
   return res
 }
 
-export async function testEntity({ data, entityName, link }) {
+export async function testEntity ({ data, entityName, link }) {
   const resquestBody = {
     studio: {
       entityName: `${entityName}`,
@@ -83,7 +83,7 @@ export async function testEntity({ data, entityName, link }) {
   return res
 }
 
-export async function updateEntity({ data, entityName }) {
+export async function updateEntity ({ data, entityName }) {
   const resquestBody = {
     studio: {
       entityName: `${entityName}`,
@@ -112,7 +112,7 @@ export async function updateEntity({ data, entityName }) {
   return res
 }
 
-export async function deleteEntity({ entityName, id }) {
+export async function deleteEntity ({ entityName, id }) {
   const URL = `${studioProtocol}${entityName}/${id}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -134,7 +134,7 @@ export async function deleteEntity({ entityName, id }) {
   return res
 }
 
-export async function activateSingleMap({ data, entityName, link }) {
+export async function activateSingleMap ({ data, entityName, link }) {
   const resquestBody = {
     studio: {
       entityName: `${entityName}`,
@@ -164,7 +164,7 @@ export async function activateSingleMap({ data, entityName, link }) {
 }
 
 // Map Server
-export async function getGeoServerLayer({ apiURL, getUrl }) {
+export async function getGeoServerLayer ({ apiURL, getUrl }) {
   const URL = `${geoServerProtocol}${apiURL}${getUrl}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -188,7 +188,7 @@ export async function getGeoServerLayer({ apiURL, getUrl }) {
 
 // Find Spatial Reference System (SRS) or CRS
 // valid type: `projected`, `geographic 2D` or `` for all
-export async function findSRS({ apiURL, search, type }) {
+export async function findSRS ({ apiURL, search, type }) {
   const resquestBody = {
     search,
     type,
@@ -215,7 +215,7 @@ export async function findSRS({ apiURL, search, type }) {
   return res
 }
 
-export async function getCrsAPICall({ apiURL }) {
+export async function getCrsAPICall ({ apiURL }) {
   const URL = `${geoServerProtocol}${apiURL}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -237,7 +237,7 @@ export async function getCrsAPICall({ apiURL }) {
   return res
 }
 
-export async function postCrsAPICall({ apiURL, resquestParams }) {
+export async function postCrsAPICall ({ apiURL, resquestParams }) {
   const URL = `${geoServerProtocol}${apiURL}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -260,7 +260,7 @@ export async function postCrsAPICall({ apiURL, resquestParams }) {
   return res
 }
 
-export async function putCrsAPICall({ apiURL, resquestParams }) {
+export async function putCrsAPICall ({ apiURL, resquestParams }) {
   const URL = `${geoServerProtocol}${apiURL}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -283,7 +283,7 @@ export async function putCrsAPICall({ apiURL, resquestParams }) {
   return res
 }
 
-export async function deleteCrsAPICall({ apiURL }) {
+export async function deleteCrsAPICall ({ apiURL }) {
   const URL = `${geoServerProtocol}${apiURL}`
   const accessToken = getAccessToken()
   let res = await fetch(URL, {
@@ -306,7 +306,7 @@ export async function deleteCrsAPICall({ apiURL }) {
 }
 
 // Workflows
-export async function uploadWorkflowFiles({ file, link }) {
+export async function uploadWorkflowFiles ({ file, link }) {
   const formData = new FormData()
   formData.append('upload', file)
   formData.append('deployment-name', 'generic-insert-2')

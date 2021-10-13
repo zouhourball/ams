@@ -3,7 +3,7 @@ import * as tus from 'tus-js-client'
 import { downloadFromBlob } from 'libs/utils/download-blob'
 // let headers = s.defaultOptions.headers = headers
 
-export function uploadFileTus(
+export function uploadFileTus (
   file,
   fileToken,
   onError,
@@ -20,7 +20,7 @@ export function uploadFileTus(
       cookies.get('__Secure-id_token') || cookies.get('__Secure-access_token')
   }
   // console.log('token', token)
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     // function onSuccess() {
     //   resolve('I am done')
     // }
@@ -46,7 +46,7 @@ export function uploadFileTus(
       },
 
       onProgress,
-      onSuccess: function() {
+      onSuccess: function () {
         resolve(onSuccess(upload))
       },
       removeFingerprintOnSuccess: true,
@@ -58,7 +58,7 @@ export function uploadFileTus(
     upload.start()
   })
 }
-export function encodeMetadata(metadata) {
+export function encodeMetadata (metadata) {
   var encoded = []
   for (var key in metadata) {
     // eslint-disable-next-line
@@ -66,7 +66,7 @@ export function encodeMetadata(metadata) {
   }
   return encoded.join(',')
 }
-export async function fileDownloadTus(URL, fileNameOnDownload, dlToken) {
+export async function fileDownloadTus (URL, fileNameOnDownload, dlToken) {
   let token
   if (process.env.NODE_ENV !== 'production') {
     token = localStorage.getItem('access_token')

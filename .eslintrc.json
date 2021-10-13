@@ -15,6 +15,7 @@
     "GRAPHQL_API": false,
     "API_KEYWORDS": false,
     "PRODUCT_APP_URL_PROFILE": false,
+    "PRODUCT_APP_URL_PROFILE_JOBS": false,
     "OAUTH_CALLBACK_HOST": false,
     "PRODUCT_APP_URL_API": false,
     "PRODUCT_WORKSPACE_URL": false,
@@ -56,9 +57,12 @@
     "PRODUCT_APP_URL_FLUXBLE_MEETING": false,
     "PRODUCT_APP_URL_TALENT": false,
     "PRODUCT_APP_TALENT_CHAT": false,
-    "PRODUCT_APP_URL_PROFILE_JOBS": false,
-    "PRODUCT_APP_URL_COMPANY": false,
-    "PRODUCT_APP_URL_MARKETPLACE_JOBS": false
+    "PRODUCT_APP_URL_JOB_SEEKER": false,
+    "PRODUCT_APP_URL_MARKETPLACE_JOBS": false,
+    "PRODUCT_APP_ELEVATE_CHAT_BOT": false,
+    "ELEVATE_GOOGLE_ANALYTICS_ID": false,
+    "OKR_EAM": false,
+    "DASHBOARD_ID": false
   },
   "extends": ["standard", "plugin:react/recommended", "plugin:jest/all"],
   "parser": "@typescript-eslint/parser",
@@ -92,17 +96,11 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "eol-last": 0,
-    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }],
-    "react/no-array-index-key":"error",
-    "space-before-function-paren": ["error", {
-      "anonymous": "never",
-      "named": "never",
-      "asyncArrow": "never"
-  }]
+    "no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0 }]
   },
   "settings": {
     "react": {
-      "version": "16.13.1"
+      "version": "17.0.2"
     }
   }
 }

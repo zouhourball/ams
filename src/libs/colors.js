@@ -1,4 +1,4 @@
-export const getconctrast = color => {
+export const getconctrast = (color) => {
   // If a leading # is provided, remove it
   if (color.slice(0, 1) === '#') {
     color = color.slice(1)
@@ -8,7 +8,7 @@ export const getconctrast = color => {
   if (color.length === 3) {
     color = color
       .split('')
-      .map(hex => hex + hex)
+      .map((hex) => hex + hex)
       .join('')
   }
 
@@ -24,7 +24,7 @@ export const getconctrast = color => {
   return yiq >= 128 ? 'black' : 'white'
 }
 
-export const hexToRgb = hex => {
+export const hexToRgb = (hex) => {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return result
     ? {
@@ -35,7 +35,7 @@ export const hexToRgb = hex => {
     : null
 }
 
-export const componentToHex = c => {
+export const componentToHex = (c) => {
   var hex = c.toString(16)
   return hex.length === 1 ? '0' + hex : hex
 }
