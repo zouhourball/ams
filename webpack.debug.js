@@ -1,3 +1,4 @@
+/* eslint-disable jest/require-hook */
 const merge = require('webpack-merge')
 
 const devConfig = require('./webpack.dev')

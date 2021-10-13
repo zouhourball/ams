@@ -19,7 +19,7 @@ baseConfig.module.rules.find(
 module.exports = merge(baseConfig, {
   mode: 'development',
   devtool: 'cheap-module-source-map',
-
+  watch: true,
   output: {
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].chunk.js',
@@ -48,7 +48,6 @@ module.exports = merge(baseConfig, {
               sourceMap: true,
             },
           },
-          'postcss-loader',
         ],
       },
       {
@@ -67,7 +66,6 @@ module.exports = merge(baseConfig, {
               importLoaders: 1,
             },
           },
-          'postcss-loader',
           {
             loader: 'sass-loader',
             options: {

@@ -3,7 +3,7 @@ import thunkMiddleware from 'redux-thunk'
 
 import reducer from './reducer'
 
-export default function configureStore(initialState) {
+export default function configureStore (initialState) {
   if (process.env.NODE_ENV === 'production') {
     return compose(applyMiddleware(thunkMiddleware))(createStore)(
       reducer,

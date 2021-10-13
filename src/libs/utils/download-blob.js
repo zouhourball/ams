@@ -1,4 +1,4 @@
-export function downloadFromBlob(blob, name) {
+export function downloadFromBlob (blob, name) {
   let a = document.createElement('a')
   let url = window.URL.createObjectURL(blob)
   a.href = url

@@ -1,7 +1,7 @@
 import ContentLoader from 'react-content-loader'
 import './styles.scss'
 
-export function MeetingLoader() {
+export function MeetingLoader () {
   return (
     <div className="meeting-contentloader-wrap">
       <ContentLoader
@@ -18,7 +18,7 @@ export function MeetingLoader() {
   )
 }
 
-export function WsLoader() {
+export function WsLoader () {
   return (
     <ContentLoader
       height={240}

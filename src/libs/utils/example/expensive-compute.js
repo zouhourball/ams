@@ -1,4 +1,4 @@
-export function expensiveCompute(num) {
+export function expensiveCompute (num) {
   const count = num * 100
   let result = 1
   for (let i = 0; i < count * count; i++) {

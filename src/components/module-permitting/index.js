@@ -1,8 +1,4 @@
 const Permitting = () => {
-  return (
-    <div>
-      Permitting
-    </div>
-  )
+  return <div>Permitting</div>
 }
 export default Permitting

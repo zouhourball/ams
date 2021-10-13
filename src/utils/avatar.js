@@ -1,5 +1,5 @@
 // @ts-check
-export function constructAvatarURL(/** @type {string} */ src) {
+export function constructAvatarURL (/** @type {string} */ src) {
   if (!src) {
     // Don't construct wrong URL, because some component will show a broken img for it
     return ''
