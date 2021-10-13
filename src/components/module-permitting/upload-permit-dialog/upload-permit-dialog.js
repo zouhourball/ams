@@ -17,6 +17,8 @@ const UploadPermitDialog = ({
   onContinue,
   information,
   setInformation,
+  title,
+  datePlaceholder,
 }) => {
   // const [information, setInformation] = useState({})
   const [datePickerState, setDatePickerState] = useState(false)
@@ -36,7 +38,7 @@ const UploadPermitDialog = ({
       visible={visible}
       onHide={() => onHide && onHide()}
       actions={actions}
-      title={'Upload Permit to Drill Report'}
+      title={title}
       className="upload-permit-dialog"
       disableScrollLocking
       modal
@@ -63,7 +65,7 @@ const UploadPermitDialog = ({
           value={
             information?.date
               ? `${moment(new Date(information?.date)).format('DD/MM/YYYY')} `
-              : 'Spud Date'
+              : { datePlaceholder }
           }
         />
         {datePickerState && (
@@ -90,3 +92,7 @@ const UploadPermitDialog = ({
 }
 
 export default UploadPermitDialog
+UploadPermitDialog.defaultProps = {
+  title: 'Upload Permit to Abandon Report',
+  datePlaceholder: 'Abandonment Date',
+}
