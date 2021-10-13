@@ -7,7 +7,7 @@ import 'components/error/styles.scss'
 
 @withTranslationEx
 export default class Error extends React.PureComponent {
-  render () {
+  render() {
     const { className, t, ...attrs } = this.props
 
     return (
