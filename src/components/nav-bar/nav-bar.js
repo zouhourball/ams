@@ -24,3 +24,7 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
   )
 }
 export default NavBar
+NavBar.defaultProps = {
+  tabsList: ['Permit to Drill', 'Permit to Suspend ', 'Permit to Abandon'],
+  activeTab: 1,
+}
