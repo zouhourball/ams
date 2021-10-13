@@ -1,8 +1,4 @@
 const HSSE = () => {
-  return (
-    <div>
-      HSSE
-    </div>
-  )
+  return <div>HSSE</div>
 }
 export default HSSE
