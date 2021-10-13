@@ -34,4 +34,14 @@ $bgColor : #f6f8fa;
       display: none;
     }
   }
+
+  .file-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    border-radius: 7px;
+    background-color: $bgColor;
+    text-align: center;
+  }
 }

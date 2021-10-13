@@ -1,4 +1,16 @@
-import { TextField, Checkbox, SelectField, DatePicker, FontIcon } from 'react-md'
+import { useState } from 'react'
+import {
+  TextField,
+  Checkbox,
+  SelectField,
+  DatePicker,
+  FontIcon,
+} from 'react-md'
+// import { uploadFileTus } from 'libs/api/tus-upload'
+
+import FileUploader from './file-uploader'
+
+import uploadIcon from './upload.png'
 
 import './style.scss'
 
@@ -48,6 +60,15 @@ const GenericForm = ({ fields }) => {
             required={field.required}
             placeholder={field.title}
             block
+          />
+        )
+      } else if (field.input === 'fileInput') {
+        return (
+          <FileUploader
+            // onUpload={onUpload}
+            accept="image/jpeg, image/png, image/jpg, application/pdf"
+            icon={<img src={uploadIcon} className="file-upload-icon" />}
+            classes={`file-upload ${field.cellWidth}`}
           />
         )
       } else {
@@ -113,6 +134,13 @@ GenericForm.defaultProps = {
       cellWidth: 'md-cell md-cell--12',
       rows: 5,
       input: 'textArea',
+    },
+    {
+      id: '8',
+      title: 'eight',
+      cellWidth: 'md-cell md-cell--12',
+      rows: 5,
+      input: 'fileInput',
     },
   ],
 }
