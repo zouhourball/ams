@@ -4,7 +4,7 @@ plugins:
 rules:
   # Follow best practices
   font-family-name-quotes: always-where-recommended
-  no-descending-specificity: null
+
   # https://stackoverflow.com/a/34383157/467582
   function-url-quotes: always
 
