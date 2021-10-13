@@ -63,12 +63,15 @@ const GenericForm = ({ fields }) => {
         )
       } else if (field.input === 'fileInput') {
         return (
+          <>
+          <div className="title">{field.title}</div>
           <FileUploader
             // onUpload={onUpload}
             accept="image/jpeg, image/png, image/jpg, application/pdf"
-            icon={<img src={uploadIcon} className="file-upload-icon" />}
+            icon={<img src={uploadIcon} />}
             classes={`file-upload ${field.cellWidth}`}
           />
+          </>
         )
       } else {
         return (
