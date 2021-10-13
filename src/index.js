@@ -1,3 +1,4 @@
+/* eslint-disable jest/require-hook */
 import 'styles/index.scss'
 import 'normalize.css'
 
