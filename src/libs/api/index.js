@@ -92,3 +92,21 @@ export async function updateMyPassword (params) {
   }
   return res
 }
+
+export async function getFSToken (params) {
+  let res
+  try {
+    res = await fetchJSON(
+      `https://api.dev.meeraspace.com/asset-management/file-token`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'UPLOAD',
+        }),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

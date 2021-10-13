@@ -1,17 +1,18 @@
 import * as cookies from 'tiny-cookie'
 import * as tus from 'tus-js-client'
 import { downloadFromBlob } from 'libs/utils/download-blob'
+
+import store from 'libs/store'
 // let headers = s.defaultOptions.headers = headers
 
 export function uploadFileTus (
   file,
-  fileToken,
   onError,
   onSuccess,
   onProgress,
   auth = true,
 ) {
-  // console.log('fileToken', fileToken)
+  const fileToken = store?.getState()?.query?.DEFAULT?.getFSToken?.data?.['file_token']
   let token
   if (auth && process.env.NODE_ENV !== 'production') {
     token = localStorage.getItem('access_token')
