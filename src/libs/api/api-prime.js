@@ -7,7 +7,7 @@ const appUrl =
 
 // Projects
 
-export const getAllProjects = async({ queryKey }) => {
+export const getAllProjects = async ({ queryKey }) => {
   // queryKey[1] = orgId
   let res
   try {
@@ -23,7 +23,7 @@ export const getAllProjects = async({ queryKey }) => {
   return res
 }
 
-export const getAllProjectsByProgramId = async({ queryKey }) => {
+export const getAllProjectsByProgramId = async ({ queryKey }) => {
   // orgId = 1, programId= 2
   let res
   try {
@@ -39,7 +39,7 @@ export const getAllProjectsByProgramId = async({ queryKey }) => {
   return res
 }
 
-export const createProject = async({ body, orgId, programId }) => {
+export const createProject = async ({ body, orgId, programId }) => {
   // body={
   //   "description": "string",
   //   "end_date": "string",
@@ -62,7 +62,7 @@ export const createProject = async({ body, orgId, programId }) => {
   return res
 }
 
-export const updateProject = async({ body, orgId, programId, projectId }) => {
+export const updateProject = async ({ body, orgId, programId, projectId }) => {
   // body={
   //   "description": "string",
   //   "end_date": "string",
@@ -85,7 +85,7 @@ export const updateProject = async({ body, orgId, programId, projectId }) => {
   return res
 }
 
-export const deleteJob = async({ orgId, programId, projectId }) => {
+export const deleteJob = async ({ orgId, programId, projectId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -100,7 +100,7 @@ export const deleteJob = async({ orgId, programId, projectId }) => {
   return res
 }
 
-export const updateProjectIndicatorLink = async({
+export const updateProjectIndicatorLink = async ({
   body,
   orgId,
   programId,
@@ -128,7 +128,7 @@ export const updateProjectIndicatorLink = async({
 
 // goal
 
-export const getGoalsByPriority = async({ queryKey }) => {
+export const getGoalsByPriority = async ({ queryKey }) => {
   // orgId = 1, priorityId = 2
   let res
   try {
@@ -144,7 +144,7 @@ export const getGoalsByPriority = async({ queryKey }) => {
   return res
 }
 
-export const addMultipleGoals = async({ body, orgId, priorityId }) => {
+export const addMultipleGoals = async ({ body, orgId, priorityId }) => {
   // body={
   //   "goals": [
   //     {
@@ -167,7 +167,7 @@ export const addMultipleGoals = async({ body, orgId, priorityId }) => {
   return res
 }
 
-export const getGoalsById = async(orgId, priorityId, goalId) => {
+export const getGoalsById = async (orgId, priorityId, goalId) => {
   let res
   try {
     res = await fetchJSON(
@@ -182,7 +182,7 @@ export const getGoalsById = async(orgId, priorityId, goalId) => {
   return res
 }
 
-export const updateGoal = async({ body, orgId, priorityId, goalId }) => {
+export const updateGoal = async ({ body, orgId, priorityId, goalId }) => {
   // body={
   //   "statement": "string"
   // }
@@ -201,7 +201,7 @@ export const updateGoal = async({ body, orgId, priorityId, goalId }) => {
   return res
 }
 
-export const deleteGoal = async({ orgId, priorityId, goalId }) => {
+export const deleteGoal = async ({ orgId, priorityId, goalId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -216,7 +216,7 @@ export const deleteGoal = async({ orgId, priorityId, goalId }) => {
   return res
 }
 
-export const linkGoalToPIndicators = async({
+export const linkGoalToPIndicators = async ({
   body,
   orgId,
   priorityId,
@@ -244,7 +244,7 @@ export const linkGoalToPIndicators = async({
 
 // Performance Indicator
 
-export const getPIndicatorByOrg = async({ queryKey }) => {
+export const getPIndicatorByOrg = async ({ queryKey }) => {
   // orgId = 1
   let res
   try {
@@ -260,7 +260,7 @@ export const getPIndicatorByOrg = async({ queryKey }) => {
   return res
 }
 
-export const getPIndicatorByPriority = async({ queryKey }) => {
+export const getPIndicatorByPriority = async ({ queryKey }) => {
   // orgId = 1, priorityId= 2
   let res
   try {
@@ -276,7 +276,7 @@ export const getPIndicatorByPriority = async({ queryKey }) => {
   return res
 }
 
-export const addMultiplePIndicator = async({ body, orgId, priorityId }) => {
+export const addMultiplePIndicator = async ({ body, orgId, priorityId }) => {
   // body={
   //   "performance_indicators": [
   //     {
@@ -299,7 +299,7 @@ export const addMultiplePIndicator = async({ body, orgId, priorityId }) => {
   return res
 }
 
-export const getPIndicatorById = async(orgId, priorityId) => {
+export const getPIndicatorById = async (orgId, priorityId) => {
   let res
   try {
     res = await fetchJSON(
@@ -313,7 +313,7 @@ export const getPIndicatorById = async(orgId, priorityId) => {
   }
   return res
 }
-export const updatePIndicator = async({
+export const updatePIndicator = async ({
   body,
   orgId,
   priorityId,
@@ -337,7 +337,7 @@ export const updatePIndicator = async({
   return res
 }
 
-export const deletePIndicator = async({ orgId, priorityId, pIndicatorId }) => {
+export const deletePIndicator = async ({ orgId, priorityId, pIndicatorId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -352,7 +352,7 @@ export const deletePIndicator = async({ orgId, priorityId, pIndicatorId }) => {
   return res
 }
 
-export const linkPIndicatorToGoals = async({
+export const linkPIndicatorToGoals = async ({
   body,
   orgId,
   priorityId,
@@ -378,7 +378,7 @@ export const linkPIndicatorToGoals = async({
   return res
 }
 
-export const linkPIndicatorToProjects = async({
+export const linkPIndicatorToProjects = async ({
   body,
   orgId,
   priorityId,
@@ -406,7 +406,7 @@ export const linkPIndicatorToProjects = async({
 
 // Strategic Direction
 
-export const createStrategicDirection = async({ body, orgId, priorityId }) => {
+export const createStrategicDirection = async ({ body, orgId, priorityId }) => {
   // body={
   //   "statement": "string"
   // }
@@ -425,7 +425,7 @@ export const createStrategicDirection = async({ body, orgId, priorityId }) => {
   return res
 }
 
-export const getSDirectionById = async(orgId, priorityId, sDirectionId) => {
+export const getSDirectionById = async (orgId, priorityId, sDirectionId) => {
   let res
   try {
     res = await fetchJSON(
@@ -440,7 +440,7 @@ export const getSDirectionById = async(orgId, priorityId, sDirectionId) => {
   return res
 }
 
-export const updateSDirection = async({
+export const updateSDirection = async ({
   body,
   orgId,
   priorityId,
@@ -464,7 +464,7 @@ export const updateSDirection = async({
   return res
 }
 
-export const deleteSDirection = async({ orgId, priorityId, sDirectionId }) => {
+export const deleteSDirection = async ({ orgId, priorityId, sDirectionId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -481,7 +481,7 @@ export const deleteSDirection = async({ orgId, priorityId, sDirectionId }) => {
 
 // Programs
 
-export const getAllProgram = async({ queryKey }) => {
+export const getAllProgram = async ({ queryKey }) => {
   // orgId = 1
   let res
   try {
@@ -497,7 +497,7 @@ export const getAllProgram = async({ queryKey }) => {
   return res
 }
 
-export const createProgram = async({ body, orgId }) => {
+export const createProgram = async ({ body, orgId }) => {
   // body={
   //   "attachments": [
   //     {
@@ -529,7 +529,7 @@ export const createProgram = async({ body, orgId }) => {
   return res
 }
 
-export const getProgramById = async(orgId, programId) => {
+export const getProgramById = async (orgId, programId) => {
   let res
   try {
     res = await fetchJSON(
@@ -544,7 +544,7 @@ export const getProgramById = async(orgId, programId) => {
   return res
 }
 
-export const updateProgram = async({ body, orgId, programId }) => {
+export const updateProgram = async ({ body, orgId, programId }) => {
   // body={
   //   "attachments": [
   //     {
@@ -579,7 +579,7 @@ export const updateProgram = async({ body, orgId, programId }) => {
   return res
 }
 
-export const deleteProgram = async({ orgId, programId }) => {
+export const deleteProgram = async ({ orgId, programId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -596,7 +596,7 @@ export const deleteProgram = async({ orgId, programId }) => {
 
 // Mission
 
-export const createMission = async({ body, orgId, visionMissionId }) => {
+export const createMission = async ({ body, orgId, visionMissionId }) => {
   // body={
   //   "statement": "string"
   // }
@@ -615,7 +615,7 @@ export const createMission = async({ body, orgId, visionMissionId }) => {
   return res
 }
 
-export const getMissionById = async(orgId, visionMissionId, missionId) => {
+export const getMissionById = async (orgId, visionMissionId, missionId) => {
   let res
   try {
     res = await fetchJSON(
@@ -630,7 +630,7 @@ export const getMissionById = async(orgId, visionMissionId, missionId) => {
   return res
 }
 
-export const updateMission = async({
+export const updateMission = async ({
   body,
   orgId,
   visionMissionId,
@@ -654,7 +654,7 @@ export const updateMission = async({
   return res
 }
 
-export const deleteMission = async({ orgId, visionMissionId, missionId }) => {
+export const deleteMission = async ({ orgId, visionMissionId, missionId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -671,7 +671,7 @@ export const deleteMission = async({ orgId, visionMissionId, missionId }) => {
 
 // Priority
 
-export const getPrioritiesByVisionMission = async({ queryKey }) => {
+export const getPrioritiesByVisionMission = async ({ queryKey }) => {
   // orgId :1,  visionMissionId: 2
   let res
   try {
@@ -687,7 +687,7 @@ export const getPrioritiesByVisionMission = async({ queryKey }) => {
   return res
 }
 
-export const createMultiplePriorities = async({
+export const createMultiplePriorities = async ({
   body,
   orgId,
   visionMissionId,
@@ -715,7 +715,7 @@ export const createMultiplePriorities = async({
   return res
 }
 
-export const getPriorityById = async({ queryKey }) => {
+export const getPriorityById = async ({ queryKey }) => {
   // orgId: 1, visionMissionId: 2 , priorityId: 3
   let res
   try {
@@ -730,7 +730,7 @@ export const getPriorityById = async({ queryKey }) => {
   }
   return res
 }
-export const getPriorities = async({ queryKey }) => {
+export const getPriorities = async ({ queryKey }) => {
   // orgId: 1, visionMissionId: 2 , priorityId: 3
   let res
   try {
@@ -745,7 +745,7 @@ export const getPriorities = async({ queryKey }) => {
   }
   return res
 }
-export const updatePriority = async({
+export const updatePriority = async ({
   body,
   orgId,
   visionMissionId,
@@ -770,7 +770,7 @@ export const updatePriority = async({
   return res
 }
 
-export const deletePriority = async({
+export const deletePriority = async ({
   orgId,
   visionMissionId,
   priorityId,
@@ -791,7 +791,7 @@ export const deletePriority = async({
 
 // Vision
 
-export const createVision = async({ body, orgId, visionMissionId }) => {
+export const createVision = async ({ body, orgId, visionMissionId }) => {
   // body={
   //   "statement": "string"
   // }
@@ -810,7 +810,7 @@ export const createVision = async({ body, orgId, visionMissionId }) => {
   return res
 }
 
-export const getVision = async(orgId, visionMissionId, visionId) => {
+export const getVision = async (orgId, visionMissionId, visionId) => {
   let res
   try {
     res = await fetchJSON(
@@ -825,7 +825,7 @@ export const getVision = async(orgId, visionMissionId, visionId) => {
   return res
 }
 
-export const updateVision = async({
+export const updateVision = async ({
   body,
   orgId,
   visionMissionId,
@@ -849,7 +849,7 @@ export const updateVision = async({
   return res
 }
 
-export const deleteVision = async({ orgId, visionMissionId, visionId }) => {
+export const deleteVision = async ({ orgId, visionMissionId, visionId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -866,7 +866,7 @@ export const deleteVision = async({ orgId, visionMissionId, visionId }) => {
 
 // Vision Mission
 
-export const getVisionMission = async({ queryKey }) => {
+export const getVisionMission = async ({ queryKey }) => {
   // queryKey[1] => orgId
   let res
   try {
@@ -882,7 +882,7 @@ export const getVisionMission = async({ queryKey }) => {
   return res
 }
 
-export const createVisionMission = async({ body, orgId }) => {
+export const createVisionMission = async ({ body, orgId }) => {
   // body={
   //   "mission": {
   //     "statement": "string"
@@ -908,7 +908,7 @@ export const createVisionMission = async({ body, orgId }) => {
 
 // Phases
 
-export const getProjectPhases = async({ queryKey }) => {
+export const getProjectPhases = async ({ queryKey }) => {
   // queryKey[1]=orgId queryKey[2]=projectId
   let res
   try {
@@ -924,7 +924,7 @@ export const getProjectPhases = async({ queryKey }) => {
   return res
 }
 
-export const createPhase = async({ body, orgId, projectId }) => {
+export const createPhase = async ({ body, orgId, projectId }) => {
   // body={
   //   "estimated_budget": 0,
   //   "spent_budget": 0,
@@ -946,7 +946,7 @@ export const createPhase = async({ body, orgId, projectId }) => {
   return res
 }
 
-export const updatePhase = async({ body, orgId, projectId, phaseId }) => {
+export const updatePhase = async ({ body, orgId, projectId, phaseId }) => {
   // body={
   //   "estimated_budget": 0,
   //   "spent_budget": 0,
@@ -968,7 +968,7 @@ export const updatePhase = async({ body, orgId, projectId, phaseId }) => {
   return res
 }
 
-export const deletePhase = async({ orgId, projectId, phaseId }) => {
+export const deletePhase = async ({ orgId, projectId, phaseId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -983,7 +983,7 @@ export const deletePhase = async({ orgId, projectId, phaseId }) => {
   return res
 }
 
-export const getUploadUrl = async({ queryKey }) => {
+export const getUploadUrl = async ({ queryKey }) => {
   // queryKey[1] => orgId
   let res
   try {
@@ -999,7 +999,7 @@ export const getUploadUrl = async({ queryKey }) => {
   return res
 }
 
-export const getDownloadUrl = async({ queryKey }) => {
+export const getDownloadUrl = async ({ queryKey }) => {
   // queryKey[1] => orgId
   let res
   try {
@@ -1015,7 +1015,7 @@ export const getDownloadUrl = async({ queryKey }) => {
   return res
 }
 
-export const linkProjectToWs = async({ body, orgId, projectId }) => {
+export const linkProjectToWs = async ({ body, orgId, projectId }) => {
   let res
   try {
     res = await fetchJSON(
@@ -1032,7 +1032,7 @@ export const linkProjectToWs = async({ body, orgId, projectId }) => {
   return res
 }
 
-export const getWorkspacesByOrgId = async({ queryKey }) => {
+export const getWorkspacesByOrgId = async ({ queryKey }) => {
   // queryKey[1] = orgId
   let res
   try {
@@ -1045,7 +1045,7 @@ export const getWorkspacesByOrgId = async({ queryKey }) => {
   return res
 }
 
-export const linkProjectToProgram = async({ orgId, programId, projectId }) => {
+export const linkProjectToProgram = async ({ orgId, programId, projectId }) => {
   let res
   try {
     res = await fetchJSON(

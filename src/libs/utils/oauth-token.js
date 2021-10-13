@@ -2,7 +2,7 @@ import { get } from 'js-cookie'
 
 let authToken = null
 
-function getAuthTokenWithoutCache() {
+function getAuthTokenWithoutCache () {
   if (process.env.NODE_ENV !== 'production') {
     authToken = localStorage.getItem('access_token')
   } else {
@@ -10,11 +10,11 @@ function getAuthTokenWithoutCache() {
   }
 }
 
-export function clearAuthTokenCache() {
+export function clearAuthTokenCache () {
   authToken = null
 }
 
-export function getAuthToken() {
+export function getAuthToken () {
   if (authToken == null) {
     getAuthTokenWithoutCache()
   }

@@ -1,8 +1,4 @@
 const Audit = () => {
-  return (
-    <div>
-      Audit
-    </div>
-  )
+  return <div>Audit</div>
 }
 export default Audit

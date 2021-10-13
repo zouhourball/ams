@@ -15,7 +15,7 @@ const initial = {
 }
 export default handleActions(
   {
-    [updateMutation](state, { payload }) {
+    [updateMutation] (state, { payload }) {
       const { moduleName, mutationName, key, value } = payload
       if (!(moduleName in state)) {
         state[moduleName] = {

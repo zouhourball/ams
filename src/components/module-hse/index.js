@@ -6,7 +6,6 @@ import FlaringDetails from './flaring-details'
 
 const HSE = () => {
   return (
-
     <Router>
       <Redirect from="/" to="/ams/hse/flaring" noThrow />
       <Flaring path="/flaring" />
@@ -14,9 +13,7 @@ const HSE = () => {
       <Emissions path="/emissions" />
 
       <HSSE path="/hsse" />
-
     </Router>
-
   )
 }
 export default HSE

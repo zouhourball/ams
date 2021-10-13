@@ -1,11 +1,11 @@
 import { uniq } from 'lodash-es'
 import { getCookie } from 'tiny-cookie'
 
-export function extractUniqValue(data, name) {
+export function extractUniqValue (data, name) {
   return data && data.length ? uniq(data.map((i) => i[name])) : []
 }
 
-export function deepCopy(o) {
+export function deepCopy (o) {
   var output, v, key
   output = Array.isArray(o) ? [] : {}
   for (key in o) {

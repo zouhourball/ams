@@ -1,6 +1,6 @@
 import { getAccessToken } from 'utils/manageTokens'
 
-export function getPublicUrl(fileID) {
+export function getPublicUrl (fileID) {
   if (!fileID) {
     // This test is useful to enable shortcuts such as "src={getPublicUrl(cardData.pictureURL) || defaultCompanyLogo}"
     return null
@@ -10,7 +10,7 @@ export function getPublicUrl(fileID) {
   return `${PRODUCT_APP_URL_API}/fm/download/${fileID}`
 }
 
-export function getPublicUrlWithToken(fileID) {
+export function getPublicUrlWithToken (fileID) {
   if (!fileID) {
     // This test is useful to enable shortcuts such as "src={getPublicUrl(cardData.pictureURL) || defaultCompanyLogo}"
     return null
@@ -18,7 +18,7 @@ export function getPublicUrlWithToken(fileID) {
   return `${PRODUCT_APP_URL_API}/fm/download/${fileID}?access_token=${getAccessToken()}`
 }
 
-export function getDomain(url, subdomain = false) {
+export function getDomain (url, subdomain = false) {
   if (!url) {
     return
   }
@@ -37,22 +37,22 @@ export function getDomain(url, subdomain = false) {
 
   return url
 }
-export function isCreator(subject1, subject2) {
+export function isCreator (subject1, subject2) {
   return subject1 === subject2
 }
-export function endDateReached(endDate) {
+export function endDateReached (endDate) {
   let today = new Date()
   today = new Date(
     Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()),
   )
   return today.getTime() > new Date(endDate).getTime()
 }
-export function isProd() {
+export function isProd () {
   if (process.env.NODE_ENV === 'production') return true
   else return false
 }
 
-export function transformUsers(users) {
+export function transformUsers (users) {
   return users.map((el) => ({
     ...el,
     name: el.username,
@@ -65,7 +65,7 @@ export function transformUsers(users) {
   }))
 }
 
-export function matchSkills(arr1, arr2) {
+export function matchSkills (arr1, arr2) {
   if (!arr1 || !arr2 || arr1.length === 0 || arr2.length === 0) {
     return false
   }
@@ -75,7 +75,7 @@ export function matchSkills(arr1, arr2) {
   return uncommon.length === 0
 }
 
-export function validURL(str) {
+export function validURL (str) {
   var regex =
     /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{1,3}\.){3}\d{1,3}))(:\d+)?(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
   if (!regex.test(str)) {
@@ -86,7 +86,7 @@ export function validURL(str) {
 }
 
 export const flatten = (arr) => {
-  return arr.reduce(function(flat, toFlatten) {
+  return arr.reduce(function (flat, toFlatten) {
     return flat.concat(
       Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten,
     )
