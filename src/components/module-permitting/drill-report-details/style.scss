@@ -1,0 +1,13 @@
+
+.drill-report-details {
+  .top-bar-buttons-icons {
+    display: none;
+  }
+
+  .top-bar-buttons-list-item-btn {
+    &.view-doc {
+      background-color: #f6f8fa;
+      color: gray;
+    }
+  }
+}
