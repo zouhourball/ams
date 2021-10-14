@@ -6,38 +6,64 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const actions = [
-    <Button
-      key="1"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {}}
-    >
-      Upload Daily Production Report
-    </Button>,
-    <Button
-      key="2"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {}}
-    >
-      Download Template
-    </Button>,
+
+  const DailyProductionActionsHelper = [
+    { title: 'Upload Daily Production Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
   ]
+
+  const monthlyProductionActionsHelper = [
+    { title: 'Upload Monthly Production Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
+  ]
+
+  const monthlyTrackingActionsHelper = [
+    { title: 'Upload Monthly Tracking Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
+  ]
+
+  const omanHydrocarbonActionsHelper = [
+    { title: 'Upload Oman Hydrocarbon Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
+  ]
+
+  const createActionsByCurrentTab = (actionsList = []) => {
+    return actionsList.map((btn, index) =>
+      <Button
+        key={'top-bar-btn-' + index}
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          btn.onClick()
+        }}
+      >{btn?.title}
+      </Button>
+    )
+  }
+
+  const renderActionsByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return createActionsByCurrentTab(DailyProductionActionsHelper)
+      case 1:
+        return createActionsByCurrentTab(monthlyProductionActionsHelper)
+      case 2:
+        return createActionsByCurrentTab(monthlyTrackingActionsHelper)
+      case 3:
+      default:
+        return createActionsByCurrentTab(omanHydrocarbonActionsHelper)
+    }
+  }
 
   const tabsList = [
     'Daily Production',
     'Monthly Production',
     'Monthly Tracking',
     'Oman Hydrocarbon',
-
   ]
+
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
@@ -68,7 +94,7 @@ const Production = () => {
   }
   return (
     <>
-      <TopBar title="Cost Recovery Reporting" actions={actions} />
+      <TopBar title="Cost Recovery Reporting" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
