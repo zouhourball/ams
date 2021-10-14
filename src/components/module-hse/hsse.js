@@ -6,20 +6,25 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 
 import HeaderTemplate from 'components/header-template'
+import UploadReportDialog from 'components/upload-report-dialog'
 
 import { monthlyReportConfigs, monthlyReportData, actionsHeader } from './helpers'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [selectedRow, setSelectedRow] = useState([])
+  const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly HSSE Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    {
+      title: 'Upload Monthly HSSE Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map(btn =>
+    return actionsList.map((btn) => (
       <Button
         key="3"
         id="save"
@@ -27,11 +32,11 @@ const HSSE = () => {
         flat
         primary
         swapTheming
-        onClick={() => {
-        }}
-      >{btn?.title}
+        onClick={() => btn.onClick()}
+      >
+        {btn?.title}
       </Button>
-    )
+    ))
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
@@ -93,6 +98,15 @@ const HSSE = () => {
           )
         }
       />
+      {showUploadRapportDialog && (
+        <UploadReportDialog
+          title={'Upload Monthly HSSE Report'}
+          optional={'Attach Supporting Document (Optional)'}
+          visible={showUploadRapportDialog}
+          onHide={() => setShowUploadRapportDialog(false)}
+          onSave={() => {}}
+        />
+      )}
     </div>
   )
 }

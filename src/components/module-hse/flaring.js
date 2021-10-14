@@ -19,20 +19,30 @@ import {
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
-    { title: 'Upload Annual Flaring Report', onClick: () => {} },
+    {
+      title: 'Upload Annual Flaring Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
     { title: 'Download Annual Plan Template', onClick: () => {} },
   ]
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly Flaring Report', onClick: () => {} },
+    {
+      title: 'Upload Monthly Flaring Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const dailyReportActionsHelper = [
-    { title: 'Upload Daily Flaring Report', onClick: () => {} },
+    {
+      title: 'Upload Daily Flaring Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -44,7 +54,7 @@ const Flaring = () => {
         flat
         primary
         swapTheming
-        onClick={() => {}}
+        onClick={() => btn.onClick()}
       >
         {btn?.title}
       </Button>
@@ -74,6 +84,30 @@ const Flaring = () => {
         return annualReportData
     }
   }
+  const renderDialogData = () => {
+    switch (currentTab) {
+      case 1:
+        return {
+          title: 'Upload Monthly Flaring Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      case 2:
+        return {
+          title: 'Upload Daily Flaring Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      case 0:
+        return {
+          title: 'Upload Annual Flaring Report',
+          optional: 'Annual Gas Conservation Plan (Mandatory)',
+          onClick: () => {},
+        }
+      default:
+        break
+    }
+  }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
@@ -95,7 +129,15 @@ const Flaring = () => {
         setActiveTab={setCurrentTab}
       />
 
-      <UploadReportDialog />
+      {showUploadRapportDialog && (
+        <UploadReportDialog
+          title={renderDialogData().title}
+          optional={renderDialogData().optional}
+          visible={showUploadRapportDialog}
+          onHide={() => setShowUploadRapportDialog(false)}
+          onSave={() => renderDialogData().onClick()}
+        />
+      )}
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
