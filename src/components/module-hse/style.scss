@@ -1,0 +1,17 @@
+.flaring {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 92px);
+  padding: 5px;
+
+  &--table-wrapper {
+    flex-grow: 1;
+    margin: 5px;
+    border-radius: 8px;
+    background: #fff;
+
+    .xeena-table-header {
+      flex-grow: unset;
+    }
+  }
+}

@@ -17,6 +17,8 @@ import {
   actionsHeader,
 } from './helpers'
 
+import './style.scss'
+
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -121,38 +123,44 @@ const Flaring = () => {
   }
 
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-
-      {showUploadRapportDialog && (
-        <UploadReportDialog
-          title={renderDialogData().title}
-          optional={renderDialogData().optional}
-          visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
-          onSave={() => renderDialogData().onClick()}
+      <div className="flaring">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
         />
-      )}
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
-        onSelectRows={setSelectedRow}
-        withChecked
-        selectedRow={selectedRow}
-        headerTemplate={
-          selectedRow?.length !== 0 && (
-            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader('flaring', 23323)} />
-          )
-        }
-      />
-    </div>
+        <div className="flaring--table-wrapper">
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
+              selectedRow?.length !== 0 && (
+                <HeaderTemplate
+                  title={`1 Row Selected`}
+                  actions={actionsHeader('flaring', 23323)}
+                />
+              )
+            }
+          />
+        </div>
+        {showUploadRapportDialog && (
+          <UploadReportDialog
+            title={renderDialogData().title}
+            optional={renderDialogData().optional}
+            visible={showUploadRapportDialog}
+            onHide={() => setShowUploadRapportDialog(false)}
+            onSave={() => renderDialogData().onClick()}
+          />
+        )}
+      </div>
+    </>
   )
 }
 export default Flaring
