@@ -138,7 +138,7 @@ const Production = () => {
     }
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar
         title="Cost Recovery Reporting"
         actions={renderActionsByCurrentTab()}
@@ -161,7 +161,7 @@ const Production = () => {
           onSave={() => renderDialogData().onClick()}
         />
       )}
-    </div>
+    </>
   )
 }
 export default Production

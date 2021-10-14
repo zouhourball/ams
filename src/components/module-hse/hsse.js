@@ -72,7 +72,7 @@ const HSSE = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="HSSE" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
@@ -92,7 +92,7 @@ const HSSE = () => {
           onSave={() => {}}
         />
       )}
-    </div>
+    </>
   )
 }
 export default HSSE

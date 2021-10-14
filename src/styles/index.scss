@@ -148,10 +148,6 @@ body {
 
     > div {
       height: 100%;
-
-      .splitter-screen {
-        max-height: 100%;
-      }
     }
   }
 
@@ -168,6 +164,10 @@ html,
 body,
 .addressBook-root {
   height: 100%;
+
+  div[tabindex='-1'][style='outline: none;'] {
+    height: 100%;
+  }
 }
 
 .md-snackbar {

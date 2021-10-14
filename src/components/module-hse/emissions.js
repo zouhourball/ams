@@ -69,7 +69,7 @@ const Emissions = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Emissions" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
@@ -89,7 +89,7 @@ const Emissions = () => {
           onSave={() => {}}
         />
       )}
-    </div>
+    </>
   )
 }
 export default Emissions
