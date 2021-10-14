@@ -1,44 +1,52 @@
+import { useState } from 'react'
 import {
   TextField,
   Checkbox,
   SelectField,
   DatePicker,
   FontIcon,
+  CircularProgress,
 } from 'react-md'
 import Dropzone from 'react-dropzone'
 
 import { uploadFileTus } from 'libs/api/tus-upload'
+import { renderFiles } from 'components/render-files'
 
 import uploadIcon from './upload.png'
 
 import './style.scss'
-import { useState } from 'react'
 
 const GenericForm = ({ fields }) => {
   const [files, setFiles] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const uploadFiles = (allFiles) => {
     let newFiles = []
-    //setLoading(true)
+    setLoading(true)
     Promise.all(
       allFiles.map((file) =>
-        uploadFileTus(file, null, null, null, (res) => {
-          newFiles = [
-            ...newFiles,
-            {
-              id: res?.url,
-              url: res?.url,
-              size: res?.fie?.size,
+        uploadFileTus(
+          file,
+          null,
+          (res) => {
+            newFiles = [
+              ...newFiles,
+              {
+                id: res?.url,
+                url: res?.url,
+                size: res?.file?.size,
 
-              filename: res?.file?.name,
-              contentType: res?.file?.type,
-            },
-          ]
-        }),
+                filename: res?.file?.name,
+                contentType: res?.file?.type,
+              },
+            ]
+          },
+          true,
+        ),
       ),
     ).then(() => {
       setFiles([...newFiles])
-      //setLoading(false)
+      setLoading(false)
     })
   }
 
@@ -94,8 +102,8 @@ const GenericForm = ({ fields }) => {
           return (
             <>
               <div className="title">{field.title}</div>
-
               <Dropzone
+                disabled={loading}
                 onDrop={(files) => {
                   uploadFiles(files)
                 }}
@@ -108,7 +116,7 @@ const GenericForm = ({ fields }) => {
                   >
                     <img src={uploadIcon} />
                     <input {...getInputProps()} />
-                    <p>
+                    {!files.length && <p>
                       {'Drag the file here or'}{' '}
                       <span
                         className="dropzone-wrapper-blue-text"
@@ -116,10 +124,14 @@ const GenericForm = ({ fields }) => {
                       >
                         {'click to upload'}
                       </span>
-                    </p>
+                    </p>}
+                    {files.length > 0 && (<p>{files.length} uploaded</p>)}
                   </div>
                 )}
               </Dropzone>
+              {files && renderFiles(files, setFiles)}
+              {loading && <div className="loading"><CircularProgress /></div>}
+
             </>
           )
         default:
