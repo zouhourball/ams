@@ -4,16 +4,19 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+import UploadReportDialog from 'components/upload-report-dialog'
+
 const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly Emissions Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    { title: 'Upload Monthly Emissions Report', onClick: () => {} },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map(btn =>
+    return actionsList.map((btn) => (
       <Button
         key="3"
         id="save"
@@ -21,11 +24,11 @@ const Emissions = () => {
         flat
         primary
         swapTheming
-        onClick={() => {
-        }}
-      >{btn?.title}
+        onClick={() => btn.onClick()}
+      >
+        {btn?.title}
       </Button>
-    )
+    ))
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
@@ -66,7 +69,7 @@ const Emissions = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Emissions" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
@@ -77,7 +80,16 @@ const Emissions = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+      {showUploadRapportDialog && (
+        <UploadReportDialog
+          title={'Upload Monthly Emissions Report'}
+          optional={'Attach Supporting Document (Optional)'}
+          visible={showUploadRapportDialog}
+          onHide={() => setShowUploadRapportDialog(false)}
+          onSave={() => {}}
+        />
+      )}
+    </>
   )
 }
 export default Emissions

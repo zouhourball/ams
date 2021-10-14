@@ -6,6 +6,8 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 
+import './style.scss'
+
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -109,28 +111,32 @@ const Flaring = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-      />
-      {showUploadRapportDialog && (
-        <UploadReportDialog
-          title={renderDialogData().title}
-          optional={renderDialogData().optional}
-          visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
-          onSave={() => renderDialogData().onClick()}
+      <div className='flaring'>
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
         />
-      )}
-    </div>
+        <UploadReportDialog />
+        <div className='flaring--table-wrapper'>
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+          />
+        </div>
+        {showUploadRapportDialog && (
+          <UploadReportDialog
+            title={renderDialogData().title}
+            optional={renderDialogData().optional}
+            visible={showUploadRapportDialog}
+            onHide={() => setShowUploadRapportDialog(false)}
+            onSave={() => renderDialogData().onClick()}
+          />
+        )}
+      </div>
+    </>
   )
 }
 export default Flaring
