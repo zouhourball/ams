@@ -69,7 +69,7 @@ const GenericForm = ({ fields }) => {
               className={`${field.cellWidth} field selectField`}
               required={field.required}
               menuItems={field.menuItems}
-              position={SelectField.Positions.BOTTOM_RIGHT}
+              position={SelectField.Positions.BELOW}
               sameWidth
               placeholder={field.title}
               block
@@ -87,6 +87,7 @@ const GenericForm = ({ fields }) => {
               block
             />
           )
+
         case 'textArea':
           return (
             <TextField
@@ -116,22 +117,27 @@ const GenericForm = ({ fields }) => {
                   >
                     <img src={uploadIcon} />
                     <input {...getInputProps()} />
-                    {!files.length && <p>
-                      {'Drag the file here or'}{' '}
-                      <span
-                        className="dropzone-wrapper-blue-text"
-                        onClick={(e) => {}}
-                      >
-                        {'click to upload'}
-                      </span>
-                    </p>}
-                    {files.length > 0 && (<p>{files.length} uploaded</p>)}
+                    {!files.length && (
+                      <p>
+                        {'Drag the file here or'}{' '}
+                        <span
+                          className="dropzone-wrapper-blue-text"
+                          onClick={(e) => {}}
+                        >
+                          {'click to upload'}
+                        </span>
+                      </p>
+                    )}
+                    {files.length > 0 && <p>{files.length} uploaded</p>}
                   </div>
                 )}
               </Dropzone>
               {files && renderFiles(files, setFiles)}
-              {loading && <div className="loading"><CircularProgress /></div>}
-
+              {loading && (
+                <div className="loading">
+                  <CircularProgress />
+                </div>
+              )}
             </>
           )
         default:
@@ -152,6 +158,20 @@ const GenericForm = ({ fields }) => {
 export default GenericForm
 GenericForm.defaultProps = {
   fields: [
+    {
+      id: 'date',
+      title: 'date',
+      cellWidth: 'md-cell md-cell--6',
+      input: 'date',
+      required: true,
+    },
+    {
+      id: 'select',
+      title: 'select',
+      cellWidth: 'md-cell md-cell--6',
+      input: 'select',
+      menuItems: ['item1', 'item2', 'item3', 'item4'],
+    },
     {
       id: '1',
       title: 'one',

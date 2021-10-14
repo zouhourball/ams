@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, MenuButton, ListItem } from 'react-md'
+import { Button, MenuButton, ListItem, FontIcon } from 'react-md'
 
 import { cls } from 'reactutils'
 
@@ -8,23 +8,24 @@ import analyticView from './images/analytic_view.svg'
 
 import './style.scss'
 
-const TopBar = ({ title, actions, menuItems }) => {
+const TopBar = ({ title, actions, menuItems, returnTo }) => {
   const [currentView, setCurrentView] = useState('file')
   const renderListButtons = () => {
-    return actions?.map(btn => btn)
+    return actions?.map((btn) => btn)
   }
   return (
     <div className="top-bar">
-      <div className="top-bar-title">
-        {title}
-      </div>
+      {returnTo && (
+        <FontIcon
+          iconClassName="mdi mdi-chevron-left"
+          onClick={returnTo}
+        />
+      )}
+      <div className="top-bar-title">{title}</div>
       <div className="top-bar-buttons">
-        <div className="top-bar-buttons-list">
-          {renderListButtons()}
-        </div>
+        <div className="top-bar-buttons-list">{renderListButtons()}</div>
 
         <div className="top-bar-buttons-icons">
-
           <div className="top-bar-buttons-switch-view">
             <Button
               icon
@@ -57,56 +58,56 @@ const TopBar = ({ title, actions, menuItems }) => {
             }}
             menuClassName=""
           >
-          more_vert
+            more_vert
           </MenuButton>
         </div>
       </div>
-    </div>)
+    </div>
+  )
 }
 
 export default TopBar
 TopBar.defaultProps = {
   title: 'Flaring',
-  actions:
-    [
-      <Button
-        key='1'
-        id="save"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-        }}
-      >Upload Monthly Flaring Report
-      </Button>,
-      <Button
-        key="2"
-        id="save"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-        }}
-      >Upload Daily Flaring Report
-      </Button>,
-      <Button
-        key="3"
-        id="save"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-        }}
-      >Upload Annual Flaring Report
-      </Button>,
-    ],
+  actions: [
+    <Button
+      key="1"
+      id="save"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {}}
+    >
+      Upload Monthly Flaring Report
+    </Button>,
+    <Button
+      key="2"
+      id="save"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {}}
+    >
+      Upload Daily Flaring Report
+    </Button>,
+    <Button
+      key="3"
+      id="save"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {}}
+    >
+      Upload Annual Flaring Report
+    </Button>,
+  ],
   menuItems: () => {
     return [
-      <ListItem key={1} primaryText="Edit" onClick={e => null} />,
-      <ListItem key={3} primaryText="Delete" onClick={e => null} />,
+      <ListItem key={1} primaryText="Edit" onClick={(e) => null} />,
+      <ListItem key={3} primaryText="Delete" onClick={(e) => null} />,
     ]
   },
 }
