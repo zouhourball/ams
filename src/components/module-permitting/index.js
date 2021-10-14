@@ -9,48 +9,47 @@ const Permitting = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [information, setInformation] = useState({})
-  const actions =
-    currentTab === 0
-      ? [
-        <Button
-          key="0"
-          id="save"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => setShowPermitDialog(true)}
-        >
-            Upload Permit to Drill Report
-        </Button>,
-      ]
-      : currentTab === 1
-        ? [
-          <Button
-            key="0"
-            id="save"
-            className="top-bar-buttons-list-item-btn"
-            flat
-            primary
-            swapTheming
-            onClick={() => setShowPermitDialog(true)}
-          >
-            Upload Permit to Suspend Report
-          </Button>,
-        ]
-        : [
-          <Button
-            key="0"
-            id="save"
-            className="top-bar-buttons-list-item-btn"
-            flat
-            primary
-            swapTheming
-            onClick={() => setShowPermitDialog(true)}
-          >
-            Upload Permit to Abandon Report
-          </Button>,
-        ]
+
+  const permitToDrillActionsHelper = [
+    { title: 'Upload Permit to Drill Report', onClick: () => { setShowPermitDialog(true) } },
+  ]
+
+  const permitToSuspendActionsHelper = [
+    { title: 'Upload Permit to Suspend Report', onClick: () => { setShowPermitDialog(true) } },
+  ]
+
+  const permitToAbandonActionsHelper = [
+    { title: 'Upload Permit to Abandon Report', onClick: () => { setShowPermitDialog(true) } },
+  ]
+
+  const createActionsByCurrentTab = (actionsList = []) => {
+    return actionsList.map((btn, index) =>
+      <Button
+        key={'top-bar-btn-' + index}
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          btn.onClick()
+        }}
+      >{btn?.title}
+      </Button>
+    )
+  }
+
+  const renderActionsByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return createActionsByCurrentTab(permitToDrillActionsHelper)
+      case 1:
+        return createActionsByCurrentTab(permitToSuspendActionsHelper)
+      case 2:
+        return createActionsByCurrentTab(permitToAbandonActionsHelper)
+      default:
+        break
+    }
+  }
 
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
   const renderCurrentTabData = () => {
@@ -79,7 +78,7 @@ const Permitting = () => {
   }
   return (
     <div className="module-container">
-      <TopBar title="Permitting" actions={actions} />
+      <TopBar title="Permitting" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
