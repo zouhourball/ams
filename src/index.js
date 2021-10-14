@@ -7,7 +7,7 @@ import { navigate } from '@reach/router'
 
 // import { initAxiosInterceptors } from 'libs/utils/axios-interceptors'
 import { initOauthHelper } from 'libs/utils/oauth'
-import configureStore from 'libs/store'
+import store from 'libs/store'
 import configureApolloClient from 'libs/apollo'
 
 import Root from 'components/root'
@@ -15,7 +15,6 @@ import Root from 'components/root'
 initOauthHelper(navigate)
 // initAxiosInterceptors()
 
-const store = configureStore()
 const apolloClient = configureApolloClient()
 
 render(

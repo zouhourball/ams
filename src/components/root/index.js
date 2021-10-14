@@ -7,11 +7,11 @@ import { hot } from 'react-hot-loader/root'
 import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks'
 import { ShellProvider } from '@target-energysolutions/app-shell'
 
+import { LangProvider, useSupportedLangs } from 'libs/langs'
+
 import App from 'components/app'
 import SSO from 'components/sso'
 import GeneralErrorBoundary from 'components/general-error-boundary'
-
-import { LangProvider, useSupportedLangs } from 'libs/langs'
 
 const Root = ({ store, apolloClient, ssoCallback }) => {
   const langs = useSupportedLangs()
