@@ -11,32 +11,32 @@ const CostRecovery = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const annualCostAndExpenditureActionsHelper = [
-    { title: 'Upload Annual Cost & Expenditure Report', onClick: () => {} },
+    { title: 'Upload Annual Cost & Expenditure Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const contractReportsActionsHelper = [
-    { title: 'Upload Contract Report', onClick: () => {} },
+    { title: 'Upload Contract Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const productionLiftingActionsHelper = [
-    { title: 'Upload Production Lifting Report', onClick: () => {} },
+    { title: 'Upload Production Lifting Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const transactionReportActionsHelper = [
-    { title: 'Upload Transaction  Report', onClick: () => {} },
+    { title: 'Upload Transaction  Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const affiliateActionsHelper = [
-    { title: 'Upload Affiliate Report', onClick: () => {} },
+    { title: 'Upload Affiliate Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const facilitiesActionsHelper = [
-    { title: 'Upload facilities Report', onClick: () => {} },
+    { title: 'Upload facilities Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
