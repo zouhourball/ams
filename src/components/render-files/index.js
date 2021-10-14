@@ -39,12 +39,10 @@ const formatFileSize = (bytes) => {
 }
 
 const deleteFile = (updatedFiles, setFiles) => {
-  console.log('filesss', updatedFiles)
   setFiles([...updatedFiles])
 }
 
 export const renderFiles = (files, setFiles) => {
-  console.log('files', files)
   return files?.map((file) => {
     return (
       <>
