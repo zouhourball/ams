@@ -1,7 +1,10 @@
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
+import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+
+import { flaringDetailsConfigs, flaringDetailsData } from './helpers'
 
 const FlaringDetails = () => {
   const actions = [
@@ -44,6 +47,12 @@ const FlaringDetails = () => {
       <TopBarDetail
         onClickBack={() => navigate('/ams/hse/flaring')}
         actions={actions}
+      />
+      <Mht
+        configs={flaringDetailsConfigs}
+        tableData={flaringDetailsData}
+        withSearch
+        commonActions
       />
     </div>
   )
