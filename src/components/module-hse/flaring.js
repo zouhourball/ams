@@ -8,44 +8,21 @@ import UploadReportDialog from 'components/upload-report-dialog'
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const actions = [
-    <Button
-      key='1'
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-      }}
-    >Upload Monthly Flaring Report
-    </Button>,
-    <Button
-      key="2"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-      }}
-    >Upload Daily Flaring Report
-    </Button>,
-    <Button
-      key="3"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-      }}
-    >Upload Annual Flaring Report
-    </Button>,
+  const annualReportActionsHelper = [
+    { title: 'Upload Annual Flaring Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
+    { title: 'Download Annual Plan Template', onClick: () => { } },
   ]
+  const monthlyReportActionsHelper = [
+    { title: 'Upload Monthly Flaring Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
+  ]
+
+  const dailyReportActionsHelper = [
+    { title: 'Upload Daily Flaring Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } }]
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map(btn =>
-
       <Button
         key="3"
         id="save"
@@ -54,21 +31,20 @@ const Flaring = () => {
         primary
         swapTheming
         onClick={() => {
-
         }}
-      >{btn}
+      >{btn?.title}
       </Button>
     )
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
       case 1:
-        return createActionsByCurrentTab(['1', '1', '1'])
+        return createActionsByCurrentTab(monthlyReportActionsHelper)
       case 2:
-        return createActionsByCurrentTab(['2', '2', '2'])
+        return createActionsByCurrentTab(dailyReportActionsHelper)
       case 0:
       default:
-        return createActionsByCurrentTab(['0', '0', '0'])
+        return createActionsByCurrentTab(annualReportActionsHelper)
     }
   }
 
@@ -100,10 +76,10 @@ const Flaring = () => {
   return (
     <div className='module-container'>
       <TopBar title='Flaring' actions={renderActionsByCurrentTab()} />
-      <NavBar tabsList={tabsList} activeTab={currentTab} setActiveTab={setCurrentTab}/>
+      <NavBar tabsList={tabsList} activeTab={currentTab} setActiveTab={setCurrentTab} />
 
       <UploadReportDialog />
-      <Mht configs={renderCurrentTabConfigs()} tableData={renderCurrentTabData()}/>
+      <Mht configs={renderCurrentTabConfigs()} tableData={renderCurrentTabData()} />
     </div>
   )
 }

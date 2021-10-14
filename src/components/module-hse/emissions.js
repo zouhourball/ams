@@ -6,30 +6,39 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const actions = [
-    <Button
-      key="1"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {}}
-    >
-      Upload Monthly Emissions Report
-    </Button>,
-    <Button
-      key="2"
-      id="save"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {}}
-    >
-      Download Template
-    </Button>,
+
+  const monthlyReportActionsHelper = [
+    { title: 'Upload Monthly Emissions Report', onClick: () => { } },
+    { title: 'Download Template', onClick: () => { } },
   ]
+
+  const createActionsByCurrentTab = (actionsList = []) => {
+    return actionsList.map(btn =>
+      <Button
+        key="3"
+        id="save"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+        }}
+      >{btn?.title}
+      </Button>
+    )
+  }
+  const renderActionsByCurrentTab = () => {
+    switch (currentTab) {
+      case 1:
+        break
+      case 2:
+        break
+      case 0:
+        return createActionsByCurrentTab(monthlyReportActionsHelper)
+      default:
+        break
+    }
+  }
 
   const tabsList = ['Monthly Report']
   const renderCurrentTabData = () => {
@@ -58,7 +67,7 @@ const Emissions = () => {
   }
   return (
     <div className="module-container">
-      <TopBar title="Emissions" actions={actions} />
+      <TopBar title="Emissions" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
