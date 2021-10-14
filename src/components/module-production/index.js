@@ -4,31 +4,45 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+import UploadReportDialog from 'components/upload-report-dialog'
 const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const DailyProductionActionsHelper = [
-    { title: 'Upload Daily Production Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    {
+      title: 'Upload Daily Production Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const monthlyProductionActionsHelper = [
-    { title: 'Upload Monthly Production Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    {
+      title: 'Upload Monthly Production Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const monthlyTrackingActionsHelper = [
-    { title: 'Upload Monthly Tracking Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    {
+      title: 'Upload Monthly Tracking Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const omanHydrocarbonActionsHelper = [
-    { title: 'Upload Oman Hydrocarbon Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    {
+      title: 'Upload Oman Hydrocarbon Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map((btn, index) =>
+    return actionsList.map((btn, index) => (
       <Button
         key={'top-bar-btn-' + index}
         className="top-bar-buttons-list-item-btn"
@@ -38,9 +52,10 @@ const Production = () => {
         onClick={() => {
           btn.onClick()
         }}
-      >{btn?.title}
+      >
+        {btn?.title}
       </Button>
-    )
+    ))
   }
 
   const renderActionsByCurrentTab = () => {
@@ -92,9 +107,42 @@ const Production = () => {
     }
     return []
   }
+  const renderDialogData = () => {
+    switch (currentTab) {
+      case 0:
+        return {
+          title: 'Upload Daily Production Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      case 1:
+        return {
+          title: 'Upload Monthly Production Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      case 2:
+        return {
+          title: 'Upload Monthly Tracking Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      case 3:
+        return {
+          title: 'Upload Oman Hydrocarbon Report',
+          optional: 'Attach Supporting Document (Optional)',
+          onClick: () => {},
+        }
+      default:
+        break
+    }
+  }
   return (
     <div className="module-container">
-      <TopBar title="Cost Recovery Reporting" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Cost Recovery Reporting"
+        actions={renderActionsByCurrentTab()}
+      />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
@@ -104,6 +152,15 @@ const Production = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
+      {showUploadRapportDialog && (
+        <UploadReportDialog
+          title={renderDialogData().title}
+          optional={renderDialogData().optional}
+          visible={showUploadRapportDialog}
+          onHide={() => setShowUploadRapportDialog(false)}
+          onSave={() => renderDialogData().onClick()}
+        />
+      )}
     </div>
   )
 }
