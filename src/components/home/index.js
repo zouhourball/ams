@@ -42,11 +42,12 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
             <HSE path="/hse/*" />
             <CostRecovery path="/costrecovery" />
             <Planning path="/planning" />
-            <Permitting path="/permitting" />
+            <Permitting path="/permitting/*" />
             <Downstream path="/downstream" />
             <Inventory path="/inventory" />
             <Tendering path="/tendering" />
             <Agreement path="/agreement" />
+
             <Audit path="/audit" />
           </Router>
         </Suspense>
