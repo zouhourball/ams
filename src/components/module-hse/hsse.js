@@ -65,7 +65,7 @@ const HSSE = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="HSSE" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
@@ -76,7 +76,7 @@ const HSSE = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+    </>
   )
 }
 export default HSSE

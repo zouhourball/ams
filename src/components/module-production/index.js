@@ -67,7 +67,7 @@ const Production = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Cost Recovery Reporting" actions={actions} />
       <NavBar
         tabsList={tabsList}
@@ -78,7 +78,7 @@ const Production = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+    </>
   )
 }
 export default Production

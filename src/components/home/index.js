@@ -33,24 +33,26 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
   return (
     <PrimeContext.Provider value={{ vision, mission, setVision, setMission }}>
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={loader}>
-          <Router>
-            <Redirect from="/" to={`/ams/${defaultModule}`} noThrow />
-            {/* <Div path="/test">AMS</Div> */}
-            <Production path="/production" />
-            <Reserves path="/reserves" />
-            <HSE path="/hse/*" />
-            <CostRecovery path="/costrecovery" />
-            <Planning path="/planning" />
-            <Permitting path="/permitting" />
-            <Downstream path="/downstream" />
-            <Inventory path="/inventory" />
-            <Tendering path="/tendering" />
-            <Agreement path="/agreement" />
-            <Audit path="/audit" />
-          </Router>
-        </Suspense>
-        <ReactQueryDevtools initialIsOpen={false} position="top-right" />
+        <div className="module-container">
+          <Suspense fallback={loader}>
+            <Router>
+              <Redirect from="/" to={`/ams/${defaultModule}`} noThrow />
+              {/* <Div path="/test">AMS</Div> */}
+              <Production path="/production" />
+              <Reserves path="/reserves" />
+              <HSE path="/hse/*" />
+              <CostRecovery path="/costrecovery" />
+              <Planning path="/planning" />
+              <Permitting path="/permitting" />
+              <Downstream path="/downstream" />
+              <Inventory path="/inventory" />
+              <Tendering path="/tendering" />
+              <Agreement path="/agreement" />
+              <Audit path="/audit" />
+            </Router>
+          </Suspense>
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </PrimeContext.Provider>
   )

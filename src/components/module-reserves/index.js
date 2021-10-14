@@ -61,7 +61,7 @@ const Reserves = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Reserve Reporting" actions={actions} />
       <NavBar
         tabsList={tabsList}
@@ -72,7 +72,7 @@ const Reserves = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+    </>
   )
 }
 export default Reserves

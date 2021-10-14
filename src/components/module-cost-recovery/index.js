@@ -76,7 +76,7 @@ const CostRecovery = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Cost Recovery Reporting" actions={actions} />
       <NavBar
         tabsList={tabsList}
@@ -87,7 +87,7 @@ const CostRecovery = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+    </>
   )
 }
 export default CostRecovery

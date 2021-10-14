@@ -66,7 +66,7 @@ const Emissions = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Emissions" actions={renderActionsByCurrentTab()} />
       <NavBar
         tabsList={tabsList}
@@ -77,7 +77,7 @@ const Emissions = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
       />
-    </div>
+    </>
   )
 }
 export default Emissions

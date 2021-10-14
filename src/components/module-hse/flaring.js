@@ -74,13 +74,16 @@ const Flaring = () => {
     return []
   }
   return (
-    <div className='module-container'>
+    <>
       <TopBar title='Flaring' actions={renderActionsByCurrentTab()} />
-      <NavBar tabsList={tabsList} activeTab={currentTab} setActiveTab={setCurrentTab} />
-
-      <UploadReportDialog />
-      <Mht configs={renderCurrentTabConfigs()} tableData={renderCurrentTabData()} />
-    </div>
+      <div className='flaring'>
+        <NavBar tabsList={tabsList} activeTab={currentTab} setActiveTab={setCurrentTab} />
+        <UploadReportDialog />
+        <div className='flaring--table-wrapper'>
+          <Mht configs={renderCurrentTabConfigs()} tableData={renderCurrentTabData()} />
+        </div>
+      </div>
+    </>
   )
 }
 export default Flaring

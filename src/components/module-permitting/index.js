@@ -78,7 +78,7 @@ const Permitting = () => {
     return []
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Permitting" actions={actions} />
       <NavBar
         tabsList={tabsList}
@@ -99,7 +99,7 @@ const Permitting = () => {
           setInformation={setInformation}
         />
       )}
-    </div>
+    </>
   )
 }
 export default Permitting
