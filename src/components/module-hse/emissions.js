@@ -2,10 +2,15 @@ import { useState } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
+import { monthlyReportConfigs, monthlyReportData, actionsHeader } from './helpers'
+
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+import HeaderTemplate from 'components/header-template'
+
 const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [selectedRow, setSelectedRow] = useState([])
 
   const monthlyReportActionsHelper = [
     { title: 'Upload Monthly Emissions Report', onClick: () => { } },
@@ -49,7 +54,7 @@ const Emissions = () => {
         break
       case 0:
       default:
-        break
+        return monthlyReportData
     }
     return []
   }
@@ -61,7 +66,7 @@ const Emissions = () => {
         break
       case 0:
       default:
-        break
+        return monthlyReportConfigs()
     }
     return []
   }
@@ -76,6 +81,16 @@ const Emissions = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length !== 0 && (
+            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader('emissions', 2333)} />
+          )
+        }
       />
     </div>
   )

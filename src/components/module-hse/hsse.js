@@ -4,8 +4,15 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+
+import HeaderTemplate from 'components/header-template'
+
+import { monthlyReportConfigs, monthlyReportData, actionsHeader } from './helpers'
+
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [selectedRow, setSelectedRow] = useState([])
+
   const monthlyReportActionsHelper = [
     { title: 'Upload Monthly HSSE Report', onClick: () => { } },
     { title: 'Download Template', onClick: () => { } },
@@ -48,7 +55,7 @@ const HSSE = () => {
         break
       case 0:
       default:
-        break
+        return monthlyReportData
     }
     return []
   }
@@ -60,7 +67,7 @@ const HSSE = () => {
         break
       case 0:
       default:
-        break
+        return monthlyReportConfigs()
     }
     return []
   }
@@ -75,6 +82,16 @@ const HSSE = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length !== 0 && (
+            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader('hsse', 2333)} />
+          )
+        }
       />
     </div>
   )

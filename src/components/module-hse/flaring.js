@@ -5,24 +5,38 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import {
+  annualReportConfigs,
+  annualReportData,
+  monthlyReportConfigs,
+  monthlyReportData,
+  dailyReportData,
+  dailyReportConfigs,
+  actionsHeader,
+} from './helpers'
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [selectedRow, setSelectedRow] = useState([])
+
   const annualReportActionsHelper = [
-    { title: 'Upload Annual Flaring Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
-    { title: 'Download Annual Plan Template', onClick: () => { } },
+    { title: 'Upload Annual Flaring Report', onClick: () => {} },
+    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Annual Plan Template', onClick: () => {} },
   ]
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly Flaring Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } },
+    { title: 'Upload Monthly Flaring Report', onClick: () => {} },
+    { title: 'Download Template', onClick: () => {} },
   ]
 
   const dailyReportActionsHelper = [
-    { title: 'Upload Daily Flaring Report', onClick: () => { } },
-    { title: 'Download Template', onClick: () => { } }]
+    { title: 'Upload Daily Flaring Report', onClick: () => {} },
+    { title: 'Download Template', onClick: () => {} },
+  ]
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map(btn =>
+    return actionsList.map((btn) => (
       <Button
         key="3"
         id="save"
@@ -30,11 +44,11 @@ const Flaring = () => {
         flat
         primary
         swapTheming
-        onClick={() => {
-        }}
-      >{btn?.title}
+        onClick={() => {}}
+      >
+        {btn?.title}
       </Button>
-    )
+    ))
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
@@ -52,34 +66,50 @@ const Flaring = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
-        break
+        return monthlyReportData
       case 2:
-        break
+        return dailyReportData
       case 0:
       default:
-        break
+        return annualReportData
     }
-    return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
-        break
+        return monthlyReportConfigs()
       case 2:
-        break
+        return dailyReportConfigs()
       case 0:
       default:
-        break
+        return annualReportConfigs()
     }
-    return []
   }
+
   return (
-    <div className='module-container'>
-      <TopBar title='Flaring' actions={renderActionsByCurrentTab()} />
-      <NavBar tabsList={tabsList} activeTab={currentTab} setActiveTab={setCurrentTab} />
+    <div className="module-container">
+      <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
+      <NavBar
+        tabsList={tabsList}
+        activeTab={currentTab}
+        setActiveTab={setCurrentTab}
+      />
 
       <UploadReportDialog />
-      <Mht configs={renderCurrentTabConfigs()} tableData={renderCurrentTabData()} />
+      <Mht
+        configs={renderCurrentTabConfigs()}
+        tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length !== 0 && (
+            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader('flaring', 23323)} />
+          )
+        }
+      />
     </div>
   )
 }
