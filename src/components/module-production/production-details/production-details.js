@@ -3,6 +3,11 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+import {
+  dailyProductionDetailsData,
+  dailyProductionDetailsConfigs,
+} from '../helpers'
+
 import './style.scss'
 
 const ProductionDetails = () => {
@@ -25,7 +30,7 @@ const ProductionDetails = () => {
       primary
       swapTheming
       onClick={() => {
-        navigate(`/ams/production/production-detail`)
+        // navigate(`/ams/production/production-detail`)
       }}
     >
       Download Original File
@@ -37,7 +42,13 @@ const ProductionDetails = () => {
         onClickBack={() => navigate('/ams/production')}
         actions={actions}
       />
-      <Mht configs={[]} tableData={[]} withSearch commonActions />
+      <Mht
+        configs={dailyProductionDetailsConfigs()}
+        tableData={dailyProductionDetailsData}
+        withSearch
+        commonActions
+        withSubColumns
+      />
     </div>
   )
 }
