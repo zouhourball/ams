@@ -5,10 +5,22 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import {
+  annualReservesConfigs,
+  historyConfigs,
+  annualResourceConfigs,
+  annualReservesData,
+  historyData,
+  annualResourceData,
+  actionsHeader,
+} from './helpers'
 
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [selectedRow, setSelectedRow] = useState([])
 
   const annualReservesReportingActionsHelper = [
     {
@@ -73,28 +85,29 @@ const Reserves = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        break
+        return annualReservesData
       case 1:
-        break
+        return historyData
       case 2:
+        return annualResourceData
       default:
-        break
+        return annualReservesData
     }
-    return []
   }
 
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        break
+        return annualReservesConfigs()
       case 1:
-        break
+        return historyConfigs()
       case 2:
+        return annualResourceConfigs()
       default:
-        break
+        return annualReservesConfigs()
     }
-    return []
   }
+
   const renderDialogData = () => {
     switch (currentTab) {
       case 0:
@@ -133,10 +146,23 @@ const Reserves = () => {
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-      />
+       <Mht
+         configs={renderCurrentTabConfigs()}
+         tableData={renderCurrentTabData()}
+         withSearch={selectedRow?.length === 0}
+         commonActions={selectedRow?.length === 0}
+         onSelectRows={setSelectedRow}
+         withChecked
+         selectedRow={selectedRow}
+         headerTemplate={
+              selectedRow?.length !== 0 && (
+             <HeaderTemplate
+               title={`${selectedRow.length} Row Selected`}
+               actions={actionsHeader(null, null)}
+             />
+           )
+         }
+       />
       {showUploadRapportDialog && (
         <UploadReportDialog
           hideDate

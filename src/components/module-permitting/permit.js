@@ -6,10 +6,22 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import {
+  permitDrillConfigs,
+  permitSuspendConfigs,
+  permitAbandonConfigs,
+  permitDrillData,
+  permitSuspendData,
+  permitAbandonData,
+  actionsHeader,
+} from './helpers'
 
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
+  const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({})
   const actions =
     currentTab === 0
@@ -55,13 +67,15 @@ const Permit = () => {
         ]
 
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
+
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
-        break
+        return permitSuspendData
       case 2:
-        break
+        return permitAbandonData
       case 0:
+        return permitDrillData
       default:
         break
     }
@@ -70,14 +84,14 @@ const Permit = () => {
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
-        break
+        return permitSuspendConfigs()
       case 2:
-        break
+        return permitAbandonConfigs()
       case 0:
+        return permitDrillConfigs()
       default:
-        break
+        return permitDrillConfigs()
     }
-    return []
   }
   return (
     <div className="module-container">
@@ -90,6 +104,19 @@ const Permit = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+              selectedRow?.length !== 0 && (
+            <HeaderTemplate
+              title={`${selectedRow.length} Row Selected`}
+              actions={actionsHeader('drill-report', 233)}
+            />
+          )
+        }
       />
       {showPermitDialog && (
         <UploadPermitDialog
