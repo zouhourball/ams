@@ -38,7 +38,7 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
             <Router>
               <Redirect from="/" to={`/ams/${defaultModule}`} noThrow />
               {/* <Div path="/test">AMS</Div> */}
-              <Production path="/production" />
+              <Production path="/production/*" />
               <Reserves path="/reserves" />
               <HSE path="/hse/*" />
               <CostRecovery path="/costrecovery" />

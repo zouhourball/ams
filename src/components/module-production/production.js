@@ -8,39 +8,49 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 
 import {
-  annualReservesConfigs,
-  historyConfigs,
-  annualResourceConfigs,
-  annualReservesData,
-  historyData,
-  annualResourceData,
+  dailyProductionConfigs,
+  monthlyProductionConfigs,
+  monthlyTrackingConfigs,
+  omanHydConfigs,
+  dailyProductionData,
+  monthlyProductionData,
+  monthlyTrackingData,
+  omanHydData,
   actionsHeader,
 } from './helpers'
 
-const Reserves = () => {
+const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
-  const annualReservesReportingActionsHelper = [
+  const DailyProductionActionsHelper = [
     {
-      title: 'Upload Annual Reserves Report',
+      title: 'Upload Daily Production Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
   ]
 
-  const HistoryAndForecastActionsHelper = [
+  const monthlyProductionActionsHelper = [
     {
-      title: 'Upload History and Forecast Report',
+      title: 'Upload Monthly Production Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
   ]
 
-  const AnnualResourceDetailActionsHelper = [
+  const monthlyTrackingActionsHelper = [
     {
-      title: 'Upload Annual Resource Detail Report',
+      title: 'Upload Monthly Tracking Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    { title: 'Download Template', onClick: () => {} },
+  ]
+
+  const omanHydrocarbonActionsHelper = [
+    {
+      title: 'Upload Oman Hydrocarbon Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
@@ -66,59 +76,63 @@ const Reserves = () => {
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
       case 0:
-        return createActionsByCurrentTab(annualReservesReportingActionsHelper)
+        return createActionsByCurrentTab(DailyProductionActionsHelper)
       case 1:
-        return createActionsByCurrentTab(HistoryAndForecastActionsHelper)
+        return createActionsByCurrentTab(monthlyProductionActionsHelper)
       case 2:
-        return createActionsByCurrentTab(AnnualResourceDetailActionsHelper)
+        return createActionsByCurrentTab(monthlyTrackingActionsHelper)
+      case 3:
       default:
-        break
+        return createActionsByCurrentTab(omanHydrocarbonActionsHelper)
     }
   }
 
   const tabsList = [
-    'Annual Reserves Reporting',
-    'History and Forecast',
-    'Annual Resource Detail',
+    'Daily Production',
+    'Monthly Production',
+    'Monthly Tracking',
+    'Oman Hydrocarbon',
   ]
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return annualReservesData
+        return dailyProductionData
       case 1:
-        return historyData
+        return monthlyProductionData
       case 2:
-        return annualResourceData
+        return monthlyTrackingData
+      case 3:
+        return omanHydData
       default:
-        return annualReservesData
+        return dailyProductionData
     }
   }
-
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return annualReservesConfigs()
+        return dailyProductionConfigs()
       case 1:
-        return historyConfigs()
+        return monthlyProductionConfigs()
       case 2:
-        return annualResourceConfigs()
+        return monthlyTrackingConfigs()
+      case 3:
+        return omanHydConfigs()
       default:
-        return annualReservesConfigs()
+        return dailyProductionConfigs()
     }
   }
-
   const renderDialogData = () => {
     switch (currentTab) {
       case 0:
         return {
-          title: 'Upload Annual Reserves Report',
+          title: 'Upload Daily Production Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
       case 1:
         return {
-          title: 'Upload History and Forecast Report',
+          title: 'Upload Monthly Production Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
@@ -140,32 +154,34 @@ const Reserves = () => {
   }
   return (
     <>
-      <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Cost Recovery Reporting"
+        actions={renderActionsByCurrentTab()}
+      />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
       />
-       <Mht
-         configs={renderCurrentTabConfigs()}
-         tableData={renderCurrentTabData()}
-         withSearch={selectedRow?.length === 0}
-         commonActions={selectedRow?.length === 0}
-         onSelectRows={setSelectedRow}
-         withChecked
-         selectedRow={selectedRow}
-         headerTemplate={
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0}
+          onSelectRows={setSelectedRow}
+          withChecked
+          selectedRow={selectedRow}
+          headerTemplate={
               selectedRow?.length !== 0 && (
-             <HeaderTemplate
-               title={`${selectedRow.length} Row Selected`}
-               actions={actionsHeader(null, null)}
-             />
-           )
-         }
-       />
+              <HeaderTemplate
+                title={`1 Row Selected`}
+                actions={actionsHeader('production-details', 21561)}
+              />
+            )
+          }
+        />
       {showUploadRapportDialog && (
         <UploadReportDialog
-          hideDate
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
@@ -176,4 +192,4 @@ const Reserves = () => {
     </>
   )
 }
-export default Reserves
+export default Production

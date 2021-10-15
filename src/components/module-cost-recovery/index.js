@@ -5,10 +5,28 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import {
+  annualCostConfigs,
+  contractReportConfigs,
+  productionLiftingConfigs,
+  transactionConfigs,
+  affiliateConfigs,
+  facilitiesConfigs,
+  annualCostData,
+  contractReportData,
+  productionLiftingData,
+  transactionData,
+  affiliateData,
+  facilitiesData,
+  actionsHeader,
+} from './helpers'
 
 const CostRecovery = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [selectedRow, setSelectedRow] = useState([])
 
   const annualCostAndExpenditureActionsHelper = [
     { title: 'Upload Annual Cost & Expenditure Report', onClick: () => setShowUploadRapportDialog(true) },
@@ -87,39 +105,40 @@ const CostRecovery = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        break
+        return annualCostData
       case 1:
-        break
+        return contractReportData
       case 2:
-        break
+        return productionLiftingData
       case 3:
-        break
+        return transactionData
       case 4:
-        break
+        return affiliateData
       case 5:
+        return facilitiesData
       default:
-        break
+        return annualCostData
     }
-    return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        break
+        return annualCostConfigs()
       case 1:
-        break
+        return contractReportConfigs()
       case 2:
-        break
+        return productionLiftingConfigs()
       case 3:
-        break
+        return transactionConfigs()
       case 4:
-        break
+        return affiliateConfigs()
       case 5:
+        return facilitiesConfigs()
       default:
-        break
+        return annualCostConfigs()
     }
-    return []
   }
+
   const renderDialogData = () => {
     switch (currentTab) {
       case 0:
@@ -176,6 +195,19 @@ const CostRecovery = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+              selectedRow?.length !== 0 && (
+            <HeaderTemplate
+              title={`1 Row Selected`}
+              actions={actionsHeader(null, null)}
+            />
+          )
+        }
       />
       {showUploadRapportDialog && (
         <UploadReportDialog
