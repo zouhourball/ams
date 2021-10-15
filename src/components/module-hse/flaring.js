@@ -16,7 +16,9 @@ import {
   monthlyReportData,
   dailyReportData,
   dailyReportConfigs,
-  actionsHeader,
+  actionsHeaderAnnual,
+  actionsHeaderMonthly,
+  actionsHeaderDaily,
 } from './helpers'
 
 import './style.scss'
@@ -124,6 +126,17 @@ const Flaring = () => {
     }
   }
 
+  const actionsHeader = () => {
+    switch (currentTab) {
+      case 1:
+        return actionsHeaderMonthly('flaring', 23323, userRole())
+      case 2:
+        return actionsHeaderDaily('flaring', 23323, userRole())
+      case 0:
+      default:
+        return actionsHeaderAnnual('flaring', 23323, userRole())
+    }
+  }
   return (
     <>
       <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
@@ -146,7 +159,7 @@ const Flaring = () => {
               selectedRow?.length !== 0 && (
                 <HeaderTemplate
                   title={`1 Row Selected`}
-                  actions={actionsHeader('flaring', 23323, userRole())}
+                  actions={actionsHeader()}
                 />
               )
             }
