@@ -3,6 +3,12 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+
+import {
+  annualReservesDetailsData,
+  annualReservesDetailsConfigs,
+} from '../helpers'
+
 import './style.scss'
 
 const ReservesDetails = () => {
@@ -38,7 +44,13 @@ const ReservesDetails = () => {
         onClickBack={() => navigate('/ams/reserves')}
         actions={actions}
       />
-      <Mht configs={[]} tableData={[]} withSearch commonActions />
+      <Mht
+        configs={annualReservesDetailsConfigs()}
+        tableData={annualReservesDetailsData}
+        withSearch
+        commonActions
+        withSubColumns
+      />
     </div>
   )
 }
