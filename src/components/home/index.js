@@ -39,7 +39,7 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
               <Redirect from="/" to={`/ams/${defaultModule}`} noThrow />
               {/* <Div path="/test">AMS</Div> */}
               <Production path="/production/*" />
-              <Reserves path="/reserves" />
+              <Reserves path="/reserves/*" />
               <HSE path="/hse/*" />
               <CostRecovery path="/costrecovery" />
               <Planning path="/planning" />
