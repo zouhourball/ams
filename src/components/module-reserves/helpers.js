@@ -353,3 +353,32 @@ export const actionsHeader = (key, id) => [
     onClick: () => {},
   },
 ]
+
+export const annualReservesDetailsConfigs = () => [
+  {
+    label: 'Category',
+    key: 'category',
+    width: 200,
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Items',
+    key: 'items',
+    width: 200,
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Hydrocarbon Types & Volumes',
+    key: 'hydrocarbonTypes',
+    type: 'subColumns',
+    width: 600,
+    columns: [
+      { label: 'Oil (MMstb)', subKey: 'oil', width: 200 },
+      { label: 'Condensate (MMstb)', subKey: 'condensate', width: 200 },
+      { label: 'Gas (Tscf)', subKey: 'gaz', width: 200 },
+    ],
+  },
+]

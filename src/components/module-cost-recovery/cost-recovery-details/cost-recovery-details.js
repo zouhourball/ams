@@ -3,14 +3,15 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
-import {
-  dailyProductionDetailsData,
-  dailyProductionDetailsConfigs,
-} from '../helpers'
+
+// import {
+//   annualReservesDetailsData,
+//   annualReservesDetailsConfigs,
+// } from '../helpers'
 
 import './style.scss'
 
-const ProductionDetails = () => {
+const CostRecoveryDetails = () => {
   const actions = [
     <Button
       key="1"
@@ -29,22 +30,21 @@ const ProductionDetails = () => {
       flat
       primary
       swapTheming
-      onClick={() => {
-        // navigate(`/ams/production/production-detail`)
-      }}
+      onClick={() => {}}
     >
       Download Original File
     </Button>,
   ]
   return (
-    <div className="details-container">
+    <div className="cost-recovery-details">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/production')}
+        title={'Annual Cost and Expenditure'}
+        onClickBack={() => navigate(`/ams/costrecovery`)}
         actions={actions}
       />
       <Mht
-        configs={dailyProductionDetailsConfigs()}
-        tableData={dailyProductionDetailsData}
+        configs={[]}
+        tableData={[]}
         withSearch
         commonActions
         withSubColumns
@@ -52,4 +52,4 @@ const ProductionDetails = () => {
     </div>
   )
 }
-export default ProductionDetails
+export default CostRecoveryDetails

@@ -281,7 +281,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'cost-recovery',
+                      key: 'new-cost-recovery',
                       name: 'Cost Recovery',
                       onClick: () => navigate('/ams/costrecovery'),
                       icon: (

@@ -7,8 +7,9 @@ import NavBar from 'components/nav-bar'
 
 import HeaderTemplate from 'components/header-template'
 import UploadReportDialog from 'components/upload-report-dialog'
+import { userRole } from 'components/shared-hook/get-roles'
 
-import { monthlyReportConfigs, monthlyReportData, actionsHeader } from './helpers'
+import { monthlyReportConfigs, monthlyReportData, actionsHeaderMonthly } from './helpers'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -66,15 +67,17 @@ const HSSE = () => {
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
       default:
         return monthlyReportConfigs()
     }
-    return []
+  }
+  const actionsHeader = () => {
+    switch (currentTab) {
+      case 0:
+      default:
+        return actionsHeaderMonthly('hsse', 23323, userRole())
+    }
   }
   return (
     <>
@@ -94,7 +97,7 @@ const HSSE = () => {
         selectedRow={selectedRow}
         headerTemplate={
           selectedRow?.length !== 0 && (
-            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader('hsse', 2333)} />
+            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader()} />
           )
         }
       />

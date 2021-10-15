@@ -1,0 +1,12 @@
+.cost-recovery-details {
+  .top-bar-buttons-icons {
+    display: none;
+  }
+
+  .top-bar-buttons-list-item-btn {
+    &.discard {
+      background-color: #f6f8fa;
+      color: gray;
+    }
+  }
+}

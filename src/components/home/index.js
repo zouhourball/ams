@@ -41,7 +41,7 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
               <Production path="/production/*" />
               <Reserves path="/reserves/*" />
               <HSE path="/hse/*" />
-              <CostRecovery path="/costrecovery" />
+              <CostRecovery path="/costrecovery/*" />
               <Planning path="/planning" />
               <Permitting path="/permitting/*" />
               <Downstream path="/downstream" />
