@@ -323,7 +323,7 @@ export const dailyReportData = [
   },
 ]
 
-export const actionsHeader = (key, id, role) => {
+export const actionsHeaderAnnual = (key, id, role) => {
   switch (role) {
     case 'regulator':
     default :
@@ -392,6 +392,123 @@ export const actionsHeader = (key, id, role) => {
   }
 }
 
+export const actionsHeaderMonthly = (key, id, role) => {
+  switch (role) {
+    case 'regulator':
+    default :
+      return (
+        [
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+          {
+            id: 4,
+            label: 'View Documents',
+            onClick: () => {
+              // navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+        ]
+      )
+    case 'operator':
+      return (
+        [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 4,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+          {
+            id: 5,
+            label: 'Upload Documents',
+            onClick: () => {
+              // navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+        ]
+      )
+  }
+}
+
+export const actionsHeaderDaily = (key, id, role) => {
+  switch (role) {
+    case 'regulator':
+    default :
+      return (
+        [
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+          {
+            id: 4,
+            label: 'View Documents',
+            onClick: () => {
+              // navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+        ]
+      )
+    case 'operator':
+      return (
+        [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 4,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+          {
+            id: 5,
+            label: 'Upload Documents',
+            onClick: () => {
+              // navigate(`/ams/hse/${key}/${id}`)
+            },
+          },
+        ]
+      )
+  }
+}
 export const flaringDetailsConfigs = [
   {
     label: 'Gaz Type',
