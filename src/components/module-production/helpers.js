@@ -458,3 +458,80 @@ export const actionsHeader = (key, id) => [
     onClick: () => {},
   },
 ]
+
+export const dailyProductionDetailsConfigs = () => [
+  {
+    label: 'Production',
+    key: 'production',
+    type: 'subColumns',
+    width: 400,
+    columns: [
+      {
+        label: 'Item',
+        subKey: 'item',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'UOM',
+        subKey: 'uom',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+
+      },
+    ],
+  },
+  {
+    label: 'Daily Field Production Vols',
+    key: 'dailyField',
+    type: 'subColumns',
+    width: 600,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actualF',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'LE',
+        subKey: 'le',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'Scheduled Department Vols',
+    type: 'subColumns',
+    key: 'scheduled',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Actual (%)',
+        subKey: 'actualS',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+]
+export const dailyProductionDetailsData = [
+  {
+    production: [{ item: 'OIL' }, { uom: 'bbl/d' }],
+    dailyField: [{ actualF: '1421' }, { target: 'target' }, { le: 'le' }],
+    scheduled: [{ actual: 'actual' }, { actualS: '23%' }],
+  },
+]
