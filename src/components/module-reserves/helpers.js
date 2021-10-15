@@ -344,7 +344,7 @@ export const actionsHeader = (key, id) => [
     id: 4,
     label: 'View Details',
     onClick: () => {
-      key && id && navigate(`/ams/hse/${key}/${id}`)
+      key && id && navigate(`/ams/reserves/${key}/${id}`)
     },
   },
   {

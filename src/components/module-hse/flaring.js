@@ -7,6 +7,8 @@ import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 
+import { userRole } from 'components/shared-hook/get-roles'
+
 import {
   annualReportConfigs,
   annualReportData,
@@ -144,7 +146,7 @@ const Flaring = () => {
               selectedRow?.length !== 0 && (
                 <HeaderTemplate
                   title={`1 Row Selected`}
-                  actions={actionsHeader('flaring', 23323)}
+                  actions={actionsHeader('flaring', 23323, userRole())}
                 />
               )
             }
