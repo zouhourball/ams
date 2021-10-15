@@ -350,7 +350,7 @@ export const actionsHeader = (key, id, role) => {
             id: 4,
             label: 'View Documents',
             onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
+              // navigate(`/ams/hse/${key}/${id}`)
             },
           },
         ]
@@ -384,7 +384,7 @@ export const actionsHeader = (key, id, role) => {
             id: 5,
             label: 'Upload Documents',
             onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
+              // navigate(`/ams/hse/${key}/${id}`)
             },
           },
         ]
