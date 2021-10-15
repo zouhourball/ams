@@ -105,7 +105,10 @@ const Flaring = () => {
       case 0:
         return {
           title: 'Upload Annual Flaring Report',
-          optional: 'Annual Gas Conservation Plan (Mandatory)',
+          optional: `Annual Gas Conservation Plan (${
+            userRole() === 'operator' ? 'Mandatory' : 'Optional'
+          })`,
+          required: userRole() === 'operator',
           onClick: () => {},
         }
       default:
@@ -156,6 +159,7 @@ const Flaring = () => {
           <UploadReportDialog
             title={renderDialogData().title}
             optional={renderDialogData().optional}
+            required={renderDialogData().required}
             visible={showUploadRapportDialog}
             onHide={() => setShowUploadRapportDialog(false)}
             onSave={() => renderDialogData().onClick()}

@@ -23,6 +23,7 @@ const UploadReportDialog = ({
   onHide,
   onSave,
   optional,
+  required,
   hideDate,
 }) => {
   const [files, setFile] = useState([])
@@ -199,7 +200,7 @@ const UploadReportDialog = ({
                 className: 'doc-upload-fileDropZone',
               })}
             >
-              <input {...getOptionalInputProps()} multiple />
+              <input {...getOptionalInputProps()} multiple required={required} />
               <img src={uploadIcon} width="25px" />
               <div>
                 Drag & Drop file here or <p>Select File</p>
