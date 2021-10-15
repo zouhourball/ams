@@ -5,9 +5,24 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import {
+  dailyProductionConfigs,
+  monthlyProductionConfigs,
+  monthlyTrackingConfigs,
+  omanHydConfigs,
+  dailyProductionData,
+  monthlyProductionData,
+  monthlyTrackingData,
+  omanHydData,
+  actionsHeader,
+} from './helpers'
+
 const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [selectedRow, setSelectedRow] = useState([])
 
   const DailyProductionActionsHelper = [
     {
@@ -82,30 +97,30 @@ const Production = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        break
+        return dailyProductionData
       case 1:
-        break
+        return monthlyProductionData
       case 2:
-        break
+        return monthlyTrackingData
       case 3:
+        return omanHydData
       default:
-        break
+        return dailyProductionData
     }
-    return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        break
+        return dailyProductionConfigs()
       case 1:
-        break
+        return monthlyProductionConfigs()
       case 2:
-        break
+        return monthlyTrackingConfigs()
       case 3:
+        return omanHydConfigs()
       default:
-        break
+        return dailyProductionConfigs()
     }
-    return []
   }
   const renderDialogData = () => {
     switch (currentTab) {
@@ -148,10 +163,23 @@ const Production = () => {
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-      />
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0}
+          onSelectRows={setSelectedRow}
+          withChecked
+          selectedRow={selectedRow}
+          headerTemplate={
+              selectedRow?.length !== 0 && (
+              <HeaderTemplate
+                title={`1 Row Selected`}
+                actions={actionsHeader(null, null)}
+              />
+            )
+          }
+        />
       {showUploadRapportDialog && (
         <UploadReportDialog
           title={renderDialogData().title}
