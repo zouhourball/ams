@@ -4,93 +4,39 @@
 @include react-md-everything;
 
 @font-face {
-  font-family: 'proxima_novaregular';
+  font-family: 'Proxima Nova';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 700;
   src:
-    url('../fonts/proxima-nova/proximanova-regular-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proximanova-regular-webfont.woff') format('woff');
+    url('../fonts/ProximaNova/ProximaNova-Bold.woff2') format('woff2'),
+    url('../fonts/ProximaNova/ProximaNova-Bold.woff') format('woff');
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'proxima_nova_altbold';
+  font-family: 'Proxima Nova';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   src:
-    url('../fonts/proxima-nova/proxima_nova_alt_bold-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_alt_bold-webfont.woff')
-    format('woff');
+    url('../fonts/ProximaNova/ProximaNova-Extrabld.woff2') format('woff2'),
+    url('../fonts/ProximaNova/ProximaNova-Extrabld.woff') format('woff');
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'proxima_nova_altlight';
+  font-family: 'Proxima Nova';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   src:
-    url('../fonts/proxima-nova/proxima_nova_alt_light-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_alt_light-webfont.woff')
-    format('woff');
-}
-
-@font-face {
-  font-family: 'proxima_nova_altthin';
-  font-style: normal;
-  font-weight: normal;
-  src:
-    url('../fonts/proxima-nova/proxima_nova_alt_thin-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_alt_thin-webfont.woff')
-    format('woff');
-}
-
-@font-face {
-  font-family: 'proxima_novablack';
-  font-style: normal;
-  font-weight: normal;
-  src:
-    url('../fonts/proxima-nova/proxima_nova_black-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_black-webfont.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'proxima_novabold';
-  font-style: normal;
-  font-weight: normal;
-  src:
-    url('../fonts/proxima-nova/proxima_nova_bold-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_bold-webfont.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'proxima_novaextrabold';
-  font-style: normal;
-  font-weight: normal;
-  src:
-    url('../fonts/proxima-nova/proxima_nova_extrabold-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_extrabold-webfont.woff')
-    format('woff');
-}
-
-@font-face {
-  font-family: 'proxima_novathin';
-  font-style: normal;
-  font-weight: normal;
-  src:
-    url('../fonts/proxima-nova/proxima_nova_thin-webfont.woff2')
-    format('woff2'),
-    url('../fonts/proxima-nova/proxima_nova_thin-webfont.woff') format('woff');
+    url('../fonts/ProximaNova/ProximaNova-Regular.woff2') format('woff2'),
+    url('../fonts/ProximaNova/ProximaNova-Regular.woff') format('woff');
+  font-display: swap;
 }
 
 body {
   background-color: #f7f7f7 !important;
   color: #2f3842;
-  font-family: 'proxima_novaregular', sans-serif;
+  font-family: 'Proxima Nova', sans-serif;
   font-size: 14px;
 
   h1,
@@ -98,7 +44,11 @@ body {
   h3,
   h4,
   h5,
-  h6,
+  h6 {
+    font-family: inherit;
+    font-weight: 700;
+  }
+
   p,
   button,
   input,
@@ -202,7 +152,7 @@ body,
     margin-left: 8px;
     padding: 4px 8px;
     border-radius: 5px;
-    font-family: 'proxima_novabold', sans-serif;
+    font-weight: 700;
 
     &.md-text {
       background: rgba(0, 0, 0, 0.1);
