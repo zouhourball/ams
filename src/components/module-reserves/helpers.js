@@ -1,7 +1,7 @@
 import { FileInput } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const annualReportConfigs = () => [
+export const annualReservesConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -73,7 +73,7 @@ export const annualReportConfigs = () => [
   },
 ]
 
-export const monthlyReportConfigs = () => [
+export const historyConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -144,7 +144,7 @@ export const monthlyReportConfigs = () => [
     render: (row) => <div className={row?.status}>{row?.status}</div>,
   },
 ]
-export const dailyReportConfigs = () => [
+export const annualResourceConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -215,7 +215,8 @@ export const dailyReportConfigs = () => [
     render: (row) => <div className={row?.status}>{row?.status}</div>,
   },
 ]
-export const annualReportData = [
+
+export const annualReservesData = [
   {
     id: '2656552',
     company: 'PDO',
@@ -251,7 +252,7 @@ export const annualReportData = [
   },
 ]
 
-export const monthlyReportData = [
+export const historyData = [
   {
     id: '2656552',
     company: 'PDO',
@@ -287,7 +288,7 @@ export const monthlyReportData = [
   },
 ]
 
-export const dailyReportData = [
+export const annualResourceData = [
   {
     id: '2656552',
     company: 'PDO',
@@ -323,320 +324,61 @@ export const dailyReportData = [
   },
 ]
 
-export const actionsHeaderAnnual = (key, id, role) => {
-  switch (role) {
-    case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 1,
-            label: 'Download Annual Plan',
-            onClick: () => {},
-          },
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-    case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
-          },
-          {
-            id: 2,
-            label: 'Download Annual Plan',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-  }
-}
-
-export const actionsHeaderMonthly = (key, id, role) => {
-  switch (role) {
-    case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-    case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-  }
-}
-
-export const actionsHeaderDaily = (key, id, role) => {
-  switch (role) {
-    case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-    case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
-  }
-}
-export const flaringDetailsConfigs = [
+export const actionsHeader = (key, id) => [
   {
-    label: 'Gaz Type',
-    key: 'gaz_type',
-    width: '300',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
+    id: 1,
+    label: 'Delete',
+    onClick: () => {},
   },
   {
-    label: 'Unit',
-    key: 'unit',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
+    id: 2,
+    label: 'Download Annual Plan',
+    onClick: () => {},
   },
   {
-    label: '2021',
-    key: 'year2021',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
+    id: 3,
+    label: 'Download Original File',
+    onClick: () => {},
   },
   {
-    label: '2022',
-    key: 'year2022',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
+    id: 4,
+    label: 'View Details',
+    onClick: () => {
+      key && id && navigate(`/ams/reserves/${key}/${id}`)
+    },
   },
   {
-    label: '2023',
-    key: 'year2023',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: '2024',
-    key: 'year2024',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: '2025',
-    key: 'year2025',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: '2026',
-    key: 'year2026',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
+    id: 5,
+    label: 'Upload Documents',
+    onClick: () => {},
   },
 ]
 
-export const flaringDetailsData = [
+export const annualReservesDetailsConfigs = () => [
   {
-    gaz_type: 'Gas Flared (Excl. Gas Conservation)',
-    unit: 'MMscf/d',
-  },
-  {
-    gaz_type: 'Gas Flared (Excl. Gas Conservation)',
-    unit: 'MMscf/d',
-  },
-]
-
-export const hsseDetailsConfigs = [
-  {
-    label: 'Item',
-    key: 'item',
-    width: '500',
+    label: 'Category',
+    key: 'category',
+    width: 200,
     icon: 'mdi mdi-spellcheck',
     type: 'text',
   },
+
   {
-    label: 'Year End Target',
-    key: 'columns',
+    label: 'Items',
+    key: 'items',
+    width: 200,
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Hydrocarbon Types & Volumes',
+    key: 'hydrocarbonTypes',
     type: 'subColumns',
-    icon: 'mdi mdi-spellcheck',
+    width: 600,
     columns: [
-      {
-        label: 'Operator',
-        subKey: 'operator',
-        icon: 'mdi mdi-spellcheck',
-        width: '150',
-        type: 'text',
-      },
-      {
-        label: 'Contractor',
-        subKey: 'contractor',
-        icon: 'mdi mdi-spellcheck',
-        width: '150',
-        type: 'text',
-      },
+      { label: 'Oil (MMstb)', subKey: 'oil', width: 200 },
+      { label: 'Condensate (MMstb)', subKey: 'condensate', width: 200 },
+      { label: 'Gas (Tscf)', subKey: 'gaz', width: 200 },
     ],
-  },
-  ...[
-    'Jun',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ].map((el) => ({
-    label: el,
-    key: el.toLowerCase(),
-    width: '150',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  })),
-
-]
-
-export const hsseDetailsData = [
-  {
-    item: "Fatalities 'Work related' (FAT) (Total no.)",
-  },
-  {
-    item: 'Non Accidental Death (NAD)',
   },
 ]

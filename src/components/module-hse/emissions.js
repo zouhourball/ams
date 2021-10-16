@@ -5,13 +5,14 @@ import Mht from '@target-energysolutions/mht'
 import {
   monthlyReportConfigs,
   monthlyReportData,
-  actionsHeader,
+  actionsHeaderMonthly,
 } from './helpers'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import HeaderTemplate from 'components/header-template'
 import UploadReportDialog from 'components/upload-report-dialog'
+import { userRole } from 'components/shared-hook/get-roles'
 
 const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -40,10 +41,6 @@ const Emissions = () => {
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
         return createActionsByCurrentTab(monthlyReportActionsHelper)
       default:
@@ -54,27 +51,24 @@ const Emissions = () => {
   const tabsList = ['Monthly Report']
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
       default:
         return monthlyReportData
     }
-    return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
-      case 0:
       default:
         return monthlyReportConfigs()
     }
-    return []
+  }
+
+  const actionsHeader = () => {
+    switch (currentTab) {
+      case 0:
+      default:
+        return actionsHeaderMonthly('emissions', 23323, userRole())
+    }
   }
   return (
     <>
@@ -97,7 +91,7 @@ const Emissions = () => {
             selectedRow?.length !== 0 && (
               <HeaderTemplate
                 title={`1 Row Selected`}
-                actions={actionsHeader('emissions', 2333)}
+                actions={actionsHeader()}
               />
             )
           }
