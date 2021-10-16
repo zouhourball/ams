@@ -59,7 +59,7 @@ export const annualReservesConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -131,7 +131,7 @@ export const historyConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -202,7 +202,7 @@ export const annualResourceConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),

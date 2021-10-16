@@ -58,6 +58,12 @@ body {
     font-family: inherit;
   }
 
+  .target-app-shell--left-side--app-item {
+    svg.md-icon {
+      width: 31px;
+    }
+  }
+
   .target-app-shell-appshell-bottom {
     // will-change will break dragging of `react-beautiful-dnd`.
     // It's either browsers or react-beautiful-dnd's bug

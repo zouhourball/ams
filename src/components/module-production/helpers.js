@@ -59,7 +59,7 @@ export const dailyProductionConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -131,7 +131,7 @@ export const monthlyProductionConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -202,7 +202,7 @@ export const monthlyTrackingConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -273,7 +273,7 @@ export const omanHydConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
