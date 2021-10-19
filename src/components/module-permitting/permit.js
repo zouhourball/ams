@@ -7,6 +7,8 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
+import SupportedDocument from 'components/supported-document'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import {
   permitDrillConfigs,
@@ -21,6 +23,7 @@ import {
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const actions =
@@ -113,7 +116,7 @@ const Permit = () => {
               selectedRow?.length !== 0 && (
             <HeaderTemplate
               title={`${selectedRow.length} Row Selected`}
-              actions={actionsHeader('drill-report', 233)}
+              actions={actionsHeader('drill-report', 233, userRole(), setShowSupportedDocumentDialog)}
             />
           )
         }
@@ -127,6 +130,14 @@ const Permit = () => {
           information={information}
           setInformation={setInformation}
           onContinue={() => navigate(`/ams/permitting/drill-report`)}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => {}}
         />
       )}
     </div>
