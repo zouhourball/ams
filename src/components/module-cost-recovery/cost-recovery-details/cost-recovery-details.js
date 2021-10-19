@@ -4,10 +4,10 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
 
-// import {
-//   annualReservesDetailsData,
-//   annualReservesDetailsConfigs,
-// } from '../helpers'
+import {
+  costRecoveryDetailsData,
+  costRecoveryDetailsConfigs,
+} from '../helpers'
 
 import './style.scss'
 
@@ -43,8 +43,8 @@ const CostRecoveryDetails = () => {
         actions={actions}
       />
       <Mht
-        configs={[]}
-        tableData={[]}
+        configs={costRecoveryDetailsConfigs()}
+        tableData={costRecoveryDetailsData}
         withSearch
         commonActions
         withSubColumns

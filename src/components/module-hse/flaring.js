@@ -7,6 +7,7 @@ import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import { userRole } from 'components/shared-hook/get-roles'
 
@@ -30,6 +31,7 @@ const Flaring = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
@@ -111,10 +113,8 @@ const Flaring = () => {
       case 0:
         return {
           title: 'Upload Annual Flaring Report',
-          optional: `Annual Gas Conservation Plan (${
-            userRole() === 'operator' ? 'Mandatory' : 'Optional'
-          })`,
-          required: userRole() === 'operator',
+          optional: `Annual Gas Conservation Plan (Mandatory)`,
+          required: true,
           onClick: () => {},
         }
       default:
@@ -136,12 +136,12 @@ const Flaring = () => {
   const actionsHeader = () => {
     switch (currentTab) {
       case 1:
-        return actionsHeaderMonthly('flaring', 23323, userRole())
+        return actionsHeaderMonthly('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
       case 2:
-        return actionsHeaderDaily('flaring', 23323, userRole())
+        return actionsHeaderDaily('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', 23323, userRole())
+        return actionsHeaderAnnual('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
     }
   }
 
@@ -153,7 +153,10 @@ const Flaring = () => {
 
   return (
     <>
-      <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Flaring"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
+      />
       <div className="flaring">
         <NavBar
           tabsList={tabsList}
@@ -172,7 +175,7 @@ const Flaring = () => {
             headerTemplate={
               selectedRow?.length !== 0 && (
                 <HeaderTemplate
-                  title={`1 Row Selected`}
+                  title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader()}
                 />
               )
@@ -212,6 +215,14 @@ const Flaring = () => {
               renderDialogData().onClick()
               setFileList([])
             }}
+          />
+        )}
+        {showSupportedDocumentDialog && (
+          <SupportedDocument
+            title={'upload supported documents'}
+            visible={showSupportedDocumentDialog}
+            onDiscard={() => setShowSupportedDocumentDialog(false)}
+            onSaveUpload={() => {}}
           />
         )}
       </div>

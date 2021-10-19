@@ -3,6 +3,7 @@ import { navigate } from '@reach/router'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import { flaringDetailsConfigs, flaringDetailsData } from './helpers'
 
@@ -39,7 +40,7 @@ const FlaringDetails = () => {
       swapTheming
       onClick={() => {}}
     >
-      Download Original File
+      {userRole() === 'operator' ? 'Download Original File' : 'Acknowledge'}
     </Button>,
   ]
   return (

@@ -45,6 +45,7 @@ const ReservesDetails = () => {
         actions={actions}
       />
       <Mht
+        id="reserves-details"
         configs={annualReservesDetailsConfigs()}
         tableData={annualReservesDetailsData}
         withSearch
