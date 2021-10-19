@@ -25,6 +25,7 @@ const UploadReportDialog = ({
   onHide,
   onSave,
   optional,
+  required,
   hideDate,
 }) => {
   const [files, setFile] = useState([])
