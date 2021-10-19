@@ -176,6 +176,8 @@ const Production = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        hideTotal={false}
+        withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0}
         onSelectRows={setSelectedRow}

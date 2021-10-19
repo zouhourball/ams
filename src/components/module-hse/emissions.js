@@ -86,6 +86,8 @@ const Emissions = () => {
           commonActions={selectedRow?.length === 0}
           onSelectRows={setSelectedRow}
           withChecked
+          hideTotal={false}
+          withFooter
           selectedRow={selectedRow}
           headerTemplate={
             selectedRow?.length !== 0 && (

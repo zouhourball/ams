@@ -10,6 +10,8 @@ const HsseDetails = () => {
     withSearch
     commonActions
     withSubColumns
+    hideTotal={false}
+    withFooter
   />
 }
 

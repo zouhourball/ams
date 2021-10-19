@@ -48,6 +48,8 @@ const CostRecoveryDetails = () => {
         withSearch
         commonActions
         withSubColumns
+        hideTotal={false}
+        withFooter
       />
     </div>
   )
