@@ -44,7 +44,7 @@ build_single_image:
     - tags
     - develop
   tags:
-    # - 32G-mem
+    - shared-macos-amd64
 
 0-0-dev-gke-dev:
   interruptible: true
