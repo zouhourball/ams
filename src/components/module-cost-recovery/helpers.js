@@ -781,4 +781,43 @@ export const costRecoveryDetailsData = [
       { ytd: [{ actual: 'test' }] },
     ],
   },
+  {
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
+  {
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
+  {
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
 ]
