@@ -16,6 +16,8 @@ import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import uploadIcon from './upload-icon.svg'
 
+import './style.scss'
+
 const UploadReportDialog = ({
   title,
   blockList,
@@ -115,7 +117,7 @@ const UploadReportDialog = ({
             hideDate ? 'md-cell md-cell--12' : 'md-cell md-cell--6'
           } `}
           id="block"
-          label={'Select Block'}
+          placeholder={'Select Block'}
           menuItems={blockList}
           position={SelectField.Positions.BELOW}
           value={reportData?.block}
@@ -125,7 +127,6 @@ const UploadReportDialog = ({
         {!hideDate && (
           <TextField
             placeholder={'Reference Date'}
-            label={'Reference Date'}
             value={
               reportData?.referenceDate?.timestamp
                 ? moment(+reportData?.referenceDate?.timestamp).format('ll')
@@ -156,59 +157,58 @@ const UploadReportDialog = ({
             endView="day"
           />
         )}
-      </div>
-      <div>Attach Report</div>
-      {fileLoader ? (
-        <CircularProgress />
-      ) : (
-        <div {...getRootProps({ className: 'doc-upload-fileDropZone' })}>
-          <input {...getInputProps()} multiple />
-          <img src={uploadIcon} width="25px" />
-          <div>
-            Drag & Drop file here or <p>Select File</p>
+        <div className='upload-report-dialog-subtitle md-cell md-cell--12'>Attach Report</div>
+        {fileLoader ? (
+          <CircularProgress />
+        ) : (
+          <div {...getRootProps({ className: 'upload-report-dialog-fileDropZone md-cell md-cell--12' })}>
+            <input {...getInputProps()} multiple />
+            <img src={uploadIcon} width="20px" />
+            <p>
+            Drag & Drop file here or <b>Select File</b>
+            </p>
           </div>
-        </div>
-      )}
-      {files?.map((file) => (
-        <div key={file.id} className={`upload-report-dialog-file`}>
-          {file && file.contentType
-            ? renderDocumentIcon(file.contentType.split('/')[1])
-            : ''}
-          <div className="file-info">
-            <div className="file-name"> {get(file, 'filename', '')} </div>
-            <div className="file-size"> {get(file, 'size', '')} </div>
+        )}
+        {files?.map((file) => (
+          <div key={file.id} className={`upload-report-dialog-file md-cell md-cell--12`}>
+            {file && file.contentType
+              ? renderDocumentIcon(file.contentType.split('/')[1])
+              : ''}
+            <div className="file-info">
+              <div className="file-name"> {get(file, 'filename', '')} </div>
+              <div className="file-size"> {get(file, 'size', '')} </div>
+            </div>
+            <Button
+              icon
+              className="actionButton"
+              onClick={() => {
+                setFile(files.filter((el) => el?.id !== file.id))
+              }}
+            >
+              delete_outline
+            </Button>
           </div>
-          <Button
-            icon
-            className="actionButton"
-            iconClassName="mdi mdi-delete"
-            onClick={() => {
-              setFile(files.filter((el) => el?.id !== file.id))
-            }}
-          />
-        </div>
-      ))}
-      {optional && (
+        ))}
+        {optional && (
         <>
-          {' '}
-          <div>{optional}</div>
+          <div className='upload-report-dialog-subtitle md-cell md-cell--12'>{optional}</div>
           {optionalFileLoader ? (
             <CircularProgress />
           ) : (
             <div
               {...getOptionalRootProps({
-                className: 'doc-upload-fileDropZone',
+                className: 'upload-report-dialog-fileDropZone md-cell md-cell--12',
               })}
             >
-              <input {...getOptionalInputProps()} multiple required={required} />
-              <img src={uploadIcon} width="25px" />
-              <div>
-                Drag & Drop file here or <p>Select File</p>
-              </div>
+              <input {...getOptionalInputProps()} multiple />
+              <img src={uploadIcon} width="20px" />
+              <p>
+                Drag & Drop file here or <b>Select File</b>
+              </p>
             </div>
           )}
           {optionalFiles?.map((file) => (
-            <div key={file.id} className={`upload-report-dialog-file`}>
+            <div key={file.id} className={`upload-report-dialog-file md-cell md-cell--12`}>
               {file && file.contentType
                 ? renderDocumentIcon(file.contentType.split('/')[1])
                 : ''}
@@ -229,7 +229,9 @@ const UploadReportDialog = ({
             </div>
           ))}
         </>
-      )}
+        )}
+      </div>
+
     </DialogContainer>
   )
 }

@@ -59,7 +59,7 @@ export const annualCostConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -131,7 +131,7 @@ export const contractReportConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -202,7 +202,7 @@ export const productionLiftingConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -273,7 +273,7 @@ export const transactionConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -344,7 +344,7 @@ export const affiliateConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
@@ -415,7 +415,7 @@ export const facilitiesConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="mdi mdi-upload"
+        iconChildren="save_alt"
         label={'Upload Documents'}
       />
     ),
