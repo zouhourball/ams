@@ -3,6 +3,7 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+import { userRole } from 'components/shared-hook/get-roles'
 import {
   dailyProductionDetailsData,
   dailyProductionDetailsConfigs,
@@ -35,6 +36,19 @@ const ProductionDetails = () => {
     >
       Download Original File
     </Button>,
+    userRole() === 'regulator' && (
+      <Button
+        key="3"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {}}
+      >
+        Acknowledge
+      </Button>
+    ),
   ]
   return (
     <div className="details-container">

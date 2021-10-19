@@ -27,7 +27,8 @@ import SupportedDocument from 'components/supported-document'
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
@@ -137,7 +138,12 @@ const Flaring = () => {
         return actionsHeaderDaily('flaring', 23323, userRole())
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
+        return actionsHeaderAnnual(
+          'flaring',
+          23323,
+          userRole(),
+          setShowSupportedDocumentDialog,
+        )
     }
   }
   return (

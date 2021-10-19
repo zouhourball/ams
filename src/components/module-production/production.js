@@ -18,14 +18,13 @@ import {
   omanHydData,
   actionsHeader,
 } from './helpers'
+import { userRole } from 'components/shared-hook/get-roles'
 
 const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
-  const [selectFieldValue, setSelectFieldValue] = useState(
-    'Monthly Production'
-  )
+  const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
 
   const DailyProductionActionsHelper = [
     {
@@ -158,19 +157,21 @@ const Production = () => {
   return (
     <>
       <TopBar
-        title="Cost Recovery Reporting"
-        actions={renderActionsByCurrentTab()}
+        title="Production Reporting"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
-        setActiveTab={tab => {
+        setActiveTab={(tab) => {
           setCurrentTab(tab)
-          setSelectFieldValue(tab === 1
-            ? 'Monthly Production'
-            : tab === 2
-              ? 'Destination'
-              : 'Grid 1',)
+          setSelectFieldValue(
+            tab === 1
+              ? 'Monthly Production'
+              : tab === 2
+                ? 'Destination'
+                : 'Grid 1',
+          )
         }}
       />
       <Mht
