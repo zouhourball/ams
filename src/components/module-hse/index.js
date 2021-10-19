@@ -1,23 +1,26 @@
+import { lazy, Suspense } from 'react'
 import { Router, Redirect } from '@reach/router'
-import Emissions from './emissions'
-import Flaring from './flaring'
-import HSSE from './hsse'
-import FlaringDetails from './flaring-details'
-import HsseDetails from './hsse-details'
-import EmissionsDetails from './emissions-details'
+
+const Emissions = lazy(() => import('./emissions'))
+const Flaring = lazy(() => import('./flaring'))
+const EmissionsDetails = lazy(() => import('./emissions-details'))
+const HSSE = lazy(() => import('./hsse'))
+const HsseDetails = lazy(() => import('./hsse-details'))
+const FlaringDetails = lazy(() => import('./flaring-details'))
 
 const HSE = () => {
   return (
-    <Router>
-      <Redirect from="/" to="/ams/hse/flaring" noThrow />
-      <Flaring path="/flaring" />
-      <FlaringDetails path="/flaring/:flaringId" />
-      <HSSE path="/hsse" />
-      <HsseDetails path="/hsse/:hsseId" />
-      <Emissions path="/emissions" />
-      <EmissionsDetails path="/emissions/:emissionId" />
-
-    </Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Router>
+        <Redirect from="/" to="/ams/hse/flaring" noThrow />
+        <Flaring path="/flaring" />
+        <FlaringDetails path="/flaring/:flaringId" />
+        <HSSE path="/hsse" />
+        <HsseDetails path="/hsse/:hsseId" />
+        <Emissions path="/emissions" />
+        <EmissionsDetails path="/emissions/:emissionId" />
+      </Router>
+    </Suspense>
   )
 }
 export default HSE
