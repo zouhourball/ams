@@ -22,10 +22,12 @@ import {
 } from './helpers'
 
 import './style.scss'
+import SupportedDocument from 'components/supported-document'
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
@@ -137,7 +139,7 @@ const Flaring = () => {
         return actionsHeaderDaily('flaring', 23323, userRole())
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', 23323, userRole())
+        return actionsHeaderAnnual('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
     }
   }
   return (
@@ -176,6 +178,14 @@ const Flaring = () => {
             visible={showUploadRapportDialog}
             onHide={() => setShowUploadRapportDialog(false)}
             onSave={() => renderDialogData().onClick()}
+          />
+        )}
+        {showSupportedDocumentDialog && (
+          <SupportedDocument
+            title={'upload supported documents'}
+            visible={showSupportedDocumentDialog}
+            onDiscard={() => setShowSupportedDocumentDialog(false)}
+            onSaveUpload={() => {}}
           />
         )}
       </div>
