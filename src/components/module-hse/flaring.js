@@ -107,10 +107,8 @@ const Flaring = () => {
       case 0:
         return {
           title: 'Upload Annual Flaring Report',
-          optional: `Annual Gas Conservation Plan (${
-            userRole() === 'operator' ? 'Mandatory' : 'Optional'
-          })`,
-          required: userRole() === 'operator',
+          optional: `Annual Gas Conservation Plan (Mandatory)`,
+          required: true,
           onClick: () => {},
         }
       default:
@@ -142,7 +140,10 @@ const Flaring = () => {
   }
   return (
     <>
-      <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Flaring"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
+      />
       <div className="flaring">
         <NavBar
           tabsList={tabsList}
