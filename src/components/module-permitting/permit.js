@@ -18,6 +18,8 @@ import {
   actionsHeader,
 } from './helpers'
 
+import './style.scss'
+
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
@@ -94,30 +96,34 @@ const Permit = () => {
     }
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Permitting" actions={actions} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
-        onSelectRows={setSelectedRow}
-        withChecked
-        selectedRow={selectedRow}
-        headerTemplate={
+      <div className="Permitting">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
+        />
+        <div className="Permitting--table-wrapper">
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
               selectedRow?.length !== 0 && (
-            <HeaderTemplate
-              title={`${selectedRow.length} Row Selected`}
-              actions={actionsHeader('drill-report', 233)}
-            />
-          )
-        }
-      />
+                <HeaderTemplate
+                  title={`${selectedRow.length} Row Selected`}
+                  actions={actionsHeader('drill-report', 233)}
+                />
+              )
+            }
+          />
+        </div>
+      </div>
       {showPermitDialog && (
         <UploadPermitDialog
           visible={showPermitDialog}
@@ -129,7 +135,7 @@ const Permit = () => {
           onContinue={() => navigate(`/ams/permitting/drill-report`)}
         />
       )}
-    </div>
+    </>
   )
 }
 export default Permit
