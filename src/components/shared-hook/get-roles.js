@@ -5,11 +5,11 @@ export function userRole () {
   const roles = store?.getState()?.query?.DEFAULT?.me?.data?.roles
   const orgId = store?.getState().shell.organizationId
   // ghofran
-  if (roles?.includes(`target-subscription-store:${orgId}:Admin`)) {
+  if (roles?.includes(`target-subscription-store:${orgId}:regulator`)) {
     return 'regulator'
   } else {
-    // rihab
-    if (roles?.includes(`target-subscription-store:${orgId}:permit:approver`)) return 'operator'
+    // zouhour
+    if (roles?.includes(`target-subscription-store:${orgId}:operator`)) return 'operator'
     else return ''
   }
 }
