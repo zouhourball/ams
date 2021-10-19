@@ -76,7 +76,7 @@ const HSSE = () => {
     switch (currentTab) {
       case 0:
       default:
-        return actionsHeaderMonthly('hsse', 23323, userRole())
+        return actionsHeaderMonthly('hsse', selectedRow[0]?.id, userRole())
     }
   }
   return (

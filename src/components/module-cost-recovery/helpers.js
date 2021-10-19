@@ -769,6 +769,7 @@ export const costRecoveryDetailsConfigs = () => [
 
 export const costRecoveryDetailsData = [
   {
+    id: 'dddj2333',
     category: 'CAPITAL COSTS',
     subCategory: 'GEOLOGICAL & GEOPHYSICAL',
     group: 'GEOLOGICAL (SURFACE)',
@@ -782,6 +783,7 @@ export const costRecoveryDetailsData = [
     ],
   },
   {
+    id: 'dddj2333',
     category: 'CAPITAL COSTS',
     subCategory: 'GEOLOGICAL & GEOPHYSICAL',
     group: 'GEOLOGICAL (SURFACE)',
@@ -795,6 +797,7 @@ export const costRecoveryDetailsData = [
     ],
   },
   {
+    id: 'dddj2333',
     category: 'CAPITAL COSTS',
     subCategory: 'GEOLOGICAL & GEOPHYSICAL',
     group: 'GEOLOGICAL (SURFACE)',
@@ -808,6 +811,7 @@ export const costRecoveryDetailsData = [
     ],
   },
   {
+    id: 'dddj2333',
     category: 'CAPITAL COSTS',
     subCategory: 'GEOLOGICAL & GEOPHYSICAL',
     group: 'GEOLOGICAL (SURFACE)',

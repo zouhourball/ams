@@ -160,7 +160,7 @@ const Reserves = () => {
               selectedRow?.length !== 0 && (
              <HeaderTemplate
                title={`${selectedRow.length} Row Selected`}
-               actions={actionsHeader('reserves-details', 215174)}
+               actions={actionsHeader('reserves-details', selectedRow[0]?.id)}
              />
            )
          }

@@ -118,7 +118,7 @@ const Permit = () => {
               selectedRow?.length !== 0 && (
             <HeaderTemplate
               title={`${selectedRow.length} Row Selected`}
-              actions={actionsHeader('drill-report', 233, userRole(), setShowSupportedDocumentDialog)}
+              actions={actionsHeader('drill-report', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           )
         }
