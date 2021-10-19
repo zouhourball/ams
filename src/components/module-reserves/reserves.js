@@ -17,6 +17,7 @@ import {
   annualResourceData,
   actionsHeader,
 } from './helpers'
+import { userRole } from 'components/shared-hook/get-roles'
 
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -151,7 +152,7 @@ const Reserves = () => {
 
   return (
     <>
-      <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
+      <TopBar title="Reserve Reporting" actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null} />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}

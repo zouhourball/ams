@@ -671,7 +671,7 @@ export const actionsHeader = (key, id) => [
   },
 ]
 
-export const costRecoveryDetailsConfigs = () => [
+export const costRecoveryDetailsConfigs = [
   {
     label: 'Main Category',
     key: 'category',
@@ -714,11 +714,11 @@ export const costRecoveryDetailsConfigs = () => [
     icon: 'mdi mdi-spellcheck',
     type: 'text',
   },
-  {
+  /* {
     label: '218',
     key: 'year',
+    width: '600',
     icon: 'mdi mdi-spellcheck',
-    width: 600,
     type: 'subColumns',
     columns: [
       {
@@ -764,7 +764,7 @@ export const costRecoveryDetailsConfigs = () => [
         ],
       },
     ],
-  },
+  }, */
 ]
 
 export const costRecoveryDetailsData = [

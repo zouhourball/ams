@@ -171,13 +171,13 @@ const Production = () => {
   return (
     <>
       <TopBar
-        title="Cost Recovery Reporting"
-        actions={renderActionsByCurrentTab()}
+        title="Production Reporting"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
-        setActiveTab={tab => {
+        setActiveTab={(tab) => {
           setCurrentTab(tab)
           setSelectFieldValue(tab === 1
             ? 'Monthly Production'

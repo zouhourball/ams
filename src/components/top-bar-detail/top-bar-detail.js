@@ -1,5 +1,7 @@
 import { Button } from 'react-md'
 
+import { userRole } from 'components/shared-hook/get-roles'
+
 import './style.scss'
 
 const TopBarDetail = ({
@@ -40,7 +42,7 @@ const TopBarDetail = ({
           </div>
 
           <div className="top-bar-detail-left-information-details">
-            {companyName && (
+            {companyName && userRole() === 'regulator' && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-key">
                   Company :

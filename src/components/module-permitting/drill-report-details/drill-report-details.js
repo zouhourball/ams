@@ -1,14 +1,13 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 
-import TopBar from 'components/top-bar'
+import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import './style.scss'
 
 const DrillReportDetails = () => {
-  let placeholder = 'Block 15'
-
   const actions = [
     <Button
       key="1"
@@ -31,15 +30,14 @@ const DrillReportDetails = () => {
         navigate(`/ams/permitting/drill-report`)
       }}
     >
-      Edit Details
+      {userRole() === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,
   ]
   return (
     <div className="drill-report-details">
-      <TopBar
-        title={`Permit to Drill / ${placeholder}`}
+      <TopBarDetail
+        onClickBack={() => navigate('/ams/permitting/drill-report')}
         actions={actions}
-        returnTo={() => navigate(`/ams/permitting/drill-report`)}
       />
       <DetailsPermit />
     </div>

@@ -6,6 +6,7 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import { userRole } from 'components/shared-hook/get-roles'
 import MHTDialog from 'components/mht-dialog'
 
 import {
@@ -195,7 +196,7 @@ const CostRecovery = () => {
     <>
       <TopBar
         title="Cost Recovery Reporting"
-        actions={renderActionsByCurrentTab()}
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}

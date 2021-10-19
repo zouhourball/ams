@@ -1,4 +1,3 @@
-
 import store from 'libs/store'
 
 export function userRole () {
@@ -9,7 +8,8 @@ export function userRole () {
     return 'regulator'
   } else {
     // zouhour
-    if (roles?.includes(`target-subscription-store:${orgId}:operator`)) return 'operator'
-    else return ''
+    if (roles?.includes(`target-subscription-store:${orgId}:operator`)) {
+      return 'operator'
+    } else return ''
   }
 }
