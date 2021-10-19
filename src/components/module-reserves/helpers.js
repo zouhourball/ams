@@ -382,3 +382,42 @@ export const annualReservesDetailsConfigs = () => [
     ],
   },
 ]
+
+export const annualReservesDetailsData = [
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+]
