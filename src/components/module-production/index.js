@@ -1,13 +1,19 @@
+import { lazy, Suspense } from 'react'
 import { Router } from '@reach/router'
-import ProductionDetails from 'components/module-production/production-details'
-import Production from './production'
+
+const ProductionDetails = lazy(() =>
+  import('components/module-production/production-details'),
+)
+const Production = lazy(() => import('./production'))
 
 const Permitting = () => {
   return (
-    <Router>
-      <Production path="/" />
-      <ProductionDetails path="/production-details/:productionId" />
-    </Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Router>
+        <Production path="/" />
+        <ProductionDetails path="/production-details/:productionId" />
+      </Router>
+    </Suspense>
   )
 }
 export default Permitting
