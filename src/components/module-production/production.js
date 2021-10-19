@@ -188,7 +188,7 @@ const Production = () => {
           selectedRow?.length !== 0 ? (
             <HeaderTemplate
               title={`1 Row Selected`}
-              actions={actionsHeader('production-details', 21561, userRole(), setShowSupportedDocumentDialog)}
+              actions={actionsHeader('production-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           ) : currentTab !== 0 ? (
             <SelectField
