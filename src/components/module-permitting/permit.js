@@ -22,7 +22,7 @@ const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
-  const [information, setInformation] = useState({})
+  const [information, setInformation] = useState({ date: new Date() })
   const actions =
     currentTab === 0
       ? [
