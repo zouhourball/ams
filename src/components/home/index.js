@@ -52,7 +52,7 @@ const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
             </Router>
           </Suspense>
         </div>
-        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+        <ReactQueryDevtools initialIsOpen={false} position="top-left" />
       </QueryClientProvider>
     </PrimeContext.Provider>
   )
