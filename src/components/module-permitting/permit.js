@@ -113,7 +113,7 @@ const Permit = () => {
               selectedRow?.length !== 0 && (
             <HeaderTemplate
               title={`${selectedRow.length} Row Selected`}
-              actions={actionsHeader('drill-report', 233)}
+              actions={actionsHeader('drill-report', selectedRow[0]?.id)}
             />
           )
         }

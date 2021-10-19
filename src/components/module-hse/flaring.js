@@ -132,12 +132,12 @@ const Flaring = () => {
   const actionsHeader = () => {
     switch (currentTab) {
       case 1:
-        return actionsHeaderMonthly('flaring', 23323, userRole())
+        return actionsHeaderMonthly('flaring', selectedRow[0]?.id, userRole())
       case 2:
-        return actionsHeaderDaily('flaring', 23323, userRole())
+        return actionsHeaderDaily('flaring', selectedRow[0]?.id, userRole())
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
+        return actionsHeaderAnnual('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
     }
   }
   return (
@@ -164,7 +164,7 @@ const Flaring = () => {
             headerTemplate={
               selectedRow?.length !== 0 && (
                 <HeaderTemplate
-                  title={`1 Row Selected`}
+                  title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader()}
                 />
               )

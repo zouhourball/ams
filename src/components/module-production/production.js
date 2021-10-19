@@ -185,7 +185,7 @@ const Production = () => {
           selectedRow?.length !== 0 ? (
             <HeaderTemplate
               title={`1 Row Selected`}
-              actions={actionsHeader('production-details', 21561)}
+              actions={actionsHeader('production-details', selectedRow[0]?.id)}
             />
           ) : currentTab !== 0 ? (
             <SelectField

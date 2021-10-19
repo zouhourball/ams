@@ -203,8 +203,8 @@ const CostRecovery = () => {
         headerTemplate={
               selectedRow?.length !== 0 && (
             <HeaderTemplate
-              title={`1 Row Selected`}
-              actions={actionsHeader('cost-recovery-details', 652652)}
+              title={`${selectedRow?.length} Row Selected`}
+              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id)}
             />
           )
         }
