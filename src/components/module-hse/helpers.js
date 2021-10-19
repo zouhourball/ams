@@ -323,7 +323,7 @@ export const dailyReportData = [
   },
 ]
 
-export const actionsHeaderAnnual = (key, id, role) => {
+export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default :
@@ -384,7 +384,7 @@ export const actionsHeaderAnnual = (key, id, role) => {
             id: 5,
             label: 'Upload Documents',
             onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
+              supportedDocument(true)
             },
           },
         ]

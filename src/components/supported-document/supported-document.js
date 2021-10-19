@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { FontIcon, Button } from 'react-md'
+import { FontIcon, Button, DialogContainer } from 'react-md'
 import Dropzone from 'react-dropzone'
 
 import { uploadFileTus } from 'libs/api/tus-upload'
 
 import './style.scss'
 
-const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoading }) => {
+const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoading, visible, title }) => {
   const [files, setFiles] = useState(oldFiles)
   const [filesToDelete, setFilesToDelete] = useState([])
 
@@ -109,13 +109,43 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
         )
       }))
   }
-
+  const actions = [
+    <Button
+      key={1}
+      flat
+      className="discard-btn"
+      onClick={onDiscard}
+    >
+      Discard
+    </Button>,
+    <Button
+      key={2}
+      flat
+      swapTheming
+      primary
+      className="save-btn"
+      onClick={onSaveUpload(
+        files?.filter(file =>
+          !filesToDelete.map(fileToDelete => fileToDelete)?.includes(file?.id),
+        ),
+        filesToDelete,
+      )}
+    >
+      {isLoading ? <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" /> : 'Upload'}
+    </Button>,
+  ]
   return (
-    <div className="supported-document">
-      <div className="supported-document-header">
-        <h2>Upload Supporting Documents</h2>
-      </div>
-      <div className="supported-document-body">
+    <DialogContainer
+      id="supported-document-dialog"
+      visible={visible}
+      onHide={() => onDiscard && onDiscard()}
+      actions={actions}
+      title={title}
+      className="supported-document-dialog"
+      disableScrollLocking
+      modal
+    >
+      <div className="supported-document">
         <Dropzone
           onDrop={onUpload}
           accept={accept}
@@ -124,7 +154,7 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
         >
 
           {({ getRootProps, getInputProps }) => (
-            <section className="supported-document-body-dropzone">
+            <section className="supported-document-dropzone">
               <div className="input-zone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <FontIcon className="delete-icon">file_upload</FontIcon>
@@ -135,30 +165,7 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
         </Dropzone>
         {renderFiles()}
       </div>
-      <div className="supported-document-footer">
-        <Button
-          flat
-          className="discard-btn"
-          onClick={onDiscard}
-        >
-          Discard
-        </Button>
-        <Button
-          flat
-          swapTheming
-          primary
-          className="save-btn"
-          onClick={onSaveUpload(
-          files?.filter(file =>
-            !filesToDelete.map(fileToDelete => fileToDelete)?.includes(file?.id),
-          ),
-          filesToDelete,
-          )}
-        >
-          {isLoading ? <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" /> : 'Upload'}
-        </Button>
-      </div>
-    </div>
+    </DialogContainer>
   )
 }
 
