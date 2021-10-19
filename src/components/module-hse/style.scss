@@ -6,8 +6,13 @@
 
   &--table-wrapper {
     flex-grow: 1;
+    max-width: 100%;
     margin: 5px;
     border-radius: 8px;
     background: #fff;
+
+    .xeena-table-header {
+      flex-grow: unset;
+    }
   }
 }

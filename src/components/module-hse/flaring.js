@@ -5,12 +5,29 @@ import Mht from '@target-energysolutions/mht'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
+import HeaderTemplate from 'components/header-template'
+
+import { userRole } from 'components/shared-hook/get-roles'
+
+import {
+  annualReportConfigs,
+  annualReportData,
+  monthlyReportConfigs,
+  monthlyReportData,
+  dailyReportData,
+  dailyReportConfigs,
+  actionsHeaderAnnual,
+  actionsHeaderMonthly,
+  actionsHeaderDaily,
+} from './helpers'
 
 import './style.scss'
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [selectedRow, setSelectedRow] = useState([])
+
   const annualReportActionsHelper = [
     {
       title: 'Upload Annual Flaring Report',
@@ -65,14 +82,13 @@ const Flaring = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
-        break
+        return monthlyReportData
       case 2:
-        break
+        return dailyReportData
       case 0:
       default:
-        break
+        return annualReportData
     }
-    return []
   }
   const renderDialogData = () => {
     switch (currentTab) {
@@ -101,29 +117,52 @@ const Flaring = () => {
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
-        break
+        return monthlyReportConfigs()
       case 2:
-        break
+        return dailyReportConfigs()
       case 0:
       default:
-        break
+        return annualReportConfigs()
     }
-    return []
+  }
+
+  const actionsHeader = () => {
+    switch (currentTab) {
+      case 1:
+        return actionsHeaderMonthly('flaring', 23323, userRole())
+      case 2:
+        return actionsHeaderDaily('flaring', 23323, userRole())
+      case 0:
+      default:
+        return actionsHeaderAnnual('flaring', 23323, userRole())
+    }
   }
   return (
     <>
       <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
-      <div className='flaring'>
+      <div className="flaring">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
         />
-        <UploadReportDialog />
-        <div className='flaring--table-wrapper'>
+        <div className="flaring--table-wrapper">
           <Mht
             configs={renderCurrentTabConfigs()}
             tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
+              selectedRow?.length !== 0 && (
+                <HeaderTemplate
+                  title={`1 Row Selected`}
+                  actions={actionsHeader()}
+                />
+              )
+            }
           />
         </div>
         {showUploadRapportDialog && (

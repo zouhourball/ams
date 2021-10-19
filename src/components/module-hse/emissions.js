@@ -2,12 +2,21 @@ import { useState } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
+import {
+  monthlyReportConfigs,
+  monthlyReportData,
+  actionsHeaderMonthly,
+} from './helpers'
+
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+import HeaderTemplate from 'components/header-template'
 import UploadReportDialog from 'components/upload-report-dialog'
+import { userRole } from 'components/shared-hook/get-roles'
 
 const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [selectedRow, setSelectedRow] = useState([])
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
@@ -32,10 +41,6 @@ const Emissions = () => {
   }
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
         return createActionsByCurrentTab(monthlyReportActionsHelper)
       default:
@@ -46,27 +51,24 @@ const Emissions = () => {
   const tabsList = ['Monthly Report']
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
       default:
-        break
+        return monthlyReportData
     }
-    return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
+      default:
+        return monthlyReportConfigs()
+    }
+  }
+
+  const actionsHeader = () => {
+    switch (currentTab) {
       case 0:
       default:
-        break
+        return actionsHeaderMonthly('emissions', 23323, userRole())
     }
-    return []
   }
   return (
     <>
@@ -76,10 +78,25 @@ const Emissions = () => {
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-      />
+      <div className="flaring--table-wrapper">
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0}
+          onSelectRows={setSelectedRow}
+          withChecked
+          selectedRow={selectedRow}
+          headerTemplate={
+            selectedRow?.length !== 0 && (
+              <HeaderTemplate
+                title={`1 Row Selected`}
+                actions={actionsHeader()}
+              />
+            )
+          }
+        />
+      </div>
       {showUploadRapportDialog && (
         <UploadReportDialog
           title={'Upload Monthly Emissions Report'}

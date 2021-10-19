@@ -180,7 +180,7 @@ export default class AppShellWrapper extends Component {
             modules={{
               extraApps: [
                 {
-                  key: 'ams',
+                  key: 'new-ams',
                   name: 'ams',
                   onClick: () => null,
                   icon: (
@@ -223,7 +223,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'reserves',
+                      key: 'new-reserves',
                       name: 'Reserves',
                       onClick: () => navigate('/ams/reserves'),
                       icon: (
@@ -250,7 +250,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'hse',
+                      key: 'new-hse',
                       name: 'HSE',
                       onClick: () => navigate('/ams/hse'),
                       icon: (
@@ -281,7 +281,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'cost-recovery',
+                      key: 'new-cost-recovery',
                       name: 'Cost Recovery',
                       onClick: () => navigate('/ams/costrecovery'),
                       icon: (

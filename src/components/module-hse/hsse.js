@@ -4,10 +4,16 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
+
+import HeaderTemplate from 'components/header-template'
 import UploadReportDialog from 'components/upload-report-dialog'
+import { userRole } from 'components/shared-hook/get-roles'
+
+import { monthlyReportConfigs, monthlyReportData, actionsHeaderMonthly } from './helpers'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [selectedRow, setSelectedRow] = useState([])
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
@@ -55,21 +61,23 @@ const HSSE = () => {
         break
       case 0:
       default:
-        break
+        return monthlyReportData
     }
     return []
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 1:
-        break
-      case 2:
-        break
       case 0:
       default:
-        break
+        return monthlyReportConfigs()
     }
-    return []
+  }
+  const actionsHeader = () => {
+    switch (currentTab) {
+      case 0:
+      default:
+        return actionsHeaderMonthly('hsse', 23323, userRole())
+    }
   }
   return (
     <>
@@ -82,6 +90,16 @@ const HSSE = () => {
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length !== 0 && (
+            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader()} />
+          )
+        }
       />
       {showUploadRapportDialog && (
         <UploadReportDialog
