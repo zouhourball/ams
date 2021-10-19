@@ -67,6 +67,8 @@ const FlaringDetails = () => {
         tableData={flaringDetailsData}
         withSearch
         commonActions
+        hideTotal={false}
+        withFooter
       />
     </div>
   )

@@ -105,6 +105,8 @@ const Permit = () => {
         setActiveTab={setCurrentTab}
       />
       <Mht
+        hideTotal={false}
+        withFooter
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         withSearch={selectedRow?.length === 0}

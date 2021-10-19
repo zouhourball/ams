@@ -6,6 +6,7 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import MHTDialog from 'components/mht-dialog'
 
 import {
   annualReservesConfigs,
@@ -22,6 +23,9 @@ const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [filesList, setFileList] = useState([])
 
   const annualReservesReportingActionsHelper = [
     {
@@ -139,6 +143,13 @@ const Reserves = () => {
         break
     }
   }
+
+  const onDisplayMHT = (file) => {
+    setShowUploadMHTDialog(true)
+    setShowUploadRapportDialog(false)
+    setDataDisplayedMHT(file)
+  }
+
   return (
     <>
       <TopBar title="Reserve Reporting" actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null} />
@@ -148,6 +159,8 @@ const Reserves = () => {
         setActiveTab={setCurrentTab}
       />
        <Mht
+         hideTotal={false}
+         withFooter
          configs={renderCurrentTabConfigs()}
          tableData={renderCurrentTabData()}
          withSearch={selectedRow?.length === 0}
@@ -164,13 +177,34 @@ const Reserves = () => {
            )
          }
        />
+             {showUploadMHTDialog &&
+        <MHTDialog
+          visible={showUploadMHTDialog}
+          onHide={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+          }
+          }
+          onSave ={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setFileList([...filesList, dataDisplayedMHT])
+          }}
+        />}
+
       {showUploadRapportDialog && (
         <UploadReportDialog
+          setFileList={setFileList}
+          filesList={filesList}
+          onDisplayMHT={onDisplayMHT}
           hideDate
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
+          onHide={() => {
+            setShowUploadRapportDialog(false)
+            setFileList([])
+          }}
           onSave={() => renderDialogData().onClick()}
         />
       )}
