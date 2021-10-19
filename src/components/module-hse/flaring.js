@@ -6,6 +6,7 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import SupportedDocument from 'components/supported-document'
 
 import { userRole } from 'components/shared-hook/get-roles'
 
@@ -22,7 +23,6 @@ import {
 } from './helpers'
 
 import './style.scss'
-import SupportedDocument from 'components/supported-document'
 
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -132,9 +132,9 @@ const Flaring = () => {
   const actionsHeader = () => {
     switch (currentTab) {
       case 1:
-        return actionsHeaderMonthly('flaring', 23323, userRole())
+        return actionsHeaderMonthly('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
       case 2:
-        return actionsHeaderDaily('flaring', 23323, userRole())
+        return actionsHeaderDaily('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
       case 0:
       default:
         return actionsHeaderAnnual('flaring', 23323, userRole(), setShowSupportedDocumentDialog)
