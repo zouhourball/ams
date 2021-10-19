@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 
 import { Router, Redirect } from '@reach/router'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -7,17 +7,18 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { PrimeContext } from 'components/app/context'
 
 import './style.scss'
-import Production from 'components/module-production'
-import Reserves from 'components/module-reserves'
-import HSE from 'components/module-hse'
-import CostRecovery from 'components/module-cost-recovery'
-import Planning from 'components/module-planning'
-import Permitting from 'components/module-permitting'
-import Downstream from 'components/module-downstream'
-import Inventory from 'components/module-inventory'
-import Tendering from 'components/module-tendering'
-import Agreement from 'components/module-agreements'
-import Audit from 'components/module-audit'
+
+const Permitting = lazy(() => import('components/module-permitting'))
+const Audit = lazy(() => import('components/module-audit'))
+const Agreement = lazy(() => import('components/module-agreements'))
+const Tendering = lazy(() => import('components/module-tendering'))
+const Inventory = lazy(() => import('components/module-inventory'))
+const Downstream = lazy(() => import('components/module-downstream'))
+const Planning = lazy(() => import('components/module-planning'))
+const CostRecovery = lazy(() => import('components/module-cost-recovery'))
+const HSE = lazy(() => import('components/module-hse'))
+const Reserves = lazy(() => import('components/module-reserves'))
+const Production = lazy(() => import('components/module-production'))
 
 const queryClient = new QueryClient()
 

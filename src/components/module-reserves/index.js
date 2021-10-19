@@ -1,13 +1,19 @@
+import { lazy, Suspense } from 'react'
 import { Router } from '@reach/router'
-import ReservesDetails from 'components/module-reserves/reserves-details'
-import Reserves from './reserves'
+
+const Reserves = lazy(() => import('./reserves'))
+const ReservesDetails = lazy(() =>
+  import('components/module-reserves/reserves-details'),
+)
 
 const Permitting = () => {
   return (
-    <Router>
-      <Reserves path="/" />
-      <ReservesDetails path="/reserves-details/:reserveId" />
-    </Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Router>
+        <Reserves path="/" />
+        <ReservesDetails path="/reserves-details/:reserveId" />
+      </Router>
+    </Suspense>
   )
 }
 export default Permitting
