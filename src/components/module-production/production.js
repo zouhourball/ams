@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button } from 'react-md'
+import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
@@ -23,6 +23,9 @@ const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  const [selectFieldValue, setSelectFieldValue] = useState(
+    'Monthly Production'
+  )
 
   const DailyProductionActionsHelper = [
     {
@@ -161,25 +164,50 @@ const Production = () => {
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
-        setActiveTab={setCurrentTab}
+        setActiveTab={tab => {
+          setCurrentTab(tab)
+          setSelectFieldValue(tab === 1
+            ? 'Monthly Production'
+            : tab === 2
+              ? 'Destination'
+              : 'Grid 1',)
+        }}
       />
-        <Mht
-          configs={renderCurrentTabConfigs()}
-          tableData={renderCurrentTabData()}
-          withSearch={selectedRow?.length === 0}
-          commonActions={selectedRow?.length === 0}
-          onSelectRows={setSelectedRow}
-          withChecked
-          selectedRow={selectedRow}
-          headerTemplate={
-              selectedRow?.length !== 0 && (
-              <HeaderTemplate
-                title={`1 Row Selected`}
-                actions={actionsHeader('production-details', 21561)}
-              />
-            )
-          }
-        />
+      <Mht
+        configs={renderCurrentTabConfigs()}
+        tableData={renderCurrentTabData()}
+        withSearch={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0}
+        onSelectRows={setSelectedRow}
+        withChecked
+        selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length !== 0 ? (
+            <HeaderTemplate
+              title={`1 Row Selected`}
+              actions={actionsHeader('production-details', 21561)}
+            />
+          ) : currentTab !== 0 ? (
+            <SelectField
+              id="monthly-prod"
+              menuItems={
+                currentTab === 1
+                  ? ['Monthly Production', 'Monthly Well Counts']
+                  : currentTab === 2
+                    ? ['Destination', 'Average Delivery to ORPIC']
+                    : ['Grid 1', 'Grid 2']
+              }
+              block
+              position={SelectField.Positions.BELOW}
+              value={selectFieldValue}
+              onChange={setSelectFieldValue}
+              simplifiedMenu={false}
+            />
+          ) : (
+            ''
+          )
+        }
+      />
       {showUploadRapportDialog && (
         <UploadReportDialog
           title={renderDialogData().title}
