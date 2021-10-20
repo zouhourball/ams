@@ -209,14 +209,14 @@ const CostRecovery = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
         onSelectRows={setSelectedRow}
         withChecked
         hideTotal={false}
         withFooter
         selectedRow={selectedRow}
         headerTemplate={
-              selectedRow?.length !== 0 && (
+              selectedRow?.length === 1 && (
             <HeaderTemplate
               title={`${selectedRow?.length} Row Selected`}
               actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
