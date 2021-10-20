@@ -419,7 +419,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'tendering',
+                      key: 'new-tendering',
                       name: 'Tendering',
                       onClick: () => navigate('/ams/tendering'),
                       icon: (
