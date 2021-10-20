@@ -433,11 +433,11 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
-      return ([
+      return [
         {
           id: 1,
           label: 'Download Original File',
-          onClick: () => { },
+          onClick: () => {},
         },
         {
           id: 2,
@@ -448,39 +448,37 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
         },
         {
           id: 3,
+          label: 'View Documents',
+          onClick: () => {},
+        },
+      ]
+    case 'operator':
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/production/${key}/${id}`)
+          },
+        },
+        {
+          id: 4,
           label: 'Upload Documents',
           onClick: () => {
             supportedDocument(true)
           },
         },
-      ])
-    case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => { },
-          },
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => { },
-          },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/production/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-            },
-          },
-        ])
+      ]
   }
 }
 
@@ -502,7 +500,6 @@ export const dailyProductionDetailsConfigs = () => [
         subKey: 'uom',
         icon: 'mdi mdi-spellcheck',
         width: 200,
-
       },
     ],
   },

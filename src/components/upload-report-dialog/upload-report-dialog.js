@@ -245,5 +245,4 @@ export default UploadReportDialog
 UploadReportDialog.defaultProps = {
   title: 'Upload Monthly HSSE Report',
   blockList: [],
-  optional: 'Attach Support (optional)',
 }

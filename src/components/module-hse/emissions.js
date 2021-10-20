@@ -20,7 +20,7 @@ const Emissions = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly Emissions Report', onClick: () => {} },
+    { title: 'Upload Monthly Emissions Report', onClick: () => setShowUploadRapportDialog(true) },
     { title: 'Download Template', onClick: () => {} },
   ]
 
