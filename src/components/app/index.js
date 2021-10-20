@@ -121,6 +121,7 @@ export default class AppShellWrapper extends Component {
         onClick: () => navigate('/talent/accounts'),
       },
       {
+        key: 'signout',
         primaryText: t('signout'),
         primaryTextStyle: { color: '#f44336' },
         onClick: this.signOut,
