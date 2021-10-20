@@ -7,6 +7,7 @@ import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import {
   annualReservesConfigs,
@@ -22,6 +23,7 @@ import { userRole } from 'components/shared-hook/get-roles'
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
@@ -172,7 +174,7 @@ const Reserves = () => {
               selectedRow?.length !== 0 && (
              <HeaderTemplate
                title={`${selectedRow.length} Row Selected`}
-               actions={actionsHeader('reserves-details', selectedRow[0]?.id)}
+               actions={actionsHeader('reserves-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
              />
            )
          }
@@ -206,6 +208,14 @@ const Reserves = () => {
             setFileList([])
           }}
           onSave={() => renderDialogData().onClick()}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>
