@@ -7,7 +7,7 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
-import SupportedDocument from 'components/supported-document'
+// import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
 
 import {
@@ -20,10 +20,12 @@ import {
   actionsHeader,
 } from './helpers'
 
+import './style.scss'
+
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const actions =
@@ -97,32 +99,36 @@ const Permit = () => {
     }
   }
   return (
-    <div className="module-container">
+    <>
       <TopBar title="Permitting" actions={actions} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-      <Mht
-        hideTotal={false}
-        withFooter
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
-        onSelectRows={setSelectedRow}
-        withChecked
-        selectedRow={selectedRow}
-        headerTemplate={
-              selectedRow?.length !== 0 && (
-            <HeaderTemplate
-              title={`${selectedRow.length} Row Selected`}
-              actions={actionsHeader('drill-report', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
-            />
-          )
-        }
-      />
+      <div className="Permitting">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
+        />
+        <div className="Permitting--table-wrapper">
+          <Mht
+            hideTotal={false}
+            withFooter
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
+              selectedRow?.length === 1 && (
+                <HeaderTemplate
+                  title={`${selectedRow.length} Row Selected`}
+                  actions={actionsHeader('drill-report', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                />
+              )
+            }
+          />
+        </div>
+      </div>
       {showPermitDialog && (
         <UploadPermitDialog
           visible={showPermitDialog}
@@ -134,15 +140,7 @@ const Permit = () => {
           onContinue={() => navigate(`/ams/permitting/drill-report`)}
         />
       )}
-      {showSupportedDocumentDialog && (
-        <SupportedDocument
-          title={'upload supporting documents'}
-          visible={showSupportedDocumentDialog}
-          onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
-        />
-      )}
-    </div>
+    </>
   )
 }
 export default Permit

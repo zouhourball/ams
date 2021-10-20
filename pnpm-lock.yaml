@@ -6305,7 +6305,6 @@ packages:
       file-uri-to-path: 1.0.0
     dev: true
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   /blob/0.0.5:
@@ -6900,7 +6899,6 @@ packages:
     optional: true
     optionalDependencies:
       fsevents: 2.3.2
-    requiresBuild: true
     resolution:
       integrity: sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==
   /chownr/1.1.4:
@@ -9439,7 +9437,6 @@ packages:
   /file-uri-to-path/1.0.0:
     dev: true
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
   /filesize/3.6.1:
@@ -9757,7 +9754,6 @@ packages:
     optional: true
     os:
       - darwin
-    requiresBuild: true
     resolution:
       integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
   /fstream/1.0.12:
@@ -10704,7 +10700,6 @@ packages:
       node: '>=0.10.0'
     hasBin: true
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w=
   /immer/1.10.0:
@@ -13280,7 +13275,6 @@ packages:
   /native-request/1.0.8:
     dev: false
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-vU2JojJVelUGp6jRcLwToPoWGxSx23z/0iX+I77J3Ht17rf2INGjrhOoQnjVo60nQd8wVsgzKkPfRXBiVdD2ag==
   /natural-compare/1.4.0:
@@ -13421,7 +13415,6 @@ packages:
       which: 2.0.2
     dev: true
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==
   /node-releases/1.1.73:
@@ -19625,7 +19618,6 @@ packages:
       chokidar: 2.1.8
     dev: true
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==
   /watchpack/1.7.5:
@@ -19861,7 +19853,6 @@ packages:
     engines:
       node: '>=4.0.0'
     optional: true
-    requiresBuild: true
     resolution:
       integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==
   /whatwg-encoding/1.0.5:
