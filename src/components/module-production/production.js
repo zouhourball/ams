@@ -192,14 +192,14 @@ const Production = () => {
         hideTotal={false}
         withFooter
         withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
         onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
         headerTemplate={
-          selectedRow?.length !== 0 ? (
+          selectedRow?.length === 1 ? (
             <HeaderTemplate
-              title={`1 Row Selected`}
+              title={ selectedRow?.length === 1 ? `1 Row Selected` : `${selectedRow?.length} Rows selected`}
               actions={actionsHeader('production-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           ) : currentTab !== 0 ? (
