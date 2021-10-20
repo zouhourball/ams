@@ -21,6 +21,7 @@ import meQuery from 'libs/queries/me-query.gql'
 import { extractUserInfos } from 'utils/extract-user-infos'
 import * as act from 'modules/app/actions'
 import { validURL } from 'libs/utils/custom-function'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import './styles.scss'
 
@@ -126,6 +127,28 @@ export default class AppShellWrapper extends Component {
         onClick: this.signOut,
       },
     ]
+    const attrBasedOnRole =
+      userRole() === 'operator'
+        ? {
+          subModules: [
+            {
+              key: 'flaring',
+              name: 'Flaring',
+              onClick: () => navigate('/ams/hse/flaring'),
+            },
+            {
+              key: 'hsse',
+              name: 'HSSE',
+              onClick: () => navigate('/ams/hse/hsse'),
+            },
+            {
+              key: 'emissions',
+              name: 'Emissions',
+              onClick: () => navigate('/ams/hse/emissions'),
+            },
+          ],
+        }
+        : { onClick: () => navigate('/ams/hse') }
 
     return (
       <IntlContext.Provider value={lang}>
@@ -252,7 +275,6 @@ export default class AppShellWrapper extends Component {
                     {
                       key: 'new-hse',
                       name: 'HSE',
-                      onClick: () => navigate('/ams/hse'),
                       icon: (
                         <SVGIcon viewBox={'0 0 16 19'}>
                           <g
@@ -279,6 +301,8 @@ export default class AppShellWrapper extends Component {
                           </g>
                         </SVGIcon>
                       ),
+                      ...attrBasedOnRole,
+                      // onClick: () => navigate('/ams/hse/'),
                     },
                     {
                       key: 'new-cost-recovery',
