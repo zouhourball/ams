@@ -641,35 +641,65 @@ export const facilitiesData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id) => [
-  {
-    id: 1,
-    label: 'Delete',
-    onClick: () => {},
-  },
-  {
-    id: 2,
-    label: 'Download Annual Plan',
-    onClick: () => {},
-  },
-  {
-    id: 3,
-    label: 'Download Original File',
-    onClick: () => {},
-  },
-  {
-    id: 4,
-    label: 'View Details',
-    onClick: () => {
-      key && id && navigate(`/ams/costrecovery/${key}/${id}`)
-    },
-  },
-  {
-    id: 5,
-    label: 'Upload Documents',
-    onClick: () => {},
-  },
-]
+export const actionsHeader = (key, id, role, supportedDocument) => {
+  switch (role) {
+    case 'regulator':
+    default:
+      return (
+        [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => { },
+          },
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => { },
+          },
+        ]
+      )
+    case 'operator':
+      return (
+        [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => { },
+          },
+          {
+            id: 2,
+            label: 'Delete',
+            onClick: () => { },
+          },
+          {
+            id: 3,
+            label: 'Update',
+            onClick: () => { },
+          },
+          {
+            id: 4,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            },
+          },
+          {
+            id: 5,
+            label: 'Upload Documents',
+            onClick: () => { supportedDocument(true) },
+          },
+        ]
+      )
+  }
+}
 
 export const costRecoveryDetailsConfigs = [
   {

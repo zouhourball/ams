@@ -8,6 +8,7 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import { userRole } from 'components/shared-hook/get-roles'
 import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import {
   annualCostConfigs,
@@ -28,6 +29,7 @@ import {
 const CostRecovery = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
@@ -217,7 +219,7 @@ const CostRecovery = () => {
               selectedRow?.length !== 0 && (
             <HeaderTemplate
               title={`${selectedRow?.length} Row Selected`}
-              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id)}
+              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           )
         }
@@ -249,6 +251,14 @@ const CostRecovery = () => {
             setFileList([])
           }}
           onSave={() => renderDialogData().onClick()}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>
