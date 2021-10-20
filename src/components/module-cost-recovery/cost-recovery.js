@@ -6,6 +6,8 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import SupportedDocument from 'components/supported-document'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import {
   annualCostConfigs,
@@ -26,6 +28,7 @@ import {
 const CostRecovery = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualCostAndExpenditureActionsHelper = [
@@ -204,7 +207,7 @@ const CostRecovery = () => {
               selectedRow?.length !== 0 && (
             <HeaderTemplate
               title={`${selectedRow?.length} Row Selected`}
-              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id)}
+              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           )
         }
@@ -216,6 +219,14 @@ const CostRecovery = () => {
           visible={showUploadRapportDialog}
           onHide={() => setShowUploadRapportDialog(false)}
           onSave={() => renderDialogData().onClick()}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>
