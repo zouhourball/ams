@@ -6,6 +6,8 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import { userRole } from 'components/shared-hook/get-roles'
 
@@ -26,6 +28,10 @@ import './style.scss'
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [filesList, setFileList] = useState([])
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
@@ -107,10 +113,8 @@ const Flaring = () => {
       case 0:
         return {
           title: 'Upload Annual Flaring Report',
-          optional: `Annual Gas Conservation Plan (${
-            userRole() === 'operator' ? 'Mandatory' : 'Optional'
-          })`,
-          required: userRole() === 'operator',
+          optional: `Annual Gas Conservation Plan (Mandatory)`,
+          required: true,
           onClick: () => {},
         }
       default:
@@ -132,17 +136,27 @@ const Flaring = () => {
   const actionsHeader = () => {
     switch (currentTab) {
       case 1:
-        return actionsHeaderMonthly('flaring', 23323, userRole())
+        return actionsHeaderMonthly('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
       case 2:
-        return actionsHeaderDaily('flaring', 23323, userRole())
+        return actionsHeaderDaily('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', 23323, userRole())
+        return actionsHeaderAnnual('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
     }
   }
+
+  const onDisplayMHT = (file) => {
+    setShowUploadMHTDialog(true)
+    setShowUploadRapportDialog(false)
+    setDataDisplayedMHT(file)
+  }
+
   return (
     <>
-      <TopBar title="Flaring" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Flaring"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
+      />
       <div className="flaring">
         <NavBar
           tabsList={tabsList}
@@ -153,29 +167,64 @@ const Flaring = () => {
           <Mht
             configs={renderCurrentTabConfigs()}
             tableData={renderCurrentTabData()}
+            hideTotal={false}
+            withFooter
             withSearch={selectedRow?.length === 0}
-            commonActions={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
             onSelectRows={setSelectedRow}
             withChecked
             selectedRow={selectedRow}
             headerTemplate={
-              selectedRow?.length !== 0 && (
+              selectedRow?.length === 1 && (
                 <HeaderTemplate
-                  title={`1 Row Selected`}
+                  title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader()}
                 />
               )
             }
           />
         </div>
+
+        {showUploadMHTDialog &&
+        <MHTDialog
+          visible={showUploadMHTDialog}
+          onHide={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+          }
+          }
+          onSave ={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setFileList([...filesList, dataDisplayedMHT])
+          }}
+        />}
+
         {showUploadRapportDialog && (
           <UploadReportDialog
+            setFileList={setFileList}
+            filesList={filesList}
+            onDisplayMHT={onDisplayMHT}
             title={renderDialogData().title}
             optional={renderDialogData().optional}
             required={renderDialogData().required}
             visible={showUploadRapportDialog}
-            onHide={() => setShowUploadRapportDialog(false)}
-            onSave={() => renderDialogData().onClick()}
+            onHide={() => {
+              setShowUploadRapportDialog(false)
+              setFileList([])
+            }}
+            onSave={() => {
+              renderDialogData().onClick()
+              setFileList([])
+            }}
+          />
+        )}
+        {showSupportedDocumentDialog && (
+          <SupportedDocument
+            title={'upload supported documents'}
+            visible={showSupportedDocumentDialog}
+            onDiscard={() => setShowSupportedDocumentDialog(false)}
+            onSaveUpload={() => {}}
           />
         )}
       </div>

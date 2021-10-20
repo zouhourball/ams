@@ -324,35 +324,57 @@ export const annualResourceData = [
   },
 ]
 
-export const actionsHeader = (key, id) => [
-  {
-    id: 1,
-    label: 'Delete',
-    onClick: () => {},
-  },
-  {
-    id: 2,
-    label: 'Download Annual Plan',
-    onClick: () => {},
-  },
-  {
-    id: 3,
-    label: 'Download Original File',
-    onClick: () => {},
-  },
-  {
-    id: 4,
-    label: 'View Details',
-    onClick: () => {
-      key && id && navigate(`/ams/reserves/${key}/${id}`)
-    },
-  },
-  {
-    id: 5,
-    label: 'Upload Documents',
-    onClick: () => {},
-  },
-]
+export const actionsHeader = (key, id, role, supportedDocument) => {
+  switch (role) {
+    case 'regulator':
+    default:
+      return ([
+        {
+          id: 1,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/reserves/${key}/${id}`)
+          },
+        },
+        {
+          id: 3,
+          label: 'Upload Documents',
+          onClick: () => { supportedDocument(true) },
+        },
+      ])
+    case 'operator':
+      return (
+        [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {},
+          },
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/reserves/${key}/${id}`)
+            },
+          },
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => { supportedDocument(true) },
+          },
+        ])
+  }
+}
 
 export const annualReservesDetailsConfigs = () => [
   {
@@ -380,5 +402,44 @@ export const annualReservesDetailsConfigs = () => [
       { label: 'Condensate (MMstb)', subKey: 'condensate', width: 200 },
       { label: 'Gas (Tscf)', subKey: 'gaz', width: 200 },
     ],
+  },
+]
+
+export const annualReservesDetailsData = [
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
+  },
+  {
+    id: '2656552',
+    category: 'BLOCK SUMMARY',
+    items: 'P50 In Place Volume (HCIIP)',
+    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
   },
 ]

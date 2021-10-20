@@ -6,6 +6,8 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import {
   annualReservesConfigs,
@@ -16,11 +18,16 @@ import {
   annualResourceData,
   actionsHeader,
 } from './helpers'
+import { userRole } from 'components/shared-hook/get-roles'
 
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [filesList, setFileList] = useState([])
 
   const annualReservesReportingActionsHelper = [
     {
@@ -138,39 +145,77 @@ const Reserves = () => {
         break
     }
   }
+
+  const onDisplayMHT = (file) => {
+    setShowUploadMHTDialog(true)
+    setShowUploadRapportDialog(false)
+    setDataDisplayedMHT(file)
+  }
+
   return (
     <>
-      <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
+      <TopBar title="Reserve Reporting" actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null} />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
       />
        <Mht
+         hideTotal={false}
+         withFooter
          configs={renderCurrentTabConfigs()}
          tableData={renderCurrentTabData()}
          withSearch={selectedRow?.length === 0}
-         commonActions={selectedRow?.length === 0}
+         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
          onSelectRows={setSelectedRow}
          withChecked
          selectedRow={selectedRow}
          headerTemplate={
-              selectedRow?.length !== 0 && (
+              selectedRow?.length === 1 && (
              <HeaderTemplate
                title={`${selectedRow.length} Row Selected`}
-               actions={actionsHeader('reserves-details', 215174)}
+               actions={actionsHeader('reserves-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
              />
            )
          }
        />
+             {showUploadMHTDialog &&
+        <MHTDialog
+          visible={showUploadMHTDialog}
+          onHide={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+          }
+          }
+          onSave ={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setFileList([...filesList, dataDisplayedMHT])
+          }}
+        />}
+
       {showUploadRapportDialog && (
         <UploadReportDialog
+          setFileList={setFileList}
+          filesList={filesList}
+          onDisplayMHT={onDisplayMHT}
           hideDate
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
+          onHide={() => {
+            setShowUploadRapportDialog(false)
+            setFileList([])
+          }}
           onSave={() => renderDialogData().onClick()}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>

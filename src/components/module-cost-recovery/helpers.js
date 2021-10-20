@@ -641,32 +641,217 @@ export const facilitiesData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id) => [
+export const actionsHeader = (key, id, role, supportedDocument) => {
+  switch (role) {
+    case 'regulator':
+    default:
+      return (
+        [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => { },
+          },
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => { },
+          },
+        ]
+      )
+    case 'operator':
+      return (
+        [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => { },
+          },
+          {
+            id: 2,
+            label: 'Delete',
+            onClick: () => { },
+          },
+          {
+            id: 3,
+            label: 'Update',
+            onClick: () => { },
+          },
+          {
+            id: 4,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            },
+          },
+          {
+            id: 5,
+            label: 'Upload Documents',
+            onClick: () => { supportedDocument(true) },
+          },
+        ]
+      )
+  }
+}
+
+export const costRecoveryDetailsConfigs = [
   {
-    id: 1,
-    label: 'Delete',
-    onClick: () => {},
+    label: 'Main Category',
+    key: 'category',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
   },
   {
-    id: 2,
-    label: 'Download Annual Plan',
-    onClick: () => {},
+    label: 'Sub Category',
+    key: 'subCategory',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
   },
   {
-    id: 3,
-    label: 'Download Original File',
-    onClick: () => {},
+    label: 'Group',
+    key: 'group',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
   },
   {
-    id: 4,
-    label: 'View Details',
-    onClick: () => {
-      key && id && navigate(`/ams/costrecovery/${key}/${id}`)
-    },
+    label: 'Item',
+    key: 'item',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
   },
   {
-    id: 5,
-    label: 'Upload Documents',
-    onClick: () => {},
+    label: 'UOM',
+    key: 'uom',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Cost Description',
+    key: 'costDescription',
+    width: '400',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  /* {
+    label: '218',
+    key: 'year',
+    width: '600',
+    icon: 'mdi mdi-spellcheck',
+    type: 'subColumns',
+    columns: [
+      {
+        label: 'Approved',
+        subKey: 'approved',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+        subColumns: [
+          {
+            label: 'Plan',
+            subKeyS: 'plan',
+            width: 200,
+            icon: 'mdi mdi-pound-box',
+          },
+        ],
+      },
+      {
+        label: 'Outlook',
+        subKey: 'outlook',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+        subColumns: [
+          {
+            label: 'Outlook',
+            subKeyS: 'outlook',
+            width: 200,
+            icon: 'mdi mdi-pound-box',
+          },
+        ],
+      },
+      {
+        label: 'YTD',
+        subKey: 'ytd',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+        subColumns: [
+          {
+            label: 'Actual',
+            subKeyS: 'actual',
+            width: 200,
+            icon: 'mdi mdi-pound-box',
+          },
+        ],
+      },
+    ],
+  }, */
+]
+
+export const costRecoveryDetailsData = [
+  {
+    id: 'dddj2333',
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
+  {
+    id: 'dddj2333',
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
+  {
+    id: 'dddj2333',
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
+  },
+  {
+    id: 'dddj2333',
+    category: 'CAPITAL COSTS',
+    subCategory: 'GEOLOGICAL & GEOPHYSICAL',
+    group: 'GEOLOGICAL (SURFACE)',
+    item: 'Item 1',
+    uom: '$USD',
+    costDescription: 'List all surface studies & activities...',
+    year: [
+      { approved: [{ plan: 'test' }] },
+      { outlook: [{ outlook: 'test' }] },
+      { ytd: [{ actual: 'test' }] },
+    ],
   },
 ]

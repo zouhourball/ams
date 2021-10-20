@@ -6,6 +6,9 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
+import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
+import { userRole } from 'components/shared-hook/get-roles'
 
 import {
   dailyProductionConfigs,
@@ -22,7 +25,11 @@ import {
 const Production = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState(
     'Monthly Production'
   )
@@ -32,7 +39,7 @@ const Production = () => {
       title: 'Upload Daily Production Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Template', onClick: () => { } },
   ]
 
   const monthlyProductionActionsHelper = [
@@ -40,7 +47,7 @@ const Production = () => {
       title: 'Upload Monthly Production Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Template', onClick: () => { } },
   ]
 
   const monthlyTrackingActionsHelper = [
@@ -48,7 +55,7 @@ const Production = () => {
       title: 'Upload Monthly Tracking Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Template', onClick: () => { } },
   ]
 
   const omanHydrocarbonActionsHelper = [
@@ -56,7 +63,7 @@ const Production = () => {
       title: 'Upload Oman Hydrocarbon Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Template', onClick: () => { } },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -131,61 +138,69 @@ const Production = () => {
         return {
           title: 'Upload Daily Production Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onClick: () => { },
         }
       case 1:
         return {
           title: 'Upload Monthly Production Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onClick: () => { },
         }
       case 2:
         return {
           title: 'Upload Monthly Tracking Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onClick: () => { },
         }
       case 3:
         return {
           title: 'Upload Oman Hydrocarbon Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onClick: () => { },
         }
       default:
         break
     }
   }
+
+  const onDisplayMHT = (file) => {
+    setShowUploadMHTDialog(true)
+    setShowUploadRapportDialog(false)
+    setDataDisplayedMHT(file)
+  }
   return (
     <>
       <TopBar
-        title="Cost Recovery Reporting"
-        actions={renderActionsByCurrentTab()}
+        title="Production Reporting"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
-        setActiveTab={tab => {
+        setActiveTab={(tab) => {
           setCurrentTab(tab)
           setSelectFieldValue(tab === 1
             ? 'Monthly Production'
             : tab === 2
               ? 'Destination'
-              : 'Grid 1',)
+              : 'Grid 1')
         }}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
+        hideTotal={false}
+        withFooter
         withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
+        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
         onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
         headerTemplate={
-          selectedRow?.length !== 0 ? (
+          selectedRow?.length === 1 ? (
             <HeaderTemplate
-              title={`1 Row Selected`}
-              actions={actionsHeader('production-details', 21561)}
+              title={ selectedRow?.length === 1 ? `1 Row Selected` : `${selectedRow?.length} Rows selected`}
+              actions={actionsHeader('production-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
             />
           ) : currentTab !== 0 ? (
             <SelectField
@@ -208,13 +223,42 @@ const Production = () => {
           )
         }
       />
+              {showUploadMHTDialog &&
+        <MHTDialog
+          visible={showUploadMHTDialog}
+          onHide={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+          }
+          }
+          onSave ={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setFileList([...filesList, dataDisplayedMHT])
+          }}
+        />}
       {showUploadRapportDialog && (
         <UploadReportDialog
+          setFileList={setFileList}
+          filesList={filesList}
+          onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
+          onHide={() => {
+            setShowUploadRapportDialog(false)
+            setFileList([])
+          }}
           onSave={() => renderDialogData().onClick()}
+        />
+      )}
+
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>

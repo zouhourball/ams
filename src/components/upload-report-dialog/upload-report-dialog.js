@@ -27,8 +27,11 @@ const UploadReportDialog = ({
   optional,
   required,
   hideDate,
+  onDisplayMHT,
+  setFileList,
+  filesList,
 }) => {
-  const [files, setFile] = useState([])
+  const [files, setFile] = useState(filesList || [])
   const [fileLoader, setFileLoader] = useState(false)
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
@@ -40,7 +43,8 @@ const UploadReportDialog = ({
   const onUpload = (file) => {
     setFileLoader(true)
     fileManagerUpload(file).then((res) => {
-      setFile([...files, ...res.files])
+      onDisplayMHT ? onDisplayMHT(...res.files)
+        : setFile([...files, ...res.files])
       setFileLoader(false)
     })
   }
@@ -183,6 +187,7 @@ const UploadReportDialog = ({
               className="actionButton"
               onClick={() => {
                 setFile(files.filter((el) => el?.id !== file.id))
+                onDisplayMHT && setFileList(files.filter((el) => el?.id !== file.id))
               }}
             >
               delete_outline

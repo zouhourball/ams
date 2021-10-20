@@ -67,7 +67,7 @@ const Emissions = () => {
     switch (currentTab) {
       case 0:
       default:
-        return actionsHeaderMonthly('emissions', 23323, userRole())
+        return actionsHeaderMonthly('emissions', selectedRow[0]?.id, userRole())
     }
   }
   return (
@@ -86,6 +86,8 @@ const Emissions = () => {
           commonActions={selectedRow?.length === 0}
           onSelectRows={setSelectedRow}
           withChecked
+          hideTotal={false}
+          withFooter
           selectedRow={selectedRow}
           headerTemplate={
             selectedRow?.length !== 0 && (
