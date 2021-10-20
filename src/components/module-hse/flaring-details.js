@@ -40,8 +40,21 @@ const FlaringDetails = () => {
       swapTheming
       onClick={() => {}}
     >
-      {userRole() === 'operator' ? 'Download Original File' : 'Acknowledge'}
+      Download Original File
     </Button>,
+    userRole() === 'regulator' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-detail-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {}}
+      >
+        Acknowledge
+      </Button>
+    ),
   ]
   return (
     <div className="details-container">
@@ -54,6 +67,8 @@ const FlaringDetails = () => {
         tableData={flaringDetailsData}
         withSearch
         commonActions
+        hideTotal={false}
+        withFooter
       />
     </div>
   )

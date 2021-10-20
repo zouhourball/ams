@@ -6,8 +6,9 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
-import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
+import MHTDialog from 'components/mht-dialog'
+import SupportedDocument from 'components/supported-document'
 
 import {
   annualCostConfigs,
@@ -30,6 +31,9 @@ const CostRecovery = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [filesList, setFileList] = useState([])
 
   const annualCostAndExpenditureActionsHelper = [
     { title: 'Upload Annual Cost & Expenditure Report', onClick: () => setShowUploadRapportDialog(true) },
@@ -184,11 +188,17 @@ const CostRecovery = () => {
         break
     }
   }
+
+  const onDisplayMHT = (file) => {
+    setShowUploadMHTDialog(true)
+    setShowUploadRapportDialog(false)
+    setDataDisplayedMHT(file)
+  }
   return (
     <>
       <TopBar
         title="Cost Recovery Reporting"
-        actions={renderActionsByCurrentTab()}
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}
@@ -202,6 +212,8 @@ const CostRecovery = () => {
         commonActions={selectedRow?.length === 0}
         onSelectRows={setSelectedRow}
         withChecked
+        hideTotal={false}
+        withFooter
         selectedRow={selectedRow}
         headerTemplate={
               selectedRow?.length !== 0 && (
@@ -212,12 +224,32 @@ const CostRecovery = () => {
           )
         }
       />
+          {showUploadMHTDialog &&
+        <MHTDialog
+          visible={showUploadMHTDialog}
+          onHide={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+          }
+          }
+          onSave ={() => {
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setFileList([...filesList, dataDisplayedMHT])
+          }}
+        />}
       {showUploadRapportDialog && (
         <UploadReportDialog
+          setFileList={setFileList}
+          filesList={filesList}
+          onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          onHide={() => setShowUploadRapportDialog(false)}
+          onHide={() => {
+            setShowUploadRapportDialog(false)
+            setFileList([])
+          }}
           onSave={() => renderDialogData().onClick()}
         />
       )}

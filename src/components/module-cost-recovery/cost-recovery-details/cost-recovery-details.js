@@ -3,11 +3,9 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
+import { userRole } from 'components/shared-hook/get-roles'
 
-import {
-  costRecoveryDetailsData,
-  costRecoveryDetailsConfigs,
-} from '../helpers'
+import { costRecoveryDetailsData, costRecoveryDetailsConfigs } from '../helpers'
 
 import './style.scss'
 
@@ -34,6 +32,19 @@ const CostRecoveryDetails = () => {
     >
       Download Original File
     </Button>,
+    userRole() === 'regulator' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {}}
+      >
+        Acknowledge
+      </Button>
+    ),
   ]
   return (
     <div className="cost-recovery-details">
@@ -43,11 +54,13 @@ const CostRecoveryDetails = () => {
         actions={actions}
       />
       <Mht
-        configs={costRecoveryDetailsConfigs()}
+        configs={costRecoveryDetailsConfigs}
         tableData={costRecoveryDetailsData}
         withSearch
         commonActions
         withSubColumns
+        hideTotal={false}
+        withFooter
       />
     </div>
   )
