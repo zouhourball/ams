@@ -390,7 +390,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'downstream',
+                      key: 'new-downstream',
                       name: 'Downstream',
                       onClick: () => navigate('/ams/downstream'),
                       icon: (
@@ -502,7 +502,7 @@ export default class AppShellWrapper extends Component {
                       ),
                     },
                     {
-                      key: 'audit',
+                      key: 'new-audit',
                       name: 'Audit',
                       onClick: () => navigate('/ams/audit'),
                       icon: (

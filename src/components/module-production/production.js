@@ -190,6 +190,7 @@ const Production = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         hideTotal={false}
+        singleSelect={true}
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
