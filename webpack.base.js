@@ -25,6 +25,7 @@ module.exports = {
           /\/node_modules\/js-utils/,
           /\/node_modules\/@target-energysolutions\/task-manager/,
           /\/node_modules\/@target-energysolutions\/toast/,
+          /\/node_modules\/@target-energysolutions\/messenger/,
           /\/node_modules\/pdfjs-dist/,
           /\/src/,
         ],
