@@ -73,32 +73,34 @@ const Emissions = () => {
   return (
     <>
       <TopBar title="Emissions" actions={renderActionsByCurrentTab()} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-      <div className="flaring--table-wrapper">
-        <Mht
-          configs={renderCurrentTabConfigs()}
-          tableData={renderCurrentTabData()}
-          withSearch={selectedRow?.length === 0}
-          commonActions={selectedRow?.length === 0}
-          onSelectRows={setSelectedRow}
-          withChecked
-          hideTotal={false}
-          singleSelect
-          withFooter
-          selectedRow={selectedRow}
-          headerTemplate={
-            selectedRow?.length === 1 && (
-              <HeaderTemplate
-                title={`${selectedRow?.length} Row Selected`}
-                actions={actionsHeader()}
-              />
-            )
-          }
+      <div className="subModule">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
         />
+        <div className="subModule--table-wrapper">
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            hideTotal={false}
+            singleSelect
+            withFooter
+            selectedRow={selectedRow}
+            headerTemplate={
+            selectedRow?.length === 1 && (
+                <HeaderTemplate
+                  title={`${selectedRow?.length} Row Selected`}
+                  actions={actionsHeader()}
+                />
+              )
+            }
+          />
+        </div>
       </div>
       {showUploadRapportDialog && (
         <UploadReportDialog

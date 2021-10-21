@@ -7,7 +7,7 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
-// import SupportedDocument from 'components/supported-document'
+import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
 
 import {
@@ -20,12 +20,10 @@ import {
   actionsHeader,
 } from './helpers'
 
-import './style.scss'
-
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
-  const [, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const actions =
@@ -101,13 +99,13 @@ const Permit = () => {
   return (
     <>
       <TopBar title="Permitting" actions={actions} />
-      <div className="Permitting">
+      <div className="subModule">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
         />
-        <div className="Permitting--table-wrapper">
+        <div className="subModule--table-wrapper">
           <Mht
             hideTotal={false}
             withFooter
@@ -139,6 +137,14 @@ const Permit = () => {
           information={information}
           setInformation={setInformation}
           onContinue={() => navigate(`/ams/permitting/drill-report`)}
+        />
+      )}
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          onSaveUpload={() => { }}
         />
       )}
     </>

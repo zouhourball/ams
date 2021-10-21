@@ -8,8 +8,6 @@ import {
   dailyReportConfigs,
 } from './helpers'
 
-import './style.scss'
-
 const EmissionsDetails = () => {
   const actions = [
     <Button

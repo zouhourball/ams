@@ -58,6 +58,25 @@ body {
     font-family: inherit;
   }
 
+  .subModule {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 92px);
+    padding: 5px;
+
+    &--table-wrapper {
+      flex-grow: 1;
+      max-width: 100%;
+      margin: 5px;
+      border-radius: 8px;
+      background: #fff;
+
+      .xeena-table-header {
+        flex-grow: unset;
+      }
+    }
+  }
+
   .xeena-data-table {
     .wrapper.white {
       border-bottom: 0;

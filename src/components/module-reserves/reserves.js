@@ -155,31 +155,35 @@ const Reserves = () => {
   return (
     <>
       <TopBar title="Reserve Reporting" actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-       <Mht
-         hideTotal={false}
-         singleSelect={true}
-         withFooter
-         configs={renderCurrentTabConfigs()}
-         tableData={renderCurrentTabData()}
-         withSearch={selectedRow?.length === 0}
-         commonActions={selectedRow?.length === 0}
-         onSelectRows={setSelectedRow}
-         withChecked
-         selectedRow={selectedRow}
-         headerTemplate={
+      <div className="subModule">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
+        />
+        <div className="subModule--table-wrapper">
+          <Mht
+            hideTotal={false}
+            singleSelect={true}
+            withFooter
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
               selectedRow?.length === 1 && (
-             <HeaderTemplate
-               title={`${selectedRow.length} Row Selected`}
-               actions={actionsHeader('reserves-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
-             />
-           )
-         }
-       />
+                <HeaderTemplate
+                  title={`${selectedRow.length} Row Selected`}
+                  actions={actionsHeader('reserves-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                />
+              )
+            }
+          />
+        </div>
+      </div>
              {showUploadMHTDialog &&
         <MHTDialog
           visible={showUploadMHTDialog}

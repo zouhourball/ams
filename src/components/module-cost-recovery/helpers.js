@@ -662,6 +662,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           {
             id: 3,
             label: 'View Documents',
+            primary: true,
             onClick: () => { },
           },
         ]
@@ -694,6 +695,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           {
             id: 5,
             label: 'Upload Documents',
+            primary: true,
             onClick: () => { supportedDocument(true) },
           },
         ]
