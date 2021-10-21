@@ -58,6 +58,77 @@ body {
     font-family: inherit;
   }
 
+  .xeena-data-table {
+    .wrapper.white {
+      border-bottom: 0;
+    }
+
+    .header-template {
+      &-actions-btn {
+        height: 22px;
+        margin: 0 5px;
+        padding: 0 10px;
+        border-radius: 2px;
+        background: #f2f2f2;
+        color: #7f8aa4;
+        text-transform: none;
+
+        &.md-text--theme-primary {
+          background: #e3eefd;
+          color: #1979ff;
+        }
+      }
+    }
+
+    .xeena-table-body {
+      max-height: unset;
+      border-right-color: #fff;
+      border-left-color: #fff;
+
+      .xeena-row {
+        border-bottom-width: 1px;
+
+        .order-check-column .order-check-buttonWrapper .md-text--theme-secondary {
+          color: #1979ff;
+        }
+
+        &.selected {
+          background: #f6f8fa;
+
+          .order-check-column .order-check-buttonWrapper {
+            background: #f6f8fa;
+          }
+        }
+      }
+    }
+
+    .table-status {
+      display: grid;
+      flex-grow: 1;
+      align-self: stretch;
+      padding: 8px;
+      border-radius: 4px;
+      background: #fff4e0;
+      color: #ff8300;
+      place-items: center;
+      font-weight: bold;
+
+      &.Draft {
+        background: #e3eefd;
+        color: #1979ff;
+      }
+
+      &.Acknowledged {
+        background: #e4f6e5;
+        color: #45b672;
+      }
+    }
+
+    .xeena-table-footer {
+      border-top: 0;
+    }
+  }
+
   .target-app-shell--left-side--app-item {
     svg.md-icon {
       width: 31px;

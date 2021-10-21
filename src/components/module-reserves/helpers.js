@@ -69,7 +69,7 @@ export const annualReservesConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 
@@ -141,7 +141,7 @@ export const historyConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const annualResourceConfigs = () => [
@@ -212,7 +212,7 @@ export const annualResourceConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 

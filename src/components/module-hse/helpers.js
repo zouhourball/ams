@@ -69,7 +69,7 @@ export const annualReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 
@@ -141,7 +141,7 @@ export const monthlyReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const dailyReportConfigs = () => [
@@ -212,7 +212,7 @@ export const dailyReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const annualReportData = [

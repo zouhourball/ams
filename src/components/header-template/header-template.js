@@ -9,7 +9,7 @@ const HeaderTemplate = ({ title, actions = [] }) => {
       <div className="header-template-actions">
         {actions?.map((el) => (
           <Button
-            primary
+            primary={el?.primary}
             onClick={el?.onClick}
             flat
             className="header-template-actions-btn"
