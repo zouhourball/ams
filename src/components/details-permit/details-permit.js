@@ -8,7 +8,7 @@ const DetailsPermit = ({ fields }) => {
       switch (field.input) {
         case 'fileInput':
           return (
-            <div className="md-cell md-cell--12">
+            <div className="md-cell md-cell--12" key={field.id}>
               <div className="title">{field.title}</div>
               <div className="md-grid">
                 {field.value.map((val) => {
@@ -27,13 +27,13 @@ const DetailsPermit = ({ fields }) => {
           )
         case 'checkbox':
           return (
-            <div className="field md-cell md-cell--4">
+            <div className="field md-cell md-cell--4" key={field.id}>
               <span>{field.title}</span> {field.checked ? 'yes' : 'no'}
             </div>
           )
         default:
           return (
-            <div className="field md-cell md-cell--4">
+            <div className="field md-cell md-cell--4" key={field.id}>
               <span>{field.title}</span> {field.value}
             </div>
           )

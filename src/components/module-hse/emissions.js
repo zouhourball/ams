@@ -25,9 +25,9 @@ const Emissions = () => {
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map((btn) => (
+    return actionsList.map((btn, index) => (
       <Button
-        key="3"
+        key={`action-btn-${index}`}
         id="save"
         className="top-bar-buttons-list-item-btn"
         flat

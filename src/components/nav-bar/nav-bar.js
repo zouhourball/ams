@@ -6,7 +6,7 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
       <div className="navBar-list">
         {tabsList &&
           tabsList.map((el, index) => {
-            const id = index
+            const id = `nav-bar-${index}`
             return (
               <div
                 key={id}
