@@ -209,9 +209,10 @@ const CostRecovery = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+        commonActions={selectedRow?.length === 0}
         onSelectRows={setSelectedRow}
         withChecked
+        singleSelect
         hideTotal={false}
         withFooter
         selectedRow={selectedRow}

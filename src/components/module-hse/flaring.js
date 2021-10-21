@@ -168,9 +168,10 @@ const Flaring = () => {
             configs={renderCurrentTabConfigs()}
             tableData={renderCurrentTabData()}
             hideTotal={false}
+            singleSelect={true}
             withFooter
             withSearch={selectedRow?.length === 0}
-            commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+            commonActions={selectedRow?.length === 0}
             onSelectRows={setSelectedRow}
             withChecked
             selectedRow={selectedRow}

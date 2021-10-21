@@ -87,12 +87,13 @@ const Emissions = () => {
           onSelectRows={setSelectedRow}
           withChecked
           hideTotal={false}
+          singleSelect
           withFooter
           selectedRow={selectedRow}
           headerTemplate={
-            selectedRow?.length !== 0 && (
+            selectedRow?.length === 1 && (
               <HeaderTemplate
-                title={`1 Row Selected`}
+                title={`${selectedRow?.length} Row Selected`}
                 actions={actionsHeader()}
               />
             )

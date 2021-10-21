@@ -162,11 +162,12 @@ const Reserves = () => {
       />
        <Mht
          hideTotal={false}
+         singleSelect={true}
          withFooter
          configs={renderCurrentTabConfigs()}
          tableData={renderCurrentTabData()}
          withSearch={selectedRow?.length === 0}
-         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+         commonActions={selectedRow?.length === 0}
          onSelectRows={setSelectedRow}
          withChecked
          selectedRow={selectedRow}
