@@ -58,9 +58,9 @@ const Flaring = () => {
     { title: 'Download Template', onClick: () => {} },
   ]
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map((btn) => (
+    return actionsList.map((btn, index) => (
       <Button
-        key="3"
+        key={`flaring-btn-${index}`}
         id="save"
         className="top-bar-buttons-list-item-btn"
         flat

@@ -7,7 +7,7 @@ dependencies:
   '@target-energysolutions/eam-top-bar': 1.2.0_66984647cb9902791a98eddf4360e004
   '@target-energysolutions/gis-map': 2.9.86_568ab1d1ed60c2f49168edc42d8f9bf8
   '@target-energysolutions/hoc-oauth': 1.3.2_9bdd65c2b60ce8638444b80b396a481b
-  '@target-energysolutions/mht': 2.21.5-beta.5_8cf73d989bcfe9fc0c4300651e984259
+  '@target-energysolutions/mht': 2.21.5-beta.6_8cf73d989bcfe9fc0c4300651e984259
   '@target-energysolutions/react-hoc-query': 1.0.4_e4f0b0b33d94d479c7dcb887d34a3279
   '@target-energysolutions/task-manager': 6.0.2_ba47bab47240faecf6ddaa316f4fbf83
   '@target-energysolutions/tiny-i18n': 2.1.1_f86d3e69536cb7e1257811d0149b5fc0
@@ -4413,7 +4413,7 @@ packages:
       redux: ^4.0.0
     resolution:
       integrity: sha512-Jcsk7nLNwk3w43XoAtSucIDN5VqiTOGPKZA4AQNBVZWdDbKoDS6/voggZRbi9apCGYTLsKnzG3/5yEGmLvMCUw==
-  /@target-energysolutions/mht/2.21.5-beta.5_8cf73d989bcfe9fc0c4300651e984259:
+  /@target-energysolutions/mht/2.21.5-beta.6_8cf73d989bcfe9fc0c4300651e984259:
     dependencies:
       '@target-energysolutions/date-picker': 3.1.5_8cf73d989bcfe9fc0c4300651e984259
       '@target-energysolutions/tools': 1.2.1_8cf73d989bcfe9fc0c4300651e984259
@@ -4436,7 +4436,7 @@ packages:
       react-dom: ^16.8.4
       react-md: ^1.12.3
     resolution:
-      integrity: sha512-Nwf40maUdevKgZanK+O/hZ02rMXRa12dnqgecF/maiUyiOS62heeVQRNB3RHY8VaaPVRLm9p54094Sg52R7UQw==
+      integrity: sha512-PxPitRBh+NASju1EEAMKl8ZB0kFkFATj3PXc5TZRe5CgI/Ylgrgr2Mjg+o+7nviEMrhM8Tou1sARRVIGAkTxOQ==
   /@target-energysolutions/mht/3.2.5_8cf73d989bcfe9fc0c4300651e984259:
     dependencies:
       '@target-energysolutions/date-picker': 3.1.4_8cf73d989bcfe9fc0c4300651e984259
@@ -20360,7 +20360,7 @@ specifiers:
   '@target-energysolutions/eam-top-bar': ^1.2.0
   '@target-energysolutions/gis-map': ^2.9.81
   '@target-energysolutions/hoc-oauth': ^1.3.2
-  '@target-energysolutions/mht': 2.21.5-beta.5
+  '@target-energysolutions/mht': 2.21.5-beta.6
   '@target-energysolutions/react-hoc-query': ^1.0.4
   '@target-energysolutions/task-manager': ^6.0.1
   '@target-energysolutions/tiny-i18n': 2.1.1

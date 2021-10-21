@@ -68,7 +68,7 @@ const CostRecovery = () => {
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
-        key={'top-bar-btn-' + index}
+        key={`top-bar-btn-${index}`}
         className="top-bar-buttons-list-item-btn"
         flat
         primary
