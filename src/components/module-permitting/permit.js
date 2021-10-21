@@ -117,6 +117,7 @@ const Permit = () => {
             commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
             onSelectRows={setSelectedRow}
             withChecked
+            singleSelect={true}
             selectedRow={selectedRow}
             headerTemplate={
               selectedRow?.length === 1 && (

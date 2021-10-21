@@ -7,9 +7,9 @@ const DetailsPermit = ({ fields }) => {
             return <h1 key={val.fileName}>{val.fileName}</h1>
           })
         case 'checkbox':
-          return <div>{field.checked ? 'yes' : 'no'}</div>
+          return <div key={field.id}>{field.checked ? 'yes' : 'no'}</div>
         default:
-          return <div>{field.value}</div>
+          return <div key={field.id}>{field.value}</div>
       }
     })
   }

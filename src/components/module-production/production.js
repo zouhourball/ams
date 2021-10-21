@@ -69,7 +69,7 @@ const Production = () => {
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
-        key={'top-bar-btn-' + index}
+        key={`production-btn-${index}`}
         className="top-bar-buttons-list-item-btn"
         flat
         primary
@@ -190,6 +190,7 @@ const Production = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         hideTotal={false}
+        singleSelect={true}
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}

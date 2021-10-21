@@ -25,9 +25,9 @@ const Emissions = () => {
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map((btn) => (
+    return actionsList.map((btn, index) => (
       <Button
-        key="3"
+        key={`action-btn-${index}`}
         id="save"
         className="top-bar-buttons-list-item-btn"
         flat
@@ -87,12 +87,13 @@ const Emissions = () => {
           onSelectRows={setSelectedRow}
           withChecked
           hideTotal={false}
+          singleSelect
           withFooter
           selectedRow={selectedRow}
           headerTemplate={
-            selectedRow?.length !== 0 && (
+            selectedRow?.length === 1 && (
               <HeaderTemplate
-                title={`1 Row Selected`}
+                title={`${selectedRow?.length} Row Selected`}
                 actions={actionsHeader()}
               />
             )

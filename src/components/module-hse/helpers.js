@@ -1,4 +1,4 @@
-import { FileInput } from 'react-md'
+import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
 export const annualReportConfigs = () => [
@@ -59,7 +59,7 @@ export const annualReportConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
@@ -131,7 +131,7 @@ export const monthlyReportConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
@@ -202,7 +202,7 @@ export const dailyReportConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),

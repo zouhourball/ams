@@ -56,7 +56,7 @@ const Reserves = () => {
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
-        key={'top-bar-btn-' + index}
+        key={`reserves-btn-${index}`}
         className="top-bar-buttons-list-item-btn"
         flat
         primary
@@ -162,11 +162,12 @@ const Reserves = () => {
       />
        <Mht
          hideTotal={false}
+         singleSelect={true}
          withFooter
          configs={renderCurrentTabConfigs()}
          tableData={renderCurrentTabData()}
          withSearch={selectedRow?.length === 0}
-         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+         commonActions={selectedRow?.length === 0}
          onSelectRows={setSelectedRow}
          withChecked
          selectedRow={selectedRow}

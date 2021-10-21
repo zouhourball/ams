@@ -25,9 +25,9 @@ const HSSE = () => {
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
-    return actionsList.map((btn) => (
+    return actionsList.map((btn, index) => (
       <Button
-        key="3"
+        key={`hsse-btn-${index}`}
         id="save"
         className="top-bar-buttons-list-item-btn"
         flat
@@ -91,6 +91,7 @@ const HSSE = () => {
         configs={renderCurrentTabConfigs()}
         tableData={renderCurrentTabData()}
         hideTotal={false}
+        singleSelect={true}
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0}
@@ -98,8 +99,8 @@ const HSSE = () => {
         withChecked
         selectedRow={selectedRow}
         headerTemplate={
-          selectedRow?.length !== 0 && (
-            <HeaderTemplate title={`1 Row Selected`} actions={actionsHeader()} />
+          selectedRow?.length === 1 && (
+            <HeaderTemplate title={`${selectedRow?.length} Row Selected`} actions={actionsHeader()} />
           )
         }
       />

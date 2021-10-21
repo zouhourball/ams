@@ -1,4 +1,4 @@
-import { FileInput } from 'react-md'
+import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
 export const dailyProductionConfigs = () => [
@@ -59,7 +59,7 @@ export const dailyProductionConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
@@ -131,7 +131,7 @@ export const monthlyProductionConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
@@ -202,7 +202,7 @@ export const monthlyTrackingConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
@@ -273,7 +273,7 @@ export const omanHydConfigs = () => [
         flat
         primary
         iconBefore
-        iconChildren="save_alt"
+        icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
       />
     ),
