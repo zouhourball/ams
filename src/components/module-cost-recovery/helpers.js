@@ -69,7 +69,7 @@ export const annualCostConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 
@@ -141,7 +141,7 @@ export const contractReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const productionLiftingConfigs = () => [
@@ -212,7 +212,7 @@ export const productionLiftingConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const transactionConfigs = () => [
@@ -283,7 +283,7 @@ export const transactionConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const affiliateConfigs = () => [
@@ -354,7 +354,7 @@ export const affiliateConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const facilitiesConfigs = () => [
@@ -425,7 +425,7 @@ export const facilitiesConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const annualCostData = [
@@ -662,6 +662,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           {
             id: 3,
             label: 'View Documents',
+            primary: true,
             onClick: () => { },
           },
         ]
@@ -694,6 +695,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           {
             id: 5,
             label: 'Upload Documents',
+            primary: true,
             onClick: () => { supportedDocument(true) },
           },
         ]

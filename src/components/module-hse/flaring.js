@@ -23,8 +23,6 @@ import {
   actionsHeaderDaily,
 } from './helpers'
 
-import './style.scss'
-
 const Flaring = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -157,13 +155,13 @@ const Flaring = () => {
         title="Flaring"
         actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
-      <div className="flaring">
+      <div className="subModule">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
         />
-        <div className="flaring--table-wrapper">
+        <div className="subModule--table-wrapper">
           <Mht
             configs={renderCurrentTabConfigs()}
             tableData={renderCurrentTabData()}

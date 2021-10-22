@@ -1,8 +1,23 @@
 .supported-document {
-  width: 600px;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: #fff;
+  &-dialog {
+    > .md-dialog {
+      width: 40%;
+      min-width: 500px;
+      border-radius: 8px;
+    }
+
+    .md-title {
+      padding: 16px 30px;
+      border-bottom: 1px solid #dcdcdc;
+      color: #2f3842;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .md-dialog-content {
+      padding-top: 20px;
+    }
+  }
 
   &-dropzone {
     display: flex;

@@ -82,28 +82,32 @@ const HSSE = () => {
   return (
     <>
       <TopBar title="HSSE" actions={renderActionsByCurrentTab()} />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        hideTotal={false}
-        singleSelect={true}
-        withFooter
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
-        onSelectRows={setSelectedRow}
-        withChecked
-        selectedRow={selectedRow}
-        headerTemplate={
+      <div className="subModule">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
+        />
+        <div className="subModule--table-wrapper">
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            hideTotal={false}
+            singleSelect={true}
+            withFooter
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            selectedRow={selectedRow}
+            headerTemplate={
           selectedRow?.length === 1 && (
-            <HeaderTemplate title={`${selectedRow?.length} Row Selected`} actions={actionsHeader()} />
-          )
-        }
-      />
+                <HeaderTemplate title={`${selectedRow?.length} Row Selected`} actions={actionsHeader()} />
+              )
+            }
+          />
+        </div>
+      </div>
       {showUploadRapportDialog && (
         <UploadReportDialog
           title={'Upload Monthly HSSE Report'}

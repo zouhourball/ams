@@ -200,32 +200,36 @@ const CostRecovery = () => {
         title="Cost Recovery Reporting"
         actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
       />
-      <NavBar
-        tabsList={tabsList}
-        activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-      />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0}
-        onSelectRows={setSelectedRow}
-        withChecked
-        singleSelect
-        hideTotal={false}
-        withFooter
-        selectedRow={selectedRow}
-        headerTemplate={
+      <div className="subModule">
+        <NavBar
+          tabsList={tabsList}
+          activeTab={currentTab}
+          setActiveTab={setCurrentTab}
+        />
+        <div className="subModule--table-wrapper">
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={setSelectedRow}
+            withChecked
+            singleSelect
+            hideTotal={false}
+            withFooter
+            selectedRow={selectedRow}
+            headerTemplate={
               selectedRow?.length === 1 && (
-            <HeaderTemplate
-              title={`${selectedRow?.length} Row Selected`}
-              actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
-            />
-          )
-        }
-      />
-          {showUploadMHTDialog &&
+                <HeaderTemplate
+                  title={`${selectedRow?.length} Row Selected`}
+                  actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                />
+              )
+            }
+          />
+        </div>
+      </div>
+      {showUploadMHTDialog &&
         <MHTDialog
           visible={showUploadMHTDialog}
           onHide={() => {

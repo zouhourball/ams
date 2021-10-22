@@ -69,7 +69,7 @@ export const dailyProductionConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 
@@ -141,7 +141,7 @@ export const monthlyProductionConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const monthlyTrackingConfigs = () => [
@@ -212,7 +212,7 @@ export const monthlyTrackingConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const omanHydConfigs = () => [
@@ -283,7 +283,7 @@ export const omanHydConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={row?.status}>{row?.status}</div>,
+    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
   },
 ]
 export const dailyProductionData = [

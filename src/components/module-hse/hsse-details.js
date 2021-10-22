@@ -5,8 +5,6 @@ import { Button } from 'react-md'
 import TopBarDetail from 'components/top-bar-detail'
 import { hsseDetailsConfigs, hsseDetailsData } from './helpers'
 
-import './style.scss'
-
 const HsseDetails = () => {
   const actions = [
     <Button
