@@ -1,0 +1,80 @@
+name: dev ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+env:
+  REPOSITORY_NAME: ams-regulator-reporting-fe
+  ARGOCD_REPO_NAME: tespkg/ams-regulator-reporting-fe-argocd
+  NS: dev-meeraspace-prime
+  CI_REGISTRY_IMAGE: ams-regulator-reporting-fe
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8} --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
+
+      - name: docker-pcg-login
+        run: docker login https://docker.pkg.github.com -u pkg -p ${{ secrets.DOCKER_AUTH_TOKEN }}
+
+      - name: display docker images List
+        run: docker images
+
+      - name: Push the Docker image
+        run: docker push docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8}
+
+  deploy_to_dev:
+    runs-on: ubuntu-latest
+    needs:
+      - build_test
+    steps:
+      - name: Display the repository name
+        run: echo "$REPOSITORY_NAME , $ARGOCD_REPO_NAME"
+        shell: bash
+
+      - name: Setup User and email for GIT next push
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name ${{ github.actor }}
+          git config -l
+
+      - name: Checkout tests
+        env:
+          REPO_ACCESS_TOKEN: ${{ secrets.DOCKER_AUTH_TOKEN }}
+        run: git clone -b master https://$REPO_ACCESS_TOKEN:x-oauth-basic@github.com/tespkg/ams-regulator-reporting-fe-argocd.git ams-regulator-reporting-fe-argocd
+
+      - name: Display the current folders
+        run: |
+          pwd
+          ls
+
+      - name: Push to ArgoCD
+        env:
+          tag: ${GITHUB_SHA:0:8}
+        run: |
+          cd ams-regulator-reporting-fe-argocd
+          cd helm/0-0-dev-gke-dev/ams-regulator-reporting-fe
+          sed -i '/repository:/c\    repository: docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:'"${GITHUB_SHA:0:8}" values.yaml
+          git diff
+          git add values.yaml
+          git commit -m "Update Values yaml"
+          git push
+  deploy_to_test:
+    runs-on: ubuntu-latest
+    needs:
+      - deploy_to_dev
+    steps:
+      - name: TO DO
+        run: echo "Deploy to test server to-do"
+        shell: bash
