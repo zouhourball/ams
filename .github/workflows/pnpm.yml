@@ -26,7 +26,7 @@ jobs:
         run: docker build . --file Dockerfile --tag docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8} --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
 
       - name: docker-pcg-login
-        run: docker login https://docker.pkg.github.com -u pkg -p ${{ secrets.DOCKER_AUTH_TOKEN }}
+        run: docker login https://docker.pkg.github.com -u pkg -p ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: display docker images List
         run: docker images
