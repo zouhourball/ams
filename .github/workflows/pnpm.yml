@@ -25,6 +25,8 @@ jobs:
 
       - name: Build the Docker image
         run: |
+          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ secrets.CR_USER }} --password-stdin
+          echo ${{ secrets.GITLAB_CR_PAT }} | docker login registry.gitlab.com -u ${{ secrets.GITLAB_CR_USER }} --password-stdin
           GITLAB_IMAGE_NAME="registry.gitlab.com/target-digital-transformation/fe-apps/ams-regulator-reporting-fe/github:${GITHUB_SHA::8}"
           docker build -t $GITLAB_IMAGE_NAME --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }} .
           docker images
