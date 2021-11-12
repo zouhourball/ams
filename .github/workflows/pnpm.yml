@@ -26,7 +26,7 @@ jobs:
       - name: Build the Docker image
         run: |
           GITLAB_IMAGE_NAME="registry.gitlab.com/target-digital-transformation/fe-apps/ams-regulator-reporting-fe/github:${GITHUB_SHA::8}"
-          docker build --file Dockerfile --tag $GITLAB_IMAGE_NAME --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
+          docker build -t $GITLAB_IMAGE_NAME --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }} .
           docker images
           docker push $GITLAB_IMAGE_NAME
         #run: docker build . --file Dockerfile --tag docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8}
