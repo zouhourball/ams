@@ -10,6 +10,7 @@ env:
   ARGOCD_REPO_NAME: tespkg/ams-regulator-reporting-fe-argocd
   NS: dev-meeraspace-prime
   CI_REGISTRY_IMAGE: ams-regulator-reporting-fe
+  GITLAB_IMAGE_NAME: "registry.gitlab.com/target-digital-transformation/fe-apps/ams-regulator-reporting-fe/github:${GITHUB_SHA::8}"
 
 jobs:
   build_test:
@@ -23,16 +24,21 @@ jobs:
           node-version: '10'
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8} --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+         GITLAB_IMAGE_NAME="registry.gitlab.com/target-digital-transformation/fe-apps/ams-regulator-reporting-fe/github:${GITHUB_SHA::8}"
+         docker build --file Dockerfile --tag $GITLAB_IMAGE_NAME --build-arg NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }}
+         docker images
+         docker push $GITLAB_IMAGE_NAME
+        #run: docker build . --file Dockerfile --tag docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8}
 
-      - name: docker-pcg-login
-        run: docker login https://docker.pkg.github.com -u pkg -p ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: docker-pcg-login
+      #   run: docker login https://docker.pkg.github.com -u pkg -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: display docker images List
-        run: docker images
+      # - name: display docker images List
+      #   run: docker images
 
-      - name: Push the Docker image
-        run: docker push docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8}
+      # - name: Push the Docker image
+      #   run: docker push docker.pkg.github.com/tespkg/ams-regulator-reporting-fe/ams-regulator-reporting-fe:${GITHUB_SHA:0:8}
 
   deploy_to_dev:
     runs-on: ubuntu-latest
