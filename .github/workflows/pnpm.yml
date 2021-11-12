@@ -82,7 +82,7 @@ jobs:
           sudo wget https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
           MAIN_REPO=$(pwd)
           cd $MAIN_REPO
-          cd tes_manifests/env-dev/front-end-apps-ams-regulator-reporting-fe
+          cd tes_manifests/env-dev/ams-regulator-reporting-fe
           echo "list current common*.image.repository"
           yq r --printMode pv values.yaml "common*.image.repository"
           echo "latest GITLAB_IMAGE_NAME is registry.gitlab.com/target-digital-transformation/fe-apps/ams-regulator-reporting-fe/github"
