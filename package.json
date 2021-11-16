@@ -168,7 +168,6 @@
     "postcss-safe-parser": "^4.0.1",
     "prettier": "^2.3.0",
     "prettier-eslint-cli": "^5.0.1",
-    "react-dev-utils": "^8.0.0",
     "react-hot-loader": "^4.13.0",
     "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
