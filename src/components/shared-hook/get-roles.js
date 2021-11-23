@@ -4,23 +4,33 @@ export function userRole () {
   const roles = store?.getState()?.query?.DEFAULT?.me?.data?.roles
   const orgId = store?.getState().shell.organizationId
 
+  let availableRoles = {}
+
   const opPrefix = `target-subscription-store:${orgId}:pulse `
   const regPrefix = 'pulse '
 
   const opSuffix = ' operator'
   const regSuffix = ' regulator'
 
-  const regMatcher = new RegExp(regPrefix + '[a-z]*' + regSuffix, 'i')
-  const opMatcher = new RegExp(opPrefix + '[a-z]*' + opSuffix, 'i')
+  const operators = roles
+    ?.map((role) => {
+      let key = role.replace(opPrefix, '').replace(opSuffix, '')
+      if (role === opPrefix + key + opSuffix) {
+        return key
+      }
+    })
+    .filter((role) => role)
 
-  const opExist = roles?.filter((role) => opMatcher.test(role))
-  const regExist = roles?.filter((role) => regMatcher.test(role))
+  const regulators = roles
+    ?.map((role) => {
+      let key = role.replace(regPrefix, '').replace(regSuffix, '')
+      if (role === regPrefix + key + regSuffix) {
+        return key
+      }
+    })
+    .filter((role) => role)
 
-  // ghofran
-  if (regExist?.length) {
-    return 'regulator'
-  } else if (opExist?.length) {
-    // zouhour
-    return 'operator'
-  } else return ''
+  availableRoles.operators = [...operators]
+  availableRoles.regulators = [...regulators]
+  return availableRoles
 }

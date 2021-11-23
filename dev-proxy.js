@@ -6,9 +6,6 @@ const troveUrl = troveFullUrl.replace(/^https?:\/\//, '')
 const troveAppFullUrl = trove.PRODUCT_APP_URL_API.replace(/"/g, '')
 const troveAppUrl = troveAppFullUrl.replace(/^https?:\/\//, '')
 
-const amsAppFullUrl = trove.PRODUCT_APP_URL_PULSE.replace(/"/g, '')
-const amsAppUrl = troveAppFullUrl.replace(/^https?:\/\//, '')
-
 const proxyConfig = {
   '/projects-be': {
     target: troveAppFullUrl,
@@ -152,16 +149,6 @@ const proxyConfig = {
     headers: {
       Host: troveAppUrl,
       Origin: troveAppFullUrl,
-    },
-  },
-  '/docs': {
-    target: amsAppFullUrl,
-    ssl: {},
-    secure: false,
-    changeOrigin: true,
-    headers: {
-      Host: amsAppUrl,
-      Origin: amsAppFullUrl,
     },
   },
 }
