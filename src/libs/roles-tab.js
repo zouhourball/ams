@@ -5,4 +5,10 @@ export const rolesTab = [
     roleRe: 'pulse reserve regulator',
     path: 'reserves',
   },
+  {
+    key: 'production',
+    roleOp: 'pulse reservesdsds operator',
+    roleRe: 'pulse production regulator',
+    path: 'production',
+  },
 ]
