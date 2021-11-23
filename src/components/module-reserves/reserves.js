@@ -7,6 +7,7 @@ import {
   uploadAnnualReport,
   // getBlocks,
   // getAnnualReport,
+  downloadTemp,
 } from 'libs/api/api-reserves'
 
 import TopBar from 'components/top-bar'
@@ -48,7 +49,12 @@ const Reserves = () => {
       title: 'Upload Annual Reserves Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('reserve', 'annual')
+      },
+    },
   ]
 
   const HistoryAndForecastActionsHelper = [
@@ -56,7 +62,12 @@ const Reserves = () => {
       title: 'Upload History and Forecast Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('reserve', 'fyf')
+      },
+    },
   ]
 
   const AnnualResourceDetailActionsHelper = [
@@ -64,7 +75,12 @@ const Reserves = () => {
       title: 'Upload Annual Resource Detail Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('reserve', 'annualResource')
+      },
+    },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
