@@ -39,15 +39,9 @@ const Reserves = () => {
 
   // const data = useQuery(['blocks'], getBlocks)
 
-  const uploadAnnualReportMutate = useMutation(
-    uploadAnnualReport,
-    /*, {
-    onSuccess: console.log('upload annual report success'),
-    onError: console.log('upload annual report fail'),
-  } */
-  )
+  const uploadAnnualReportMutate = useMutation(uploadAnnualReport)
 
-  // const getAnnualReportData = useQuery(useQuery(['annual'], getAnnualReport))
+  // const getAnnualReportData = useQuery(['annual'], getAnnualReport)
 
   const annualReservesReportingActionsHelper = [
     {
@@ -176,16 +170,13 @@ const Reserves = () => {
       body: {
         block: 'block',
         company: 'company',
-        file: filesList,
+        file: 'filesList',
       },
     })
   }
   return (
     <>
-      <TopBar
-        title="Reserve Reporting"
-        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
-      />
+      <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
