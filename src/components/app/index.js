@@ -10,6 +10,7 @@ import { Snackbar, SVGIcon } from 'react-md'
 import query from 'react-hoc-query'
 import { getFSToken } from 'libs/api'
 import { subModules } from './helpers'
+import { rolesTab } from 'libs/roles-tab'
 
 // import { format } from 'date-fns'
 
@@ -106,14 +107,6 @@ export default class AppShellWrapper extends Component {
 
   renderMenus = () => {
     const { organizationID, roles } = this.props
-    const rolesTab = [
-      {
-        key: 'new-reserves',
-        roleOp: 'pulse reserve operator',
-        roleRe: 'pulse reserve regulator',
-        path: 'reserves',
-      },
-    ]
     const basedRoleSubMenus = []
     if (roles) {
       rolesTab.forEach(({ key, roleOp, roleRe, path }) => {
