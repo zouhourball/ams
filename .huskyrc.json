@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "pre-commit": "lint-staged && npx commitlint --edit $1",
+    "pre-commit": "lint-staged",
     "pre-push": "run-s lint"
   }
 }

@@ -22,7 +22,7 @@ const Production = lazy(() => import('components/module-production'))
 
 const queryClient = new QueryClient()
 
-const Home = ({ location: { pathname }, defaultModule = 'production' }) => {
+const Home = ({ location: { pathname }, defaultModule }) => {
   const [vision, setVision] = useState(false)
   const [mission, setMission] = useState(false)
 
