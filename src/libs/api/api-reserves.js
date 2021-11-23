@@ -16,11 +16,19 @@ export const getBlocks = async () => {
 }
 
 export const uploadAnnualReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('year', body?.year)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
+
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v1/reserve/annual/upload`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      isFormData: true,
+      body: newBody,
     })
   } catch (e) {
     res = { error: e }

@@ -32,7 +32,7 @@ const UploadReportDialog = ({
   filesList,
 }) => {
   const [files, setFile] = useState(filesList || [])
-  const [fileLoader, setFileLoader] = useState(false)
+  const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
@@ -41,13 +41,15 @@ const UploadReportDialog = ({
   })
 
   const onUpload = (file) => {
-    setFileLoader(true)
-    fileManagerUpload(file).then((res) => {
-      onDisplayMHT
-        ? onDisplayMHT(...res.files)
-        : setFile([...files, ...res.files])
-      setFileLoader(false)
-    })
+    // setFileLoader(true)
+    // fileManagerUpload(file).then((res) => {
+    //   // onDisplayMHT
+    //   //   ? onDisplayMHT(...res.files)
+    //   setFile([file])
+    // setFileLoader(false)
+    // })
+
+    setReportData({ ...reportData, file })
   }
   const { getRootProps, getInputProps } = useDropzone({
     // accept: accept,

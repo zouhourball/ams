@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+// import { rolesTab } from 'libs/roles-tab'
 
 import {
   uploadAnnualReport,
   // getBlocks,
-  // getAnnualReport,
+  getAnnualReport,
   downloadTemp,
 } from 'libs/api/api-reserves'
 
@@ -37,13 +38,33 @@ const Reserves = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+  const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
+    ['getAnnualReport'],
+    getAnnualReport,
+  )
 
   // const data = useQuery(['blocks'], getBlocks)
 
   const uploadAnnualReportMutate = useMutation(uploadAnnualReport)
 
   // const getAnnualReportData = useQuery(['annual'], getAnnualReport)
-
+  /* if (roles) {
+    rolesTab.forEach(({ key, roleOp, roleRe, path }) => {
+      if (
+        roles.includes(`target-subscription-store:${organizationID}:${roleOp}`)
+      ) {
+        basedRoleSubMenus.push({
+          ...subModules.find((sM) => sM.key === key),
+          path,
+        })
+      } else if (roles.includes(roleRe)) {
+        basedRoleSubMenus.push({
+          ...subModules.find((sM) => sM.key === key),
+          path,
+        })
+      }
+    })
+  } */
   const annualReservesReportingActionsHelper = [
     {
       title: 'Upload Annual Reserves Report',
@@ -122,7 +143,7 @@ const Reserves = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return annualReservesData
+        return listAnnualReserves?.content || []
       case 1:
         return historyData
       case 2:
@@ -181,14 +202,21 @@ const Reserves = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
-  const onAddReport = () => {
-    uploadAnnualReportMutate.mutate({
-      body: {
-        block: 'block',
-        company: 'company',
-        file: 'filesList',
+  const onAddReport = (body) => {
+    uploadAnnualReportMutate.mutate(
+      {
+        body: {
+          block: body?.block,
+          company: 'company',
+          file: body?.file,
+          processInstanceId: 'id',
+          year: '2021',
+        },
       },
-    })
+      {
+        onSuccess: (res) => !res?.error && refetchAnnualReserves(),
+      },
+    )
   }
   return (
     <>
@@ -256,9 +284,9 @@ const Reserves = () => {
             setFileList([])
           }}
           blockList={['1', '2']}
-          onSave={() => {
+          onSave={(data) => {
+            onAddReport(data)
             renderDialogData().onClick()
-            onAddReport()
           }}
         />
       )}
