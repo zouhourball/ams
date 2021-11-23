@@ -1,6 +1,13 @@
 import { useState } from 'react'
+import { useMutation } from 'react-query'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+
+import {
+  uploadAnnualReport,
+  // getBlocks,
+  // getAnnualReport,
+} from 'libs/api/api-reserves'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -23,11 +30,24 @@ import { userRole } from 'components/shared-hook/get-roles'
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+
+  // const data = useQuery(['blocks'], getBlocks)
+
+  const uploadAnnualReportMutate = useMutation(
+    uploadAnnualReport,
+    /*, {
+    onSuccess: console.log('upload annual report success'),
+    onError: console.log('upload annual report fail'),
+  } */
+  )
+
+  // const getAnnualReportData = useQuery(useQuery(['annual'], getAnnualReport))
 
   const annualReservesReportingActionsHelper = [
     {
@@ -151,10 +171,21 @@ const Reserves = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
-
+  const onAddReport = () => {
+    uploadAnnualReportMutate.mutate({
+      body: {
+        block: 'block',
+        company: 'company',
+        file: filesList,
+      },
+    })
+  }
   return (
     <>
-      <TopBar title="Reserve Reporting" actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null} />
+      <TopBar
+        title="Reserve Reporting"
+        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
+      />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
@@ -177,27 +208,32 @@ const Reserves = () => {
               selectedRow?.length === 1 && (
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
-                  actions={actionsHeader('reserves-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                  actions={actionsHeader(
+                    'reserves-details',
+                    selectedRow[0]?.id,
+                    userRole(),
+                    setShowSupportedDocumentDialog,
+                  )}
                 />
               )
             }
           />
         </div>
       </div>
-             {showUploadMHTDialog &&
+      {showUploadMHTDialog && (
         <MHTDialog
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
-          }
-          }
-          onSave ={() => {
+          }}
+          onSave={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
-        />}
+        />
+      )}
 
       {showUploadRapportDialog && (
         <UploadReportDialog
@@ -212,7 +248,11 @@ const Reserves = () => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          onSave={() => renderDialogData().onClick()}
+          blockList={['1', '2']}
+          onSave={() => {
+            renderDialogData().onClick()
+            onAddReport()
+          }}
         />
       )}
       {showSupportedDocumentDialog && (
@@ -220,7 +260,7 @@ const Reserves = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => { }}
+          onSaveUpload={() => {}}
         />
       )}
     </>

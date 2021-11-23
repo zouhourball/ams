@@ -43,7 +43,8 @@ const UploadReportDialog = ({
   const onUpload = (file) => {
     setFileLoader(true)
     fileManagerUpload(file).then((res) => {
-      onDisplayMHT ? onDisplayMHT(...res.files)
+      onDisplayMHT
+        ? onDisplayMHT(...res.files)
         : setFile([...files, ...res.files])
       setFileLoader(false)
     })
@@ -109,6 +110,7 @@ const UploadReportDialog = ({
   }
   return (
     <DialogContainer
+      id="import-report-dialog"
       className="upload-report-dialog"
       visible={visible}
       onHide={onHide}
@@ -161,20 +163,30 @@ const UploadReportDialog = ({
             endView="day"
           />
         )}
-        <div className='upload-report-dialog-subtitle md-cell md-cell--12'>Attach Report</div>
+        <div className="upload-report-dialog-subtitle md-cell md-cell--12">
+          Attach Report
+        </div>
         {fileLoader ? (
           <CircularProgress />
         ) : (
-          <div {...getRootProps({ className: 'upload-report-dialog-fileDropZone md-cell md-cell--12' })}>
+          <div
+            {...getRootProps({
+              className:
+                'upload-report-dialog-fileDropZone md-cell md-cell--12',
+            })}
+          >
             <input {...getInputProps()} multiple />
             <img src={uploadIcon} width="20px" />
             <p>
-            Drag & Drop file here or <b>Select File</b>
+              Drag & Drop file here or <b>Select File</b>
             </p>
           </div>
         )}
         {files?.map((file) => (
-          <div key={file.id} className={`upload-report-dialog-file md-cell md-cell--12`}>
+          <div
+            key={file.id}
+            className={`upload-report-dialog-file md-cell md-cell--12`}
+          >
             {file && file.contentType
               ? renderDocumentIcon(file.contentType.split('/')[1])
               : ''}
@@ -187,7 +199,8 @@ const UploadReportDialog = ({
               className="actionButton"
               onClick={() => {
                 setFile(files.filter((el) => el?.id !== file.id))
-                onDisplayMHT && setFileList(files.filter((el) => el?.id !== file.id))
+                onDisplayMHT &&
+                  setFileList(files.filter((el) => el?.id !== file.id))
               }}
             >
               delete_outline
@@ -195,48 +208,53 @@ const UploadReportDialog = ({
           </div>
         ))}
         {optional && (
-        <>
-          <div className='upload-report-dialog-subtitle md-cell md-cell--12'>{optional}</div>
-          {optionalFileLoader ? (
-            <CircularProgress />
-          ) : (
-            <div
-              {...getOptionalRootProps({
-                className: 'upload-report-dialog-fileDropZone md-cell md-cell--12',
-              })}
-            >
-              <input {...getOptionalInputProps()} multiple />
-              <img src={uploadIcon} width="20px" />
-              <p>
-                Drag & Drop file here or <b>Select File</b>
-              </p>
+          <>
+            <div className="upload-report-dialog-subtitle md-cell md-cell--12">
+              {optional}
             </div>
-          )}
-          {optionalFiles?.map((file) => (
-            <div key={file.id} className={`upload-report-dialog-file md-cell md-cell--12`}>
-              {file && file.contentType
-                ? renderDocumentIcon(file.contentType.split('/')[1])
-                : ''}
-              <div className="file-info">
-                <div className="file-name"> {get(file, 'filename', '')} </div>
-                <div className="file-size"> {get(file, 'size', '')} </div>
+            {optionalFileLoader ? (
+              <CircularProgress />
+            ) : (
+              <div
+                {...getOptionalRootProps({
+                  className:
+                    'upload-report-dialog-fileDropZone md-cell md-cell--12',
+                })}
+              >
+                <input {...getOptionalInputProps()} multiple />
+                <img src={uploadIcon} width="20px" />
+                <p>
+                  Drag & Drop file here or <b>Select File</b>
+                </p>
               </div>
-              <Button
-                icon
-                className="actionButton"
-                iconClassName="mdi mdi-delete"
-                onClick={() => {
-                  setOptionalFile(
-                    optionalFiles.filter((el) => el?.id !== file.id),
-                  )
-                }}
-              />
-            </div>
-          ))}
-        </>
+            )}
+            {optionalFiles?.map((file) => (
+              <div
+                key={file.id}
+                className={`upload-report-dialog-file md-cell md-cell--12`}
+              >
+                {file && file.contentType
+                  ? renderDocumentIcon(file.contentType.split('/')[1])
+                  : ''}
+                <div className="file-info">
+                  <div className="file-name"> {get(file, 'filename', '')} </div>
+                  <div className="file-size"> {get(file, 'size', '')} </div>
+                </div>
+                <Button
+                  icon
+                  className="actionButton"
+                  iconClassName="mdi mdi-delete"
+                  onClick={() => {
+                    setOptionalFile(
+                      optionalFiles.filter((el) => el?.id !== file.id),
+                    )
+                  }}
+                />
+              </div>
+            ))}
+          </>
         )}
       </div>
-
     </DialogContainer>
   )
 }
