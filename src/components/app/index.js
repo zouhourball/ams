@@ -126,6 +126,15 @@ export default class AppShellWrapper extends Component {
           })
         }
       })
+      if (
+        roles.includes('sys:admin') ||
+        roles.includes('target-subscription-store:superadmin')
+      ) {
+        basedRoleSubMenus.push({
+          ...subModules.find((sM) => sM.key === 'config'),
+          path: 'configurator',
+        })
+      }
     }
 
     return basedRoleSubMenus
