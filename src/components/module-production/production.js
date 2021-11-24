@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-// import { useQuery } from 'react-query'
+import { useMutation } from 'react-query'
+
+import useRole from 'libs/hooks/use-role'
 
 import {
   // getListDailyProduction,
@@ -11,6 +13,7 @@ import {
   // uploadDailyFile,
   // downloadTemplate,
   downloadTemp,
+  uploadDailyProductionReport,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -43,6 +46,31 @@ const Production = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
+
+  const role = useRole('production')
+
+  const uploadAnnualReportMutate = useMutation(uploadDailyProductionReport)
+
+  const onAddReport = (body) => {
+    uploadAnnualReportMutate.mutate(
+      {
+        body: {
+          block: '1', // body?.block,
+          company: 'company',
+          file: body?.file,
+          processInstanceId: 'id',
+          dailyDate: '2021',
+        },
+      },
+      // {
+      //   onSuccess: (res) =>
+      //     /*! res?.error && refetchAnnualReserves(), */ console.log(
+      //       res,
+      //       'rerrre',
+      //     ),
+      // },
+    )
+  }
 
   // const { data: listDailyProduction } = useQuery(
   //   ['getListDailyProduction'],
@@ -239,9 +267,7 @@ const Production = () => {
     <>
       <TopBar
         title="Production Reporting"
-        actions={
-          userRole() === 'regulator' ? renderActionsByCurrentTab() : null
-        }
+        actions={role === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
         tabsList={tabsList}
@@ -340,7 +366,10 @@ const Production = () => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          onSave={() => renderDialogData().onClick()}
+          onSave={(data) => {
+            renderDialogData().onClick()
+            onAddReport(data)
+          }}
         />
       )}
 

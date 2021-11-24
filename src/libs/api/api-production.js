@@ -152,3 +152,24 @@ export const downloadTemp = async (module, sub) => {
     `template_${module}_${sub}.xlsx` || URL.split('/').reverse()[0],
   )
 }
+
+export const uploadDailyProductionReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('dailyDate', body?.dailyDate)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
+
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/production/daily/upload`, {
+      method: 'POST',
+      isFormData: true,
+      body: newBody,
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
