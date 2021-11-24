@@ -3,7 +3,7 @@ query {
     keywords: ""
     searchColumn: ""
     offset: 0
-    limit: 10
+    limit: 1000
   ) {
     organisationItems {
       id
