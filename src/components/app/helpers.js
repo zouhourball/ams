@@ -319,7 +319,7 @@ export const subModules = [
   {
     key: 'config',
     name: 'Configurator',
-    onClick: () => navigate('/ams/configurator-page'),
+    onClick: () => navigate('/ams/configurator'),
     icon: (
       <SVGIcon viewBox={'0 0 16 19'}>
         <g

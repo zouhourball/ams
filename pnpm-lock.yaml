@@ -35,7 +35,7 @@ dependencies:
   postcss-rtl: 1.7.3
   prop-types: 15.7.2
   react: 17.0.2
-  react-apollo: 2.5.8_028a041decaca6977558d59018476fcc
+  react-apollo: 3.1.5_0c26b65dd2169e6f704edec92bcbba07
   react-apollo-hooks: 0.5.0_graphql@15.5.1+react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-dropzone: 11.3.4_react@17.0.2
@@ -196,6 +196,84 @@ packages:
         optional: true
     resolution:
       integrity: sha512-EiQstc8VjeqosS2h21bwY9fhL3MCRRmACtRrRh2KYpp9vkDyx5pUfMnN3swgiBVYw1twdXg9jHmyZa1gZlvlog==
+  /@apollo/react-common/3.1.4_e5d7806bc96ca77405cb700daf6d1ef8:
+    dependencies:
+      '@types/react': 17.0.13
+      graphql: 15.5.1
+      react: 17.0.2
+      ts-invariant: 0.4.4
+      tslib: 1.14.1
+    dev: false
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      apollo-utilities: ^1.3.2
+      graphql: ^14.3.1
+      react: ^16.8.0
+    resolution:
+      integrity: sha512-X5Kyro73bthWSCBJUC5XYQqMnG0dLWuDZmVkzog9dynovhfiVCV4kPSdgSIkqnb++cwCzOVuQ4rDKVwo2XRzQA==
+  /@apollo/react-components/3.1.5_0c26b65dd2169e6f704edec92bcbba07:
+    dependencies:
+      '@apollo/react-common': 3.1.4_e5d7806bc96ca77405cb700daf6d1ef8
+      '@apollo/react-hooks': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@types/react': 17.0.13
+      graphql: 15.5.1
+      prop-types: 15.7.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      ts-invariant: 0.4.4
+      tslib: 1.14.1
+    dev: false
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-cache: ^1.3.2
+      apollo-client: ^2.6.4
+      apollo-link: ^1.2.12
+      apollo-utilities: ^1.3.2
+      graphql: ^14.3.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    resolution:
+      integrity: sha512-c82VyUuE9VBnJB7bnX+3dmwpIPMhyjMwyoSLyQWPHxz8jK4ak30XszJtqFf4eC4hwvvLYa+Ou6X73Q8V8e2/jg==
+  /@apollo/react-hoc/3.1.5_0c26b65dd2169e6f704edec92bcbba07:
+    dependencies:
+      '@apollo/react-common': 3.1.4_e5d7806bc96ca77405cb700daf6d1ef8
+      '@apollo/react-components': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@types/react': 17.0.13
+      graphql: 15.5.1
+      hoist-non-react-statics: 3.3.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      ts-invariant: 0.4.4
+      tslib: 1.14.1
+    dev: false
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      graphql: ^14.3.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    resolution:
+      integrity: sha512-jlZ2pvEnRevLa54H563BU0/xrYSgWQ72GksarxUzCHQW85nmn9wQln0kLBX7Ua7SBt9WgiuYQXQVechaaCulfQ==
+  /@apollo/react-hooks/3.1.5_0c26b65dd2169e6f704edec92bcbba07:
+    dependencies:
+      '@apollo/react-common': 3.1.4_e5d7806bc96ca77405cb700daf6d1ef8
+      '@types/react': 17.0.13
+      '@wry/equality': 0.1.11
+      graphql: 15.5.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      ts-invariant: 0.4.4
+      tslib: 1.14.1
+    dev: false
+    peerDependencies:
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      graphql: ^14.3.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    resolution:
+      integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollo/react-hooks/4.0.0_graphql@15.5.1+react@17.0.2:
     dependencies:
       '@apollo/client': 3.5.5_graphql@15.5.1+react@17.0.2
@@ -205,6 +283,21 @@ packages:
       react: '*'
     resolution:
       integrity: sha512-fCu0cbne3gbUl0QbA8X4L33iuuFVQbC5Jo2MIKRK8CyawR6PoxDpFdFA1kc6033ODZuZZ9Eo4RdeJFlFIIYcLA==
+  /@apollo/react-ssr/3.1.5_0c26b65dd2169e6f704edec92bcbba07:
+    dependencies:
+      '@apollo/react-common': 3.1.4_e5d7806bc96ca77405cb700daf6d1ef8
+      '@apollo/react-hooks': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      tslib: 1.14.1
+    dev: false
+    peerDependencies:
+      '@types/react': '*'
+      graphql: '*'
+      react: ^16.8.0
+      react-dom: ^16.8.0
+    resolution:
+      integrity: sha512-wuLPkKlctNn3u8EU8rlECyktpOUCeekFfb0KhIKknpGY6Lza2Qu0bThx7D9MIbVEzhKadNNrzLcpk0Y8/5UuWg==
   /@apollo/react-testing/4.0.0_graphql@15.5.1+react@17.0.2:
     dependencies:
       '@apollo/client': 3.5.5_graphql@15.5.1+react@17.0.2
@@ -15903,26 +15996,26 @@ packages:
       react: ^16.8.0
     resolution:
       integrity: sha512-Us5KqFe7/c6vY1NaiyfhnD2Pz4lPLTojQXLppShaBVYU/vYvJrRjmj4MzIPXnExXaSfnQ+K2bWDr4lP4efbsRQ==
-  /react-apollo/2.5.8_028a041decaca6977558d59018476fcc:
+  /react-apollo/3.1.5_0c26b65dd2169e6f704edec92bcbba07:
     dependencies:
-      apollo-utilities: 1.3.4_graphql@15.5.1
-      fast-json-stable-stringify: 2.1.0
+      '@apollo/react-common': 3.1.4_e5d7806bc96ca77405cb700daf6d1ef8
+      '@apollo/react-components': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@apollo/react-hoc': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@apollo/react-hooks': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@apollo/react-ssr': 3.1.5_0c26b65dd2169e6f704edec92bcbba07
+      '@types/react': 17.0.13
       graphql: 15.5.1
-      hoist-non-react-statics: 3.3.2
-      lodash.isequal: 4.5.0
-      prop-types: 15.7.2
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      ts-invariant: 0.4.4
-      tslib: 1.14.1
     dev: false
     peerDependencies:
-      apollo-client: ^2.6.3
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0
-      react: ^15.0.0 || ^16.0.0
-      react-dom: ^15.0.0 || ^16.0.0
+      '@types/react': ^16.8.0
+      apollo-client: ^2.6.4
+      graphql: ^14.3.1
+      react: ^16.8.0
+      react-dom: ^16.8.0
     resolution:
-      integrity: sha512-60yOQrnNosxU/tRbOxGDaYNLFcOKmQqxHPhxyvKTlGIaF/rRCXQRKixUgWVffpEupSHHD7psY5k5ZOuZsdsSGQ==
+      integrity: sha512-xOxMqxORps+WHrUYbjVHPliviomefOpu5Sh35oO3osuOyPTxvrljdfTLGCggMhcXBsDljtS5Oy4g+ijWg3D4JQ==
   /react-beautiful-dnd/12.2.0_react-dom@17.0.2+react@17.0.2:
     dependencies:
       '@babel/runtime-corejs2': 7.16.3
@@ -20402,7 +20495,7 @@ specifiers:
   prettier-eslint-cli: ^5.0.1
   prop-types: ^15.7.2
   react: 17.0.2
-  react-apollo: ^2.5.2
+  react-apollo: ^3.1.5
   react-apollo-hooks: ^0.5.0
   react-dom: 17.0.2
   react-dropzone: ^11.3.2

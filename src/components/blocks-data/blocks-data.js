@@ -7,8 +7,9 @@ import icon from 'images/block-icon.png'
 
 import './style.scss'
 
-const BlocksData = ({ blocks, onAdd, blockTitle, setBlockTitle, status }) => {
+const BlocksData = ({ blocks, onAdd, status }) => {
   const [currentItem, setCurrentItem] = useState(blocks[0]?.id)
+  const [blockTitle, setBlockTitle] = useState('')
 
   const renderHeader = () => {
     return (
@@ -21,15 +22,18 @@ const BlocksData = ({ blocks, onAdd, blockTitle, setBlockTitle, status }) => {
           className="blocks-data-header-textField"
           value={blockTitle}
           onChange={(v) => setBlockTitle(v)}
-          disabled={status === 'closed'}
+          // disabled={status === 'closed'}
         />
 
         <Button
           primary
           icon
           className="blocks-data-header-btn"
-          onClick={onAdd && onAdd}
-          disabled={status === 'closed'}
+          onClick={() => {
+            onAdd(blockTitle)
+            setBlockTitle('')
+          }}
+          disabled={!blockTitle || !status}
         >
           add
         </Button>
@@ -45,7 +49,7 @@ const BlocksData = ({ blocks, onAdd, blockTitle, setBlockTitle, status }) => {
           id={comp?.id}
           currentItem={currentItem}
           setCurrentItem={setCurrentItem}
-          title={comp?.title}
+          title={comp?.block}
         />
       ))
     ) : (

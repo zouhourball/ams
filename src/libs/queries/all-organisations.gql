@@ -1,0 +1,13 @@
+query {
+  allOrganisationsBySuperAdmin(
+    keywords: ""
+    searchColumn: ""
+    offset: 0
+    limit: 10
+  ) {
+    organisationItems {
+      id
+      name
+    }
+  }
+}

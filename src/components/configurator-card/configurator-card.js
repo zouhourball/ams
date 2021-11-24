@@ -47,11 +47,9 @@ const ConfiguratorCard = ({
     <div
       className={cls(
         'configurator-card',
-        currentItem && currentItem === title && 'active', // suppose to be id
+        currentItem && currentItem === id && 'active', // suppose to be id
       )}
-      onClick={() => {
-        setCurrentItem(title) // suppose to be id
-      }}
+      onClick={setCurrentItem}
     >
       <TextField
         id="title"
@@ -59,7 +57,7 @@ const ConfiguratorCard = ({
         block
         value={titleCard}
         disabled={disabled}
-        onChange={(v) => setTitleCard(v)}
+        onChange={setTitleCard}
       />
       {disabled === false && (
         <>

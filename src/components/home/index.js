@@ -51,7 +51,7 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Tendering path="/tendering" />
               <Agreement path="/agreement" />
               <Audit path="/audit" />
-              <ConfiguratorPage path="/configurator-page" />
+              <ConfiguratorPage path="/configurator" />
             </Router>
           </Suspense>
         </div>

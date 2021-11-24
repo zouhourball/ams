@@ -1,4 +1,4 @@
-import { Button, TextField } from 'react-md'
+import { Button, Autocomplete } from 'react-md'
 
 import ConfiguratorCard from 'components/configurator-card'
 
@@ -13,6 +13,8 @@ const CompanyData = ({
   setCompanyTitle,
   currentItem,
   setCurrentItem,
+  companiesSource,
+  onAddCompany,
 }) => {
   const addCompanies = () => {
     const updatedCompanies = [...companies, companyTitle]
@@ -30,14 +32,17 @@ const CompanyData = ({
   const renderHeader = () => {
     return (
       <div className="company-data-header">
-        <TextField
-          id="search"
-          lineDirection="center"
-          block
+        <Autocomplete
+          id="Type here to add company"
+          label="Type here to add company"
           placeholder="Type here to add company"
-          className="company-data-header-textField"
-          value={companyTitle}
-          onChange={(v) => setCompanyTitle(v)}
+          data={companiesSource}
+          filter={Autocomplete.caseInsensitiveFilter}
+          dataLabel="name"
+          dataValue="id"
+          onAutocomplete={(suggestion, suggestionIndex, matches) => {
+            onAddCompany(matches[0])
+          }}
         />
 
         <Button
@@ -60,8 +65,8 @@ const CompanyData = ({
           key={index}
           id={comp?.id}
           currentItem={currentItem}
-          setCurrentItem={setCurrentItem}
-          title={comp}
+          setCurrentItem={() => setCurrentItem(comp?.id)}
+          title={comp?.company}
         />
       ))
     ) : (
