@@ -62,9 +62,9 @@ const UploadPermitDialog = ({
         onClick={() => setDatePickerState(true)}
         rightIcon={<FontIcon>date_range</FontIcon>}
         value={
-            information?.date
-              ? `${moment(new Date(information?.date)).format('DD/MM/YYYY')} `
-              : { datePlaceholder }
+          information?.date
+            ? `${moment(new Date(information?.date)).format('DD/MM/YYYY')} `
+            : { datePlaceholder }
         }
         block
       />
@@ -72,7 +72,8 @@ const UploadPermitDialog = ({
         <Portal
           visible={datePickerState}
           className="upload-permit-dialog-date"
-          lastChild={true}>
+          lastChild={true}
+        >
           <DatePicker
             singlePick
             startView="year"

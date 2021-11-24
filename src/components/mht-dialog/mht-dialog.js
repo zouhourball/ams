@@ -5,13 +5,7 @@ import Mht from '@target-energysolutions/mht'
 import './style.scss'
 
 import { flaringDetailsConfigs, flaringDetailsData } from './helpers'
-const MHTDialog = ({
-  mhtData,
-  title,
-  visible,
-  onHide,
-  onSave,
-}) => {
+const MHTDialog = ({ mhtData, title, visible, onHide, onSave }) => {
   const actions = [
     {
       children: 'Discard',
@@ -25,7 +19,9 @@ const MHTDialog = ({
       primary: true,
       flat: true,
       swapTheming: true,
-      onClick: () => { onSave && onSave() },
+      onClick: () => {
+        onSave && onSave()
+      },
     },
   ]
 
@@ -52,5 +48,4 @@ const MHTDialog = ({
 export default MHTDialog
 MHTDialog.defaultProps = {
   title: 'Annual Report 2021.xlsx',
-
 }

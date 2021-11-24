@@ -12,7 +12,8 @@ export function uploadFileTus (
   onProgress,
   auth = true,
 ) {
-  const fileToken = store?.getState()?.query?.DEFAULT?.getFSToken?.data?.['file_token']
+  const fileToken =
+    store?.getState()?.query?.DEFAULT?.getFSToken?.data?.['file_token']
   let token
   if (auth && process.env.NODE_ENV !== 'production') {
     token = localStorage.getItem('access_token')

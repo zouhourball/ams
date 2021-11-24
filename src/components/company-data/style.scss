@@ -1,0 +1,47 @@
+//style
+.company-data {
+  height: 90%;
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    margin: 10px 0;
+
+    &-textField {
+      height: 40px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f0f2f5;
+
+      input {
+        color: #6d7895;
+      }
+    }
+
+    &-btn {
+      margin: 0 5px;
+      border-radius: 10px;
+    }
+  }
+
+  .md-text-field-container--input-block {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .empty-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #6d7895;
+
+    img {
+      width: auto;
+      height: 65px;
+    }
+  }
+}

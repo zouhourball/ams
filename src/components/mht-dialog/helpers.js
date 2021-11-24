@@ -1,4 +1,3 @@
-
 export const flaringDetailsConfigs = [
   {
     label: 'Gaz Type',

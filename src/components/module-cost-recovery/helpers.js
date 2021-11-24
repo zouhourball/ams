@@ -69,7 +69,9 @@ export const annualCostConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -141,7 +143,9 @@ export const contractReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const productionLiftingConfigs = () => [
@@ -212,7 +216,9 @@ export const productionLiftingConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const transactionConfigs = () => [
@@ -283,7 +289,9 @@ export const transactionConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const affiliateConfigs = () => [
@@ -354,7 +362,9 @@ export const affiliateConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const facilitiesConfigs = () => [
@@ -425,7 +435,9 @@ export const facilitiesConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const annualCostData = [
@@ -645,61 +657,59 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
-      return (
-        [
-          {
-            id: 1,
-            label: 'Download Original File',
-            onClick: () => { },
+      return [
+        {
+          id: 1,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/costrecovery/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
-            },
-          },
-          {
-            id: 3,
-            label: 'View Documents',
-            primary: true,
-            onClick: () => { },
-          },
-        ]
-      )
+        },
+        {
+          id: 3,
+          label: 'View Documents',
+          primary: true,
+          onClick: () => {},
+        },
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Download Original File',
-            onClick: () => { },
+      return [
+        {
+          id: 1,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'Update',
+          onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/costrecovery/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'Delete',
-            onClick: () => { },
+        },
+        {
+          id: 5,
+          label: 'Upload Documents',
+          primary: true,
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 3,
-            label: 'Update',
-            onClick: () => { },
-          },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/costrecovery/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            primary: true,
-            onClick: () => { supportedDocument(true) },
-          },
-        ]
-      )
+        },
+      ]
   }
 }
 

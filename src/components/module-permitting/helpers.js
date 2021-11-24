@@ -69,7 +69,9 @@ export const permitDrillConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -141,7 +143,9 @@ export const permitSuspendConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const permitAbandonConfigs = () => [
@@ -212,7 +216,9 @@ export const permitAbandonConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -328,53 +334,49 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
-      return (
-        [
-          {
-            id: 1,
-            primary: true,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/permitting/${key}/${id}`)
-            },
+      return [
+        {
+          id: 1,
+          primary: true,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/permitting/${key}/${id}`)
           },
-          {
-            id: 2,
-            primary: true,
-            label: 'View Documents',
-            onClick: () => { },
-          },
-        ]
-      )
+        },
+        {
+          id: 2,
+          primary: true,
+          label: 'View Documents',
+          onClick: () => {},
+        },
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => { },
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Edit details',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/permitting/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'Edit details',
-            onClick: () => { },
+        },
+        {
+          id: 4,
+          primary: true,
+          label: 'Upload Documents',
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/permitting/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            primary: true,
-            label: 'Upload Documents',
-            onClick: () => {
-              supportedDocument(true)
-            },
-          },
-        ]
-      )
+        },
+      ]
   }
 }

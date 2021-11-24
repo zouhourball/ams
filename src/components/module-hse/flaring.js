@@ -29,7 +29,8 @@ const Flaring = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const [selectedRow, setSelectedRow] = useState([])
 
   const annualReportActionsHelper = [
@@ -134,12 +135,27 @@ const Flaring = () => {
   const actionsHeader = () => {
     switch (currentTab) {
       case 1:
-        return actionsHeaderMonthly('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
+        return actionsHeaderMonthly(
+          'flaring',
+          selectedRow[0]?.id,
+          userRole(),
+          setShowSupportedDocumentDialog,
+        )
       case 2:
-        return actionsHeaderDaily('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
+        return actionsHeaderDaily(
+          'flaring',
+          selectedRow[0]?.id,
+          userRole(),
+          setShowSupportedDocumentDialog,
+        )
       case 0:
       default:
-        return actionsHeaderAnnual('flaring', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)
+        return actionsHeaderAnnual(
+          'flaring',
+          selectedRow[0]?.id,
+          userRole(),
+          setShowSupportedDocumentDialog,
+        )
     }
   }
 
@@ -184,20 +200,20 @@ const Flaring = () => {
           />
         </div>
 
-        {showUploadMHTDialog &&
-        <MHTDialog
-          visible={showUploadMHTDialog}
-          onHide={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
-          }
-          }
-          onSave ={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
-            setFileList([...filesList, dataDisplayedMHT])
-          }}
-        />}
+        {showUploadMHTDialog && (
+          <MHTDialog
+            visible={showUploadMHTDialog}
+            onHide={() => {
+              setShowUploadMHTDialog(false)
+              setShowUploadRapportDialog(true)
+            }}
+            onSave={() => {
+              setShowUploadMHTDialog(false)
+              setShowUploadRapportDialog(true)
+              setFileList([...filesList, dataDisplayedMHT])
+            }}
+          />
+        )}
 
         {showUploadRapportDialog && (
           <UploadReportDialog

@@ -14,7 +14,9 @@ const DrillReport = () => {
       id="discard"
       className="top-bar-buttons-list-item-btn discard"
       flat
-      onClick={() => { navigate(`/ams/permitting`) }}
+      onClick={() => {
+        navigate(`/ams/permitting`)
+      }}
     >
       Discard
     </Button>,

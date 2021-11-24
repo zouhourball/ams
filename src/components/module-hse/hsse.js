@@ -9,7 +9,11 @@ import HeaderTemplate from 'components/header-template'
 import UploadReportDialog from 'components/upload-report-dialog'
 import { userRole } from 'components/shared-hook/get-roles'
 
-import { monthlyReportConfigs, monthlyReportData, actionsHeaderMonthly } from './helpers'
+import {
+  monthlyReportConfigs,
+  monthlyReportData,
+  actionsHeaderMonthly,
+} from './helpers'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -101,8 +105,11 @@ const HSSE = () => {
             withChecked
             selectedRow={selectedRow}
             headerTemplate={
-          selectedRow?.length === 1 && (
-                <HeaderTemplate title={`${selectedRow?.length} Row Selected`} actions={actionsHeader()} />
+              selectedRow?.length === 1 && (
+                <HeaderTemplate
+                  title={`${selectedRow?.length} Row Selected`}
+                  actions={actionsHeader()}
+                />
               )
             }
           />

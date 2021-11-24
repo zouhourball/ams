@@ -23,7 +23,8 @@ import {
 const Permit = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const actions =
@@ -121,7 +122,12 @@ const Permit = () => {
               selectedRow?.length === 1 && (
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
-                  actions={actionsHeader('drill-report', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                  actions={actionsHeader(
+                    'drill-report',
+                    selectedRow[0]?.id,
+                    userRole(),
+                    setShowSupportedDocumentDialog,
+                  )}
                 />
               )
             }
@@ -144,7 +150,7 @@ const Permit = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => { }}
+          onSaveUpload={() => {}}
         />
       )}
     </>

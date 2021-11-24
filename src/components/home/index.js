@@ -19,6 +19,7 @@ const CostRecovery = lazy(() => import('components/module-cost-recovery'))
 const HSE = lazy(() => import('components/module-hse'))
 const Reserves = lazy(() => import('components/module-reserves'))
 const Production = lazy(() => import('components/module-production'))
+const ConfiguratorPage = lazy(() => import('components/configurator-page'))
 
 const queryClient = new QueryClient()
 
@@ -50,6 +51,7 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Tendering path="/tendering" />
               <Agreement path="/agreement" />
               <Audit path="/audit" />
+              <ConfiguratorPage path="/configurator-page" />
             </Router>
           </Suspense>
         </div>

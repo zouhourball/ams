@@ -29,39 +29,58 @@ import {
 const CostRecovery = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] = useState(false)
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
 
   const annualCostAndExpenditureActionsHelper = [
-    { title: 'Upload Annual Cost & Expenditure Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Annual Cost & Expenditure Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const contractReportsActionsHelper = [
-    { title: 'Upload Contract Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Contract Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const productionLiftingActionsHelper = [
-    { title: 'Upload Production Lifting Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Production Lifting Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const transactionReportActionsHelper = [
-    { title: 'Upload Transaction  Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Transaction  Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const affiliateActionsHelper = [
-    { title: 'Upload Affiliate Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Affiliate Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
   const facilitiesActionsHelper = [
-    { title: 'Upload facilities Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload facilities Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
@@ -222,27 +241,32 @@ const CostRecovery = () => {
               selectedRow?.length === 1 && (
                 <HeaderTemplate
                   title={`${selectedRow?.length} Row Selected`}
-                  actions={actionsHeader('cost-recovery-details', selectedRow[0]?.id, userRole(), setShowSupportedDocumentDialog)}
+                  actions={actionsHeader(
+                    'cost-recovery-details',
+                    selectedRow[0]?.id,
+                    userRole(),
+                    setShowSupportedDocumentDialog,
+                  )}
                 />
               )
             }
           />
         </div>
       </div>
-      {showUploadMHTDialog &&
+      {showUploadMHTDialog && (
         <MHTDialog
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
-          }
-          }
-          onSave ={() => {
+          }}
+          onSave={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
-        />}
+        />
+      )}
       {showUploadRapportDialog && (
         <UploadReportDialog
           setFileList={setFileList}
@@ -263,7 +287,7 @@ const CostRecovery = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => { }}
+          onSaveUpload={() => {}}
         />
       )}
     </>

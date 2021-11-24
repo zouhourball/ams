@@ -16,10 +16,7 @@ const TopBar = ({ title, actions, menuItems, returnTo }) => {
   return (
     <div className="top-bar">
       {returnTo && (
-        <FontIcon
-          iconClassName="mdi mdi-chevron-left"
-          onClick={returnTo}
-        />
+        <FontIcon iconClassName="mdi mdi-chevron-left" onClick={returnTo} />
       )}
       <div className="top-bar-title">{title}</div>
       <div className="top-bar-buttons">

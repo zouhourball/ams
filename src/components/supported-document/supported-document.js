@@ -6,7 +6,15 @@ import { uploadFileTus } from 'libs/api/tus-upload'
 
 import './style.scss'
 
-const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoading, visible, title }) => {
+const SupportedDocument = ({
+  oldFiles,
+  onDiscard,
+  onSaveUpload,
+  accept,
+  isLoading,
+  visible,
+  title,
+}) => {
   const [files, setFiles] = useState(oldFiles)
   const [filesToDelete, setFilesToDelete] = useState([])
 
@@ -14,14 +22,14 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
   //   if (oldFiles && oldFiles.length > 0) { setFiles([...files, ...oldFiles]) }
   // }, [oldFiles])
 
-  const onUpload = documents => {
+  const onUpload = (documents) => {
     let newFiles = []
     Promise.all(
-      documents.map(document =>
+      documents.map((document) =>
         uploadFileTus(
           document,
           null,
-          res => {
+          (res) => {
             newFiles = [
               ...newFiles,
               {
@@ -82,40 +90,34 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
   }
 
   const renderFiles = () => {
-    return (
-      files?.map((file) => {
-        return (
-          <div className="file" key={file.id}>
-            {
-              !filesToDelete.includes(file.id) &&
-              <><div className="file-data">
-                <FontIcon
-                  icon
-                  iconClassName={customIncludes(file.filename)}
-                />
+    return files?.map((file) => {
+      return (
+        <div className="file" key={file.id}>
+          {!filesToDelete.includes(file.id) && (
+            <>
+              <div className="file-data">
+                <FontIcon icon iconClassName={customIncludes(file.filename)} />
                 <div className="file-details">
                   <span>{file.filename}</span>
                   <span>{formatFileSize(file.size)}</span>
                 </div>
-
               </div>
 
-                <FontIcon onClick={() => {
+              <FontIcon
+                onClick={() => {
                   setFilesToDelete([...filesToDelete, file.id])
-                }}>delete</FontIcon>
-              </>
-            }
-          </div>
-        )
-      }))
+                }}
+              >
+                delete
+              </FontIcon>
+            </>
+          )}
+        </div>
+      )
+    })
   }
   const actions = [
-    <Button
-      key={1}
-      flat
-      className="discard-btn"
-      onClick={onDiscard}
-    >
+    <Button key={1} flat className="discard-btn" onClick={onDiscard}>
       Discard
     </Button>,
     <Button
@@ -125,13 +127,20 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
       primary
       className="save-btn"
       onClick={onSaveUpload(
-        files?.filter(file =>
-          !filesToDelete.map(fileToDelete => fileToDelete)?.includes(file?.id),
+        files?.filter(
+          (file) =>
+            !filesToDelete
+              .map((fileToDelete) => fileToDelete)
+              ?.includes(file?.id),
         ),
         filesToDelete,
       )}
     >
-      {isLoading ? <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" /> : 'Upload'}
+      {isLoading ? (
+        <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" />
+      ) : (
+        'Upload'
+      )}
     </Button>,
   ]
   return (
@@ -152,13 +161,14 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
           multiple={true}
           className="dropzone-logo"
         >
-
           {({ getRootProps, getInputProps }) => (
             <section className="supported-document-dropzone">
               <div className="input-zone" {...getRootProps()}>
                 <input {...getInputProps()} />
                 <FontIcon className="delete-icon">file_upload</FontIcon>
-                <p>Drag & Drop file here or <b>Select File</b></p>
+                <p>
+                  Drag & Drop file here or <b>Select File</b>
+                </p>
               </div>
             </section>
           )}
@@ -171,19 +181,18 @@ const SupportedDocument = ({ oldFiles, onDiscard, onSaveUpload, accept, isLoadin
 
 export default SupportedDocument
 SupportedDocument.defaultProps = {
-
-  oldFiles:
-    [
-      {
-        id: '1',
-        filename: 'test1.png',
-        size: 10,
-      },
-      {
-        id: '2',
-        filename: 'test2.png',
-        size: 20,
-      },
-    ],
-  accept: '.doc, .docx, image/* , image/jpeg, image/png, image/jpg, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document ',
+  oldFiles: [
+    {
+      id: '1',
+      filename: 'test1.png',
+      size: 10,
+    },
+    {
+      id: '2',
+      filename: 'test2.png',
+      size: 20,
+    },
+  ],
+  accept:
+    '.doc, .docx, image/* , image/jpeg, image/png, image/jpg, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document ',
 }

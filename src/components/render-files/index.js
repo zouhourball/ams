@@ -46,24 +46,24 @@ export const renderFiles = (files, setFiles) => {
   return files?.map((file) => {
     return (
       <>
-          <div className="file" key={file.id}>
-            <FontIcon icon iconClassName={customIncludes(file.filename)} />
-            <div className="file-data">
-              <div className="file-details">
-                <span className="croppedText">{file.filename}</span>
-                <span>{formatFileSize(file.size)}</span>
-              </div>
+        <div className="file" key={file.id}>
+          <FontIcon icon iconClassName={customIncludes(file.filename)} />
+          <div className="file-data">
+            <div className="file-details">
+              <span className="croppedText">{file.filename}</span>
+              <span>{formatFileSize(file.size)}</span>
             </div>
-
-            <FontIcon
-              onClick={() => {
-                deleteFile([...files.filter(el => el.id !== file.id)], setFiles)
-                // setFilesToDelete([...filesToDelete, file.id])
-              }}
-            >
-              delete
-            </FontIcon>
           </div>
+
+          <FontIcon
+            onClick={() => {
+              deleteFile([...files.filter((el) => el.id !== file.id)], setFiles)
+              // setFilesToDelete([...filesToDelete, file.id])
+            }}
+          >
+            delete
+          </FontIcon>
+        </div>
       </>
     )
   })

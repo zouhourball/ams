@@ -1,0 +1,51 @@
+.confirmation-dialog {
+  .md-dialog {
+    width: 350px;
+    border-radius: 5px;
+  }
+
+  .md-title {
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+  }
+
+  &-information {
+    margin-bottom: 20px;
+    text-align: center;
+
+    .illustration {
+      margin-bottom: 16px;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      margin-bottom: 8px;
+      color: #000;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  &-button {
+    width: 100%;
+    border-radius: 4px;
+    background-color: rgba($color: #e76580, $alpha: 0.1);
+    color: #e76580;
+    font-weight: bold;
+
+    &.md-btn {
+      margin-top: 16px;
+      text-transform: none;
+    }
+  }
+
+  .close-btn {
+    color: rgba($color: #6d7895, $alpha: 0.8) !important;
+  }
+}

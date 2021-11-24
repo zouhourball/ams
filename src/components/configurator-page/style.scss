@@ -1,0 +1,14 @@
+.configurator {
+  .top-bar-buttons-icons {
+    display: none;
+  }
+
+  &-content {
+    display: flex;
+  }
+
+  .configurator-content {
+    max-width: 1024px;
+    margin: auto;
+  }
+}

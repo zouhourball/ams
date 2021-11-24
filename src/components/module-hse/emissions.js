@@ -20,7 +20,10 @@ const Emissions = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const monthlyReportActionsHelper = [
-    { title: 'Upload Monthly Emissions Report', onClick: () => setShowUploadRapportDialog(true) },
+    {
+      title: 'Upload Monthly Emissions Report',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
     { title: 'Download Template', onClick: () => {} },
   ]
 
@@ -92,7 +95,7 @@ const Emissions = () => {
             withFooter
             selectedRow={selectedRow}
             headerTemplate={
-            selectedRow?.length === 1 && (
+              selectedRow?.length === 1 && (
                 <HeaderTemplate
                   title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader()}

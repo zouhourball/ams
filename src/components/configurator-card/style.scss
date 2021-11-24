@@ -1,0 +1,25 @@
+//style
+.configurator-card {
+  display: flex;
+  margin: 10px 0;
+  padding: 0 10px;
+  border-radius: 10px;
+  background-color: #f0f2f5;
+
+  input {
+    color: #6d7895;
+    font-weight: 600;
+  }
+
+  &.active {
+    background: #1979ff;
+
+    input {
+      color: #fff;
+    }
+
+    .md-btn--icon {
+      color: white;
+    }
+  }
+}

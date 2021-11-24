@@ -3,10 +3,7 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
-import {
-  dailyReportData,
-  dailyReportConfigs,
-} from './helpers'
+import { dailyReportData, dailyReportConfigs } from './helpers'
 
 const EmissionsDetails = () => {
   const actions = [
@@ -33,7 +30,6 @@ const EmissionsDetails = () => {
     >
       Download Original File
     </Button>,
-
   ]
   return (
     <div className="details-container">

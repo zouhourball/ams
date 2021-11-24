@@ -69,7 +69,9 @@ export const annualReservesConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -141,7 +143,9 @@ export const historyConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const annualResourceConfigs = () => [
@@ -212,7 +216,9 @@ export const annualResourceConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -328,7 +334,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
-      return ([
+      return [
         {
           id: 1,
           label: 'Download Original File',
@@ -344,35 +350,38 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
         {
           id: 3,
           label: 'Upload Documents',
-          onClick: () => { supportedDocument(true) },
+          onClick: () => {
+            supportedDocument(true)
+          },
         },
-      ])
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            key && id && navigate(`/ams/reserves/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'Upload Documents',
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/reserves/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'Upload Documents',
-            onClick: () => { supportedDocument(true) },
-          },
-        ])
+        },
+      ]
   }
 }
 

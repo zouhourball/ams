@@ -69,7 +69,9 @@ export const annualReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 
@@ -141,7 +143,9 @@ export const monthlyReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const dailyReportConfigs = () => [
@@ -212,7 +216,9 @@ export const dailyReportConfigs = () => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    render: (row) => <div className={`table-status ${row?.status}`}>{row?.status}</div>,
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
 ]
 export const annualReportData = [
@@ -326,187 +332,175 @@ export const dailyReportData = [
 export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 1,
-            label: 'Download Annual Plan',
-            onClick: () => {},
+    default:
+      return [
+        {
+          id: 1,
+          label: 'Download Annual Plan',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Documents',
+          onClick: () => {
+            // navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
+        },
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 2,
+          label: 'Download Annual Plan',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 2,
-            label: 'Download Annual Plan',
-            onClick: () => {},
+        },
+        {
+          id: 5,
+          label: 'Upload Documents',
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
-          },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              supportedDocument(true)
-            },
-          },
-        ]
-      )
+        },
+      ]
   }
 }
 
 export const actionsHeaderMonthly = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
+    default:
+      return [
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
+        },
+        {
+          id: 4,
+          label: 'View Documents',
+          onClick: () => {
+            // navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
+        },
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
+        },
+        {
+          id: 5,
+          label: 'Upload Documents',
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              supportedDocument(true)
-            },
-          },
-        ]
-      )
+        },
+      ]
   }
 }
 
 export const actionsHeaderDaily = (key, id, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
-    default :
-      return (
-        [
-          {
-            id: 2,
-            label: 'Download Original File',
-            onClick: () => {},
+    default:
+      return [
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 3,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
+        },
+        {
+          id: 4,
+          label: 'View Documents',
+          onClick: () => {
+            // navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 4,
-            label: 'View Documents',
-            onClick: () => {
-              // navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-        ]
-      )
+        },
+      ]
     case 'operator':
-      return (
-        [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {},
+      return [
+        {
+          id: 1,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 3,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {},
+        },
+        {
+          id: 5,
+          label: 'Upload Documents',
+          onClick: () => {
+            supportedDocument(true)
           },
-          {
-            id: 4,
-            label: 'View Details',
-            onClick: () => {
-              navigate(`/ams/hse/${key}/${id}`)
-            },
-          },
-          {
-            id: 5,
-            label: 'Upload Documents',
-            onClick: () => {
-              supportedDocument(true)
-            },
-          },
-        ]
-      )
+        },
+      ]
   }
 }
 export const flaringDetailsConfigs = [
@@ -629,7 +623,6 @@ export const hsseDetailsConfigs = [
     icon: 'mdi mdi-spellcheck',
     type: 'text',
   })),
-
 ]
 
 export const hsseDetailsData = [
