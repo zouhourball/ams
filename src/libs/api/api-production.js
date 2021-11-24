@@ -9,9 +9,12 @@ const appUrl =
 export const getListDailyProduction = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/production/daily`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/daily?page=0&size=200`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -143,7 +146,7 @@ export const downloadTemplate = async ({ queryKey }) => {
 }
 
 export const downloadTemp = async (module, sub) => {
-  const url = `${appUrl}/pulse-be/api/v1/${module}/${sub}/template/download`
+  const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
   const apiResponseBlob = await await fetchGeneric(url, { method: 'GET' }).then(
     (response) => response.blob(),
   )
@@ -168,6 +171,72 @@ export const uploadDailyProductionReport = async ({ body }) => {
       isFormData: true,
       body: newBody,
     })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const uploadMonthlyProductionReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('month', body?.month)
+  newBody.append('year', body?.year)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
+
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/monthly/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const uploadMonthlyTrackingProductionReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('month', body?.month)
+  newBody.append('year', body?.year)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
+
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/monthly-tracking/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const commitProduction = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/commit`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

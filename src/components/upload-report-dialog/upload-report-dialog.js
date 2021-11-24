@@ -39,16 +39,9 @@ const UploadReportDialog = ({
   const [reportData, setReportData] = useState({
     referenceDate: new Date(),
   })
-
   const onUpload = (file) => {
-    // setFileLoader(true)
-    // fileManagerUpload(file).then((res) => {
-    //   // onDisplayMHT
-    //   //   ? onDisplayMHT(...res.files)
-    //   setFile([file])
-    // setFileLoader(false)
-    // })
-
+    // onSave({ ...reportData, file, optionalFiles })
+    setFile([file])
     setReportData({ ...reportData, file })
   }
   const { getRootProps, getInputProps } = useDropzone({
@@ -85,6 +78,7 @@ const UploadReportDialog = ({
       onClick: () => onSave({ ...reportData, files, optionalFiles }),
     },
   ]
+
   const renderDocumentIcon = (extension) => {
     const image = ['png', 'jpeg', 'jpg']
     if (extension === 'doc') {
@@ -193,8 +187,8 @@ const UploadReportDialog = ({
               ? renderDocumentIcon(file.contentType.split('/')[1])
               : ''}
             <div className="file-info">
-              <div className="file-name"> {get(file, 'filename', '')} </div>
-              <div className="file-size"> {get(file, 'size', '')} </div>
+              <div className="file-name"> {get(file[0], 'name', '')} </div>
+              <div className="file-size"> {get(file[0], 'size', '')} </div>
             </div>
             <Button
               icon

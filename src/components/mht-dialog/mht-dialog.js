@@ -15,7 +15,7 @@ const MHTDialog = ({ mhtData, title, visible, onHide, onSave }) => {
       onClick: () => onHide && onHide(),
     },
     {
-      children: 'Upload',
+      children: 'Commit',
       primary: true,
       flat: true,
       swapTheming: true,

@@ -2,8 +2,15 @@ import { useState } from 'react'
 import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useMutation } from 'react-query'
+import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
+import { useDispatch } from 'react-redux'
+
+import { addToast } from 'modules/app/actions'
 
 import useRole from 'libs/hooks/use-role'
+
+import ToastMsg from 'components/toast-msg'
 
 import {
   // getListDailyProduction,
@@ -14,6 +21,9 @@ import {
   // downloadTemplate,
   downloadTemp,
   uploadDailyProductionReport,
+  uploadMonthlyProductionReport,
+  uploadMonthlyTrackingProductionReport,
+  commitProduction,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -47,29 +57,188 @@ const Production = () => {
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
 
+  const [currentUpload, setCurrentUpload] = useState()
+  const dispatch = useDispatch()
+
   const role = useRole('production')
 
-  const uploadAnnualReportMutate = useMutation(uploadDailyProductionReport)
+  const uploadDailyReportMutate = useMutation(
+    uploadDailyProductionReport,
 
-  const onAddReport = (body) => {
-    uploadAnnualReportMutate.mutate(
-      {
-        body: {
-          block: '1', // body?.block,
-          company: 'company',
-          file: body?.file,
-          processInstanceId: 'id',
-          dailyDate: '2021',
-        },
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={
+                  res.message || 'Daily production report uploaded successfully'
+                }
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
       },
-      // {
-      //   onSuccess: (res) =>
-      //     /*! res?.error && refetchAnnualReserves(), */ console.log(
-      //       res,
-      //       'rerrre',
-      //     ),
-      // },
-    )
+    },
+  )
+
+  const uploadMonthlyReportMutate = useMutation(
+    uploadMonthlyProductionReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setShowUploadRapportDialog(false)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={
+                  res.message || 'Daily production report uploaded successfully'
+                }
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const uploadMonthlyTrackingReportMutate = useMutation(
+    uploadMonthlyTrackingProductionReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setShowUploadRapportDialog(false)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={
+                  res.message || 'Daily production report uploaded successfully'
+                }
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const commitProductionMutate = useMutation(
+    commitProduction,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setShowUploadRapportDialog(false)
+          // setCurrentUpload(res)
+          // onDisplayMHT(...res.values)
+          setShowUploadMHTDialog(false)
+
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'commit successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const onCommitProduction = (subModule) => {
+    commitProductionMutate.mutate({
+      subModule: subModule,
+      body: currentUpload,
+    })
+  }
+
+  const onAddReportByCurrentTab = (body) => {
+    switch (currentTab) {
+      case 0:
+        return uploadDailyReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'company',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
+          },
+        })
+      case 1:
+        return uploadMonthlyReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'company',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+      case 2:
+        return uploadMonthlyTrackingReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'company',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+    }
   }
 
   // const { data: listDailyProduction } = useQuery(
@@ -79,6 +248,7 @@ const Production = () => {
   //     refetchOnWindowFocus: false,
   //   },
   // )
+
   // const { data: listMonthlyProduction } = useQuery(
   //   ['getListMonthlyProduction'],
   //   getListMonthlyProduction,
@@ -338,8 +508,10 @@ const Production = () => {
             setShowUploadRapportDialog(true)
           }}
           onSave={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
+            onCommitProduction('daily')
+
+            // setShowUploadMHTDialog(false)
+            // setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />
@@ -367,8 +539,8 @@ const Production = () => {
             setFileList([])
           }}
           onSave={(data) => {
-            renderDialogData().onClick()
-            onAddReport(data)
+            // renderDialogData().onClick()
+            onAddReportByCurrentTab(data)
           }}
         />
       )}
