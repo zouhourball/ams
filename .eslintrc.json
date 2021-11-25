@@ -62,7 +62,8 @@
     "PRODUCT_APP_ELEVATE_CHAT_BOT": false,
     "ELEVATE_GOOGLE_ANALYTICS_ID": false,
     "OKR_EAM": false,
-    "DASHBOARD_ID": false
+    "DASHBOARD_ID": false,
+    "TOKEN_DOMAIN": false
   },
   "extends": ["standard", "plugin:react/recommended", "plugin:jest/all"],
   "parser": "@typescript-eslint/parser",

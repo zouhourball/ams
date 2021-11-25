@@ -5,6 +5,8 @@ import {
 import * as React from 'react'
 import { fetchJSON } from 'libs/fetch'
 
+import { getLanguage, setLanguage } from 'libs/utils/language'
+
 export const { Wrapper, withTranslation, useTranslation } =
   createTinyI18NWrapper({
     productName: 'bayen',
@@ -33,7 +35,7 @@ export function withTranslationEx (Com) {
 }
 
 function defaultLang () {
-  const lang = localStorage.getItem('language')
+  const lang = getLanguage()
   if (lang === 'zh') {
     return 'zh-CN'
   }
@@ -45,7 +47,7 @@ function defaultLang () {
 export function LangProvider ({ children }) {
   const [lang, changeLang] = React.useState(defaultLang())
   const change = React.useCallback((lang) => {
-    localStorage.setItem('language', lang)
+    setLanguage(lang)
     if (lang === 'ar') {
       document.dir = 'rtl'
     } else {

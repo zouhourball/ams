@@ -54,7 +54,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@reach/router": "^1.3.4",
-    "@target-energysolutions/app-shell": "^22.6.14",
+    "@target-energysolutions/app-shell": "^22.8.1",
     "@target-energysolutions/auth-check": "^0.3.7",
     "@target-energysolutions/date-picker": "^3.1.5",
     "@target-energysolutions/eam-top-bar": "^1.2.0",
@@ -63,7 +63,7 @@
     "@target-energysolutions/mht": "2.21.5-beta.6",
     "@target-energysolutions/react-hoc-query": "^1.0.4",
     "@target-energysolutions/task-manager": "^6.0.1",
-    "@target-energysolutions/tiny-i18n": "2.1.1",
+    "@target-energysolutions/tiny-i18n": "^2.1.2",
     "@target-energysolutions/tools": "^1.2.1",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
