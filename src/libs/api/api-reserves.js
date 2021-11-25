@@ -1,5 +1,6 @@
 import { fetchJSON, fetchGeneric } from 'libs/fetch'
 import { downloadFromBlob } from 'libs/utils/download-blob'
+import { formDataBody } from 'libs/utils/custom-function'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
@@ -13,14 +14,6 @@ export const getBlocks = async () => {
     res = { error: e }
   }
   return res
-}
-
-const formDataBody = (body) => {
-  let newBody = new FormData()
-  for (const [key, value] of Object.entries(body)) {
-    newBody.append(key, value)
-  }
-  return newBody
 }
 
 export const uploadAnnualReport = async ({ body }) => {

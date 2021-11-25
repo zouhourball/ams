@@ -1,12 +1,24 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import { useQuery, useMutation } from 'react-query'
+import { useSelector } from 'react-redux'
+
+import useRole from 'libs/hooks/use-role'
+import {
+  listCostsCost,
+  uploadAnnualCosts,
+  commitLoadCostsCost,
+} from 'libs/api/cost-recovery-api'
+import { getBlockByOrgId } from 'libs/api/configurator-api'
+import { downloadTemp } from 'libs/api/api-reserves'
+
+import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
-import { userRole } from 'components/shared-hook/get-roles'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 
@@ -27,21 +39,42 @@ import {
 } from './helpers'
 
 const CostRecovery = () => {
+  const organizationID = useSelector(({ shell }) => shell?.organizationId)
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
-  const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  const [, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+
+  const role = useRole('costrecovery')
+
+  const { data: annualListRecovery, refetch: refetchAnnualCosts } = useQuery(
+    ['listCostsCost'],
+    listCostsCost,
+  )
+  const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
+    useMutation(uploadAnnualCosts)
+  const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
+
+  const { data: blockList } = useQuery(
+    ['getBlockByOrgId', organizationID],
+    organizationID && getBlockByOrgId,
+  )
 
   const annualCostAndExpenditureActionsHelper = [
     {
       title: 'Upload Annual Cost & Expenditure Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('upload-annual-cost'),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'costs')
+      },
+    },
   ]
 
   const contractReportsActionsHelper = [
@@ -57,7 +90,12 @@ const CostRecovery = () => {
       title: 'Upload Production Lifting Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'annual')
+      },
+    },
   ]
 
   const transactionReportActionsHelper = [
@@ -131,7 +169,7 @@ const CostRecovery = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return annualCostData
+        return annualListRecovery?.content || []
       case 1:
         return contractReportData
       case 2:
@@ -213,11 +251,79 @@ const CostRecovery = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
+
+  const handleUploadAnnualCost = (data) => {
+    uploadAnnualCostsExp(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: 'ams-fe',
+        processInstanceId: 'id',
+        year: +data?.referenceDate?.year,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog(true)
+          }
+        },
+      },
+    )
+  }
+
+  const configsMht = () => {
+    switch (showUploadRapportDialog) {
+      case 'upload-annual-cost':
+        return configsAnnualCostsDialogMht()
+
+      default:
+        return configsAnnualCostsDialogMht()
+    }
+  }
+
+  const resAnnualCostData = () => {
+    return (
+      responseUploadAnnualCost?.data?.items?.map((el) => ({
+        category: el?.category,
+        subCategory: el?.subCategory,
+        group: el?.group,
+        uom: el?.uom,
+        item: el?.name,
+        description: el?.explanation,
+      })) || []
+    )
+  }
+  const dataMht = useMemo(() => {
+    switch (showUploadRapportDialog) {
+      case 'upload-annual-cost':
+        return resAnnualCostData()
+
+      default:
+        return resAnnualCostData()
+    }
+  }, [responseUploadAnnualCost])
+
+  const handleSaveCommitAnnualCosts = () => {
+    commitAnnualCostsExp(
+      {
+        items: responseUploadAnnualCost?.data?.items,
+        metaData: responseUploadAnnualCost?.data?.metaData,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            refetchAnnualCosts()
+          }
+        },
+      },
+    )
+  }
   return (
     <>
       <TopBar
         title="Cost Recovery Reporting"
-        actions={userRole() === 'operator' ? renderActionsByCurrentTab() : null}
+        actions={role === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <div className="subModule">
         <NavBar
@@ -244,7 +350,7 @@ const CostRecovery = () => {
                   actions={actionsHeader(
                     'cost-recovery-details',
                     selectedRow[0]?.id,
-                    userRole(),
+                    role,
                     setShowSupportedDocumentDialog,
                   )}
                 />
@@ -256,14 +362,14 @@ const CostRecovery = () => {
       {showUploadMHTDialog && (
         <MHTDialog
           visible={showUploadMHTDialog}
+          propsDataTable={dataMht}
+          propsConfigs={configsMht()}
           onHide={() => {
             setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
+            // setShowUploadRapportDialog(true)
           }}
           onSave={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
-            setFileList([...filesList, dataDisplayedMHT])
+            handleSaveCommitAnnualCosts()
           }}
         />
       )}
@@ -271,6 +377,7 @@ const CostRecovery = () => {
         <UploadReportDialog
           setFileList={setFileList}
           filesList={filesList}
+          blockList={blockList?.length === 0 ? ['10', '100'] : blockList}
           onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
@@ -279,7 +386,9 @@ const CostRecovery = () => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          onSave={() => renderDialogData().onClick()}
+          onSave={(data) => {
+            handleUploadAnnualCost(data)
+          }}
         />
       )}
       {showSupportedDocumentDialog && (

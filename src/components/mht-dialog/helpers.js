@@ -1,4 +1,4 @@
-export const flaringDetailsConfigs = [
+export const propsConfigs = [
   {
     label: 'Gaz Type',
     key: 'gaz_type',
@@ -57,7 +57,7 @@ export const flaringDetailsConfigs = [
   },
 ]
 
-export const flaringDetailsData = [
+export const propsDataTable = [
   {
     gaz_type: 'Gas Flared (Excl. Gas Conservation)',
     unit: 'MMscf/d',
