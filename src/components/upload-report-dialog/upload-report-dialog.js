@@ -31,7 +31,6 @@ const UploadReportDialog = ({
   setFileList,
   filesList,
 }) => {
-  const [files, setFile] = useState(filesList || [])
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
@@ -40,18 +39,29 @@ const UploadReportDialog = ({
     referenceDate: new Date(),
   })
   const onUpload = (file) => {
+    // setFileLoader(true)
+    // fileManagerUpload(file).then((res) => {
+    //   // onDisplayMHT
+    //   //   ? onDisplayMHT(...res.files)
+    //   setFile([file])
+    // setFileLoader(false)
+    // })
+    /*
+    onDisplayMHT ? onDisplayMHT(...file) : setFileList([...file[0]])
+    setFileList({ ...file[0] }) */
     // onSave({ ...reportData, file, optionalFiles })
-    setFile([file])
+    setFileList(file[0])
     setReportData({ ...reportData, file })
   }
   const { getRootProps, getInputProps } = useDropzone({
-    // accept: accept,
+    accept:
+      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     onDrop: onUpload,
   })
   const onUploadOptional = (file) => {
     setOptionalFileLoader(true)
     fileManagerUpload(file).then((res) => {
-      setOptionalFile([...optionalFiles, ...res.files])
+      // setOptionalFile([...optionalFiles, ...res.filesList])
       setOptionalFileLoader(false)
     })
   }
@@ -59,7 +69,8 @@ const UploadReportDialog = ({
     getRootProps: getOptionalRootProps,
     getInputProps: getOptionalInputProps,
   } = useDropzone({
-    // accept: accept,
+    accept:
+      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     onDrop: onUploadOptional,
   })
   const actions = [
@@ -75,11 +86,13 @@ const UploadReportDialog = ({
       primary: true,
       flat: true,
       swapTheming: true,
-      onClick: () => onSave({ ...reportData, files, optionalFiles }),
+      onClick: () => {
+        onSave({ ...reportData, filesList, optionalFiles })
+        onHide()
+      },
     },
   ]
-
-  const renderDocumentIcon = (extension) => {
+  /* const renderDocumentIcon = (extension) => {
     const image = ['png', 'jpeg', 'jpg']
     if (extension === 'doc') {
       return <FontIcon icon iconClassName={`mdi mdi-office mdi-36px`} />
@@ -103,7 +116,7 @@ const UploadReportDialog = ({
     } else {
       return <FontIcon icon iconClassName={`mdi mdi-file mdi-36px`} />
     }
-  }
+  } */
   return (
     <DialogContainer
       id="import-report-dialog"
@@ -162,6 +175,25 @@ const UploadReportDialog = ({
         <div className="upload-report-dialog-subtitle md-cell md-cell--12">
           Attach Report
         </div>
+        {/* <div
+          {...getRootProps({
+            className: 'upload-report-dialog-fileDropZone md-cell md-cell--12',
+          })}
+        >
+          <input {...getInputProps()} />
+          <img src={uploadIcon} width="20px" />
+          <p>
+            Drag & Drop file here or <b>Select File</b>
+          </p>
+        </div>
+        {filesList?.name && (
+          <div
+            key={filesList.name}
+            className={`upload-report-dialog-file md-cell md-cell--12`}
+          >
+            {/* filesList && filesList?.name
+              ? renderDocumentIcon(filesList.name.split('.')[1])
+            : '' */}
         {fileLoader ? (
           <CircularProgress />
         ) : (
@@ -178,31 +210,29 @@ const UploadReportDialog = ({
             </p>
           </div>
         )}
-        {files?.map((file) => (
+        {filesList?.name && (
           <div
-            key={file.id}
+            key={filesList.name}
             className={`upload-report-dialog-file md-cell md-cell--12`}
           >
-            {file && file.contentType
-              ? renderDocumentIcon(file.contentType.split('/')[1])
-              : ''}
+            <FontIcon icon iconClassName={`mdi mdi-file-excel mdi-36px`} />
             <div className="file-info">
-              <div className="file-name"> {get(file[0], 'name', '')} </div>
-              <div className="file-size"> {get(file[0], 'size', '')} </div>
+              <div className="file-name"> {filesList.name} </div>
+              <div className="file-size"> {filesList.size} </div>
             </div>
             <Button
               icon
               className="actionButton"
               onClick={() => {
-                setFile(files.filter((el) => el?.id !== file.id))
-                onDisplayMHT &&
-                  setFileList(files.filter((el) => el?.id !== file.id))
+                // onDisplayMHT && setFileList({})
+                // setFile(files.filter((el) => el?.id !== file.id))
+                onDisplayMHT && setFileList({})
               }}
             >
               delete_outline
             </Button>
           </div>
-        ))}
+        )}
         {optional && (
           <>
             <div className="upload-report-dialog-subtitle md-cell md-cell--12">
@@ -229,9 +259,6 @@ const UploadReportDialog = ({
                 key={file.id}
                 className={`upload-report-dialog-file md-cell md-cell--12`}
               >
-                {file && file.contentType
-                  ? renderDocumentIcon(file.contentType.split('/')[1])
-                  : ''}
                 <div className="file-info">
                   <div className="file-name"> {get(file, 'filename', '')} </div>
                   <div className="file-size"> {get(file, 'size', '')} </div>
