@@ -10,13 +10,13 @@ export const liquefiedPetroleumGasConfigs = () => [
     type: 'text',
   },
 
-  {
-    label: 'Block',
-    key: 'block',
-    width: '200',
-    type: 'text',
-    icon: 'mdi mdi-spellcheck',
-  },
+  // {
+  //   label: 'Block',
+  //   key: 'block',
+  //   width: '200',
+  //   type: 'text',
+  //   icon: 'mdi mdi-spellcheck',
+  // },
   {
     label: 'Submitted Date',
     key: 'submittedDate',
@@ -31,14 +31,14 @@ export const liquefiedPetroleumGasConfigs = () => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-  {
-    label: 'Reference Date',
-    key: 'referenceDate',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
-  },
+  // {
+  //   label: 'Reference Date',
+  //   key: 'referenceDate',
+  //   width: '200',
+  //   icon: 'mdi mdi-spellcheck',
+  //   type: 'date',
+  //   dateFormat: 'DD MMM, YYYY',
+  // },
   {
     label: 'Status Date',
     key: 'statusDate',

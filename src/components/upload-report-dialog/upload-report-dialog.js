@@ -30,6 +30,7 @@ const UploadReportDialog = ({
   onDisplayMHT,
   setFileList,
   filesList,
+  hideBlock,
 }) => {
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
@@ -127,18 +128,20 @@ const UploadReportDialog = ({
       actions={actions}
     >
       <div className="md-grid">
-        <SelectField
-          className={`upload-report-dialog-selectField ${
-            hideDate ? 'md-cell md-cell--12' : 'md-cell md-cell--6'
-          } `}
-          id="block"
-          placeholder={'Select Block'}
-          menuItems={blockList}
-          position={SelectField.Positions.BELOW}
-          value={reportData?.block}
-          onChange={(v) => setReportData({ ...reportData, block: v })}
-          simplifiedMenu={false}
-        />
+        {!hideBlock && (
+          <SelectField
+            className={`upload-report-dialog-selectField ${
+              hideDate ? 'md-cell md-cell--12' : 'md-cell md-cell--6'
+            } `}
+            id="block"
+            placeholder={'Select Block'}
+            menuItems={blockList}
+            position={SelectField.Positions.BELOW}
+            value={reportData?.block}
+            onChange={(v) => setReportData({ ...reportData, block: v })}
+            simplifiedMenu={false}
+          />
+        )}
         {!hideDate && (
           <TextField
             placeholder={'Reference Date'}

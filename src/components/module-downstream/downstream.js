@@ -1,6 +1,22 @@
 import { useState } from 'react'
+import { useQuery, useMutation } from 'react-query'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
+import { downloadTemp } from 'libs/api/api-reserves'
+
+import {
+  listLpgDownstreamByLoggedUser,
+  listNgDownstreamByLoggedUser,
+  listRsDownstreamByLoggedUser,
+  uploadLpg,
+  uploadNg,
+  uploadRs,
+  commitLoadDownstreamLpg,
+  commitLoadDownstreamNg,
+  commitLoadDownstreamRs,
+} from 'libs/api/downstream-api'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -14,9 +30,9 @@ import {
   liquefiedPetroleumGasConfigs,
   naturalGasConfigs,
   petroleumProductsConfigs,
-  liquefiedPetroleumGasData,
-  naturalGasData,
-  petroleumProductsData,
+  // liquefiedPetroleumGasData,
+  // naturalGasData,
+  // petroleumProductsData,
   actionsHeader,
 } from './helpers'
 
@@ -29,13 +45,40 @@ const Downstream = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+  const [commitData, setCommitData] = useState({})
+
+  const { data: listLiquefiedPetroleumGas, refetch: refetchLpgList } = useQuery(
+    ['listLpgDownstreamByLoggedUser'],
+    listLpgDownstreamByLoggedUser,
+  )
+  const { data: LisPetroleumProducts, refetch: refetchNgList } = useQuery(
+    ['listNgDownstreamByLoggedUser'],
+    listNgDownstreamByLoggedUser,
+  )
+  const { data: ListNaturalGas, refetch: refetchRsList } = useQuery(
+    ['listRsDownstreamByLoggedUser'],
+    listRsDownstreamByLoggedUser,
+  )
+
+  const uploadLpgMutate = useMutation(uploadLpg)
+  const uploadNgMutate = useMutation(uploadNg)
+  const uploadRsMutate = useMutation(uploadRs)
+
+  const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
+  const commitNgMutate = useMutation(commitLoadDownstreamNg)
+  const commitRsMutate = useMutation(commitLoadDownstreamRs)
 
   const liquefiedPetroleumGasActionsHelper = [
     {
       title: 'Attach Spreadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('downstream', 'lpgDownstream')
+      },
+    },
   ]
 
   const naturalGasActionsHelper = [
@@ -43,7 +86,12 @@ const Downstream = () => {
       title: 'Attach Spreadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('downstream', 'ngDownstream')
+      },
+    },
   ]
 
   const petroleumProductsActionsHelper = [
@@ -51,8 +99,109 @@ const Downstream = () => {
       title: 'Attach Spreadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('downstream', 'rsDownstream')
+      },
+    },
   ]
+  const onAddReport = (body) => {
+    switch (currentTab) {
+      case 0:
+        return uploadLpgMutate.mutate(
+          {
+            body: {
+              company: 'company',
+              file: body?.file,
+              month: moment(body?.referenceDate).format('MMMM'),
+              processInstanceId: uuidv4(),
+              year: moment(body?.referenceDate).format('YYYY'),
+            },
+          },
+          {
+            onSuccess: (res) => {
+              if (!res?.error) {
+                refetchLpgList()
+                setCommitData(res?.data)
+                onDisplayMHT(...res.values)
+              }
+            },
+          },
+        )
+      case 1:
+        return uploadNgMutate.mutate(
+          {
+            body: {
+              company: 'company',
+              file: body?.file,
+              month: moment(body?.referenceDate).format('MMMM'),
+              processInstanceId: uuidv4(),
+              year: moment(body?.referenceDate).format('YYYY'),
+            },
+          },
+          {
+            onSuccess: (res) => !res?.error && refetchNgList(),
+          },
+        )
+      case 2:
+        return uploadRsMutate.mutate(
+          {
+            body: {
+              company: 'company',
+              file: body?.file,
+              month: moment(body?.referenceDate).format('MMMM'),
+              processInstanceId: uuidv4(),
+              year: moment(body?.referenceDate).format('YYYY'),
+            },
+          },
+          {
+            onSuccess: (res) => !res?.error && refetchRsList(),
+          },
+        )
+      default:
+        break
+    }
+  }
+  const onCommitRapport = () => {
+    switch (currentTab) {
+      case 0:
+        return commitLpgMutation.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => {
+              if (!res?.error) {
+                setShowUploadMHTDialog(false)
+                setShowUploadRapportDialog(false)
+                // refetchLpgList()
+              }
+            },
+          },
+        )
+      case 1:
+        return commitNgMutate.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => !res?.error && refetchNgList(),
+          },
+        )
+      case 2:
+        return commitRsMutate.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => !res?.error && refetchRsList(),
+          },
+        )
+      default:
+        break
+    }
+  }
 
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
@@ -92,14 +241,14 @@ const Downstream = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return liquefiedPetroleumGasData
+        return listLiquefiedPetroleumGas?.content || []
       case 1:
-        return naturalGasData
+        return ListNaturalGas?.content || []
       case 2:
-        return petroleumProductsData
+        return LisPetroleumProducts?.content || []
 
       default:
-        return liquefiedPetroleumGasData
+        return listLiquefiedPetroleumGas?.content || []
     }
   }
   const renderCurrentTabConfigs = () => {
@@ -192,8 +341,9 @@ const Downstream = () => {
             setShowUploadRapportDialog(true)
           }}
           onSave={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
+            onCommitRapport()
+            // setShowUploadMHTDialog(false)
+            // setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />
@@ -202,6 +352,7 @@ const Downstream = () => {
         <UploadReportDialog
           setFileList={setFileList}
           filesList={filesList}
+          hideBlock
           onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
@@ -210,7 +361,10 @@ const Downstream = () => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          onSave={() => renderDialogData().onClick()}
+          onSave={(data) => {
+            onAddReport(data)
+            // renderDialogData().onClick()
+          }}
         />
       )}
       {showSupportedDocumentDialog && (

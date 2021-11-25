@@ -6,7 +6,7 @@ const appUrl =
     : PRODUCT_APP_URL_API
 // lpg
 
-export const listLpgDownstreamByLoggedUser = async ({ queryKey }) => {
+export const listLpgDownstreamByLoggedUser = async () => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg`, {
@@ -79,14 +79,18 @@ export const updateDownstreamLpg = async ({ body }) => {
 }
 
 export const uploadLpg = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+  let newBody = new FormData()
+  newBody.append('year', body?.year)
+  newBody.append('month', body?.month)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg/upload`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      isFormData: true,
+      body: newBody,
     })
   } catch (e) {
     res = { error: e }
@@ -123,7 +127,7 @@ export const deleteLpg = async ({ objectId }) => {
   return res
 }
 // ng
-export const listNgDownstreamByLoggedUser = async ({ queryKey }) => {
+export const listNgDownstreamByLoggedUser = async () => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng`, {
@@ -196,14 +200,18 @@ export const updateDownstreamNg = async ({ body }) => {
 }
 
 export const uploadNg = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+  let newBody = new FormData()
+  newBody.append('year', body?.year)
+  newBody.append('month', body?.month)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng/upload`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      isFormData: true,
+      body: newBody,
     })
   } catch (e) {
     res = { error: e }
@@ -240,7 +248,7 @@ export const deleteNg = async ({ objectId }) => {
   return res
 }
 // Petroleum Products
-export const listRsDownstreamByLoggedUser = async ({ queryKey }) => {
+export const listRsDownstreamByLoggedUser = async () => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs`, {
@@ -313,14 +321,18 @@ export const updateDownstreamRs = async ({ body }) => {
 }
 
 export const uploadRs = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+  let newBody = new FormData()
+  newBody.append('year', body?.year)
+  newBody.append('month', body?.month)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs/upload`, {
       method: 'POST',
-      body: JSON.stringify(body),
+      isFormData: true,
+      body: newBody,
     })
   } catch (e) {
     res = { error: e }
