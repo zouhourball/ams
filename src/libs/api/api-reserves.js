@@ -37,6 +37,7 @@ export const uploadAnnualReport = async ({ body }) => {
   return res
 }
 export const uploadHistoryAndForecast = async ({ body }) => {
+  // console.log(body, 'detail api')
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v1/reserve/fyf/upload`, {
@@ -114,17 +115,13 @@ export const downloadTemp = async (module, sub) => {
 export const commitReport = async ({ body }) => {
   // console.log(body, 'body')
   let res
-  let newBody = new FormData()
-  newBody.append('reserveResource', body?.reserveResource)
-  newBody.append('processInstanceId', body?.processInstanceId)
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annualResource/commit
+      `${appUrl}/pulse-be/api/v1/reserve/annual/commit
     `,
       {
         method: 'POST',
-        isFormData: true,
-        body: newBody,
+        body: JSON.stringify(body),
       },
     )
   } catch (e) {

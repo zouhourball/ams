@@ -47,14 +47,18 @@ const Reserves = () => {
     ['getAnnualReport'],
     getAnnualReport,
   )
-  const { data: listHistoryAndForecast, refetch: refetchHistoryAndForecast } =
-    useQuery(['getHistoryAndForecast'], getHistoryAndForecast)
+  /*, refetch: refetchHistoryAndForecast */
+  const { data: listHistoryAndForecast } = useQuery(
+    ['getHistoryAndForecast'],
+    getHistoryAndForecast,
+  )
   const {
     data: listAnnualResourceDetail,
     refetch: refetchAnnualResourceDetail,
   } = useQuery(['getAnnualResourceDetail'], getAnnualResourceDetail)
   /*, data: uploadAnnualResponse */
-  const { mutate: uploadAnnualReportMutate } = useMutation(uploadAnnualReport)
+  const { mutate: uploadAnnualReportMutate, data: uploadAnnualResponse } =
+    useMutation(uploadAnnualReport)
   const onUploadHistoryReportMutate = useMutation(uploadHistoryAndForecast)
   const onUploadDetailReportMutate = useMutation(uploadAnnualResource)
 
@@ -229,7 +233,7 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'company',
+          company: 'ams-org',
           file: body?.filesList,
           processInstanceId: 'id',
           year: '2021',
@@ -237,8 +241,8 @@ const Reserves = () => {
       },
       {
         onSuccess: (res) => {
-          onCommitReport(res?.data)
-          // console.log(res, 'res')
+          onDisplayMHT(res?.data)
+          // onCommitReport(res?.data)
         },
       },
     )
@@ -264,10 +268,7 @@ const Reserves = () => {
     // console.log(body, 'uploadAnnualResponse')
     onCommitReportMutate.mutate(
       {
-        body: {
-          reserveResource: body,
-          processInstanceId: 'id',
-        },
+        body: body?.data,
       },
       {
         onSuccess: (res) => !res?.error && refetchAnnualReserves(),
@@ -279,13 +280,16 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'company',
+          company: 'ams-org',
           file: body?.filesList,
           processInstanceId: 'id',
         },
       },
       {
-        onSuccess: (res) => !res?.error && refetchHistoryAndForecast(),
+        onSuccess: (res) => {
+          // console.log(res, 'history')
+          onDisplayMHT(res?.data)
+        },
       },
     )
   }
@@ -294,7 +298,7 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'company',
+          company: 'ams-org',
           file: body?.filesList,
           hydrocarbonType: 'GAS',
           processInstanceId: 'id',
@@ -353,6 +357,7 @@ const Reserves = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
             setFileList(dataDisplayedMHT)
+            onCommitReport(uploadAnnualResponse, 'annualResource')
           }}
         />
       )}
