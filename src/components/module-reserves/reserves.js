@@ -5,6 +5,7 @@ import Mht from '@target-energysolutions/mht'
 import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 // import useRole from 'libs/hooks/use-role'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import {
   uploadAnnualReport,
@@ -49,6 +50,9 @@ const Reserves = () => {
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
   // const [dialog, setDialogVisible] = useState(false)
+
+  // const company = getOrganizationInfos()
+  // console.log(company, 'company')
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     ['getAnnualReport'],
     getAnnualReport,

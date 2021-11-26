@@ -8,14 +8,14 @@ const getOrganizationInfos = () => {
 
   const { data: organization } = useQuery(organisationByID, {
     context: {
-      uri: `${PRODUCT_APP_URL_CONFIGURATOR}/graphql`,
+      uri: `${PRODUCT_APP_URL_PROFILE}/graphql`,
       skip: !orgId,
     },
     variables: {
       orgId,
     },
   })
-  return organization?.organisationByID
+  return organization?.companyByOrganisationID
 }
 
 export default getOrganizationInfos
