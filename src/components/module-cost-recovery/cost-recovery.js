@@ -3,6 +3,7 @@ import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 
 import useRole from 'libs/hooks/use-role'
 import {
@@ -169,7 +170,19 @@ const CostRecovery = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return annualListRecovery?.content || []
+        return (
+          annualListRecovery?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+          })) || []
+        )
       case 1:
         return contractReportData
       case 2:
@@ -203,13 +216,13 @@ const CostRecovery = () => {
     }
   }
 
-  const renderDialogData = () => {
+  const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
         return {
           title: 'Upload Annual Cost & Expenditure Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onClick: () => handleUploadAnnualCost(data),
         }
       case 1:
         return {
@@ -257,7 +270,7 @@ const CostRecovery = () => {
       {
         block: data?.block,
         file: data?.file[0],
-        company: 'ams-fe',
+        company: 'ams-org',
         processInstanceId: 'id',
         year: +data?.referenceDate?.year,
       },
@@ -319,6 +332,31 @@ const CostRecovery = () => {
       },
     )
   }
+
+  const costsSuppDocs = (data) => {
+    // console.log(data, 'data')
+  }
+
+  const handleSupportingDocs = (data) => {
+    // console.log(data, 'in side', currentTab, 'currentTab')
+    switch (currentTab) {
+      case 0:
+        return costsSuppDocs(data)
+      case 1:
+        return () => null
+      case 2:
+        return () => null
+      case 3:
+        return () => null
+      case 4:
+        return () => null
+      case 5:
+        return () => null
+      default:
+        break
+    }
+  }
+
   return (
     <>
       <TopBar
@@ -350,6 +388,7 @@ const CostRecovery = () => {
                   actions={actionsHeader(
                     'cost-recovery-details',
                     selectedRow[0]?.id,
+                    'costs',
                     role,
                     setShowSupportedDocumentDialog,
                   )}
@@ -377,7 +416,11 @@ const CostRecovery = () => {
         <UploadReportDialog
           setFileList={setFileList}
           filesList={filesList}
-          blockList={blockList?.length === 0 ? ['10', '100'] : blockList}
+          blockList={
+            Array.isArray(blockList)
+              ? blockList?.map((el) => ({ label: el?.block, value: el?.block }))
+              : []
+          }
           onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
@@ -387,7 +430,7 @@ const CostRecovery = () => {
             setFileList([])
           }}
           onSave={(data) => {
-            handleUploadAnnualCost(data)
+            renderDialogData(data).onClick()
           }}
         />
       )}
@@ -396,7 +439,9 @@ const CostRecovery = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </>

@@ -11,7 +11,7 @@ const Permitting = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <CostRecovery path="/" />
-        <CostRecoveryDetails path="/cost-recovery-details/:costId" />
+        <CostRecoveryDetails path="/cost-recovery-details/:subkey/:detailId" />
       </Router>
     </Suspense>
   )
