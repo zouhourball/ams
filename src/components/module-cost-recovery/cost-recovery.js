@@ -2,7 +2,6 @@ import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
-import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -13,10 +12,11 @@ import {
   commitLoadCostsCost,
   overrideCostsCost,
 } from 'libs/api/cost-recovery-api'
-import { getBlockByOrgId } from 'libs/api/configurator-api'
 import { downloadTemp } from 'libs/api/api-reserves'
+import getBlocks from 'libs/hooks/get-blocks'
 
 import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -43,7 +43,6 @@ import {
 } from './helpers'
 
 const CostRecovery = () => {
-  const organizationID = useSelector(({ shell }) => shell?.organizationId)
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -51,6 +50,9 @@ const CostRecovery = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const blockList = getBlocks()
+
+  const company = getOrganizationInfos()
 
   const [, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
@@ -65,11 +67,6 @@ const CostRecovery = () => {
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
-
-  const { data: blockList } = useQuery(
-    ['getBlockByOrgId', organizationID],
-    organizationID && getBlockByOrgId,
-  )
 
   const annualCostAndExpenditureActionsHelper = [
     {
@@ -276,7 +273,7 @@ const CostRecovery = () => {
       {
         block: data?.block,
         file: data?.file[0],
-        company: 'ams-org',
+        company: company?.name || 'ams-org',
         processInstanceId: uuidv4(),
         year: +data?.referenceDate?.year,
       },
