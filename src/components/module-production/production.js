@@ -36,7 +36,7 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 // import { userRole } from 'components/shared-hook/get-roles'
-// import getBlocks from 'libs/hooks/get-blocks'
+import getBlocks from 'libs/hooks/get-blocks'
 
 import {
   dailyProductionConfigs,
@@ -76,7 +76,7 @@ const Production = () => {
   const role = useRole('production')
   const { addSupportingDocuments } = documents()
 
-  // const blocks = getBlocks()
+  const blocks = getBlocks()
 
   const uploadDailyReportMutate = useMutation(
     uploadDailyProductionReport,
@@ -789,16 +789,10 @@ const Production = () => {
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          blockList={[
-            {
-              label: 'block1',
-              value: '1',
-            },
-            {
-              label: 'block2',
-              value: '2',
-            },
-          ]}
+          blockList={blocks?.map((el) => ({
+            label: el?.block,
+            value: el?.block,
+          }))}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])
