@@ -1,17 +1,55 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import { get } from 'lodash-es'
+import { useQuery } from 'react-query'
 
 import TopBarDetail from 'components/top-bar-detail'
-import { userRole } from 'components/shared-hook/get-roles'
+import useRole from 'libs/hooks/use-role'
+import { getDetailOfDailyProductionById } from 'libs/api/api-production'
+
 import {
-  dailyProductionDetailsData,
+  // dailyProductionDetailsData,
   dailyProductionDetailsConfigs,
 } from '../helpers'
 
 import './style.scss'
 
 const ProductionDetails = () => {
+  const role = useRole('production')
+  const currentPath = get(location, 'pathname', '/').split('/').pop()
+
+  const { data: dailyData } = useQuery(
+    ['getDetailOfDailyProductionById', currentPath],
+    currentPath && getDetailOfDailyProductionById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  // export const dailyProductionDetailsData = [
+  //   {
+  //     production: [{ item: 'OIL' }, { uom: 'bbl/d' }],
+  //     dailyField: [{ actualF: '1421' }, { target: 'target' }, { le: 'le' }],
+  //     scheduled: [{ actual: 'actual' }, { actualS: '23%' }],
+  //   },
+  // ]
+  const tableDataListDailyProduction = (get(dailyData, 'values', []) || []).map(
+    (el) => {
+      return {
+        production: [{ item: el?.name }, { uom: el?.unit }],
+        dailyField: [
+          { actualF: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][0]?.Actual },
+          { target: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][1]?.Target },
+          { le: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][2]?.LE },
+        ],
+        scheduled: [
+          { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
+          { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        ],
+      }
+    },
+  )
   const actions = [
     <Button
       key="1"
@@ -36,7 +74,7 @@ const ProductionDetails = () => {
     >
       Download Original File
     </Button>,
-    userRole() === 'regulator' && (
+    role === 'regulator' && (
       <Button
         key="3"
         id="acknowledge"
@@ -58,7 +96,7 @@ const ProductionDetails = () => {
       />
       <Mht
         configs={dailyProductionDetailsConfigs()}
-        tableData={dailyProductionDetailsData}
+        tableData={tableDataListDailyProduction}
         withSearch
         commonActions
         withSubColumns
