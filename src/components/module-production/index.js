@@ -11,7 +11,7 @@ const Permitting = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Production path="/" />
-        <ProductionDetails path="/production-details/:productionId" />
+        <ProductionDetails path="/production-details/:subModule/:productionId" />
       </Router>
     </Suspense>
   )

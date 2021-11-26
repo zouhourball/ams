@@ -431,7 +431,7 @@ export const omanHydData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (key, id, subModule, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
@@ -445,7 +445,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/production/${key}/${id}`)
+            key && id && navigate(`/ams/production/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -470,7 +470,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/production/${key}/${id}`)
+            key && id && navigate(`/ams/production/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -557,5 +557,211 @@ export const dailyProductionDetailsData = [
     production: [{ item: 'OIL' }, { uom: 'bbl/d' }],
     dailyField: [{ actualF: '1421' }, { target: 'target' }, { le: 'le' }],
     scheduled: [{ actual: 'actual' }, { actualS: '23%' }],
+  },
+]
+
+export const MonthlyProductionDetailsConfigs = () => [
+  {
+    label: 'OIL PROD (bbl/d)',
+    key: 'oilProd',
+    type: 'subColumns',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'CONDENSATE PROD (bbl/d)',
+    key: 'condensateProd',
+    type: 'subColumns',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'NAG PROD (MM scf/d)',
+    type: 'subColumns',
+    key: 'nagProd',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'AG PROD (MM scf/d)',
+    type: 'subColumns',
+    key: 'agProd',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER PROD (MM scf/d)',
+    type: 'subColumns',
+    key: 'waterProd',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER INJ (bbi/d)',
+    type: 'subColumns',
+    key: 'waterInj',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER DISPOSAL (bbi/d)',
+    type: 'subColumns',
+    key: 'waterDisposal',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'FLARE GAS RATE (MM scf/d)',
+    type: 'subColumns',
+    key: 'flareGasRate',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+]
+
+export const MonthlyProductionDetailsData = [
+  {
+    oilProd: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    condensateProd: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    nagProd: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    agProd: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    waterProd: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    waterInj: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    waterDisposal: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+    flareGasRate: [{ actual: 'OIL' }, { target: 'bbl/d' }],
+  },
+]
+
+export const MonthlyTrackingDetailsConfigs = () => [
+  {
+    label: 'Destination',
+    key: 'destination',
+    width: '800',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Volume (bbis/d)',
+    key: 'volume',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
+
+export const MonthlyTrackingDetailsData = [
+  {
+    destination: 'China',
+    volume: '122',
+  },
+
+  {
+    destination: 'Japan',
+    volume: '545445',
   },
 ]

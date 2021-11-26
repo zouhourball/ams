@@ -10,6 +10,7 @@ import { get } from 'lodash-es'
 import { addToast } from 'modules/app/actions'
 
 import useRole from 'libs/hooks/use-role'
+import documents from 'libs/hooks/documents'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -35,6 +36,7 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 // import { userRole } from 'components/shared-hook/get-roles'
+// import getBlocks from 'libs/hooks/get-blocks'
 
 import {
   dailyProductionConfigs,
@@ -48,6 +50,10 @@ import {
   actionsHeader,
   dailyProductionDetailsConfigs,
   // dailyProductionDetailsData,
+  MonthlyProductionDetailsConfigs,
+  MonthlyProductionDetailsData,
+  MonthlyTrackingDetailsConfigs,
+  // MonthlyTrackingDetailsData,
 } from './helpers'
 
 const Production = () => {
@@ -68,6 +74,9 @@ const Production = () => {
   const dispatch = useDispatch()
 
   const role = useRole('production')
+  const { addSupportingDocuments } = documents()
+
+  // const blocks = getBlocks()
 
   const uploadDailyReportMutate = useMutation(
     uploadDailyProductionReport,
@@ -278,30 +287,35 @@ const Production = () => {
   }
 
   const onAddReportByCurrentTab = (body) => {
+    let uuid = uuidv4()
     switch (currentTab) {
       case 0:
-        return uploadDailyReportMutate.mutate({
+        uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
             company: 'ams-org',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
       case 1:
-        return uploadMonthlyReportMutate.mutate({
+        uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
             company: 'ams-org',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate).format('YYYY'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
       case 2:
-        return uploadMonthlyTrackingReportMutate.mutate({
+        uploadMonthlyTrackingReportMutate.mutate({
           body: {
             block: body?.block,
             company: 'ams-org',
@@ -311,6 +325,8 @@ const Production = () => {
             year: moment(body?.referenceDate).format('YYYY'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
     }
   }
 
@@ -355,6 +371,101 @@ const Production = () => {
       ],
     }
   })
+
+  const monthlyData = [
+    {
+      oilProd: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[0]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[0]?.value[1]
+            ?.Target,
+        },
+      ],
+      condensateProd: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[1]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[1]?.value[1]
+            ?.Target,
+        },
+      ],
+      nagProd: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[2]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[2]?.value[1]
+            ?.Target,
+        },
+      ],
+      agProd: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[3]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[3]?.value[1]
+            ?.Target,
+        },
+      ],
+      waterProd: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[4]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[4]?.value[1]
+            ?.Target,
+        },
+      ],
+      waterInj: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[5]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[5]?.value[1]
+            ?.Target,
+        },
+      ],
+      waterDisposal: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[6]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[6]?.value[1]
+            ?.Target,
+        },
+      ],
+      flareGasRate: [
+        {
+          actual: (get(currentUpload, 'production.data', []) || [])[7]?.value[0]
+            ?.Actual,
+        },
+        {
+          target: (get(currentUpload, 'production.data', []) || [])[7]?.value[1]
+            ?.Target,
+        },
+      ],
+    },
+  ]
+
+  const monthlyTrackingData = (get(currentUpload, 'data', []) || []).map(
+    (el) => {
+      return {
+        destination: el?.destination,
+        volume: el?.volume,
+      }
+    },
+  )
+
   // const { data: listBlocks } = useQuery(
   //   ['getListBlocks'],
   //   getListBlocks,
@@ -369,18 +480,6 @@ const Production = () => {
   //     refetchOnWindowFocus: false,
   //   },
   // )
-
-  // const onUpload = (file, block, company, dailyDate) => {
-  //   uploadDailyFile(file, '1', '22', '22/05/1993').then((res) => {
-  //     console.log(res)
-  //   })
-  // }
-
-  // const onDownloadTemplate = (file, block, company, dailyDate) => {
-  //   uploadDailyFile(file, '1', '22', '22/05/1993').then((res) => {
-  //     console.log(res)
-  //   })
-  // }
 
   const DailyProductionActionsHelper = [
     {
@@ -507,7 +606,6 @@ const Production = () => {
     }
   })
 
-  // listMonthlyTrackingProduction
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
@@ -534,6 +632,34 @@ const Production = () => {
         return omanHydConfigs()
       default:
         return dailyProductionConfigs()
+    }
+  }
+  const renderCurrentTabDetailsConfigs = () => {
+    switch (currentTab) {
+      case 0:
+        return dailyProductionDetailsConfigs()
+      case 1:
+        return MonthlyProductionDetailsConfigs()
+      case 2:
+        return MonthlyTrackingDetailsConfigs()
+      case 3:
+        return MonthlyProductionDetailsConfigs()
+      default:
+        return dailyProductionDetailsConfigs()
+    }
+  }
+  const renderCurrentTabDetailsData = () => {
+    switch (currentTab) {
+      case 0:
+        return dailyData
+      case 1:
+        return monthlyData
+      case 2:
+        return monthlyTrackingData
+      case 3:
+        return MonthlyProductionDetailsData
+      default:
+        return dailyData
     }
   }
   const renderDialogData = () => {
@@ -614,6 +740,7 @@ const Production = () => {
               actions={actionsHeader(
                 'production-details',
                 selectedRow[0]?.id,
+                subModuleByCurrentTab(),
                 role,
                 setShowSupportedDocumentDialog,
               )}
@@ -646,13 +773,10 @@ const Production = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
-          propsConfigs={dailyProductionDetailsConfigs()}
-          propsDataTable={dailyData}
+          propsConfigs={renderCurrentTabDetailsConfigs()}
+          propsDataTable={renderCurrentTabDetailsData()}
           onSave={() => {
             onCommitProduction(subModuleByCurrentTab())
-
-            // setShowUploadMHTDialog(false)
-            // setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />

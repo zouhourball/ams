@@ -20,11 +20,11 @@ export const getListDailyProduction = async ({ queryKey }) => {
   }
   return res
 }
-export const getDetailOfDailyProductionById = async ({ queryKey }) => {
+export const getDetailProductionById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/daily/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}/${queryKey[2]}`,
       {
         method: 'GET',
       },
@@ -270,16 +270,21 @@ export const overrideProductionReport = async ({
   }
   return res
 }
-
-// export const overrideTask = overlayControl(
-//   async (subModule, overrideId, body) => {
-//     let res = await fetchJSON(
-//       `/docs/api/v1/production/${subModule}/override/${overrideId}`,
-//       {
-//         method: "POST",
-//         body: JSON.stringify(body),
-//       },
-//     )
-//     return res
-//   },
-// )
+export const updateDailyProduction = async ({
+  subModule,
+  objectId,
+  status,
+}) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/update?objectId=${objectId}&status=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
