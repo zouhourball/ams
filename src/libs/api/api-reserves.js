@@ -4,18 +4,6 @@ import { formDataBody } from 'libs/utils/custom-function'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
-export const getBlocks = async () => {
-  let res
-  try {
-    res = await fetchJSON(`${appUrl}/docs/api/v1/config/blocks`, {
-      method: 'GET',
-    })
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
 export const uploadAnnualReport = async ({ body }) => {
   let res
   try {
@@ -136,6 +124,21 @@ export const saveReport = async ({ body }) => {
         method: 'POST',
         isFormData: true,
         body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const detailReserveByLoggedUser = async ({ queryKey }) => {
+  // console.log('this is details get ')
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/reserve/annual/${queryKey[1]}`,
+      {
+        method: 'GET',
       },
     )
   } catch (e) {

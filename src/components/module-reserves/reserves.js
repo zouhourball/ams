@@ -2,9 +2,8 @@ import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
-// import useRole from 'libs/hooks/use-role'
+import useRole from 'libs/hooks/use-role'
 
 import {
   uploadAnnualReport,
@@ -16,7 +15,7 @@ import {
   getAnnualResourceDetail,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
-import { getBlockByOrgId } from 'libs/api/configurator-api'
+import getBlocks from 'libs/hooks/get-blocks'
 
 import documents from 'libs/hooks/documents'
 
@@ -31,24 +30,24 @@ import {
   annualReservesConfigs,
   historyConfigs,
   annualResourceConfigs,
-  // annualReservesData,
-  // historyData,
-  // annualResourceData,
   actionsHeader,
 } from './helpers'
 
 const Reserves = () => {
-  const organizationID = useSelector(({ shell }) => shell?.organizationId)
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
+  // const [showOveride] = useState(true)
+
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
-  // const [dialog, setDialogVisible] = useState(false)
+
+  const role = useRole('reserve')
+
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     ['getAnnualReport'],
     getAnnualReport,
@@ -76,28 +75,23 @@ const Reserves = () => {
     data: onUploadDetailReportResponse,
     isLoading: detailUploadLoading,
   } = useMutation(uploadAnnualResource)
-  const { data: blockList } = useQuery(
-    ['getBlockByOrgId', organizationID],
-    organizationID && getBlockByOrgId,
-  )
+  const blockList = getBlocks()
   const onCommitReportMutate = useMutation(commitReport)
 
   const { addSupportingDocuments } = documents()
 
-  const resAnnualReport = () => {
+  const resGenReport = () => {
+    const resData = uploadAnnualResponse?.data
     return (
-      uploadAnnualResponse?.data?.items?.map((el) => ({
+      resData?.data?.map((el) => ({
         category: el?.category,
-        subCategory: el?.subCategory,
-        group: el?.group,
-        uom: el?.uom,
-        item: el?.name,
-        description: el?.explanation,
+        // item: el.items.map name ,
+        // hydroTypes: items.map values
       })) || []
     )
   }
   const dataMht = useMemo(
-    () => resAnnualReport(),
+    () => resGenReport(),
 
     [uploadAnnualResponse],
   )
@@ -358,20 +352,16 @@ const Reserves = () => {
   }
   return (
     <>
-      {/*    <DialogContainer
-        id="import-report-dialog"
-        className="upload-report-dialog"
-        visible={true}
-        onHide={() => {}}
-        // title={title}
-        actions={[]}
-      >
-</DialogContainer> */}
       {(loading ||
         annualUploadLoading ||
         historyUploadLoading ||
         detailUploadLoading) && <CircularProgress />}
-      <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Reserve Reporting"
+        actions={
+          /* role === 'operator' ? */ renderActionsByCurrentTab() /* : null */
+        }
+      />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
@@ -397,6 +387,8 @@ const Reserves = () => {
                   actions={actionsHeader(
                     'reserves-details',
                     selectedRow[0]?.id,
+                    'reserve',
+                    role,
                     setShowSupportedDocumentDialog,
                   )}
                 />
@@ -437,10 +429,12 @@ const Reserves = () => {
             setFileList({})
           }}
           blockList={
-            blockList?.map((el) => ({
-              label: el.block,
-              value: el?.block,
-            })) || []
+            Array.isArray(blockList)
+              ? blockList?.map((el) => ({
+                label: el.block,
+                value: el?.block,
+              }))
+              : []
           }
           onSave={(data) => {
             renderDialogData(data).onUpload()

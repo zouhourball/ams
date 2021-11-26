@@ -9,9 +9,12 @@ const appUrl =
 export const getConfiguredCompanies = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/arm/api/v1/config/companies?size=2000`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/arm-be/api/v1/config/companies?size=2000`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -20,7 +23,7 @@ export const getConfiguredCompanies = async ({ queryKey }) => {
 export const addNewCompany = async (body) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/arm/api/v1/config/companies`, {
+    res = await fetchJSON(`${appUrl}/arm-be/api/v1/config/companies`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -33,9 +36,12 @@ export const addNewCompany = async (body) => {
 export const getBlockByOrgId = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/arm/api/v1/blocks?orgId=${queryKey[1]}`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/arm-be/api/v1/blocks?orgId=${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -45,7 +51,7 @@ export const getBlockByOrgId = async ({ queryKey }) => {
 export const addNewBlock = async (body) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/arm/api/v1/config/blocks`, {
+    res = await fetchJSON(`${appUrl}/arm-be/api/v1/config/blocks`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
