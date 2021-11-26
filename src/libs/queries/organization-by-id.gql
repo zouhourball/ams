@@ -1,0 +1,6 @@
+query organisationByID($orgId: ID!) {
+  organisationByID(id: $orgId) {
+    name
+    id
+  }
+}
