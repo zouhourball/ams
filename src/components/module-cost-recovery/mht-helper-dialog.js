@@ -42,5 +42,56 @@ export const configsAnnualCostsDialogMht = () => {
       icon: 'mdi mdi-spellcheck',
       type: 'text',
     },
+    {
+      label: '218',
+      key: 'year',
+      width: '600',
+      icon: 'mdi mdi-spellcheck',
+      type: 'subColumns',
+      columns: [
+        {
+          label: 'Approved',
+          subKey: 'approved',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+          subColumns: [
+            {
+              label: 'Plan',
+              subKeyS: 'plan',
+              width: 200,
+              icon: 'mdi mdi-pound-box',
+            },
+          ],
+        },
+        {
+          label: 'Outlook',
+          subKey: 'outlook',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+          subColumns: [
+            {
+              label: 'Outlook',
+              subKeyS: 'outlook',
+              width: 200,
+              icon: 'mdi mdi-pound-box',
+            },
+          ],
+        },
+        {
+          label: 'YTD',
+          subKey: 'ytd',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+          subColumns: [
+            {
+              label: 'Actual',
+              subKeyS: 'actual',
+              width: 200,
+              icon: 'mdi mdi-pound-box',
+            },
+          ],
+        },
+      ],
+    },
   ]
 }
