@@ -3,6 +3,8 @@ import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { v4 as uuidv4 } from 'uuid'
+// import useRole from 'libs/hooks/use-role'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import useRole from 'libs/hooks/use-role'
 
 import {
@@ -45,6 +47,10 @@ const Reserves = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
+  // const [dialog, setDialogVisible] = useState(false)
+
+  // const company = getOrganizationInfos()
+  // console.log(company, 'company')
 
   const role = useRole('reserve')
 
