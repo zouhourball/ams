@@ -206,7 +206,8 @@ const Reserves = () => {
           title: 'Upload Annual Reserves Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {
-            onAddReport(data)
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
           },
           onCommit: () =>
             onCommitReport(
