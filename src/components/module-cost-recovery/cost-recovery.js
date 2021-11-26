@@ -333,7 +333,7 @@ const CostRecovery = () => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
             refetchAnnualCosts()
-          } else if (res.overrideId) {
+          } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
         },
@@ -498,6 +498,7 @@ const CostRecovery = () => {
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog}
           handleOverride={handleOverride}
+          message={'Do you override ?'}
         />
       )}
     </>
