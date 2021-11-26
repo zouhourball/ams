@@ -560,9 +560,6 @@ export const findAllCostsByUserCompanyAccess = async ({ queryKey }) => {
   return res
 }
 export const overrideCostsCost = async ({ body, overrideId }) => {
-  // body={
-  //   "statement": "string"
-  // }
   let res
   try {
     res = await fetchJSON(
