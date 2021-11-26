@@ -62,7 +62,7 @@ const UploadReportDialog = ({
   const onUploadOptional = (file) => {
     setOptionalFileLoader(true)
     fileManagerUpload(file).then((res) => {
-      // setOptionalFile([...optionalFiles, ...res.filesList])
+      setOptionalFile([...optionalFiles, ...res.files])
       setOptionalFileLoader(false)
     })
   }

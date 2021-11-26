@@ -242,3 +242,44 @@ export const commitProduction = async ({ subModule, body }) => {
   }
   return res
 }
+// {
+//   error: null
+// msg: "exist"
+// objectId: null
+// overrideId: "619f50ecebfa6d7a36f1204d"
+// success: false
+// validationOutput: null
+// }
+
+export const overrideProductionReport = async ({
+  subModule,
+  overrideId,
+  body,
+}) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/override/${overrideId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+// export const overrideTask = overlayControl(
+//   async (subModule, overrideId, body) => {
+//     let res = await fetchJSON(
+//       `/docs/api/v1/production/${subModule}/override/${overrideId}`,
+//       {
+//         method: "POST",
+//         body: JSON.stringify(body),
+//       },
+//     )
+//     return res
+//   },
+// )
