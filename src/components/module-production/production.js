@@ -646,8 +646,8 @@ const Production = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
-          mhtConfigs={dailyProductionDetailsConfigs()}
-          mhtData={dailyData}
+          propsConfigs={dailyProductionDetailsConfigs()}
+          propsDataTable={dailyData}
           onSave={() => {
             onCommitProduction(subModuleByCurrentTab())
 

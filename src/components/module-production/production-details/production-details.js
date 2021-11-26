@@ -27,13 +27,6 @@ const ProductionDetails = () => {
     },
   )
 
-  // export const dailyProductionDetailsData = [
-  //   {
-  //     production: [{ item: 'OIL' }, { uom: 'bbl/d' }],
-  //     dailyField: [{ actualF: '1421' }, { target: 'target' }, { le: 'le' }],
-  //     scheduled: [{ actual: 'actual' }, { actualS: '23%' }],
-  //   },
-  // ]
   const tableDataListDailyProduction = (get(dailyData, 'values', []) || []).map(
     (el) => {
       return {
