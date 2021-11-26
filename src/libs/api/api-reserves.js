@@ -94,23 +94,25 @@ export const getAnnualResourceDetail = async () => {
   return res
 }
 
-export const downloadTemp = async (module, sub) => {
+export const downloadTemp = async (module, sub, onLoading) => {
   const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
-  const apiResponseBlob = await await fetchGeneric(url, { method: 'GET' }).then(
+  const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
     (response) => response.blob(),
+    onLoading(true),
   )
   downloadFromBlob(
     apiResponseBlob,
     `template_${module}_${sub}.xlsx` || URL.split('/').reverse()[0],
   )
+  onLoading(false)
 }
 
-export const commitReport = async ({ body }) => {
+export const commitReport = async ({ body, sub }) => {
   // console.log(body, 'body')
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annual/commit
+      `${appUrl}/pulse-be/api/v1/reserve/${sub}/commit
     `,
       {
         method: 'POST',

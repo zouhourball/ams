@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { Button } from 'react-md'
+import { Button, CircularProgress } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import { v4 as uuidv4 } from 'uuid'
 // import useRole from 'libs/hooks/use-role'
 
 import {
@@ -43,46 +44,58 @@ const Reserves = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState({})
+  const [loading, setLoading] = useState(false)
+  // const [dialog, setDialogVisible] = useState(false)
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     ['getAnnualReport'],
     getAnnualReport,
   )
   /*, refetch: refetchHistoryAndForecast */
-  const { data: listHistoryAndForecast } = useQuery(
-    ['getHistoryAndForecast'],
-    getHistoryAndForecast,
-  )
+  const { data: listHistoryAndForecast, refetch: refetchHistoryAndForecast } =
+    useQuery(['getHistoryAndForecast'], getHistoryAndForecast)
   const {
     data: listAnnualResourceDetail,
     refetch: refetchAnnualResourceDetail,
   } = useQuery(['getAnnualResourceDetail'], getAnnualResourceDetail)
-  /*, data: uploadAnnualResponse */
-  const { mutate: uploadAnnualReportMutate, data: uploadAnnualResponse } =
-    useMutation(uploadAnnualReport)
-  const onUploadHistoryReportMutate = useMutation(uploadHistoryAndForecast)
-  const onUploadDetailReportMutate = useMutation(uploadAnnualResource)
+
+  const {
+    mutate: uploadAnnualReportMutate,
+    data: uploadAnnualResponse,
+    isLoading: annualUploadLoading,
+  } = useMutation(uploadAnnualReport)
+  const {
+    mutate: onUploadHistoryReportMutate,
+    data: onUploadHistoryReportResponse,
+    isLoading: historyUploadLoading,
+  } = useMutation(uploadHistoryAndForecast)
+  const {
+    mutate: onUploadDetailReportMutate,
+    data: onUploadDetailReportResponse,
+    isLoading: detailUploadLoading,
+  } = useMutation(uploadAnnualResource)
 
   const onCommitReportMutate = useMutation(commitReport)
+
+  const resAnnualReport = () => {
+    return (
+      uploadAnnualResponse?.data?.items?.map((el) => ({
+        category: el?.category,
+        subCategory: el?.subCategory,
+        group: el?.group,
+        uom: el?.uom,
+        item: el?.name,
+        description: el?.explanation,
+      })) || []
+    )
+  }
+  const dataMht = useMemo(
+    () => resAnnualReport(),
+
+    [uploadAnnualResponse],
+  )
+
   // const onSaveReportMutate = useMutation(saveReport)
 
-  // const getAnnualReportData = useQuery(['annual'], getAnnualReport)
-  /* if (roles) {
-    rolesTab.forEach(({ key, roleOp, roleRe, path }) => {
-      if (
-        roles.includes(`target-subscription-store:${organizationID}:${roleOp}`)
-      ) {
-        basedRoleSubMenus.push({
-          ...subModules.find((sM) => sM.key === key),
-          path,
-        })
-      } else if (roles.includes(roleRe)) {
-        basedRoleSubMenus.push({
-          ...subModules.find((sM) => sM.key === key),
-          path,
-        })
-      }
-    })
-  } */
   const annualReservesReportingActionsHelper = [
     {
       title: 'Upload Annual Reserves Report',
@@ -91,7 +104,7 @@ const Reserves = () => {
     {
       title: 'Download Template',
       onClick: () => {
-        downloadTemp('reserve', 'annual')
+        downloadTemp('reserve', 'annual', setLoading)
       },
     },
   ]
@@ -195,6 +208,12 @@ const Reserves = () => {
           onClick: () => {
             onAddReport(data)
           },
+          onCommit: () =>
+            onCommitReport(
+              uploadAnnualResponse,
+              'annual',
+              refetchAnnualReserves,
+            ),
         }
       case 1:
         return {
@@ -203,6 +222,12 @@ const Reserves = () => {
           onClick: () => {
             onUploadHistoryReport(data)
           },
+          onCommit: () =>
+            onCommitReport(
+              onUploadHistoryReportResponse,
+              'fyf',
+              refetchHistoryAndForecast,
+            ),
         }
       case 2:
         return {
@@ -211,6 +236,12 @@ const Reserves = () => {
           onClick: () => {
             onUploadDetailReport(data)
           },
+          onCommit: () =>
+            onCommitReport(
+              onUploadDetailReportResponse,
+              'annualResource',
+              refetchAnnualResourceDetail,
+            ),
         }
       case 3:
         return {
@@ -235,19 +266,17 @@ const Reserves = () => {
           block: body?.block,
           company: 'ams-org',
           file: body?.filesList,
-          processInstanceId: 'id',
+          processInstanceId: uuidv4(),
           year: '2021',
         },
       },
       {
         onSuccess: (res) => {
           onDisplayMHT(res?.data)
-          // onCommitReport(res?.data)
         },
       },
     )
   }
-  // console.log(uploadAnnualResponse, 'uploadAnnualResponse')
   /* const onSaveReport = (body) => {
     uploadAnnualReportMutate(
       {
@@ -255,7 +284,7 @@ const Reserves = () => {
           block: body?.block,
           company: 'company',
           file: body?.filesList,
-          processInstanceId: 'id',
+          processInstanceId: uuidv4(),
           year: '2021',
         },
       },
@@ -264,54 +293,74 @@ const Reserves = () => {
       },
     )
   } */
-  const onCommitReport = (body) => {
+  const onCommitReport = (body, sub, refetch) => {
     // console.log(body, 'uploadAnnualResponse')
     onCommitReportMutate.mutate(
       {
         body: body?.data,
+        sub: sub,
       },
       {
-        onSuccess: (res) => !res?.error && refetchAnnualReserves(),
+        onSuccess: (res) => {
+          /* {
+            res?.msg === 'exist'  && setDialogVisible(true)
+          } */
+          return !res?.error && refetch()
+        },
       },
     )
   }
   const onUploadHistoryReport = (body) => {
-    onUploadHistoryReportMutate.mutate(
+    onUploadHistoryReportMutate(
       {
         body: {
           block: body?.block,
           company: 'ams-org',
           file: body?.filesList,
-          processInstanceId: 'id',
+          processInstanceId: uuidv4(),
         },
       },
       {
         onSuccess: (res) => {
-          // console.log(res, 'history')
           onDisplayMHT(res?.data)
         },
       },
     )
   }
   const onUploadDetailReport = (body) => {
-    onUploadDetailReportMutate.mutate(
+    onUploadDetailReportMutate(
       {
         body: {
           block: body?.block,
           company: 'ams-org',
           file: body?.filesList,
           hydrocarbonType: 'GAS',
-          processInstanceId: 'id',
+          processInstanceId: uuidv4(),
           year: '2021',
         },
       },
       {
-        onSuccess: (res) => !res?.error && refetchAnnualResourceDetail(),
+        onSuccess: (res) => {
+          onDisplayMHT(res?.data)
+        },
       },
     )
   }
   return (
     <>
+      {/*    <DialogContainer
+        id="import-report-dialog"
+        className="upload-report-dialog"
+        visible={true}
+        onHide={() => {}}
+        // title={title}
+        actions={[]}
+      >
+</DialogContainer> */}
+      {(loading ||
+        annualUploadLoading ||
+        historyUploadLoading ||
+        detailUploadLoading) && <CircularProgress />}
       <TopBar title="Reserve Reporting" actions={renderActionsByCurrentTab()} />
       <div className="subModule">
         <NavBar
@@ -349,6 +398,7 @@ const Reserves = () => {
       {showUploadMHTDialog && (
         <MHTDialog
           visible={showUploadMHTDialog}
+          propsDataTable={dataMht}
           onHide={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
@@ -357,7 +407,8 @@ const Reserves = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
             setFileList(dataDisplayedMHT)
-            onCommitReport(uploadAnnualResponse, 'annualResource')
+            renderDialogData().onCommit()
+            setShowUploadRapportDialog(false)
           }}
         />
       )}
@@ -381,6 +432,7 @@ const Reserves = () => {
           }}
         />
       )}
+
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}
