@@ -11,7 +11,7 @@ export const getDocumentsById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/docs?processInstanceId=${queryKey[0]}`,
+      `${appUrl}/pulse-be/api/v2/docs?processInstanceId=${queryKey[1]}`,
       {
         method: 'GET',
       },
@@ -34,10 +34,10 @@ export const addDocuments = async (body) => {
   return res
 }
 
-export const deleteDocument = async ({ queryKey }) => {
+export const deleteDocument = async (id) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/docs/${queryKey[1]}`, {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/docs/${id}`, {
       method: 'DELETE',
     })
   } catch (e) {

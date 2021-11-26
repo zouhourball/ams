@@ -15,6 +15,7 @@ import {
 } from 'libs/api/cost-recovery-api'
 import { getBlockByOrgId } from 'libs/api/configurator-api'
 import { downloadTemp } from 'libs/api/api-reserves'
+import documents from 'libs/hooks/documents'
 
 import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
 
@@ -65,6 +66,7 @@ const CostRecovery = () => {
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
+  const { addSupportingDocuments } = documents()
 
   const { data: blockList } = useQuery(
     ['getBlockByOrgId', organizationID],
@@ -187,6 +189,7 @@ const CostRecovery = () => {
               : '',
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       case 1:
@@ -333,7 +336,7 @@ const CostRecovery = () => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
             refetchAnnualCosts()
-          } else if (res.overrideId) {
+          } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
         },
@@ -341,12 +344,17 @@ const CostRecovery = () => {
     )
   }
 
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
   const costsSuppDocs = (data) => {
-    // console.log(data, 'data')
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
   }
 
   const handleSupportingDocs = (data) => {
-    // console.log(data, 'in side', currentTab, 'currentTab')
     switch (currentTab) {
       case 0:
         return costsSuppDocs(data)
@@ -487,6 +495,7 @@ const CostRecovery = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
+          processInstanceId={selectedRow[0]?.processInstanceId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
@@ -498,6 +507,7 @@ const CostRecovery = () => {
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog}
           handleOverride={handleOverride}
+          message={'Do you override ?'}
         />
       )}
     </>
