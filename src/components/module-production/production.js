@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Button, SelectField } from 'react-md'
+import { Button, SelectField, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 import { useDispatch } from 'react-redux'
+import { get } from 'lodash-es'
 
 import { addToast } from 'modules/app/actions'
 
@@ -13,9 +14,9 @@ import useRole from 'libs/hooks/use-role'
 import ToastMsg from 'components/toast-msg'
 
 import {
-  // getListDailyProduction,
-  // getListMonthlyProduction,
-  // getListMonthlyTrackingProduction,
+  getListDailyProduction,
+  getListMonthlyProduction,
+  getListMonthlyTrackingProduction,
   // getListBlocks,
   // uploadDailyFile,
   // downloadTemplate,
@@ -24,6 +25,7 @@ import {
   uploadMonthlyProductionReport,
   uploadMonthlyTrackingProductionReport,
   commitProduction,
+  overrideProductionReport,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -32,7 +34,7 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
-import { userRole } from 'components/shared-hook/get-roles'
+// import { userRole } from 'components/shared-hook/get-roles'
 
 import {
   dailyProductionConfigs,
@@ -40,10 +42,12 @@ import {
   monthlyTrackingConfigs,
   omanHydConfigs,
   dailyProductionData,
-  monthlyProductionData,
-  monthlyTrackingData,
+  // monthlyProductionData,
+  // monthlyTrackingData,
   omanHydData,
   actionsHeader,
+  dailyProductionDetailsConfigs,
+  // dailyProductionDetailsData,
 } from './helpers'
 
 const Production = () => {
@@ -53,6 +57,9 @@ const Production = () => {
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  const [overrideDialog, setOverrideDialog] = useState(false)
+  const [overrideId, setOverrideId] = useState()
+
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
@@ -102,7 +109,9 @@ const Production = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
-          setShowUploadRapportDialog(false)
+          // setShowUploadRapportDialog(false)
+          setCurrentUpload(res?.uploaded)
+          onDisplayMHT(...res.values)
           dispatch(
             addToast(
               <ToastMsg
@@ -135,7 +144,8 @@ const Production = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
-          setShowUploadRapportDialog(false)
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
           dispatch(
             addToast(
               <ToastMsg
@@ -168,20 +178,28 @@ const Production = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
-          setShowUploadRapportDialog(false)
-          // setCurrentUpload(res)
-          // onDisplayMHT(...res.values)
-          setShowUploadMHTDialog(false)
+          if (res?.msg === 'exist') {
+            setOverrideDialog(true)
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            setOverrideId(res?.overrideId)
+          } else {
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            refetchListDaily()
+            refetchListMonthly()
+            refetchListMonthlyTracking()
 
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.message || 'commit successfully'}
-                type="success"
-              />,
-              'hide',
-            ),
-          )
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'commited successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
         } else {
           dispatch(
             addToast(
@@ -197,11 +215,66 @@ const Production = () => {
     },
   )
 
+  const overrideProductionMutate = useMutation(
+    overrideProductionReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res?.msg === 'saved') {
+            refetchListDaily()
+            setOverrideDialog(false)
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'commited successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const onCommitProduction = (subModule) => {
     commitProductionMutate.mutate({
       subModule: subModule,
       body: currentUpload,
     })
+  }
+  // subModule, overrideId, body
+
+  const onOverrideProduction = (subModule, overrideId) => {
+    overrideProductionMutate.mutate({
+      subModule: subModule,
+      overrideId: overrideId,
+      body: currentUpload,
+    })
+  }
+
+  const subModuleByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return 'daily'
+      case 1:
+        return 'monthly'
+      case 2:
+        return 'monthly-tracking'
+      default:
+        return ''
+    }
   }
 
   const onAddReportByCurrentTab = (body) => {
@@ -210,7 +283,7 @@ const Production = () => {
         return uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'company',
+            company: 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
             dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
@@ -220,7 +293,7 @@ const Production = () => {
         return uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'company',
+            company: 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
             month: moment(body?.referenceDate).format('MMMM'),
@@ -231,7 +304,7 @@ const Production = () => {
         return uploadMonthlyTrackingReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'company',
+            company: 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
             month: moment(body?.referenceDate).format('MMMM'),
@@ -241,29 +314,47 @@ const Production = () => {
     }
   }
 
-  // const { data: listDailyProduction } = useQuery(
-  //   ['getListDailyProduction'],
-  //   getListDailyProduction,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
+  const { data: listDailyProduction, refetch: refetchListDaily } = useQuery(
+    ['getListDailyProduction'],
+    getListDailyProduction,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
 
-  // const { data: listMonthlyProduction } = useQuery(
-  //   ['getListMonthlyProduction'],
-  //   getListMonthlyProduction,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
-  // const { data: listMonthlyTrackingProduction } = useQuery(
-  //   ['getListMonthlyTrackingProduction'],
-  //   getListMonthlyTrackingProduction,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
+  const { data: listMonthlyProduction, refetch: refetchListMonthly } = useQuery(
+    ['getListMonthlyProduction'],
+    getListMonthlyProduction,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
 
+  const {
+    data: listMonthlyTrackingProduction,
+    refetch: refetchListMonthlyTracking,
+  } = useQuery(
+    ['getListMonthlyTrackingProduction'],
+    getListMonthlyTrackingProduction,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const dailyData = (get(currentUpload, 'values', []) || []).map((el) => {
+    return {
+      production: [{ item: el?.name }, { uom: el?.unit }],
+      dailyField: [
+        { actualF: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][0]?.Actual },
+        { target: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][1]?.Target },
+        { le: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][2]?.LE },
+      ],
+      scheduled: [
+        { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+      ],
+    }
+  })
   // const { data: listBlocks } = useQuery(
   //   ['getListBlocks'],
   //   getListBlocks,
@@ -369,14 +460,62 @@ const Production = () => {
     'Oman Hydrocarbon',
   ]
 
+  const tableDataListDailyProduction = (
+    get(listDailyProduction, 'content', []) || []
+  ).map((el) => {
+    return {
+      id: el?.id,
+      company: get(el, 'metaData.company', 'n/a'),
+      block: get(el, 'metaData.block', 'n/a'),
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      status: get(el, 'metaData.status', 'n/a'),
+    }
+  })
+  const tableDataListMonthlyProduction = (
+    get(listMonthlyProduction, 'content', []) || []
+  ).map((el) => {
+    return {
+      id: el?.id,
+      company: get(el, 'metaData.company', 'n/a'),
+      block: get(el, 'metaData.block', 'n/a'),
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+      referenceDate:
+        get(el, 'metaData.month', 'n/a') +
+        ' , ' +
+        get(el, 'metaData.year', 'n/a'),
+      status: get(el, 'metaData.status', 'n/a'),
+    }
+  })
+
+  const tableDataListMonthlyTracking = (
+    get(listMonthlyTrackingProduction, 'content', []) || []
+  ).map((el) => {
+    return {
+      id: el?.id,
+      company: get(el, 'metaData.company', 'n/a'),
+      block: get(el, 'metaData.block', 'n/a'),
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+      referenceDate:
+        get(el, 'metaData.month', 'n/a') +
+        ' , ' +
+        get(el, 'metaData.year', 'n/a'),
+      status: get(el, 'metaData.status', 'n/a'),
+    }
+  })
+
+  // listMonthlyTrackingProduction
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return dailyProductionData
+        return tableDataListDailyProduction
       case 1:
-        return monthlyProductionData
+        return tableDataListMonthlyProduction
       case 2:
-        return monthlyTrackingData
+        return tableDataListMonthlyTracking
       case 3:
         return omanHydData
       default:
@@ -475,7 +614,7 @@ const Production = () => {
               actions={actionsHeader(
                 'production-details',
                 selectedRow[0]?.id,
-                userRole(),
+                role,
                 setShowSupportedDocumentDialog,
               )}
             />
@@ -507,8 +646,10 @@ const Production = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
+          propsConfigs={dailyProductionDetailsConfigs()}
+          propsDataTable={dailyData}
           onSave={() => {
-            onCommitProduction('daily')
+            onCommitProduction(subModuleByCurrentTab())
 
             // setShowUploadMHTDialog(false)
             // setShowUploadRapportDialog(true)
@@ -552,6 +693,35 @@ const Production = () => {
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           onSaveUpload={() => {}}
         />
+      )}
+      {overrideDialog && (
+        <DialogContainer
+          id="override"
+          visible={confirm}
+          title="Override"
+          modal
+          actions={[
+            {
+              children: 'Yes, Override It',
+              primary: false,
+              flat: true,
+              swapTheming: true,
+              onClick: () =>
+                onOverrideProduction(subModuleByCurrentTab(), overrideId),
+            },
+            {
+              children: 'No Thanks',
+              primary: true,
+              flat: true,
+              swapTheming: true,
+              onClick: () => setOverrideDialog(false),
+            },
+          ]}
+        >
+          <p id="override-description" className="md-color--secondary-text">
+            This file already exists. Would you like to override it ?
+          </p>
+        </DialogContainer>
       )}
     </>
   )

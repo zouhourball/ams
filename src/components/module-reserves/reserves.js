@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import { useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 // import useRole from 'libs/hooks/use-role'
 
@@ -10,13 +11,14 @@ import {
   uploadHistoryAndForecast,
   uploadAnnualResource,
   commitReport,
-  // saveReport,
-  // getBlocks,
   getAnnualReport,
   getHistoryAndForecast,
   getAnnualResourceDetail,
   downloadTemp,
 } from 'libs/api/api-reserves'
+import { getBlockByOrgId } from 'libs/api/configurator-api'
+
+import documents from 'libs/hooks/documents'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -36,6 +38,7 @@ import {
 } from './helpers'
 
 const Reserves = () => {
+  const organizationID = useSelector(({ shell }) => shell?.organizationId)
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -73,8 +76,13 @@ const Reserves = () => {
     data: onUploadDetailReportResponse,
     isLoading: detailUploadLoading,
   } = useMutation(uploadAnnualResource)
-
+  const { data: blockList } = useQuery(
+    ['getBlockByOrgId', organizationID],
+    organizationID && getBlockByOrgId,
+  )
   const onCommitReportMutate = useMutation(commitReport)
+
+  const { addSupportingDocuments } = documents()
 
   const resAnnualReport = () => {
     return (
@@ -205,9 +213,10 @@ const Reserves = () => {
         return {
           title: 'Upload Annual Reserves Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {
+          onUpload: () => {
             const uuid = uuidv4()
             onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
           },
           onCommit: () =>
             onCommitReport(
@@ -220,7 +229,7 @@ const Reserves = () => {
         return {
           title: 'Upload History and Forecast Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {
+          onUpload: () => {
             onUploadHistoryReport(data)
           },
           onCommit: () =>
@@ -234,7 +243,7 @@ const Reserves = () => {
         return {
           title: 'Upload Monthly Tracking Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {
+          onUpload: () => {
             onUploadDetailReport(data)
           },
           onCommit: () =>
@@ -248,7 +257,7 @@ const Reserves = () => {
         return {
           title: 'Upload Oman Hydrocarbon Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {},
         }
       default:
         break
@@ -260,14 +269,14 @@ const Reserves = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
-  const onAddReport = (body) => {
+  const onAddReport = (body, uuid) => {
     uploadAnnualReportMutate(
       {
         body: {
           block: body?.block,
           company: 'ams-org',
           file: body?.filesList,
-          processInstanceId: uuidv4(),
+          processInstanceId: uuid,
           year: '2021',
         },
       },
@@ -427,9 +436,14 @@ const Reserves = () => {
             setShowUploadRapportDialog(false)
             setFileList({})
           }}
-          blockList={['1', '2']}
+          blockList={
+            blockList?.map((el) => ({
+              label: el.block,
+              value: el?.block,
+            })) || []
+          }
           onSave={(data) => {
-            renderDialogData(data).onClick()
+            renderDialogData(data).onUpload()
           }}
         />
       )}
