@@ -14,8 +14,8 @@ import {
   getAnnualReport,
   getHistoryAndForecast,
   getAnnualResourceDetail,
-  downloadTemp,
 } from 'libs/api/api-reserves'
+import { downloadTemp } from 'libs/api/supporting-document-api'
 import { getBlockByOrgId } from 'libs/api/configurator-api'
 
 import documents from 'libs/hooks/documents'
