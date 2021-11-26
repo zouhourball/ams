@@ -1,52 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FontIcon, Button, DialogContainer } from 'react-md'
 import Dropzone from 'react-dropzone'
+import { useQuery } from 'react-query'
 
-import { uploadFileTus } from 'libs/api/tus-upload'
+import documents from 'libs/hooks/documents'
+
+import { fileManagerUpload } from 'libs/api/api-file-manager'
+import { getDocumentsById } from 'libs/api/supporting-document-api'
 
 import './style.scss'
 
 const SupportedDocument = ({
-  oldFiles,
   onDiscard,
   onSaveUpload,
   accept,
   isLoading,
   visible,
   title,
+  processInstanceId,
 }) => {
-  const [files, setFiles] = useState(oldFiles)
-  const [filesToDelete, setFilesToDelete] = useState([])
+  const [files, setFiles] = useState([])
+  const [oldFiles, setOldFiles] = useState([])
 
-  // useEffect(() => {
-  //   if (oldFiles && oldFiles.length > 0) { setFiles([...files, ...oldFiles]) }
-  // }, [oldFiles])
+  const { deleteDocuments } = documents()
+
+  const [filesToDelete, setFilesToDelete] = useState([])
+  const { data: suppDocsFiles } = useQuery(
+    ['getDocumentsById', processInstanceId],
+    processInstanceId && getDocumentsById,
+  )
+
+  useEffect(() => {
+    if (suppDocsFiles && suppDocsFiles.length > 0) {
+      setOldFiles([...suppDocsFiles])
+    }
+  }, [suppDocsFiles])
 
   const onUpload = (documents) => {
-    let newFiles = []
-    Promise.all(
-      documents.map((document) =>
-        uploadFileTus(
-          document,
-          null,
-          (res) => {
-            newFiles = [
-              ...newFiles,
-              {
-                id: res?.url,
-                url: res?.url,
-                size: res?.file?.size,
-
-                filename: res?.file?.name,
-                contentType: res?.file?.type,
-              },
-            ]
-          },
-          true,
-        ),
-      ),
-    ).then(() => {
-      setFiles([...files, ...newFiles])
+    fileManagerUpload(documents).then((res) => {
+      setFiles([...files, ...res.files])
     })
   }
 
@@ -116,6 +108,34 @@ const SupportedDocument = ({
       )
     })
   }
+
+  const renderOldFiles = () => {
+    return oldFiles?.map((file) => {
+      return (
+        <div className="file" key={file.id}>
+          <div className="file-data">
+            <FontIcon icon iconClassName={customIncludes(file.filename)} />
+            <div className="file-details">
+              <span>{file.filename}</span>
+              <span>{file.size}</span>
+            </div>
+          </div>
+
+          <FontIcon
+            onClick={() => {
+              deleteDocuments([file?.id]).then(
+                (res) =>
+                  res[0] &&
+                  setOldFiles((prev) => prev.filter((el) => el.id !== file.id)),
+              )
+            }}
+          >
+            delete
+          </FontIcon>
+        </div>
+      )
+    })
+  }
   const actions = [
     <Button key={1} flat className="discard-btn" onClick={onDiscard}>
       Discard
@@ -175,6 +195,7 @@ const SupportedDocument = ({
             </section>
           )}
         </Dropzone>
+        {renderOldFiles()}
         {renderFiles()}
       </div>
     </DialogContainer>

@@ -19,6 +19,7 @@ const ConfirmDialog = ({
     <DialogContainer
       id="override-dialog"
       actions={actions}
+      visible={visible}
       title={title}
       className="override-dialog"
     >

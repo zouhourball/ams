@@ -7,8 +7,8 @@ import { Router, Redirect, navigate } from '@reach/router'
 import { AuthCheckContext } from '@target-energysolutions/auth-check'
 import { connect } from 'react-redux'
 import { Snackbar, SVGIcon } from 'react-md'
-import query from 'react-hoc-query'
-import { getFSToken } from 'libs/api'
+// import query from 'react-hoc-query'
+// import { getFSToken } from 'libs/api'
 import { subModules } from './helpers'
 import { rolesTab } from 'libs/roles-tab'
 
@@ -27,11 +27,6 @@ import { validURL } from 'libs/utils/custom-function'
 
 import './styles.scss'
 
-@query({
-  key: 'getFSToken',
-  op: getFSToken,
-  name: 'getFSToken',
-})
 @connect(
   ({ app, shell, query }) => ({
     organizationID: shell.organizationId,

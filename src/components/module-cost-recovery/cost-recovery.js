@@ -14,6 +14,7 @@ import {
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/api-reserves'
 import getBlocks from 'libs/hooks/get-blocks'
+import documents from 'libs/hooks/documents'
 
 import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -67,6 +68,7 @@ const CostRecovery = () => {
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
+  const { addSupportingDocuments } = documents()
 
   const annualCostAndExpenditureActionsHelper = [
     {
@@ -184,6 +186,7 @@ const CostRecovery = () => {
               : '',
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       case 1:
@@ -290,7 +293,14 @@ const CostRecovery = () => {
   const configsMht = () => {
     switch (showUploadRapportDialog) {
       case 'upload-annual-cost':
-        return configsAnnualCostsDialogMht()
+        return configsAnnualCostsDialogMht().map((el) =>
+          el.key !== 'year'
+            ? el
+            : {
+              ...el,
+              label: responseUploadAnnualCost?.metaData?.year,
+            },
+        )
 
       default:
         return configsAnnualCostsDialogMht()
@@ -306,6 +316,17 @@ const CostRecovery = () => {
         uom: el?.uom,
         item: el?.name,
         description: el?.explanation,
+        year: [
+          {
+            approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
+          },
+          {
+            outlook: el?.qvalues?.map((el) => ({
+              outlook: el?.quarter || '',
+            })),
+          },
+          { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
+        ],
       })) || []
     )
   }
@@ -330,7 +351,7 @@ const CostRecovery = () => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
             refetchAnnualCosts()
-          } else if (res.overrideId) {
+          } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
         },
@@ -338,12 +359,17 @@ const CostRecovery = () => {
     )
   }
 
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
   const costsSuppDocs = (data) => {
-    // console.log(data, 'data')
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
   }
 
   const handleSupportingDocs = (data) => {
-    // console.log(data, 'in side', currentTab, 'currentTab')
     switch (currentTab) {
       case 0:
         return costsSuppDocs(data)
@@ -462,7 +488,7 @@ const CostRecovery = () => {
           setFileList={setFileList}
           filesList={filesList}
           blockList={
-            Array.isArray(blockList)
+            Array.isArray(blockList) && blockList?.length > 0
               ? blockList?.map((el) => ({ label: el?.block, value: el?.block }))
               : ['100']
           }
@@ -484,6 +510,7 @@ const CostRecovery = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
+          processInstanceId={selectedRow[0]?.processInstanceId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
@@ -495,6 +522,7 @@ const CostRecovery = () => {
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog}
           handleOverride={handleOverride}
+          message={'Do you override ?'}
         />
       )}
     </>
