@@ -4,9 +4,9 @@ import { addDocuments, deleteDocument } from 'libs/api/supporting-document-api'
 
 const documents = () => {
   const { mutate, data, isLoading } = useMutation(addDocuments)
-  const { mutate: deleteDoc } = useMutation(deleteDocument)
+  const { mutateAsync: deleteDoc } = useMutation(deleteDocument)
 
-  const addSupportingDocuments = (files, processInstanceId) => {
+  const addSupportingDocuments = (files, processInstanceId, onSuccess) => {
     // this files must be from filemanager
     if (!files || files.length === 0 || !processInstanceId) {
       return null
@@ -23,7 +23,9 @@ const documents = () => {
         url,
       }),
     )
-    mutate(newFiles)
+    mutate(newFiles, {
+      onSuccess,
+    })
   }
 
   const deleteDocuments = (files) => {

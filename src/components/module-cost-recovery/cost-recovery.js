@@ -344,12 +344,17 @@ const CostRecovery = () => {
     )
   }
 
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
   const costsSuppDocs = (data) => {
-    addSupportingDocuments(data, selectedRow[0]?.processInstanceId)
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
   }
 
   const handleSupportingDocs = (data) => {
-    // console.log(data, 'in side', currentTab, 'currentTab')
     switch (currentTab) {
       case 0:
         return costsSuppDocs(data)
@@ -490,6 +495,7 @@ const CostRecovery = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
+          processInstanceId={selectedRow[0]?.processInstanceId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
