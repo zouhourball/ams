@@ -21,8 +21,8 @@ export const annualCostConfigs = () => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -36,16 +36,16 @@ export const annualCostConfigs = () => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -653,7 +653,7 @@ export const facilitiesData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
@@ -667,7 +667,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            key && id && navigate(`/ams/costrecovery/${key}/${subKey}/${id}`)
           },
         },
         {
@@ -698,7 +698,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 4,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/costrecovery/${key}/${id}`)
+            key && id && navigate(`/ams/costrecovery/${key}/${subKey}/${id}`)
           },
         },
         {
@@ -706,7 +706,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           label: 'Upload Documents',
           primary: true,
           onClick: () => {
-            supportedDocument(true)
+            supportedDocument(subKey)
           },
         },
       ]
@@ -756,7 +756,7 @@ export const costRecoveryDetailsConfigs = [
     icon: 'mdi mdi-spellcheck',
     type: 'text',
   },
-  /* {
+  {
     label: '218',
     key: 'year',
     width: '600',
@@ -806,7 +806,7 @@ export const costRecoveryDetailsConfigs = [
         ],
       },
     ],
-  }, */
+  },
 ]
 
 export const costRecoveryDetailsData = [

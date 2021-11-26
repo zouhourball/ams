@@ -126,15 +126,17 @@ const SupportedDocument = ({
       swapTheming
       primary
       className="save-btn"
-      onClick={onSaveUpload(
-        files?.filter(
-          (file) =>
-            !filesToDelete
-              .map((fileToDelete) => fileToDelete)
-              ?.includes(file?.id),
-        ),
-        filesToDelete,
-      )}
+      onClick={() =>
+        onSaveUpload(
+          files?.filter(
+            (file) =>
+              !filesToDelete
+                .map((fileToDelete) => fileToDelete)
+                ?.includes(file?.id),
+          ),
+          filesToDelete,
+        )
+      }
     >
       {isLoading ? (
         <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" />
@@ -182,16 +184,16 @@ const SupportedDocument = ({
 export default SupportedDocument
 SupportedDocument.defaultProps = {
   oldFiles: [
-    {
-      id: '1',
-      filename: 'test1.png',
-      size: 10,
-    },
-    {
-      id: '2',
-      filename: 'test2.png',
-      size: 20,
-    },
+    // {
+    //   id: '1',
+    //   filename: 'test1.png',
+    //   size: 10,
+    // },
+    // {
+    //   id: '2',
+    //   filename: 'test2.png',
+    //   size: 20,
+    // },
   ],
   accept:
     '.doc, .docx, image/* , image/jpeg, image/png, image/jpg, application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document ',

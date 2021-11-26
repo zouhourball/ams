@@ -4,15 +4,9 @@ import { userRole } from 'components/shared-hook/get-roles'
 
 import './style.scss'
 
-const TopBarDetail = ({
-  title,
-  subTitle,
-  companyName,
-  submittedBy,
-  submittedDate,
-  actions,
-  onClickBack,
-}) => {
+const TopBarDetail = ({ detailData, actions, onClickBack }) => {
+  const { title, subTitle, companyName, submittedBy, submittedDate } =
+    detailData
   const renderListButtons = () => {
     return actions.map((action) => action)
   }
@@ -90,11 +84,13 @@ const TopBarDetail = ({
 
 export default TopBarDetail
 TopBarDetail.defaultProps = {
-  title: 'Annual Report',
-  subTitle: 'Block 31',
-  companyName: 'PDO',
-  submittedBy: 'Muhammad Ahmad',
-  submittedDate: '14 mins ago',
+  detailData: {
+    title: 'Annual Report',
+    subTitle: 'Block 31',
+    companyName: 'PDO',
+    submittedBy: 'Muhammad Ahmad',
+    submittedDate: '14 mins ago',
+  },
   actions: [
     <Button
       key="1"
