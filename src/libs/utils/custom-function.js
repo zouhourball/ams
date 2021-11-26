@@ -92,3 +92,11 @@ export const flatten = (arr) => {
     )
   }, [])
 }
+
+export const formDataBody = (body) => {
+  let newBody = new FormData()
+  for (const [key, value] of Object.entries(body)) {
+    newBody.append(key, value)
+  }
+  return newBody
+}

@@ -1,4 +1,5 @@
 import { fetchJSON } from 'libs/fetch'
+import { formDataBody } from 'libs/utils/custom-function'
 
 const appUrl =
   process.env.NODE_ENV === 'production'
@@ -528,10 +529,7 @@ export const listCostsCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadCostsCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const commitLoadCostsCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
@@ -595,17 +593,15 @@ export const updateCostsCost = async ({ body }) => {
   return res
 }
 
-export const uploadCostsCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadAnnualCosts = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/costs/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        isFormData: true,
+        body: formDataBody(body),
       },
     )
   } catch (e) {
