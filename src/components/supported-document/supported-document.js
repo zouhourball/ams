@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { FontIcon, Button, DialogContainer } from 'react-md'
 import Dropzone from 'react-dropzone'
 
-import { uploadFileTus } from 'libs/api/tus-upload'
+import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import './style.scss'
 
@@ -23,30 +23,8 @@ const SupportedDocument = ({
   // }, [oldFiles])
 
   const onUpload = (documents) => {
-    let newFiles = []
-    Promise.all(
-      documents.map((document) =>
-        uploadFileTus(
-          document,
-          null,
-          (res) => {
-            newFiles = [
-              ...newFiles,
-              {
-                id: res?.url,
-                url: res?.url,
-                size: res?.file?.size,
-
-                filename: res?.file?.name,
-                contentType: res?.file?.type,
-              },
-            ]
-          },
-          true,
-        ),
-      ),
-    ).then(() => {
-      setFiles([...files, ...newFiles])
+    fileManagerUpload(documents).then((res) => {
+      setFiles([...res.files])
     })
   }
 

@@ -23,7 +23,7 @@ const documents = () => {
         url,
       }),
     )
-    return mutate(newFiles)
+    mutate(newFiles)
   }
 
   const deleteDocuments = (files) => {

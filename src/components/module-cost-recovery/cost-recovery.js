@@ -15,6 +15,7 @@ import {
 } from 'libs/api/cost-recovery-api'
 import { getBlockByOrgId } from 'libs/api/configurator-api'
 import { downloadTemp } from 'libs/api/api-reserves'
+import documents from 'libs/hooks/documents'
 
 import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
 
@@ -65,6 +66,7 @@ const CostRecovery = () => {
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
+  const { addSupportingDocuments } = documents()
 
   const { data: blockList } = useQuery(
     ['getBlockByOrgId', organizationID],
@@ -187,6 +189,7 @@ const CostRecovery = () => {
               : '',
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       case 1:
@@ -342,7 +345,7 @@ const CostRecovery = () => {
   }
 
   const costsSuppDocs = (data) => {
-    // console.log(data, 'data')
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId)
   }
 
   const handleSupportingDocs = (data) => {
