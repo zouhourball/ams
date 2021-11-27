@@ -558,12 +558,12 @@ const Production = () => {
     'Monthly Tracking',
     'Oman Hydrocarbon',
   ]
-
   const tableDataListDailyProduction = (
     get(listDailyProduction, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
+      processInstanceId: get(el, 'metaData.processInstanceId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -577,6 +577,7 @@ const Production = () => {
   ).map((el) => {
     return {
       id: el?.id,
+      processInstanceId: get(el, 'metaData.processInstanceId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -594,6 +595,7 @@ const Production = () => {
   ).map((el) => {
     return {
       id: el?.id,
+      processInstanceId: get(el, 'metaData.processInstanceId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -691,6 +693,18 @@ const Production = () => {
       default:
         break
     }
+  }
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
   }
 
   const onDisplayMHT = (file) => {
@@ -809,7 +823,10 @@ const Production = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={selectedRow[0]?.processInstanceId}
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
       {overrideDialog && (
