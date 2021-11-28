@@ -16,7 +16,11 @@ import {
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 
-import { dailyProductionDetailsConfigs } from '../helpers'
+import {
+  dailyProductionDetailsConfigs,
+  MonthlyProductionDetailsConfigs,
+  MonthlyTrackingDetailsConfigs,
+} from '../helpers'
 
 import './style.scss'
 
@@ -83,6 +87,129 @@ const ProductionDetails = () => {
     }
   })
 
+  const monthlyData = [
+    {
+      oilProd: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[0]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[0]
+            ?.value[1]?.Target,
+        },
+      ],
+      condensateProd: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[1]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[1]
+            ?.value[1]?.Target,
+        },
+      ],
+      nagProd: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[2]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[2]
+            ?.value[1]?.Target,
+        },
+      ],
+      agProd: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[3]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[3]
+            ?.value[1]?.Target,
+        },
+      ],
+      waterProd: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[4]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[4]
+            ?.value[1]?.Target,
+        },
+      ],
+      waterInj: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[5]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[5]
+            ?.value[1]?.Target,
+        },
+      ],
+      waterDisposal: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[6]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[6]
+            ?.value[1]?.Target,
+        },
+      ],
+      flareGasRate: [
+        {
+          actual: (get(productionData, 'production.data', []) || [])[7]
+            ?.value[0]?.Actual,
+        },
+        {
+          target: (get(productionData, 'production.data', []) || [])[7]
+            ?.value[1]?.Target,
+        },
+      ],
+    },
+  ]
+
+  const monthlyTrackingData = (get(productionData, 'data', []) || []).map(
+    (el) => {
+      return {
+        destination: el?.destination,
+        volume: el?.volume,
+      }
+    },
+  )
+
+  const renderDetailsDataBySubModule = () => {
+    switch (subModule) {
+      case 'daily':
+        return tableDataListDailyProduction
+      case 'monthly':
+        return monthlyData
+      case 'monthly-tracking':
+        return monthlyTrackingData
+      case 'Oman Hydrocarbon':
+        return null
+      default:
+        return null
+    }
+  }
+
+  const renderCurrentTabDetailsConfigs = () => {
+    switch (subModule) {
+      case 'daily':
+        return dailyProductionDetailsConfigs()
+      case 'monthly':
+        return MonthlyProductionDetailsConfigs()
+      case 'monthly-tracking':
+        return MonthlyTrackingDetailsConfigs()
+      case 'Oman Hydrocarbon':
+        return MonthlyProductionDetailsConfigs()
+      default:
+        return dailyProductionDetailsConfigs()
+    }
+  }
   // const tableDataListMonthlyProduction = [{
   //   oilProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[0]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[0]?.value[1]?.Target }],
   //   condensateProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[1]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[1]?.value[1]?.Target }],
@@ -141,8 +268,8 @@ const ProductionDetails = () => {
         actions={actions}
       />
       <Mht
-        configs={dailyProductionDetailsConfigs()}
-        tableData={tableDataListDailyProduction}
+        configs={renderCurrentTabDetailsConfigs()}
+        tableData={renderDetailsDataBySubModule()}
         withSearch
         commonActions
         withSubColumns
