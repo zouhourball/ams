@@ -1,16 +1,13 @@
 import { fetchJSON, fetchGeneric } from 'libs/fetch'
 import { downloadFromBlob } from 'libs/utils/download-blob'
 
-const appUrl =
-  process.env.NODE_ENV === 'production'
-    ? PRODUCT_APP_URL_API
-    : PRODUCT_APP_URL_API
+const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
-export const getListDailyProduction = async ({ queryKey }) => {
+export const getListProduction = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/daily?page=0&size=200`,
+      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}`,
       {
         method: 'GET',
       },
@@ -281,6 +278,21 @@ export const updateDailyProduction = async ({
       `${appUrl}/pulse-be/api/v1/production/${subModule}/update?objectId=${objectId}&status=${status}`,
       {
         method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const deleteProduction = async ({ subModule, objectId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/${objectId}`,
+      {
+        method: 'DELETE',
       },
     )
   } catch (e) {

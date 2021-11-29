@@ -11,22 +11,20 @@ import { addToast } from 'modules/app/actions'
 
 import useRole from 'libs/hooks/use-role'
 import documents from 'libs/hooks/documents'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import ToastMsg from 'components/toast-msg'
 
 import {
-  getListDailyProduction,
-  getListMonthlyProduction,
-  getListMonthlyTrackingProduction,
-  // getListBlocks,
-  // uploadDailyFile,
-  // downloadTemplate,
+  getListProduction,
   downloadTemp,
   uploadDailyProductionReport,
   uploadMonthlyProductionReport,
   uploadMonthlyTrackingProductionReport,
   commitProduction,
   overrideProductionReport,
+  deleteProduction,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -73,11 +71,11 @@ const Production = () => {
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
 
+  const company = getOrganizationInfos()
   const role = useRole('production')
+
   const { addSupportingDocuments } = documents()
-
   const blocks = getBlocks()
-
   const uploadDailyReportMutate = useMutation(
     uploadDailyProductionReport,
 
@@ -195,9 +193,7 @@ const Production = () => {
           } else {
             setShowUploadRapportDialog(false)
             setShowUploadMHTDialog(false)
-            refetchListDaily()
-            refetchListMonthly()
-            refetchListMonthlyTracking()
+            refetchList()
 
             dispatch(
               addToast(
@@ -231,7 +227,7 @@ const Production = () => {
       onSuccess: (res) => {
         if (!res.error) {
           if (res?.msg === 'saved') {
-            refetchListDaily()
+            refetchList()
             setOverrideDialog(false)
             dispatch(
               addToast(
@@ -257,6 +253,45 @@ const Production = () => {
       },
     },
   )
+
+  const deleteProductionMutate = useMutation(
+    deleteProduction,
+
+    {
+      onSuccess: (res) => {
+        refetchList()
+
+        if (!res.error) {
+          // refetchList()
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Deleted successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+  const handleDeleteProduction = (subModule, objectId) => {
+    deleteProductionMutate.mutate({
+      subModule,
+      objectId,
+    })
+  }
   const onCommitProduction = (subModule) => {
     commitProductionMutate.mutate({
       subModule: subModule,
@@ -293,7 +328,7 @@ const Production = () => {
         uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'ams-org',
+            company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
             dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
@@ -305,7 +340,7 @@ const Production = () => {
         uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'ams-org',
+            company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
             month: moment(body?.referenceDate).format('MMMM'),
@@ -318,7 +353,7 @@ const Production = () => {
         uploadMonthlyTrackingReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'ams-org',
+            company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
             month: moment(body?.referenceDate).format('MMMM'),
@@ -330,28 +365,9 @@ const Production = () => {
     }
   }
 
-  const { data: listDailyProduction, refetch: refetchListDaily } = useQuery(
-    ['getListDailyProduction'],
-    getListDailyProduction,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: listMonthlyProduction, refetch: refetchListMonthly } = useQuery(
-    ['getListMonthlyProduction'],
-    getListMonthlyProduction,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const {
-    data: listMonthlyTrackingProduction,
-    refetch: refetchListMonthlyTracking,
-  } = useQuery(
-    ['getListMonthlyTrackingProduction'],
-    getListMonthlyTrackingProduction,
+  const { data: listDailyProduction, refetch: refetchList } = useQuery(
+    ['getListProduction', subModuleByCurrentTab()],
+    getListProduction,
     {
       refetchOnWindowFocus: false,
     },
@@ -552,6 +568,20 @@ const Production = () => {
     }
   }
 
+  // const renderTableDataListProcuction = () => {
+  //   switch (currentTab) {
+  //     case 0:
+  //       return tableDataListDailyProduction
+  //     case 1:
+  //       return tableDataListMonthlyProduction
+  //     case 2:
+  //       return tableDataListMonthlyTracking
+  //     case 3:
+  //     default:
+  //       return null
+  //   }
+  // }
+
   const tabsList = [
     'Daily Production',
     'Monthly Production',
@@ -564,6 +594,7 @@ const Production = () => {
     return {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -573,11 +604,12 @@ const Production = () => {
     }
   })
   const tableDataListMonthlyProduction = (
-    get(listMonthlyProduction, 'content', []) || []
+    get(listDailyProduction, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -591,11 +623,12 @@ const Production = () => {
   })
 
   const tableDataListMonthlyTracking = (
-    get(listMonthlyTrackingProduction, 'content', []) || []
+    get(listDailyProduction, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -757,6 +790,9 @@ const Production = () => {
                 subModuleByCurrentTab(),
                 role,
                 setShowSupportedDocumentDialog,
+                selectedRow[0]?.originalFileId,
+                downloadOriginalFile,
+                handleDeleteProduction,
               )}
             />
           ) : currentTab !== 0 ? (

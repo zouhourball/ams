@@ -60,7 +60,7 @@ export const downloadTemp = async (module, sub, onLoading) => {
 }
 
 export const downloadOriginalFile = async (fileId, name) => {
-  const url = `${appUrl}/pulse-be/api/v2/files/original-file?id={fileId}`
+  const url = `${appUrl}/pulse-be/api/v2/files/original-file?id=${fileId}`
   const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
     (response) => response.blob(),
   )

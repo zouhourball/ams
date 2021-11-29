@@ -61,7 +61,6 @@ const ProductionDetails = () => {
       }
     },
   })
-  // --------------
   const onAcknowledge = (subModule, objectId, status) => {
     updateDailyProductionMutation.mutate({
       subModule: subModule,
@@ -210,17 +209,7 @@ const ProductionDetails = () => {
         return dailyProductionDetailsConfigs()
     }
   }
-  // const tableDataListMonthlyProduction = [{
-  //   oilProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[0]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[0]?.value[1]?.Target }],
-  //   condensateProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[1]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[1]?.value[1]?.Target }],
-  //   nagProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[2]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[2]?.value[1]?.Target }],
-  //   agProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[3]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[3]?.value[1]?.Target }],
-  //   waterProd: [{ actual: (get(currentUpload, 'production.data', []) || [])[4]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[4]?.value[1]?.Target }],
-  //   waterInj: [{ actual: (get(currentUpload, 'production.data', []) || [])[5]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[5]?.value[1]?.Target }],
-  //   waterDisposal: [{ actual: (get(currentUpload, 'production.data', []) || [])[6]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[6]?.value[1]?.Target }],
-  //   flareGasRate: [{ actual: (get(currentUpload, 'production.data', []) || [])[7]?.value[0]?.Actual }, { target: (get(currentUpload, 'production.data', []) || [])[7]?.value[1]?.Target }],
 
-  // }]
   const actions = [
     <Button
       key="1"
@@ -245,7 +234,8 @@ const ProductionDetails = () => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && (
+    role === 'regulator' &&
+      get(productionData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button
         key="3"
         id="acknowledge"
@@ -257,7 +247,7 @@ const ProductionDetails = () => {
           onAcknowledge(subModule, prodId, 'ACKNOWLEDGED')
         }}
       >
-        Acknowledge
+          Acknowledge
       </Button>
     ),
   ]

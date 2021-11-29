@@ -431,7 +431,16 @@ export const omanHydData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, subModule, role, supportedDocument) => {
+export const actionsHeader = (
+  key,
+  id,
+  subModule,
+  role,
+  supportedDocument,
+  originalFileId,
+  downloadOriginalFile,
+  handleDeleteProduction,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -439,7 +448,9 @@ export const actionsHeader = (key, id, subModule, role, supportedDocument) => {
         {
           id: 1,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, 'template')
+          },
         },
         {
           id: 2,
@@ -459,12 +470,16 @@ export const actionsHeader = (key, id, subModule, role, supportedDocument) => {
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            handleDeleteProduction(subModule, id)
+          },
         },
         {
           id: 2,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, 'template')
+          },
         },
         {
           id: 3,
