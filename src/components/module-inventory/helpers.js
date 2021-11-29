@@ -308,6 +308,92 @@ export const annualBaseDetailsConfigs = () => [
     // dateFormat: 'DD MMM, YYYY',
   },
 ]
+export const assetDisposalDetailsConfigs = () => [
+  {
+    label: 'Material Name',
+    key: 'materialName',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Material Category',
+    key: 'materialCategory',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Description',
+    key: 'materialDescription',
+    width: '200',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Classification',
+    key: 'classification',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+
+  {
+    label: 'Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Measurement Unit',
+    key: 'measurementUnit',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Storage Location',
+    key: 'storageLocation',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Date of Purchase',
+    key: 'dateOfPurchase',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Book Value',
+    key: 'bookValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Estimated Current Value',
+    key: 'estimatedCurrentValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Serial Number',
+    key: 'serialNumber',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+]
 export const annualBaseDetailsData = [
   {
     id: '2656552',
@@ -318,6 +404,21 @@ export const annualBaseDetailsData = [
     currentSt: 5,
     quantity: 3,
     unitPrice: '453852.55',
+  },
+]
+export const assetDisposalDetailsData = [
+  {
+    id: '2656552',
+    materialName: '60AAAA',
+    materialCategory: 'Instruments, General',
+    materialDescription: 'Emer-pm,ce3008,48mb',
+    classification: 'EA',
+    measurementUnit: 5,
+    quantity: 3,
+    storageLocation: '453852.55',
+    bookValue: 5,
+    estimatedCurrentValue: 3,
+    serialNumber: '_',
   },
 ]
 export const assetConsumptionDetailsConfigs = () => [

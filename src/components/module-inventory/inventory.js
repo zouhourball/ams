@@ -13,6 +13,7 @@ import useRole from 'libs/hooks/use-role'
 import {
   downloadTemp,
   uploadAnnualBaseInventoryReport,
+  uploadAssetDisposalInventoryReport,
   getInventories,
   getListAnnualBase,
   commitInventory,
@@ -36,6 +37,8 @@ import {
   mhtFakeData,
   actionsHeader,
   annualBaseDetailsConfigs,
+  assetDisposalDetailsConfigs,
+  // assetConsumptionDetailsData,
 } from './helpers'
 
 const Inventory = () => {
@@ -89,6 +92,20 @@ const Inventory = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
+
+      case 4:
+        uploadAssetDisposalReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'ams-org',
+            category: 'assetDisposalRequestProcess',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
       default:
         return () => {}
     }
@@ -125,6 +142,39 @@ const Inventory = () => {
     },
   )
 
+  const uploadAssetDisposalReportMutate = useMutation(
+    uploadAssetDisposalInventoryReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={
+                  res.message || 'Asset Disposal report uploaded successfully'
+                }
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const commitInventoryMutate = useMutation(
     commitInventory,
 
@@ -214,6 +264,20 @@ const Inventory = () => {
       unitPrice: el?.data['Unit Price (USD)'],
     }
   })
+  const mhtUploadedAssetDisposalData = (
+    get(currentUpload, 'data.rows', []) || []
+  ).map((el) => {
+    return {
+      id: el?.rowId,
+      materialName: el?.data['Material Name'],
+      materialCategory: el?.data['Material Category'],
+      materialDescription: el?.data['Material Description '],
+      measurementUnit: el?.data['Measurement Unit'],
+      currentSt: 5,
+      quantity: el?.data['Quantity'],
+      unitPrice: el?.data['Unit Price (USD)'],
+    }
+  })
 
   const onCommitInventory = (subModule) => {
     commitInventoryMutate.mutate({
@@ -235,6 +299,16 @@ const Inventory = () => {
     switch (currentTab) {
       case 0:
         return 'base'
+      case 1:
+        return ''
+      case 2:
+        return ''
+      case 3:
+        return 'assetTransferRequestProcess'
+      case 4:
+        return 'disposal'
+      case 5:
+        return ''
       default:
         return ''
     }
@@ -243,6 +317,8 @@ const Inventory = () => {
     switch (currentTab) {
       case 0:
         return annualBaseDetailsConfigs()
+      case 4:
+        return assetDisposalDetailsConfigs()
       default:
         return annualBaseDetailsConfigs()
     }
@@ -251,10 +327,13 @@ const Inventory = () => {
     switch (currentTab) {
       case 0:
         return mhtUploadedAnnualAssetData
+      case 4:
+        return mhtUploadedAssetDisposalData
       default:
         return mhtUploadedAnnualAssetData
     }
   }
+
   const annualBaseActionsHelper = [
     {
       title: 'Attach Spreadsheet',
@@ -266,7 +345,6 @@ const Inventory = () => {
         downloadTemp('inventoryManagment', 'AnnualInventoryProcess'),
     },
   ]
-
   const assetConsumptionActionsHelper = [
     {
       title: 'Upload Consumption File',
@@ -285,13 +363,15 @@ const Inventory = () => {
     },
     {
       title: 'Download Template',
-      onClick: () => downloadTemp('production', 'production-tracking'),
+      onClick: () =>
+        downloadTemp('inventoryManagment', 'assetTransferRequestProcess'),
     },
   ]
   const assetTransferActionsHelper = [
     {
       title: 'Attach Spreadsheet',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () =>
+        downloadTemp('inventoryManagment', 'assetTransferRequestProcess'),
     },
     { title: 'Download Template', onClick: () => {} },
   ]
@@ -301,7 +381,11 @@ const Inventory = () => {
       title: 'Attach Spreadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () =>
+        downloadTemp('inventoryManagment', 'assetDisposalRequestProcess'),
+    },
   ]
   const newAssetAdditionActionsHelper = [
     {

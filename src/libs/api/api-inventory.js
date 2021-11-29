@@ -103,3 +103,27 @@ export const overrideInventoryReport = async ({
   }
   return res
 }
+
+export const uploadAssetDisposalInventoryReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('category', body?.category)
+  newBody.append('company', body?.company)
+  newBody.append('schema', '')
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/disposal/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
