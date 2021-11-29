@@ -324,7 +324,7 @@ const Inventory = () => {
                 currentTab,
               )}
             />
-          ) : currentTab === (1 || 2) ? (
+          ) : currentTab === 1 || currentTab === 2 ? (
             <SelectField
               id="consumption-inventory"
               menuItems={
