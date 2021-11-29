@@ -6,13 +6,14 @@ const ConfirmDialog = ({
   handleOverride,
   visible,
   title,
+  confirmLabel = 'Override',
 }) => {
   const actions = [
     <Button id="1" key="1" primary flat onClick={onDiscard}>
       Discard
     </Button>,
     <Button id="2" key="2" onClick={handleOverride} primary flat>
-      Override
+      {confirmLabel}
     </Button>,
   ]
   return (

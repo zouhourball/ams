@@ -574,14 +574,13 @@ export const overrideCostsCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateCostsCost = async ({ body }) => {
+export const updateCostsCost = async ({ objectId, status }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/costs/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
