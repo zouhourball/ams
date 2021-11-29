@@ -224,7 +224,7 @@ export const uploadMonthlyTrackingProductionReport = async ({ body }) => {
   return res
 }
 
-export const commitProduction = async ({ subModule, body }) => {
+export const commitInventory = async ({ subModule, body }) => {
   let res
   try {
     res = await fetchJSON(

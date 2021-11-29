@@ -15,6 +15,8 @@ import {
   uploadAnnualBaseInventoryReport,
   getInventories,
   getListAnnualBase,
+  commitInventory,
+  overrideInventoryReport,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -44,6 +46,7 @@ const Inventory = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
+  const [overrideId, setOverrideId] = useState()
 
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
@@ -122,6 +125,81 @@ const Inventory = () => {
     },
   )
 
+  const commitInventoryMutate = useMutation(
+    commitInventory,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res?.msg === 'exist') {
+            setOverrideDialog(true)
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            setOverrideId(res?.overrideId)
+          } else {
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            /*         refetchListDaily()
+            refetchListMonthly()
+            refetchListMonthlyTracking() */
+
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'committed successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+  const overrideInventoryMutate = useMutation(
+    overrideInventoryReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res?.msg === 'saved') {
+            //  refetchListDaily()
+            setOverrideDialog(false)
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'committed successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const mhtUploadedAnnualAssetData = (
     get(currentUpload, 'data.rows', []) || []
   ).map((el) => {
@@ -137,6 +215,30 @@ const Inventory = () => {
     }
   })
 
+  const onCommitInventory = (subModule) => {
+    commitInventoryMutate.mutate({
+      subModule: subModule,
+      body: currentUpload?.data,
+    })
+  }
+  // subModule, overrideId, body
+
+  const onOverrideInventory = (subModule, overrideId) => {
+    overrideInventoryMutate.mutate({
+      subModule: subModule,
+      overrideId: overrideId,
+      body: currentUpload,
+    })
+  }
+
+  const subModuleByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return 'base'
+      default:
+        return ''
+    }
+  }
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -483,10 +585,7 @@ const Inventory = () => {
           propsConfigs={renderCurrentTabDetailsConfigs()}
           propsDataTable={renderCurrentTabDetailsData()}
           onSave={() => {
-            //         onCommitProduction(subModuleByCurrentTab())
-
-            // setShowUploadMHTDialog(false)
-            // setShowUploadRapportDialog(true)
+            onCommitInventory(subModuleByCurrentTab())
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />
@@ -535,7 +634,7 @@ const Inventory = () => {
               flat: true,
               swapTheming: true,
               onClick: () => {
-                /* onOverrideProduction(subModuleByCurrentTab(), overrideId)  */
+                onOverrideInventory(subModuleByCurrentTab(), overrideId)
               },
             },
             {

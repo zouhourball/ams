@@ -56,6 +56,7 @@ export const getInventories = async ({ queryKey, inventoryId, page, size }) => {
   }
   return res
 }
+
 export const downloadTemp = async (module, sub) => {
   const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
   const apiResponseBlob = await await fetchGeneric(url, { method: 'GET' }).then(
@@ -65,4 +66,40 @@ export const downloadTemp = async (module, sub) => {
     apiResponseBlob,
     `template_${module}_${sub}.xlsx` || URL.split('/').reverse()[0],
   )
+}
+
+export const commitInventory = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/commit`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const overrideInventoryReport = async ({
+  subModule,
+  overrideId,
+  body,
+}) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/override/${overrideId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }
