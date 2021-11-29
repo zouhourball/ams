@@ -3,8 +3,7 @@ import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { v4 as uuidv4 } from 'uuid'
-// import useRole from 'libs/hooks/use-role'
-// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import moment from 'moment'
 import useRole from 'libs/hooks/use-role'
 
 import {
@@ -47,12 +46,8 @@ const Reserves = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
-  // const [dialog, setDialogVisible] = useState(false)
 
-  // const company = getOrganizationInfos()
-  // console.log(company, 'company')
-
-  const role = useRole('reserve')
+  const role = useRole('reserves')
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     ['getAnnualReport'],
@@ -143,7 +138,6 @@ const Reserves = () => {
     },
   ]
   // const role = useRole('reserves')
-  // console.log(role, 'role')
 
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
@@ -180,17 +174,54 @@ const Reserves = () => {
     'History and Forecast',
     'Annual Resource Detail',
   ]
-
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return listAnnualReserves?.content || []
+        return (
+          listAnnualReserves?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            submittedBy: el?.metaData?.createdBy?.name,
+            referenceDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+          })) || []
+        )
       case 1:
-        return listHistoryAndForecast?.content || []
+        return (
+          listHistoryAndForecast?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            referenceDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+          })) || []
+        )
       case 2:
-        return listAnnualResourceDetail?.content || []
+        return (
+          listAnnualResourceDetail?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            referenceDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+          })) || []
+        )
       default:
-        return listAnnualResourceDetail?.content || []
+        return (
+          listAnnualResourceDetail?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            referenceDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+          })) || []
+        )
     }
   }
 
@@ -364,9 +395,7 @@ const Reserves = () => {
         detailUploadLoading) && <CircularProgress />}
       <TopBar
         title="Reserve Reporting"
-        actions={
-          /* role === 'operator' ? */ renderActionsByCurrentTab() /* : null */
-        }
+        actions={role === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <div className="subModule">
         <NavBar
@@ -392,7 +421,7 @@ const Reserves = () => {
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
                     'reserves-details',
-                    selectedRow[0]?.id,
+                    selectedRow[0]?.block,
                     'reserve',
                     role,
                     setShowSupportedDocumentDialog,

@@ -22,7 +22,7 @@ const Permitting = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Reserves path="/" />
-        <ReservesDetails path="/reserves-details/:reserveId" />
+        <ReservesDetails path="/reserves-details/:subkey/:reserveId" />
       </Router>
     </Suspense>
   )

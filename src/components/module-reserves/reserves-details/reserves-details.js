@@ -5,10 +5,11 @@ import { useQuery } from 'react-query'
 import { useMemo } from 'react'
 import moment from 'moment'
 
+import useRole from 'libs/hooks/use-role'
+
 import { detailReserveByLoggedUser } from 'libs/api/api-reserves'
 
 import TopBarDetail from 'components/top-bar-detail'
-import { userRole } from 'components/shared-hook/get-roles'
 
 import { annualReservesDetailsConfigs } from '../helpers'
 
@@ -16,6 +17,7 @@ import './style.scss'
 
 const ReservesDetails = ({ location: { pathname }, detailId }) => {
   const subModule = pathname?.split('/')[4]
+  let role = useRole('reserves')
 
   const { data: reserveDetail } = useQuery(
     ['detailReserveByLoggedUser', detailId],
@@ -79,7 +81,7 @@ const ReservesDetails = ({ location: { pathname }, detailId }) => {
     >
       Download Original File
     </Button>,
-    userRole() === 'regulator' && (
+    role === 'regulator' && (
       <Button
         key="4"
         id="acknowledge"
