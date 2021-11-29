@@ -321,6 +321,17 @@ const Production = () => {
     }
   }
 
+  const currentSubsubModule = () => {
+    switch (selectFieldValue) {
+      case 'Monthly Production':
+        return 'production'
+      case 'Monthly Well Counts':
+        return 'wellCount'
+      default:
+        return ''
+    }
+  }
+
   const onAddReportByCurrentTab = (body) => {
     let uuid = uuidv4()
     switch (currentTab) {
@@ -568,20 +579,6 @@ const Production = () => {
     }
   }
 
-  // const renderTableDataListProcuction = () => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       return tableDataListDailyProduction
-  //     case 1:
-  //       return tableDataListMonthlyProduction
-  //     case 2:
-  //       return tableDataListMonthlyTracking
-  //     case 3:
-  //     default:
-  //       return null
-  //   }
-  // }
-
   const tabsList = [
     'Daily Production',
     'Monthly Production',
@@ -788,6 +785,7 @@ const Production = () => {
                 'production-details',
                 selectedRow[0]?.id,
                 subModuleByCurrentTab(),
+                currentSubsubModule(),
                 role,
                 setShowSupportedDocumentDialog,
                 selectedRow[0]?.originalFileId,

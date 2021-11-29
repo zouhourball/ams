@@ -435,6 +435,7 @@ export const actionsHeader = (
   key,
   id,
   subModule,
+  subsubModule,
   role,
   supportedDocument,
   originalFileId,
@@ -456,7 +457,11 @@ export const actionsHeader = (
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/production/${key}/${subModule}/${id}`)
+            key && id && subModule === 'monthly'
+              ? navigate(
+                `/ams/production/${key}/${id}/${subModule}/${subsubModule}`,
+              )
+              : navigate(`/ams/production/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -485,7 +490,11 @@ export const actionsHeader = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/production/${key}/${subModule}/${id}`)
+            key && id && subModule === 'monthly'
+              ? navigate(
+                `/ams/production/${key}/${id}/${subsubModule}/${subModule}`,
+              )
+              : navigate(`/ams/production/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -778,5 +787,149 @@ export const MonthlyTrackingDetailsData = [
   {
     destination: 'Japan',
     volume: '545445',
+  },
+]
+
+// monthlyDataWellCount
+export const MonthlyWellCountDetailsConfigs = () => [
+  {
+    label: 'OIL PRODUCER',
+    key: 'oilProducer',
+    type: 'subColumns',
+    width: 400,
+    columns: [
+      {
+        label: 'Total',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Closed-In',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'GAS PRODUCER',
+    key: 'gasProducer',
+    type: 'subColumns',
+    width: 400,
+    columns: [
+      {
+        label: 'Total',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Closed-In',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER INJECTOR',
+    type: 'waterInjector',
+    key: 'nagProd',
+    width: 400,
+    columns: [
+      {
+        label: 'Total',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Closed-In',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'STEAM INJECTOR',
+    type: 'subColumns',
+    key: 'steamInjector',
+    width: 400,
+    columns: [
+      {
+        label: 'Total',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Closed-In',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER SUPPLIER',
+    type: 'subColumns',
+    key: 'waterSupplier',
+    width: 400,
+    columns: [
+      {
+        label: 'Total',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Closed-In',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'WATER DISPOSAL',
+    type: 'subColumns',
+    key: 'waterDisposal',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'OTHERS*',
+    type: 'subColumns',
+    key: 'others',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'total',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'closedIn',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
   },
 ]

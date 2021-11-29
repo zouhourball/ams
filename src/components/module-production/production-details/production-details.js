@@ -20,6 +20,7 @@ import {
   dailyProductionDetailsConfigs,
   MonthlyProductionDetailsConfigs,
   MonthlyTrackingDetailsConfigs,
+  MonthlyWellCountDetailsConfigs,
 } from '../helpers'
 
 import './style.scss'
@@ -27,8 +28,16 @@ import './style.scss'
 const ProductionDetails = () => {
   const dispatch = useDispatch()
   const role = useRole('production')
-  const prodId = get(location, 'pathname', '/').split('/').reverse()[0]
-  const subModule = get(location, 'pathname', '/').split('/').reverse()[1]
+
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+  const subSubModule =
+    subModule === 'monthly'
+      ? get(location, 'pathname', '/').split('/').reverse()[1]
+      : ''
+  const prodId =
+    subModule === 'monthly'
+      ? get(location, 'pathname', '/').split('/').reverse()[2]
+      : get(location, 'pathname', '/').split('/').reverse()[1]
 
   const { data: productionData } = useQuery(
     ['getDetailProductionById', subModule, prodId],
@@ -170,6 +179,80 @@ const ProductionDetails = () => {
       ],
     },
   ]
+  const monthlyDataWellCount = [
+    {
+      oilProducer: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[0]?.value[0]
+            ?.Total,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[0]
+            ?.value[1]['Closed-In'],
+        },
+      ],
+      gasProducer: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[1]?.value[0]
+            ?.Total,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[1]
+            ?.value[1]['Closed-In'],
+        },
+      ],
+      waterInjector: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[2]?.value[0]
+            ?.Total,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[2]
+            ?.value[1]['Closed-In'],
+        },
+      ],
+      steamInjector: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[3]?.value[0]
+            ?.Total,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[3]
+            ?.value[1]['Closed-In'],
+        },
+      ],
+      waterSupplier: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[4]?.value[0]
+            ?.Total,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[4]
+            ?.value[1]['Target'],
+        },
+      ],
+      waterDisposal: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[5]?.value[0]
+            ?.Actual,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[5]
+            ?.value[1]['Target'],
+        },
+      ],
+      others: [
+        {
+          total: (get(productionData, 'wellCount.data', []) || [])[6]?.value[0]
+            ?.Actual,
+        },
+        {
+          closedIn: (get(productionData, 'wellCount.data', []) || [])[6]
+            ?.value[1]['Target'],
+        },
+      ],
+    },
+  ]
 
   const monthlyTrackingData = (get(productionData, 'data', []) || []).map(
     (el) => {
@@ -185,7 +268,9 @@ const ProductionDetails = () => {
       case 'daily':
         return tableDataListDailyProduction
       case 'monthly':
-        return monthlyData
+        return subSubModule === 'production'
+          ? monthlyData
+          : monthlyDataWellCount
       case 'monthly-tracking':
         return monthlyTrackingData
       case 'Oman Hydrocarbon':
@@ -200,7 +285,9 @@ const ProductionDetails = () => {
       case 'daily':
         return dailyProductionDetailsConfigs()
       case 'monthly':
-        return MonthlyProductionDetailsConfigs()
+        return subSubModule === 'production'
+          ? MonthlyProductionDetailsConfigs()
+          : MonthlyWellCountDetailsConfigs()
       case 'monthly-tracking':
         return MonthlyTrackingDetailsConfigs()
       case 'Oman Hydrocarbon':
