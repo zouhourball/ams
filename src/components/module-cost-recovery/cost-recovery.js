@@ -525,7 +525,12 @@ const CostRecovery = () => {
       )}
       {showSupportedDocumentDialog && (
         <SupportedDocument
-          title={'upload supporting documents'}
+          title={
+            role === 'regulator'
+              ? 'Supporting Documents'
+              : 'Upload supporting documents'
+          }
+          readOnly={role === 'regulator'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           processInstanceId={selectedRow[0]?.processInstanceId}

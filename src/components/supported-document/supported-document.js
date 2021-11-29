@@ -5,7 +5,7 @@ import { useQuery } from 'react-query'
 
 import documents from 'libs/hooks/documents'
 
-import { fileManagerUpload } from 'libs/api/api-file-manager'
+import { fileManagerUpload, getPublicUrl } from 'libs/api/api-file-manager'
 import { getDocumentsById } from 'libs/api/supporting-document-api'
 
 import './style.scss'
@@ -18,6 +18,7 @@ const SupportedDocument = ({
   visible,
   title,
   processInstanceId,
+  readOnly,
 }) => {
   const [files, setFiles] = useState([])
   const [oldFiles, setOldFiles] = useState([])
@@ -95,12 +96,21 @@ const SupportedDocument = ({
                 </div>
               </div>
 
+              {!readOnly && (
+                <FontIcon
+                  onClick={() => {
+                    setFilesToDelete([...filesToDelete, file.id])
+                  }}
+                >
+                  delete
+                </FontIcon>
+              )}
               <FontIcon
                 onClick={() => {
-                  setFilesToDelete([...filesToDelete, file.id])
+                  window.open(getPublicUrl(file?.fileId))
                 }}
               >
-                delete
+                download
               </FontIcon>
             </>
           )}
@@ -121,16 +131,27 @@ const SupportedDocument = ({
             </div>
           </div>
 
+          {!readOnly && (
+            <FontIcon
+              onClick={() => {
+                deleteDocuments([file?.id]).then(
+                  (res) =>
+                    res[0] &&
+                    setOldFiles((prev) =>
+                      prev.filter((el) => el.id !== file.id),
+                    ),
+                )
+              }}
+            >
+              delete
+            </FontIcon>
+          )}
           <FontIcon
             onClick={() => {
-              deleteDocuments([file?.id]).then(
-                (res) =>
-                  res[0] &&
-                  setOldFiles((prev) => prev.filter((el) => el.id !== file.id)),
-              )
+              window.open(getPublicUrl(file?.fileId))
             }}
           >
-            delete
+            download
           </FontIcon>
         </div>
       )
@@ -165,6 +186,8 @@ const SupportedDocument = ({
       )}
     </Button>,
   ]
+
+  const nodesFiles = [...renderOldFiles(), ...renderFiles()]
   return (
     <DialogContainer
       id="supported-document-dialog"
@@ -177,26 +200,27 @@ const SupportedDocument = ({
       modal
     >
       <div className="supported-document">
-        <Dropzone
-          onDrop={onUpload}
-          accept={accept}
-          multiple={true}
-          className="dropzone-logo"
-        >
-          {({ getRootProps, getInputProps }) => (
-            <section className="supported-document-dropzone">
-              <div className="input-zone" {...getRootProps()}>
-                <input {...getInputProps()} />
-                <FontIcon className="delete-icon">file_upload</FontIcon>
-                <p>
-                  Drag & Drop file here or <b>Select File</b>
-                </p>
-              </div>
-            </section>
-          )}
-        </Dropzone>
-        {renderOldFiles()}
-        {renderFiles()}
+        {!readOnly && (
+          <Dropzone
+            onDrop={onUpload}
+            accept={accept}
+            multiple={true}
+            className="dropzone-logo"
+          >
+            {({ getRootProps, getInputProps }) => (
+              <section className="supported-document-dropzone">
+                <div className="input-zone" {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <FontIcon className="delete-icon">file_upload</FontIcon>
+                  <p>
+                    Drag & Drop file here or <b>Select File</b>
+                  </p>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        )}
+        {nodesFiles?.length > 0 ? nodesFiles : 'There is no Files'}
       </div>
     </DialogContainer>
   )

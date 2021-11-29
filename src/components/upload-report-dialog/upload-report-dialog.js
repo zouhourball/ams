@@ -25,7 +25,6 @@ const UploadReportDialog = ({
   onHide,
   onSave,
   optional,
-  required,
   hideDate,
   onDisplayMHT,
   setFileList,
