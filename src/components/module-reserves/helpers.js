@@ -330,7 +330,7 @@ export const annualResourceData = [
   },
 ]
 
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
   switch (role) {
     case 'regulator':
     default:
@@ -344,7 +344,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/reserves/${key}/${id}`)
+            key && id && navigate(`/ams/reserves/${key}/${subKey}/${id}`)
           },
         },
         {
@@ -371,7 +371,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/reserves/${key}/${id}`)
+            key && id && navigate(`/ams/reserves/${key}/${subKey}/${id}`)
           },
         },
         {
