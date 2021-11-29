@@ -1,4 +1,5 @@
 import { Button, Autocomplete } from 'react-md'
+import { useState, useRef } from 'react'
 
 import ConfiguratorCard from 'components/configurator-card'
 
@@ -16,14 +17,15 @@ const CompanyData = ({
   companiesSource,
   onAddCompany,
 }) => {
-  const addCompanies = () => {
+  const [company, chooseCompany] = useState({})
+  /* const addCompanies = () => {
     const updatedCompanies = [...companies, companyTitle]
     setCompanyTitle('')
     return setCompanies(updatedCompanies)
-  }
-
+  } */
+  const textInput = useRef()
   const validData = () => {
-    if (companyTitle !== '') {
+    if (company?.name) {
       return false
     }
     return true
@@ -34,23 +36,29 @@ const CompanyData = ({
       <div className="company-data-header">
         <Autocomplete
           id="Type here to add company"
-          label="Type here to add company"
+          // label="Type here to add company"
+          ref={textInput}
           placeholder="Type here to add company"
+          className="company-data-header-textField"
           data={companiesSource}
           filter={Autocomplete.caseInsensitiveFilter}
           dataLabel="name"
           dataValue="id"
+          inputValue={company?.name}
           onAutocomplete={(suggestion, suggestionIndex, matches) => {
-            onAddCompany(matches[0])
+            chooseCompany(matches[0])
           }}
         />
 
         <Button
-          primary
           icon
           className="company-data-header-btn"
           disabled={validData()}
-          onClick={addCompanies}
+          onClick={() => {
+            onAddCompany(company)
+            chooseCompany({})
+            textInput.current.state.value = ''
+          }}
         >
           add
         </Button>

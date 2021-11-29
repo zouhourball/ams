@@ -14,11 +14,16 @@
       padding: 10px;
       border-radius: 10px;
       background-color: #f0f2f5;
+
+      input:focus {
+        box-shadow: 0 0 0 50px #f0f2f5 inset !important;
+      }
     }
 
     &-btn {
       margin: 0 5px;
       border-radius: 10px;
+      cursor: pointer;
     }
   }
 
