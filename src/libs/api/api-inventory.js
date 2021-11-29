@@ -6,6 +6,20 @@ const appUrl =
     ? PRODUCT_APP_URL_API
     : PRODUCT_APP_URL_API
 
+export const getListAnnualBase = async ({ queryKey, page, size }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey}&exclude=data&page=${page}&size=${size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const uploadAnnualBaseInventoryReport = async ({ body }) => {
   let newBody = new FormData()
   newBody.append('block', body?.block)
@@ -28,6 +42,20 @@ export const uploadAnnualBaseInventoryReport = async ({ body }) => {
   return res
 }
 
+export const getInventories = async ({ queryKey, inventoryId, page, size }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==${queryKey}&inventoryId==${inventoryId}&exclude=data&page=${page}&size=${size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const downloadTemp = async (module, sub) => {
   const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
   const apiResponseBlob = await await fetchGeneric(url, { method: 'GET' }).then(

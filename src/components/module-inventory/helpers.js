@@ -75,6 +75,96 @@ export const mhtConfig = () => [
   },
 ]
 
+export const mhtConfigAssetConsumption = () => [
+  {
+    label: 'Company',
+    key: 'company',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Block',
+    key: 'block',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Submission Date',
+    key: 'submissionDate',
+    width: '200',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Stock Count Before',
+    key: 'stockCountBefore',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Consumed Items',
+    key: 'consumedItems',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Stock Count After',
+    key: 'stockCountAfter',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Status Date',
+    key: 'statusDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Status',
+    key: 'status',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Supporting Documents',
+    key: 'supportingDocuments',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    render: (row) => (
+      <FileInput
+        className="upload-docs-button"
+        id={row.id}
+        flat
+        primary
+        iconBefore
+        icon={<FontIcon>save_alt</FontIcon>}
+        label={'Upload Documents'}
+      />
+    ),
+  },
+  {
+    label: 'Status',
+    key: 'status',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
+  },
+]
+
 export const mhtFakeData = [
   {
     id: '2656552',

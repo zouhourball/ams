@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Button, SelectField, DialogContainer } from 'react-md'
+import { useQuery, useMutation } from 'react-query'
+
 import Mht from '@target-energysolutions/mht'
-import { useMutation } from 'react-query'
+
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
@@ -11,6 +13,8 @@ import useRole from 'libs/hooks/use-role'
 import {
   downloadTemp,
   uploadAnnualBaseInventoryReport,
+  getInventories,
+  getListAnnualBase,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -26,6 +30,7 @@ import SupportedDocument from 'components/supported-document'
 
 import {
   mhtConfig,
+  mhtConfigAssetConsumption,
   mhtFakeData,
   actionsHeader,
   annualBaseDetailsConfigs,
@@ -247,8 +252,33 @@ const Inventory = () => {
     'New Asset Addition',
   ]
 
+  const { data: listAnnualBase } = useQuery(
+    ['getListAnnualBase'],
+    getListAnnualBase({
+      queryKey: 'base',
+      page: 1,
+      size: 20,
+    }),
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const { data: listConsumptionDeclaration } = useQuery(
+    ['getListConsumptionDeclaration'],
+    getInventories({
+      queryKey: 'surplusInventoryProcess',
+      inventoryId: '619cc06ee70f07000188e23c',
+      page: 1,
+      size: 20,
+    }),
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
   const tableDataListAnnualBase = (
-    get(/* listDailyProduction */ [], 'content', []) || []
+    get(listAnnualBase, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
@@ -261,7 +291,7 @@ const Inventory = () => {
     }
   })
   const tableDataListAssetConsumption = (
-    get(/* listMonthlyProduction */ [], 'content', []) || []
+    get(listConsumptionDeclaration, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
@@ -297,9 +327,9 @@ const Inventory = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return mhtFakeData || tableDataListAnnualBase
+        return tableDataListAnnualBase
       case 1:
-        return mhtFakeData || tableDataListAssetConsumption
+        return tableDataListAssetConsumption
       case 2:
         return mhtFakeData || tableDataListMonthlySurplusDeclaration
       case 3:
@@ -315,7 +345,7 @@ const Inventory = () => {
       case 0:
         return mhtConfig()
       case 1:
-        return mhtConfig()
+        return mhtConfigAssetConsumption()
       case 2:
         return mhtConfig()
       case 3:
