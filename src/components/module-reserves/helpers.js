@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const annualReservesConfigs = () => [
+export const annualReservesConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -52,6 +52,7 @@ export const annualReservesConfigs = () => [
     key: 'supportingDocuments',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+
     render: (row) => (
       <FileInput
         className="upload-docs-button"
@@ -61,6 +62,10 @@ export const annualReservesConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -75,7 +80,7 @@ export const annualReservesConfigs = () => [
   },
 ]
 
-export const historyConfigs = () => [
+export const historyConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -135,6 +140,10 @@ export const historyConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -148,7 +157,7 @@ export const historyConfigs = () => [
     ),
   },
 ]
-export const annualResourceConfigs = () => [
+export const annualResourceConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -208,6 +217,10 @@ export const annualResourceConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -351,7 +364,7 @@ export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
           id: 3,
           label: 'Upload Documents',
           onClick: () => {
-            supportedDocument(true)
+            supportedDocument(subKey)
           },
         },
       ]
@@ -378,7 +391,7 @@ export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
           id: 4,
           label: 'Upload Documents',
           onClick: () => {
-            supportedDocument(true)
+            supportedDocument(subKey)
           },
         },
       ]

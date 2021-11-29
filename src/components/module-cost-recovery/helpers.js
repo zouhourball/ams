@@ -61,6 +61,7 @@ export const annualCostConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+
       />
     ),
   },

@@ -120,7 +120,7 @@ const Reserves = () => {
     {
       title: 'Download Template',
       onClick: () => {
-        downloadTemp('reserve', 'fyf')
+        downloadTemp('reserve', 'fyf', setLoading)
       },
     },
   ]
@@ -133,10 +133,38 @@ const Reserves = () => {
     {
       title: 'Download Template',
       onClick: () => {
-        downloadTemp('reserve', 'annualResource')
+        downloadTemp('reserve', 'annualResource', setLoading)
       },
     },
   ]
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const annualReservesReportingSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeDialog,
+    )
+  }
+  const handleSupportingDocs = (data) => {
+    switch (currentTab) {
+      case 0:
+        annualReservesReportingSuppDocs(data)
+        break
+      case 1:
+        annualReservesReportingSuppDocs(data)
+        break
+      case 2:
+        annualReservesReportingSuppDocs(data)
+        break
+      default:
+        break
+    }
+  }
   // const role = useRole('reserves')
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -187,6 +215,7 @@ const Reserves = () => {
             submittedBy: el?.metaData?.createdBy?.name,
             referenceDate: el?.metaData?.year,
             status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       case 1:
@@ -198,6 +227,7 @@ const Reserves = () => {
             submittedBy: el?.metaData?.createdBy?.name,
             referenceDate: el?.metaData?.year,
             status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       case 2:
@@ -209,6 +239,7 @@ const Reserves = () => {
             submittedBy: el?.metaData?.createdBy?.name,
             referenceDate: el?.metaData?.year,
             status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
       default:
@@ -220,21 +251,25 @@ const Reserves = () => {
             submittedBy: el?.metaData?.createdBy?.name,
             referenceDate: el?.metaData?.year,
             status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
     }
+  }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
   }
 
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return annualReservesConfigs()
+        return annualReservesConfigs(UploadSupportedDocumentFromTable)
       case 1:
-        return historyConfigs()
+        return historyConfigs(UploadSupportedDocumentFromTable)
       case 2:
-        return annualResourceConfigs()
+        return annualResourceConfigs(UploadSupportedDocumentFromTable)
       default:
-        return annualReservesConfigs()
+        return annualReservesConfigs(UploadSupportedDocumentFromTable)
     }
   }
 
@@ -261,7 +296,9 @@ const Reserves = () => {
           title: 'Upload History and Forecast Report',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
-            onUploadHistoryReport(data)
+            const uuid = uuidv4()
+            onUploadHistoryReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
           },
           onCommit: () =>
             onCommitReport(
@@ -275,7 +312,9 @@ const Reserves = () => {
           title: 'Upload Monthly Tracking Report',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
-            onUploadDetailReport(data)
+            const uuid = uuidv4()
+            onUploadDetailReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
           },
           onCommit: () =>
             onCommitReport(
@@ -351,14 +390,15 @@ const Reserves = () => {
       },
     )
   }
-  const onUploadHistoryReport = (body) => {
+  const onUploadHistoryReport = (body, uuid) => {
     onUploadHistoryReportMutate(
       {
         body: {
           block: body?.block,
           company: 'ams-org',
           file: body?.filesList,
-          processInstanceId: uuidv4(),
+          processInstanceId: uuid,
+          year: '2021',
         },
       },
       {
@@ -368,7 +408,7 @@ const Reserves = () => {
       },
     )
   }
-  const onUploadDetailReport = (body) => {
+  const onUploadDetailReport = (body, uuid) => {
     onUploadDetailReportMutate(
       {
         body: {
@@ -376,7 +416,7 @@ const Reserves = () => {
           company: 'ams-org',
           file: body?.filesList,
           hydrocarbonType: 'GAS',
-          processInstanceId: uuidv4(),
+          processInstanceId: uuid,
           year: '2021',
         },
       },
@@ -482,7 +522,13 @@ const Reserves = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </>
