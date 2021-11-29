@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import { Button, SelectField, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-
+import { useMutation } from 'react-query'
+import { useDispatch } from 'react-redux'
 import moment from 'moment'
+import { v4 as uuidv4 } from 'uuid'
 
 import { get } from 'lodash-es'
-
 import useRole from 'libs/hooks/use-role'
+import {
+  downloadTemp,
+  uploadAnnualBaseInventoryReport,
+} from 'libs/api/api-inventory'
+import documents from 'libs/hooks/documents'
+import getBlocks from 'libs/hooks/get-blocks'
+import { addToast } from 'modules/app/actions'
 
-import { downloadTemp } from 'libs/api/api-production'
-
+import ToastMsg from 'components/toast-msg'
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
@@ -21,7 +28,7 @@ import {
   mhtConfig,
   mhtFakeData,
   actionsHeader,
-  detailsConfigs,
+  annualBaseDetailsConfigs,
 } from './helpers'
 
 const Inventory = () => {
@@ -37,9 +44,13 @@ const Inventory = () => {
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Asset Consumption')
 
-  const role = useRole('production')
+  const [currentUpload, setCurrentUpload] = useState()
+  const dispatch = useDispatch()
 
-  const mhtDialogData = ([] || []).map((el) => {
+  const role = useRole('production')
+  const { addSupportingDocuments } = documents()
+  const blocks = getBlocks()
+  /*   const mhtDialogData = ([] || []).map((el) => {
     return {
       production: [{ item: el?.name }, { uom: el?.unit }],
       dailyField: [
@@ -52,8 +63,91 @@ const Inventory = () => {
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
       ],
     }
+  }) */
+  const onAddReportByCurrentTab = (body) => {
+    let uuid = uuidv4()
+    switch (currentTab) {
+      case 0:
+        uploadAnnualBaseReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'ams-org',
+            category: 'base',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            // month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
+      default:
+        return () => {}
+    }
+  }
+  const uploadAnnualBaseReportMutate = useMutation(
+    uploadAnnualBaseInventoryReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Annual Base report uploaded successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const mhtUploadedAnnualAssetData = (
+    get(currentUpload, 'data.rows', []) || []
+  ).map((el) => {
+    return {
+      id: el?.rowId,
+      materialName: el?.data['Material Name'],
+      materialCategory: el?.data['Material Category'],
+      materialDescription: el?.data['Material Description '],
+      measurementUnit: el?.data['Measurement Unit'],
+      currentSt: 5,
+      quantity: el?.data['Quantity'],
+      unitPrice: el?.data['Unit Price (USD)'],
+    }
   })
 
+  const renderCurrentTabDetailsConfigs = () => {
+    switch (currentTab) {
+      case 0:
+        return annualBaseDetailsConfigs()
+      default:
+        return annualBaseDetailsConfigs()
+    }
+  }
+  const renderCurrentTabDetailsData = () => {
+    switch (currentTab) {
+      case 0:
+        return mhtUploadedAnnualAssetData
+      default:
+        return mhtUploadedAnnualAssetData
+    }
+  }
   const annualBaseActionsHelper = [
     {
       title: 'Attach Spreadsheet',
@@ -61,7 +155,8 @@ const Inventory = () => {
     },
     {
       title: 'Download Template',
-      onClick: () => downloadTemp('production', 'daily'),
+      onClick: () =>
+        downloadTemp('inventoryManagment', 'AnnualInventoryProcess'),
     },
   ]
 
@@ -355,8 +450,8 @@ const Inventory = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
-          propsConfigs={detailsConfigs()}
-          propsDataTable={mhtDialogData}
+          propsConfigs={renderCurrentTabDetailsConfigs()}
+          propsDataTable={renderCurrentTabDetailsData()}
           onSave={() => {
             //         onCommitProduction(subModuleByCurrentTab())
 
@@ -374,23 +469,17 @@ const Inventory = () => {
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          blockList={[
-            {
-              label: 'block1',
-              value: '1',
-            },
-            {
-              label: 'block2',
-              value: '2',
-            },
-          ]}
+          blockList={blocks?.map((el) => ({
+            label: el?.block,
+            value: el?.block,
+          }))}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
           onSave={(data) => {
             // renderDialogData().onClick()
-            //  onAddReportByCurrentTab(data)
+            onAddReportByCurrentTab(data)
           }}
         />
       )}
