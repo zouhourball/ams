@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const annualCostConfigs = () => [
+export const annualCostConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -61,7 +61,10 @@ export const annualCostConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
-
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -76,7 +79,7 @@ export const annualCostConfigs = () => [
   },
 ]
 
-export const contractReportConfigs = () => [
+export const contractReportConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -136,6 +139,10 @@ export const contractReportConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -149,7 +156,7 @@ export const contractReportConfigs = () => [
     ),
   },
 ]
-export const productionLiftingConfigs = () => [
+export const productionLiftingConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -209,6 +216,10 @@ export const productionLiftingConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -222,7 +233,7 @@ export const productionLiftingConfigs = () => [
     ),
   },
 ]
-export const transactionConfigs = () => [
+export const transactionConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -282,6 +293,10 @@ export const transactionConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -295,7 +310,7 @@ export const transactionConfigs = () => [
     ),
   },
 ]
-export const affiliateConfigs = () => [
+export const affiliateConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -355,6 +370,10 @@ export const affiliateConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -368,7 +387,7 @@ export const affiliateConfigs = () => [
     ),
   },
 ]
-export const facilitiesConfigs = () => [
+export const facilitiesConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -428,6 +447,10 @@ export const facilitiesConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.stopPropagation()
+          supportedDocument(row)
+        }}
       />
     ),
   },

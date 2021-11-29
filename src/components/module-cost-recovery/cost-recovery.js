@@ -12,6 +12,8 @@ import {
   commitLoadCostsCost,
   overrideCostsCost,
   deleteCosts,
+  listContractsCost,
+  uploadContractsCost,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/api-reserves'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -36,7 +38,7 @@ import {
   affiliateConfigs,
   facilitiesConfigs,
   annualCostData,
-  contractReportData,
+  // contractReportData,
   productionLiftingData,
   transactionData,
   affiliateData,
@@ -72,6 +74,13 @@ const CostRecovery = () => {
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
   const { mutate: deleteAnnualCostsExp } = useMutation(deleteCosts)
 
+  const { data: contractListReport } = useQuery(
+    ['listContractsCost'],
+    listContractsCost,
+  )
+  const { mutate: uploadContractsCostExp, data: responseUploadContractCost } =
+    useMutation(uploadContractsCost)
+
   const { addSupportingDocuments } = documents()
 
   const annualCostAndExpenditureActionsHelper = [
@@ -90,9 +99,12 @@ const CostRecovery = () => {
   const contractReportsActionsHelper = [
     {
       title: 'Upload Contract Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('upload-contract-report'),
     },
-    { title: 'Download Template', onClick: () => {} },
+    { title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'costs')
+      } },
   ]
 
   const productionLiftingActionsHelper = [
@@ -194,7 +206,20 @@ const CostRecovery = () => {
           })) || []
         )
       case 1:
-        return contractReportData
+        return (
+          contractListReport?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 2:
         return productionLiftingData
       case 3:
@@ -207,22 +232,26 @@ const CostRecovery = () => {
         return annualCostData
     }
   }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
+  }
+
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return annualCostConfigs()
+        return annualCostConfigs(UploadSupportedDocumentFromTable)
       case 1:
-        return contractReportConfigs()
+        return contractReportConfigs(UploadSupportedDocumentFromTable)
       case 2:
-        return productionLiftingConfigs()
+        return productionLiftingConfigs(UploadSupportedDocumentFromTable)
       case 3:
-        return transactionConfigs()
+        return transactionConfigs(UploadSupportedDocumentFromTable)
       case 4:
-        return affiliateConfigs()
+        return affiliateConfigs(UploadSupportedDocumentFromTable)
       case 5:
-        return facilitiesConfigs()
+        return facilitiesConfigs(UploadSupportedDocumentFromTable)
       default:
-        return annualCostConfigs()
+        return annualCostConfigs(UploadSupportedDocumentFromTable)
     }
   }
 
@@ -232,37 +261,61 @@ const CostRecovery = () => {
         return {
           title: 'Upload Annual Cost & Expenditure Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => handleUploadAnnualCost(data),
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadAnnualCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 1:
         return {
           title: 'Upload Contract Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadContractsCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 2:
         return {
           title: 'Upload Production Lifting Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadAnnualCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 3:
         return {
           title: 'Upload Transaction Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadAnnualCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 4:
         return {
           title: 'Upload Affiliate Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadAnnualCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 5:
         return {
           title: 'Upload Facilities Report',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadAnnualCost(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       default:
         break
@@ -275,13 +328,31 @@ const CostRecovery = () => {
     setDataDisplayedMHT(file)
   }
 
-  const handleUploadAnnualCost = (data) => {
+  const handleUploadAnnualCost = (data, uuid) => {
     uploadAnnualCostsExp(
       {
         block: data?.block,
         file: data?.file[0],
         company: company?.name || 'ams-org',
-        processInstanceId: uuidv4(),
+        processInstanceId: uuid,
+        year: +data?.referenceDate?.year,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog(true)
+          }
+        },
+      },
+    )
+  }
+  const handleUploadContractsCost = (data, uuid) => {
+    uploadContractsCostExp(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: company?.name || 'ams-org',
+        processInstanceId: uuid,
         year: +data?.referenceDate?.year,
       },
       {
@@ -303,6 +374,15 @@ const CostRecovery = () => {
             : {
               ...el,
               label: responseUploadAnnualCost?.metaData?.year,
+            },
+        )
+      case 'upload-contract-report':
+        return configsAnnualCostsDialogMht().map((el) =>
+          el.key !== 'year'
+            ? el
+            : {
+              ...el,
+              label: responseUploadContractCost?.metaData?.year,
             },
         )
 
@@ -334,10 +414,35 @@ const CostRecovery = () => {
       })) || []
     )
   }
+  const resContractsCostData = () => {
+    return (
+      responseUploadContractCost?.data?.items?.map((el) => ({
+        category: el?.category,
+        subCategory: el?.subCategory,
+        group: el?.group,
+        uom: el?.uom,
+        item: el?.name,
+        description: el?.explanation,
+        year: [
+          {
+            approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
+          },
+          {
+            outlook: el?.qvalues?.map((el) => ({
+              outlook: el?.quarter || '',
+            })),
+          },
+          { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
+        ],
+      })) || []
+    )
+  }
   const dataMht = useMemo(() => {
     switch (showUploadRapportDialog) {
       case 'upload-annual-cost':
         return resAnnualCostData()
+      case 'upload-contract-report':
+        return resContractsCostData()
 
       default:
         return resAnnualCostData()
@@ -378,15 +483,15 @@ const CostRecovery = () => {
       case 0:
         return costsSuppDocs(data)
       case 1:
-        return () => null
+        return costsSuppDocs(data)
       case 2:
-        return () => null
+        return costsSuppDocs(data)
       case 3:
-        return () => null
+        return costsSuppDocs(data)
       case 4:
-        return () => null
+        return costsSuppDocs(data)
       case 5:
-        return () => null
+        return costsSuppDocs(data)
       default:
         break
     }
@@ -498,6 +603,9 @@ const CostRecovery = () => {
           }}
           onSave={() => {
             handleSaveCommitAnnualCosts()
+            setShowUploadMHTDialog(false)
+            setShowUploadRapportDialog(true)
+            setShowUploadRapportDialog(false)
           }}
         />
       )}
@@ -519,7 +627,7 @@ const CostRecovery = () => {
             setFileList([])
           }}
           onSave={(data) => {
-            renderDialogData(data).onClick()
+            renderDialogData(data).onUpload()
           }}
         />
       )}
@@ -533,7 +641,10 @@ const CostRecovery = () => {
           readOnly={role === 'regulator'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          processInstanceId={selectedRow[0]?.processInstanceId}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
