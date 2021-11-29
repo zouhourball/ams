@@ -653,7 +653,14 @@ export const facilitiesData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
+export const actionsHeader = (
+  key,
+  id,
+  subKey,
+  role,
+  supportedDocument,
+  deleteRow,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -687,13 +694,15 @@ export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
         {
           id: 2,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            deleteRow()
+          },
         },
-        {
-          id: 3,
-          label: 'Update',
-          onClick: () => {},
-        },
+        // {
+        //   id: 3,
+        //   label: 'Update',
+        //   onClick: () => {},
+        // },
         {
           id: 4,
           label: 'View Details',

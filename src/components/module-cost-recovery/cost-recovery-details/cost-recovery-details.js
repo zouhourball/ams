@@ -1,14 +1,17 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { useMemo } from 'react'
 import moment from 'moment'
 
-import { detailCostsCostByLoggedUser } from 'libs/api/cost-recovery-api'
+import {
+  detailCostsCostByLoggedUser,
+  updateCostsCost,
+} from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
-import { userRole } from 'components/shared-hook/get-roles'
+import useRole from 'libs/hooks/use-role'
 
 import { costRecoveryDetailsConfigs } from '../helpers'
 
@@ -16,6 +19,9 @@ import './style.scss'
 
 const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const subModule = pathname?.split('/')[4]
+  const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost)
+
+  const role = useRole('costrecovery')
 
   const { data: costsDetail } = useQuery(
     ['detailCostsCostByLoggedUser', detailId],
@@ -68,6 +74,19 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     }
   }, [costsDetail, subModule])
 
+  const handleAcknowledge = () => {
+    switch (subModule) {
+      case 'costs':
+        acknowledgeAnnualCostsExp({
+          objectId: detailId,
+          status: 'ACKNOWLEDGED',
+        })
+        break
+      default:
+        break
+    }
+  }
+
   const actions = [
     <Button
       key="1"
@@ -82,23 +101,23 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     <Button
       key="2"
       id="edit"
-      className="top-bar-buttons-list-item-btn"
+      className="top-bar-buttons-list-item-btn view-doc"
       flat
       primary
-      swapTheming
       onClick={() => {}}
     >
       Download Original File
     </Button>,
-    userRole() === 'regulator' && (
+    role === 'regulator' && (
       <Button
         key="4"
         id="acknowledge"
-        className="top-bar-buttons-list-item-btn"
+        className="top-bar-buttons-list-item-btn view-doc"
         flat
         primary
-        swapTheming
-        onClick={() => {}}
+        onClick={() => {
+          handleAcknowledge()
+        }}
       >
         Acknowledge
       </Button>

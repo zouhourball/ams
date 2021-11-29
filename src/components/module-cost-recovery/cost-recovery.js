@@ -11,6 +11,7 @@ import {
   uploadAnnualCosts,
   commitLoadCostsCost,
   overrideCostsCost,
+  deleteCosts,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/api-reserves'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -51,6 +52,7 @@ const CostRecovery = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const blockList = getBlocks()
 
   const company = getOrganizationInfos()
@@ -68,6 +70,8 @@ const CostRecovery = () => {
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
+  const { mutate: deleteAnnualCostsExp } = useMutation(deleteCosts)
+
   const { addSupportingDocuments } = documents()
 
   const annualCostAndExpenditureActionsHelper = [
@@ -427,6 +431,20 @@ const CostRecovery = () => {
     }
   }
 
+  const handleDelete = () => {
+    deleteAnnualCostsExp(
+      { objectId: selectedRow[0]?.id },
+      {
+        onSuccess: (res) => {
+          if (res) {
+            refetchAnnualCosts()
+            setShowDeleteDialog(false)
+          }
+        },
+      },
+    )
+  }
+
   return (
     <>
       <TopBar
@@ -461,6 +479,7 @@ const CostRecovery = () => {
                     'costs',
                     role,
                     setShowSupportedDocumentDialog,
+                    () => setShowDeleteDialog(true),
                   )}
                 />
               )
@@ -521,7 +540,18 @@ const CostRecovery = () => {
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog}
           handleOverride={handleOverride}
-          message={'Do you override ?'}
+          message={'Do you confirm override ?'}
+          confirmLabel={'Override'}
+        />
+      )}
+
+      {showDeleteDialog && (
+        <ConfirmDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          handleOverride={handleDelete}
+          message={'Do you confirm Delete ?'}
+          confirmLabel={'Confirm'}
         />
       )}
     </>
