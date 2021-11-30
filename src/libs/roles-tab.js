@@ -44,7 +44,7 @@ export const rolesTab = [
     path: 'downstream',
   },
   {
-    key: 'inventory',
+    key: 'new-inventory',
     roleOp: 'pulse inventory operator',
     roleRe: 'pulse inventory regulator',
     path: 'inventory',

@@ -200,7 +200,7 @@ export const subModules = [
     ),
   },
   {
-    key: 'inventory',
+    key: 'new-inventory',
     name: 'Inventory',
     onClick: () => navigate('/ams/inventory'),
     icon: (
