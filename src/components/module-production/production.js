@@ -793,15 +793,16 @@ const Production = () => {
                 handleDeleteProduction,
               )}
             />
-          ) : currentTab !== 0 ? (
+          ) : currentTab === 1 ? (
             <SelectField
               id="monthly-prod"
               menuItems={
-                currentTab === 1
-                  ? ['Monthly Production', 'Monthly Well Counts']
-                  : currentTab === 2
-                    ? ['Destination', 'Average Delivery to ORPIC']
-                    : ['Grid 1', 'Grid 2']
+                ['Monthly Production', 'Monthly Well Counts']
+                // currentTab === 1
+                //   ? ['Monthly Production', 'Monthly Well Counts']
+                //   : currentTab === 2
+                //     ? ['Destination', 'Average Delivery to ORPIC']
+                //     : ['Grid 1', 'Grid 2']
               }
               block
               position={SelectField.Positions.BELOW}
