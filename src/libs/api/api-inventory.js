@@ -6,12 +6,15 @@ const appUrl =
     ? PRODUCT_APP_URL_API
     : PRODUCT_APP_URL_API
 
-export const getInventories = async ({ queryKey, page, size }) => {
+export const getInventories = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/inventory/list`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -54,7 +57,11 @@ export const getInventoriesAccepted = async ({ queryKey, page, size }) => {
   return res
 }
 
-export const getConsumptionsList = async ({ inventoryId, page, size }) => {
+export const getInventoriesAcceptedRecords = async ({
+  inventoryId,
+  page,
+  size,
+}) => {
   let res
   try {
     res = await fetchJSON(
@@ -176,6 +183,45 @@ export const uploadAssetDisposalInventoryReport = async ({ body }) => {
         method: 'POST',
         isFormData: true,
         body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const uploadAssetTransferInventoryReport = async ({ body }) => {
+  let newBody = new FormData()
+  newBody.append('block', body?.block)
+  newBody.append('category', body?.category)
+  newBody.append('company', body?.company)
+  newBody.append('companyToTransfer', body?.companyToTransfer)
+  newBody.append('file', body?.file[0])
+  newBody.append('processInstanceId', body?.processInstanceId)
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/transfer/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getCompaniesInventory = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/arm-be/api/v1/config/companies?size=2000`,
+      {
+        method: 'GET',
       },
     )
   } catch (e) {

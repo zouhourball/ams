@@ -171,7 +171,6 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
-
   },
   {
     label: 'Supporting Documents',

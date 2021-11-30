@@ -31,6 +31,7 @@ const UploadReportDialog = ({
   setFileList,
   filesList,
   hideBlock,
+  companyList,
   ReportingType,
 }) => {
   const fileLoader = false
@@ -132,7 +133,11 @@ const UploadReportDialog = ({
         {!hideBlock && (
           <SelectField
             className={`upload-report-dialog-selectField ${
-              hideDate ? 'md-cell md-cell--12' : 'md-cell md-cell--6'
+              hideDate
+                ? companyList
+                  ? 'md-cell md-cell--6'
+                  : 'md-cell md-cell--12'
+                : 'md-cell md-cell--6'
             } `}
             id="block"
             placeholder={'Select Block'}
@@ -140,6 +145,19 @@ const UploadReportDialog = ({
             position={SelectField.Positions.BELOW}
             value={reportData?.block}
             onChange={(v) => setReportData({ ...reportData, block: v })}
+            simplifiedMenu={false}
+          />
+        )}
+
+        {companyList && (
+          <SelectField
+            className={`upload-report-dialog-selectField md-cell md-cell--6`}
+            id="block"
+            placeholder={'Select Company'}
+            menuItems={companyList}
+            position={SelectField.Positions.BELOW}
+            value={reportData?.company}
+            onChange={(v) => setReportData({ ...reportData, company: v })}
             simplifiedMenu={false}
           />
         )}

@@ -16,16 +16,19 @@ import {
   uploadAssetDisposalInventoryReport,
   getInventories,
   getInventoriesAccepted,
-  getConsumptionsList,
   commitInventory,
   overrideInventoryReport,
   deleteInventory,
+  uploadAssetTransferInventoryReport,
+  getConsumptionsList,
   getSurplusList,
   getAdditionsList,
+  getCompaniesInventory,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
 import { addToast } from 'modules/app/actions'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import ToastMsg from 'components/toast-msg'
 import TopBar from 'components/top-bar'
@@ -38,12 +41,12 @@ import SupportedDocument from 'components/supported-document'
 import {
   mhtConfig,
   mhtConfigAssetConsumption,
-  mhtFakeData,
   actionsHeader,
   annualBaseDetailsConfigs,
   assetDisposalDetailsConfigs,
   // assetConsumptionDetailsData,
 } from './helpers'
+
 /* import ConfirmDialog from 'components/confirm-dialog'
  */
 const Inventory = () => {
@@ -63,18 +66,36 @@ const Inventory = () => {
 
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
-
+  const company = getOrganizationInfos()
   const role = useRole('production')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
 
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
-    ['getListAnnualBase', 1, 20],
+    ['getListAnnualBase', 'base', 0, 2000],
     getInventories,
     {
       refetchOnWindowFocus: false,
     },
   )
+  const {
+    data: listAssetTransfer,
+    refetch: refetchListAssetTransferInventory,
+  } = useQuery(
+    ['getListAnnualBase', 'assetTransferRequestProcess', 0, 2000],
+    getInventories,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const { data: listDisposal, refetch: refetchListDisposalInventory } =
+    useQuery(
+      ['getListAnnualBase', 'assetDisposalRequestProcess', 0, 2000],
+      getInventories,
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
   const { data: listInventoriesAccepted } = useQuery(
     ['getListInventoriesAccepted', 1, 20],
     getInventoriesAccepted,
@@ -91,6 +112,15 @@ const Inventory = () => {
     },
   )
 
+  const { data: companies } = useQuery(
+    ['getCompaniesInventory'],
+    getCompaniesInventory,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  // const { mutate: onDeleteInventory } = useMutation(deleteInventory)
+
   const { data: listSurplus } = useQuery(
     ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
     getSurplusList,
@@ -106,21 +136,19 @@ const Inventory = () => {
       refetchOnWindowFocus: false,
     },
   )
-  /*   const mhtDialogData = ([] || []).map((el) => {
-    return {
-      production: [{ item: el?.name }, { uom: el?.unit }],
-      dailyField: [
-        { actualF: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][0]?.Actual },
-        { target: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][1]?.Target },
-        { le: el?.data[0]['DAILY FIELD PRODUCTION VOLS'][2]?.LE },
-      ],
-      scheduled: [
-        { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
-        { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
-      ],
-    }
-  }) */
 
+  const refetchAfterCommitByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return refetchInventory()
+      case 3:
+        return refetchListAssetTransferInventory()
+      case 4:
+        return refetchListDisposalInventory()
+      default:
+        return refetchInventory()
+    }
+  }
   const uploadAnnualBaseReportMutate = useMutation(
     uploadAnnualBaseInventoryReport,
 
@@ -186,6 +214,39 @@ const Inventory = () => {
       },
     },
   )
+
+  const uploadAssetTransferReportMutate = useMutation(
+    uploadAssetTransferInventoryReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Asset Transfer uploaded successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
   const commitInventoryMutate = useMutation(
     commitInventory,
 
@@ -200,10 +261,9 @@ const Inventory = () => {
           } else {
             setShowUploadRapportDialog(false)
             setShowUploadMHTDialog(false)
-            /*         refetchListDaily()
-            refetchListMonthly()
-            refetchListMonthlyTracking() */
-
+            refetchInventory()
+            refetchListAssetTransferInventory()
+            refetchAfterCommitByCurrentTab()
             dispatch(
               addToast(
                 <ToastMsg
@@ -235,7 +295,7 @@ const Inventory = () => {
       onSuccess: (res) => {
         if (!res.error) {
           if (res?.msg === 'saved') {
-            //  refetchListDaily()
+            refetchInventory()
             setOverrideDialog(false)
             dispatch(
               addToast(
@@ -300,9 +360,24 @@ const Inventory = () => {
         uploadAnnualBaseReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'ams-org',
+            company: company?.name,
             category: 'base',
             file: body?.file,
+            processInstanceId: uuidv4(),
+            // month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
+      case 3:
+        uploadAssetTransferReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: company?.name,
+            category: 'base',
+            file: body?.file,
+            companyToTransfer: body?.company,
             processInstanceId: uuidv4(),
             // month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate).format('YYYY'),
@@ -315,7 +390,7 @@ const Inventory = () => {
         uploadAssetDisposalReportMutate.mutate({
           body: {
             block: body?.block,
-            company: 'ams-org',
+            company: company?.name,
             category: 'assetDisposalRequestProcess',
             file: body?.file,
             processInstanceId: uuidv4(),
@@ -390,7 +465,7 @@ const Inventory = () => {
       case 2:
         return ''
       case 3:
-        return 'assetTransferRequestProcess'
+        return 'transfer'
       case 4:
         return 'disposal'
       case 5:
@@ -399,6 +474,7 @@ const Inventory = () => {
         return ''
     }
   }
+
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -456,10 +532,13 @@ const Inventory = () => {
   const assetTransferActionsHelper = [
     {
       title: 'Attach Spreadsheet',
+      onClick: () => setShowUploadRapportDialog(true),
+    },
+    {
+      title: 'Download Template',
       onClick: () =>
         downloadTemp('inventoryManagment', 'assetTransferRequestProcess'),
     },
-    { title: 'Download Template', onClick: () => {} },
   ]
 
   const assetDisposalActionsHelper = [
@@ -537,6 +616,34 @@ const Inventory = () => {
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
+
+  const tableDataListAssetTransfer = (
+    get(listAssetTransfer, 'content', []) || []
+  ).map((el) => {
+    return {
+      id: el?.id,
+      company: get(el, 'metaData.company', 'n/a'),
+      block: get(el, 'metaData.block', 'n/a'),
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      status: get(el, 'metaData.status', 'n/a'),
+    }
+  })
+
+  const tableDataLisDisposal = (get(listDisposal, 'content', []) || []).map(
+    (el) => {
+      return {
+        id: el?.id,
+        company: get(el, 'metaData.company', 'n/a'),
+        block: get(el, 'metaData.block', 'n/a'),
+        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+        status: get(el, 'metaData.status', 'n/a'),
+      }
+    },
+  )
   const tableDataListInventoriesAccepted = (
     get(listInventoriesAccepted, 'content', []) || []
   ).map((el) => {
@@ -616,9 +723,9 @@ const Inventory = () => {
           ? tableDataListSurplus
           : tableDataListInventoriesAccepted
       case 3:
-        return mhtFakeData
+        return tableDataListAssetTransfer
       case 4:
-        return mhtFakeData
+        return tableDataLisDisposal
       case 5:
         return tableDataListAdditions
       case 0:
@@ -787,6 +894,15 @@ const Inventory = () => {
             label: el?.block,
             value: el?.block,
           }))}
+          companyList={
+            currentTab === 3
+              ? companies?.content?.map((el) => ({
+                label: el?.company,
+                value: el?.company,
+              }))
+              : null
+          }
+          hideDate={currentTab === 3}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])

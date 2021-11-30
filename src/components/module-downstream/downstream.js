@@ -119,8 +119,12 @@ const Downstream = () => {
       setShowSupportedDocumentDialog(false)
   }
   const downstreamSuppDocs = (data) => {
-    addSupportingDocuments(data, selectedRow[0]?.processInstanceId ||
-      showSupportedDocumentDialog?.processInstanceId, closeDialog)
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeDialog,
+    )
   }
 
   const handleSupportingDocs = (data) => {
@@ -159,7 +163,6 @@ const Downstream = () => {
               month: moment(body?.referenceDate).format('MMMM'),
               processInstanceId: uuidv4(),
               year: moment(body?.referenceDate).format('YYYY'),
-
             },
           },
           {

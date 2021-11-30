@@ -734,8 +734,12 @@ const Production = () => {
       setShowSupportedDocumentDialog(false)
   }
   const costsSuppDocs = (data) => {
-    addSupportingDocuments(data, selectedRow[0]?.processInstanceId ||
-      showSupportedDocumentDialog?.processInstanceId, closeDialog)
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeDialog,
+    )
   }
 
   const handleSupportingDocs = (data) => {
@@ -863,8 +867,10 @@ const Production = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          processInstanceId={selectedRow[0]?.processInstanceId ||
-            showSupportedDocumentDialog?.processInstanceId}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
