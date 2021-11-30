@@ -18,6 +18,9 @@ import {
   commitLoadDownstreamRs,
 } from 'libs/api/downstream-api'
 
+import documents from 'libs/hooks/documents'
+import useRole from 'libs/hooks/use-role'
+
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
@@ -25,6 +28,7 @@ import HeaderTemplate from 'components/header-template'
 // import { userRole } from 'components/shared-hook/get-roles'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import {
   liquefiedPetroleumGasConfigs,
@@ -46,6 +50,9 @@ const Downstream = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [commitData, setCommitData] = useState({})
+  const { addSupportingDocuments } = documents()
+  const company = getOrganizationInfos()
+  const role = useRole('downstream')
 
   const { data: listLiquefiedPetroleumGas, refetch: refetchLpgList } = useQuery(
     ['listLpgDownstreamByLoggedUser'],
@@ -60,10 +67,9 @@ const Downstream = () => {
     listRsDownstreamByLoggedUser,
   )
 
-  const uploadLpgMutate = useMutation(uploadLpg)
+  const { mutate: uploadLpgMutate } = useMutation(uploadLpg)
   const uploadNgMutate = useMutation(uploadNg)
   const uploadRsMutate = useMutation(uploadRs)
-
   const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
   const commitNgMutate = useMutation(commitLoadDownstreamNg)
   const commitRsMutate = useMutation(commitLoadDownstreamRs)
@@ -106,14 +112,29 @@ const Downstream = () => {
       },
     },
   ]
+
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const downstreamSuppDocs = (data) => {
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId ||
+      showSupportedDocumentDialog?.processInstanceId, closeDialog)
+  }
+
+  const handleSupportingDocs = (data) => {
+    downstreamSuppDocs(data)
+  }
+
   const onAddReport = (body) => {
     switch (currentTab) {
       case 0:
-        return uploadLpgMutate.mutate(
+        return uploadLpgMutate(
           {
             body: {
-              company: 'company',
-              file: body?.file,
+              company: company?.name || 'ams-org',
+              file: body?.file[0],
               month: moment(body?.referenceDate).format('MMMM'),
               processInstanceId: uuidv4(),
               year: moment(body?.referenceDate).format('YYYY'),
@@ -133,30 +154,44 @@ const Downstream = () => {
         return uploadNgMutate.mutate(
           {
             body: {
-              company: 'company',
-              file: body?.file,
+              company: company?.name || 'ams-org',
+              file: body?.file[0],
               month: moment(body?.referenceDate).format('MMMM'),
               processInstanceId: uuidv4(),
               year: moment(body?.referenceDate).format('YYYY'),
+
             },
           },
           {
-            onSuccess: (res) => !res?.error && refetchNgList(),
+            onSuccess: (res) => {
+              if (!res?.error) {
+                refetchNgList()
+                setCommitData(res?.data)
+                onDisplayMHT(...res.values)
+              }
+            },
           },
         )
       case 2:
         return uploadRsMutate.mutate(
           {
             body: {
-              company: 'company',
-              file: body?.file,
+              company: company?.name || 'ams-org',
+              file: body?.file[0],
               month: moment(body?.referenceDate).format('MMMM'),
               processInstanceId: uuidv4(),
               year: moment(body?.referenceDate).format('YYYY'),
+              category: body?.type,
             },
           },
           {
-            onSuccess: (res) => !res?.error && refetchRsList(),
+            onSuccess: (res) => {
+              if (!res?.error) {
+                refetchRsList()
+                setCommitData(res?.data)
+                onDisplayMHT(...res.values)
+              }
+            },
           },
         )
       default:
@@ -175,7 +210,7 @@ const Downstream = () => {
               if (!res?.error) {
                 setShowUploadMHTDialog(false)
                 setShowUploadRapportDialog(false)
-                // refetchLpgList()
+                refetchLpgList()
               }
             },
           },
@@ -186,7 +221,13 @@ const Downstream = () => {
             body: commitData,
           },
           {
-            onSuccess: (res) => !res?.error && refetchNgList(),
+            onSuccess: (res) => {
+              if (!res?.error) {
+                setShowUploadMHTDialog(false)
+                setShowUploadRapportDialog(false)
+                refetchNgList()
+              }
+            },
           },
         )
       case 2:
@@ -195,7 +236,13 @@ const Downstream = () => {
             body: commitData,
           },
           {
-            onSuccess: (res) => !res?.error && refetchRsList(),
+            onSuccess: (res) => {
+              if (!res?.error) {
+                setShowUploadMHTDialog(false)
+                setShowUploadRapportDialog(false)
+                refetchRsList()
+              }
+            },
           },
         )
       default:
@@ -232,7 +279,6 @@ const Downstream = () => {
         break
     }
   }
-
   const tabsList = [
     'Liquefied Petroleum Gas (LPG)',
     'Natural Gas (NG)',
@@ -241,29 +287,92 @@ const Downstream = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 0:
-        return listLiquefiedPetroleumGas?.content || []
+        return (
+          listLiquefiedPetroleumGas?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            statusDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 1:
-        return ListNaturalGas?.content || []
+        return (
+          LisPetroleumProducts?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            statusDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 2:
-        return LisPetroleumProducts?.content || []
+        return (
+          ListNaturalGas?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            statusDate: el?.metaData?.year,
+            category: el?.metaData?.category,
+            status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
 
       default:
-        return listLiquefiedPetroleumGas?.content || []
+        return (
+          listLiquefiedPetroleumGas?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            submittedDate: el?.metaData?.createdAt,
+            submittedBy: el?.metaData?.createdBy?.name,
+            statusDate: el?.metaData?.year,
+            status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
     }
+  }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return liquefiedPetroleumGasConfigs()
+        return liquefiedPetroleumGasConfigs(UploadSupportedDocumentFromTable)
       case 1:
         return naturalGasConfigs()
       case 2:
-        return petroleumProductsConfigs()
+        return petroleumProductsConfigs(UploadSupportedDocumentFromTable)
 
       default:
-        return liquefiedPetroleumGasConfigs()
+        return liquefiedPetroleumGasConfigs(UploadSupportedDocumentFromTable)
     }
   }
+
+  // const configsMht = () => {
+  //   switch (currentTab) {
+  //     case 0:
+  //       return 0
+  //     case 1:
+  //       return 1
+
+  //     default:
+  //       return 0
+  //   }
+  // }
+  // const dataMht = useMemo(() => {
+  //   switch (currentTab) {
+  //     case 0:
+  //       return 0
+  //     case 1:
+  //       return 1
+
+  //     default:
+  //       return 1
+  //   }
+  // }, [])
 
   const renderDialogData = () => {
     switch (currentTab) {
@@ -324,7 +433,7 @@ const Downstream = () => {
                   actions={actionsHeader(
                     'downstream-details',
                     selectedRow[0]?.id,
-                    'regulator',
+                    role,
                     setShowSupportedDocumentDialog,
                   )}
                 />
@@ -340,6 +449,9 @@ const Downstream = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
+          // propsDataTable={dataMht}
+
+          // propsConfigs={configsMht()}
           onSave={() => {
             onCommitRapport()
             // setShowUploadMHTDialog(false)
@@ -351,6 +463,8 @@ const Downstream = () => {
       {showUploadRapportDialog && (
         <UploadReportDialog
           setFileList={setFileList}
+          ReportingType={currentTab === 2}
+          TypeList={['commercial']}
           filesList={filesList}
           hideBlock
           onDisplayMHT={onDisplayMHT}
@@ -372,7 +486,13 @@ const Downstream = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </>

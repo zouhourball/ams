@@ -1,5 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import { deleteReport } from 'libs/api/api-reserves'
 
 export const annualReservesConfigs = (supportedDocument) => [
   {
@@ -21,8 +23,8 @@ export const annualReservesConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -36,8 +38,8 @@ export const annualReservesConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'YYYY',
   },
   {
     label: 'Status Date',
@@ -100,8 +102,8 @@ export const historyConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -115,8 +117,8 @@ export const historyConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'YYYY',
   },
   {
     label: 'Status Date',
@@ -177,8 +179,8 @@ export const annualResourceConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -192,8 +194,8 @@ export const annualResourceConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'YYYY',
   },
   {
     label: 'Status Date',
@@ -343,7 +345,14 @@ export const annualResourceData = [
   },
 ]
 
-export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
+export const actionsHeader = (
+  key,
+  row,
+  role,
+  supportedDocument,
+  setRow,
+  section,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -351,20 +360,24 @@ export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
         {
           id: 1,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(row?.fileId)
+          },
         },
         {
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/reserves/${key}/${subKey}/${id}`)
+            key &&
+              row?.id &&
+              navigate(`/ams/reserves/${key}/${section?.name}/${row?.id}`)
           },
         },
         {
           id: 3,
           label: 'Upload Documents',
           onClick: () => {
-            supportedDocument(subKey)
+            supportedDocument(section?.name)
           },
         },
       ]
@@ -373,25 +386,33 @@ export const actionsHeader = (key, id, subKey, role, supportedDocument) => {
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            deleteReport(row?.id, section?.name)
+              .then(() => section?.refetch())
+              .then(() => setRow([]))
+          },
         },
         {
           id: 2,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(row?.fileId, row?.fileName)
+          },
         },
         {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/reserves/${key}/${subKey}/${id}`)
+            key &&
+              row?.id &&
+              navigate(`/ams/reserves/${key}/${section?.name}/${row?.id}`)
           },
         },
         {
           id: 4,
           label: 'Upload Documents',
           onClick: () => {
-            supportedDocument(subKey)
+            supportedDocument(section?.name)
           },
         },
       ]

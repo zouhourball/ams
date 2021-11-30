@@ -207,39 +207,64 @@ const Reserves = () => {
       case 0:
         return (
           listAnnualReserves?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
             submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.year,
-            status: el?.metaData?.status,
-            processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('YYYY')
+              : '',
+            status:
+              el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
+                ? 'New Request'
+                : el?.metaData?.status,
+            fileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
           })) || []
         )
       case 1:
         return (
           listHistoryAndForecast?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
+              : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.year,
-            status: el?.metaData?.status,
-            processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('YYYY')
+              : '',
+            status:
+              el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
+                ? 'New Request'
+                : el?.metaData?.status,
+            fileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
           })) || []
         )
       case 2:
         return (
           listAnnualResourceDetail?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
+              : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.year,
-            status: el?.metaData?.status,
-            processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('YYYY')
+              : '',
+            status:
+              el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
+                ? 'New Request'
+                : el?.metaData?.status,
+            fileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
           })) || []
         )
       default:
@@ -247,11 +272,17 @@ const Reserves = () => {
           listAnnualResourceDetail?.content?.map((el) => ({
             company: el?.metaData?.company,
             block: el?.metaData?.block,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
+              : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.year,
-            status: el?.metaData?.status,
-            processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('YYYY')
+              : '',
+            status:
+              el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
+                ? 'New Request'
+                : el?.metaData?.status,
           })) || []
         )
     }
@@ -272,7 +303,27 @@ const Reserves = () => {
         return annualReservesConfigs(UploadSupportedDocumentFromTable)
     }
   }
-
+  const renderSectionKey = () => {
+    switch (currentTab) {
+      case 0:
+        return {
+          name: 'annual',
+          refetch: () => refetchAnnualReserves(),
+        }
+      case 1:
+        return {
+          name: 'fyf',
+          refetch: () => refetchHistoryAndForecast(),
+        }
+      case 2:
+        return {
+          name: 'annualResource',
+          refetch: () => getAnnualResourceDetail(),
+        }
+      default:
+        break
+    }
+  }
   const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
@@ -427,6 +478,7 @@ const Reserves = () => {
       },
     )
   }
+  // console.log(selectedRow, 'selectedRow')
   return (
     <>
       {(loading ||
@@ -461,10 +513,11 @@ const Reserves = () => {
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
                     'reserves-details',
-                    selectedRow[0]?.block,
-                    'reserve',
+                    selectedRow[0],
                     role,
                     setShowSupportedDocumentDialog,
+                    setSelectedRow,
+                    renderSectionKey(),
                   )}
                 />
               )

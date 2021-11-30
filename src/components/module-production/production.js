@@ -652,18 +652,22 @@ const Production = () => {
         return dailyProductionData
     }
   }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
+  }
+
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return dailyProductionConfigs()
+        return dailyProductionConfigs(UploadSupportedDocumentFromTable)
       case 1:
-        return monthlyProductionConfigs()
+        return monthlyProductionConfigs(UploadSupportedDocumentFromTable)
       case 2:
-        return monthlyTrackingConfigs()
+        return monthlyTrackingConfigs(UploadSupportedDocumentFromTable)
       case 3:
-        return omanHydConfigs()
+        return omanHydConfigs(UploadSupportedDocumentFromTable)
       default:
-        return dailyProductionConfigs()
+        return dailyProductionConfigs(UploadSupportedDocumentFromTable)
     }
   }
   const renderCurrentTabDetailsConfigs = () => {
@@ -730,7 +734,8 @@ const Production = () => {
       setShowSupportedDocumentDialog(false)
   }
   const costsSuppDocs = (data) => {
-    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
+    addSupportingDocuments(data, selectedRow[0]?.processInstanceId ||
+      showSupportedDocumentDialog?.processInstanceId, closeDialog)
   }
 
   const handleSupportingDocs = (data) => {
@@ -793,15 +798,16 @@ const Production = () => {
                 handleDeleteProduction,
               )}
             />
-          ) : currentTab !== 0 ? (
+          ) : currentTab === 1 ? (
             <SelectField
               id="monthly-prod"
               menuItems={
-                currentTab === 1
-                  ? ['Monthly Production', 'Monthly Well Counts']
-                  : currentTab === 2
-                    ? ['Destination', 'Average Delivery to ORPIC']
-                    : ['Grid 1', 'Grid 2']
+                ['Monthly Production', 'Monthly Well Counts']
+                // currentTab === 1
+                //   ? ['Monthly Production', 'Monthly Well Counts']
+                //   : currentTab === 2
+                //     ? ['Destination', 'Average Delivery to ORPIC']
+                //     : ['Grid 1', 'Grid 2']
               }
               block
               position={SelectField.Positions.BELOW}
@@ -857,7 +863,8 @@ const Production = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          processInstanceId={selectedRow[0]?.processInstanceId}
+          processInstanceId={selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}

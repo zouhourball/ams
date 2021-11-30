@@ -12,7 +12,7 @@ const Permitting = lazy(() => import('components/module-permitting'))
 const Audit = lazy(() => import('components/module-audit'))
 const Agreement = lazy(() => import('components/module-agreements'))
 const Tendering = lazy(() => import('components/module-tendering'))
-const Inventory = lazy(() => import('components/module-inventory'))
+const InventoryHome = lazy(() => import('components/module-inventory'))
 const Downstream = lazy(() => import('components/module-downstream'))
 const Planning = lazy(() => import('components/module-planning'))
 const CostRecovery = lazy(() => import('components/module-cost-recovery'))
@@ -47,7 +47,7 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Planning path="/planning" />
               <Permitting path="/permitting/*" />
               <Downstream path="/downstream/*" />
-              <Inventory path="/inventory/*" />
+              <InventoryHome path="/inventory/*" />
               <Tendering path="/tendering" />
               <Agreement path="/agreement" />
               <Audit path="/audit" />

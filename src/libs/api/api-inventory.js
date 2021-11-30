@@ -6,15 +6,12 @@ const appUrl =
     ? PRODUCT_APP_URL_API
     : PRODUCT_APP_URL_API
 
-export const getListAnnualBase = async ({ queryKey, page, size }) => {
+export const getInventories = async ({ queryKey, page, size }) => {
   let res
   try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey}&exclude=data&page=${page}&size=${size}`,
-      {
-        method: 'GET',
-      },
-    )
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/inventory/list`, {
+      method: 'GET',
+    })
   } catch (e) {
     res = { error: e }
   }
@@ -42,11 +39,56 @@ export const uploadAnnualBaseInventoryReport = async ({ body }) => {
   return res
 }
 
-export const getInventories = async ({ queryKey, inventoryId, page, size }) => {
+export const getInventoriesAccepted = async ({ queryKey, page, size }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==${queryKey}&inventoryId==${inventoryId}&exclude=data&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base&metaData.status==ACCEPTED&exclude=data&page=${page}&size=${size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getConsumptionsList = async ({ inventoryId, page, size }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess&inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getSurplusList = async ({ page, size, inventoryId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess&inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getAdditionsList = async ({ page, size, inventoryId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==addition&inventoryId==${inventoryId}&page=${page}&size=${size}`,
       {
         method: 'GET',
       },
@@ -104,12 +146,26 @@ export const overrideInventoryReport = async ({
   return res
 }
 
+export const deleteInventory = async ({ inventoryId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/base/${inventoryId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const uploadAssetDisposalInventoryReport = async ({ body }) => {
   let newBody = new FormData()
   newBody.append('block', body?.block)
   newBody.append('category', body?.category)
   newBody.append('company', body?.company)
-  newBody.append('schema', '')
+
   newBody.append('file', body?.file[0])
   newBody.append('processInstanceId', body?.processInstanceId)
   let res

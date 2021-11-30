@@ -200,7 +200,14 @@ export const mhtFakeData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, role, supportedDocument, tab) => {
+export const actionsHeader = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  tab,
+  handleDeleteInventory,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -228,7 +235,9 @@ export const actionsHeader = (key, id, role, supportedDocument, tab) => {
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            handleDeleteInventory(id)
+          },
         },
         {
           id: 2,

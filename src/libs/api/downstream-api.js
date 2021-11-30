@@ -1,12 +1,11 @@
 import { fetchJSON } from 'libs/fetch'
+import { formDataBody } from 'libs/utils/custom-function'
 
-const appUrl =
-  process.env.NODE_ENV === 'production'
-    ? PRODUCT_APP_URL_API
-    : PRODUCT_APP_URL_API
+const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
+
 // lpg
 
-export const listLpgDownstreamByLoggedUser = async () => {
+export const listLpgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg`, {
@@ -79,18 +78,12 @@ export const updateDownstreamLpg = async ({ body }) => {
 }
 
 export const uploadLpg = async ({ body }) => {
-  let newBody = new FormData()
-  newBody.append('year', body?.year)
-  newBody.append('month', body?.month)
-  newBody.append('file', body?.file[0])
-  newBody.append('processInstanceId', body?.processInstanceId)
-  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg/upload`, {
       method: 'POST',
       isFormData: true,
-      body: newBody,
+      body: formDataBody(body),
     })
   } catch (e) {
     res = { error: e }
@@ -200,18 +193,12 @@ export const updateDownstreamNg = async ({ body }) => {
 }
 
 export const uploadNg = async ({ body }) => {
-  let newBody = new FormData()
-  newBody.append('year', body?.year)
-  newBody.append('month', body?.month)
-  newBody.append('file', body?.file[0])
-  newBody.append('processInstanceId', body?.processInstanceId)
-  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng/upload`, {
       method: 'POST',
       isFormData: true,
-      body: newBody,
+      body: formDataBody(body),
     })
   } catch (e) {
     res = { error: e }
@@ -321,18 +308,12 @@ export const updateDownstreamRs = async ({ body }) => {
 }
 
 export const uploadRs = async ({ body }) => {
-  let newBody = new FormData()
-  newBody.append('year', body?.year)
-  newBody.append('month', body?.month)
-  newBody.append('file', body?.file[0])
-  newBody.append('processInstanceId', body?.processInstanceId)
-  newBody.append('company', body?.company)
   let res
   try {
     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs/upload`, {
       method: 'POST',
       isFormData: true,
-      body: newBody,
+      body: formDataBody(body),
     })
   } catch (e) {
     res = { error: e }

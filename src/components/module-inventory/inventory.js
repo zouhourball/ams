@@ -15,9 +15,13 @@ import {
   uploadAnnualBaseInventoryReport,
   uploadAssetDisposalInventoryReport,
   getInventories,
-  getListAnnualBase,
+  getInventoriesAccepted,
+  getConsumptionsList,
   commitInventory,
   overrideInventoryReport,
+  deleteInventory,
+  getSurplusList,
+  getAdditionsList,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -40,7 +44,8 @@ import {
   assetDisposalDetailsConfigs,
   // assetConsumptionDetailsData,
 } from './helpers'
-
+/* import ConfirmDialog from 'components/confirm-dialog'
+ */
 const Inventory = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -54,6 +59,7 @@ const Inventory = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Asset Consumption')
+  /* const [showDeleteDialog, setShowDeleteDialog] = useState(false) */
 
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
@@ -61,6 +67,45 @@ const Inventory = () => {
   const role = useRole('production')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
+
+  const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
+    ['getListAnnualBase', 1, 20],
+    getInventories,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const { data: listInventoriesAccepted } = useQuery(
+    ['getListInventoriesAccepted', 1, 20],
+    getInventoriesAccepted,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const { data: listConsumptions } = useQuery(
+    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    getConsumptionsList,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const { data: listSurplus } = useQuery(
+    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    getSurplusList,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const { data: listAdditions } = useQuery(
+    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    getAdditionsList,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
   /*   const mhtDialogData = ([] || []).map((el) => {
     return {
       production: [{ item: el?.name }, { uom: el?.unit }],
@@ -75,41 +120,7 @@ const Inventory = () => {
       ],
     }
   }) */
-  const onAddReportByCurrentTab = (body) => {
-    let uuid = uuidv4()
-    switch (currentTab) {
-      case 0:
-        uploadAnnualBaseReportMutate.mutate({
-          body: {
-            block: body?.block,
-            company: 'ams-org',
-            category: 'base',
-            file: body?.file,
-            processInstanceId: uuidv4(),
-            // month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
-          },
-        })
-        addSupportingDocuments(body?.optionalFiles, uuid)
-        break
 
-      case 4:
-        uploadAssetDisposalReportMutate.mutate({
-          body: {
-            block: body?.block,
-            company: 'ams-org',
-            category: 'assetDisposalRequestProcess',
-            file: body?.file,
-            processInstanceId: uuidv4(),
-            year: moment(body?.referenceDate).format('YYYY'),
-          },
-        })
-        addSupportingDocuments(body?.optionalFiles, uuid)
-        break
-      default:
-        return () => {}
-    }
-  }
   const uploadAnnualBaseReportMutate = useMutation(
     uploadAnnualBaseInventoryReport,
 
@@ -250,6 +261,79 @@ const Inventory = () => {
       },
     },
   )
+
+  const deleteInventoryMutate = useMutation(
+    deleteInventory,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Deleted successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+        refetchInventory()
+      },
+    },
+  )
+
+  const onAddReportByCurrentTab = (body) => {
+    let uuid = uuidv4()
+    switch (currentTab) {
+      case 0:
+        uploadAnnualBaseReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'ams-org',
+            category: 'base',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            // month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
+
+      case 4:
+        uploadAssetDisposalReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: 'ams-org',
+            category: 'assetDisposalRequestProcess',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
+      default:
+        return () => {}
+    }
+  }
+
+  const handleDeleteInventory = (inventoryId) => {
+    deleteInventoryMutate.mutate({
+      inventoryId,
+    })
+  }
   const mhtUploadedAnnualAssetData = (
     get(currentUpload, 'data.rows', []) || []
   ).map((el) => {
@@ -278,6 +362,8 @@ const Inventory = () => {
       unitPrice: el?.data['Unit Price (USD)'],
     }
   })
+
+  // subModule, overrideId, body
 
   const onCommitInventory = (subModule) => {
     commitInventoryMutate.mutate({
@@ -438,31 +524,6 @@ const Inventory = () => {
     'New Asset Addition',
   ]
 
-  const { data: listAnnualBase } = useQuery(
-    ['getListAnnualBase'],
-    getListAnnualBase({
-      queryKey: 'base',
-      page: 1,
-      size: 20,
-    }),
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: listConsumptionDeclaration } = useQuery(
-    ['getListConsumptionDeclaration'],
-    getInventories({
-      queryKey: 'surplusInventoryProcess',
-      inventoryId: '619cc06ee70f07000188e23c',
-      page: 1,
-      size: 20,
-    }),
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
   const tableDataListAnnualBase = (
     get(listAnnualBase, 'content', []) || []
   ).map((el) => {
@@ -476,8 +537,8 @@ const Inventory = () => {
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
-  const tableDataListAssetConsumption = (
-    get(listConsumptionDeclaration, 'content', []) || []
+  const tableDataListInventoriesAccepted = (
+    get(listInventoriesAccepted, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
@@ -493,8 +554,8 @@ const Inventory = () => {
     }
   })
 
-  const tableDataListMonthlySurplusDeclaration = (
-    get(/* listMonthlyTrackingProduction */ [], 'content', []) || []
+  const tableDataListConsumptionRecords = (
+    get(listConsumptions, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.id,
@@ -509,21 +570,60 @@ const Inventory = () => {
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
+
+  const tableDataListSurplus = (get(listSurplus, 'content', []) || []).map(
+    (el) => {
+      return {
+        id: el?.id,
+        company: get(el, 'metaData.company', 'n/a'),
+        block: get(el, 'metaData.block', 'n/a'),
+        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        referenceDate:
+          get(el, 'metaData.month', 'n/a') +
+          ' , ' +
+          get(el, 'metaData.year', 'n/a'),
+        status: get(el, 'metaData.status', 'n/a'),
+      }
+    },
+  )
+
+  const tableDataListAdditions = (get(listAdditions, 'content', []) || []).map(
+    (el) => {
+      return {
+        id: el?.id,
+        company: get(el, 'metaData.company', 'n/a'),
+        block: get(el, 'metaData.block', 'n/a'),
+        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        referenceDate:
+          get(el, 'metaData.month', 'n/a') +
+          ' , ' +
+          get(el, 'metaData.year', 'n/a'),
+        status: get(el, 'metaData.status', 'n/a'),
+      }
+    },
+  )
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 0:
-        return tableDataListAnnualBase
       case 1:
-        return tableDataListAssetConsumption
+        return selectFieldValue === 'Consumption Declaration Records'
+          ? tableDataListConsumptionRecords
+          : tableDataListInventoriesAccepted
       case 2:
-        return mhtFakeData || tableDataListMonthlySurplusDeclaration
+        return selectFieldValue === 'Surplus Declaration Records'
+          ? tableDataListSurplus
+          : tableDataListInventoriesAccepted
       case 3:
         return mhtFakeData
       case 4:
         return mhtFakeData
+      case 5:
+        return tableDataListAdditions
+      case 0:
       default:
-        return mhtFakeData
+        return tableDataListAnnualBase
     }
   }
   const renderCurrentTabConfigs = () => {
@@ -633,6 +733,7 @@ const Inventory = () => {
                 role,
                 setShowSupportedDocumentDialog,
                 currentTab,
+                handleDeleteInventory,
               )}
             />
           ) : currentTab === 1 || currentTab === 2 ? (
@@ -735,6 +836,15 @@ const Inventory = () => {
           </p>
         </DialogContainer>
       )}
+      {/* {showDeleteDialog && (
+        <ConfirmDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          handleOverride={handleDeleteInventory}
+          message={'Do you confirm Delete ?'}
+          confirmLabel={'Confirm'}
+        />
+      )} */}
     </>
   )
 }
