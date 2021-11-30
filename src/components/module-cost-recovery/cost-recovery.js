@@ -477,7 +477,12 @@ const CostRecovery = () => {
   }
 
   const costsSuppDocs = (data) => {
-    addSupportingDocuments(data, selectedRow[0]?.processInstanceId, closeDialog)
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeDialog,
+    )
   }
 
   const handleSupportingDocs = (data) => {
@@ -606,7 +611,6 @@ const CostRecovery = () => {
           onSave={() => {
             handleSaveCommitAnnualCosts()
             setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
             setShowUploadRapportDialog(false)
           }}
         />

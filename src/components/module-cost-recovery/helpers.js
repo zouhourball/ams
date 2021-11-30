@@ -62,7 +62,7 @@ export const annualCostConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -140,7 +140,7 @@ export const contractReportConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -217,7 +217,7 @@ export const productionLiftingConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -294,7 +294,7 @@ export const transactionConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -371,7 +371,7 @@ export const affiliateConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -448,7 +448,7 @@ export const facilitiesConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />

@@ -21,6 +21,7 @@ import './style.scss'
 const UploadReportDialog = ({
   title,
   blockList,
+  TypeList,
   visible,
   onHide,
   onSave,
@@ -30,6 +31,7 @@ const UploadReportDialog = ({
   setFileList,
   filesList,
   hideBlock,
+  ReportingType,
 }) => {
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
@@ -138,6 +140,20 @@ const UploadReportDialog = ({
             position={SelectField.Positions.BELOW}
             value={reportData?.block}
             onChange={(v) => setReportData({ ...reportData, block: v })}
+            simplifiedMenu={false}
+          />
+        )}
+        {ReportingType && (
+          <SelectField
+            className={`upload-report-dialog-selectField ${
+              hideDate ? 'md-cell md-cell--12' : 'md-cell md-cell--6'
+            } `}
+            id="type"
+            placeholder={'Reporting Type'}
+            menuItems={TypeList}
+            position={SelectField.Positions.BELOW}
+            value={reportData?.type}
+            onChange={(v) => setReportData({ ...reportData, type: v })}
             simplifiedMenu={false}
           />
         )}
