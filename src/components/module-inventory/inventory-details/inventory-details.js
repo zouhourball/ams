@@ -1,42 +1,88 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
+import { useMutation, useQuery } from 'react-query'
+import { useDispatch } from 'react-redux'
+import { get } from 'lodash-es'
+
 import Mht from '@target-energysolutions/mht'
 
-import TopBarDetail from 'components/top-bar-detail'
+import { addToast } from 'modules/app/actions'
 import useRole from 'libs/hooks/use-role'
-import { get } from 'lodash-es'
+import { updateInventory, getDetailInventoryById } from 'libs/api/api-inventory'
+
+import TopBarDetail from 'components/top-bar-detail'
+import ToastMsg from 'components/toast-msg'
 import {
   annualBaseDetailsConfigs,
   annualBaseDetailsData,
   assetConsumptionDetailsConfigs,
   assetConsumptionDetailsData,
 } from '../helpers'
-
 import './style.scss'
 
 const InventoryDetails = () => {
-  const role = useRole('production')
-  const tab = get(location, 'pathname', '/').split('/').pop()
+  const dispatch = useDispatch()
+  const role = useRole('inventory')
+  const pathItems = get(location, 'pathname', '/').split('/').reverse()
+  const currentTabName = pathItems[0]
+  const inventoryId = pathItems[1]
+  const { data: inventoryData } = useQuery(
+    ['getDetailInventoryById', currentTabName, inventoryId],
+    inventoryId && getDetailInventoryById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const updateInventoryMutation = useMutation(updateInventory, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        // navigate('/ams/inventory')
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
 
   const renderCurrentTabData = () => {
-    switch (+tab) {
-      case 0:
-        return annualBaseDetailsData
-      case 1:
+    switch (currentTabName) {
+      case 'base':
+        return annualBaseDetailsData || inventoryData
+      case '':
         return assetConsumptionDetailsData
       default:
         return annualBaseDetailsData
     }
   }
   const renderCurrentTabConfigs = () => {
-    switch (+tab) {
-      case 0:
+    switch (currentTabName) {
+      case 'base':
         return annualBaseDetailsConfigs()
-      case 1:
+      case '':
         return assetConsumptionDetailsConfigs()
       default:
         return annualBaseDetailsConfigs()
     }
+  }
+  const onChangeStatus = (inventoryId, status) => {
+    updateInventoryMutation.mutate({
+      inventoryId: inventoryId,
+      status: status,
+    })
   }
   const actions = [
     <Button
@@ -65,14 +111,28 @@ const InventoryDetails = () => {
     role === 'regulator' && (
       <Button
         key="3"
-        id="acknowledge"
+        id="approve"
         className="top-bar-buttons-list-item-btn"
         flat
         primary
         swapTheming
-        onClick={() => {}}
+        onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
       >
-        Acknowledge
+        Approve
+      </Button>
+    ),
+
+    role === 'operator' && (
+      <Button
+        key="4"
+        id="approve"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => onChangeStatus(inventoryId, 'SUBMITTED')}
+      >
+        Submit
       </Button>
     ),
   ]

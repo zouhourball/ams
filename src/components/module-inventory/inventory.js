@@ -294,13 +294,13 @@ const Inventory = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
-          if (res?.msg === 'saved') {
+          if (res?.msg === 'commited') {
             refetchInventory()
             setOverrideDialog(false)
             dispatch(
               addToast(
                 <ToastMsg
-                  text={res.message || 'committed successfully'}
+                  text={res.message || 'overridden successfully'}
                   type="success"
                 />,
                 'hide',
@@ -452,7 +452,7 @@ const Inventory = () => {
     overrideInventoryMutate.mutate({
       subModule: subModule,
       overrideId: overrideId,
-      body: currentUpload,
+      body: currentUpload?.data,
     })
   }
 
@@ -711,7 +711,6 @@ const Inventory = () => {
       }
     },
   )
-
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
@@ -839,7 +838,7 @@ const Inventory = () => {
                 selectedRow[0]?.id,
                 role,
                 setShowSupportedDocumentDialog,
-                currentTab,
+                subModuleByCurrentTab(),
                 handleDeleteInventory,
               )}
             />
