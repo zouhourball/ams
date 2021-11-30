@@ -11,9 +11,9 @@ import { getPermitDetail } from 'libs/api/permit-api'
 
 import './style.scss'
 
-const DrillReportDetails = ({ drillReportId }) => {
+const AbandonReportDetails = ({ abandonReportId }) => {
   const { data: detailData } = useQuery(
-    ['drillReportById', 'Drill', drillReportId],
+    ['abandonReportById', 'Abandon', abandonReportId],
     getPermitDetail,
   )
   const actions = [
@@ -35,9 +35,7 @@ const DrillReportDetails = ({ drillReportId }) => {
       primary
       swapTheming
       onClick={() => {
-        userRole()?.operators?.find((el) => el === 'permit')
-          ? navigate(`/ams/permitting/drill-report/edit/${drillReportId}`)
-          : navigate(`/ams/permitting/drill-report`)
+        navigate(`/ams/permitting/abandon-report`)
       }}
     >
       {userRole()?.operators?.find((el) => el === 'permit')
@@ -46,12 +44,12 @@ const DrillReportDetails = ({ drillReportId }) => {
     </Button>,
   ]
   return (
-    <div className="drill-report-details">
+    <div className="abandon-report-details">
       <TopBarDetail
         onClickBack={() => navigate('/ams/permitting')}
         actions={actions}
         detailData={{
-          title: 'Permit to Drill',
+          title: 'Permit to Abandon',
           subTitle: `Block ${detailData?.metaData?.block}`,
           companyName: detailData?.metaData?.company,
           submittedBy: detailData?.metaData?.createdBy?.name,
@@ -71,13 +69,14 @@ const DrillReportDetails = ({ drillReportId }) => {
             value: `Block ${detailData?.metaData?.block}`,
           },
           {
-            id: 'plannedSpudDate',
-            title: 'Planned Spud Date',
+            id: 'plannedAbandonDate',
+            title: 'Planned P/A Date',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'plannedSpudDate')
-              ?.value,
+            value: detailData?.data?.find(
+              (el) => el.id === 'plannedAbandonDate',
+            )?.value,
           },
           {
             id: '',
@@ -88,12 +87,28 @@ const DrillReportDetails = ({ drillReportId }) => {
             value: '',
           },
           {
+            id: 'fieldName',
+            title: 'Field Name',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'fieldName')?.value,
+          },
+          {
             id: 'wellName',
             title: 'Well Name',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
             value: detailData?.metaData?.wellName,
+          },
+          {
+            id: 'tvdM',
+            title: 'TVD, m',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'tvdM')?.value,
           },
           {
             id: 'wellSurfaceLocationCoordinatesNorth',
@@ -136,28 +151,22 @@ const DrillReportDetails = ({ drillReportId }) => {
             )?.value,
           },
           {
-            id: 'tvdM',
-            title: 'TVD, m',
+            id: 'rigHoistNumber',
+            title: 'Rig/Hoist Number',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'tvdM')?.value,
+            value: detailData?.data?.find((el) => el.id === 'rigHoistNumber')
+              ?.value,
           },
           {
-            id: 'fieldName',
-            title: 'Field Name',
+            id: 'rigHostContractor',
+            title: 'Rig/Hoist Contractor',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'fieldName')?.value,
-          },
-          {
-            id: 'rigName',
-            title: 'Rig Name',
-            cellWidth: 'md-cell md-cell-4',
-            input: 'textField',
-            required: true,
-            value: detailData?.data?.find((el) => el.id === 'rigName')?.value,
+            value: detailData?.data?.find((el) => el.id === 'rigHostContractor')
+              ?.value,
           },
           {
             id: 'wellObjective',
@@ -169,6 +178,14 @@ const DrillReportDetails = ({ drillReportId }) => {
               ?.value,
           },
           {
+            id: 'wellType',
+            title: 'Well Type',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'wellType')?.value,
+          },
+          {
             id: 'wellRiskCategory',
             title: 'Well Risk Category',
             cellWidth: 'md-cell md-cell-4',
@@ -176,14 +193,6 @@ const DrillReportDetails = ({ drillReportId }) => {
             required: true,
             value: detailData?.data?.find((el) => el.id === 'wellRiskCategory')
               ?.value,
-          },
-          {
-            id: 'wellType',
-            title: 'Well Type',
-            cellWidth: 'md-cell md-cell-4',
-            input: 'textField',
-            required: true,
-            value: detailData?.data?.find((el) => el.id === 'wellType')?.value,
           },
           {
             id: 'onShoreOffShore',
@@ -195,32 +204,34 @@ const DrillReportDetails = ({ drillReportId }) => {
               ?.value,
           },
           {
-            id: 'aFECost',
-            title: 'AFE Cost, mm$',
+            id: 'abandonmentCost',
+            title: 'Abandonment Cost',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'aFECost')?.value,
+            value: detailData?.data?.find((el) => el.id === 'abandonmentCost')
+              ?.value,
           },
           {
-            id: 'afeDays',
-            title: 'AFE Days',
+            id: 'abandonmentDays',
+            title: 'Abandonment Days',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'afeDays')?.value,
+            value: detailData?.data?.find((el) => el.id === 'abandonmentDays')
+              ?.value,
           },
           {
-            id: 'afeDepth',
-            title: 'AFE Depth (mm)',
+            id: 'wellDepth',
+            title: 'Well Depth',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'afeDepth')?.value,
+            value: detailData?.data?.find((el) => el.id === 'wellDepth')?.value,
           },
           {
             id: 'intelStandards',
-            title: 'Intel Standards Followed',
+            title: 'intel Standards followed',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
@@ -228,15 +239,97 @@ const DrillReportDetails = ({ drillReportId }) => {
               ?.value,
           },
           {
-            id: 'emergencyPlansAvailable',
-            title: 'Emergency Plans Available?',
+            id: 'cumulativeProductionG',
+            title: 'Cumulative Gas Production, bcf',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find(
+              (el) => el.id === 'cumulativeProductionG',
+            )?.value,
+          },
+          {
+            id: 'cumulativeProductionO',
+            title: 'Cumulative Oil/Cond Production, mmbbl',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find(
+              (el) => el.id === 'cumulativeProductionO',
+            )?.value,
+          },
+          {
+            id: 'remainingReservesO',
+            title: 'Remaining Well Oil/Cond Reserves, mmbbl',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find(
+              (el) => el.id === 'remainingReservesO',
+            )?.value,
+          },
+          {
+            id: 'remainingReservesG',
+            title: 'Remaining Well Gas Reserves, bcf',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find(
+              (el) => el.id === 'remainingReservesG',
+            )?.value,
+          },
+          {
+            id: 'lastWellTest',
+            title: 'Last Well Test, bbl Oil/d, mmscf/d',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'lastWellTest')
+              ?.value,
+          },
+          {
+            id: 'reservoirPressure',
+            title: 'Reservoir Pressure, psi',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'reservoirPressure')
+              ?.value,
+          },
+          {
+            id: 'h2Sppm',
+            title: 'H2S ppm',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'h2Sppm')?.value,
+          },
+          {
+            id: 'co2',
+            title: 'Co2 %',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'co2')?.value,
+          },
+          {
+            id: 'justification',
+            title: 'Justification for Suspension',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'textField',
+            required: true,
+            value: detailData?.data?.find((el) => el.id === 'justification')
+              ?.value,
+          },
+          {
+            id: 'mogAbdProcedure',
+            title: 'MOG P/A Procedures Followed?',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
             value:
-              detailData?.data?.find(
-                (el) => el.id === 'emergencyPlansAvailable',
-              )?.value || 'no',
+              detailData?.data?.find((el) => el.id === 'mogAbdProcedure')
+                ?.value || 'no',
           },
           {
             id: 'riskAssessmentsDone',
@@ -249,16 +342,19 @@ const DrillReportDetails = ({ drillReportId }) => {
                 ?.value || 'no',
           },
           {
-            id: 'remarks',
-            title: 'Remarks',
+            id: 'emergencyPlansAvailable',
+            title: 'Emergency Plans Available?',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
             required: true,
-            value: detailData?.data?.find((el) => el.id === 'remarks')?.value,
+            value:
+              detailData?.data?.find(
+                (el) => el.id === 'emergencyPlansAvailable',
+              )?.value || 'no',
           },
         ]}
       />
     </div>
   )
 }
-export default DrillReportDetails
+export default AbandonReportDetails

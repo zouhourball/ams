@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
+import { useQuery } from 'react-query'
 import Mht from '@target-energysolutions/mht'
+import moment from 'moment'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -10,13 +12,16 @@ import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
 
+import { listPermitsByLoggedUser } from 'libs/api/permit-api'
+import getBlocks from 'libs/hooks/get-blocks'
+
 import {
   permitDrillConfigs,
   permitSuspendConfigs,
   permitAbandonConfigs,
-  permitDrillData,
-  permitSuspendData,
-  permitAbandonData,
+  // permitDrillData,
+  // permitSuspendData,
+  // permitAbandonData,
   actionsHeader,
 } from './helpers'
 
@@ -27,6 +32,24 @@ const Permit = () => {
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
+  const blockList = getBlocks()
+  const { data: permitListData } = useQuery(
+    [
+      'listPermitsByLoggedUser',
+      // {
+      //   permitType:
+      currentTab === 0
+        ? 'Drill'
+        : currentTab === 1
+          ? 'Suspend'
+          : currentTab === 2
+            ? 'Abandon'
+            : '',
+      // },
+    ],
+    listPermitsByLoggedUser,
+  )
+
   const actions =
     currentTab === 0
       ? [
@@ -72,19 +95,32 @@ const Permit = () => {
 
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
 
-  const renderCurrentTabData = () => {
-    switch (currentTab) {
-      case 1:
-        return permitSuspendData
-      case 2:
-        return permitAbandonData
-      case 0:
-        return permitDrillData
-      default:
-        break
+  const permitData = permitListData?.content?.map((el) => {
+    return {
+      id: el.id,
+      company: el?.metaData?.company,
+      block: el?.metaData?.block,
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: el?.metaData?.createdBy?.name,
+      referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
+      statusDate: 23098873,
+      supportingDocuments: '',
+      status: el?.metaData?.status,
     }
-    return []
-  }
+  })
+  // const renderCurrentTabData = () => {
+  //   switch (currentTab) {
+  //     case 1:
+  //       return permitSuspendData
+  //     case 2:
+  //       return permitAbandonData
+  //     case 0:
+  //       return permitDrillData
+  //     default:
+  //       break
+  //   }
+  //   return []
+  // }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
@@ -95,6 +131,37 @@ const Permit = () => {
         return permitDrillConfigs()
       default:
         return permitDrillConfigs()
+    }
+  }
+  const navigateTo = () => {
+    switch (currentTab) {
+      case 1:
+        localStorage.setItem('suspend-report', JSON.stringify(information))
+        navigate(`/ams/permitting/suspend-report`)
+        break
+      case 2:
+        localStorage.setItem('abandon-report', JSON.stringify(information))
+        navigate(`/ams/permitting/abandon-report`)
+        break
+      case 0:
+        localStorage.setItem('drill-report', JSON.stringify(information))
+        navigate(`/ams/permitting/drill-report`)
+        break
+      default:
+        localStorage.setItem('drill-report', JSON.stringify(information))
+        navigate(`/ams/permitting/drill-report`)
+    }
+  }
+  const renderKey = () => {
+    switch (currentTab) {
+      case 1:
+        return 'suspend-report'
+      case 2:
+        return 'abandon-report'
+      case 0:
+        return 'drill-report'
+      default:
+        return 'drill-report'
     }
   }
   return (
@@ -111,7 +178,7 @@ const Permit = () => {
             hideTotal={false}
             withFooter
             configs={renderCurrentTabConfigs()}
-            tableData={renderCurrentTabData()}
+            tableData={permitData || []}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
             onSelectRows={setSelectedRow}
@@ -123,7 +190,7 @@ const Permit = () => {
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
-                    'drill-report',
+                    renderKey(),
                     selectedRow[0]?.id,
                     userRole(),
                     setShowSupportedDocumentDialog,
@@ -142,7 +209,8 @@ const Permit = () => {
           datePlaceholder={'Spud Date'}
           information={information}
           setInformation={setInformation}
-          onContinue={() => navigate(`/ams/permitting/drill-report`)}
+          onContinue={() => navigateTo()}
+          blockList={blockList?.map((el) => el.block)}
         />
       )}
       {showSupportedDocumentDialog && (

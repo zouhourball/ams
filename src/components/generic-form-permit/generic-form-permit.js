@@ -3,11 +3,13 @@ import {
   TextField,
   Checkbox,
   SelectField,
-  DatePicker,
   FontIcon,
   CircularProgress,
+  Portal,
 } from 'react-md'
 import Dropzone from 'react-dropzone'
+import { DatePicker } from '@target-energysolutions/date-picker'
+import moment from 'moment'
 
 import { uploadFileTus } from 'libs/api/tus-upload'
 import { renderFiles } from 'components/render-files'
@@ -19,6 +21,7 @@ import './style.scss'
 const GenericForm = ({ fields }) => {
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
+  const [datePickerState, setDatePickerState] = useState(false)
 
   const uploadFiles = (allFiles) => {
     let newFiles = []
@@ -60,6 +63,8 @@ const GenericForm = ({ fields }) => {
               className={`${field.cellWidth} checkBox `}
               required={field.required}
               label={field.title}
+              onChange={field?.onChange}
+              checked={field?.value}
             />
           )
         case 'select':
@@ -73,19 +78,58 @@ const GenericForm = ({ fields }) => {
               sameWidth
               placeholder={field.title}
               block
+              onChange={field?.onChange}
+              value={field?.value}
             />
           )
         case 'date':
           return (
-            <DatePicker
-              id={field.id}
-              className={`${field.cellWidth} field datePicker`}
-              required={field.required}
-              placeholder={field.title}
-              icon={false}
-              rightIcon={<FontIcon className="mdi mdi-calendar" />}
-              block
-            />
+            <>
+              <TextField
+                id={field.id}
+                rows={field.rows}
+                className={`${field.cellWidth} field`}
+                rightIcon={<FontIcon>date_range</FontIcon>}
+                required={field.required}
+                placeholder={field.title}
+                block
+                onChange={field?.onChange}
+                value={
+                  field?.value &&
+                  `${moment(new Date(field?.value)).format('DD/MM/YYYY')} `
+                }
+                onClick={() => setDatePickerState(true)}
+              />
+              {datePickerState && (
+                <Portal
+                  visible={datePickerState}
+                  className="upload-permit-dialog-date"
+                  lastChild={true}
+                >
+                  <DatePicker
+                    singlePick
+                    startView="year"
+                    endView="day"
+                    defaultView="day"
+                    translation={{ update: 'select' }}
+                    onUpdate={(date) => {
+                      field.onChange(date.timestamp)
+                      setDatePickerState(false)
+                    }}
+                    onCancel={() => setDatePickerState(false)}
+                  />
+                </Portal>
+              )}
+            </>
+            // <DatePicker
+            //   id={field.id}
+            //   className={`${field.cellWidth} field datePicker`}
+            //   required={field.required}
+            //   placeholder={field.title}
+            //   icon={false}
+            //   rightIcon={<FontIcon className="mdi mdi-calendar" />}
+            //   block
+            // />
           )
 
         case 'textArea':
@@ -97,6 +141,9 @@ const GenericForm = ({ fields }) => {
               required={field.required}
               placeholder={field.title}
               block
+              onChange={field?.onChange}
+              value={field?.value}
+              type={field.type === 'double' ? 'number' : null}
             />
           )
         case 'fileInput':
@@ -148,6 +195,9 @@ const GenericForm = ({ fields }) => {
               required={field.required}
               placeholder={field.title}
               block
+              onChange={field?.onChange}
+              value={field?.value}
+              type={field.type === 'double' ? 'number' : null}
             />
           )
       }

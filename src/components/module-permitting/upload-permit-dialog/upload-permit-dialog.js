@@ -20,6 +20,7 @@ const UploadPermitDialog = ({
   setInformation,
   title,
   datePlaceholder,
+  blockList,
 }) => {
   // const [information, setInformation] = useState({})
   const [datePickerState, setDatePickerState] = useState(false)
@@ -53,7 +54,7 @@ const UploadPermitDialog = ({
         placeholder={'Select Block'}
         onChange={(v) => setInformation({ ...information, block: v })}
         className="upload-permit-dialog-selectField"
-        menuItems={['block 10']}
+        menuItems={blockList}
       />
 
       <TextField

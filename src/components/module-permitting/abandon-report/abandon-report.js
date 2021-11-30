@@ -1,66 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from 'react-md'
-import { useQuery, useMutation } from 'react-query'
+import { useMutation } from 'react-query'
 import { navigate } from '@reach/router'
-import moment from 'moment'
 
 import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit, getPermitDetail } from 'libs/api/permit-api'
+import { addPermit } from 'libs/api/permit-api'
 
 import './style.scss'
 
-const DrillReport = ({ drillReportId }) => {
+const AbandonReport = () => {
   const [formData, setFormData] = useState({
     metaData: {
       company: 'ams-org',
-      permitType: 'Drill',
+      permitType: 'Abandon',
     },
     data: {
-      plannedSpudDate: new Date(),
+      plannedAbandonDate: '2021-02-01',
     },
   })
-  const { data: detailData } = useQuery(
-    ['drillReportById', 'Drill', drillReportId],
-    drillReportId && getPermitDetail,
-  )
-  useEffect(() => {
-    if (localStorage.getItem('drill-report')) {
-      const drillReport = JSON.parse(localStorage.getItem('drill-report'))
-      setFormData({
-        ...formData,
-        metaData: {
-          ...formData.metaData,
-          block: drillReport.block,
-        },
-        data: {
-          plannedSpudDate: drillReport.date,
-        },
-      })
-    }
-  }, [])
-  useEffect(() => {
-    if (detailData) {
-      let data = formData.data
-      ;(detailData?.data || []).forEach((el) => {
-        data = {
-          ...data,
-          [el.id]: el.value,
-        }
-      })
-      setFormData({
-        ...formData,
-        metaData: {
-          ...formData.metaData,
-          block: detailData?.metaData?.block,
-          wellName: detailData?.metaData?.wellName,
-        },
-        data,
-      })
-    }
-  }, [detailData])
   const blockList = getBlocks()
   const fields = [
     {
@@ -74,13 +34,21 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.metaData?.block,
     },
     {
-      id: 'plannedSpudDate',
-      title: 'Planned spud date',
+      id: 'plannedAbandonDate',
+      title: 'Planned P/A Date',
       cellWidth: 'md-cell md-cell--6',
       input: 'date',
       type: 'date',
-      onChange: (value) => onEditValue('plannedSpudDate', value),
-      value: formData?.data?.plannedSpudDate,
+    },
+    {
+      id: 'fieldName',
+      title: 'Field Name',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('fieldName', value),
+      type: 'string',
+      value: formData?.data?.fieldName,
     },
     {
       id: 'wellName',
@@ -91,6 +59,16 @@ const DrillReport = ({ drillReportId }) => {
       onChange: (value) => onEditValue('wellName', value, true),
       type: 'string',
       value: formData?.metaData?.wellName,
+    },
+    {
+      id: 'tvdM',
+      title: 'TVD, m',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('tvdM', value),
+      type: 'string',
+      value: formData?.data?.tvdM,
     },
     {
       id: 'wellSurfaceLocationCoordinatesNorth',
@@ -137,34 +115,24 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.wellSubsurfaceTargetCoordinateEast,
     },
     {
-      id: 'tvdM',
-      title: 'TVD, m',
+      id: 'rigHoistNumber',
+      title: 'Rig/Hoist Number',
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) => onEditValue('tvdM', value),
+      onChange: (value) => onEditValue('rigHoistNumber', value),
       type: 'string',
-      value: formData?.data?.tvdM,
+      value: formData?.data?.rigHoistNumber,
     },
     {
-      id: 'fieldName',
-      title: 'Field Name',
+      id: 'rigHostContractor',
+      title: 'Rig/Hoist Contractor',
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) => onEditValue('fieldName', value),
+      onChange: (value) => onEditValue('rigHostContractor', value),
       type: 'string',
-      value: formData?.data?.fieldName,
-    },
-    {
-      id: 'rigName',
-      title: 'Rig Name',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'textField',
-      required: true,
-      onChange: (value) => onEditValue('rigName', value),
-      type: 'string',
-      value: formData?.data?.rigName,
+      value: formData?.data?.rigHostContractor,
     },
     {
       id: 'wellObjective',
@@ -189,17 +157,6 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.wellObjective,
     },
     {
-      id: 'wellRiskCategory',
-      title: 'well Risk Category',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'select',
-      menuItems: ['Low', 'Medium', 'High'],
-      required: true,
-      onChange: (value) => onEditValue('wellRiskCategory', value),
-      type: 'enum',
-      value: formData?.data?.wellRiskCategory,
-    },
-    {
       id: 'wellType',
       title: 'well Type',
       cellWidth: 'md-cell md-cell--4',
@@ -216,6 +173,17 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.wellType,
     },
     {
+      id: 'wellRiskCategory',
+      title: 'well Risk Category',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'select',
+      menuItems: ['Low', 'Medium', 'High'],
+      required: true,
+      onChange: (value) => onEditValue('wellRiskCategory', value),
+      type: 'enum',
+      value: formData?.data?.wellRiskCategory,
+    },
+    {
       id: 'onShoreOffShore',
       title: 'Onshore/Offshore',
       cellWidth: 'md-cell md-cell--4',
@@ -227,34 +195,34 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.onShoreOffShore,
     },
     {
-      id: 'aFECost',
-      title: 'AFE Cost, mm$',
+      id: 'abandonmentCost',
+      title: 'Abandonment Cost, mm$',
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) => onEditValue('aFECost', value),
+      onChange: (value) => onEditValue('abandonmentCost', value),
       type: 'string',
-      value: formData?.data?.aFECost,
+      value: formData?.data?.abandonmentCost,
     },
     {
-      id: 'afeDays',
-      title: 'AFE Days',
+      id: 'abandonmentDays',
+      title: 'Abandonment Days',
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) => onEditValue('afeDays', value),
+      onChange: (value) => onEditValue('abandonmentDays', value),
       type: 'double',
-      value: formData?.data?.afeDays,
+      value: formData?.data?.abandonmentDays,
     },
     {
-      id: 'afeDepth',
-      title: 'AFE Depth(m)',
+      id: 'wellDepth',
+      title: 'Well Depth, m',
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) => onEditValue('afeDepth', value),
+      onChange: (value) => onEditValue('wellDepth', value),
       type: 'double',
-      value: formData?.data?.afeDepth,
+      value: formData?.data?.wellDepth,
     },
     {
       id: 'intelStandards',
@@ -267,13 +235,109 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.intelStandards,
     },
     {
-      id: 'emergencyPlansAvailable',
-      title: 'Emergency Plans Available?',
+      id: 'cumulativeProductionG',
+      title: 'Cumulative Gas Production, bcf',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('cumulativeProductionG', value),
+      type: 'string',
+      value: formData?.data?.cumulativeProductionG,
+    },
+    {
+      id: 'cumulativeProductionO',
+      title: 'Cumulative Oil/Cond Production, mmbbl',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('cumulativeProductionO', value),
+      type: 'string',
+      value: formData?.data?.cumulativeProductionO,
+    },
+    {
+      id: 'remainingReservesO',
+      title: 'Remaining Well Oil/Cond Reserves, mmbbl',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('remainingReservesO', value),
+      type: 'string',
+      value: formData?.data?.remainingReservesO,
+    },
+    {
+      id: 'remainingReservesG',
+      title: 'Remaining Well Gas Reserves, bcf',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('remainingReservesG', value),
+      type: 'string',
+      value: formData?.data?.remainingReservesG,
+    },
+    {
+      id: 'lastWellTest',
+      title: 'Last Well Test, bbl Oil/d, mmscf/d',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('lastWellTest', value),
+      type: 'string',
+      value: formData?.data?.lastWellTest,
+    },
+    {
+      id: 'reservoirPressure',
+      title: 'Reservoir Pressure, psi',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('reservoirPressure', value),
+      type: 'string',
+      value: formData?.data?.reservoirPressure,
+    },
+    {
+      id: 'h2Sppm',
+      title: 'H2S ppm',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('h2Sppm', value),
+      type: 'string',
+      value: formData?.data?.h2Sppm,
+    },
+    {
+      id: 'co2',
+      title: 'Co2 %',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'textField',
+      required: true,
+      onChange: (value) => onEditValue('co2', value),
+      type: 'string',
+      value: formData?.data?.co2,
+    },
+    {
+      id: 'justification',
+      title: 'Justification for Abandon',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'select',
+      menuItems: [
+        'Well Integrity Failure',
+        'Uneconomic Well at Submission Date',
+        'Waiting for Production Facility',
+        'Other',
+      ],
+      required: true,
+      onChange: (value) => onEditValue('justification', value),
+      type: 'selectWithOther',
+      value: formData?.data?.justification,
+    },
+    {
+      id: 'mogAbdProcedure',
+      title: 'MOG P/A Procedures followed?',
       cellWidth: 'md-cell md-cell--4',
       input: 'checkbox',
-      onChange: (value) => onEditValue('emergencyPlansAvailable', value),
+      onChange: (value) => onEditValue('mogAbdProcedure', value),
       type: 'customBoolean',
-      value: formData?.data?.emergencyPlansAvailable,
+      value: formData?.data?.mogAbdProcedure,
     },
     {
       id: 'riskAssessmentsDone',
@@ -285,18 +349,17 @@ const DrillReport = ({ drillReportId }) => {
       value: formData?.data?.riskAssessmentsDone,
     },
     {
-      id: 'remarks',
-      title: 'Remarks',
-      cellWidth: 'md-cell md-cell--12',
-      input: 'textField',
-      required: true,
-      onChange: (value) => onEditValue('remarks', value),
-      type: 'string',
-      value: formData?.data?.remarks,
+      id: 'emergencyPlansAvailable',
+      title: 'Emergency Plans Available?',
+      cellWidth: 'md-cell md-cell--4',
+      input: 'checkbox',
+      onChange: (value) => onEditValue('emergencyPlansAvailable', value),
+      type: 'customBoolean',
+      value: formData?.data?.emergencyPlansAvailable,
     },
   ]
 
-  const addPermitDrill = useMutation(addPermit, {
+  const addPermitAbandon = useMutation(addPermit, {
     onSuccess: (res) => {
       if (!res.error) {
         navigate('/ams/permitting')
@@ -327,10 +390,7 @@ const DrillReport = ({ drillReportId }) => {
     const data = Object.keys(formData?.data).map((el) => {
       return {
         id: el,
-        value:
-          fields.find((elem) => elem.id === el)?.type === 'date'
-            ? moment(formData?.data[el]).format('yyyy-MM-DD')
-            : formData?.data[el],
+        value: formData?.data[el],
         name: fields.find((elem) => elem.id === el)?.title,
         type: fields.find((elem) => elem.id === el)?.type,
         datePattern:
@@ -339,8 +399,8 @@ const DrillReport = ({ drillReportId }) => {
             : null,
       }
     })
-    addPermitDrill.mutate({
-      body: { ...formData, id: detailData?.id, data },
+    addPermitAbandon.mutate({
+      body: { ...formData, data },
     })
   }
   const actions = [
@@ -379,10 +439,10 @@ const DrillReport = ({ drillReportId }) => {
     </Button>,
   ]
   return (
-    <div className="drill-report">
-      <TopBar title="Permit to Drill Report" actions={actions} />
+    <div className="abandon-report">
+      <TopBar title="Permit to Abandon" actions={actions} />
       <GenericForm fields={fields} />
     </div>
   )
 }
-export default DrillReport
+export default AbandonReport

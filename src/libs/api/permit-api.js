@@ -68,9 +68,12 @@ export const listPermitsByLoggedUser = async ({ queryKey }) => {
   // orgId = 1, priorityId = 2
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/permit/list`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/permit/list?query=metaData.permitType==${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
