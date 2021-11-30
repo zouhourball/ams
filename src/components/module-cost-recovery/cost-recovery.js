@@ -101,10 +101,12 @@ const CostRecovery = () => {
       title: 'Upload Contract Report',
       onClick: () => setShowUploadRapportDialog('upload-contract-report'),
     },
-    { title: 'Download Template',
+    {
+      title: 'Download Template',
       onClick: () => {
         downloadTemp('costRecovery', 'costs')
-      } },
+      },
+    },
   ]
 
   const productionLiftingActionsHelper = [

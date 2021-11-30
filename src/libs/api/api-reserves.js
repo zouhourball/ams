@@ -112,18 +112,14 @@ export const commitReport = async ({ body, sub }) => {
   }
   return res
 }
-export const saveReport = async ({ body }) => {
+
+export const detailReserve = async ({ queryKey }) => {
   let res
-  let newBody = new FormData()
-  newBody.append('reserveResource', body?.reserveResource)
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annual/save
-    `,
+      `${appUrl}/pulse-be/api/v1/reserve/${queryKey[2]}/${queryKey[1]}`,
       {
-        method: 'POST',
-        isFormData: true,
-        body: newBody,
+        method: 'GET',
       },
     )
   } catch (e) {
@@ -131,14 +127,27 @@ export const saveReport = async ({ body }) => {
   }
   return res
 }
-export const detailReserveByLoggedUser = async ({ queryKey }) => {
-  // console.log('this is details get ')
+export const deleteReport = async (objectId, subModule) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annual/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v1/reserve/${subModule}/${objectId}`,
       {
-        method: 'GET',
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const updateReserveReport = async ({ subModule, objectId, status }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/reserve/${subModule}/update?objectId=${objectId}&status=${status}`,
+      {
+        method: 'PUT',
       },
     )
   } catch (e) {
