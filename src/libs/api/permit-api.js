@@ -95,13 +95,15 @@ export const savePermit = async ({ body }) => {
   return res
 }
 
-export const updatePermit = async ({ body }) => {
+export const updatePermit = async ({ id, status }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/permit/update`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/permit/update?id=${id}&status=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

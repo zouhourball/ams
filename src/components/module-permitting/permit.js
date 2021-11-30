@@ -12,6 +12,7 @@ import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
 
+import useRole from 'libs/hooks/use-role'
 import { listPermitsByLoggedUser } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 
@@ -49,6 +50,8 @@ const Permit = () => {
     ],
     listPermitsByLoggedUser,
   )
+
+  const role = useRole('permitting')
 
   const actions =
     currentTab === 0
@@ -166,7 +169,10 @@ const Permit = () => {
   }
   return (
     <>
-      <TopBar title="Permitting" actions={actions} />
+      <TopBar
+        title="Permitting"
+        actions={role === 'operator' ? actions : null}
+      />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}

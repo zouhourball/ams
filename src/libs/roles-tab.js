@@ -33,8 +33,8 @@ export const rolesTab = [
   },
   {
     key: 'permitting',
-    roleOp: 'pulse permitting operator',
-    roleRe: 'pulse permitting regulator',
+    roleOp: 'pulse permit operator',
+    roleRe: 'pulse permit regulator',
     path: 'permitting',
   },
   {

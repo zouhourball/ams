@@ -1,13 +1,13 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
 
 import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
-import { userRole } from 'components/shared-hook/get-roles'
 
-import { getPermitDetail } from 'libs/api/permit-api'
+import { getPermitDetail, updatePermit } from 'libs/api/permit-api'
+import useRole from 'libs/hooks/use-role'
 
 import './style.scss'
 
@@ -16,6 +16,25 @@ const DrillReportDetails = ({ drillReportId }) => {
     ['drillReportById', 'Drill', drillReportId],
     getPermitDetail,
   )
+  const updatePermitDrill = useMutation(updatePermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
+  const role = useRole('permitting')
+  const acknowledge = () => {
+    updatePermitDrill.mutate({ id: drillReportId, status: 'ACKNOWLEDGED' })
+  }
+  const onHandleClick = () => {
+    if (role === 'operator') {
+      navigate(`/ams/permitting/drill-report/edit/${drillReportId}`)
+    } else {
+      acknowledge()
+    }
+  }
   const actions = [
     <Button
       key="1"
@@ -34,15 +53,9 @@ const DrillReportDetails = ({ drillReportId }) => {
       flat
       primary
       swapTheming
-      onClick={() => {
-        userRole()?.operators?.find((el) => el === 'permit')
-          ? navigate(`/ams/permitting/drill-report/edit/${drillReportId}`)
-          : navigate(`/ams/permitting/drill-report`)
-      }}
+      onClick={() => onHandleClick()}
     >
-      {userRole()?.operators?.find((el) => el === 'permit')
-        ? 'Edit Details'
-        : 'Acknowledge'}
+      {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,
   ]
   return (

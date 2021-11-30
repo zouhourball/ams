@@ -5,9 +5,9 @@ import moment from 'moment'
 
 import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
-import { userRole } from 'components/shared-hook/get-roles'
 
 import { getPermitDetail } from 'libs/api/permit-api'
+import useRole from 'libs/hooks/use-role'
 
 import './style.scss'
 
@@ -16,6 +16,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
     ['abandonReportById', 'Abandon', abandonReportId],
     getPermitDetail,
   )
+  const role = useRole('permitting')
   const actions = [
     <Button
       key="1"
@@ -38,9 +39,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
         navigate(`/ams/permitting/abandon-report`)
       }}
     >
-      {userRole()?.operators?.find((el) => el === 'permit')
-        ? 'Edit Details'
-        : 'Acknowledge'}
+      {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,
   ]
   return (
