@@ -15,11 +15,16 @@ import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 
-import { annualReservesDetailsConfigs } from '../helpers'
+import {
+  annualReservesDetailsConfigs,
+  annualData,
+  fyfData,
+  annualResource,
+} from '../helpers'
 
 import './style.scss'
 
-const ReservesDetails = ({ location: { pathname }, reserveId, subkey }) => {
+const ReservesDetails = ({ reserveId, subkey }) => {
   const dispatch = useDispatch()
   const subModule = subkey
   let role = useRole('reserves')
@@ -52,52 +57,17 @@ const ReservesDetails = ({ location: { pathname }, reserveId, subkey }) => {
     },
   })
   const reserveDetailsData = useMemo(() => {
-    // console.log(subModule)
     switch (subModule) {
       case 'annual':
-        return (
-          reserveDetail?.items?.map((el) => ({
-            id: '2656552',
-            category: 'BLOCK SUMMARY',
-            items: 'P50 In Place Volume (HCIIP)',
-            hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-            createdAt: 2022,
-            status: 'ACKNOWLEDGED',
-          })) || []
-        )
+        return annualData(reserveDetail)
       case 'fyf':
-        return (
-          reserveDetail?.items?.map((el) => ({
-            id: '2656552',
-            category: 'BLOCK SUMMARY',
-            items: 'P50 In Place Volume (HCIIP)',
-            hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-            status: 'ACKNOWLEDGED',
-          })) || []
-        )
+        return fyfData(reserveDetail) // array
       case 'annualResource':
-        return (
-          reserveDetail?.items?.map((el) => ({
-            id: '2656552',
-            category: 'BLOCK SUMMARY',
-            items: 'P50 In Place Volume (HCIIP)',
-            hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-            status: 'ACKNOWLEDGED',
-          })) || []
-        )
+        return annualResource(reserveDetail) || []
       default:
-        return (
-          reserveDetail?.items?.map((el) => ({
-            id: '2656552',
-            category: 'BLOCK SUMMARY',
-            items: 'P50 In Place Volume (HCIIP)',
-            hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-            status: 'ACKNOWLEDGED',
-          })) || []
-        )
+        break
     }
-  }, [reserveDetail, subModule])
-
+  }, [reserveDetail])
   const onAcknowledge = (subModule, objectId, status) => {
     updateReport.mutate({
       subModule: subModule,
@@ -105,50 +75,29 @@ const ReservesDetails = ({ location: { pathname }, reserveId, subkey }) => {
       status: status,
     })
   }
-  const detailData = useMemo(() => {
+  const detailTitle = () => {
     switch (subModule) {
       case 'annual':
-        return {
-          title: 'Annual Cost and Expenditure',
-          subTitle: reserveDetail?.metaData?.block,
-          companyName: reserveDetail?.metaData?.company,
-          submittedDate: moment(reserveDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: reserveDetail?.metaData?.createdBy?.name,
-        }
+        return 'Annual Reserves Reporting'
       case 'fyf':
-        return {
-          title: 'Annual Cost and Expenditure',
-          subTitle: reserveDetail?.metaData?.block,
-          companyName: reserveDetail?.metaData?.company,
-          submittedDate: moment(reserveDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: reserveDetail?.metaData?.createdBy?.name,
-        }
+        return 'History and Forecast'
       case 'annualResource':
-        return {
-          title: 'Annual Cost and Expenditure',
-          subTitle: reserveDetail?.metaData?.block,
-          companyName: reserveDetail?.metaData?.company,
-          submittedDate: moment(reserveDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: reserveDetail?.metaData?.createdBy?.name,
-        }
+        return 'Annual Resource Detail'
       default:
-        return {
-          title: 'Annual Cost and Expenditure',
-          subTitle: reserveDetail?.metaData?.block,
-          companyName: reserveDetail?.metaData?.company,
-          submittedDate: moment(reserveDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: reserveDetail?.metaData?.createdBy?.name,
-        }
+        break
     }
-  }, [reserveDetail, subModule])
+  }
+  const detailData = useMemo(() => {
+    return {
+      title: detailTitle(),
+      subTitle: reserveDetail?.metaData?.block,
+      companyName: reserveDetail?.metaData?.company,
+      submittedDate: moment(reserveDetail?.metaData?.createdAt).format(
+        'DD MMM, YYYY',
+      ),
+      submittedBy: reserveDetail?.metaData?.createdBy?.name,
+    }
+  }, [reserveDetail])
   // console.log(reserveDetailsData, 'status')
   const actions = [
     <Button
@@ -170,14 +119,14 @@ const ReservesDetails = ({ location: { pathname }, reserveId, subkey }) => {
       swapTheming
       onClick={() => {
         downloadOriginalFile(
-          reserveDetailsData?.fileId,
-          reserveDetailsData?.fileName,
+          reserveDetail?.metaData?.originalFileId,
+          reserveDetail?.metaData?.originalFileName,
         )
       }}
     >
       Download Original File
     </Button>,
-    role === 'regulator' && reserveDetailsData?.status !== 'ACKNOWLEDGED' && (
+    role === 'regulator' && reserveDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
       <Button
         key="4"
         id="acknowledge"
@@ -197,14 +146,17 @@ const ReservesDetails = ({ location: { pathname }, reserveId, subkey }) => {
   return (
     <div className="reserves-details">
       <TopBarDetail
-        title={'Annual Reserves Reporting'}
+        // title={'Annual Reserves Reporting'}
         onClickBack={() => navigate('/ams/reserves')}
         actions={actions}
         detailData={detailData}
       />
       <Mht
         id="reserves-details"
-        configs={annualReservesDetailsConfigs()}
+        configs={annualReservesDetailsConfigs(
+          subModule,
+          reserveDetailsData[0]?.currentY,
+        )}
         tableData={reserveDetailsData}
         withSearch
         commonActions

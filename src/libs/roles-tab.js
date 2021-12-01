@@ -67,4 +67,10 @@ export const rolesTab = [
     roleRe: 'pulse audit regulator',
     path: 'audit',
   },
+  {
+    key: 'new-audit',
+    roleOp: 'pulse audit operator',
+    roleRe: 'pulse audit regulator',
+    path: 'audit',
+  },
 ]

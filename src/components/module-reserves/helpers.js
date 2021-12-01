@@ -418,71 +418,426 @@ export const actionsHeader = (
       ]
   }
 }
+export const annualData = (reserveDetail) => {
+  let formedData = reserveDetail?.data?.map((el) => {
+    return el?.items?.map((item) => {
+      return { ...{ category: el?.category }, ...item }
+    })
+  })
+  formedData = formedData?.flat()
+  return (
+    formedData?.map((el) => {
+      let hydrocarbonTypesVals = el?.values?.map((val) => ({
+        [val?.hydrocarbon]: val?.value,
+      }))
+      return {
+        category: el?.category,
+        items: el?.name,
+        hydrocarbonTypes: hydrocarbonTypesVals,
+      }
+    }) || []
+  )
+}
+export const fyfData = (reserveDetail) => {
+  return (
+    reserveDetail?.data?.map((el) => ({
+      currentY: el?.currentYear?.year,
+      hydrocarbonType: el?.hydrocarbon,
+      unit: el?.unit,
+      forecast: el?.forecast?.map((elem) => ({
+        year: [{ oneP: elem['values']['1P'] }, { twoP: elem['values']['2P'] }],
+      })), // array
+      previousYear: el?.previousYear?.map((element) => ({
+        year: [
+          { oneP: element['values']['1P'] },
+          { twoP: element['values']['2P'] },
+        ],
+      })),
+      currentYear: [
+        {
+          year: [
+            { oneP: el?.currentYear['values']['1P'] },
+            { twoP: el?.currentYear['values']['2P'] },
+          ],
+        },
+      ],
+    })) || []
+  )
+}
+export const annualResource = (reserveDetail) =>
+  reserveDetail?.data?.map((el) => ({
+    cluster: el?.cluster,
+    field: el?.field,
+    group: el?.group,
+    formation: el?.formation,
+    member: el?.member,
+    hciip: el?.hciip,
+    eur: el?.eur,
+    cumProd: el?.cumulativeProduction,
+    oneP: [{ dev: el?.p1Developed }, { underDev: el?.p1Undeveloped }],
+  }))
+export const annualReservesDetailsConfigs = (subModule, cuYear = 2033) => {
+  switch (subModule) {
+    case 'annual':
+      return [
+        {
+          label: 'Category',
+          key: 'category',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
 
-export const annualReservesDetailsConfigs = () => [
-  {
-    label: 'Category',
-    key: 'category',
-    width: 200,
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-
-  {
-    label: 'Items',
-    key: 'items',
-    width: 200,
-    type: 'text',
-    icon: 'mdi mdi-spellcheck',
-  },
-  {
-    label: 'Hydrocarbon Types & Volumes',
-    key: 'hydrocarbonTypes',
-    type: 'subColumns',
-    width: 600,
-    columns: [
-      { label: 'Oil (MMstb)', subKey: 'oil', width: 200 },
-      { label: 'Condensate (MMstb)', subKey: 'condensate', width: 200 },
-      { label: 'Gas (Tscf)', subKey: 'gaz', width: 200 },
-    ],
-  },
-]
-
-export const annualReservesDetailsData = [
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-  {
-    id: '2656552',
-    category: 'BLOCK SUMMARY',
-    items: 'P50 In Place Volume (HCIIP)',
-    hydrocarbonTypes: [{ oil: '0' }, { condensate: '0' }, { gaz: '0' }],
-  },
-]
+        {
+          label: 'Items',
+          key: 'items',
+          width: 200,
+          type: 'text',
+          icon: 'mdi mdi-spellcheck',
+        },
+        {
+          label: 'Hydrocarbon Types & Volumes',
+          key: 'hydrocarbonTypes',
+          type: 'subColumns',
+          width: 600,
+          columns: [
+            { label: 'Oil (MMstb)', subKey: 'Oil', width: 200 },
+            { label: 'Condensate (MMstb)', subKey: 'Condensate', width: 200 },
+            { label: 'Gas (Tscf)', subKey: 'Gas', width: 200 },
+          ],
+        },
+      ]
+    case 'fyf':
+      return [
+        {
+          label: 'Hydrocarbon Type',
+          key: 'hydrocarbonType',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Unit',
+          key: 'unit',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Previous year',
+          key: 'previousYear',
+          width: 200,
+          type: 'subColumns',
+          columns: [
+            {
+              label: cuYear - 1,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 2,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 3,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 4,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 5,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Current year',
+          key: 'currentYear',
+          width: 200,
+          type: 'subColumns',
+          columns: [
+            {
+              label: cuYear,
+              subKey: 'year',
+              width: 200,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: 'Forecast',
+          key: 'forecast',
+          width: 200,
+          type: 'subColumns',
+          columns: [
+            {
+              label: cuYear + 1,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear + 2,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear + 3,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear + 4,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear + 5,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    case 'annualResource':
+      return [
+        {
+          label: 'Cluster',
+          key: 'cluster',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Field',
+          key: 'field',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Group',
+          key: 'group',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Formation',
+          key: 'formation',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Member',
+          key: 'member',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'HCIIP (E6 bbl)',
+          key: 'hciip',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'EUR',
+          key: 'eur',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: 'Cumulative Production (E6 bbl',
+          key: 'cumProd',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'text',
+        },
+        {
+          label: '1P',
+          key: 'oneP',
+          width: 200,
+          icon: 'mdi mdi-spellcheck',
+          type: 'subColumns',
+          columns: [
+            {
+              label: 'Developed (E6 bbl)',
+              subKey: 'dev',
+              width: 100,
+              icon: 'mdi mdi-spellcheck',
+            },
+            {
+              label: 'Under Developed (E6 bbl)',
+              subKey: 'underDev',
+              width: 100,
+              icon: 'mdi mdi-spellcheck',
+            },
+          ],
+        },
+      ]
+    default:
+      break
+  }
+}
