@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const permitDrillConfigs = () => [
+export const permitDrillConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -61,6 +61,10 @@ export const permitDrillConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -75,7 +79,7 @@ export const permitDrillConfigs = () => [
   },
 ]
 
-export const permitSuspendConfigs = () => [
+export const permitSuspendConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -135,6 +139,10 @@ export const permitSuspendConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -148,7 +156,7 @@ export const permitSuspendConfigs = () => [
     ),
   },
 ]
-export const permitAbandonConfigs = () => [
+export const permitAbandonConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -208,6 +216,10 @@ export const permitAbandonConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },

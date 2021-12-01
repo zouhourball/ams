@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const mhtConfig = () => [
+export const mhtConfig = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -61,6 +61,10 @@ export const mhtConfig = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -75,7 +79,7 @@ export const mhtConfig = () => [
   },
 ]
 
-export const mhtConfigAssetConsumption = () => [
+export const mhtConfigAssetConsumption = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -151,6 +155,10 @@ export const mhtConfigAssetConsumption = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },

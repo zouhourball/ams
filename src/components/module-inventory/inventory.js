@@ -602,7 +602,6 @@ const Inventory = () => {
     'Asset Disposal',
     'New Asset Addition',
   ]
-
   const tableDataListAnnualBase = (
     get(listAnnualBase, 'content', []) || []
   ).map((el) => {
@@ -614,6 +613,7 @@ const Inventory = () => {
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
+      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
   })
 
@@ -628,6 +628,7 @@ const Inventory = () => {
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
+      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
   })
 
@@ -641,6 +642,7 @@ const Inventory = () => {
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
+        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
     },
   )
@@ -658,6 +660,7 @@ const Inventory = () => {
         ' , ' +
         get(el, 'metaData.year', 'n/a'),
       status: get(el, 'metaData.status', 'n/a'),
+      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
   })
 
@@ -675,6 +678,7 @@ const Inventory = () => {
         ' , ' +
         get(el, 'metaData.year', 'n/a'),
       status: get(el, 'metaData.status', 'n/a'),
+      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
   })
 
@@ -691,6 +695,7 @@ const Inventory = () => {
           ' , ' +
           get(el, 'metaData.year', 'n/a'),
         status: get(el, 'metaData.status', 'n/a'),
+        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
     },
   )
@@ -708,6 +713,7 @@ const Inventory = () => {
           ' , ' +
           get(el, 'metaData.year', 'n/a'),
         status: get(el, 'metaData.status', 'n/a'),
+        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
     },
   )
@@ -732,18 +738,35 @@ const Inventory = () => {
         return tableDataListAnnualBase
     }
   }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
+  }
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const inventorySuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeDialog,
+    )
+  }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return mhtConfig()
+        return mhtConfig(UploadSupportedDocumentFromTable)
       case 1:
-        return mhtConfigAssetConsumption()
+        return mhtConfigAssetConsumption(UploadSupportedDocumentFromTable)
       case 2:
-        return mhtConfig()
+        return mhtConfig(UploadSupportedDocumentFromTable)
       case 3:
-        return mhtConfig()
+        return mhtConfig(UploadSupportedDocumentFromTable)
       default:
-        return mhtConfig()
+        return mhtConfig(UploadSupportedDocumentFromTable)
     }
   }
   const renderDialogData = () => {
@@ -918,7 +941,13 @@ const Inventory = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          onSaveUpload={(data) => {
+            inventorySuppDocs(data)
+          }}
         />
       )}
       {overrideDialog && (

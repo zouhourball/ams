@@ -15,6 +15,7 @@ import { userRole } from 'components/shared-hook/get-roles'
 import useRole from 'libs/hooks/use-role'
 import { listPermitsByLoggedUser } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
+import documents from 'libs/hooks/documents'
 
 import {
   permitDrillConfigs,
@@ -34,6 +35,8 @@ const Permit = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const blockList = getBlocks()
+  const { addSupportingDocuments } = documents()
+
   const { data: permitListData } = useQuery(
     [
       'listPermitsByLoggedUser',
@@ -97,7 +100,6 @@ const Permit = () => {
         ]
 
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
-
   const permitData = permitListData?.content?.map((el) => {
     return {
       id: el.id,
@@ -109,6 +111,7 @@ const Permit = () => {
       statusDate: 23098873,
       supportingDocuments: '',
       status: el?.metaData?.status,
+
     }
   })
   // const renderCurrentTabData = () => {
@@ -124,16 +127,19 @@ const Permit = () => {
   //   }
   //   return []
   // }
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
+  }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 1:
-        return permitSuspendConfigs()
+        return permitSuspendConfigs(UploadSupportedDocumentFromTable)
       case 2:
-        return permitAbandonConfigs()
+        return permitAbandonConfigs(UploadSupportedDocumentFromTable)
       case 0:
-        return permitDrillConfigs()
+        return permitDrillConfigs(UploadSupportedDocumentFromTable)
       default:
-        return permitDrillConfigs()
+        return permitDrillConfigs(UploadSupportedDocumentFromTable)
     }
   }
   const navigateTo = () => {
@@ -154,6 +160,23 @@ const Permit = () => {
         localStorage.setItem('drill-report', JSON.stringify(information))
         navigate(`/ams/permitting/drill-report`)
     }
+  }
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const permittingSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.id ||
+        showSupportedDocumentDialog?.id,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    permittingSuppDocs(data)
   }
   const renderKey = () => {
     switch (currentTab) {
@@ -224,7 +247,11 @@ const Permit = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={
+            selectedRow[0]?.id ||
+            showSupportedDocumentDialog?.id
+          }
+          onSaveUpload={(data) => handleSupportingDocs(data) }
         />
       )}
     </>
