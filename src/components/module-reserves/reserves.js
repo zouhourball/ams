@@ -33,7 +33,7 @@ import {
   annualResourceConfigs,
   actionsHeader,
   annualData,
-  // fyfData,
+  fyfData,
   annualResource,
 } from './helpers'
 
@@ -86,7 +86,7 @@ const Reserves = () => {
   const resGenReport = () => {
     const resData = uploadAnnualResponse?.data
     annualData(resData)
-    // fyfData(resData)
+    fyfData(resData)
     annualResource(resData)
     return (
       resData?.data?.map((el) => ({
