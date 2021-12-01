@@ -2,13 +2,13 @@ import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import Mht from '@target-energysolutions/mht'
 import { get } from 'lodash-es'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 
-import { updateFlaring } from 'libs/api/api-flaring'
+import { updateFlaring, getDetailFlaringById } from 'libs/api/api-flaring'
 import useRole from 'libs/hooks/use-role'
 
 import { addToast } from 'modules/app/actions'
@@ -23,13 +23,13 @@ const FlaringDetails = () => {
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const objectId = get(location, 'pathname', '/').split('/').reverse()[1]
 
-  // const { data: flaringData } = useQuery(
-  //   ['getDetailFlaringById', subModule, objectId],
-  //   objectId && getDetailFlaringById,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
+  const { data: flaringData } = useQuery(
+    ['getDetailFlaringById', subModule, objectId],
+    objectId && getDetailFlaringById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
   const updateFlaringMutation = useMutation(updateFlaring, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -95,7 +95,8 @@ const FlaringDetails = () => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && (
+    role === 'regulator' &&
+      get(flaringData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button
         key="4"
         id="acknowledge"
@@ -107,7 +108,7 @@ const FlaringDetails = () => {
           onAcknowledge(subModule, objectId, 'ACKNOWLEDGED')
         }}
       >
-        Acknowledge
+          Acknowledge
       </Button>
     ),
   ]

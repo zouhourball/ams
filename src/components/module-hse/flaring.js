@@ -14,6 +14,7 @@ import {
   uploadAnnualForecastReport,
   commitFlaring,
   overrideFlaringReport,
+  deleteFlaring,
 } from 'libs/api/api-flaring'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -257,6 +258,41 @@ const Flaring = () => {
     },
   )
 
+  const deleteFlaringMutate = useMutation(deleteFlaring, {
+    onSuccess: (res) => {
+      refetchList()
+
+      if (!res.error) {
+        // refetchList()
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'Deleted successfully'}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
+  const handleDeleteFlaring = (subModule, objectId) => {
+    deleteFlaringMutate.mutate({
+      subModule,
+      objectId,
+    })
+  }
   const onCommitFlaring = (subModule) => {
     commitFlaringMutate.mutate({
       subModule: subModule,
@@ -482,6 +518,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
+          handleDeleteFlaring,
         )
       case 2:
         return actionsHeaderDaily(
@@ -490,6 +527,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
+          handleDeleteFlaring,
         )
       case 0:
       default:
@@ -499,6 +537,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
+          handleDeleteFlaring,
         )
     }
   }

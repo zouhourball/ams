@@ -128,3 +128,18 @@ export const updateFlaring = async ({ subModule, objectId, status }) => {
   }
   return res
 }
+
+export const deleteFlaring = async ({ subModule, objectId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/flaring/${subModule}/${objectId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

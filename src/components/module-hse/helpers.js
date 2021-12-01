@@ -347,6 +347,7 @@ export const actionsHeaderAnnual = (
   role,
   supportedDocument,
   subModule,
+  onDelete,
 ) => {
   switch (role) {
     case 'regulator':
@@ -382,7 +383,9 @@ export const actionsHeaderAnnual = (
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            onDelete(subModule, id)
+          },
         },
         {
           id: 2,
@@ -418,6 +421,7 @@ export const actionsHeaderMonthly = (
   role,
   supportedDocument,
   subModule,
+  onDelete,
 ) => {
   switch (role) {
     case 'regulator':
@@ -448,7 +452,9 @@ export const actionsHeaderMonthly = (
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            onDelete(subModule, id)
+          },
         },
         {
           id: 3,
@@ -479,6 +485,7 @@ export const actionsHeaderDaily = (
   role,
   supportedDocument,
   subModule,
+  onDelete,
 ) => {
   switch (role) {
     case 'regulator':
@@ -509,7 +516,9 @@ export const actionsHeaderDaily = (
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            onDelete(subModule, id)
+          },
         },
         {
           id: 3,
