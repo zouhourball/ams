@@ -443,7 +443,7 @@ const SuspendReport = () => {
       flat
       primary
       swapTheming
-      onClick={() => {}}
+      onClick={onSave}
     >
       Submit
     </Button>,

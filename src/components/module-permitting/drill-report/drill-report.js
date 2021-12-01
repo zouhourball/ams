@@ -373,7 +373,7 @@ const DrillReport = ({ drillReportId }) => {
       flat
       primary
       swapTheming
-      onClick={() => {}}
+      onClick={onSave}
     >
       Submit
     </Button>,

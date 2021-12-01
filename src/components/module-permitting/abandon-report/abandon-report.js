@@ -433,7 +433,7 @@ const AbandonReport = () => {
       flat
       primary
       swapTheming
-      onClick={() => {}}
+      onClick={() => onSave}
     >
       Submit
     </Button>,

@@ -54,6 +54,7 @@ const DrillReportDetails = ({ drillReportId }) => {
       primary
       swapTheming
       onClick={() => onHandleClick()}
+      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
     >
       {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,

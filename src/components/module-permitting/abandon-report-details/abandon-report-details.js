@@ -38,6 +38,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
       onClick={() => {
         navigate(`/ams/permitting/abandon-report`)
       }}
+      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
     >
       {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,

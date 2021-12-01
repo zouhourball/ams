@@ -38,6 +38,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
       onClick={() => {
         navigate(`/ams/permitting/suspend-report`)
       }}
+      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
     >
       {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
     </Button>,
