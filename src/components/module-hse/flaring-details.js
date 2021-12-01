@@ -4,12 +4,14 @@ import Mht from '@target-energysolutions/mht'
 import { get } from 'lodash-es'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
+import moment from 'moment'
 
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 
 import { updateFlaring, getDetailFlaringById } from 'libs/api/api-flaring'
 import useRole from 'libs/hooks/use-role'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import { addToast } from 'modules/app/actions'
 
@@ -116,6 +118,43 @@ const FlaringDetails = () => {
     }
   }
 
+  const detailsData = () => {
+    switch (subModule) {
+      case 'annual-forecast':
+        return {
+          title: 'Annual Report',
+          subTitle: 'Block ' + flaringData?.metaData?.block,
+          companyName: flaringData?.metaData?.company,
+          submittedDate: moment(flaringData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: flaringData?.metaData?.createdBy?.name,
+        }
+      case 'monthly-station':
+        return {
+          title: 'Monthly Report',
+          subTitle: 'Block ' + flaringData?.metaData?.block,
+          companyName: flaringData?.metaData?.company,
+          submittedDate: moment(flaringData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: flaringData?.metaData?.createdBy?.name,
+        }
+      case 'daily':
+        return {
+          title: 'Daily Report',
+          subTitle: 'Block ' + flaringData?.metaData?.block,
+          companyName: flaringData?.metaData?.company,
+          submittedDate: moment(flaringData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: flaringData?.metaData?.createdBy?.name,
+        }
+      default:
+        return null
+    }
+  }
+
   const renderDetailsConfigsBySubModule = () => {
     switch (subModule) {
       case 'annual-forecast':
@@ -160,7 +199,12 @@ const FlaringDetails = () => {
       flat
       primary
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        downloadOriginalFile(
+          flaringData?.metaData?.originalFileId,
+          `template_flaring_${subModule}`,
+        )
+      }}
     >
       Download Original File
     </Button>,
@@ -186,6 +230,7 @@ const FlaringDetails = () => {
       <TopBarDetail
         onClickBack={() => navigate('/ams/hse/flaring')}
         actions={actions}
+        detailData={detailsData()}
       />
       <Mht
         configs={renderDetailsConfigsBySubModule()}
