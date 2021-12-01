@@ -339,7 +339,6 @@ const Flaring = () => {
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: get(el, 'metaData.year', 'n/a'),
         status: get(el, 'metaData.status', 'n/a'),
-
       }
     },
   )
@@ -621,7 +620,8 @@ const Flaring = () => {
             }
             onSaveUpload={(data) => {
               flaringSuppDocs(data)
-            }} />
+            }}
+          />
         )}
       </div>
     </>

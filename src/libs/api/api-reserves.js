@@ -141,6 +141,21 @@ export const deleteReport = async (objectId, subModule) => {
   }
   return res
 }
+export const overrideReport = async ({ body, overrideId, subModule }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/reserve/${subModule}/override/${overrideId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const updateReserveReport = async ({ subModule, objectId, status }) => {
   let res
   try {

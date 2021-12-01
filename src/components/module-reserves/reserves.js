@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { Button, CircularProgress } from 'react-md'
+import { Button, CircularProgress, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
@@ -14,11 +14,13 @@ import {
   getAnnualReport,
   getHistoryAndForecast,
   getAnnualResourceDetail,
+  overrideReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 
 import documents from 'libs/hooks/documents'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -35,28 +37,31 @@ import {
   annualData,
   fyfData,
   annualResource,
+  annualReservesDetailsConfigs,
 } from './helpers'
 
 const Reserves = () => {
   const [currentTab, setCurrentTab] = useState(0)
+  const [currentUpload, setCurrentUpload] = useState()
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
-  // const [showOveride] = useState(true)
+  const [overrideDialog, setDialogOverride] = useState(false)
 
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
+  const [overrideId, setOverrideId] = useState()
 
   const role = useRole('reserves')
+  const company = getOrganizationInfos()
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     ['getAnnualReport'],
     getAnnualReport,
   )
-  /*, refetch: refetchHistoryAndForecast */
   const { data: listHistoryAndForecast, refetch: refetchHistoryAndForecast } =
     useQuery(['getHistoryAndForecast'], getHistoryAndForecast)
   const {
@@ -79,28 +84,28 @@ const Reserves = () => {
     data: onUploadDetailReportResponse,
     isLoading: detailUploadLoading,
   } = useMutation(uploadAnnualResource)
+  const { mutate: onOverrideReportMutate } = useMutation(overrideReport)
   const blockList = getBlocks()
   const onCommitReportMutate = useMutation(commitReport)
 
   const { addSupportingDocuments } = documents()
-  const resGenReport = () => {
-    const resData = uploadAnnualResponse?.data
-    annualData(resData)
-    fyfData(resData)
-    annualResource(resData)
-    return (
-      resData?.data?.map((el) => ({
-        category: el?.category,
-        // item: el.items,
-        // hydroTypes: el.items,
-      })) || []
-    )
-  }
-  const dataMht = useMemo(
-    () => resGenReport(),
 
-    [uploadAnnualResponse],
-  )
+  const dataMht = useMemo(() => {
+    switch (currentTab) {
+      case 0:
+        return annualData(uploadAnnualResponse?.data) || []
+      case 1:
+        return fyfData(onUploadHistoryReportResponse?.data) || []
+      case 2:
+        return annualResource(onUploadDetailReportResponse?.data) || []
+      default:
+        break
+    }
+  }, [
+    uploadAnnualResponse,
+    onUploadHistoryReportResponse,
+    onUploadDetailReportResponse,
+  ])
 
   // const onSaveReportMutate = useMutation(saveReport)
 
@@ -400,15 +405,16 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'ams-org',
+          company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: '2021',
+          year: moment(body?.referenceDate).format('YYYY'),
         },
       },
       {
         onSuccess: (res) => {
           onDisplayMHT(res?.data)
+          setCurrentUpload(res)
         },
       },
     )
@@ -430,7 +436,6 @@ const Reserves = () => {
     )
   } */
   const onCommitReport = (body, sub, refetch) => {
-    // console.log(body, 'uploadAnnualResponse')
     onCommitReportMutate.mutate(
       {
         body: body?.data,
@@ -438,9 +443,13 @@ const Reserves = () => {
       },
       {
         onSuccess: (res) => {
-          /* {
-            res?.msg === 'exist'  && setDialogVisible(true)
-          } */
+          if (res?.msg === 'exist') {
+            setDialogOverride(true)
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            setOverrideId(res?.overrideId)
+          }
+
           return !res?.error && refetch()
         },
       },
@@ -451,10 +460,10 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'ams-org',
+          company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: '2021',
+          year: moment(body?.referenceDate).format('YYYY'),
         },
       },
       {
@@ -469,16 +478,30 @@ const Reserves = () => {
       {
         body: {
           block: body?.block,
-          company: 'ams-org',
+          company: company?.name,
           file: body?.filesList,
           hydrocarbonType: 'GAS',
           processInstanceId: uuid,
-          year: '2021',
+          year: moment(body?.referenceDate).format('YYYY'),
         },
       },
       {
         onSuccess: (res) => {
           onDisplayMHT(res?.data)
+        },
+      },
+    )
+  }
+  const onOverrideReport = (subModule, overrideId) => {
+    onOverrideReportMutate(
+      {
+        subModule: subModule,
+        overrideId: overrideId,
+        body: currentUpload?.data,
+      },
+      {
+        onSuccess: () => {
+          setDialogOverride(false)
         },
       },
     )
@@ -534,6 +557,10 @@ const Reserves = () => {
         <MHTDialog
           visible={showUploadMHTDialog}
           propsDataTable={dataMht}
+          propsConfigs={annualReservesDetailsConfigs(
+            renderSectionKey()?.name,
+            dataMht[0]?.currentY,
+          )}
           onHide={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
@@ -588,6 +615,35 @@ const Reserves = () => {
             handleSupportingDocs(data)
           }}
         />
+      )}
+      {overrideDialog && (
+        <DialogContainer
+          visible={overrideDialog}
+          title="Override"
+          modal
+          actions={[
+            {
+              children: 'Yes, Override It',
+              primary: false,
+              flat: true,
+              swapTheming: true,
+              onClick: () => {
+                onOverrideReport(renderSectionKey().name, overrideId)
+              },
+            },
+            {
+              children: 'No Thanks',
+              primary: true,
+              flat: true,
+              swapTheming: true,
+              onClick: () => setDialogOverride(false),
+            },
+          ]}
+        >
+          <p className="md-color--secondary-text">
+            This file already exists. Would you like to override it ?
+          </p>
+        </DialogContainer>
       )}
     </>
   )
