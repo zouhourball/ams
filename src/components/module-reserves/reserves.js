@@ -32,6 +32,9 @@ import {
   historyConfigs,
   annualResourceConfigs,
   actionsHeader,
+  annualData,
+  fyfData,
+  annualResource,
 } from './helpers'
 
 const Reserves = () => {
@@ -80,9 +83,11 @@ const Reserves = () => {
   const onCommitReportMutate = useMutation(commitReport)
 
   const { addSupportingDocuments } = documents()
-
   const resGenReport = () => {
     const resData = uploadAnnualResponse?.data
+    annualData(resData)
+    fyfData(resData)
+    annualResource(resData)
     return (
       resData?.data?.map((el) => ({
         category: el?.category,
