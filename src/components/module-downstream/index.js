@@ -11,7 +11,7 @@ const DownstreamModule = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Downstream path="/" />
-        <DownstreamDetails path="/downstream-details/:downstreamId" />
+        <DownstreamDetails path="/downstream-details/:subkey/:downstreamId" />
       </Router>
     </Suspense>
   )

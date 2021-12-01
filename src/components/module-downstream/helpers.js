@@ -311,7 +311,14 @@ export const petroleumProductsData = [
   },
 ]
 
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (
+  key,
+  id,
+  subKey,
+  role,
+  supportedDocument,
+  deleteDownstream,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -325,7 +332,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 2,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/downstream/${key}/${id}`)
+            key && id && navigate(`/ams/downstream/${key}/${subKey}/${id}`)
           },
         },
         {
@@ -340,7 +347,9 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
         {
           id: 1,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            deleteDownstream()
+          },
         },
         {
           id: 2,

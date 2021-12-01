@@ -94,7 +94,7 @@ export const detailLpgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/lpg/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/downstream/${queryKey[1]}/${queryKey[2]}`,
       {
         method: 'GET',
       },

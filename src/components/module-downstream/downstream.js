@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useQuery, useMutation } from 'react-query'
-import { Button } from 'react-md'
+import { Button, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
@@ -16,6 +16,12 @@ import {
   commitLoadDownstreamLpg,
   commitLoadDownstreamNg,
   commitLoadDownstreamRs,
+  overrideDownstreamLpg,
+  overrideDownstreamNg,
+  overrideDownstreamRs,
+  deleteLpg,
+  deleteNg,
+  deleteRs,
 } from 'libs/api/downstream-api'
 
 import documents from 'libs/hooks/documents'
@@ -39,6 +45,7 @@ import {
   // petroleumProductsData,
   actionsHeader,
 } from './helpers'
+import { configsLpgDialogMht } from './mht-helper-dialog'
 
 const Downstream = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -50,6 +57,9 @@ const Downstream = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [commitData, setCommitData] = useState({})
+  const [overrideDialog, setOverrideDialog] = useState(false)
+  const [overrideId, setOverrideId] = useState()
+
   const { addSupportingDocuments } = documents()
   const company = getOrganizationInfos()
   const role = useRole('downstream')
@@ -67,12 +77,24 @@ const Downstream = () => {
     listRsDownstreamByLoggedUser,
   )
 
-  const { mutate: uploadLpgMutate } = useMutation(uploadLpg)
+  const { mutate: uploadLpgMutate, data: responseUploadLpg } =
+    useMutation(uploadLpg)
   const uploadNgMutate = useMutation(uploadNg)
   const uploadRsMutate = useMutation(uploadRs)
   const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
   const commitNgMutate = useMutation(commitLoadDownstreamNg)
   const commitRsMutate = useMutation(commitLoadDownstreamRs)
+
+  const overrideLpgMutation = useMutation(overrideDownstreamLpg)
+  const overrideNgMutation = useMutation(overrideDownstreamNg)
+  const overrideRsMutation = useMutation(overrideDownstreamRs)
+
+  const deleteLpgMutation = useMutation(deleteLpg)
+  const deleteNgMutation = useMutation(deleteNg)
+  const deleteRsMutation = useMutation(deleteRs)
+
+  // const commitNgMutate = useMutation(commitLoadDownstreamNg)
+  // const commitRsMutate = useMutation(commitLoadDownstreamRs)
 
   const liquefiedPetroleumGasActionsHelper = [
     {
@@ -211,9 +233,16 @@ const Downstream = () => {
           {
             onSuccess: (res) => {
               if (!res?.error) {
-                setShowUploadMHTDialog(false)
-                setShowUploadRapportDialog(false)
-                refetchLpgList()
+                if (res?.msg === 'exist') {
+                  setOverrideDialog(true)
+                  setShowUploadMHTDialog(false)
+                  setShowUploadRapportDialog(false)
+                  setOverrideId(res?.overrideId)
+                } else {
+                  setShowUploadRapportDialog(false)
+                  setShowUploadMHTDialog(false)
+                  refetchLpgList()
+                }
               }
             },
           },
@@ -226,9 +255,16 @@ const Downstream = () => {
           {
             onSuccess: (res) => {
               if (!res?.error) {
-                setShowUploadMHTDialog(false)
-                setShowUploadRapportDialog(false)
-                refetchNgList()
+                if (res?.msg === 'exist') {
+                  setOverrideDialog(true)
+                  setShowUploadMHTDialog(false)
+                  setShowUploadRapportDialog(false)
+                  setOverrideId(res?.overrideId)
+                } else {
+                  setShowUploadRapportDialog(false)
+                  setShowUploadMHTDialog(false)
+                  refetchNgList()
+                }
               }
             },
           },
@@ -241,9 +277,16 @@ const Downstream = () => {
           {
             onSuccess: (res) => {
               if (!res?.error) {
-                setShowUploadMHTDialog(false)
-                setShowUploadRapportDialog(false)
-                refetchRsList()
+                if (res?.msg === 'exist') {
+                  setOverrideDialog(true)
+                  setShowUploadMHTDialog(false)
+                  setShowUploadRapportDialog(false)
+                  setOverrideId(res?.overrideId)
+                } else {
+                  setShowUploadRapportDialog(false)
+                  setShowUploadMHTDialog(false)
+                  refetchRsList()
+                }
               }
             },
           },
@@ -253,6 +296,98 @@ const Downstream = () => {
     }
   }
 
+  const onOverrideDownstream = (overrideId) => {
+    switch (currentTab) {
+      case 0:
+        return overrideLpgMutation.mutate(
+          {
+            body: commitData,
+            overrideId: overrideId,
+          },
+          {
+            onSuccess: (res) => {
+              if (!res?.error) {
+                if (res?.msg === 'saved') {
+                  setOverrideDialog(false)
+                  refetchLpgList()
+                }
+              }
+            },
+          },
+        )
+      case 1:
+        return overrideNgMutation.mutate(
+          {
+            body: commitData,
+            overrideId: overrideId,
+          },
+          {
+            onSuccess: (res) => {
+              if (!res?.error) {
+                setOverrideDialog(false)
+                refetchNgList()
+              }
+            },
+          },
+        )
+      case 2:
+        return overrideRsMutation.mutate(
+          {
+            body: commitData,
+            overrideId: overrideId,
+          },
+          {
+            onSuccess: (res) => {
+              if (!res?.error) {
+                setOverrideDialog(false)
+                refetchRsList()
+              }
+            },
+          },
+        )
+      default:
+        break
+    }
+  }
+  const handleDeleteDownstream = () => {
+    switch (currentTab) {
+      case 0:
+        return deleteLpgMutation.mutate(
+          {
+            objectId: selectedRow[0]?.id,
+          },
+          {
+            onSuccess: (res) => {
+              refetchLpgList()
+            },
+          },
+        )
+      case 1:
+        return deleteNgMutation.mutate(
+          {
+            objectId: selectedRow[0]?.id,
+          },
+          {
+            onSuccess: (res) => {
+              refetchNgList()
+            },
+          },
+        )
+      case 2:
+        return deleteRsMutation.mutate(
+          {
+            objectId: selectedRow[0]?.id,
+          },
+          {
+            onSuccess: (res) => {
+              refetchRsList()
+            },
+          },
+        )
+      default:
+        break
+    }
+  }
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
@@ -292,6 +427,7 @@ const Downstream = () => {
       case 0:
         return (
           listLiquefiedPetroleumGas?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -303,6 +439,7 @@ const Downstream = () => {
       case 1:
         return (
           LisPetroleumProducts?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -314,6 +451,7 @@ const Downstream = () => {
       case 2:
         return (
           ListNaturalGas?.content?.map((el) => ({
+            id: el?.id,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -353,29 +491,75 @@ const Downstream = () => {
         return liquefiedPetroleumGasConfigs(UploadSupportedDocumentFromTable)
     }
   }
+  const downstreamRespData = () => {
+    switch (currentTab) {
+      case 0:
+        return (
+          responseUploadLpg?.data?.data?.map((el) => ({
+            company: el?.company,
+            quota: el?.quota,
+            lifting: el?.actualLifted?.map((source) => ({
+              source1: source[0]?.value,
+              source2: source[1]?.value,
+            })),
+            total: el?.totalLifted,
+            remarks: el?.remarks,
+            variance: el?.variance,
+          })) || []
+        )
+      case 1:
+        return (
+          responseUploadLpg?.data?.data?.map((el) => ({
+            company: el?.company,
+            quota: el?.quota,
+            // lifting: el?.actualLifted?.map((source) => ({
+            //   source1: source[0]?.value,
+            //   source2: source[1]?.value,
+            // })),
+            // total: el?.totalLifted,
+            // remarks: el?.remarks,
+            // variance: el?.variance,
+          })) || []
+        )
+      case 2:
+        return responseUploadLpg?.data?.data?.map((el) => ({
+          company: el?.company,
+          quota: el?.quota,
+          // lifting: el?.actualLifted?.map((source) => ({
+          //   source1: source[0]?.value,
+          //   source2: source[1]?.value,
+          // })),
+          // total: el?.totalLifted,
+          // remarks: el?.remarks,
+          // variance: el?.variance,
+        }))
 
-  // const configsMht = () => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       return 0
-  //     case 1:
-  //       return 1
+      default:
+        break
+    }
+  }
+  const configsMht = () => {
+    switch (currentTab) {
+      case 0:
+        return configsLpgDialogMht()
+      case 1:
+        return configsLpgDialogMht()
 
-  //     default:
-  //       return 0
-  //   }
-  // }
-  // const dataMht = useMemo(() => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       return 0
-  //     case 1:
-  //       return 1
+      default:
+        return configsLpgDialogMht()
+    }
+  }
+  const dataMht = useMemo(() => {
+    switch (currentTab) {
+      case 0:
+        return downstreamRespData()
+      case 1:
+        return downstreamRespData()
 
-  //     default:
-  //       return 1
-  //   }
-  // }, [])
+      default:
+        return downstreamRespData()
+    }
+  }, [responseUploadLpg])
 
   const renderDialogData = () => {
     switch (currentTab) {
@@ -408,6 +592,18 @@ const Downstream = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
+  const subModule = () => {
+    switch (currentTab) {
+      case 0:
+        return 'lpg'
+      case 1:
+        return 'ng'
+      case 2:
+        return 'rs'
+      default:
+        break
+    }
+  }
   return (
     <>
       <TopBar title="Downstream" actions={renderActionsByCurrentTab()} />
@@ -436,8 +632,11 @@ const Downstream = () => {
                   actions={actionsHeader(
                     'downstream-details',
                     selectedRow[0]?.id,
+                    subModule(),
+
                     role,
                     setShowSupportedDocumentDialog,
+                    handleDeleteDownstream,
                   )}
                 />
               )
@@ -452,9 +651,8 @@ const Downstream = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
-          // propsDataTable={dataMht}
-
-          // propsConfigs={configsMht()}
+          propsDataTable={dataMht}
+          propsConfigs={configsMht()}
           onSave={() => {
             onCommitRapport()
             // setShowUploadMHTDialog(false)
@@ -497,6 +695,34 @@ const Downstream = () => {
             handleSupportingDocs(data)
           }}
         />
+      )}
+      {overrideDialog && (
+        <DialogContainer
+          id="override"
+          visible={confirm}
+          title="Override"
+          modal
+          actions={[
+            {
+              children: 'Yes, Override It',
+              primary: false,
+              flat: true,
+              swapTheming: true,
+              onClick: () => onOverrideDownstream(overrideId),
+            },
+            {
+              children: 'No Thanks',
+              primary: true,
+              flat: true,
+              swapTheming: true,
+              onClick: () => setOverrideDialog(false),
+            },
+          ]}
+        >
+          <p id="override-description" className="md-color--secondary-text">
+            This file already exists. Would you like to override it ?
+          </p>
+        </DialogContainer>
       )}
     </>
   )
