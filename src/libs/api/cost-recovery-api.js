@@ -1,10 +1,7 @@
 import { fetchJSON } from 'libs/fetch'
 import { formDataBody } from 'libs/utils/custom-function'
 
-const appUrl =
-  process.env.NODE_ENV === 'production'
-    ? PRODUCT_APP_URL_API
-    : PRODUCT_APP_URL_API
+const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
 // affiliate
 export const listAffiliateCost = async ({ queryKey }) => {
@@ -18,7 +15,7 @@ export const listAffiliateCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadAffiliateCost = async ({ body }) => {
+export const commitLoadAffiliateCost = async (body) => {
   // body={
   //   "statement": "string"
   // }
@@ -69,14 +66,13 @@ export const overrideAffiliateCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateAffiliateCost = async ({ body }) => {
+export const updateAffiliateCost = async ({ status, objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -85,17 +81,15 @@ export const updateAffiliateCost = async ({ body }) => {
   return res
 }
 
-export const uploadAffiliateCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadAffiliateCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: formDataBody(body),
+        isFormData: true,
       },
     )
   } catch (e) {
@@ -146,7 +140,7 @@ export const listContractsCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadContractsCost = async ({ body }) => {
+export const commitLoadContractsCost = async (body) => {
   // body={
   //   "statement": "string"
   // }
@@ -180,9 +174,6 @@ export const findAllContractsByUserCompanyAccess = async ({ queryKey }) => {
   return res
 }
 export const overrideContractsCost = async ({ body, overrideId }) => {
-  // body={
-  //   "statement": "string"
-  // }
   let res
   try {
     res = await fetchJSON(
@@ -197,14 +188,13 @@ export const overrideContractsCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateContractsCost = async ({ body }) => {
+export const updateContractsCost = async ({ status, objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -213,17 +203,15 @@ export const updateContractsCost = async ({ body }) => {
   return res
 }
 
-export const uploadContractsCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadContracts = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/contracts/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: formDataBody(body),
+        isFormData: true,
       },
     )
   } catch (e) {
@@ -339,17 +327,15 @@ export const updateFacilitiesCost = async ({ body }) => {
   return res
 }
 
-export const uploadFacilitiesCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadFacilitiesCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/facilities/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: formDataBody(body),
+        isFormData: true,
       },
     )
   } catch (e) {
@@ -402,10 +388,7 @@ export const listProdLiftingCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadProdLiftingCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const commitLoadProdLiftingCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
@@ -436,9 +419,6 @@ export const findAllProdLiftingByUserCompanyAccess = async ({ queryKey }) => {
   return res
 }
 export const overrideProdLiftingCost = async ({ body, overrideId }) => {
-  // body={
-  //   "statement": "string"
-  // }
   let res
   try {
     res = await fetchJSON(
@@ -453,14 +433,13 @@ export const overrideProdLiftingCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateProdLiftingCost = async ({ body }) => {
+export const updateProdLiftingCost = async ({ status, objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -469,17 +448,15 @@ export const updateProdLiftingCost = async ({ body }) => {
   return res
 }
 
-export const uploadProdLiftingCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadProdLiftingCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        isFormData: true,
+        body: formDataBody(body),
       },
     )
   } catch (e) {
@@ -650,7 +627,7 @@ export const listTransactionCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadTransactionCost = async ({ body }) => {
+export const commitLoadTransactionCost = async (body) => {
   // body={
   //   "statement": "string"
   // }
@@ -701,14 +678,13 @@ export const overrideTransactionCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateTransactionCost = async ({ body }) => {
+export const updateTransactionCost = async ({ status, objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -717,17 +693,15 @@ export const updateTransactionCost = async ({ body }) => {
   return res
 }
 
-export const uploadTransactionCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const uploadTransactionCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/costRecovery/transaction/upload`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        isFormData: true,
+        body: formDataBody(body),
       },
     )
   } catch (e) {

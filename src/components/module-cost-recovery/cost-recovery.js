@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
@@ -7,19 +7,40 @@ import { v4 as uuidv4 } from 'uuid'
 
 import useRole from 'libs/hooks/use-role'
 import {
+  commitLoadAffiliateCost,
+  overrideTransactionCost,
   listCostsCost,
   uploadAnnualCosts,
   commitLoadCostsCost,
   overrideCostsCost,
   deleteCosts,
   listContractsCost,
-  uploadContractsCost,
+  uploadContracts,
+  commitLoadContractsCost,
+  overrideContractsCost,
+  deleteContracts,
+  listProdLiftingCost,
+  uploadProdLiftingCost,
+  commitLoadProdLiftingCost,
+  overrideProdLiftingCost,
+  listTransactionCost,
+  uploadTransactionCost,
+  commitLoadTransactionCost,
+  listAffiliateCost,
+  uploadAffiliateCost,
+  overrideAffiliateCost,
+  listFacilitiesCost,
+  uploadFacilitiesCost,
+  commitLoadFacilitiesCost,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/api-reserves'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
 
-import { configsAnnualCostsDialogMht } from './mht-helper-dialog'
+import {
+  configsAnnualCostsDialogMht,
+  configsContractsCostsDialogMht,
+} from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import TopBar from 'components/top-bar'
@@ -38,11 +59,6 @@ import {
   affiliateConfigs,
   facilitiesConfigs,
   annualCostData,
-  // contractReportData,
-  productionLiftingData,
-  transactionData,
-  affiliateData,
-  facilitiesData,
   actionsHeader,
 } from './helpers'
 
@@ -68,18 +84,55 @@ const CostRecovery = () => {
     ['listCostsCost'],
     listCostsCost,
   )
+
+  const { data: listAffiliateCostData, refetch: refetchListAffiliateCost } =
+    useQuery(['listAffiliateCost'], listAffiliateCost)
+
+  const { data: listTransaction, refetch: refetchListTransaction } = useQuery(
+    ['listTransactionCost'],
+    listTransactionCost,
+  )
+
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
     useMutation(uploadAnnualCosts)
   const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
   const { mutate: deleteAnnualCostsExp } = useMutation(deleteCosts)
+  const { mutate: commitContractors } = useMutation(commitLoadContractsCost)
+  const { mutate: overrideContractsReport } = useMutation(overrideContractsCost)
+  const { mutate: deleteContractsReport } = useMutation(deleteContracts)
+  const { mutate: commitProdLifting } = useMutation(commitLoadProdLiftingCost)
+  const { mutate: overrideLifting } = useMutation(overrideProdLiftingCost)
+  const { mutate: uploadTransaction, data: responseUploadTransaction } =
+    useMutation(uploadTransactionCost)
+  const { mutate: commitTransaction, data: responseCommitTransaction } =
+    useMutation(commitLoadTransactionCost)
+  const { mutate: overrideTransaction } = useMutation(overrideTransactionCost)
+  const { mutate: uploadAffiliate, data: responseUploadAffiliate } =
+    useMutation(uploadAffiliateCost)
+  const { mutate: commitAffiliate } = useMutation(commitLoadAffiliateCost)
+  const { mutate: overrideAffiliate } = useMutation(overrideAffiliateCost)
+  const { mutate: uploadFacilities, data: responseUploadFacilities } =
+    useMutation(uploadFacilitiesCost)
+  const { mutate: commitFacilities } = useMutation(commitLoadFacilitiesCost)
 
-  const { data: contractListReport } = useQuery(
+  const { data: contractListReport, refetch: contractListRefetch } = useQuery(
     ['listContractsCost'],
     listContractsCost,
   )
-  const { mutate: uploadContractsCostExp, data: responseUploadContractCost } =
-    useMutation(uploadContractsCost)
+  const { data: prodLiftingData, refetch: prodliftRefetch } = useQuery(
+    ['listProdLiftingCost'],
+    listProdLiftingCost,
+  )
+
+  const { data: listFacilitiesCostData, refetch: facilitiesListRefetch } =
+    useQuery(['listFacilitiesCost'], listFacilitiesCost)
+
+  const { mutate: uploadContractsCost, data: responseUploadContractCost } =
+    useMutation(uploadContracts)
+
+  const { mutate: uploadProdLifting, data: responseUploadProdLift } =
+    useMutation(uploadProdLiftingCost)
 
   const { addSupportingDocuments } = documents()
 
@@ -104,7 +157,7 @@ const CostRecovery = () => {
     {
       title: 'Download Template',
       onClick: () => {
-        downloadTemp('costRecovery', 'costs')
+        downloadTemp('costRecovery', 'contracts')
       },
     },
   ]
@@ -112,12 +165,12 @@ const CostRecovery = () => {
   const productionLiftingActionsHelper = [
     {
       title: 'Upload Production Lifting Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('prod-lifting'),
     },
     {
       title: 'Download Template',
       onClick: () => {
-        downloadTemp('costRecovery', 'annual')
+        downloadTemp('costRecovery', 'prodLiftingCost')
       },
     },
   ]
@@ -125,25 +178,40 @@ const CostRecovery = () => {
   const transactionReportActionsHelper = [
     {
       title: 'Upload Transaction  Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('transaction'),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'transactionCost')
+      },
+    },
   ]
 
   const affiliateActionsHelper = [
     {
       title: 'Upload Affiliate Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('affiliate'),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'affiliateCost')
+      },
+    },
   ]
 
   const facilitiesActionsHelper = [
     {
       title: 'Upload facilities Report',
-      onClick: () => setShowUploadRapportDialog(true),
+      onClick: () => setShowUploadRapportDialog('facilities'),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('costRecovery', 'faclitiesCost')
+      },
+    },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -223,13 +291,52 @@ const CostRecovery = () => {
           })) || []
         )
       case 2:
-        return productionLiftingData
+        return (
+          prodLiftingData?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 3:
-        return transactionData
+        return (
+          listTransaction?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 4:
-        return affiliateData
+        return (
+          listAffiliateCostData?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       case 5:
-        return facilitiesData
+        return listFacilitiesCostData?.content || []
       default:
         return annualCostData
     }
@@ -257,6 +364,85 @@ const CostRecovery = () => {
     }
   }
 
+  const handleUploadProdLifting = (data, processId) => {
+    uploadProdLifting(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: company?.name || 'ams-org',
+        processInstanceId: processId,
+        year: +data?.referenceDate?.year,
+        month: +data?.referenceDate?.month,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog('prod-lifting')
+          }
+        },
+      },
+    )
+  }
+
+  const handleUploadTransactionCost = (data, processId) => {
+    uploadTransaction(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: company?.name || 'ams-org',
+        processInstanceId: processId,
+        year: +data?.referenceDate?.year,
+        month: +data?.referenceDate?.month,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog('transaction')
+          }
+        },
+      },
+    )
+  }
+
+  const handleUploadAffiliateCost = (data, processId) => {
+    uploadAffiliate(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: company?.name || 'ams-org',
+        processInstanceId: processId,
+        year: +data?.referenceDate?.year,
+        month: +data?.referenceDate?.month,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog('affiliate')
+          }
+        },
+      },
+    )
+  }
+
+  const handleUploadFacilitiesCost = (data, processId) => {
+    uploadFacilities(
+      {
+        block: data?.block,
+        file: data?.file[0],
+        company: company?.name || 'ams-org',
+        processInstanceId: processId,
+        year: +data?.referenceDate?.year,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.responseStatus?.success) {
+            setShowUploadMHTDialog('facilities')
+          }
+        },
+      },
+    )
+  }
+
   const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
@@ -266,7 +452,8 @@ const CostRecovery = () => {
           onUpload: () => {
             const uuid = uuidv4()
             handleUploadAnnualCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 1:
@@ -276,7 +463,8 @@ const CostRecovery = () => {
           onUpload: () => {
             const uuid = uuidv4()
             handleUploadContractsCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 2:
@@ -285,8 +473,9 @@ const CostRecovery = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadAnnualCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            handleUploadProdLifting(data, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 3:
@@ -295,8 +484,9 @@ const CostRecovery = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadAnnualCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            handleUploadTransactionCost(data, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 4:
@@ -305,8 +495,9 @@ const CostRecovery = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadAnnualCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            handleUploadAffiliateCost(data, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 5:
@@ -315,8 +506,9 @@ const CostRecovery = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadAnnualCost(data, uuid)
-            addSupportingDocuments(data?.optionalFiles, uuid)
+            handleUploadFacilitiesCost(data, uuid)
+            data?.optionalFiles?.length > 0 &&
+              addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       default:
@@ -342,33 +534,34 @@ const CostRecovery = () => {
       {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
-            setShowUploadMHTDialog(true)
+            setShowUploadMHTDialog('upload-annual-cost')
           }
         },
       },
     )
   }
   const handleUploadContractsCost = (data, uuid) => {
-    uploadContractsCostExp(
+    uploadContractsCost(
       {
         block: data?.block,
         file: data?.file[0],
         company: company?.name || 'ams-org',
         processInstanceId: uuid,
         year: +data?.referenceDate?.year,
+        month: +data?.referenceDate?.month,
       },
       {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
-            setShowUploadMHTDialog(true)
+            setShowUploadMHTDialog('upload-contract-report')
           }
         },
       },
     )
   }
 
-  const configsMht = () => {
-    switch (showUploadRapportDialog) {
+  const configsMht = useCallback(() => {
+    switch (showUploadMHTDialog) {
       case 'upload-annual-cost':
         return configsAnnualCostsDialogMht().map((el) =>
           el.key !== 'year'
@@ -379,19 +572,14 @@ const CostRecovery = () => {
             },
         )
       case 'upload-contract-report':
-        return configsAnnualCostsDialogMht().map((el) =>
-          el.key !== 'year'
-            ? el
-            : {
-              ...el,
-              label: responseUploadContractCost?.metaData?.year,
-            },
-        )
+        return configsAnnualCostsDialogMht()
+      case 'prod-lifting':
+        return configsContractsCostsDialogMht()
 
       default:
         return configsAnnualCostsDialogMht()
     }
-  }
+  }, [showUploadMHTDialog])
 
   const resAnnualCostData = () => {
     return (
@@ -418,7 +606,7 @@ const CostRecovery = () => {
   }
   const resContractsCostData = () => {
     return (
-      responseUploadContractCost?.data?.items?.map((el) => ({
+      responseUploadContractCost?.data?.data?.map((el) => ({
         category: el?.category,
         subCategory: el?.subCategory,
         group: el?.group,
@@ -524,18 +712,93 @@ const CostRecovery = () => {
     )
   }
 
+  const overrideContracts = () => {
+    overrideContractsReport(
+      {
+        body: {
+          data: responseUploadContractCost?.data?.data,
+          metaData: responseUploadContractCost?.data?.metaData,
+        },
+        overrideId: showConfirmDialog,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowUploadMHTDialog(null)
+            setShowConfirmDialog(null)
+            refetchAnnualCosts()
+          }
+        },
+      },
+    )
+  }
+
+  const overrideProdLifting = () => {
+    overrideLifting(
+      {
+        body: responseUploadProdLift?.data,
+        overrideId: showConfirmDialog,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowUploadMHTDialog(null)
+            setShowConfirmDialog(null)
+            prodliftRefetch()
+          }
+        },
+      },
+    )
+  }
+
+  const handleOverrideTransaction = () => {
+    overrideTransaction(
+      {
+        body: responseCommitTransaction?.data,
+        overrideId: showConfirmDialog,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowUploadMHTDialog(null)
+            setShowConfirmDialog(null)
+            refetchListTransaction()
+          }
+        },
+      },
+    )
+  }
+
+  const handleOverrideAffiliate = () => {
+    overrideAffiliate(
+      {
+        body: responseUploadAffiliate?.data,
+        overrideId: showConfirmDialog,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowUploadMHTDialog(null)
+            setShowConfirmDialog(null)
+            refetchListAffiliateCost()
+          }
+        },
+      },
+    )
+  }
+
   const handleOverride = () => {
     switch (currentTab) {
       case 0:
         return overrideCosts()
       case 1:
-        return () => null
+        return overrideContracts()
       case 2:
-        return () => null
+        return overrideProdLifting()
       case 3:
-        return () => null
+        return handleOverrideTransaction()
       case 4:
-        return () => null
+        return handleOverrideAffiliate()
       case 5:
         return () => null
       default:
@@ -544,19 +807,172 @@ const CostRecovery = () => {
   }
 
   const handleDelete = () => {
-    deleteAnnualCostsExp(
-      { objectId: selectedRow[0]?.id },
+    switch (currentTab) {
+      case 1:
+        deleteContractsReport(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                contractListRefetch()
+                setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      case 0:
+        deleteAnnualCostsExp(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                refetchAnnualCosts()
+                setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      default:
+        break
+    }
+  }
+
+  const handleSaveCommitContractors = () => {
+    commitContractors(
+      {
+        data: responseUploadContractCost?.data?.data,
+        metaData: responseUploadContractCost?.data?.metaData,
+      },
       {
         onSuccess: (res) => {
-          if (res) {
-            refetchAnnualCosts()
-            setShowDeleteDialog(false)
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            contractListRefetch()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
           }
         },
       },
     )
   }
 
+  const handleSaveCommitProdLifting = () => {
+    commitProdLifting(
+      responseUploadProdLift?.data,
+
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            prodliftRefetch()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleSaveCommitTransaction = () => {
+    commitTransaction(
+      responseUploadTransaction?.data,
+
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            refetchListTransaction()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleSaveCommitAffiliate = () => {
+    commitAffiliate(
+      {
+        data: responseUploadAffiliate?.data?.data,
+        metaData: responseUploadAffiliate?.data?.metaData,
+      },
+
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            refetchListAffiliateCost()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleSaveCommitFacilities = () => {
+    commitFacilities(
+      {
+        data: responseUploadFacilities?.data?.data,
+        metaData: responseUploadFacilities?.data?.metaData,
+      },
+
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            facilitiesListRefetch()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleCommit = () => {
+    switch (currentTab) {
+      case 0:
+        handleSaveCommitAnnualCosts()
+        break
+      case 1:
+        handleSaveCommitContractors()
+        break
+      case 2:
+        handleSaveCommitProdLifting()
+        break
+      case 3:
+        handleSaveCommitTransaction()
+        break
+      case 4:
+        handleSaveCommitAffiliate()
+        break
+      case 5:
+        handleSaveCommitFacilities()
+        break
+      default:
+        break
+    }
+  }
+
+  const subKeyRoute = () => {
+    switch (currentTab) {
+      case 0:
+        return 'costs'
+      case 1:
+        return 'contracts'
+      case 2:
+        return 'lifting'
+      case 3:
+        return 'transaction'
+      case 4:
+        return 'affiliate'
+      default:
+        return 'costs'
+    }
+  }
   return (
     <>
       <TopBar
@@ -567,7 +983,10 @@ const CostRecovery = () => {
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
-          setActiveTab={setCurrentTab}
+          setActiveTab={(tab) => {
+            setCurrentTab(tab)
+            setSelectedRow([])
+          }}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -588,7 +1007,7 @@ const CostRecovery = () => {
                   actions={actionsHeader(
                     'cost-recovery-details',
                     selectedRow[0]?.id,
-                    'costs',
+                    subKeyRoute(),
                     role,
                     setShowSupportedDocumentDialog,
                     () => setShowDeleteDialog(true),
@@ -609,9 +1028,10 @@ const CostRecovery = () => {
             // setShowUploadRapportDialog(true)
           }}
           onSave={() => {
-            handleSaveCommitAnnualCosts()
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(false)
+            handleCommit()
+            // setShowUploadMHTDialog(false)
+            // setShowUploadRapportDialog(true)
+            // setShowUploadRapportDialog(false)
           }}
         />
       )}
@@ -648,8 +1068,9 @@ const CostRecovery = () => {
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           processInstanceId={
-            selectedRow[0]?.processInstanceId ||
-            showSupportedDocumentDialog?.processInstanceId
+            typeof showSupportedDocumentDialog === 'object'
+              ? showSupportedDocumentDialog?.processInstanceId
+              : selectedRow[0]?.processInstanceId
           }
           onSaveUpload={(data) => {
             handleSupportingDocs(data)

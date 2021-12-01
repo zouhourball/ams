@@ -1,4 +1,4 @@
-import { FileInput, FontIcon } from 'react-md'
+import { Button, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
 export const annualCostConfigs = (supportedDocument) => [
@@ -53,19 +53,20 @@ export const annualCostConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        Upload Documents
+      </Button>
     ),
   },
   {
@@ -99,8 +100,8 @@ export const contractReportConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -114,16 +115,16 @@ export const contractReportConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -131,19 +132,20 @@ export const contractReportConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        Upload Documents
+      </Button>
     ),
   },
   {
@@ -176,8 +178,8 @@ export const productionLiftingConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -191,16 +193,16 @@ export const productionLiftingConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -208,19 +210,20 @@ export const productionLiftingConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        Upload Documents
+      </Button>
     ),
   },
   {
@@ -253,8 +256,8 @@ export const transactionConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -268,16 +271,16 @@ export const transactionConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -285,19 +288,20 @@ export const transactionConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        Upload Documents
+      </Button>
     ),
   },
   {
@@ -330,8 +334,8 @@ export const affiliateConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -345,16 +349,16 @@ export const affiliateConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -362,19 +366,21 @@ export const affiliateConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        {' '}
+        Upload Documents
+      </Button>
     ),
   },
   {
@@ -439,19 +445,20 @@ export const facilitiesConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     render: (row) => (
-      <FileInput
+      <Button
         className="upload-docs-button"
         id={row.id}
         flat
         primary
         iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
+        iconChildren={<FontIcon>save_alt</FontIcon>}
         onClick={(e) => {
           e.preventDefault()
           supportedDocument(row)
         }}
-      />
+      >
+        Upload Documents
+      </Button>
     ),
   },
   {

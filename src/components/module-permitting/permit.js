@@ -111,7 +111,6 @@ const Permit = () => {
       statusDate: 23098873,
       supportingDocuments: '',
       status: el?.metaData?.status,
-
     }
   })
   // const renderCurrentTabData = () => {
@@ -169,8 +168,7 @@ const Permit = () => {
   const permittingSuppDocs = (data) => {
     addSupportingDocuments(
       data,
-      selectedRow[0]?.id ||
-        showSupportedDocumentDialog?.id,
+      selectedRow[0]?.id || showSupportedDocumentDialog?.id,
       closeDialog,
     )
   }
@@ -248,10 +246,9 @@ const Permit = () => {
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           processInstanceId={
-            selectedRow[0]?.id ||
-            showSupportedDocumentDialog?.id
+            selectedRow[0]?.id || showSupportedDocumentDialog?.id
           }
-          onSaveUpload={(data) => handleSupportingDocs(data) }
+          onSaveUpload={(data) => handleSupportingDocs(data)}
         />
       )}
     </>
