@@ -1,5 +1,6 @@
 import { Button, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 export const annualCostConfigs = (supportedDocument) => [
   {
@@ -691,6 +692,7 @@ export const actionsHeader = (
   role,
   supportedDocument,
   deleteRow,
+  row,
 ) => {
   switch (role) {
     case 'regulator':
@@ -699,7 +701,9 @@ export const actionsHeader = (
         {
           id: 1,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(row?.originalFileId)
+          },
         },
         {
           id: 2,
@@ -722,7 +726,9 @@ export const actionsHeader = (
         {
           id: 1,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(row?.originalFileId)
+          },
         },
         {
           id: 2,

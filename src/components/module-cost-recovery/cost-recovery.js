@@ -93,14 +93,22 @@ const CostRecovery = () => {
   const { data: annualListRecovery, refetch: refetchAnnualCosts } = useQuery(
     ['listCostsCost'],
     listCostsCost,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: listAffiliateCostData, refetch: refetchListAffiliateCost } =
-    useQuery(['listAffiliateCost'], listAffiliateCost)
+    useQuery(['listAffiliateCost'], listAffiliateCost, {
+      refetchOnWindowFocus: false,
+    })
 
   const { data: listTransaction, refetch: refetchListTransaction } = useQuery(
     ['listTransactionCost'],
     listTransactionCost,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
@@ -134,14 +142,22 @@ const CostRecovery = () => {
   const { data: contractListReport, refetch: contractListRefetch } = useQuery(
     ['listContractsCost'],
     listContractsCost,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
   const { data: prodLiftingData, refetch: prodliftRefetch } = useQuery(
     ['listProdLiftingCost'],
     listProdLiftingCost,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: listFacilitiesCostData, refetch: facilitiesListRefetch } =
-    useQuery(['listFacilitiesCost'], listFacilitiesCost)
+    useQuery(['listFacilitiesCost'], listFacilitiesCost, {
+      refetchOnWindowFocus: false,
+    })
 
   const { mutate: uploadContractsCost, data: responseUploadContractCost } =
     useMutation(uploadContracts)
@@ -288,6 +304,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       case 1:
@@ -303,6 +320,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       case 2:
@@ -318,6 +336,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       case 3:
@@ -333,6 +352,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       case 4:
@@ -348,6 +368,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       case 5:
@@ -363,6 +384,7 @@ const CostRecovery = () => {
             // referenceDate: el?.metaData?.statusDate,
             id: el?.id,
             processInstanceId: el?.metaData?.processInstanceId,
+            originalFileId: el?.metaData?.originalFileId,
           })) || []
         )
       default:
@@ -1221,6 +1243,7 @@ const CostRecovery = () => {
                     role,
                     setShowSupportedDocumentDialog,
                     () => setShowDeleteDialog(true),
+                    selectedRow[0],
                   )}
                 />
               )

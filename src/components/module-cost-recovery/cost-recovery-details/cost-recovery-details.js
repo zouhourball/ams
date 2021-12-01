@@ -51,31 +51,49 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const { data: costsDetail } = useQuery(
     ['detailCostsCostByLoggedUser', detailId],
     subModule === 'costs' && detailCostsCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: facilitiesDetail } = useQuery(
     ['detailFacilitiesCostByLoggedUser', detailId],
     subModule === 'facilities' && detailFacilitiesCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: affiliateDetail } = useQuery(
     ['detailAffiliateCostByLoggedUser', detailId],
     subModule === 'affiliate' && detailAffiliateCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: transactionDetail } = useQuery(
     ['detailTransactionCostByLoggedUser', detailId],
     subModule === 'transaction' && detailTransactionCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: prodLiftingDetail } = useQuery(
     ['detailProdLiftingCostByLoggedUser', detailId],
     subModule === 'lifting' && detailProdLiftingCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const { data: contractDetail } = useQuery(
     ['detailContractsCostByLoggedUser', detailId],
     subModule === 'contracts' && detailContractsCostByLoggedUser,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
 
   const costRecoveryDetailsData = useMemo(() => {
