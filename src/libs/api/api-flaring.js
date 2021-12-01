@@ -7,7 +7,7 @@ export const getListFlaring = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/flaring/${queryKey[1]}`, // daily, monthly, annual-forecast
+      `${appUrl}/pulse-be/api/v2/flaring/${queryKey[1]}`, // daily, monthly-station, annual-forecast
       {
         method: 'GET',
       },
@@ -35,11 +35,14 @@ export const uploadDailyReport = async ({ body }) => {
 export const uploadMonthlyReport = async ({ body }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/flaring/monthly/upload`, {
-      method: 'POST',
-      isFormData: true,
-      body: formDataBody(body),
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/flaring/monthly-station/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: formDataBody(body),
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

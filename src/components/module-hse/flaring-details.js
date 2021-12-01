@@ -13,7 +13,11 @@ import useRole from 'libs/hooks/use-role'
 
 import { addToast } from 'modules/app/actions'
 
-import { flaringDetailsConfigs, flaringDetailsData } from './helpers'
+import {
+  flaringDetailsAnnualConfigs,
+  flaringDetailsDailyConfigs,
+  flaringDetailsMonthlyConfigs,
+} from './helpers'
 
 const FlaringDetails = () => {
   const dispatch = useDispatch()
@@ -61,6 +65,71 @@ const FlaringDetails = () => {
       status: status,
     })
   }
+
+  const renderDetailsDataBySubModule = () => {
+    switch (subModule) {
+      case 'annual-forecast':
+        return (get(flaringData, 'data', []) || []).map((el) => {
+          return {
+            gaz_type: el?.name,
+            unit: el?.unit,
+            year2017: el?.values[0]?.value,
+            year2018: el?.values[1]?.value,
+            year2019: el?.values[2]?.value,
+            year2020: el?.values[3]?.value,
+            year2021: el?.values[4]?.value,
+            year2022: el?.values[5]?.value,
+            year2023: el?.values[6]?.value,
+            year2024: el?.values[7]?.value,
+            year2025: el?.values[8]?.value,
+            year2026: el?.values[9]?.value,
+          }
+        })
+      case 'monthly-station':
+        return (get(flaringData, 'data', []) || []).map((el) => {
+          return {
+            flareStation: el?.flareStation,
+            latitudeNorthing: el?.latitudeNorthing?.value,
+            longitudeEasting: el?.longitudeEasting?.value,
+            totalFlaringActuals: el?.totalFlaringActuals?.value,
+            routineFlaringActuals: el?.routineFlaringActuals?.value,
+            nonRoutineFlaringActuals: el?.nonRoutineFlaringActuals?.value,
+            rotuineFlaringPlanned: el?.rotuineFlaringPlanned?.value,
+            nonRotuineFlaringPlanned: el?.nonRotuineFlaringPlanned?.value,
+            comment: el?.comment,
+          }
+        })
+      case 'daily':
+        return (get(flaringData, 'data', []) || []).map((el) => {
+          return {
+            flareStation: el?.flareStation,
+            latitudeNorthing: el?.latitudeNorthing,
+            longitudeEasting: el?.longitudeEasting,
+            flareAmountTotal: el?.flareAmountTotal?.value,
+            routineFlaringAmount: el?.routineFlaringAmount?.value,
+            nonroutineFlaringAmount: el?.nonroutineFlaringAmount?.value,
+            comment: el?.comment,
+          }
+        })
+      default:
+        return null
+    }
+  }
+
+  const renderDetailsConfigsBySubModule = () => {
+    switch (subModule) {
+      case 'annual-forecast':
+        return flaringDetailsAnnualConfigs
+      case 'monthly-station':
+        return flaringDetailsMonthlyConfigs
+      case 'daily':
+        return flaringDetailsDailyConfigs
+      default:
+        return null
+    }
+  }
+
+  // ---------------
   const actions = [
     <Button
       key="1"
@@ -119,8 +188,8 @@ const FlaringDetails = () => {
         actions={actions}
       />
       <Mht
-        configs={flaringDetailsConfigs}
-        tableData={flaringDetailsData}
+        configs={renderDetailsConfigsBySubModule()}
+        tableData={renderDetailsDataBySubModule()}
         withSearch
         commonActions
         hideTotal={false}

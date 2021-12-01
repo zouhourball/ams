@@ -560,7 +560,7 @@ export const actionsHeaderDaily = (
       ]
   }
 }
-export const flaringDetailsConfigs = [
+export const flaringDetailsAnnualConfigs = [
   {
     label: 'Gaz Type',
     key: 'gaz_type',
@@ -571,6 +571,34 @@ export const flaringDetailsConfigs = [
   {
     label: 'Unit',
     key: 'unit',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: '2017',
+    key: 'year2017',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: '2018',
+    key: 'year2018',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: '2019',
+    key: 'year2019',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: '2020',
+    key: 'year2020',
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
@@ -619,10 +647,164 @@ export const flaringDetailsConfigs = [
   },
 ]
 
+export const flaringDetailsDailyConfigs = [
+  {
+    label: 'Flare Station ID',
+    key: 'flareStation',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Latitude/Northing',
+    key: 'latitudeNorthing',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Longitude/Easting',
+    key: 'longitudeEasting',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Flare Amount Total (MMSCF/D)',
+    key: 'flareAmountTotal',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Routine Flaring Amount (MMSCF/D)',
+    key: 'routineFlaringAmount',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Non-routine Flaring Amount (MMSCF/D)',
+    key: 'nonroutineFlaringAmount',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Comments (Sweet or Sour) – (NAG or AG)– Reason',
+    key: 'comment',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+]
+
+export const flaringDetailsMonthlyConfigs = [
+  {
+    label: 'Flare Station',
+    key: 'flareStation',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'LAT/NORTHING (UTM)',
+    key: 'latitudeNorthing',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'LONG/EASTING (UTM)',
+    key: 'longitudeEasting',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'TOTAL FLARING (ACTUAL) (MMSCF)',
+    key: 'totalFlaringActuals',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'ROUTINE FLARING (ACTUAL) (MMSCF)',
+    key: 'routineFlaringActuals',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'NON-ROUTINE FLARING (ACTUAL) (MMSCF)',
+    key: 'nonRoutineFlaringActuals',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: '(PLANNED) ROUTINE FLARING (MMSCF)',
+    key: 'rotuineFlaringPlanned',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'NON-ROUTINE FLARING (PLANNED) (MMSCF)',
+    key: 'nonRotuineFlaringPlanned',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Comments (Sweet or Sour) – (NAG or AG)– Reason',
+    key: 'comment',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+]
+
+export const flaringDetailsDataMonthly = [
+  {
+    flareStation: '1223',
+    latitudeNorthing: '1223',
+    longitudeEasting: '1223',
+    totalFlaringActuals: '1223',
+    routineFlaringActuals: '1223',
+    nonRoutineFlaringActuals: '1223',
+    rotuineFlaringPlanned: '1223',
+    nonRotuineFlaringPlanned: '1223',
+    comment: '1223',
+  },
+]
+
+export const flaringDetailsDataDaily = [
+  {
+    flareStation: '4545',
+    latitudeNorthing: '45',
+    longitudeEasting: '4545',
+    flareAmountTotal: '4545',
+    routineFlaringAmount: '4545',
+    nonroutineFlaringAmount: '4545',
+    comment: '4545',
+  },
+]
+
 export const flaringDetailsData = [
   {
     gaz_type: 'Gas Flared (Excl. Gas Conservation)',
     unit: 'MMscf/d',
+    year2017: '54454545',
+    year2018: '54454545',
+    year2019: '54454545',
+    year2020: '54454545',
+    year2021: '54454545',
+    year2022: '54454545',
+    year2023: '54454545',
+    year2024: '54454545',
+    year2025: '54454545',
+    year2026: '54454545',
   },
   {
     gaz_type: 'Gas Flared (Excl. Gas Conservation)',

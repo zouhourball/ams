@@ -44,6 +44,9 @@ import {
   actionsHeaderAnnual,
   actionsHeaderMonthly,
   actionsHeaderDaily,
+  flaringDetailsAnnualConfigs,
+  flaringDetailsMonthlyConfigs,
+  flaringDetailsDailyConfigs,
 } from './helpers'
 
 const Flaring = () => {
@@ -69,7 +72,7 @@ const Flaring = () => {
       case 2:
         return 'daily'
       case 1:
-        return 'monthly'
+        return 'monthly-station' // 'monthly'
       case 0:
         return 'annual-forecast'
       default:
@@ -289,7 +292,70 @@ const Flaring = () => {
       }
     },
   })
+  const renderCurrentTabDetailsData = () => {
+    switch (currentTab) {
+      case 0:
+        return (get(currentUpload, 'data.data', []) || []).map((el) => {
+          return {
+            gaz_type: el?.name,
+            unit: el?.unit,
+            year2017: el?.values[0]?.value,
+            year2018: el?.values[1]?.value,
+            year2019: el?.values[2]?.value,
+            year2020: el?.values[3]?.value,
+            year2021: el?.values[4]?.value,
+            year2022: el?.values[5]?.value,
+            year2023: el?.values[6]?.value,
+            year2024: el?.values[7]?.value,
+            year2025: el?.values[8]?.value,
+            year2026: el?.values[9]?.value,
+          }
+        })
+      case 1:
+        return (get(currentUpload, 'data.data', []) || []).map((el) => {
+          return {
+            flareStation: el?.flareStation,
+            latitudeNorthing: el?.latitudeNorthing?.value,
+            longitudeEasting: el?.longitudeEasting?.value,
+            totalFlaringActuals: el?.totalFlaringActuals?.value,
+            routineFlaringActuals: el?.routineFlaringActuals?.value,
+            nonRoutineFlaringActuals: el?.nonRoutineFlaringActuals?.value,
+            rotuineFlaringPlanned: el?.rotuineFlaringPlanned?.value,
+            nonRotuineFlaringPlanned: el?.nonRotuineFlaringPlanned?.value,
+            comment: el?.comment,
+          }
+        })
+      case 2:
+        return (get(currentUpload, 'data.data', []) || []).map((el) => {
+          return {
+            flareStation: el?.flareStation,
+            latitudeNorthing: el?.latitudeNorthing,
+            longitudeEasting: el?.longitudeEasting,
+            flareAmountTotal: el?.flareAmountTotal?.value,
+            routineFlaringAmount: el?.routineFlaringAmount?.value,
+            nonroutineFlaringAmount: el?.nonroutineFlaringAmount?.value,
+            comment: el?.comment,
+          }
+        })
+      default:
+        return null
+    }
+  }
 
+  const renderCurrentTabDetailsConfigs = () => {
+    switch (currentTab) {
+      case 0:
+        return flaringDetailsAnnualConfigs
+      case 1:
+        return flaringDetailsMonthlyConfigs
+      case 2:
+        return flaringDetailsDailyConfigs
+      default:
+        return null
+    }
+  }
+
+  // -------------
   const handleDeleteFlaring = (subModule, objectId) => {
     deleteFlaringMutate.mutate({
       subModule,
@@ -333,6 +399,7 @@ const Flaring = () => {
             file: body?.file[0],
             processInstanceId: uuid,
             year: moment(body?.referenceDate).format('YYYY'),
+            month: moment(body?.referenceDate).format('MMMM'),
           },
         })
         break
@@ -431,8 +498,7 @@ const Flaring = () => {
     },
     {
       title: 'Download Template',
-      onClick: () =>
-        downloadTemp('flaring', 'monthlyGasFlaringPerformanceReport'),
+      onClick: () => downloadTemp('flaring', 'monthlyFlaringStation'),
     },
   ]
 
@@ -475,17 +541,6 @@ const Flaring = () => {
 
   const tabsList = ['Annual Report', 'Monthly Report', 'Daily Report']
 
-  // const renderCurrentTabData = () => {
-  //   switch (currentTab) {
-  //     case 1:
-  //       return listFlaring?.content || []
-  //     case 2:
-  //       return listFlaring?.content || []
-  //     case 0:
-  //     default:
-  //       return listFlaring?.content || []
-  //   }
-  // }
   const renderDialogData = () => {
     switch (currentTab) {
       case 1:
@@ -616,6 +671,8 @@ const Flaring = () => {
               setShowUploadMHTDialog(false)
               setShowUploadRapportDialog(true)
             }}
+            propsConfigs={renderCurrentTabDetailsConfigs()}
+            propsDataTable={renderCurrentTabDetailsData()}
             onSave={() => {
               setFileList([...filesList, dataDisplayedMHT])
               onCommitFlaring(subModuleByCurrentTab())
