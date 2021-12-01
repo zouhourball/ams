@@ -16,6 +16,8 @@ import {
   updateTransactionCost,
   detailAffiliateCostByLoggedUser,
   updateAffiliateCost,
+  detailFacilitiesCostByLoggedUser,
+  updateFacilitiesCost,
 } from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -23,9 +25,11 @@ import useRole from 'libs/hooks/use-role'
 
 import { costRecoveryDetailsConfigs } from '../helpers'
 import {
-  configsContractsCostsDialogMht,
+  configsLiftingCostsDialogMht,
   transactionConfig,
   affiliateConfig,
+  configsContractsDialogMht,
+  // facilitiesConfig,
 } from '../mht-helper-dialog'
 
 import './style.scss'
@@ -39,12 +43,19 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const { mutate: acknowledgeProdLifting } = useMutation(updateProdLiftingCost)
   const { mutate: acknowledgeTransaction } = useMutation(updateTransactionCost)
   const { mutate: acknowledgeAffiliateCost } = useMutation(updateAffiliateCost)
+  const { mutate: acknowledgeFacilitiesCost } =
+    useMutation(updateFacilitiesCost)
 
   const role = useRole('costrecovery')
 
   const { data: costsDetail } = useQuery(
     ['detailCostsCostByLoggedUser', detailId],
     subModule === 'costs' && detailCostsCostByLoggedUser,
+  )
+
+  const { data: facilitiesDetail } = useQuery(
+    ['detailFacilitiesCostByLoggedUser', detailId],
+    subModule === 'facilities' && detailFacilitiesCostByLoggedUser,
   )
 
   const { data: affiliateDetail } = useQuery(
@@ -92,27 +103,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
           })) || []
         )
       case 'contracts':
-        return (
-          contractDetail?.data?.map((el) => ({
-            category: el?.category,
-            subCategory: el?.subCategory,
-            uom: el?.uom,
-            group: el?.group,
-            item: el?.name,
-            costDescription: el?.explanation,
-            year: [
-              {
-                approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
-              },
-              {
-                outlook: el?.qvalues?.map((el) => ({
-                  outlook: el?.quarter || '',
-                })),
-              },
-              { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
-            ],
-          })) || []
-        )
+        return contractDetail?.data || []
       case 'lifting':
         return (
           (prodLiftingDetail &&
@@ -195,6 +186,8 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
             yearsOfExperience: el?.yearsOfExperience,
           })) || []
         )
+      case 'facilities':
+        return facilitiesDetail?.data || []
       default:
         return []
     }
@@ -206,6 +199,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     subSubModule,
     transactionDetail,
     affiliateDetail,
+    facilitiesDetail,
   ])
 
   const detailData = useMemo(() => {
@@ -260,6 +254,16 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
           ),
           submittedBy: affiliateDetail?.metaData?.createdBy?.name,
         }
+      case 'facilities':
+        return {
+          title: 'Facilities',
+          subTitle: facilitiesDetail?.metaData?.block,
+          companyName: facilitiesDetail?.metaData?.company,
+          submittedDate: moment(facilitiesDetail?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: facilitiesDetail?.metaData?.createdBy?.name,
+        }
       default:
         return {}
     }
@@ -270,6 +274,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     prodLiftingDetail,
     transactionDetail,
     affiliateDetail,
+    facilitiesDetail,
   ])
 
   const handleAcknowledge = () => {
@@ -300,6 +305,12 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
         break
       case 'affiliate':
         acknowledgeAffiliateCost({
+          objectId: detailId,
+          status: 'ACKNOWLEDGED',
+        })
+        break
+      case 'facilities':
+        acknowledgeFacilitiesCost({
           objectId: detailId,
           status: 'ACKNOWLEDGED',
         })
@@ -349,15 +360,31 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const configs = () => {
     switch (subModule) {
       case 'costs':
-        return costRecoveryDetailsConfigs
+        return (costRecoveryDetailsConfigs || []).map((el) =>
+          el.key !== 'year'
+            ? el
+            : {
+              ...el,
+              label: costsDetail?.metaData?.year,
+            },
+        )
       case 'contracts':
-        return configsContractsCostsDialogMht()
+        return configsContractsDialogMht()
       case 'lifting':
-        return configsContractsCostsDialogMht()
+        return configsLiftingCostsDialogMht()
       case 'transaction':
         return transactionConfig()
       case 'affiliate':
         return affiliateConfig()
+      case 'facilities':
+        return (
+          (Object.entries(facilitiesDetail?.data[0] || {}) || []).map((el) => ({
+            label: el[0],
+            key: el[0],
+            width: '200',
+            icon: 'mdi mdi-spellcheck',
+          })) || []
+        )
       default:
         return []
     }

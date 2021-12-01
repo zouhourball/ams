@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
-import { Button } from 'react-md'
+import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
@@ -32,6 +32,11 @@ import {
   listFacilitiesCost,
   uploadFacilitiesCost,
   commitLoadFacilitiesCost,
+  overrideFacilitiesCost,
+  deleteAffiliate,
+  deleteFacilities,
+  deleteProdLifting,
+  deleteTransaction,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/api-reserves'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -40,6 +45,9 @@ import documents from 'libs/hooks/documents'
 import {
   configsAnnualCostsDialogMht,
   configsContractsCostsDialogMht,
+  configsContractsDialogMht,
+  transactionConfig,
+  affiliateConfig,
 } from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
@@ -71,6 +79,8 @@ const CostRecovery = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [subSubModule, setSubSubModule] = useState('dataActualLifting')
+
   const blockList = getBlocks()
 
   const company = getOrganizationInfos()
@@ -105,8 +115,7 @@ const CostRecovery = () => {
   const { mutate: overrideLifting } = useMutation(overrideProdLiftingCost)
   const { mutate: uploadTransaction, data: responseUploadTransaction } =
     useMutation(uploadTransactionCost)
-  const { mutate: commitTransaction, data: responseCommitTransaction } =
-    useMutation(commitLoadTransactionCost)
+  const { mutate: commitTransaction } = useMutation(commitLoadTransactionCost)
   const { mutate: overrideTransaction } = useMutation(overrideTransactionCost)
   const { mutate: uploadAffiliate, data: responseUploadAffiliate } =
     useMutation(uploadAffiliateCost)
@@ -115,6 +124,12 @@ const CostRecovery = () => {
   const { mutate: uploadFacilities, data: responseUploadFacilities } =
     useMutation(uploadFacilitiesCost)
   const { mutate: commitFacilities } = useMutation(commitLoadFacilitiesCost)
+  const { mutate: overrideFacilities } = useMutation(overrideFacilitiesCost)
+
+  const { mutate: deleteAffCosts } = useMutation(deleteAffiliate)
+  const { mutate: deleteFacilitiesCosts } = useMutation(deleteFacilities)
+  const { mutate: deleteProdLift } = useMutation(deleteProdLifting)
+  const { mutate: deleteTrans } = useMutation(deleteTransaction)
 
   const { data: contractListReport, refetch: contractListRefetch } = useQuery(
     ['listContractsCost'],
@@ -336,7 +351,20 @@ const CostRecovery = () => {
           })) || []
         )
       case 5:
-        return listFacilitiesCostData?.content || []
+        return (
+          listFacilitiesCostData?.content?.map((el) => ({
+            company: el?.metaData?.company,
+            block: el?.metaData?.block,
+            status: el?.metaData?.status,
+            submittedBy: el?.metaData?.createdBy?.name,
+            submittedDate: el?.metaData?.createdAt
+              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+              : '',
+            // referenceDate: el?.metaData?.statusDate,
+            id: el?.id,
+            processInstanceId: el?.metaData?.processInstanceId,
+          })) || []
+        )
       default:
         return annualCostData
     }
@@ -572,9 +600,24 @@ const CostRecovery = () => {
             },
         )
       case 'upload-contract-report':
-        return configsAnnualCostsDialogMht()
+        return configsContractsDialogMht()
       case 'prod-lifting':
         return configsContractsCostsDialogMht()
+      case 'transaction':
+        return transactionConfig()
+      case 'affiliate':
+        return affiliateConfig()
+      case 'facilities':
+        return (
+          (
+            Object.entries(responseUploadFacilities?.data?.data[0] || {}) || []
+          ).map((el) => ({
+            label: el[0],
+            key: el[0],
+            width: '200',
+            icon: 'mdi mdi-spellcheck',
+          })) || []
+        )
 
       default:
         return configsAnnualCostsDialogMht()
@@ -605,39 +648,124 @@ const CostRecovery = () => {
     )
   }
   const resContractsCostData = () => {
+    return responseUploadContractCost?.data?.data || []
+  }
+
+  const resProdLiftingData = () => {
     return (
-      responseUploadContractCost?.data?.data?.map((el) => ({
-        category: el?.category,
-        subCategory: el?.subCategory,
-        group: el?.group,
-        uom: el?.uom,
-        item: el?.name,
-        description: el?.explanation,
-        year: [
-          {
-            approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
-          },
-          {
-            outlook: el?.qvalues?.map((el) => ({
-              outlook: el?.quarter || '',
-            })),
-          },
-          { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
-        ],
+      (responseUploadProdLift?.data &&
+        responseUploadProdLift?.data[subSubModule]?.map((el) => ({
+          month: el?.month,
+          price: el?.mogPriceUsd,
+          totalProduction: [
+            {
+              barrels: el['totalProduction']['barrels'],
+            },
+            {
+              usd: el['totalProduction']['usd'],
+            },
+          ],
+          contractorEntitlement: [
+            {
+              costRecovery: [
+                {
+                  barrels:
+                    el['contractorEntitlement']['costRecovery']['barrels'],
+                },
+                { usd: el['contractorEntitlement']['costRecovery']['usd'] },
+              ],
+            },
+            {
+              profit: [
+                {
+                  barrels: el['contractorEntitlement']['profit']['barrels'],
+                },
+                { usd: el['contractorEntitlement']['profit']['usd'] },
+              ],
+            },
+            {
+              total: [
+                {
+                  barrels: el['contractorEntitlement']['total']['barrels'],
+                },
+                {
+                  usd: el['contractorEntitlement']['total']['usd'],
+                },
+              ],
+            },
+          ],
+          governmentEntitlement: [
+            {
+              profit: [
+                {
+                  barrels: el['governmentEntitlement']['profit']['barrels'],
+                },
+                { usd: el['governmentEntitlement']['profit']['usd'] },
+              ],
+            },
+          ],
+        }))) ||
+      []
+    )
+  }
+
+  const resTransactionData = () => {
+    return (
+      responseUploadTransaction?.data?.data?.map((el) => ({
+        block: el?.block,
+        transactionDate: el?.transactionDate,
+        transactionReference: el?.transactionReference,
+        transactionDescription: el?.transactionDescription,
+        transactionExpElement: el?.transactionExpenditure,
+        transactionExpDescription: el?.transactionExpenditureDesc,
+        project: el?.project,
       })) || []
     )
   }
+
+  const resAffiliateData = () => {
+    return (
+      responseUploadAffiliate?.data?.data?.map((el) => ({
+        nameOfService: el?.nameService,
+        budget: el?.budget,
+        hourlyRate: el?.hourlyRate,
+        granTotal: el?.granTotalUSD,
+        manHoursEstimate: el?.manHoursEstimate,
+        total: el?.totalUSD,
+        specialistsName: el?.specialistsName,
+        durationTiming: el?.durationTiming,
+        yearsOfExperience: el?.yearsOfExperience,
+      })) || []
+    )
+  }
+
   const dataMht = useMemo(() => {
-    switch (showUploadRapportDialog) {
+    switch (showUploadMHTDialog) {
       case 'upload-annual-cost':
         return resAnnualCostData()
       case 'upload-contract-report':
         return resContractsCostData()
+      case 'prod-lifting':
+        return resProdLiftingData()
+      case 'transaction':
+        return resTransactionData()
+      case 'affiliate':
+        return resAffiliateData()
+      case 'facilities':
+        return responseUploadFacilities?.data?.data || []
 
       default:
         return resAnnualCostData()
     }
-  }, [responseUploadAnnualCost])
+  }, [
+    responseUploadAnnualCost,
+    responseUploadContractCost,
+    responseUploadProdLift,
+    responseUploadTransaction,
+    responseUploadAffiliate,
+    responseUploadFacilities,
+    subSubModule,
+  ])
 
   const handleSaveCommitAnnualCosts = () => {
     commitAnnualCostsExp(
@@ -754,7 +882,7 @@ const CostRecovery = () => {
   const handleOverrideTransaction = () => {
     overrideTransaction(
       {
-        body: responseCommitTransaction?.data,
+        body: responseUploadTransaction?.data,
         overrideId: showConfirmDialog,
       },
       {
@@ -787,6 +915,27 @@ const CostRecovery = () => {
     )
   }
 
+  const handleOverrideFacilities = () => {
+    overrideFacilities(
+      {
+        body: {
+          data: responseUploadFacilities?.data?.data,
+          metaData: responseUploadFacilities?.data?.metaData,
+        },
+        overrideId: showConfirmDialog,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setShowUploadMHTDialog(null)
+            setShowConfirmDialog(null)
+            facilitiesListRefetch()
+          }
+        },
+      },
+    )
+  }
+
   const handleOverride = () => {
     switch (currentTab) {
       case 0:
@@ -800,7 +949,7 @@ const CostRecovery = () => {
       case 4:
         return handleOverrideAffiliate()
       case 5:
-        return () => null
+        return handleOverrideFacilities()
       default:
         break
     }
@@ -815,6 +964,7 @@ const CostRecovery = () => {
             onSuccess: (res) => {
               if (res) {
                 contractListRefetch()
+                setSelectedRow([])
                 setShowDeleteDialog(false)
               }
             },
@@ -828,7 +978,64 @@ const CostRecovery = () => {
             onSuccess: (res) => {
               if (res) {
                 refetchAnnualCosts()
+                setSelectedRow([])
                 setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      case 2:
+        deleteProdLift(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                prodliftRefetch()
+                setSelectedRow([])
+                setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      case 3:
+        deleteTrans(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                refetchListTransaction()
+                setSelectedRow([])
+                setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      case 4:
+        deleteAffCosts(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                refetchListAffiliateCost()
+                setSelectedRow([])
+                setShowDeleteDialog(false)
+              }
+            },
+          },
+        )
+        break
+      case 5:
+        deleteFacilitiesCosts(
+          { objectId: selectedRow[0]?.id },
+          {
+            onSuccess: (res) => {
+              if (res) {
+                facilitiesListRefetch()
+                setShowDeleteDialog(false)
+                setSelectedRow([])
               }
             },
           },
@@ -969,10 +1176,13 @@ const CostRecovery = () => {
         return 'transaction'
       case 4:
         return 'affiliate'
+      case 5:
+        return 'facilities'
       default:
         return 'costs'
     }
   }
+
   return (
     <>
       <TopBar
@@ -1020,6 +1230,22 @@ const CostRecovery = () => {
       </div>
       {showUploadMHTDialog && (
         <MHTDialog
+          headerTemplate={
+            showUploadMHTDialog === 'prod-lifting' && (
+              <SelectField
+                id="prod-lifting"
+                menuItems={[
+                  { label: 'Actual Lifting', value: 'dataActualLifting' },
+                  { label: 'Base Production', value: 'dataBasedProduction' },
+                ]}
+                block
+                position={SelectField.Positions.BELOW}
+                value={subSubModule}
+                onChange={setSubSubModule}
+                simplifiedMenu={false}
+              />
+            )
+          }
           visible={showUploadMHTDialog}
           propsDataTable={dataMht}
           propsConfigs={configsMht()}

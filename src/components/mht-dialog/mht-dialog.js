@@ -13,6 +13,7 @@ const MHTDialog = ({
   onSave,
   propsDataTable,
   propsConfigs,
+  headerTemplate = {},
 }) => {
   const actions = [
     {
@@ -48,6 +49,7 @@ const MHTDialog = ({
         title={title}
         commonActions
         withSubColumns
+        headerTemplate={headerTemplate}
       />
     </DialogContainer>
   )

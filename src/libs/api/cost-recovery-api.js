@@ -260,10 +260,7 @@ export const listFacilitiesCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadFacilitiesCost = async ({ body }) => {
-  // body={
-  //   "statement": "string"
-  // }
+export const commitLoadFacilitiesCost = async (body) => {
   let res
   try {
     res = await fetchJSON(
@@ -294,9 +291,6 @@ export const findAllFacilitiesByUserCompanyAccess = async ({ queryKey }) => {
   return res
 }
 export const overrideFacilitiesCost = async ({ body, overrideId }) => {
-  // body={
-  //   "statement": "string"
-  // }
   let res
   try {
     res = await fetchJSON(
@@ -311,14 +305,13 @@ export const overrideFacilitiesCost = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateFacilitiesCost = async ({ body }) => {
+export const updateFacilitiesCost = async ({ status, objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/update`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/update?status=${status}&objectId=${objectId}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -483,7 +476,7 @@ export const deleteProdLifting = async ({ objectId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/ProdLifting/${objectId}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/${objectId}`,
       {
         method: 'DELETE',
       },

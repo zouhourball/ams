@@ -95,7 +95,7 @@ export const configsAnnualCostsDialogMht = () => {
     },
   ]
 }
-export const configsContractsCostsDialogMht = () => {
+export const configsLiftingCostsDialogMht = () => {
   return [
     {
       label: 'Month',
@@ -331,6 +331,82 @@ export const affiliateConfig = () => {
     {
       label: 'Duration & Timing',
       key: 'durationTiming',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+  ]
+}
+
+export const facilitiesConfig = () => {
+  return [
+    {
+      label: 'Project Title',
+      key: 'projectTitle',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Project # / AFE',
+      key: 'projectAFE',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Budget Year',
+      key: 'budgetYear',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'ITD Actual',
+      key: 'iTDActual',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+  ]
+}
+
+export const configsContractsDialogMht = () => {
+  return [
+    {
+      label: 'Vendor Name',
+      key: 'vendorName',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Vendor',
+      key: 'vendor',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Actual Spent',
+      key: 'actualSpent',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Contract of Service Order',
+      key: 'contractPoServiceOrder',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Description Of Services',
+      key: 'descriptionOfServices',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Description Of Services',
+      key: 'descriptionOfServices',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'competitively Bid Sole Source',
+      key: 'competitivelyBidSoleSource',
       width: '200',
       icon: 'mdi mdi-spellcheck',
     },
