@@ -54,7 +54,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@commitlint/cli": "7.5.2",
-    "@commitlint/config-conventional": "^15.0.0",
+    "@commitlint/config-conventional": "7.6.0",
     "@reach/router": "^1.3.4",
     "@target-energysolutions/app-shell": "^22.8.1",
     "@target-energysolutions/auth-check": "^0.3.7",
