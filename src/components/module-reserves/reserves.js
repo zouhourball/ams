@@ -91,8 +91,8 @@ const Reserves = () => {
     return (
       resData?.data?.map((el) => ({
         category: el?.category,
-        // item: el.items.map name ,
-        // hydroTypes: items.map values
+        item: el.items,
+        hydroTypes: el.items,
       })) || []
     )
   }
