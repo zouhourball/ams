@@ -16,7 +16,10 @@ import {
   overrideFlaringReport,
   deleteFlaring,
 } from 'libs/api/api-flaring'
-import { downloadTemp } from 'libs/api/supporting-document-api'
+import {
+  downloadTemp,
+  downloadOriginalFile,
+} from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
@@ -519,6 +522,8 @@ const Flaring = () => {
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
           handleDeleteFlaring,
+          downloadOriginalFile,
+          selectedRow[0]?.originalFileId,
         )
       case 2:
         return actionsHeaderDaily(
@@ -528,6 +533,8 @@ const Flaring = () => {
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
           handleDeleteFlaring,
+          downloadOriginalFile,
+          selectedRow[0]?.originalFileId,
         )
       case 0:
       default:
@@ -538,6 +545,8 @@ const Flaring = () => {
           setShowSupportedDocumentDialog,
           subModuleByCurrentTab(),
           handleDeleteFlaring,
+          downloadOriginalFile,
+          selectedRow[0]?.originalFileId,
         )
     }
   }

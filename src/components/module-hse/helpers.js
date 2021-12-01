@@ -348,6 +348,8 @@ export const actionsHeaderAnnual = (
   supportedDocument,
   subModule,
   onDelete,
+  downloadOriginalFile,
+  originalFileId,
 ) => {
   switch (role) {
     case 'regulator':
@@ -361,7 +363,9 @@ export const actionsHeaderAnnual = (
         {
           id: 2,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 3,
@@ -395,7 +399,9 @@ export const actionsHeaderAnnual = (
         {
           id: 3,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 4,
@@ -422,6 +428,8 @@ export const actionsHeaderMonthly = (
   supportedDocument,
   subModule,
   onDelete,
+  downloadOriginalFile,
+  originalFileId,
 ) => {
   switch (role) {
     case 'regulator':
@@ -430,7 +438,9 @@ export const actionsHeaderMonthly = (
         {
           id: 2,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 3,
@@ -459,7 +469,9 @@ export const actionsHeaderMonthly = (
         {
           id: 3,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 4,
@@ -486,6 +498,8 @@ export const actionsHeaderDaily = (
   supportedDocument,
   subModule,
   onDelete,
+  downloadOriginalFile,
+  originalFileId,
 ) => {
   switch (role) {
     case 'regulator':
@@ -494,7 +508,9 @@ export const actionsHeaderDaily = (
         {
           id: 2,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 3,
@@ -523,7 +539,9 @@ export const actionsHeaderDaily = (
         {
           id: 3,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 4,
