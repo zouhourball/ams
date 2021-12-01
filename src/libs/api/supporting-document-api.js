@@ -46,7 +46,7 @@ export const deleteDocument = async (id) => {
   return res
 }
 
-export const downloadTemp = async (module, sub, onLoading) => {
+export const downloadTemp = async (module, sub, onLoading = () => {}) => {
   const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
   const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
     (response) => response.blob(),

@@ -1,13 +1,66 @@
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import Mht from '@target-energysolutions/mht'
+import { get } from 'lodash-es'
+import { useMutation } from 'react-query'
+import { useDispatch } from 'react-redux'
 
 import TopBarDetail from 'components/top-bar-detail'
-import { userRole } from 'components/shared-hook/get-roles'
+import ToastMsg from 'components/toast-msg'
+
+import { updateFlaring } from 'libs/api/api-flaring'
+import useRole from 'libs/hooks/use-role'
+
+import { addToast } from 'modules/app/actions'
 
 import { flaringDetailsConfigs, flaringDetailsData } from './helpers'
 
 const FlaringDetails = () => {
+  const dispatch = useDispatch()
+
+  const role = useRole('flaring')
+
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+  const objectId = get(location, 'pathname', '/').split('/').reverse()[1]
+
+  // const { data: flaringData } = useQuery(
+  //   ['getDetailFlaringById', subModule, objectId],
+  //   objectId && getDetailFlaringById,
+  //   {
+  //     refetchOnWindowFocus: false,
+  //   },
+  // )
+  const updateFlaringMutation = useMutation(updateFlaring, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/hse/flaring')
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
+  const onAcknowledge = (subModule, objectId, status) => {
+    updateFlaringMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: status,
+    })
+  }
   const actions = [
     <Button
       key="1"
@@ -42,7 +95,7 @@ const FlaringDetails = () => {
     >
       Download Original File
     </Button>,
-    userRole() === 'regulator' && (
+    role === 'regulator' && (
       <Button
         key="4"
         id="acknowledge"
@@ -50,7 +103,9 @@ const FlaringDetails = () => {
         flat
         primary
         swapTheming
-        onClick={() => {}}
+        onClick={() => {
+          onAcknowledge(subModule, objectId, 'ACKNOWLEDGED')
+        }}
       >
         Acknowledge
       </Button>

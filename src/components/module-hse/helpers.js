@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const annualReportConfigs = () => [
+export const annualReportConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -61,6 +61,10 @@ export const annualReportConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -75,7 +79,7 @@ export const annualReportConfigs = () => [
   },
 ]
 
-export const monthlyReportConfigs = () => [
+export const monthlyReportConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -135,6 +139,10 @@ export const monthlyReportConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -148,7 +156,7 @@ export const monthlyReportConfigs = () => [
     ),
   },
 ]
-export const dailyReportConfigs = () => [
+export const dailyReportConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -168,8 +176,8 @@ export const dailyReportConfigs = () => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -183,16 +191,16 @@ export const dailyReportConfigs = () => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -208,6 +216,10 @@ export const dailyReportConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },
@@ -329,7 +341,13 @@ export const dailyReportData = [
   },
 ]
 
-export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
+export const actionsHeaderAnnual = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  subModule,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -348,7 +366,7 @@ export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -380,7 +398,7 @@ export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
           id: 4,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -394,7 +412,13 @@ export const actionsHeaderAnnual = (key, id, role, supportedDocument) => {
   }
 }
 
-export const actionsHeaderMonthly = (key, id, role, supportedDocument) => {
+export const actionsHeaderMonthly = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  subModule,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -408,7 +432,7 @@ export const actionsHeaderMonthly = (key, id, role, supportedDocument) => {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -435,7 +459,7 @@ export const actionsHeaderMonthly = (key, id, role, supportedDocument) => {
           id: 4,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -449,7 +473,13 @@ export const actionsHeaderMonthly = (key, id, role, supportedDocument) => {
   }
 }
 
-export const actionsHeaderDaily = (key, id, role, supportedDocument) => {
+export const actionsHeaderDaily = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  subModule,
+) => {
   switch (role) {
     case 'regulator':
     default:
@@ -463,7 +493,7 @@ export const actionsHeaderDaily = (key, id, role, supportedDocument) => {
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {
@@ -490,7 +520,7 @@ export const actionsHeaderDaily = (key, id, role, supportedDocument) => {
           id: 4,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}`)
+            navigate(`/ams/hse/${key}/${id}/${subModule}`)
           },
         },
         {

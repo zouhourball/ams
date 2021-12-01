@@ -14,7 +14,7 @@ const HSE = () => {
       <Router>
         <Redirect from="/" to="/ams/hse/flaring" noThrow />
         <Flaring path="/flaring" />
-        <FlaringDetails path="/flaring/:flaringId" />
+        <FlaringDetails path="/flaring/:flaringId/:subModule" />
         <HSSE path="/hsse" />
         <HsseDetails path="/hsse/:hsseId" />
         <Emissions path="/emissions" />
