@@ -1,7 +1,5 @@
 # ams-regulator-reporting-fe
 
-# ams-regulator-reporting-fe
-
 ## commit messages must contain: 
 ```<type>(<scope>): <subject>```
 
