@@ -1,13 +1,17 @@
+import { useMemo } from 'react'
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { get } from 'lodash-es'
 import { useQuery, useMutation } from 'react-query'
 import { useDispatch } from 'react-redux'
+import moment from 'moment'
 
 import { addToast } from 'modules/app/actions'
 
 import useRole from 'libs/hooks/use-role'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+
 import {
   getDetailProductionById,
   updateDailyProduction,
@@ -77,7 +81,46 @@ const ProductionDetails = () => {
       status: status,
     })
   }
-  // ---------------
+
+  const detailsData = useMemo(() => {
+    switch (subModule) {
+      case 'daily':
+        return {
+          title: 'Annual Report',
+          subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
+          companyName: get(productionData, 'metaData.company', ''),
+          submittedDate: moment(productionData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: get(productionData, 'metaData.createdBy.name', ''),
+        }
+      case 'monthly':
+        return {
+          title: 'Monthly Report',
+          subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
+          companyName: get(productionData, 'metaData.company', ''),
+          submittedDate: moment(productionData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: get(productionData, 'metaData.createdBy.name', ''),
+        }
+      case 'monthly-tracking':
+        return {
+          title: 'Daily Report',
+          subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
+          companyName: get(productionData, 'metaData.company', ''),
+          submittedDate: moment(productionData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: get(productionData, 'metaData.createdBy.name', ''),
+        }
+      case 'Oman Hydrocarbon':
+        return null
+      default:
+        return null
+    }
+  })
+
   const tableDataListDailyProduction = (
     get(productionData, 'values', []) || []
   ).map((el) => {
@@ -316,7 +359,10 @@ const ProductionDetails = () => {
       primary
       swapTheming
       onClick={() => {
-        // navigate(`/ams/production/production-detail`)
+        downloadOriginalFile(
+          productionData?.metaData?.originalFileId,
+          `template_production_${subModule}`,
+        )
       }}
     >
       Download Original File
@@ -343,6 +389,7 @@ const ProductionDetails = () => {
       <TopBarDetail
         onClickBack={() => navigate('/ams/production')}
         actions={actions}
+        detailData={detailsData}
       />
       <Mht
         configs={renderCurrentTabDetailsConfigs()}
