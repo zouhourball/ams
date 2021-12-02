@@ -23,7 +23,10 @@ import {
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 
-import useRole from 'libs/hooks/use-role' // import {
+import useRole from 'libs/hooks/use-role'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+
+// import {
 //   liquefiedPetroleumGasConfigs,
 //   liquefiedPetroleumGasData,
 // } from '../helpers'
@@ -233,7 +236,12 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       primary
-      onClick={() => {}}
+      onClick={() => {
+        downloadOriginalFile(
+          downstreamDetail?.metaData?.originalFileId,
+          `template_downstream_${subModule}`,
+        )
+      }}
     >
       Download Original File
     </Button>,
