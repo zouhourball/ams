@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button } from 'react-md'
+import { Button, FontIcon } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
@@ -7,16 +7,20 @@ import { get } from 'lodash-es'
 import Mht from '@target-energysolutions/mht'
 
 import { addToast } from 'modules/app/actions'
+// import useRole from 'libs/hooks/use-role'
 import useRole from 'libs/hooks/use-role'
-import { updateInventory, getDetailInventoryById } from 'libs/api/api-inventory'
+import {
+  updateInventory,
+  getDetailInventoryById,
+  getTransactionById,
+} from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
 import ToastMsg from 'components/toast-msg'
 import {
   annualBaseDetailsConfigs,
   annualBaseDetailsData,
-  assetConsumptionDetailsConfigs,
-  assetConsumptionDetailsData,
+  assetDisposalDetailsConfigs,
 } from '../helpers'
 import './style.scss'
 
@@ -26,14 +30,39 @@ const InventoryDetails = () => {
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
   const currentTabName = pathItems[0]
   const inventoryId = pathItems[1]
+  const categoryKeyword = [
+    'base',
+    'assetTransferRequestProcess',
+    'assetDisposalRequestProcess',
+  ]
+  const transactionKeyword = [
+    'consumptionReportProcess',
+    'surplusInventoryProcess',
+  ]
+  const categoryAccepted = ['base-consumption', 'base-surplus']
+
   const { data: inventoryData } = useQuery(
     ['getDetailInventoryById', currentTabName, inventoryId],
-    inventoryId && getDetailInventoryById,
+    categoryKeyword.includes(currentTabName) && getDetailInventoryById,
     {
       refetchOnWindowFocus: false,
     },
   )
 
+  const { data: inventoryAcceptedData } = useQuery(
+    ['getDetailInventoryById', 'base', inventoryId],
+    categoryAccepted.includes(currentTabName) && getDetailInventoryById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const { data: transactionData } = useQuery(
+    ['getTransactionById', inventoryId],
+    transactionKeyword.includes(currentTabName) && getTransactionById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
   const updateInventoryMutation = useMutation(updateInventory, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -58,22 +87,76 @@ const InventoryDetails = () => {
     },
   })
 
+  const mhtBaseDetailData = (
+    get(
+      inventoryData || inventoryAcceptedData || transactionData,
+      'rows',
+      [],
+    ) || []
+  ).map((el) => {
+    return {
+      id: el?.rowId,
+      materialName: el?.data['Material Name'],
+      materialCategory: el?.data['Material Category'],
+      materialDescription: el?.data['Material Description '],
+      measurementUnit: el?.data['Measurement Unit'],
+      currentSt: 5,
+      quantity: el?.data['Quantity'],
+      unitPrice: el?.data['Unit Price (USD)'],
+    }
+  })
+
+  const mhtDisposalDetailData = (get(inventoryData, 'rows', []) || []).map(
+    (el) => {
+      return {
+        id: el?.rowId,
+        materialName: el?.data['Material Name'],
+        materialCategory: el?.data['Material Category'],
+        materialDescription: el?.data['Material Description '],
+        measurementUnit: el?.data['Measurement Unit'],
+        quantity: el?.data['Quantity'],
+        unitPrice: el?.data['Unit Price (USD)'],
+        classification: el?.data['Classification'],
+        bookValue: el?.data['Book Value(USD)'],
+        estimatedCurrentValue: el?.data['Estimated Current Value(USD)'],
+        dateOfPurchase: el?.data['Date of Purchase'],
+        averageLength: el?.data['Average Length'],
+        grade: el?.data['Grade'],
+        inspectionDate: el?.data['Inspection Date'],
+        itemWeight: el?.data['Item Weight'],
+        mTCertificate: el?.data['MT Certificate'],
+        materialCondition: el?.data['Material Condition'],
+        materialLocation: el?.data['Material Location'],
+        reasonsForSale: el?.data['Reasons for Sale / Write - off'],
+        remarks: el?.data['Remarks'],
+        storageLocation: el?.data['Storage Location'],
+        totalWeight: el?.data['Total Weight'],
+        weight: el?.data['Weight'],
+      }
+    },
+  )
   const renderCurrentTabData = () => {
     switch (currentTabName) {
-      case 'base':
-        return annualBaseDetailsData || inventoryData
-      case '':
-        return assetConsumptionDetailsData
+      case 'base': // annual base tab 0
+        return mhtBaseDetailData
+      case 'assetTransferRequestProcess': // Asset Transfer tab 3
+        return mhtBaseDetailData
+      case 'assetDisposalRequestProcess': // Asset Disposal tab 4
+        return mhtDisposalDetailData
+      case 'base-consumption': // Asset Consumption tab 2
+        return mhtBaseDetailData
+      case 'base-surplus': // Surplus Declaration tab 3
+        return mhtBaseDetailData
       default:
         return annualBaseDetailsData
     }
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTabName) {
-      case 'base':
+      case 'base' || 'base-consumption' || 'base-surplus':
         return annualBaseDetailsConfigs()
-      case '':
-        return assetConsumptionDetailsConfigs()
+      case 'assetDisposalRequestProcess':
+        return assetDisposalDetailsConfigs()
       default:
         return annualBaseDetailsConfigs()
     }
@@ -84,63 +167,145 @@ const InventoryDetails = () => {
       status: status,
     })
   }
-  const actions = [
-    <Button
-      key="1"
-      id="viewDoc"
-      className="top-bar-buttons-list-item-btn view-doc"
-      flat
-      swapTheming
-      onClick={() => {}}
-    >
-      View documents
-    </Button>,
-    <Button
-      key="2"
-      id="edit"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-        // navigate(`/ams/production/production-detail`)
-      }}
-    >
-      Download Original File
-    </Button>,
-    role === 'regulator' && (
-      <Button
-        key="3"
-        id="approve"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
-      >
-        Approve
-      </Button>
-    ),
 
-    role === 'operator' && (
-      <Button
-        key="4"
-        id="approve"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => onChangeStatus(inventoryId, 'SUBMITTED')}
-      >
-        Submit
-      </Button>
-    ),
-  ]
+  const renderActionsByTab = () => {
+    switch (currentTabName) {
+      case 'base':
+      case 'base-consumption':
+      case 'base-surplus':
+        return [
+          role !== 'regulator' && (
+            <>
+              <Button
+                key="6"
+                id="clarify"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {}}
+              >
+                Clarify
+              </Button>
+              <Button
+                key="7"
+                id="support"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {}}
+              >
+                View Support Documents
+              </Button>
+              {inventoryData?.metaData?.status === 'APPROVED' ? (
+                <Button
+                  key="8"
+                  id="reject"
+                  className="top-bar-buttons-list-item-btn approve"
+                  flat
+                  primary
+                  swapTheming
+                  disabled
+                  iconEl={<FontIcon>check_circle</FontIcon>}
+                  onClick={() => {}}
+                >
+                  Approved
+                </Button>
+              ) : (
+                <>
+                  {' '}
+                  <Button
+                    key="5"
+                    id="reject"
+                    className="top-bar-buttons-list-item-btn reject"
+                    flat
+                    primary
+                    swapTheming
+                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    key="3"
+                    id="approve"
+                    className="top-bar-buttons-list-item-btn approve"
+                    flat
+                    primary
+                    swapTheming
+                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                </>
+              )}
+            </>
+          ),
+
+          role !== 'operator' && (
+            <>
+              <Button
+                key="2"
+                id="edit"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {
+                  // navigate(`/ams/production/production-detail`)
+                }}
+              >
+                Download Original File
+              </Button>
+              <Button
+                key="1"
+                id="viewDoc"
+                className="top-bar-buttons-list-item-btn view-doc"
+                flat
+                swapTheming
+                onClick={() => {}}
+              >
+                Upload documents
+              </Button>
+            </>
+          ),
+        ]
+      case 'assetDisposalRequestProcess':
+        return []
+      default:
+        return [
+          <Button
+            key="2"
+            id="edit"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              // navigate(`/ams/production/production-detail`)
+            }}
+          >
+            Download Original File
+          </Button>,
+          <Button
+            key="1"
+            id="viewDoc"
+            className="top-bar-buttons-list-item-btn view-doc"
+            flat
+            swapTheming
+            onClick={() => {}}
+          >
+            Upload documents
+          </Button>,
+        ]
+    }
+  }
+
   return (
     <div className="details-container">
       <TopBarDetail
         onClickBack={() => navigate('/ams/inventory')}
-        actions={actions}
+        actions={renderActionsByTab()}
         detailData={{ title: ' Block 100' }}
       />
       <Mht

@@ -1,4 +1,4 @@
-.production-details {
+.details-container {
   .top-bar-buttons-icons {
     display: none;
   }
@@ -7,6 +7,16 @@
     &.discard {
       background-color: #f6f8fa;
       color: gray;
+    }
+
+    &.reject {
+      background-color: #ffe8e7;
+      color: #f44438;
+    }
+
+    &.approve {
+      background-color: #d4f7d4;
+      color: #14c765;
     }
   }
 }

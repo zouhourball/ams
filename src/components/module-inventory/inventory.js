@@ -40,7 +40,6 @@ import SupportedDocument from 'components/supported-document'
 
 import {
   mhtConfig,
-  mhtConfigAssetConsumption,
   actionsHeader,
   annualBaseDetailsConfigs,
   assetDisposalDetailsConfigs,
@@ -97,7 +96,7 @@ const Inventory = () => {
       },
     )
   const { data: listInventoriesAccepted } = useQuery(
-    ['getListInventoriesAccepted', 1, 20],
+    ['getListInventoriesAccepted', 0, 2000],
     getInventoriesAccepted,
     {
       refetchOnWindowFocus: false,
@@ -105,7 +104,12 @@ const Inventory = () => {
   )
 
   const { data: listConsumptions } = useQuery(
-    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    [
+      'getListConsumptionDeclarationRecords',
+      '619cc06ee70f07000188e23c',
+      0,
+      2000,
+    ],
     getConsumptionsList,
     {
       refetchOnWindowFocus: false,
@@ -122,7 +126,12 @@ const Inventory = () => {
   // const { mutate: onDeleteInventory } = useMutation(deleteInventory)
 
   const { data: listSurplus } = useQuery(
-    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    [
+      'getListConsumptionDeclarationRecords',
+      '619cc06ee70f07000188e23c',
+      0,
+      2000,
+    ],
     getSurplusList,
     {
       refetchOnWindowFocus: false,
@@ -130,7 +139,12 @@ const Inventory = () => {
   )
 
   const { data: listAdditions } = useQuery(
-    ['getListConsumptionDeclarationRecords', '619cc06ee70f07000188e23c', 1, 20],
+    [
+      'getListConsumptionDeclarationRecords',
+      '619cc06ee70f07000188e23c',
+      0,
+      2000,
+    ],
     getAdditionsList,
     {
       refetchOnWindowFocus: false,
@@ -475,6 +489,28 @@ const Inventory = () => {
     }
   }
 
+  const createCategoryAndTransactionByTab = () => {
+    switch (currentTab) {
+      case 0:
+        return 'base'
+      case 1:
+        return selectFieldValue === 'Consumption Declaration Records'
+          ? 'consumptionReportProcess'
+          : 'base-consumption'
+      case 2:
+        return selectFieldValue === 'Surplus Declaration Records'
+          ? 'surplusInventoryProcess'
+          : 'base-surplus'
+      case 3:
+        return 'assetTransferRequestProcess'
+      case 4:
+        return 'assetDisposalRequestProcess'
+      case 5:
+        return 'addition'
+      default:
+        return 'base'
+    }
+  }
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -760,7 +796,7 @@ const Inventory = () => {
       case 0:
         return mhtConfig(UploadSupportedDocumentFromTable)
       case 1:
-        return mhtConfigAssetConsumption(UploadSupportedDocumentFromTable)
+        return mhtConfig(UploadSupportedDocumentFromTable)
       case 2:
         return mhtConfig(UploadSupportedDocumentFromTable)
       case 3:
@@ -861,7 +897,7 @@ const Inventory = () => {
                 selectedRow[0]?.id,
                 role,
                 setShowSupportedDocumentDialog,
-                subModuleByCurrentTab(),
+                createCategoryAndTransactionByTab(),
                 handleDeleteInventory,
               )}
             />

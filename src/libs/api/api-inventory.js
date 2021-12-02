@@ -42,11 +42,11 @@ export const uploadAnnualBaseInventoryReport = async ({ body }) => {
   return res
 }
 
-export const getInventoriesAccepted = async ({ queryKey, page, size }) => {
+export const getInventoriesAccepted = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&exclude=data&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&page=${queryKey[1]}&size=${queryKey[2]}`,
       {
         method: 'GET',
       },
@@ -56,16 +56,11 @@ export const getInventoriesAccepted = async ({ queryKey, page, size }) => {
   }
   return res
 }
-
-export const getInventoriesAcceptedRecords = async ({
-  inventoryId,
-  page,
-  size,
-}) => {
+export const getConsumptionsList = async ({ page, size, inventoryId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess;inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==consumptionReportProcess;inventoryId==${inventoryId}&page=${page}&size=${size}`,
       {
         method: 'GET',
       },
@@ -244,11 +239,28 @@ export const updateInventory = async ({ inventoryId, status }) => {
   }
   return res
 }
+
 export const getDetailInventoryById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getTransactionById = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      // &page=${queryKey[2]}&size=${queryKey[3]}
+      `${appUrl}/pulse-be/api/v2/transaction/details/${queryKey[1]}`,
       {
         method: 'GET',
       },

@@ -21,8 +21,6 @@ export const mhtConfig = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -36,16 +34,12 @@ export const mhtConfig = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -99,8 +93,6 @@ export const mhtConfigAssetConsumption = (supportedDocument) => [
     label: 'Submission Date',
     key: 'submissionDate',
     width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -114,32 +106,24 @@ export const mhtConfigAssetConsumption = (supportedDocument) => [
     key: 'consumedItems',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Stock Count After',
     key: 'stockCountAfter',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status',
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -218,55 +202,82 @@ export const actionsHeader = (
 ) => {
   switch (role) {
     case 'regulator':
+      if (tab === 'base') {
+        return [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {},
+          },
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => {},
+          },
+        ]
+      } else if (tab === 'base-consumption') {
+        return [
+          {
+            id: 2,
+            label: 'Declare Consumption',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+        ]
+      } else {
+        return []
+      }
+
     default:
-      return [
-        {
-          id: 1,
-          label: 'Download Original File',
-          onClick: () => {},
-        },
-        {
-          id: 2,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
-          },
-        },
-        {
-          id: 3,
-          label: 'View Documents',
-          onClick: () => {},
-        },
-      ]
+      return []
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            handleDeleteInventory(id)
+      if (tab === 'base') {
+        return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {},
           },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {},
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
           },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
+          {
+            id: 3,
+            label: 'Download Original File',
+            onClick: () => {},
           },
-        },
-      ]
+
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => {},
+          },
+        ]
+      } else if (tab === 'base-consumption') {
+        return [
+          {
+            id: 2,
+            label: 'Declare Consumption',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+        ]
+      } else {
+        return []
+      }
   }
 }
 
@@ -290,8 +301,6 @@ export const annualBaseDetailsConfigs = () => [
     label: 'Material Description',
     key: 'materialDescription',
     width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -305,26 +314,21 @@ export const annualBaseDetailsConfigs = () => [
     key: 'currentSt',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Quantity',
     key: 'quantity',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Unit Price',
     key: 'unitPrice',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
 ]
+
 export const assetDisposalDetailsConfigs = () => [
   {
     label: 'Material Name',
@@ -333,7 +337,6 @@ export const assetDisposalDetailsConfigs = () => [
     icon: 'mdi mdi-spellcheck',
     type: 'text',
   },
-
   {
     label: 'Material Category',
     key: 'materialCategory',
@@ -345,8 +348,6 @@ export const assetDisposalDetailsConfigs = () => [
     label: 'Material Description',
     key: 'materialDescription',
     width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -355,14 +356,11 @@ export const assetDisposalDetailsConfigs = () => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-
   {
     label: 'Quantity',
     key: 'quantity',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Measurement Unit',
@@ -375,42 +373,93 @@ export const assetDisposalDetailsConfigs = () => [
     key: 'storageLocation',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Date of Purchase',
     key: 'dateOfPurchase',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Book Value',
     key: 'bookValue',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Estimated Current Value',
     key: 'estimatedCurrentValue',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Serial Number',
     key: 'serialNumber',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Material Location',
+    key: 'materialLocation',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Inspection Date',
+    key: 'inspectionDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Condition',
+    key: 'materialCondition',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Weight',
+    key: 'weight',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Average Length',
+    key: 'averageLength',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Item Weight',
+    key: 'itemWeight',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Weight',
+    key: 'mTCertificate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'MT Certificate',
+    key: 'mTCertificate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Reasons for Sale / Write - off',
+    key: 'reasonsForSale',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Remarks',
+    key: 'remarks',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
   },
 ]
+
 export const annualBaseDetailsData = [
   {
     id: '2656552',
@@ -458,8 +507,6 @@ export const assetConsumptionDetailsConfigs = () => [
     label: 'Material Description',
     key: 'materialDescription',
     width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -473,48 +520,36 @@ export const assetConsumptionDetailsConfigs = () => [
     key: 'currentStock',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Date of Consumption',
     key: 'dateOfConsumption',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'UOM',
     key: 'uom',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Total Quantity',
     key: 'totalQuantity',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Unit Price',
     key: 'unitPrice',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Total Value',
     key: 'totalValue',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
   },
 ]
 export const assetConsumptionDetailsData = [
