@@ -204,11 +204,11 @@ export const actionsHeader = (
     case 'regulator':
       if (tab === 'base') {
         return [
-          {
+          /*   {
             id: 1,
             label: 'Download Original File',
             onClick: () => {},
-          },
+          }, */
           {
             id: 2,
             label: 'View Details',
@@ -216,11 +216,11 @@ export const actionsHeader = (
               key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
             },
           },
-          {
+          /*      {
             id: 3,
             label: 'View Documents',
             onClick: () => {},
-          },
+          }, */
         ]
       } else if (tab === 'base-consumption') {
         return [

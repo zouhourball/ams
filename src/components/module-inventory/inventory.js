@@ -66,7 +66,7 @@ const Inventory = () => {
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
   const company = getOrganizationInfos()
-  const role = useRole('production')
+  const role = useRole('inventory')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
 

@@ -41,7 +41,7 @@ const InventoryDetails = () => {
   ]
   const categoryAccepted = ['base-consumption', 'base-surplus']
 
-  const { data: inventoryData } = useQuery(
+  const { data: inventoryData, refetch: refetchInventory } = useQuery(
     ['getDetailInventoryById', currentTabName, inventoryId],
     categoryKeyword.includes(currentTabName) && getDetailInventoryById,
     {
@@ -49,14 +49,15 @@ const InventoryDetails = () => {
     },
   )
 
-  const { data: inventoryAcceptedData } = useQuery(
-    ['getDetailInventoryById', 'base', inventoryId],
-    categoryAccepted.includes(currentTabName) && getDetailInventoryById,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-  const { data: transactionData } = useQuery(
+  const { data: inventoryAcceptedData, refetch: refetchInventoryAccepted } =
+    useQuery(
+      ['getDetailInventoryById', 'base', inventoryId],
+      categoryAccepted.includes(currentTabName) && getDetailInventoryById,
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
+  const { data: transactionData, refetch: refetchTransaction } = useQuery(
     ['getTransactionById', inventoryId],
     transactionKeyword.includes(currentTabName) && getTransactionById,
     {
@@ -67,6 +68,8 @@ const InventoryDetails = () => {
     onSuccess: (res) => {
       if (!res.error) {
         // navigate('/ams/inventory')
+        renderRefetchAfterUpdate()
+
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -151,9 +154,27 @@ const InventoryDetails = () => {
         return annualBaseDetailsData
     }
   }
+  const renderRefetchAfterUpdate = () => {
+    switch (currentTabName) {
+      case 'base': // annual base tab 0
+        return refetchInventory()
+      case 'assetTransferRequestProcess': // Asset Transfer tab 3
+        return refetchInventory()
+      case 'assetDisposalRequestProcess': // Asset Disposal tab 4
+        return refetchInventory()
+      case 'base-consumption': // Asset Consumption tab 2
+        return refetchInventoryAccepted()
+      case 'base-surplus': // Surplus Declaration tab 3
+        return refetchInventoryAccepted()
+      default:
+        return refetchTransaction()
+    }
+  }
   const renderCurrentTabConfigs = () => {
     switch (currentTabName) {
-      case 'base' || 'base-consumption' || 'base-surplus':
+      case 'base':
+      case 'base-consumption':
+      case 'base-surplus':
         return annualBaseDetailsConfigs()
       case 'assetDisposalRequestProcess':
         return assetDisposalDetailsConfigs()
@@ -171,10 +192,8 @@ const InventoryDetails = () => {
   const renderActionsByTab = () => {
     switch (currentTabName) {
       case 'base':
-      case 'base-consumption':
-      case 'base-surplus':
         return [
-          role !== 'regulator' && (
+          role === 'regulator' && (
             <>
               <Button
                 key="6"
@@ -222,7 +241,7 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                    onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
                   >
                     Reject
                   </Button>
@@ -242,7 +261,7 @@ const InventoryDetails = () => {
             </>
           ),
 
-          role !== 'operator' && (
+          role === 'operator' && (
             <>
               <Button
                 key="2"
@@ -266,6 +285,119 @@ const InventoryDetails = () => {
                 onClick={() => {}}
               >
                 Upload documents
+              </Button>
+            </>
+          ),
+        ]
+      case 'base-consumption':
+      case 'base-surplus':
+        return [
+          role === 'regulator' && (
+            <>
+              <Button
+                key="6"
+                id="clarify"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {}}
+              >
+                Clarify
+              </Button>
+              <Button
+                key="7"
+                id="support"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {}}
+              >
+                View Support Documents
+              </Button>
+              {inventoryData?.metaData?.status === 'APPROVED' ? (
+                <Button
+                  key="8"
+                  id="reject"
+                  className="top-bar-buttons-list-item-btn approve"
+                  flat
+                  primary
+                  swapTheming
+                  disabled
+                  iconEl={<FontIcon>check_circle</FontIcon>}
+                  onClick={() => {}}
+                >
+                  Approved
+                </Button>
+              ) : (
+                <>
+                  {' '}
+                  <Button
+                    key="5"
+                    id="reject"
+                    className="top-bar-buttons-list-item-btn reject"
+                    flat
+                    primary
+                    swapTheming
+                    onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    key="3"
+                    id="approve"
+                    className="top-bar-buttons-list-item-btn approve"
+                    flat
+                    primary
+                    swapTheming
+                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                  >
+                    Approve
+                  </Button>
+                </>
+              )}
+            </>
+          ),
+
+          role === 'operator' && (
+            <>
+              <Button
+                key="1"
+                id="viewDoc"
+                className="top-bar-buttons-list-item-btn view-doc"
+                flat
+                swapTheming
+                onClick={() => {}}
+              >
+                Upload documents
+              </Button>
+
+              <Button
+                key="2"
+                id="edit"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {
+                  navigate(location)
+                }}
+              >
+                Discard
+              </Button>
+              <Button
+                key="2"
+                id="edit"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                primary
+                swapTheming
+                onClick={() => {
+                  // navigate(`/ams/production/production-detail`)
+                }}
+              >
+                Submit
               </Button>
             </>
           ),

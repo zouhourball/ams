@@ -56,11 +56,12 @@ export const getInventoriesAccepted = async ({ queryKey }) => {
   }
   return res
 }
-export const getConsumptionsList = async ({ page, size, inventoryId }) => {
+export const getConsumptionsList = async ({ queryKey }) => {
   let res
+
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==consumptionReportProcess;inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==consumptionReportProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
       {
         method: 'GET',
       },

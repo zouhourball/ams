@@ -151,6 +151,16 @@ body {
         background: #e3eefd;
         color: #1979ff;
       }
+
+      &.APPROVED {
+        background: #e4f6e5;
+        color: #45b672;
+      }
+
+      &.REJECTED {
+        background: #ffe8e7;
+        color: #f5474c;
+      }
     }
 
     .xeena-table-footer {
