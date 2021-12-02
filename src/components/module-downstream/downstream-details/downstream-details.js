@@ -1,20 +1,29 @@
 import { useMemo } from 'react'
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
+import { useDispatch } from 'react-redux'
 import moment from 'moment'
+import { get } from 'lodash-es'
 
 import {
   detailLpgDownstreamByLoggedUser,
-  // updateDownstreamLpg,
+  updateDownstreamLpg,
 } from 'libs/api/downstream-api'
 
+import { addToast } from 'modules/app/actions'
+
 import Mht from '@target-energysolutions/mht'
-import { configsLpgDialogMht } from '../mht-helper-dialog'
+import {
+  configsLpgDialogMht,
+  configsRsDialogMht,
+  configsNgDialogMht,
+} from '../mht-helper-dialog'
 
 import TopBarDetail from 'components/top-bar-detail'
-import { userRole } from 'components/shared-hook/get-roles'
-// import {
+import ToastMsg from 'components/toast-msg'
+
+import useRole from 'libs/hooks/use-role' // import {
 //   liquefiedPetroleumGasConfigs,
 //   liquefiedPetroleumGasData,
 // } from '../helpers'
@@ -22,7 +31,9 @@ import { userRole } from 'components/shared-hook/get-roles'
 import './style.scss'
 
 const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
-  const role = userRole('downstream')
+  const dispatch = useDispatch()
+
+  const role = useRole('downstream')
   const subModule = pathname?.split('/')[4]
 
   const { data: downstreamDetail } = useQuery(
@@ -45,6 +56,90 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
             variance: el?.variance,
           })) || []
         )
+      case 'ng':
+        return (
+          downstreamDetail?.data?.map((el) => ({
+            terminalType: el?.terminalTypes,
+            consumerSupplier: el?.nameTerminal,
+            January: [
+              { jGD: el?.listOnSpecGas[0]?.value },
+              { jCG: el?.listOnSpecGas[1]?.value },
+              { jSG: el?.listOnSpecGas[2]?.value },
+            ],
+            February: [
+              { fGD: el?.listOnSpecGas[3]?.value },
+              { fCG: el?.listOnSpecGas[4]?.value },
+              { fSG: el?.listOnSpecGas[5]?.value },
+            ],
+            March: [
+              { mGD: el?.listOnSpecGas[6]?.value },
+              { mCG: el?.listOnSpecGas[7]?.value },
+              { mSG: el?.listOnSpecGas[8]?.value },
+            ],
+            April: [
+              { aGD: el?.listOnSpecGas[9]?.value },
+              { aCG: el?.listOnSpecGas[10]?.value },
+              { aSG: el?.listOnSpecGas[11]?.value },
+            ],
+            May: [
+              { myGD: el?.listOnSpecGas[12]?.value },
+              { myCG: el?.listOnSpecGas[13]?.value },
+              { mySG: el?.listOnSpecGas[14]?.value },
+            ],
+            June: [
+              { jGD: el?.listOnSpecGas[15]?.value },
+              { jCG: el?.listOnSpecGas[16]?.value },
+              { jSG: el?.listOnSpecGas[17]?.value },
+            ],
+            July: [
+              { juGD: el?.listOnSpecGas[18]?.value },
+              { juCG: el?.listOnSpecGas[19]?.value },
+              { juSG: el?.listOnSpecGas[20]?.value },
+            ],
+            August: [
+              { auGD: el?.listOnSpecGas[21]?.value },
+              { auCG: el?.listOnSpecGas[22]?.value },
+              { auSG: el?.listOnSpecGas[23]?.value },
+            ],
+            September: [
+              { sGD: el?.listOnSpecGas[24]?.value },
+              { sCG: el?.listOnSpecGas[25]?.value },
+              { sSG: el?.listOnSpecGas[26]?.value },
+            ],
+            October: [
+              { oGD: el?.listOnSpecGas[27]?.value },
+              { oCG: el?.listOnSpecGas[28]?.value },
+              { oSG: el?.listOnSpecGas[29]?.value },
+            ],
+            November: [
+              { nGD: el?.listOnSpecGas[30]?.value },
+              { nCG: el?.listOnSpecGas[31]?.value },
+              { nSG: el?.listOnSpecGas[32]?.value },
+            ],
+            December: [
+              { dGD: el?.listOnSpecGas[33]?.value },
+              { dCG: el?.listOnSpecGas[34]?.value },
+              { dSG: el?.listOnSpecGas[35]?.value },
+            ],
+          })) || []
+        )
+      case 'rs':
+        return (
+          downstreamDetail?.data[0]?.dataGov.map((el) => ({
+            gov: el?.wiliyat,
+            sn: el?.stationNumber,
+            product: [
+              { m95: el?.saleQuantityM95 },
+              { m91: el?.saleQuantityM91 },
+              { kerosen: el?.saleQuantityKerosen },
+              { jet: el?.saleQuantityJet },
+              { gas: el?.saleQuantityGasOil },
+              { m98: el?.saleQuantityM98 },
+
+              { totalProduct: el?.saleQuantityTotal },
+            ],
+          })) || []
+        )
       default:
         return {}
     }
@@ -59,60 +154,105 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
           ),
           submittedBy: downstreamDetail?.metaData?.createdBy?.name,
         }
+      case 'rs':
+        return {
+          title: downstreamDetail?.metaData?.company,
+          submittedDate: moment(downstreamDetail?.metaData.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: downstreamDetail?.metaData?.createdBy?.name,
+        }
+      default:
+        return {
+          title: downstreamDetail?.metaData?.company,
+          submittedDate: moment(downstreamDetail?.metaData.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: downstreamDetail?.metaData?.createdBy?.name,
+        }
+    }
+  }, [downstreamDetail, subModule])
+
+  const updateDownstreamMutation = useMutation(updateDownstreamLpg, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/downstream')
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+  const onAcknowledge = (subModule, objectId, status) => {
+    updateDownstreamMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: status,
+    })
+  }
+  const configTable = () => {
+    switch (subModule) {
+      case 'lpg':
+        return configsLpgDialogMht()
+      case 'ng':
+        return configsNgDialogMht()
+      case 'rs':
+        return configsRsDialogMht()
       default:
         return {}
     }
-  }, [downstreamDetail, subModule])
-  const actions =
-    role === 'operator'
-      ? [
-        <Button
-          key="1"
-          id="viewDoc"
-          className="top-bar-buttons-list-item-btn view-doc"
-          flat
-          swapTheming
-          onClick={() => {}}
-        >
-            View documents
-        </Button>,
-        <Button
-          key="2"
-          id="edit"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            // navigate(`/ams/production/production-detail`)
-          }}
-        >
-            Download Original File
-        </Button>,
-      ]
-      : [
-        <Button
-          key="1"
-          id="viewDoc"
-          className="top-bar-buttons-list-item-btn view-doc"
-          flat
-          swapTheming
-          onClick={() => {}}
-        >
-            View documents
-        </Button>,
-        <Button
-          key="3"
-          id="acknowledge"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {}}
-        >
-            Acknowledge
-        </Button>,
-      ]
+  }
+
+  const actions = [
+    <Button
+      key="1"
+      id="viewDoc"
+      className="top-bar-buttons-list-item-btn view-doc"
+      flat
+      swapTheming
+      onClick={() => {}}
+    >
+      View documents
+    </Button>,
+    <Button
+      key="2"
+      id="edit"
+      className="top-bar-buttons-list-item-btn view-doc"
+      flat
+      primary
+      onClick={() => {}}
+    >
+      Download Original File
+    </Button>,
+    role === 'regulator' &&
+      get(downstreamDetail, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn view-doc"
+        flat
+        primary
+        onClick={() => {
+          onAcknowledge(subModule, downstreamId, 'ACKNOWLEDGED')
+        }}
+      >
+          Acknowledge
+      </Button>
+    ),
+  ]
   return (
     <div className="details-container">
       <TopBarDetail
@@ -121,7 +261,7 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
         detailData={detailData}
       />
       <Mht
-        configs={configsLpgDialogMht()}
+        configs={configTable()}
         tableData={DownstreamDetailsData}
         withSearch
         commonActions

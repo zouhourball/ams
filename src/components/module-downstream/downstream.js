@@ -26,6 +26,7 @@ import {
 
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -45,7 +46,11 @@ import {
   // petroleumProductsData,
   actionsHeader,
 } from './helpers'
-import { configsLpgDialogMht } from './mht-helper-dialog'
+import {
+  configsLpgDialogMht,
+  configsRsDialogMht,
+  configsNgDialogMht,
+} from './mht-helper-dialog'
 
 const Downstream = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -79,8 +84,10 @@ const Downstream = () => {
 
   const { mutate: uploadLpgMutate, data: responseUploadLpg } =
     useMutation(uploadLpg)
-  const uploadNgMutate = useMutation(uploadNg)
-  const uploadRsMutate = useMutation(uploadRs)
+  const { mutate: uploadNgMutate, data: responseUploadNg } =
+    useMutation(uploadNg)
+  const { mutate: uploadRsMutate, data: responseUploadRs } =
+    useMutation(uploadRs)
   const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
   const commitNgMutate = useMutation(commitLoadDownstreamNg)
   const commitRsMutate = useMutation(commitLoadDownstreamRs)
@@ -134,7 +141,6 @@ const Downstream = () => {
       },
     },
   ]
-
   const closeDialog = (resp) => {
     resp &&
       resp[0]?.statusCode === 'OK' &&
@@ -177,7 +183,7 @@ const Downstream = () => {
           },
         )
       case 1:
-        return uploadNgMutate.mutate(
+        return uploadNgMutate(
           {
             body: {
               company: company?.name || 'ams-org',
@@ -198,7 +204,7 @@ const Downstream = () => {
           },
         )
       case 2:
-        return uploadRsMutate.mutate(
+        return uploadRsMutate(
           {
             body: {
               company: company?.name || 'ams-org',
@@ -428,6 +434,7 @@ const Downstream = () => {
         return (
           listLiquefiedPetroleumGas?.content?.map((el) => ({
             id: el?.id,
+            originalFileId: el?.metaData?.originalFileId,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -440,6 +447,7 @@ const Downstream = () => {
         return (
           LisPetroleumProducts?.content?.map((el) => ({
             id: el?.id,
+            originalFileId: el?.metaData?.originalFileId,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -452,6 +460,7 @@ const Downstream = () => {
         return (
           ListNaturalGas?.content?.map((el) => ({
             id: el?.id,
+            originalFileId: el?.metaData?.originalFileId,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -461,10 +470,11 @@ const Downstream = () => {
             processInstanceId: el?.metaData?.processInstanceId,
           })) || []
         )
-
       default:
         return (
           listLiquefiedPetroleumGas?.content?.map((el) => ({
+            id: el?.id,
+            originalFileId: el?.metaData?.originalFileId,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -483,7 +493,7 @@ const Downstream = () => {
       case 0:
         return liquefiedPetroleumGasConfigs(UploadSupportedDocumentFromTable)
       case 1:
-        return naturalGasConfigs()
+        return naturalGasConfigs(UploadSupportedDocumentFromTable)
       case 2:
         return petroleumProductsConfigs(UploadSupportedDocumentFromTable)
 
@@ -491,6 +501,7 @@ const Downstream = () => {
         return liquefiedPetroleumGasConfigs(UploadSupportedDocumentFromTable)
     }
   }
+
   const downstreamRespData = () => {
     switch (currentTab) {
       case 0:
@@ -509,33 +520,90 @@ const Downstream = () => {
         )
       case 1:
         return (
-          responseUploadLpg?.data?.data?.map((el) => ({
-            company: el?.company,
-            quota: el?.quota,
-            // lifting: el?.actualLifted?.map((source) => ({
-            //   source1: source[0]?.value,
-            //   source2: source[1]?.value,
-            // })),
-            // total: el?.totalLifted,
-            // remarks: el?.remarks,
-            // variance: el?.variance,
+          responseUploadNg?.data?.data?.map((el) => ({
+            terminalType: el?.terminalTypes,
+            consumerSupplier: el?.nameTerminal,
+            January: [
+              { jGD: el?.listOnSpecGas[0]?.value },
+              { jCG: el?.listOnSpecGas[1]?.value },
+              { jSG: el?.listOnSpecGas[2]?.value },
+            ],
+            February: [
+              { fGD: el?.listOnSpecGas[3]?.value },
+              { fCG: el?.listOnSpecGas[4]?.value },
+              { fSG: el?.listOnSpecGas[5]?.value },
+            ],
+            March: [
+              { mGD: el?.listOnSpecGas[6]?.value },
+              { mCG: el?.listOnSpecGas[7]?.value },
+              { mSG: el?.listOnSpecGas[8]?.value },
+            ],
+            April: [
+              { aGD: el?.listOnSpecGas[9]?.value },
+              { aCG: el?.listOnSpecGas[10]?.value },
+              { aSG: el?.listOnSpecGas[11]?.value },
+            ],
+            May: [
+              { myGD: el?.listOnSpecGas[12]?.value },
+              { myCG: el?.listOnSpecGas[13]?.value },
+              { mySG: el?.listOnSpecGas[14]?.value },
+            ],
+            June: [
+              { jGD: el?.listOnSpecGas[15]?.value },
+              { jCG: el?.listOnSpecGas[16]?.value },
+              { jSG: el?.listOnSpecGas[17]?.value },
+            ],
+            July: [
+              { juGD: el?.listOnSpecGas[18]?.value },
+              { juCG: el?.listOnSpecGas[19]?.value },
+              { juSG: el?.listOnSpecGas[20]?.value },
+            ],
+            August: [
+              { auGD: el?.listOnSpecGas[21]?.value },
+              { auCG: el?.listOnSpecGas[22]?.value },
+              { auSG: el?.listOnSpecGas[23]?.value },
+            ],
+            September: [
+              { sGD: el?.listOnSpecGas[24]?.value },
+              { sCG: el?.listOnSpecGas[25]?.value },
+              { sSG: el?.listOnSpecGas[26]?.value },
+            ],
+            October: [
+              { oGD: el?.listOnSpecGas[27]?.value },
+              { oCG: el?.listOnSpecGas[28]?.value },
+              { oSG: el?.listOnSpecGas[29]?.value },
+            ],
+            November: [
+              { nGD: el?.listOnSpecGas[30]?.value },
+              { nCG: el?.listOnSpecGas[31]?.value },
+              { nSG: el?.listOnSpecGas[32]?.value },
+            ],
+            December: [
+              { dGD: el?.listOnSpecGas[33]?.value },
+              { dCG: el?.listOnSpecGas[34]?.value },
+              { dSG: el?.listOnSpecGas[35]?.value },
+            ],
           })) || []
         )
       case 2:
-        return responseUploadLpg?.data?.data?.map((el) => ({
-          company: el?.company,
-          quota: el?.quota,
-          // lifting: el?.actualLifted?.map((source) => ({
-          //   source1: source[0]?.value,
-          //   source2: source[1]?.value,
-          // })),
-          // total: el?.totalLifted,
-          // remarks: el?.remarks,
-          // variance: el?.variance,
-        }))
+        return (
+          responseUploadRs?.data?.data[0]?.dataGov?.map((el) => ({
+            gov: el?.wiliyat,
+            sn: el?.stationNumber,
+            product: [
+              { m95: el?.saleQuantityM95 },
+              { m91: el?.saleQuantityM91 },
+              { kerosen: el?.saleQuantityKerosen },
+              { jet: el?.saleQuantityJet },
+              { gas: el?.saleQuantityGasOil },
+              { m98: el?.saleQuantityM98 },
+
+              { totalProduct: el?.saleQuantityTotal },
+            ],
+          })) || []
+        )
 
       default:
-        break
     }
   }
   const configsMht = () => {
@@ -543,8 +611,9 @@ const Downstream = () => {
       case 0:
         return configsLpgDialogMht()
       case 1:
-        return configsLpgDialogMht()
-
+        return configsNgDialogMht()
+      case 2:
+        return configsRsDialogMht()
       default:
         return configsLpgDialogMht()
     }
@@ -555,11 +624,13 @@ const Downstream = () => {
         return downstreamRespData()
       case 1:
         return downstreamRespData()
+      case 2:
+        return downstreamRespData()
 
       default:
         return downstreamRespData()
     }
-  }, [responseUploadLpg])
+  }, [responseUploadLpg, responseUploadNg, responseUploadRs])
 
   const renderDialogData = () => {
     switch (currentTab) {
@@ -606,7 +677,10 @@ const Downstream = () => {
   }
   return (
     <>
-      <TopBar title="Downstream" actions={renderActionsByCurrentTab()} />
+      <TopBar
+        title="Downstream"
+        actions={role === 'operator' ? renderActionsByCurrentTab() : []}
+      />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
@@ -637,6 +711,8 @@ const Downstream = () => {
                     role,
                     setShowSupportedDocumentDialog,
                     handleDeleteDownstream,
+                    selectedRow[0]?.originalFileId,
+                    downloadOriginalFile,
                   )}
                 />
               )
@@ -646,6 +722,7 @@ const Downstream = () => {
       </div>
       {showUploadMHTDialog && (
         <MHTDialog
+          headerTemplate={<div></div>}
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)

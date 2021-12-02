@@ -64,13 +64,15 @@ export const overrideDownstreamLpg = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateDownstreamLpg = async ({ body }) => {
+export const updateDownstreamLpg = async ({ subModule, objectId, status }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg/update`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/${subModule}/update?objectId=${objectId}&status=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
