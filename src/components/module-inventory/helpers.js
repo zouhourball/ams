@@ -249,6 +249,32 @@ export const actionsHeader = (
             },
           },
         ]
+      } else if (tab === 'addition') {
+        // this else is to delete just for test .. ken 3ordhettek fassakhha plz
+        return [
+          {
+            id: 1,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          {
+            id: 2,
+            label: 'Upload Documents',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'Download Template',
+            onClick: () => {},
+          },
+          {
+            id: 4,
+            label: 'Attach Spreadsheet',
+            onClick: () => {},
+          },
+        ]
       } else {
         return []
       }
@@ -307,6 +333,31 @@ export const actionsHeader = (
             onClick: () => {
               key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
             },
+          },
+        ]
+      } else if (tab === 'addition') {
+        return [
+          {
+            id: 1,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          {
+            id: 2,
+            label: 'Upload Documents',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'Download Template',
+            onClick: () => {},
+          },
+          {
+            id: 3,
+            label: 'Attach Spreadsheet',
+            onClick: () => {},
           },
         ]
       } else {

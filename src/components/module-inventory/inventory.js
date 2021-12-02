@@ -20,7 +20,6 @@ import {
   overrideInventoryReport,
   deleteInventory,
   uploadAssetTransferInventoryReport,
-  getAdditionsList,
   getCompaniesInventory,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
@@ -109,19 +108,6 @@ const Inventory = () => {
     },
   )
   // const { mutate: onDeleteInventory } = useMutation(deleteInventory)
-
-  const { data: listAdditions } = useQuery(
-    [
-      'getListConsumptionDeclarationRecords',
-      '619cc06ee70f07000188e23c',
-      0,
-      2000,
-    ],
-    getAdditionsList,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
 
   const refetchAfterCommitByCurrentTab = () => {
     switch (currentTab) {
@@ -308,36 +294,32 @@ const Inventory = () => {
     },
   )
 
-  const deleteInventoryMutate = useMutation(
-    deleteInventory,
-
-    {
-      onSuccess: (res) => {
-        if (!res.error) {
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.message || 'Deleted successfully'}
-                type="success"
-              />,
-              'hide',
-            ),
-          )
-        } else {
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.error?.body?.message || 'Something went wrong'}
-                type="error"
-              />,
-              'hide',
-            ),
-          )
-        }
-        refetchInventory()
-      },
+  const deleteInventoryMutate = useMutation(deleteInventory, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'Deleted successfully'}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+      refetchInventory()
     },
-  )
+  })
 
   const onAddReportByCurrentTab = (body) => {
     let uuid = uuidv4()
@@ -672,23 +654,6 @@ const Inventory = () => {
     }
   })
 
-  const tableDataListAdditions = (get(listAdditions, 'content', []) || []).map(
-    (el) => {
-      return {
-        id: el?.id,
-        company: get(el, 'metaData.company', 'n/a'),
-        block: get(el, 'metaData.block', 'n/a'),
-        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate:
-          get(el, 'metaData.month', 'n/a') +
-          ' , ' +
-          get(el, 'metaData.year', 'n/a'),
-        status: get(el, 'metaData.status', 'n/a'),
-        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
-      }
-    },
-  )
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
@@ -700,7 +665,7 @@ const Inventory = () => {
       case 4:
         return tableDataLisDisposal
       case 5:
-        return tableDataListAdditions
+        return tableDataListInventoriesAccepted
       case 0:
       default:
         return tableDataListAnnualBase

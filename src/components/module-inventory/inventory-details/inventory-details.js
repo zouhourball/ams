@@ -3,6 +3,7 @@ import { Button, FontIcon } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
+import moment from 'moment'
 
 import Mht from '@target-energysolutions/mht'
 
@@ -13,6 +14,7 @@ import {
   updateInventory,
   getDetailInventoryById,
   getTransactionById,
+  getAdditionsList,
 } from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -64,6 +66,13 @@ const InventoryDetails = () => {
       refetchOnWindowFocus: false,
     },
   )
+  const { data: listAdditions } = useQuery(
+    ['getListConsumptionDeclarationRecords', inventoryId, 0, 2000],
+    getAdditionsList,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
   const updateInventoryMutation = useMutation(updateInventory, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -109,6 +118,24 @@ const InventoryDetails = () => {
     }
   })
 
+  const tableDataListAdditions = (get(listAdditions, 'content', []) || []).map(
+    (el) => {
+      return {
+        id: el?.id,
+        company: get(el, 'metaData.company', 'n/a'),
+        block: get(el, 'metaData.block', 'n/a'),
+        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        referenceDate:
+          get(el, 'metaData.month', 'n/a') +
+          ' , ' +
+          get(el, 'metaData.year', 'n/a'),
+        status: get(el, 'metaData.status', 'n/a'),
+        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
+      }
+    },
+  )
+
   const mhtDisposalDetailData = (get(inventoryData, 'rows', []) || []).map(
     (el) => {
       return {
@@ -150,6 +177,8 @@ const InventoryDetails = () => {
         return mhtBaseDetailData
       case 'base-surplus': // Surplus Declaration tab 3
         return mhtBaseDetailData
+      case 'addition': // Addition tab 5
+        return tableDataListAdditions
       default:
         return annualBaseDetailsData
     }
