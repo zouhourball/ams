@@ -666,6 +666,7 @@ const Flaring = () => {
 
         {showUploadMHTDialog && (
           <MHTDialog
+            headerTemplate={<></>}
             visible={showUploadMHTDialog}
             onHide={() => {
               setShowUploadMHTDialog(false)

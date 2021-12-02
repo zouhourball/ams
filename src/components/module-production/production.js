@@ -826,6 +826,7 @@ const Production = () => {
       />
       {showUploadMHTDialog && (
         <MHTDialog
+          headerTemplate={<></>}
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)

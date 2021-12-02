@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import Mht from '@target-energysolutions/mht'
@@ -29,7 +30,7 @@ const FlaringDetails = () => {
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const objectId = get(location, 'pathname', '/').split('/').reverse()[1]
 
-  const { data: flaringData } = useQuery(
+  const { data: flaringData, refetch: refetchList } = useQuery(
     ['getDetailFlaringById', subModule, objectId],
     objectId && getDetailFlaringById,
     {
@@ -38,8 +39,8 @@ const FlaringDetails = () => {
   )
   const updateFlaringMutation = useMutation(updateFlaring, {
     onSuccess: (res) => {
-      if (!res.error) {
-        navigate('/ams/hse/flaring')
+      if (res === true) {
+        refetchList()
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -118,42 +119,42 @@ const FlaringDetails = () => {
     }
   }
 
-  const detailsData = () => {
+  const detailsData = useMemo(() => {
     switch (subModule) {
       case 'annual-forecast':
         return {
           title: 'Annual Report',
-          subTitle: 'Block ' + flaringData?.metaData?.block,
-          companyName: flaringData?.metaData?.company,
+          subTitle: 'Block ' + get(flaringData, 'metaData.block', ''),
+          companyName: get(flaringData, 'metaData.company', ''),
           submittedDate: moment(flaringData?.metaData?.createdAt).format(
             'DD MMM, YYYY',
           ),
-          submittedBy: flaringData?.metaData?.createdBy?.name,
+          submittedBy: get(flaringData, 'metaData.createdBy.name', ''),
         }
       case 'monthly-station':
         return {
           title: 'Monthly Report',
-          subTitle: 'Block ' + flaringData?.metaData?.block,
-          companyName: flaringData?.metaData?.company,
+          subTitle: 'Block ' + get(flaringData, 'metaData.block', ''),
+          companyName: get(flaringData, 'metaData.company', ''),
           submittedDate: moment(flaringData?.metaData?.createdAt).format(
             'DD MMM, YYYY',
           ),
-          submittedBy: flaringData?.metaData?.createdBy?.name,
+          submittedBy: get(flaringData, 'metaData.createdBy.name', ''),
         }
       case 'daily':
         return {
           title: 'Daily Report',
-          subTitle: 'Block ' + flaringData?.metaData?.block,
-          companyName: flaringData?.metaData?.company,
+          subTitle: 'Block ' + get(flaringData, 'metaData.block', ''),
+          companyName: get(flaringData, 'metaData.company', ''),
           submittedDate: moment(flaringData?.metaData?.createdAt).format(
             'DD MMM, YYYY',
           ),
-          submittedBy: flaringData?.metaData?.createdBy?.name,
+          submittedBy: get(flaringData, 'metaData.createdBy.name', ''),
         }
       default:
         return null
     }
-  }
+  })
 
   const renderDetailsConfigsBySubModule = () => {
     switch (subModule) {
@@ -168,7 +169,6 @@ const FlaringDetails = () => {
     }
   }
 
-  // ---------------
   const actions = [
     <Button
       key="1"
@@ -230,7 +230,7 @@ const FlaringDetails = () => {
       <TopBarDetail
         onClickBack={() => navigate('/ams/hse/flaring')}
         actions={actions}
-        detailData={detailsData()}
+        detailData={detailsData}
       />
       <Mht
         configs={renderDetailsConfigsBySubModule()}
