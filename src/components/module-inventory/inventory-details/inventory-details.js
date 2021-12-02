@@ -229,7 +229,7 @@ const InventoryDetails = () => {
                   iconEl={<FontIcon>check_circle</FontIcon>}
                   onClick={() => {}}
                 >
-                  Approved
+                  Accepted
                 </Button>
               ) : (
                 <>
@@ -252,9 +252,9 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                    onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
                   >
-                    Approve
+                    Accept
                   </Button>
                 </>
               )}
@@ -351,9 +351,9 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                    onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
                   >
-                    Approve
+                    Accept
                   </Button>
                 </>
               )}

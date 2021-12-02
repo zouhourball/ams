@@ -73,7 +73,7 @@ export const mhtConfig = (supportedDocument) => [
   },
 ]
 
-export const mhtConfigAssetConsumption = (supportedDocument) => [
+export const mhtConfigAssetRecords = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -231,6 +231,23 @@ export const actionsHeader = (
               key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
             },
           },
+          {
+            id: 3,
+            label: 'View Records',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+        ]
+      } else if (tab === 'base-surplus') {
+        return [
+          {
+            id: 3,
+            label: 'View Records',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
         ]
       } else {
         return []
@@ -270,6 +287,23 @@ export const actionsHeader = (
           {
             id: 2,
             label: 'Declare Consumption',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Records',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+        ]
+      } else if (tab === 'base-surplus') {
+        return [
+          {
+            id: 3,
+            label: 'View Records',
             onClick: () => {
               key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
             },

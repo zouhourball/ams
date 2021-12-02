@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, SelectField, DialogContainer } from 'react-md'
+import { Button, DialogContainer } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
 import Mht from '@target-energysolutions/mht'
@@ -20,8 +20,6 @@ import {
   overrideInventoryReport,
   deleteInventory,
   uploadAssetTransferInventoryReport,
-  getConsumptionsList,
-  getSurplusList,
   getAdditionsList,
   getCompaniesInventory,
 } from 'libs/api/api-inventory'
@@ -103,19 +101,6 @@ const Inventory = () => {
     },
   )
 
-  const { data: listConsumptions } = useQuery(
-    [
-      'getListConsumptionDeclarationRecords',
-      '619cc06ee70f07000188e23c',
-      0,
-      2000,
-    ],
-    getConsumptionsList,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
   const { data: companies } = useQuery(
     ['getCompaniesInventory'],
     getCompaniesInventory,
@@ -124,19 +109,6 @@ const Inventory = () => {
     },
   )
   // const { mutate: onDeleteInventory } = useMutation(deleteInventory)
-
-  const { data: listSurplus } = useQuery(
-    [
-      'getListConsumptionDeclarationRecords',
-      '619cc06ee70f07000188e23c',
-      0,
-      2000,
-    ],
-    getSurplusList,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
 
   const { data: listAdditions } = useQuery(
     [
@@ -700,42 +672,6 @@ const Inventory = () => {
     }
   })
 
-  const tableDataListConsumptionRecords = (
-    get(listConsumptions, 'content', []) || []
-  ).map((el) => {
-    return {
-      id: el?.id,
-      company: get(el, 'metaData.company', 'n/a'),
-      block: get(el, 'metaData.block', 'n/a'),
-      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate:
-        get(el, 'metaData.month', 'n/a') +
-        ' , ' +
-        get(el, 'metaData.year', 'n/a'),
-      status: get(el, 'metaData.status', 'n/a'),
-      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
-    }
-  })
-
-  const tableDataListSurplus = (get(listSurplus, 'content', []) || []).map(
-    (el) => {
-      return {
-        id: el?.id,
-        company: get(el, 'metaData.company', 'n/a'),
-        block: get(el, 'metaData.block', 'n/a'),
-        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate:
-          get(el, 'metaData.month', 'n/a') +
-          ' , ' +
-          get(el, 'metaData.year', 'n/a'),
-        status: get(el, 'metaData.status', 'n/a'),
-        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
-      }
-    },
-  )
-
   const tableDataListAdditions = (get(listAdditions, 'content', []) || []).map(
     (el) => {
       return {
@@ -756,13 +692,9 @@ const Inventory = () => {
   const renderCurrentTabData = () => {
     switch (currentTab) {
       case 1:
-        return selectFieldValue === 'Consumption Declaration Records'
-          ? tableDataListConsumptionRecords
-          : tableDataListInventoriesAccepted
+        return tableDataListInventoriesAccepted
       case 2:
-        return selectFieldValue === 'Surplus Declaration Records'
-          ? tableDataListSurplus
-          : tableDataListInventoriesAccepted
+        return tableDataListInventoriesAccepted
       case 3:
         return tableDataListAssetTransfer
       case 4:
@@ -900,25 +832,6 @@ const Inventory = () => {
                 createCategoryAndTransactionByTab(),
                 handleDeleteInventory,
               )}
-            />
-          ) : currentTab === 1 || currentTab === 2 ? (
-            <SelectField
-              id="consumption-inventory"
-              menuItems={
-                currentTab === 1
-                  ? [
-                    'Consumption Declaration',
-                    'Consumption Declaration Records',
-                  ]
-                  : currentTab === 2
-                    ? ['Surplus Declaration', 'Surplus Declaration Records']
-                    : []
-              }
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={setSelectFieldValue}
-              simplifiedMenu={false}
             />
           ) : (
             ''
