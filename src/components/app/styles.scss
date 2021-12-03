@@ -11,7 +11,7 @@
   &-content {
     position: relative;
     flex: 1;
-    overflow: hidden;
+    overflow: scroll;
   }
 
   &-expand-messenger {
@@ -57,7 +57,7 @@
   min-height: 20px;
   margin-left: 3px;
   padding: 0;
-  background: #fe5d00;
+  background: green;
   color: white;
   font-size: 10px;
 }

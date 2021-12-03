@@ -166,6 +166,10 @@ body {
     .xeena-table-footer {
       border-top: 0;
     }
+
+    .xeena-table-container.withFooter {
+      height: calc(100% - 110 px);
+    }
   }
 
   .target-app-shell--left-side--app-item {

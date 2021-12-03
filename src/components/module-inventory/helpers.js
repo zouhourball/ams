@@ -1,4 +1,4 @@
-import { FileInput, FontIcon } from 'react-md'
+import { FileInput, FontIcon, TextField } from 'react-md'
 import { navigate } from '@reach/router'
 
 export const mhtConfig = (supportedDocument) => [
@@ -414,6 +414,53 @@ export const annualBaseDetailsConfigs = () => [
   },
 ]
 
+export const consumptionDetailsConfigs = () => [
+  {
+    label: 'Material Name',
+    key: 'materialName',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Material Category',
+    key: 'materialCategory',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Description',
+    key: 'materialDescription',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Measurement Unit',
+    key: 'measurementUnit',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Current St',
+    key: 'currentSt',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Unit Price',
+    key: 'unitPrice',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
 export const assetDisposalDetailsConfigs = () => [
   {
     label: 'Material Name',
@@ -572,7 +619,7 @@ export const assetDisposalDetailsData = [
     serialNumber: '_',
   },
 ]
-export const assetConsumptionDetailsConfigs = () => [
+export const assetConsumptionDetailsConfigs = (rows, setRows) => [
   {
     label: 'Material Name',
     key: 'materialName',
@@ -594,16 +641,54 @@ export const assetConsumptionDetailsConfigs = () => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
+
   {
     label: 'Consumption',
     key: 'consumption',
-    width: '200',
+    width: '100',
     icon: 'mdi mdi-spellcheck',
+    render: (row) => {
+      let overStock = false
+      const selectedRow = rows?.find((el) => el?.id === row?.id)
+      if (+selectedRow?.quantity < +selectedRow?.Count) {
+        overStock = true
+      }
+      return (
+        <TextField
+          lineDirection="center"
+          id={row.id}
+          type="number"
+          value={rows[row?.id]?.value}
+          onChange={(v) => {
+            let newRow = { ...row }
+            const locaLRows = [...rows]
+            newRow.Count = v
+            const rowExist = rows?.find((el) => el?.id === newRow?.id)
+            if (rowExist) {
+              const index = rows.indexOf(rowExist)
+              locaLRows[index] = { Count: v, ...rowExist }
+            } else {
+              locaLRows.push(newRow)
+            }
+            if (v === '') {
+              const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
+              setRows(rowsFiltered)
+            } else {
+              setRows(locaLRows)
+            }
+          }}
+          error={overStock}
+          // disabled={status === 'closed'}
+          //   supportedDocument(row)
+        />
+      )
+    },
   },
+
   {
-    label: 'Current Stock',
-    key: 'currentStock',
-    width: '200',
+    label: 'Current St',
+    key: 'currentSt',
+    width: '100',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -612,9 +697,22 @@ export const assetConsumptionDetailsConfigs = () => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
+
   {
     label: 'UOM',
     key: 'uom',
+    width: '100',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Current Stock',
+    key: 'currentStock',
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },

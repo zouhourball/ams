@@ -66,7 +66,7 @@ const Inventory = () => {
   const role = useRole('inventory')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
-
+  // console.log('role', role)
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', 0, 2000],
     getInventories,
@@ -805,6 +805,7 @@ const Inventory = () => {
       />
       {showUploadMHTDialog && (
         <MHTDialog
+          headerTemplate={<div></div>}
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
@@ -816,7 +817,6 @@ const Inventory = () => {
             onCommitInventory(subModuleByCurrentTab())
             setFileList([...filesList, dataDisplayedMHT])
           }}
-          headerTemplate={<div />}
         />
       )}
       {showUploadRapportDialog && (

@@ -271,3 +271,19 @@ export const getTransactionById = async ({ queryKey }) => {
   }
   return res
 }
+
+export const addTransaction = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/addTransaction`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

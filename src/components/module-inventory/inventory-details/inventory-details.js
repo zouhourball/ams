@@ -3,6 +3,7 @@ import { Button, FontIcon } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
+import { useState } from 'react'
 import moment from 'moment'
 
 import Mht from '@target-energysolutions/mht'
@@ -14,6 +15,7 @@ import {
   updateInventory,
   getDetailInventoryById,
   getTransactionById,
+  addTransaction,
   getAdditionsList,
 } from 'libs/api/api-inventory'
 
@@ -23,6 +25,7 @@ import {
   annualBaseDetailsConfigs,
   annualBaseDetailsData,
   assetDisposalDetailsConfigs,
+  assetConsumptionDetailsConfigs,
 } from '../helpers'
 import './style.scss'
 
@@ -32,6 +35,8 @@ const InventoryDetails = () => {
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
   const currentTabName = pathItems[0]
   const inventoryId = pathItems[1]
+
+  const [rows, setRows] = useState([])
   const categoryKeyword = [
     'base',
     'assetTransferRequestProcess',
@@ -99,6 +104,49 @@ const InventoryDetails = () => {
     },
   })
 
+  const addTransactionInventoryMutate = useMutation(
+    addTransaction,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Submitted successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+  const onSubmitInventory = () => {
+    const data = rows?.map((el) => {
+      return { data: el, inventoryId: inventoryId, rowId: el?.id }
+    })
+
+    addTransactionInventoryMutate.mutate({
+      body: {
+        data: data,
+        inventoryId: inventoryId,
+        processInstanceId: inventoryAcceptedData?.metaData?.processInstanceId,
+        transactionType: 'consumptionReportProcess',
+      },
+    })
+  }
   const mhtBaseDetailData = (
     get(
       inventoryData || inventoryAcceptedData || transactionData,
@@ -203,6 +251,7 @@ const InventoryDetails = () => {
     switch (currentTabName) {
       case 'base':
       case 'base-consumption':
+        return assetConsumptionDetailsConfigs(rows, setRows)
       case 'base-surplus':
         return annualBaseDetailsConfigs()
       case 'assetDisposalRequestProcess':
@@ -256,7 +305,7 @@ const InventoryDetails = () => {
                   swapTheming
                   disabled
                   iconEl={<FontIcon>check_circle</FontIcon>}
-                  onClick={() => {}}
+                  onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
                 >
                   Accepted
                 </Button>
@@ -380,9 +429,9 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
+                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
                   >
-                    Accept
+                    Approve
                   </Button>
                 </>
               )}
@@ -410,7 +459,7 @@ const InventoryDetails = () => {
                 primary
                 swapTheming
                 onClick={() => {
-                  navigate(location)
+                  navigate(`/ams/inventory`)
                 }}
               >
                 Discard
@@ -423,7 +472,7 @@ const InventoryDetails = () => {
                 primary
                 swapTheming
                 onClick={() => {
-                  // navigate(`/ams/production/production-detail`)
+                  onSubmitInventory()
                 }}
               >
                 Submit
