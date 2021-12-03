@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+import { useMutation } from 'react-query'
+import { useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
+import moment from 'moment'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -8,9 +12,15 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
+import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
 import { downloadTemp } from 'libs/api/supporting-document-api'
+import { uploadWpbReport, uploadFypReport } from 'libs/api/api-planning'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import getBlocks from 'libs/hooks/get-blocks'
+
+import { addToast } from 'modules/app/actions'
 
 import {
   wpbPlanningConfigs,
@@ -23,6 +33,8 @@ import {
 } from './helpers'
 
 const Planning = () => {
+  const dispatch = useDispatch()
+
   const [currentTab, setCurrentTab] = useState(0)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -30,8 +42,117 @@ const Planning = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
+  // const [currentUpload, setCurrentUpload] = useState()
+
   const [filesList, setFileList] = useState([])
   const role = useRole('planning')
+  const blocks = getBlocks()
+  const company = getOrganizationInfos()
+
+  const uploadWpbReportMutate = useMutation(
+    uploadWpbReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setShowUploadMHTDialog(true)
+
+          // setCurrentUpload(res)
+          onDisplayMHT(...res)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Wpb report uploaded successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const uploadFypReportMutate = useMutation(
+    uploadFypReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setShowUploadMHTDialog(true)
+
+          // setCurrentUpload(res)
+          onDisplayMHT(...res)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'Wpb report uploaded successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const handleUploadWpb = (body, uuid) => {
+    uploadWpbReportMutate.mutate({
+      body: {
+        block: body?.block,
+        company: company?.name || 'ams-org',
+        file: body?.file[0],
+        processInstanceId: uuid,
+        year: moment(body?.referenceDate).format('YYYY'),
+      },
+    })
+  }
+
+  const handleUploadFyp = (body, uuid) => {
+    uploadFypReportMutate.mutate({
+      body: {
+        block: body?.block,
+        company: company?.name || 'ams-org',
+        file: body?.file[0],
+        processInstanceId: uuid,
+        year: moment(body?.referenceDate).format('YYYY'),
+      },
+    })
+  }
+  const onAddReportByCurrentTab = (body) => {
+    let uuid = uuidv4()
+    switch (currentTab) {
+      case 0:
+        handleUploadWpb(body, uuid)
+        break
+      case 1:
+        handleUploadFyp(body, uuid)
+        break
+      case 2:
+        break
+    }
+  }
 
   const wpbPlanningActionsHelper = [
     {
@@ -125,25 +246,31 @@ const Planning = () => {
     }
   }
 
-  const renderDialogData = () => {
+  const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadWpb(data, uuid)
+          },
         }
       case 1:
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadFyp(data, uuid)
+          },
         }
       case 2:
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {},
         }
       default:
         break
@@ -202,6 +329,7 @@ const Planning = () => {
       />
       {showUploadMHTDialog && (
         <MHTDialog
+          headerTemplate={<></>}
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
@@ -222,11 +350,18 @@ const Planning = () => {
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
+          blockList={blocks?.map((el) => ({
+            label: el?.block,
+            value: el?.block,
+          }))}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          onSave={() => renderDialogData().onClick()}
+          // onSave={(data) => renderDialogData(data).onUpload()}
+          onSave={(data) => {
+            onAddReportByCurrentTab(data)
+          }}
         />
       )}
 
