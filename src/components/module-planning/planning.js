@@ -8,7 +8,9 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
+
 import useRole from 'libs/hooks/use-role'
+import { downloadTemp } from 'libs/api/supporting-document-api'
 
 import {
   wpbPlanningConfigs,
@@ -36,7 +38,10 @@ const Planning = () => {
       title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => downloadTemp('planning', 'wpb'),
+    },
   ]
 
   const fypPlanningActionsHelper = [
@@ -44,7 +49,10 @@ const Planning = () => {
       title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => downloadTemp('planning', 'fyp'),
+    },
   ]
 
   const budgetaryPlanningActionsHelper = [
