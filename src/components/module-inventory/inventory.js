@@ -851,6 +851,7 @@ const Inventory = () => {
             onCommitInventory(subModuleByCurrentTab())
             setFileList([...filesList, dataDisplayedMHT])
           }}
+          headerTemplate={<div />}
         />
       )}
       {showUploadRapportDialog && (

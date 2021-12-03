@@ -64,8 +64,5 @@ export const downloadOriginalFile = async (fileId, name) => {
   const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
     (response) => response.blob(),
   )
-  downloadFromBlob(
-    apiResponseBlob,
-    `${name}.xlsx` || URL.split('/').reverse()[0],
-  )
+  downloadFromBlob(apiResponseBlob, `${name}` || URL.split('/').reverse()[0])
 }

@@ -15,6 +15,7 @@ import {
   getHistoryAndForecast,
   getAnnualResourceDetail,
   overrideReport,
+  saveReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -54,6 +55,7 @@ const Reserves = () => {
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
   const [overrideId, setOverrideId] = useState()
+  // const [commitedDialog, setCommitedDialog] = useState(false)
 
   const role = useRole('reserves')
   const company = getOrganizationInfos()
@@ -87,6 +89,7 @@ const Reserves = () => {
   const { mutate: onOverrideReportMutate } = useMutation(overrideReport)
   const blockList = getBlocks()
   const onCommitReportMutate = useMutation(commitReport)
+  const onSaveReportMutate = useMutation(saveReport)
 
   const { addSupportingDocuments } = documents()
 
@@ -351,6 +354,8 @@ const Reserves = () => {
               'annual',
               refetchAnnualReserves,
             ),
+          onSave: () =>
+            onSaveReport(uploadAnnualResponse, 'annual', refetchAnnualReserves),
         }
       case 1:
         return {
@@ -363,6 +368,12 @@ const Reserves = () => {
           },
           onCommit: () =>
             onCommitReport(
+              onUploadHistoryReportResponse,
+              'fyf',
+              refetchHistoryAndForecast,
+            ),
+          onSave: () =>
+            onSaveReport(
               onUploadHistoryReportResponse,
               'fyf',
               refetchHistoryAndForecast,
@@ -383,12 +394,12 @@ const Reserves = () => {
               'annualResource',
               refetchAnnualResourceDetail,
             ),
-        }
-      case 3:
-        return {
-          title: 'Upload Oman Hydrocarbon Report',
-          optional: 'Attach Supporting Document (Optional)',
-          onUpload: () => {},
+          onSave: () =>
+            onSaveReport(
+              onUploadDetailReportResponse,
+              'annualResource',
+              refetchAnnualResourceDetail,
+            ),
         }
       default:
         break
@@ -419,22 +430,22 @@ const Reserves = () => {
       },
     )
   }
-  /* const onSaveReport = (body) => {
-    uploadAnnualReportMutate(
+  const onSaveReport = (body, sub, refetch) => {
+    onSaveReportMutate.mutate(
       {
-        body: {
-          block: body?.block,
-          company: 'company',
-          file: body?.filesList,
-          processInstanceId: uuidv4(),
-          year: '2021',
+        body: body?.data,
+        sub: sub,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.msg === 'commited') {
+            // setCommitedDialog(true)
+          }
+          return !res?.error && refetch()
         },
       },
-      {
-        onSuccess: (res) => !res?.error && refetchAnnualReserves(),
-      },
     )
-  } */
+  }
   const onCommitReport = (body, sub, refetch) => {
     onCommitReportMutate.mutate(
       {
@@ -506,7 +517,6 @@ const Reserves = () => {
       },
     )
   }
-  // console.log(selectedRow, 'selectedRow')
   return (
     <>
       {(loading ||
@@ -536,7 +546,7 @@ const Reserves = () => {
             withChecked
             selectedRow={selectedRow}
             headerTemplate={
-              selectedRow?.length === 1 && (
+              (selectedRow?.length === 1 && (
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
@@ -548,7 +558,7 @@ const Reserves = () => {
                     renderSectionKey(),
                   )}
                 />
-              )
+              )) || <div />
             }
           />
         </div>
@@ -567,11 +577,18 @@ const Reserves = () => {
           }}
           onSave={() => {
             setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
+            // setShowUploadRapportDialog(true)
+            setFileList(dataDisplayedMHT)
+            renderDialogData().onSave()
+            setShowUploadRapportDialog(false)
+          }}
+          onCommit={() => {
+            setShowUploadMHTDialog(false)
             setFileList(dataDisplayedMHT)
             renderDialogData().onCommit()
             setShowUploadRapportDialog(false)
           }}
+          headerTemplate={<div />}
         />
       )}
 

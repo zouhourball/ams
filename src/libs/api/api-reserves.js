@@ -112,7 +112,18 @@ export const commitReport = async ({ body, sub }) => {
   }
   return res
 }
-
+export const saveReport = async ({ body, sub }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/reserve/${sub}/save`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const detailReserve = async ({ queryKey }) => {
   let res
   try {

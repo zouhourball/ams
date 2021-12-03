@@ -11,6 +11,7 @@ const MHTDialog = ({
   visible,
   onHide,
   onSave,
+  onCommit,
   propsDataTable,
   propsConfigs,
   headerTemplate = {},
@@ -24,12 +25,21 @@ const MHTDialog = ({
       onClick: () => onHide && onHide(),
     },
     {
-      children: 'Commit',
+      children: 'Save',
       primary: true,
       flat: true,
       swapTheming: true,
       onClick: () => {
         onSave && onSave()
+      },
+    },
+    {
+      children: 'Commit',
+      primary: true,
+      flat: true,
+      swapTheming: true,
+      onClick: () => {
+        onCommit && onCommit()
       },
     },
   ]

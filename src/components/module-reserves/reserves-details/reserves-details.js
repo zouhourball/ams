@@ -9,7 +9,11 @@ import { useDispatch } from 'react-redux'
 import useRole from 'libs/hooks/use-role'
 import { addToast } from 'modules/app/actions'
 
-import { detailReserve, updateReserveReport } from 'libs/api/api-reserves'
+import {
+  detailReserve,
+  updateReserveReport,
+  commitReport,
+} from 'libs/api/api-reserves'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -29,7 +33,7 @@ const ReservesDetails = ({ reserveId, subkey }) => {
   const subModule = subkey
   let role = useRole('reserves')
 
-  const { data: reserveDetail } = useQuery(
+  const { data: reserveDetail, refetch } = useQuery(
     ['detailReserve', reserveId, subModule],
     reserveId && detailReserve,
   )
@@ -56,6 +60,19 @@ const ReservesDetails = ({ reserveId, subkey }) => {
       }
     },
   })
+  const onCommit = (body, sub) => {
+    onCommitReportMutate.mutate(
+      {
+        body: body,
+        sub: sub,
+      },
+      {
+        onSuccess: (res) => {
+          return !res?.error && refetch()
+        },
+      },
+    )
+  }
   const reserveDetailsData = useMemo(() => {
     switch (subModule) {
       case 'annual':
@@ -98,7 +115,8 @@ const ReservesDetails = ({ reserveId, subkey }) => {
       submittedBy: reserveDetail?.metaData?.createdBy?.name,
     }
   }, [reserveDetail])
-  // console.log(reserveDetailsData, 'status')
+  const onCommitReportMutate = useMutation(commitReport)
+
   const actions = [
     <Button
       key="1"
@@ -139,6 +157,21 @@ const ReservesDetails = ({ reserveId, subkey }) => {
         }}
       >
         Acknowledge
+      </Button>
+    ),
+    role === 'operator' && reserveDetail?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onCommit(reserveDetail, subModule)
+        }}
+      >
+        Commit
       </Button>
     ),
   ]

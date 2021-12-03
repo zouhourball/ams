@@ -1,5 +1,6 @@
 .module-container {
   width: calc(100vw - 56px);
   height: 100%;
+  overflow-y: auto;
   background: #f0f2f5;
 }

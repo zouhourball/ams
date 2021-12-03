@@ -61,7 +61,7 @@ body {
   .subModule {
     display: flex;
     flex-direction: column;
-    height: calc(100% - 92px);
+    min-height: calc(100% - 92px);
     padding: 5px;
 
     &--table-wrapper {
