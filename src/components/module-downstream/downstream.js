@@ -736,7 +736,6 @@ const Downstream = () => {
             // setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
           }}
-          headerTemplate={<div />}
         />
       )}
       {showUploadRapportDialog && (
