@@ -44,13 +44,13 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Reserves path="/reserves/*" />
               <HSE path="/hse/*" />
               <CostRecovery path="/costrecovery/*" />
-              <Planning path="/planning" />
+              <Planning path="/planning/*" />
               <Permitting path="/permitting/*" />
               <Downstream path="/downstream/*" />
               <InventoryHome path="/inventory/*" />
-              <Tendering path="/tendering" />
-              <Agreement path="/agreement" />
-              <Audit path="/audit" />
+              <Tendering path="/tendering/*" />
+              <Agreement path="/agreement/*" />
+              <Audit path="/audit/*" />
               <ConfiguratorPage path="/configurator" />
             </Router>
           </Suspense>
