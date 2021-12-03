@@ -4,10 +4,7 @@ import Mht from '@target-energysolutions/mht'
 
 import TopBarDetail from 'components/top-bar-detail'
 import { userRole } from 'components/shared-hook/get-roles'
-import {
-  dailyProductionDetailsData,
-  dailyProductionDetailsConfigs,
-} from '../helpers'
+import { configsWpbDialogMht } from '../mht-helper-dialog'
 
 import './style.scss'
 
@@ -57,8 +54,8 @@ const PlanningDetails = () => {
         actions={actions}
       />
       <Mht
-        configs={dailyProductionDetailsConfigs()}
-        tableData={dailyProductionDetailsData}
+        configs={configsWpbDialogMht()}
+        tableData={[]}
         withSearch
         commonActions
         withSubColumns
