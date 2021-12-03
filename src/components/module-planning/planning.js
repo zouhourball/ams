@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, SelectField } from 'react-md'
+import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 
 import TopBar from 'components/top-bar'
@@ -11,14 +11,12 @@ import SupportedDocument from 'components/supported-document'
 import useRole from 'libs/hooks/use-role'
 
 import {
-  dailyProductionConfigs,
-  monthlyProductionConfigs,
-  monthlyTrackingConfigs,
-  omanHydConfigs,
+  wpbPlanningConfigs,
+  fypPlanningConfigs,
+  budgetaryPlanningConfigs,
   dailyProductionData,
   monthlyProductionData,
   monthlyTrackingData,
-  omanHydData,
   actionsHeader,
 } from './helpers'
 
@@ -31,36 +29,27 @@ const Planning = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
-  const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
   const role = useRole('planning')
 
-  const DailyProductionActionsHelper = [
+  const wpbPlanningActionsHelper = [
     {
-      title: 'Upload Daily Production Report',
+      title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
   ]
 
-  const monthlyProductionActionsHelper = [
+  const fypPlanningActionsHelper = [
     {
-      title: 'Upload Monthly Production Report',
+      title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
   ]
 
-  const monthlyTrackingActionsHelper = [
+  const budgetaryPlanningActionsHelper = [
     {
-      title: 'Upload Monthly Tracking Report',
-      onClick: () => setShowUploadRapportDialog(true),
-    },
-    { title: 'Download Template', onClick: () => {} },
-  ]
-
-  const omanHydrocarbonActionsHelper = [
-    {
-      title: 'Upload Oman Hydrocarbon Report',
+      title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
     { title: 'Download Template', onClick: () => {} },
@@ -69,7 +58,7 @@ const Planning = () => {
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
-        key={`production-btn-${index}`}
+        key={`planning-btn-${index}`}
         className="top-bar-buttons-list-item-btn"
         flat
         primary
@@ -86,22 +75,21 @@ const Planning = () => {
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
       case 0:
-        return createActionsByCurrentTab(DailyProductionActionsHelper)
+        return createActionsByCurrentTab(wpbPlanningActionsHelper)
       case 1:
-        return createActionsByCurrentTab(monthlyProductionActionsHelper)
+        return createActionsByCurrentTab(fypPlanningActionsHelper)
       case 2:
-        return createActionsByCurrentTab(monthlyTrackingActionsHelper)
+        return createActionsByCurrentTab(budgetaryPlanningActionsHelper)
       case 3:
       default:
-        return createActionsByCurrentTab(omanHydrocarbonActionsHelper)
+        return null
     }
   }
 
   const tabsList = [
-    'Daily Production',
-    'Monthly Production',
-    'Monthly Tracking',
-    'Oman Hydrocarbon',
+    'Work Program & Budget',
+    'Five Year Plan',
+    'Budgetary Report',
   ]
 
   const renderCurrentTabData = () => {
@@ -112,24 +100,20 @@ const Planning = () => {
         return monthlyProductionData
       case 2:
         return monthlyTrackingData
-      case 3:
-        return omanHydData
       default:
-        return dailyProductionData
+        return null
     }
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
-        return dailyProductionConfigs()
+        return wpbPlanningConfigs()
       case 1:
-        return monthlyProductionConfigs()
+        return fypPlanningConfigs()
       case 2:
-        return monthlyTrackingConfigs()
-      case 3:
-        return omanHydConfigs()
+        return budgetaryPlanningConfigs()
       default:
-        return dailyProductionConfigs()
+        return null
     }
   }
 
@@ -137,25 +121,19 @@ const Planning = () => {
     switch (currentTab) {
       case 0:
         return {
-          title: 'Upload Daily Production Report',
+          title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
       case 1:
         return {
-          title: 'Upload Monthly Production Report',
+          title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
       case 2:
         return {
-          title: 'Upload Monthly Tracking Report',
-          optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
-        }
-      case 3:
-        return {
-          title: 'Upload Oman Hydrocarbon Report',
+          title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
@@ -172,7 +150,7 @@ const Planning = () => {
   return (
     <>
       <TopBar
-        title="Production Reporting"
+        title="Planning"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
@@ -180,13 +158,7 @@ const Planning = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
-          setSelectFieldValue(
-            tab === 1
-              ? 'Monthly Production'
-              : tab === 2
-                ? 'Destination'
-                : 'Grid 1',
-          )
+          // setSelectedRow([])
         }}
       />
       <Mht
@@ -214,22 +186,6 @@ const Planning = () => {
                 role,
                 setShowSupportedDocumentDialog,
               )}
-            />
-          ) : currentTab !== 0 ? (
-            <SelectField
-              id="monthly-prod"
-              menuItems={
-                currentTab === 1
-                  ? ['Monthly Production', 'Monthly Well Counts']
-                  : currentTab === 2
-                    ? ['Destination', 'Average Delivery to ORPIC']
-                    : ['Grid 1', 'Grid 2']
-              }
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={setSelectFieldValue}
-              simplifiedMenu={false}
             />
           ) : (
             ''

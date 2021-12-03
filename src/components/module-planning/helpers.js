@@ -1,7 +1,7 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
-export const dailyProductionConfigs = () => [
+export const wpbPlanningConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -75,7 +75,7 @@ export const dailyProductionConfigs = () => [
   },
 ]
 
-export const monthlyProductionConfigs = () => [
+export const fypPlanningConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -148,7 +148,7 @@ export const monthlyProductionConfigs = () => [
     ),
   },
 ]
-export const monthlyTrackingConfigs = () => [
+export const budgetaryPlanningConfigs = () => [
   {
     label: 'Company',
     key: 'company',
@@ -221,79 +221,7 @@ export const monthlyTrackingConfigs = () => [
     ),
   },
 ]
-export const omanHydConfigs = () => [
-  {
-    label: 'Company',
-    key: 'company',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
 
-  {
-    label: 'Block',
-    key: 'block',
-    width: '200',
-    type: 'text',
-    icon: 'mdi mdi-spellcheck',
-  },
-  {
-    label: 'Submitted Date',
-    key: 'submittedDate',
-    width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
-    icon: 'mdi mdi-spellcheck',
-  },
-  {
-    label: 'Submitted By',
-    key: 'submittedBy',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-  },
-  {
-    label: 'Reference Date',
-    key: 'referenceDate',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
-  },
-  {
-    label: 'Status Date',
-    key: 'statusDate',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
-  },
-  {
-    label: 'Supporting Documents',
-    key: 'supportingDocuments',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    render: (row) => (
-      <FileInput
-        className="upload-docs-button"
-        id={row.id}
-        flat
-        primary
-        iconBefore
-        icon={<FontIcon>save_alt</FontIcon>}
-        label={'Upload Documents'}
-      />
-    ),
-  },
-  {
-    label: 'Status',
-    key: 'status',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    render: (row) => (
-      <div className={`table-status ${row?.status}`}>{row?.status}</div>
-    ),
-  },
-]
 export const dailyProductionData = [
   {
     id: '2656552',
