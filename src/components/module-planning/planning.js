@@ -28,15 +28,7 @@ import getBlocks from 'libs/hooks/get-blocks'
 
 import { addToast } from 'modules/app/actions'
 
-import {
-  planningConfigs,
-  // fypPlanningConfigs,
-  // budgetaryPlanningConfigs,
-  // dailyProductionData,
-  // monthlyProductionData,
-  // monthlyTrackingData,
-  actionsHeader,
-} from './helpers'
+import { planningConfigs, actionsHeader } from './helpers'
 
 const Planning = () => {
   const dispatch = useDispatch()
