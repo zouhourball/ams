@@ -335,6 +335,18 @@ const Planning = () => {
         break
     }
   }
+  const getCurrentkey = () => {
+    switch (currentTab) {
+      case 0:
+        return 'wpb'
+      case 1:
+        return 'fyp'
+      case 2:
+        return ''
+      default:
+        break
+    }
+  }
 
   const onDisplayMHT = (file) => {
     setShowUploadMHTDialog(true)
@@ -380,6 +392,7 @@ const Planning = () => {
                 selectedRow[0]?.id,
                 role,
                 setShowSupportedDocumentDialog,
+                getCurrentkey(),
               )}
             />
           ) : (

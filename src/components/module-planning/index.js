@@ -5,15 +5,18 @@ const Planning = lazy(() => import('./planning'))
 const PlanningDetails = lazy(() =>
   import('./planning-details/planning-details'),
 )
-
-const DownstreamModule = () => {
+const ViewHistorian = lazy(() =>
+  import('components/module-planning/view-historian'),
+)
+const PlanningModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Planning path="/" />
         <PlanningDetails path="/planning-details/:planningId" />
+        <ViewHistorian path="/view-historian/:subModule/:objectId" />
       </Router>
     </Suspense>
   )
 }
-export default DownstreamModule
+export default PlanningModule

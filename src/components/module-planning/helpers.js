@@ -1,5 +1,6 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
+import { listAnalytics } from 'libs/api/api-planning'
 
 export const planningConfigs = () => [
   {
@@ -104,26 +105,49 @@ export const omanHydData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (key, id, role, supportedDocument, subModule) => {
   switch (role) {
-    case 'regulator':
+    case 'tecom fincom jmc':
     default:
       return [
         {
           id: 1,
-          label: 'Download Original File',
+          label: 'Initiate Meeting',
           onClick: () => {},
         },
         {
           id: 2,
+          label: 'View Process Historian',
+          onClick: () => {
+            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+          },
+        },
+        {
+          id: 3,
           label: 'View Details',
           onClick: () => {
             key && id && navigate(`/ams/planning/${key}/${id}`)
           },
         },
-        // /planning/planning-details/:planningId
         {
-          id: 3,
+          id: 4,
+          label: 'View Analytics',
+          onClick: () => {
+            listAnalytics(subModule)
+          },
+        },
+        {
+          id: 5,
+          label: 'Clarity',
+          onClick: () => {},
+        },
+        {
+          id: 6,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 7,
           label: 'View Documents',
           onClick: () => {},
         },
@@ -132,12 +156,14 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
       return [
         {
           id: 1,
-          label: 'Delete',
-          onClick: () => {},
+          label: 'View Process Historian',
+          onClick: () => {
+            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+          },
         },
         {
           id: 2,
-          label: 'Download Original File',
+          label: 'Delete',
           onClick: () => {},
         },
         {
@@ -149,6 +175,23 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
         },
         {
           id: 4,
+          label: 'View Analytics',
+          onClick: () => {
+            listAnalytics(subModule)
+          },
+        },
+        {
+          id: 5,
+          label: 'Update',
+          onClick: () => {},
+        },
+        {
+          id: 6,
+          label: 'Download Original File',
+          onClick: () => {},
+        },
+        {
+          id: 7,
           label: 'Upload Documents',
           onClick: () => {
             supportedDocument(true)

@@ -1,23 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Router } from '@reach/router'
 
-// import getBlocks from 'libs/hooks/get-blocks'
-// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
-
-// import useRole from 'libs/hooks/use-role'
-
 const Reserves = lazy(() => import('./reserves'))
 const ReservesDetails = lazy(() =>
   import('components/module-reserves/reserves-details'),
 )
 
-const Permitting = () => {
-  // const role = useRole('costrecovery')
-  // console.log('role', role)
-  // const blocks = getBlocks()
-  // console.log(blocks, 'BLOCKS')
-  // const organization = getOrganizationInfos()
-  // console.log(organization, 'organization')
+const ReservesModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
@@ -27,4 +16,4 @@ const Permitting = () => {
     </Suspense>
   )
 }
-export default Permitting
+export default ReservesModule

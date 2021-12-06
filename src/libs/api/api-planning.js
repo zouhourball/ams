@@ -123,3 +123,31 @@ export const deletePlanning = async ({ subModule, objectId }) => {
   }
   return res
 }
+export const viewVersions = ({ queryKey }) => {
+  let res
+  try {
+    res = fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[3]}/${queryKey[1]}/versions?version=${queryKey[2]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const listAnalytics = (subModule) => {
+  let res
+  try {
+    res = fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/${subModule}/list/analytics`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

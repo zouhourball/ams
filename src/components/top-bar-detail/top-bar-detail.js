@@ -5,8 +5,15 @@ import { userRole } from 'components/shared-hook/get-roles'
 import './style.scss'
 
 const TopBarDetail = ({ detailData, actions, onClickBack }) => {
-  const { title, subTitle, companyName, submittedBy, submittedDate } =
-    detailData
+  const {
+    title,
+    subTitle,
+    companyName,
+    submittedBy,
+    submittedDate,
+    companyAllRoles,
+    status,
+  } = detailData
   const renderListButtons = () => {
     return actions.map((action) => action)
   }
@@ -27,16 +34,22 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
             <div className="top-bar-detail-left-information-titles-title">
               {title}
             </div>
-            <div className="top-bar-detail-left-information-titles-sub-title-sep">
-              /
-            </div>
-            <div className="top-bar-detail-left-information-titles-sub-title">
-              {subTitle}
-            </div>
+
+            {subTitle && (
+              <>
+                <div className="top-bar-detail-left-information-titles-sub-title-sep">
+                  /
+                </div>
+                <div className="top-bar-detail-left-information-titles-sub-title">
+                  {subTitle}
+                </div>
+              </>
+            )}
           </div>
 
           <div className="top-bar-detail-left-information-details">
-            {companyName && userRole() === 'regulator' && (
+            {((companyName && userRole() === 'regulator') ||
+              companyAllRoles) && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-key">
                   Company :
@@ -47,6 +60,20 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
                 </div>
                 <div className="top-bar-detail-left-information-details-item-sep"></div>
               </div>
+            )}
+            {status && (
+              <>
+                {' '}
+                <div className="top-bar-detail-left-information-details-item">
+                  <div className="top-bar-detail-left-information-details-item-key">
+                    Status :
+                  </div>
+                  <div className="top-bar-detail-left-information-details-item-value">
+                    {' '}
+                    {status}
+                  </div>
+                </div>
+              </>
             )}
             {submittedBy && (
               <div className="top-bar-detail-left-information-details-item">

@@ -50,7 +50,7 @@ const PlanningDetails = () => {
   return (
     <div className="details-container">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/production')}
+        onClickBack={() => navigate('/ams/planning')}
         actions={actions}
       />
       <Mht
