@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
+import { get } from 'lodash-es'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -16,19 +17,24 @@ import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
 import { downloadTemp } from 'libs/api/supporting-document-api'
-import { uploadWpbReport, uploadFypReport } from 'libs/api/api-planning'
+import {
+  uploadWpbReport,
+  uploadFypReport,
+  commitPlanning,
+  getListPlanning,
+} from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
 
 import { addToast } from 'modules/app/actions'
 
 import {
-  wpbPlanningConfigs,
-  fypPlanningConfigs,
-  budgetaryPlanningConfigs,
-  dailyProductionData,
-  monthlyProductionData,
-  monthlyTrackingData,
+  planningConfigs,
+  // fypPlanningConfigs,
+  // budgetaryPlanningConfigs,
+  // dailyProductionData,
+  // monthlyProductionData,
+  // monthlyTrackingData,
   actionsHeader,
 } from './helpers'
 
@@ -42,12 +48,34 @@ const Planning = () => {
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
-  // const [currentUpload, setCurrentUpload] = useState()
+  const [currentUpload, setCurrentUpload] = useState()
+  // const [overrideId, setOverrideId] = useState()
 
   const [filesList, setFileList] = useState([])
   const role = useRole('planning')
   const blocks = getBlocks()
   const company = getOrganizationInfos()
+
+  const subModuleByCurrentTab = () => {
+    switch (currentTab) {
+      case 0:
+        return 'wpb'
+      case 1:
+        return 'fyp'
+      case 2:
+        return ''
+      default:
+        return ''
+    }
+  }
+
+  const { data: listPlanning, refetch: refetchList } = useQuery(
+    ['getListPlanning', subModuleByCurrentTab()],
+    getListPlanning,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
 
   const uploadWpbReportMutate = useMutation(
     uploadWpbReport,
@@ -57,7 +85,7 @@ const Planning = () => {
         if (!res.error) {
           setShowUploadMHTDialog(true)
 
-          // setCurrentUpload(res)
+          setCurrentUpload(res)
           onDisplayMHT(...res)
           dispatch(
             addToast(
@@ -91,7 +119,7 @@ const Planning = () => {
         if (!res.error) {
           setShowUploadMHTDialog(true)
 
-          // setCurrentUpload(res)
+          setCurrentUpload(res)
           onDisplayMHT(...res)
           dispatch(
             addToast(
@@ -102,6 +130,47 @@ const Planning = () => {
               'hide',
             ),
           )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const commitPlanningMutate = useMutation(
+    commitPlanning,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res.overrideId && !res.success) {
+            // setShowConfirmDialog(true)
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            // setOverrideId(res?.overrideId)
+          } else {
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            refetchList()
+
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'commited successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
         } else {
           dispatch(
             addToast(
@@ -140,18 +209,25 @@ const Planning = () => {
       },
     })
   }
-  const onAddReportByCurrentTab = (body) => {
-    let uuid = uuidv4()
-    switch (currentTab) {
-      case 0:
-        handleUploadWpb(body, uuid)
-        break
-      case 1:
-        handleUploadFyp(body, uuid)
-        break
-      case 2:
-        break
-    }
+  // const onAddReportByCurrentTab = (body) => {
+  //   let uuid = uuidv4()
+  //   switch (currentTab) {
+  //     case 0:
+  //       handleUploadWpb(body, uuid)
+  //       break
+  //     case 1:
+  //       handleUploadFyp(body, uuid)
+  //       break
+  //     case 2:
+  //       break
+  //   }
+  // }
+
+  const onCommitPLanning = (subModule) => {
+    commitPlanningMutate.mutate({
+      subModule: subModule,
+      body: currentUpload,
+    })
   }
 
   const wpbPlanningActionsHelper = [
@@ -221,30 +297,21 @@ const Planning = () => {
     'Budgetary Report',
   ]
 
-  const renderCurrentTabData = () => {
-    switch (currentTab) {
-      case 0:
-        return dailyProductionData
-      case 1:
-        return monthlyProductionData
-      case 2:
-        return monthlyTrackingData
-      default:
-        return null
-    }
-  }
-  const renderCurrentTabConfigs = () => {
-    switch (currentTab) {
-      case 0:
-        return wpbPlanningConfigs()
-      case 1:
-        return fypPlanningConfigs()
-      case 2:
-        return budgetaryPlanningConfigs()
-      default:
-        return null
-    }
-  }
+  const tableDataPlanning = (get(listPlanning, 'content', []) || []).map(
+    (el) => {
+      return {
+        id: el?.id,
+        processInstanceId: get(el, 'metaData.processInstanceId', ''),
+        originalFileId: get(el, 'metaData.originalFileId', ''),
+        company: get(el, 'metaData.company', 'n/a'),
+        block: get(el, 'metaData.block', 'n/a'),
+        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+        status: get(el, 'metaData.status', 'n/a'),
+      }
+    },
+  )
 
   const renderDialogData = (data) => {
     switch (currentTab) {
@@ -282,6 +349,7 @@ const Planning = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
+
   return (
     <>
       <TopBar
@@ -297,8 +365,8 @@ const Planning = () => {
         }}
       />
       <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
+        configs={planningConfigs()}
+        tableData={tableDataPlanning}
         hideTotal={false}
         singleSelect={true}
         withFooter
@@ -335,10 +403,9 @@ const Planning = () => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)
           }}
-          onSave={() => {
-            setShowUploadMHTDialog(false)
-            setShowUploadRapportDialog(true)
+          onCommit={() => {
             setFileList([...filesList, dataDisplayedMHT])
+            onCommitPLanning(subModuleByCurrentTab())
           }}
         />
       )}
@@ -358,10 +425,10 @@ const Planning = () => {
             setShowUploadRapportDialog(false)
             setFileList([])
           }}
-          // onSave={(data) => renderDialogData(data).onUpload()}
-          onSave={(data) => {
-            onAddReportByCurrentTab(data)
-          }}
+          onSave={(data) => renderDialogData(data).onUpload()}
+          // onSave={(data) => {
+          //   onAddReportByCurrentTab(data)
+          // }}
         />
       )}
 
