@@ -1,6 +1,7 @@
-import { FileInput, FontIcon, TextField } from 'react-md'
+import { FileInput, TextField, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
+import moment from 'moment'
 export const mhtConfig = (supportedDocument) => [
   {
     label: 'Company',
@@ -328,6 +329,13 @@ export const actionsHeader = (
       } else if (tab === 'base-surplus') {
         return [
           {
+            id: 2,
+            label: 'Declare Surplus',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          {
             id: 3,
             label: 'View Records',
             onClick: () => {
@@ -619,7 +627,7 @@ export const assetDisposalDetailsData = [
     serialNumber: '_',
   },
 ]
-export const assetConsumptionDetailsConfigs = (rows, setRows) => [
+export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
   {
     label: 'Material Name',
     key: 'materialName',
@@ -643,7 +651,7 @@ export const assetConsumptionDetailsConfigs = (rows, setRows) => [
   },
 
   {
-    label: 'Consumption',
+    label: colTitle,
     key: 'consumption',
     width: '100',
     icon: 'mdi mdi-spellcheck',
@@ -658,7 +666,8 @@ export const assetConsumptionDetailsConfigs = (rows, setRows) => [
           lineDirection="center"
           id={row.id}
           type="number"
-          value={rows[row?.id]?.value}
+          className="upload-permit-dialog-textField"
+          value={rows[row?.id]?.Count}
           onChange={(v) => {
             let newRow = { ...row }
             const locaLRows = [...rows]
@@ -666,7 +675,7 @@ export const assetConsumptionDetailsConfigs = (rows, setRows) => [
             const rowExist = rows?.find((el) => el?.id === newRow?.id)
             if (rowExist) {
               const index = rows.indexOf(rowExist)
-              locaLRows[index] = { Count: v, ...rowExist }
+              locaLRows[index].Count = v
             } else {
               locaLRows.push(newRow)
             }
@@ -692,10 +701,81 @@ export const assetConsumptionDetailsConfigs = (rows, setRows) => [
     icon: 'mdi mdi-spellcheck',
   },
   {
-    label: 'Date of Consumption',
+    label: `Date of ${colTitle}`,
     key: 'dateOfConsumption',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    render: (row) => {
+      const dateFormat = 'DD/MM/YYYY'
+      let validDate = false
+
+      const selectedRow = rows?.find((el) => el?.id === row?.id)
+
+      if (
+        selectedRow?.date &&
+        !moment(selectedRow?.date, dateFormat, true).isValid()
+      ) {
+        validDate = true
+      }
+
+      return (
+        <>
+          <TextField
+            id={row.id}
+            className="upload-permit-dialog-textField"
+            onChange={(v) => {
+              let newRow = { ...row }
+              const locaLRows = [...rows]
+              newRow.date = v
+              const rowExist = rows?.find((el) => el?.id === newRow?.id)
+              if (rowExist) {
+                const index = rows.indexOf(rowExist)
+                locaLRows[index].date = v
+              } else {
+                locaLRows.push(newRow)
+              }
+
+              if (v === '' && !selectedRow?.Count) {
+                const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
+                setRows(rowsFiltered)
+              } else {
+                setRows(locaLRows)
+              }
+            }}
+            placeholder={'DD/MM/YYYY'}
+            rightIcon={<FontIcon>date_range</FontIcon>}
+            value={rows[row?.id]?.date}
+            block
+            error={validDate}
+          />
+          {/*      {datePickerState && (
+        <Portal
+          visible={datePickerState}
+          className="upload-permit-dialog-date"
+          lastChild={true}
+        >
+          <DatePicker
+            singlePick
+            startView="year"
+            endView="day"
+            defaultView="day"
+            translation={{ update: 'select' }}
+            onUpdate={(date) => {
+              setInformation({
+                ...information,
+                date: date.timestamp,
+              })
+
+              setDatePickerState(false)
+            }}
+            onCancel={() => setDatePickerState(false)}
+          />
+        </Portal>
+
+      )} */}
+        </>
+      )
+    },
   },
 
   {
@@ -707,12 +787,6 @@ export const assetConsumptionDetailsConfigs = (rows, setRows) => [
   {
     label: 'Quantity',
     key: 'quantity',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-  },
-  {
-    label: 'Current Stock',
-    key: 'currentStock',
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },

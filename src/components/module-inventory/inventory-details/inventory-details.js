@@ -138,12 +138,16 @@ const InventoryDetails = () => {
       return { data: el, inventoryId: inventoryId, rowId: el?.id }
     })
 
+    const transactionType =
+      currentTabName === 'base-consumption'
+        ? 'consumptionReportProcess'
+        : 'surplusInventoryProcess'
     addTransactionInventoryMutate.mutate({
       body: {
         data: data,
         inventoryId: inventoryId,
         processInstanceId: inventoryAcceptedData?.metaData?.processInstanceId,
-        transactionType: 'consumptionReportProcess',
+        transactionType: transactionType,
       },
     })
   }
@@ -251,9 +255,9 @@ const InventoryDetails = () => {
     switch (currentTabName) {
       case 'base':
       case 'base-consumption':
-        return assetConsumptionDetailsConfigs(rows, setRows)
+        return assetConsumptionDetailsConfigs(rows, setRows, 'Consumption')
       case 'base-surplus':
-        return annualBaseDetailsConfigs()
+        return assetConsumptionDetailsConfigs(rows, setRows, 'Surplus')
       case 'assetDisposalRequestProcess':
         return assetDisposalDetailsConfigs()
       default:
