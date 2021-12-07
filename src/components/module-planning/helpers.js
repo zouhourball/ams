@@ -105,7 +105,16 @@ export const omanHydData = [
     status: 'Submitted',
   },
 ]
-export const actionsHeader = (key, id, role, supportedDocument, subModule) => {
+export const actionsHeader = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  subModule,
+  onDelete,
+  downloadOriginalFile,
+  originalFileId,
+) => {
   switch (role) {
     case 'tecom fincom jmc':
     default:
@@ -144,7 +153,9 @@ export const actionsHeader = (key, id, role, supportedDocument, subModule) => {
         {
           id: 6,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 7,
@@ -188,7 +199,9 @@ export const actionsHeader = (key, id, role, supportedDocument, subModule) => {
         {
           id: 6,
           label: 'Download Original File',
-          onClick: () => {},
+          onClick: () => {
+            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+          },
         },
         {
           id: 7,

@@ -14,14 +14,19 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
+import ConfirmDialog from 'components/confirm-dialog'
 
 import useRole from 'libs/hooks/use-role'
-import { downloadTemp } from 'libs/api/supporting-document-api'
+import {
+  downloadTemp,
+  downloadOriginalFile,
+} from 'libs/api/supporting-document-api'
 import {
   uploadWpbReport,
   uploadFypReport,
   commitPlanning,
   getListPlanning,
+  overridePlanningReport,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -41,7 +46,8 @@ const Planning = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [currentUpload, setCurrentUpload] = useState()
-  // const [overrideId, setOverrideId] = useState()
+  const [overrideId, setOverrideId] = useState()
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
   const [filesList, setFileList] = useState([])
   const role = useRole('planning')
@@ -144,15 +150,49 @@ const Planning = () => {
       onSuccess: (res) => {
         if (!res.error) {
           if (res.overrideId && !res.success) {
-            // setShowConfirmDialog(true)
+            setShowConfirmDialog(true)
             setShowUploadRapportDialog(false)
             setShowUploadMHTDialog(false)
-            // setOverrideId(res?.overrideId)
+            setOverrideId(res?.overrideId)
           } else {
             setShowUploadRapportDialog(false)
             setShowUploadMHTDialog(false)
             refetchList()
 
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'commited successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
+
+  const overridePlanningMutate = useMutation(
+    overridePlanningReport,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res?.msg === 'saved') {
+            refetchList()
+            setShowConfirmDialog(false)
             dispatch(
               addToast(
                 <ToastMsg
@@ -201,19 +241,6 @@ const Planning = () => {
       },
     })
   }
-  // const onAddReportByCurrentTab = (body) => {
-  //   let uuid = uuidv4()
-  //   switch (currentTab) {
-  //     case 0:
-  //       handleUploadWpb(body, uuid)
-  //       break
-  //     case 1:
-  //       handleUploadFyp(body, uuid)
-  //       break
-  //     case 2:
-  //       break
-  //   }
-  // }
 
   const onCommitPLanning = (subModule) => {
     commitPlanningMutate.mutate({
@@ -221,6 +248,16 @@ const Planning = () => {
       body: currentUpload,
     })
   }
+
+  const onOverridePlanning = (subModule, overrideId) => {
+    overridePlanningMutate.mutate({
+      subModule: subModule,
+      overrideId: overrideId,
+      body: currentUpload,
+    })
+  }
+
+  const handleDeletePlanning = (/* subModule, objectId */) => {}
 
   const wpbPlanningActionsHelper = [
     {
@@ -335,18 +372,6 @@ const Planning = () => {
         break
     }
   }
-  const getCurrentkey = () => {
-    switch (currentTab) {
-      case 0:
-        return 'wpb'
-      case 1:
-        return 'fyp'
-      case 2:
-        return ''
-      default:
-        break
-    }
-  }
 
   const onDisplayMHT = (file) => {
     setShowUploadMHTDialog(true)
@@ -392,7 +417,10 @@ const Planning = () => {
                 selectedRow[0]?.id,
                 role,
                 setShowSupportedDocumentDialog,
-                getCurrentkey(),
+                subModuleByCurrentTab(),
+                handleDeletePlanning,
+                downloadOriginalFile,
+                selectedRow[0]?.originalFileId,
               )}
             />
           ) : (
@@ -431,12 +459,20 @@ const Planning = () => {
             setFileList([])
           }}
           onSave={(data) => renderDialogData(data).onUpload()}
-          // onSave={(data) => {
-          //   onAddReportByCurrentTab(data)
-          // }}
         />
       )}
 
+      {showConfirmDialog && (
+        <ConfirmDialog
+          onDiscard={() => setShowConfirmDialog(false)}
+          visible={showConfirmDialog}
+          handleOverride={() =>
+            onOverridePlanning(subModuleByCurrentTab(), overrideId)
+          }
+          message={'Do you confirm override ?'}
+          confirmLabel={'Override'}
+        />
+      )}
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}
