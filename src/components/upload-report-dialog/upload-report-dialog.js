@@ -7,12 +7,14 @@ import {
   CircularProgress,
 } from 'react-md'
 import { useDropzone } from 'react-dropzone'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 import { get } from 'lodash-es'
+import { useQuery } from 'react-query'
 
 import { fileManagerUpload } from 'libs/api/api-file-manager'
+import { getDocumentsById } from 'libs/api/supporting-document-api'
 
 import uploadIcon from './upload-icon.svg'
 
@@ -33,14 +35,28 @@ const UploadReportDialog = ({
   hideBlock,
   companyList,
   ReportingType,
+  previewData,
+  formatDate = 'day',
 }) => {
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
   const [reportData, setReportData] = useState({
-    referenceDate: new Date(),
+    referenceDate:
+      moment(previewData?.referenceDate.toString()).valueOf() || new Date(),
+    block: previewData?.block,
   })
+  const { data: suppDocsFiles } = useQuery(
+    ['getDocumentsById', previewData?.processInstanceId],
+    previewData && previewData?.processInstanceId && getDocumentsById,
+  )
+  useEffect(() => {
+    if (suppDocsFiles && suppDocsFiles.length > 0) {
+      setOptionalFile([...suppDocsFiles])
+    }
+  }, [suppDocsFiles])
+
   const onUpload = (file) => {
     // setFileLoader(true)
     // fileManagerUpload(file).then((res) => {
@@ -146,6 +162,7 @@ const UploadReportDialog = ({
             value={reportData?.block}
             onChange={(v) => setReportData({ ...reportData, block: v })}
             simplifiedMenu={false}
+            disabled={previewData}
           />
         )}
 
@@ -180,14 +197,19 @@ const UploadReportDialog = ({
             placeholder={'Reference Date'}
             value={
               reportData?.referenceDate?.timestamp
-                ? moment(+reportData?.referenceDate?.timestamp).format('ll')
-                : moment(new Date(reportData?.referenceDate)).format('ll')
+                ? formatDate === 'year'
+                  ? moment(+reportData?.referenceDate?.timestamp).format('YYYY')
+                  : moment(+reportData?.referenceDate?.timestamp).format('ll')
+                : formatDate === 'year'
+                  ? moment(reportData?.referenceDate).format('YYYY')
+                  : moment(new Date(reportData?.referenceDate)).format('ll')
             }
             className="upload-report-dialog-text md-cell md-cell--6"
             onChange={() => {}}
             block
             rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
-            onClick={() => setShowDatePickerEnd(true)}
+            onClick={() => !previewData && setShowDatePickerEnd(true)}
+            disabled={previewData}
           />
         )}
         {showDatePickerEnd && (
@@ -205,7 +227,7 @@ const UploadReportDialog = ({
             //     : new Date().getTime(),
             // }}
             startView="year"
-            endView="day"
+            endView={formatDate} // "day"
           />
         )}
         <div className="upload-report-dialog-subtitle md-cell md-cell--12">
@@ -269,7 +291,7 @@ const UploadReportDialog = ({
             </Button>
           </div>
         )}
-        {optional && (
+        {optional && !previewData && (
           <>
             <div className="upload-report-dialog-subtitle md-cell md-cell--12">
               {optional}

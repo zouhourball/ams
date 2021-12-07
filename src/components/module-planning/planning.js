@@ -16,6 +16,7 @@ import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 import ConfirmDialog from 'components/confirm-dialog'
 
+import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
 import {
   downloadTemp,
@@ -28,6 +29,7 @@ import {
   getListPlanning,
   overridePlanningReport,
   deletePlanning,
+  updateReport,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -54,6 +56,7 @@ const Planning = () => {
   const role = useRole('planning')
   const blocks = getBlocks()
   const company = getOrganizationInfos()
+  const { addSupportingDocuments } = documents()
 
   const subModuleByCurrentTab = () => {
     switch (currentTab) {
@@ -247,6 +250,32 @@ const Planning = () => {
     },
   })
 
+  const updateReportMutate = useMutation(updateReport, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchList()
+        setShowUploadRapportDialog(false)
+        setShowUploadMHTDialog(false)
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
   const handleUploadWpb = (body, uuid) => {
     uploadWpbReportMutate.mutate({
       body: {
@@ -290,6 +319,13 @@ const Planning = () => {
     deletePlanningMutate.mutate({
       subModule,
       objectId,
+    })
+  }
+  const onUpdateReport = (subModule, objectId) => {
+    updateReportMutate.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      body: currentUpload,
     })
   }
 
@@ -370,7 +406,11 @@ const Planning = () => {
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+        referenceDate: get(
+          el,
+          'metaData.year',
+          'n/a',
+        ) /* moment(el?.metaData?.reportDate).format('DD MMM, YYYY') */,
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -385,6 +425,7 @@ const Planning = () => {
           onUpload: () => {
             const uuid = uuidv4()
             handleUploadWpb(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 1:
@@ -394,6 +435,7 @@ const Planning = () => {
           onUpload: () => {
             const uuid = uuidv4()
             handleUploadFyp(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
       case 2:
@@ -455,6 +497,7 @@ const Planning = () => {
                 handleDeletePlanning,
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
+                setShowUploadRapportDialog,
               )}
             />
           ) : (
@@ -472,7 +515,9 @@ const Planning = () => {
           }}
           onCommit={() => {
             setFileList([...filesList, dataDisplayedMHT])
-            onCommitPLanning(subModuleByCurrentTab())
+            selectedRow[0]
+              ? onUpdateReport(subModuleByCurrentTab(), selectedRow[0]?.id)
+              : onCommitPLanning(subModuleByCurrentTab())
           }}
         />
       )}
@@ -493,6 +538,8 @@ const Planning = () => {
             setFileList([])
           }}
           onSave={(data) => renderDialogData(data).onUpload()}
+          previewData={selectedRow[0]}
+          formatDate="year"
         />
       )}
 

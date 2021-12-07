@@ -114,6 +114,7 @@ export const actionsHeader = (
   onDelete,
   downloadOriginalFile,
   originalFileId,
+  onUpdate,
 ) => {
   switch (role) {
     case 'tecom fincom jmc':
@@ -196,7 +197,9 @@ export const actionsHeader = (
         {
           id: 5,
           label: 'Update',
-          onClick: () => {},
+          onClick: () => {
+            onUpdate(true)
+          },
         },
         {
           id: 6,
