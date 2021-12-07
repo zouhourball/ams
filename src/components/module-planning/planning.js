@@ -27,6 +27,7 @@ import {
   commitPlanning,
   getListPlanning,
   overridePlanningReport,
+  deletePlanning,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -218,6 +219,34 @@ const Planning = () => {
     },
   )
 
+  const deletePlanningMutate = useMutation(deletePlanning, {
+    onSuccess: (res) => {
+      refetchList()
+
+      if (!res.error) {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'Deleted successfully'}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
   const handleUploadWpb = (body, uuid) => {
     uploadWpbReportMutate.mutate({
       body: {
@@ -257,7 +286,12 @@ const Planning = () => {
     })
   }
 
-  const handleDeletePlanning = (/* subModule, objectId */) => {}
+  const handleDeletePlanning = (subModule, objectId) => {
+    deletePlanningMutate.mutate({
+      subModule,
+      objectId,
+    })
+  }
 
   const wpbPlanningActionsHelper = [
     {

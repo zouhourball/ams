@@ -175,7 +175,9 @@ export const actionsHeader = (
         {
           id: 2,
           label: 'Delete',
-          onClick: () => {},
+          onClick: () => {
+            onDelete(subModule, id)
+          },
         },
         {
           id: 3,
