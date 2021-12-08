@@ -2,7 +2,7 @@ import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { listAnalytics } from 'libs/api/api-planning'
 
-export const planningConfigs = () => [
+export const planningConfigs = (supportedDocument) => [
   {
     label: 'Company',
     key: 'company',
@@ -56,6 +56,10 @@ export const planningConfigs = () => [
         iconBefore
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
+        onClick={(e) => {
+          e.preventDefault()
+          supportedDocument(row)
+        }}
       />
     ),
   },

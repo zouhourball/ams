@@ -449,10 +449,28 @@ const Planning = () => {
     }
   }
 
+  const closeSupportedDocumentDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const handleSupportingDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      selectedRow[0]?.processInstanceId ||
+        showSupportedDocumentDialog?.processInstanceId,
+      closeSupportedDocumentDialog,
+    )
+  }
+
   const onDisplayMHT = (file) => {
     setShowUploadMHTDialog(true)
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
+  }
+
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
   }
 
   return (
@@ -470,7 +488,7 @@ const Planning = () => {
         }}
       />
       <Mht
-        configs={planningConfigs()}
+        configs={planningConfigs(UploadSupportedDocumentFromTable)}
         tableData={tableDataPlanning}
         hideTotal={false}
         singleSelect={true}
@@ -559,7 +577,13 @@ const Planning = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          onSaveUpload={() => {}}
+          processInstanceId={
+            selectedRow[0]?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </>
