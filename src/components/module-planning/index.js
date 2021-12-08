@@ -13,7 +13,7 @@ const PlanningModule = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Planning path="/" />
-        <PlanningDetails path="/planning-details/:planningId" />
+        <PlanningDetails path="/planning-details/:subModule/:objectId" />
         <ViewHistorian path="/view-historian/:subModule/:objectId" />
       </Router>
     </Suspense>

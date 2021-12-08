@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
@@ -33,10 +33,11 @@ import {
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
+import { configsWpbDialogMht, configsFypDialogMht } from './mht-helper-dialog'
 
 import { addToast } from 'modules/app/actions'
 
-import { planningConfigs, actionsHeader } from './helpers'
+import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 
 const Planning = () => {
   const dispatch = useDispatch()
@@ -469,6 +470,30 @@ const Planning = () => {
     setDataDisplayedMHT(file)
   }
 
+  const currentYear =
+    currentUpload?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year
+
+  const configsMht = () => {
+    switch (currentTab) {
+      case 0:
+        return configsWpbDialogMht()
+      case 1:
+        return configsFypDialogMht(currentYear)
+      default:
+        break
+    }
+  }
+
+  const uploadData = useMemo(() => {
+    switch (currentTab) {
+      case 0:
+        return wpbData(currentUpload) || []
+      case 1:
+        return fypData(currentUpload) || []
+      default:
+        break
+    }
+  }, [currentUpload])
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -527,6 +552,8 @@ const Planning = () => {
         <MHTDialog
           headerTemplate={<></>}
           visible={showUploadMHTDialog}
+          propsDataTable={uploadData}
+          propsConfigs={configsMht()}
           onHide={() => {
             setShowUploadMHTDialog(false)
             setShowUploadRapportDialog(true)

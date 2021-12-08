@@ -1,6 +1,5 @@
 import { navigate } from '@reach/router'
 // import { useQuery } from 'react-query'
-// import { viewVersions } from 'libs/api/api-planning'
 
 import TopBarDetail from 'components/top-bar-detail'
 // import useRole from 'libs/hooks/use-role'
@@ -8,11 +7,6 @@ import TopBarDetail from 'components/top-bar-detail'
 import './style.scss'
 
 const ViewHistorian = ({ sections, objectId = 1, version = 2, subModule }) => {
-  /* const { data: listVersions, refetch: refetchListVersions } = useQuery(
-    ['viewVersions', objectId, version, subModule],
-    objectId && viewVersions,
-  ) */
-
   const detailData = {
     title: 'Block 55',
     companyName: 'company',

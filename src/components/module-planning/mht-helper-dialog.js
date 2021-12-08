@@ -65,20 +65,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'January',
-      key: 'January',
+      key: 'JAN',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'jActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'jPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -86,20 +86,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'February',
-      key: 'February',
+      key: 'FEB',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'fActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'fPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -107,20 +107,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'March',
-      key: 'March',
+      key: 'MAR',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'mActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'mPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -128,20 +128,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'April',
-      key: 'April',
+      key: 'APR',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'aActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'aPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -149,20 +149,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'May',
-      key: 'May',
+      key: 'MAY',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'mayActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'mayPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -170,20 +170,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'June',
-      key: 'June',
+      key: 'JUN',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'juneActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'junePlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -191,20 +191,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'July',
-      key: 'July',
+      key: 'JUL',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'julyActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'julyPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -212,20 +212,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'August',
-      key: 'August',
+      key: 'AUG',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'augustActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'augustPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -233,20 +233,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'September',
-      key: 'September',
+      key: 'SEP',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'septemberActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'septemberPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -254,20 +254,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'October',
-      key: 'October',
+      key: 'OCT',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'octoberActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'octoberPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -275,20 +275,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'November',
-      key: 'November',
+      key: 'NOV',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'novemberActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'novemberPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -296,20 +296,20 @@ export const configsWpbDialogMht = () => {
     },
     {
       label: 'December',
-      key: 'December',
+      key: 'DEC',
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
           label: 'Actual',
-          subKey: 'decemberActual',
+          subKey: 'actual',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
         {
           label: 'Plan',
-          subKey: 'decemberPlan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
@@ -317,7 +317,7 @@ export const configsWpbDialogMht = () => {
     },
   ]
 }
-export const configsFypDialogMht = () => {
+export const configsFypDialogMht = (startYear = 2021) => {
   return [
     {
       label: 'Company Name',
@@ -377,21 +377,75 @@ export const configsFypDialogMht = () => {
     },
 
     {
-      label: '2021',
-      key: '2021',
+      label: startYear,
+      key: startYear,
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
       columns: [
         {
-          label: 'Actual',
-          subKey: 'jActual',
+          label: 'Plan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },
+      ],
+    },
+    {
+      label: startYear + 1,
+      key: startYear + 1,
+      width: '600',
+      icon: 'mdi mdi-spellcheck',
+      type: 'subColumns',
+      columns: [
         {
           label: 'Plan',
-          subKey: 'jPlan',
+          subKey: 'plan',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+        },
+      ],
+    },
+    {
+      label: startYear + 2,
+      key: startYear + 2,
+      width: '600',
+      icon: 'mdi mdi-spellcheck',
+      type: 'subColumns',
+      columns: [
+        {
+          label: 'Plan',
+          subKey: 'plan',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+        },
+      ],
+    },
+    {
+      label: startYear + 3,
+      key: startYear + 3,
+      width: '600',
+      icon: 'mdi mdi-spellcheck',
+      type: 'subColumns',
+      columns: [
+        {
+          label: 'Plan',
+          subKey: 'plan',
+          icon: 'mdi mdi-spellcheck',
+          width: 200,
+        },
+      ],
+    },
+    {
+      label: startYear + 4,
+      key: startYear + 4,
+      width: '600',
+      icon: 'mdi mdi-spellcheck',
+      type: 'subColumns',
+      columns: [
+        {
+          label: 'Plan',
+          subKey: 'plan',
           icon: 'mdi mdi-spellcheck',
           width: 200,
         },

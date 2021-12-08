@@ -83,7 +83,7 @@ export const getDetailPlanningById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/${queryKey[1]}/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[2]}/${queryKey[1]}`,
       {
         method: 'GET',
       },

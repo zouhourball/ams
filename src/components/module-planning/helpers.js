@@ -140,7 +140,7 @@ export const actionsHeader = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/planning/${key}/${id}`)
+            key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -188,7 +188,7 @@ export const actionsHeader = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/planning/${key}/${id}`)
+            key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -298,3 +298,60 @@ export const dailyProductionDetailsData = [
     scheduled: [{ actual: 'actual' }, { actualS: '23%' }],
   },
 ]
+const wpbMonthsData = (data) => {
+  const initialValue = {}
+  return data?.reduce((obj, val) => {
+    return {
+      ...obj,
+      [val?.month]: [
+        { actual: val?.data['ACTUAL'] },
+        { plan: val?.data['PLAN'] },
+      ],
+    }
+  }, initialValue)
+}
+const fypMonthsData = (data) => {
+  const initialValue = {}
+  return data?.reduce((obj, val) => {
+    return {
+      ...obj,
+      [val?.year]: [{ plan: val?.plan }],
+    }
+  }, initialValue)
+}
+export const wpbData = (dataDetails) => {
+  let formedData = dataDetails?.categories?.map((cat) => {
+    return cat?.subCategories?.map((subCat) => {
+      return subCat?.kpis?.map((kpi) => ({
+        company: dataDetails?.metaData?.company,
+        block: dataDetails?.metaData?.block,
+        dataStatus: 'no dynamic data',
+        category: cat?.name,
+        subCategory: subCat?.name,
+        kpiGroupe: kpi?.kpiGroup,
+        kpi: kpi?.name,
+        unit: kpi?.unit,
+        year: dataDetails?.metaData?.year,
+        ...wpbMonthsData(kpi?.values),
+      }))
+    })
+  })
+  return formedData?.flat(2)
+}
+export const fypData = (dataDetails) => {
+  let formedData = dataDetails?.categories?.map((cat) => {
+    return cat?.subCategories?.map((subCat) => {
+      return subCat?.kpis?.map((kpi) => ({
+        company: dataDetails?.metaData?.company,
+        block: dataDetails?.metaData?.block,
+        category: cat?.name,
+        subCategory: subCat?.name,
+        kpiGroupe: kpi?.kpiGroup,
+        kpi: kpi?.name,
+        unit: kpi?.unit,
+        ...fypMonthsData(kpi?.values),
+      }))
+    })
+  })
+  return formedData?.flat(2)
+}
