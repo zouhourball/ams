@@ -72,11 +72,11 @@ export const getConsumptionsList = async ({ queryKey }) => {
   return res
 }
 
-export const getSurplusList = async ({ page, size, inventoryId }) => {
+export const getSurplusList = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess;inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
       {
         method: 'GET',
       },
@@ -87,11 +87,11 @@ export const getSurplusList = async ({ page, size, inventoryId }) => {
   return res
 }
 
-export const getAdditionsList = async ({ page, size, inventoryId }) => {
+export const getAdditionsList = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==addition;inventoryId==${inventoryId}&page=${page}&size=${size}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==addition;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
       {
         method: 'GET',
       },
@@ -280,6 +280,35 @@ export const addTransaction = async ({ body }) => {
       {
         method: 'POST',
         body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const commitRows = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/transaction/commitRows`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getTransactionDetail = async ({ queryKey }) => {
+  let res
+
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction&objectId=${queryKey[1]}`,
+      {
+        method: 'GET',
       },
     )
   } catch (e) {

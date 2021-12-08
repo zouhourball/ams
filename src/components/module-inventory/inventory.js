@@ -21,6 +21,7 @@ import {
   deleteInventory,
   uploadAssetTransferInventoryReport,
   getCompaniesInventory,
+  commitRows,
 } from 'libs/api/api-inventory'
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -66,6 +67,7 @@ const Inventory = () => {
   const role = useRole('inventory')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
+  const [currentInventoryId, setCurrentInventoryId] = useState('')
   // console.log('role', role)
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', 0, 2000],
@@ -293,7 +295,38 @@ const Inventory = () => {
       },
     },
   )
+  const commitRowsInventoryMutate = useMutation(
+    commitRows,
 
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          refetchInventory()
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'commit successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const deleteInventoryMutate = useMutation(deleteInventory, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -367,11 +400,33 @@ const Inventory = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
+      case 5:
+        uploadAnnualBaseReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: company?.name,
+            category: 'addition',
+            file: body?.file,
+            processInstanceId: uuidv4(),
+            year: moment(body?.referenceDate).format('YYYY'),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
       default:
         return () => {}
     }
   }
-
+  const onCommitRows = (transactionType) => {
+    commitRowsInventoryMutate.mutate({
+      body: {
+        data: currentUpload?.data?.rows,
+        inventoryId: currentInventoryId,
+        processInstanceId: currentUpload?.data?.metaData?.processInstanceId,
+        transactionType: transactionType,
+      },
+    })
+  }
   const handleDeleteInventory = (inventoryId) => {
     deleteInventoryMutate.mutate({
       inventoryId,
@@ -406,15 +461,12 @@ const Inventory = () => {
     }
   })
 
-  // subModule, overrideId, body
-
   const onCommitInventory = (subModule) => {
     commitInventoryMutate.mutate({
       subModule: subModule,
       body: currentUpload?.data,
     })
   }
-  // subModule, overrideId, body
 
   const onOverrideInventory = (subModule, overrideId) => {
     overrideInventoryMutate.mutate({
@@ -437,12 +489,31 @@ const Inventory = () => {
       case 4:
         return 'disposal'
       case 5:
-        return ''
+        return 'addition'
       default:
         return ''
     }
   }
 
+  const commitUploadByTab = () => {
+    switch (currentTab) {
+      case 0:
+        return onCommitInventory('base')
+
+      case 1:
+        return ''
+      case 2:
+        return ''
+      case 3:
+        return onCommitInventory('transfer')
+      case 4:
+        return onCommitInventory('disposal')
+      case 5:
+        return onCommitRows('addition')
+      default:
+        return ''
+    }
+  }
   const createCategoryAndTransactionByTab = () => {
     switch (currentTab) {
       case 0:
@@ -504,7 +575,8 @@ const Inventory = () => {
     },
     {
       title: 'Download Template',
-      onClick: () => downloadTemp('production', 'monthly'),
+      onClick: () =>
+        downloadTemp('inventoryManagment', 'AnnualInventoryProcess'),
     },
   ]
 
@@ -543,11 +615,14 @@ const Inventory = () => {
     },
   ]
   const newAssetAdditionActionsHelper = [
-    {
+    /*   {
       title: 'Attach Spreadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => downloadTemp('inventoryManagment', 'AnnualInventoryProcess'),
+    }, */
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -796,6 +871,8 @@ const Inventory = () => {
                 setShowSupportedDocumentDialog,
                 createCategoryAndTransactionByTab(),
                 handleDeleteInventory,
+                setShowUploadRapportDialog,
+                setCurrentInventoryId,
               )}
             />
           ) : (
@@ -813,8 +890,8 @@ const Inventory = () => {
           }}
           propsConfigs={renderCurrentTabDetailsConfigs()}
           propsDataTable={renderCurrentTabDetailsData()}
-          onSave={() => {
-            onCommitInventory(subModuleByCurrentTab())
+          onCommit={() => {
+            commitUploadByTab()
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />

@@ -16,40 +16,48 @@ const MHTDialog = ({
   propsConfigs,
   headerTemplate = {},
 }) => {
-  const actions = [
-    {
-      children: 'Discard',
-      primary: false,
-      flat: true,
-      swapTheming: true,
-      onClick: () => onHide && onHide(),
-    },
-    {
-      children: 'Save',
-      primary: true,
-      flat: true,
-      swapTheming: true,
-      onClick: () => {
-        onSave && onSave()
+  const actions = () => {
+    let buttons = [
+      {
+        children: 'Discard',
+        primary: false,
+        flat: true,
+        swapTheming: true,
+        onClick: () => onHide && onHide(),
       },
-    },
-    {
-      children: 'Commit',
-      primary: true,
-      flat: true,
-      swapTheming: true,
-      onClick: () => {
-        onCommit && onCommit()
-      },
-    },
-  ]
+    ]
+
+    if (onSave) {
+      buttons.push({
+        children: 'Save',
+        primary: true,
+        flat: true,
+        swapTheming: true,
+        onClick: () => {
+          onSave && onSave()
+        },
+      })
+    }
+    if (onCommit) {
+      buttons.push({
+        children: 'Commit',
+        primary: true,
+        flat: true,
+        swapTheming: true,
+        onClick: () => {
+          onCommit && onCommit()
+        },
+      })
+    }
+    return buttons
+  }
 
   return (
     <DialogContainer
       className="mht-dialog"
       visible={visible}
       onHide={onHide}
-      actions={actions}
+      actions={actions()}
     >
       <Mht
         id="mht-dialog"

@@ -1,6 +1,6 @@
 import { FileInput, TextField, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
-
+import { downloadTemp } from 'libs/api/api-inventory'
 import moment from 'moment'
 export const mhtConfig = (supportedDocument) => [
   {
@@ -200,6 +200,8 @@ export const actionsHeader = (
   supportedDocument,
   tab,
   handleDeleteInventory,
+  setShowUploadRapportDialog,
+  setCurrentInventoryId,
 ) => {
   switch (role) {
     case 'regulator':
@@ -250,32 +252,6 @@ export const actionsHeader = (
             },
           },
         ]
-      } else if (tab === 'addition') {
-        // this else is to delete just for test .. ken 3ordhettek fassakhha plz
-        return [
-          {
-            id: 1,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
-            },
-          },
-          {
-            id: 2,
-            label: 'Upload Documents',
-            onClick: () => {},
-          },
-          {
-            id: 3,
-            label: 'Download Template',
-            onClick: () => {},
-          },
-          {
-            id: 4,
-            label: 'Attach Spreadsheet',
-            onClick: () => {},
-          },
-        ]
       } else {
         return []
       }
@@ -322,7 +298,11 @@ export const actionsHeader = (
             id: 3,
             label: 'View Records',
             onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+              key &&
+                id &&
+                navigate(
+                  `/ams/inventory/inventory-consumption-records/${id}/${tab}`,
+                )
             },
           },
         ]
@@ -339,7 +319,11 @@ export const actionsHeader = (
             id: 3,
             label: 'View Records',
             onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+              key &&
+                id &&
+                navigate(
+                  `/ams/inventory/inventory-surplus-records/${id}/${tab}`,
+                )
             },
           },
         ]
@@ -347,9 +331,9 @@ export const actionsHeader = (
         return [
           {
             id: 1,
-            label: 'View Details',
+            label: 'Addition Records',
             onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+              key && id && navigate(`/ams/inventory/addition-records/${id}`)
             },
           },
           {
@@ -360,12 +344,17 @@ export const actionsHeader = (
           {
             id: 3,
             label: 'Download Template',
-            onClick: () => {},
+            onClick: () => {
+              downloadTemp('inventoryManagment', 'AnnualInventoryProcess')
+            },
           },
           {
             id: 3,
             label: 'Attach Spreadsheet',
-            onClick: () => {},
+            onClick: () => {
+              setCurrentInventoryId(id)
+              setShowUploadRapportDialog(true)
+            },
           },
         ]
       } else {
@@ -374,6 +363,53 @@ export const actionsHeader = (
   }
 }
 
+export const additionRecordsConfigs = () => [
+  {
+    label: 'Company',
+    key: 'company',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+
+  {
+    label: 'Block',
+    key: 'block',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Submission Date',
+    key: 'submissionDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Submission By',
+    key: 'submissionBy',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Status Date',
+    key: 'statusDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Status',
+    key: 'status',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
 export const annualBaseDetailsConfigs = () => [
   {
     label: 'Material Name',
@@ -470,6 +506,136 @@ export const consumptionDetailsConfigs = () => [
   },
 ]
 export const assetDisposalDetailsConfigs = () => [
+  {
+    label: 'Material Name',
+    key: 'materialName',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Material Category',
+    key: 'materialCategory',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Description',
+    key: 'materialDescription',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Classification',
+    key: 'classification',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Measurement Unit',
+    key: 'measurementUnit',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Storage Location',
+    key: 'storageLocation',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Date of Purchase',
+    key: 'dateOfPurchase',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Book Value',
+    key: 'bookValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Estimated Current Value',
+    key: 'estimatedCurrentValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Serial Number',
+    key: 'serialNumber',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Location',
+    key: 'materialLocation',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Inspection Date',
+    key: 'inspectionDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Condition',
+    key: 'materialCondition',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Weight',
+    key: 'weight',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Average Length',
+    key: 'averageLength',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Item Weight',
+    key: 'itemWeight',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Weight',
+    key: 'mTCertificate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'MT Certificate',
+    key: 'mTCertificate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Reasons for Sale / Write - off',
+    key: 'reasonsForSale',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Remarks',
+    key: 'remarks',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
+export const additionRecordsDetailConfigs = () => [
   {
     label: 'Material Name',
     key: 'materialName',

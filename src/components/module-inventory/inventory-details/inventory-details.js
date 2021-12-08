@@ -254,6 +254,7 @@ const InventoryDetails = () => {
   const renderCurrentTabConfigs = () => {
     switch (currentTabName) {
       case 'base':
+        return annualBaseDetailsConfigs()
       case 'base-consumption':
         return assetConsumptionDetailsConfigs(rows, setRows, 'Consumption')
       case 'base-surplus':

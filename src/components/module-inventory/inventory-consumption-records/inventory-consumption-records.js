@@ -49,10 +49,11 @@ const InventoryConsumptionRecords = () => {
       <TopBarDetail
         onClickBack={() => navigate('/ams/inventory')}
         detailData={{ title: 'Consumption Declaration Records' }}
+        actions={[]}
       />
       <Mht
-        configs={mhtConfigAssetRecords}
-        tableData={tableDataListConsumptionRecords()}
+        configs={mhtConfigAssetRecords()}
+        tableData={tableDataListConsumptionRecords}
         hideTotal={false}
         singleSelect={true}
         withFooter
