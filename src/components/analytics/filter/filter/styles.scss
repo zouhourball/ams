@@ -1,0 +1,37 @@
+@import '~styles/globals';
+
+.ams-analytics-filter-dialog {
+  .md-dialog-content {
+    padding: 10px;
+  }
+
+  .md-title {
+    background: $primary-color;
+    color: white;
+  }
+}
+
+.ams-analytics-filter-btn {
+  display: flex;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #f3f6f7;
+  color: #7685a0;
+}
+
+.ams-analytics-filter-container {
+  display: flex;
+  position: absolute;
+  top: -67px;
+  right: 127px;
+  // transform: translate(-127px, -67px);
+}
+
+.ams-analytics-filter-daterange-btn {
+  display: flex;
+  margin-right: 5px;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #f3f6f7;
+  color: #7685a0;
+}

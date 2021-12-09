@@ -1,0 +1,17 @@
+.ams-chart-breadcrumbs {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 22px;
+  overflow: hidden;
+}
+
+.ams-chart-breadcrumbs-description {
+  color: rgba(0, 0, 0, 0.54);
+  font-style: italic;
+}
+
+.ams-chart-breadcrumbs-separator {
+  margin-right: 2px;
+  margin-left: 2px;
+}

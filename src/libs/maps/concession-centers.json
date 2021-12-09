@@ -1,0 +1,389 @@
+[
+  {
+    "FIELD1": "XCoord",
+    "FIELD2": "YCoord",
+    "FIELD3": "BlockUniqu",
+    "FIELD4": "BlockNumbe",
+    "FIELD5": "BlockName",
+    "FIELD6": "Concession",
+    "FIELD7": "Owner"
+  },
+  {
+    "FIELD1": "6061277.85884",
+    "FIELD2": "2073351.29749",
+    "FIELD3": "18692002",
+    "FIELD4": "58",
+    "FIELD5": "Qatbeet",
+    "FIELD6": "Concession BLOCK 58",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6076185.29592",
+    "FIELD2": "2212114.63033",
+    "FIELD3": "19892112",
+    "FIELD4": "49",
+    "FIELD5": "Montasar",
+    "FIELD6": "Concession BLOCK 49",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6122923.53883",
+    "FIELD2": "1958244.32818",
+    "FIELD3": "23201910",
+    "FIELD4": "39",
+    "FIELD5": "Salalah",
+    "FIELD6": "Concession BLOCK 39",
+    "FIELD7": "PTO"
+  },
+  {
+    "FIELD1": "6080255.58759",
+    "FIELD2": "2106513.28772",
+    "FIELD3": "23912052",
+    "FIELD4": "57",
+    "FIELD5": "Al Afif",
+    "FIELD6": "Concession BLOCK 57",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6099019.00107",
+    "FIELD2": "2117871.84949",
+    "FIELD3": "24382038",
+    "FIELD4": "Open",
+    "FIELD5": "Open",
+    "FIELD6": "Concession BLOCK Open",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6093393.12147",
+    "FIELD2": "1977079.08726",
+    "FIELD3": "25001930",
+    "FIELD4": "67",
+    "FIELD5": "",
+    "FIELD6": "Concession BLOCK 67",
+    "FIELD7": "PTO"
+  },
+  {
+    "FIELD1": "6138271.41384",
+    "FIELD2": "2270315.15465",
+    "FIELD3": "30002200",
+    "FIELD4": "66",
+    "FIELD5": "",
+    "FIELD6": "Concession BLOCK 66",
+    "FIELD7": "MOL"
+  },
+  {
+    "FIELD1": "6170668.27807",
+    "FIELD2": "2353311.18546",
+    "FIELD3": "33632286",
+    "FIELD4": "7",
+    "FIELD5": "Abu al Tubool",
+    "FIELD6": "Concession BLOCK 7",
+    "FIELD7": "HCF"
+  },
+  {
+    "FIELD1": "6190847.21612",
+    "FIELD2": "2421806.77169",
+    "FIELD3": "35582350",
+    "FIELD4": "48",
+    "FIELD5": "Malih",
+    "FIELD6": "Concession BLOCK 48",
+    "FIELD7": "OOC"
+  },
+  {
+    "FIELD1": "6200070.4614",
+    "FIELD2": "2682741.22206",
+    "FIELD3": "36652590",
+    "FIELD4": "44",
+    "FIELD5": "Shams",
+    "FIELD6": "Concession BLOCK 44",
+    "FIELD7": "PTX"
+  },
+  {
+    "FIELD1": "6206376.30552",
+    "FIELD2": "2639915.65918",
+    "FIELD3": "37202551",
+    "FIELD4": "9",
+    "FIELD5": "Suneinah",
+    "FIELD6": "Concession BLOCK 9",
+    "FIELD7": "OXY"
+  },
+  {
+    "FIELD1": "6213361.07446",
+    "FIELD2": "2417480.21952",
+    "FIELD3": "37672346",
+    "FIELD4": "60",
+    "FIELD5": "Abu Butabul",
+    "FIELD6": "Concession BLOCK 60",
+    "FIELD7": "OOC"
+  },
+  {
+    "FIELD1": "6225984.0095",
+    "FIELD2": "2601039.63999",
+    "FIELD3": "38972515",
+    "FIELD4": "5",
+    "FIELD5": "Wadi Aswad",
+    "FIELD6": "Concession BLOCK 5",
+    "FIELD7": "DPC"
+  },
+  {
+    "FIELD1": "6239255.90393",
+    "FIELD2": "2313205.85595",
+    "FIELD3": "39482238",
+    "FIELD4": "6",
+    "FIELD5": "North, Central & South Oman",
+    "FIELD6": "Concession BLOCK 6",
+    "FIELD7": "PDO"
+  },
+  {
+    "FIELD1": "6310509.48763",
+    "FIELD2": "1980995.4001",
+    "FIELD3": "40601905",
+    "FIELD4": "52",
+    "FIELD5": "Juzor Al Hallaniyyat",
+    "FIELD6": "Concession BLOCK 52",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6248273.65223",
+    "FIELD2": "2704437.16228",
+    "FIELD3": "41002600",
+    "FIELD4": "31",
+    "FIELD5": "Suneinah North",
+    "FIELD6": "Concession BLOCK 31",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6253260.48079",
+    "FIELD2": "2056669.50871",
+    "FIELD3": "41222008",
+    "FIELD4": "56",
+    "FIELD5": "Mudawrat",
+    "FIELD6": "Concession BLOCK 56",
+    "FIELD7": "MED"
+  },
+  {
+    "FIELD1": "6259636.46852",
+    "FIELD2": "2582122.09661",
+    "FIELD3": "42002495",
+    "FIELD4": "65",
+    "FIELD5": "",
+    "FIELD6": "Concession BLOCK 65",
+    "FIELD7": "MOG"
+  },
+  {
+    "FIELD1": "6260321.465",
+    "FIELD2": "2781103.30646",
+    "FIELD3": "42002700",
+    "FIELD4": "43A",
+    "FIELD5": "Dhahirah",
+    "FIELD6": "Concession BLOCK 43A",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6278559.092",
+    "FIELD2": "2635266.05441",
+    "FIELD3": "43002550",
+    "FIELD4": "15",
+    "FIELD5": "Jebel Aswad",
+    "FIELD6": "Concession BLOCK 15",
+    "FIELD7": "HCF"
+  },
+  {
+    "FIELD1": "6286465.42537",
+    "FIELD2": "2600316.8559",
+    "FIELD3": "44502515",
+    "FIELD4": "27",
+    "FIELD5": "Wadi Aswad",
+    "FIELD6": "Concession BLOCK 27",
+    "FIELD7": "OXY"
+  },
+  {
+    "FIELD1": "6291676.36947",
+    "FIELD2": "2195878.3326",
+    "FIELD3": "44912139",
+    "FIELD4": "53",
+    "FIELD5": "Mukhaizna",
+    "FIELD6": "Concession BLOCK 53",
+    "FIELD7": "OXY"
+  },
+  {
+    "FIELD1": "6282125.80736",
+    "FIELD2": "2479276.0213",
+    "FIELD3": "44992411",
+    "FIELD4": "61",
+    "FIELD5": "Makarem Khazan",
+    "FIELD6": "Concession BLOCK 61",
+    "FIELD7": "BP"
+  },
+  {
+    "FIELD1": "6340887.39167",
+    "FIELD2": "2596828.08699",
+    "FIELD3": "49502510",
+    "FIELD4": "30",
+    "FIELD5": "Hafar",
+    "FIELD6": "Concession BLOCK 30",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6350544.83367",
+    "FIELD2": "2148863.51805",
+    "FIELD3": "50502090",
+    "FIELD4": "55",
+    "FIELD5": "Kahil",
+    "FIELD6": "Concession BLOCK 55",
+    "FIELD7": "PTG"
+  },
+  {
+    "FIELD1": "6366798.86646",
+    "FIELD2": "2720213.72556",
+    "FIELD3": "50602620",
+    "FIELD4": "43B",
+    "FIELD5": "Dhahirah",
+    "FIELD6": "Concession BLOCK 43B",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6362912.08834",
+    "FIELD2": "2633727.85067",
+    "FIELD3": "51382540",
+    "FIELD4": "47",
+    "FIELD5": "Jebel Hammah",
+    "FIELD6": "Concession BLOCK 47",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6363948.14272",
+    "FIELD2": "2211884.28554",
+    "FIELD3": "51732154",
+    "FIELD4": "54",
+    "FIELD5": "Karawan",
+    "FIELD6": "Concession BLOCK 54",
+    "FIELD7": "LSS"
+  },
+  {
+    "FIELD1": "6366840.52096",
+    "FIELD2": "2411933.17503",
+    "FIELD3": "51982340",
+    "FIELD4": "64",
+    "FIELD5": "Al Ghubar Qarn Alam",
+    "FIELD6": "Concession BLOCK 64",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6374405.65948",
+    "FIELD2": "2551837.26221",
+    "FIELD3": "53342466",
+    "FIELD4": "62 Oil",
+    "FIELD5": "Habibah",
+    "FIELD6": "Concession BLOCK 62 Oil",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6374405.65948",
+    "FIELD2": "2551837.26221",
+    "FIELD3": "53612468",
+    "FIELD4": "62",
+    "FIELD5": "Habibah",
+    "FIELD6": "Concession BLOCK 62",
+    "FIELD7": "OXY"
+  },
+  {
+    "FIELD1": "6380473.61406",
+    "FIELD2": "2256246.87137",
+    "FIELD3": "54002200",
+    "FIELD4": "NLS",
+    "FIELD5": "Natural Living Sanctuary",
+    "FIELD6": "Concession BLOCK NLS",
+    "FIELD7": "NLS"
+  },
+  {
+    "FIELD1": "6413247.9142",
+    "FIELD2": "2546636.44325",
+    "FIELD3": "56222466",
+    "FIELD4": "Vacant",
+    "FIELD5": "",
+    "FIELD6": "Concession BLOCK Vacant",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6417381.54982",
+    "FIELD2": "2349023.06156",
+    "FIELD3": "56392268",
+    "FIELD4": "4",
+    "FIELD5": "Ghunaim",
+    "FIELD6": "Concession BLOCK 4",
+    "FIELD7": "CCE"
+  },
+  {
+    "FIELD1": "6448095.57645",
+    "FIELD2": "2769713.71933",
+    "FIELD3": "56792699",
+    "FIELD4": "18",
+    "FIELD5": "Batinah Coast Offshore",
+    "FIELD6": "Concession BLOCK 18",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6422522.53741",
+    "FIELD2": "2255076.47226",
+    "FIELD3": "57002200",
+    "FIELD4": "Ghunaim",
+    "FIELD5": "Ghunaim",
+    "FIELD6": "Concession BLOCK Ghunaim",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6479115.41912",
+    "FIELD2": "2561736.96537",
+    "FIELD3": "63002480",
+    "FIELD4": "51",
+    "FIELD5": "Baqlah",
+    "FIELD6": "Concession BLOCK 51",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6490454.28221",
+    "FIELD2": "2460595.50378",
+    "FIELD3": "63482386",
+    "FIELD4": "3",
+    "FIELD5": "Afar",
+    "FIELD6": "Concession BLOCK 3",
+    "FIELD7": "CCE"
+  },
+  {
+    "FIELD1": "6507741.91897",
+    "FIELD2": "2269164.71791",
+    "FIELD3": "66002230",
+    "FIELD4": "50",
+    "FIELD5": "Masirah Bay Offshore",
+    "FIELD6": "Concession BLOCK 50",
+    "FIELD7": "MSR"
+  },
+  {
+    "FIELD1": "6555540.88871",
+    "FIELD2": "2582356.49258",
+    "FIELD3": "72002490",
+    "FIELD4": "42",
+    "FIELD5": "Sharqiyah",
+    "FIELD6": "Concession BLOCK 42",
+    "FIELD7": "OOC"
+  },
+  {
+    "FIELD1": "6621027.51955",
+    "FIELD2": "2697623.32424",
+    "FIELD3": "75002600",
+    "FIELD4": "41",
+    "FIELD5": "Quriyat Coast Offshore",
+    "FIELD6": "Concession BLOCK 41",
+    "FIELD7": "Open"
+  },
+  {
+    "FIELD1": "6661295.13462",
+    "FIELD2": "2436368.30471",
+    "FIELD3": "80602350",
+    "FIELD4": "59",
+    "FIELD5": "Arabian Sea",
+    "FIELD6": "Concession BLOCK 59",
+    "FIELD7": "Open"
+  }
+]

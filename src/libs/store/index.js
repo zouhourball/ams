@@ -24,4 +24,5 @@ export function configureStore (initialState) {
 }
 
 const store = configureStore()
+export const dispatch = store.dispatch.bind(store)
 export default store

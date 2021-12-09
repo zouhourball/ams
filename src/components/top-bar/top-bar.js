@@ -1,18 +1,38 @@
-import { useState } from 'react'
 import { Button, MenuButton, ListItem, FontIcon } from 'react-md'
-
-import { cls } from 'reactutils'
+import { useState, useCallback } from 'react'
+import cls from 'classnames'
+import { navigate, useLocation } from '@reach/router'
 
 import listView from './images/list_view.svg'
 import analyticView from './images/analytic_view.svg'
 
 import './style.scss'
 
-const TopBar = ({ title, actions, menuItems, returnTo }) => {
-  const [currentView, setCurrentView] = useState('file')
+const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
+  const [currentView, setCurrentView] = useState(view || 'file')
   const renderListButtons = () => {
     return actions?.map((btn) => btn)
   }
+  const { pathname } = useLocation()
+
+  const onViewClick = useCallback(
+    (view) => {
+      setCurrentView(view)
+      if (view === 'dashboard' && !pathname.includes('/analytics/dashboard')) {
+        if (pathname.includes('hse/flaring')) {
+          navigate(`/ams/hse/flaring/analytics/dashboard`)
+        } else if (pathname.includes('ams/production')) {
+          navigate(`/ams/production/analytics/dashboard`)
+        } else {
+          navigate(`${pathname}/analytics/dashboard`)
+        }
+      } else if (view === 'file' && pathname.includes('/analytics/dashboard')) {
+        navigate(-1)
+      }
+    },
+    [pathname],
+  )
+
   return (
     <div className="top-bar">
       {returnTo && (
@@ -26,7 +46,7 @@ const TopBar = ({ title, actions, menuItems, returnTo }) => {
           <div className="top-bar-buttons-switch-view">
             <Button
               icon
-              onClick={() => setCurrentView('file')}
+              onClick={() => onViewClick('file')}
               tooltipLabel={'list'}
               className={cls(
                 'top-bar-buttons-switch-view-btn',
@@ -36,7 +56,7 @@ const TopBar = ({ title, actions, menuItems, returnTo }) => {
             />
             <Button
               icon
-              onClick={() => setCurrentView('dashboard')}
+              onClick={() => onViewClick('dashboard')}
               tooltipLabel={'dashboard'}
               className={cls(
                 'top-bar-buttons-switch-view-btn',

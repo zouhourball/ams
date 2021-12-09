@@ -1,6 +1,6 @@
 import { FontIcon } from 'react-md'
 
-import { cls } from 'reactutils'
+import cls from 'classnames'
 
 export const iconManager = (icon, width = '20px', className) => {
   if (typeof icon === 'string') {

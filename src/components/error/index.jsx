@@ -1,6 +1,6 @@
 /* eslint-disable space-before-function-paren */
 import React from 'react'
-import { cls } from 'reactutils'
+import cls from 'classnames'
 
 import { withTranslationEx } from 'libs/langs'
 

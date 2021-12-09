@@ -1,0 +1,4642 @@
+[
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516233720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516233720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516233720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516233720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516233720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 255,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516320120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 255,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516320120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 12,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 258,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516320120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 13,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 254,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 22,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516320120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516320120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 257,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516406520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 253,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 28,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 27,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516406520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 12,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 260,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 22,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516406520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 252,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 20,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516406520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516406520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 257,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516492920000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 251,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 30,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 28,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516492920000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 12,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 259,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 22,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516492920000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 250,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 18,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516492920000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 258,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516492920000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 17,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 255,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516579320000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 251,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 32,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516579320000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 13,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 261,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516579320000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 17,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 250,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516579320000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 18,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 259,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516579320000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516665720000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 17,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 253,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 30,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516665720000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 10
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 259,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 22,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516665720000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 249,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 17,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516665720000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 257,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516665720000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 15,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 254,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516752120000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 19,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 253,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 28,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516752120000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 259,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 21,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516752120000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 16,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 251,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 19,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 9
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516752120000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 18,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 258,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 21,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516752120000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 17,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 252,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 25,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Daleel",
+    "date": 1516838520000,
+    "block": "5",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 18,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 255,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 26,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 24,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "PDO",
+    "date": 1516838520000,
+    "block": "6",
+    "DAILY FIELD PRODUCTION": 9
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 13,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 258,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 22,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 19,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 9
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 4
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "Target",
+    "date": 1516838520000,
+    "block": "45",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 14,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 253,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 20,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 8
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 3
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 7
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 9
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "BP",
+    "date": 1516838520000,
+    "block": "61",
+    "DAILY FIELD PRODUCTION": 5
+  },
+  {
+    "name": "OIL (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 18,
+    "hydrocarbonType": "oil"
+  },
+  {
+    "name": "CONDENSATE (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 256,
+    "hydrocarbonType": "condensate"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 20,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "NAG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 23,
+    "hydrocarbonType": "gas"
+  },
+  {
+    "name": "AG (mln MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "WATER INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "STEAM INJECTION (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Shallow Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": " Deep Water Disposal (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "NGL Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 2
+  },
+  {
+    "name": "LPG Production (bbl/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Sale (MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Gas lift (MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  },
+  {
+    "name": "Flare Gas Rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 1
+  },
+  {
+    "name": "Fuel gas rate (MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 6
+  },
+  {
+    "name": "Gas Injection (MM scf/d)",
+    "company": "CCED",
+    "date": 1516838520000,
+    "block": "3",
+    "DAILY FIELD PRODUCTION": 0
+  }
+]

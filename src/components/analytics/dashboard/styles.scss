@@ -1,0 +1,58 @@
+//override
+.sidebardrawer-container .sidebardrawer-sidebar {
+  max-width: 300px;
+}
+
+.ams-dashboard-analytics {
+  display: flex;
+  background-color: #f5f8fa;
+}
+
+.ams-dashboard-analytics-tabs {
+  position: relative;
+  flex: 1;
+  padding: 0 10px;
+}
+
+.dashboard-nav {
+  margin: 0 -5px 10px;
+}
+
+.ams-dashboard-sidebar {
+  position: relative;
+}
+
+.ams-dashboard-sidebar-shrink {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 50px;
+  transform: translateY(-50%);
+  border-radius: 4px 0 0 4px;
+  background: #fff;
+  box-shadow: -1px 0.5px 10px -1px #000;
+}
+
+.ams-dashboard-sidebar-drawer {
+  position: static;
+}
+
+.ams-dashboard-sidebar-wrapper {
+  position: sticky;
+  top: 5px;
+  max-width: 500px;
+  transition: max-width 0.5s;
+}
+
+.ams-dashboard-sidebar-drawer-scroll {
+  max-height: 100vh;
+  overflow: auto;
+}
+
+.ams-dashboard-sidebar-wrapper-zero {
+  max-width: 0;
+}

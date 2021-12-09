@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { TextField, MenuButton, FontIcon, Button } from 'react-md'
 
-import { cls } from 'reactutils'
+import cls from 'classnames'
 
 import ConfirmationDialog from 'components/confirmation-dialog'
 

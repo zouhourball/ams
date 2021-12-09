@@ -1,0 +1,23 @@
+@import '~styles/globals';
+
+.data-filter-selection-display {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 10px;
+  background: #dff2fe;
+  background-color: #f3f7fc;
+  font-size: 16px;
+}
+
+.data-filter-selection-item {
+  margin: auto 5px;
+
+  .multi-select-dropdown-label {
+    color: $md-grey-700;
+  }
+
+  .multi-select-dropdown-list {
+    position: relative;
+    z-index: 100;
+  }
+}

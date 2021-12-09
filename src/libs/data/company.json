@@ -1,0 +1,26 @@
+{
+  "APEX": ["36-OIL"],
+  "ARA ": ["44-GAS"],
+  "BP": ["61-GAS"],
+  "CCED": ["3 & 4  -OIL"],
+  "DALEEL": ["5"],
+  "DNO": ["8-OIL"],
+  "HCF": ["15-OIL", "7-OIL"],
+  "MASIRAH": ["50-OIL"],
+  "MEDCO": ["56-OIL"],
+  "OMAN LASSO": ["54-OIL"],
+  "OOCEP": ["42-OIL", "48-OIL", "60-GAS"],
+  "OXY": [
+    "27-GAS",
+    "27-OIL",
+    "27-OIL&GAS",
+    "53-OIL",
+    "62-GAS",
+    "62-OIL&GAS",
+    "9-OIL"
+  ],
+  "PDO": ["6-OIL"],
+  "PETROGAS KAHIL": ["55-OIL"],
+  "PETROTEL": ["17-OIL", "39&67-OIL", "40-OIL"],
+  "Target": ["45"]
+}

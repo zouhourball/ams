@@ -1,0 +1,113 @@
+@import '~styles/globals';
+
+.ams-chartgroupchart-title-container {
+  display: flex;
+  width: 100%;
+}
+
+.ams-chartgroupchart-title {
+  padding-top: 10px;
+  padding-left: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.ams-chartgroupchart-title,
+.ams-chartgroupchart-sub-title {
+  flex: 1;
+  width: 1px;
+  overflow: hidden;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ams-chartgroupchart-top-toolbar {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 54px;
+
+  .mdi {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  .mdi-show {
+    color: $primary-color;
+  }
+}
+
+.ams-chartgroupchart-sub-title {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ams-chartgroupchart-toolbar {
+  position: absolute;
+  z-index: 1;
+  right: 20px;
+  text-align: right;
+}
+
+.ams-chartgroupchart-side-card {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 4px;
+  border-left: 1px solid rgb(129, 129, 129);
+}
+
+.ams-chartgroupchart {
+  position: relative;
+  flex: 1;
+  margin: 5px 0;
+  border-radius: 6px;
+  background-color: white;
+
+  .ams-chartgroupchart-content-wrapper {
+    display: flex;
+
+    .ams-chartgroupchart-content-cust-comp {
+      padding: 10px;
+      overflow: auto;
+    }
+  }
+
+  .ams-chartgroupchart-toolbox {
+    display: flex;
+    position: absolute;
+    z-index: 1;
+    background-color: transparent;
+    box-shadow: none;
+
+    .ams-chartgroupchart-toolbox-item {
+      margin: 5px;
+      cursor: pointer;
+    }
+  }
+
+  //3rd party comp override
+  .data-table-single-column-header {
+    font-size: 16px;
+  }
+}
+
+.ams-chartgroupchart-filters {
+  display: flex;
+  position: absolute;
+  z-index: 2;
+  top: 35px;
+  left: 10px;
+  flex-wrap: wrap;
+  width: 400px;
+  padding: 0 10px;
+}
+
+.md-dialog-content {
+  .ams-map-small {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -20,6 +20,7 @@ const SuspendReportDetails = lazy(() =>
 const AbandonReportDetails = lazy(() =>
   import('components/module-permitting/abandon-report-details'),
 )
+const Dashboard = lazy(() => import('components/module-permitting/analytics'))
 const Permitting = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -34,6 +35,7 @@ const Permitting = () => {
         <AbandonReport path="/abandon-report" />
         <AbandonReportDetails path="/abandon-report/:abandonReportId" />
         <AbandonReport edit path="/abandon-report/edit/:abandonReportId" />
+        <Dashboard path="/analytics/dashboard" />
       </Router>
     </Suspense>
   )

@@ -1,0 +1,21 @@
+.datepicker-icon {
+  position: relative;
+}
+
+.datepicker-label {
+  min-width: 150px;
+  margin-right: 40px;
+  margin-left: 5px;
+  color: #1464bf;
+  font-weight: 400;
+}
+
+.datepicker {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.38);
+
+  .target-date-picker-datepicker {
+    right: 0;
+  }
+}

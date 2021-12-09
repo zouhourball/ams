@@ -1,0 +1,1394 @@
+{
+  "id": null,
+  "metaData": {
+    "status": null,
+    "year": 23,
+    "company": "Daleel",
+    "createdBy": null,
+    "createdAt": null,
+    "updatedAt": null,
+    "approvedBy": null,
+    "processInstanceId": null,
+    "originalFileName": "INPUT SHEET-FINAL-RESERVES-ANNUAL REVIEW-150218.xlsx",
+    "originalFileId": "4e2770d9-46ab-4adc-87e5-2008d845857c",
+    "block": "2"
+  },
+  "reserves": [
+    {
+      "name": "BLOCK SUMMARY",
+      "field": null,
+      "note": null,
+      "data": [
+        {
+          "name": "P50 In Place Volume (HCIIP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 2
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 13
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 5
+            }
+          ]
+        },
+        {
+          "name": "Ultimate Recovery (UR)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 1
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 14
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Cumulative Production",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 2424
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "2P Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "2C Contingent Resources",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Prospective Resources",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Own Use (Consumed in Operations)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "P50 HYDROCARBONS INITIALLY IN PLACE",
+      "field": null,
+      "note": "",
+      "data": [
+        {
+          "name": "Year Opening Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Changes",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Closing Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2P RESERVES (PROVED & PROBABLE)",
+      "field": null,
+      "note": "",
+      "data": [
+        {
+          "name": "Year Opening Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Revisions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Improved Recovery",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Discoveries & Extensions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Reclassification - Transfer",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Production",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Ending Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Total Change",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Reserve Replacement Ratio (RRR)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "1P PROVEN RESERVES",
+      "field": null,
+      "note": "",
+      "data": [
+        {
+          "name": "Year Opening Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Revisions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Improved Recovery",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Discoveries & Extensions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Reclassification – Transfer",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Production",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Closing Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Total Change",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CONTINGENT RESOURCES",
+      "field": null,
+      "note": "",
+      "data": [
+        {
+          "name": "Year Opening Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Revisions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Improved Recovery",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Discoveries & Extensions",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Reclassification – Transfer",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Closing Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Replacement Ratio (CRR)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PROSPECTIVE RESOURCES",
+      "field": null,
+      "note": "RARRAR",
+      "data": [
+        {
+          "name": "Year Opening Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Changes",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Year Closing Balance",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 424
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FURTHER RESOURCE DETAILS",
+      "field": "FIELD-04",
+      "note": "CiO and Prospective Resources are moved to first summary table",
+      "data": [
+        {
+          "name": "In Place Volume (HCIIP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Ultimate Recovery (UR)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Cumulative Production",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Developing Producing (PDP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved developing Non-producing (PDNP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Undeveloped (PUD)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "2P Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Developed",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Undeveloped",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "3P Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C1)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C2)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C3)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FURTHER RESOURCE DETAILS",
+      "field": "FIELD-05",
+      "note": "CiO and Prospective Resources are moved to first summary table",
+      "data": [
+        {
+          "name": "In Place Volume (HCIIP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 242
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 67
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 13
+            }
+          ]
+        },
+        {
+          "name": "Ultimate Recovery (UR)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Cumulative Production",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Developing Producing (PDP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved developing Non-producing (PDNP)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Proved Undeveloped (PUD)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "2P Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Developed",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Undeveloped",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "3P Reserves",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C1)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C2)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "name": "Contingent Resources (C3)",
+          "values": [
+            {
+              "hydrocarbon": "Oil",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Condensate",
+              "unit": "MMstb",
+              "value": 0
+            },
+            {
+              "hydrocarbon": "Gas",
+              "unit": "Tscf",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

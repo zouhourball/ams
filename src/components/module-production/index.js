@@ -5,6 +5,9 @@ const ProductionDetails = lazy(() =>
   import('components/module-production/production-details'),
 )
 const Production = lazy(() => import('./production'))
+const ProductionDashboard = lazy(() =>
+  import('components/module-production/analytics'),
+)
 
 const Permitting = () => {
   return (
@@ -13,6 +16,7 @@ const Permitting = () => {
         <Production path="/:subModule" />
         <ProductionDetails path="/:productionId/:subModule" />
         <ProductionDetails path="/:productionId/:subsubModule/:subModule" />
+        <ProductionDashboard path="/analytics/dashboard" />
       </Router>
     </Suspense>
   )

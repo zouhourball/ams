@@ -5,6 +5,9 @@ const Reserves = lazy(() => import('./reserves'))
 const ReservesDetails = lazy(() =>
   import('components/module-reserves/reserves-details'),
 )
+const ReservesDashboard = lazy(() =>
+  import('components/module-reserves/dashboard'),
+)
 
 const ReservesModule = () => {
   return (
@@ -12,6 +15,7 @@ const ReservesModule = () => {
       <Router>
         <Reserves path="/" />
         <ReservesDetails path="/reserves-details/:subkey/:reserveId" />
+        <ReservesDashboard path="/analytics/dashboard" />
       </Router>
     </Suspense>
   )

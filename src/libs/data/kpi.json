@@ -1,0 +1,454 @@
+{
+  "PRODUCTION": {
+    "PRODUCTION": {
+      "Number of Shut-in Wells": {
+        "kpi": "Number of Shut-in Wells",
+        "unit": "COUNT",
+        "code": "KPI34"
+      },
+      "Number of Active Wells": {
+        "kpi": "Number of Active Wells",
+        "unit": "COUNT",
+        "code": "KPI33"
+      },
+      "New Gas Production": {
+        "kpi": "New Gas Production",
+        "unit": "MMSCF/D",
+        "code": "KPI39"
+      },
+      "New Oil Production": {
+        "kpi": "New Oil Production",
+        "unit": "BBL/D",
+        "code": "KPI38"
+      },
+      "NFA Oil Production": {
+        "kpi": "NFA Oil Production",
+        "unit": "BBL/D",
+        "code": "KPI35"
+      },
+      "NFA Condensate Production": {
+        "kpi": "NFA Condensate Production",
+        "unit": "BBL/D",
+        "code": "KPI37"
+      },
+      "NFA Gas Production": {
+        "kpi": "NFA Gas Production",
+        "unit": "MMSCF/D",
+        "code": "KPI36"
+      },
+      "Oil Production Deferment": {
+        "kpi": "Oil Production Deferment",
+        "unit": "BBL/D",
+        "code": "KPI41"
+      },
+      "New Condensate Production": {
+        "kpi": "New Condensate Production",
+        "unit": "BBL/D",
+        "code": "KPI40"
+      },
+      "Gas Production Deferment": {
+        "kpi": "Gas Production Deferment",
+        "unit": "BBL/D",
+        "code": "KPI42"
+      },
+      "Water Production": {
+        "kpi": "Water Production",
+        "unit": "BBL/D",
+        "code": "KPI43"
+      }
+    },
+    "INJECTION": {
+      "NFA Water/Steam Injection": {
+        "kpi": "NFA Water/Steam Injection",
+        "unit": "BBL/D",
+        "code": "KPI45"
+      },
+      "NFA Gas Injection": {
+        "kpi": "NFA Gas Injection",
+        "unit": "MMSCF/D",
+        "code": "KPI44"
+      },
+      "New Water Injection/Steam Injection": {
+        "kpi": "New Water Injection/Steam Injection",
+        "unit": "BBL/D",
+        "code": "KPI47"
+      },
+      "New Gas Injection": {
+        "kpi": "New Gas Injection",
+        "unit": "MMSCF/D",
+        "code": "KPI46"
+      }
+    },
+    "OPERATING COSTS": {
+      "Well Costs Operations, Maintenance & Integrity": {
+        "kpi": "Well Costs Operations, Maintenance & Integrity",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI49"
+      },
+      "Water Processing, Transport & Disposal": {
+        "kpi": "Water Processing, Transport & Disposal",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI53"
+      },
+      "Pipeline Tariff": {
+        "kpi": "Pipeline Tariff",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI51"
+      },
+      "Other Costs (Specify)": {
+        "kpi": "Other Costs (Specify)",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI50"
+      },
+      "Workover Costs": {
+        "kpi": "Workover Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI52"
+      },
+      "Facility Costs Operations, Maintenance & Integrity": {
+        "kpi": "Facility Costs Operations, Maintenance & Integrity",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI48"
+      }
+    }
+  },
+  "DEVELOPMENT": {
+    "DRILLING": {
+      "Number of Drilling Rigs": {
+        "kpi": "Number of Drilling Rigs",
+        "unit": "COUNT",
+        "code": "KPI15"
+      },
+      "Number of Workover Rigs": {
+        "kpi": "Number of Workover Rigs",
+        "unit": "COUNT",
+        "code": "KPI16"
+      },
+      "Number of New Other Wells": {
+        "kpi": "Number of New Other Wells",
+        "unit": "COUNT",
+        "code": "KPI19"
+      },
+      "Number of New Gas Production Wells": {
+        "kpi": "Number of New Gas Production Wells",
+        "unit": "COUNT",
+        "code": "KPI18"
+      },
+      "Number of New Oil Production Wells": {
+        "kpi": "Number of New Oil Production Wells",
+        "unit": "COUNT",
+        "code": "KPI17"
+      },
+      "Development Drilling Gas costs": {
+        "kpi": "Development Drilling Gas costs",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI21"
+      },
+      "Other Drilling Costs": {
+        "kpi": "Other Drilling Costs",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI22"
+      },
+      "Development Drilling Oil costs": {
+        "kpi": "Development Drilling Oil costs",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI20"
+      }
+    },
+    "FACILITIES": {
+      "Gas Export Capacity": {
+        "kpi": "Gas Export Capacity",
+        "unit": "MMSCF/D",
+        "code": "KPI26"
+      },
+      "Facility Injection Capacity": {
+        "kpi": "Facility Injection Capacity",
+        "unit": "BBL/D",
+        "code": "KPI30"
+      },
+      "Water Production/Processing Capacity": {
+        "kpi": "Water Production/Processing Capacity",
+        "unit": "BBL/D",
+        "code": "KPI29"
+      },
+      "Oil Export Capacity": {
+        "kpi": "Oil Export Capacity",
+        "unit": "BBL/D",
+        "code": "KPI25"
+      },
+      "Oil Production/Processing Capacity": {
+        "kpi": "Oil Production/Processing Capacity",
+        "unit": "BBL/D",
+        "code": "KPI27"
+      },
+      "Gas Production/Processing Capacity": {
+        "kpi": "Gas Production/Processing Capacity",
+        "unit": "MMSCF/D",
+        "code": "KPI28"
+      },
+      "Plant/ Facilities & Equipment": {
+        "kpi": "Plant/ Facilities & Equipment",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI23"
+      },
+      "Other Development Facilities ": {
+        "kpi": "Other Development Facilities ",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI24"
+      }
+    },
+    "OTHER": {
+      "Other Subsurface/Artificial Lift": {
+        "kpi": "Other Subsurface/Artificial Lift",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI31"
+      },
+      "General Property/Other Assets": {
+        "kpi": "General Property/Other Assets",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI32"
+      }
+    }
+  },
+  "EXPLORATION & APPRAISAL": {
+    "G&G-SEISMIC": {
+      "Number of Exploration Wells": {
+        "kpi": "Number of Exploration Wells",
+        "unit": "COUNT",
+        "code": "KPI11"
+      },
+      "2D Seismic": {
+        "kpi": "2D Seismic",
+        "unit": "KM",
+        "code": "KPI07"
+      },
+      "3D Seismic ": {
+        "kpi": "3D Seismic ",
+        "unit": "KM2",
+        "code": "KPI08"
+      },
+      "Exploration Wells Cost": {
+        "kpi": "Exploration Wells Cost",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI12"
+      },
+      "G&G Studies": {
+        "kpi": "G&G Studies",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI09"
+      },
+      "Seismic Costs": {
+        "kpi": "Seismic Costs",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI10"
+      }
+    },
+    "APPRAISAL": {
+      "Appraisal Wells Cost": {
+        "kpi": "Appraisal Wells Cost",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI14"
+      },
+      "Number of Appraisal Wells ": {
+        "kpi": "Number of Appraisal Wells ",
+        "unit": "COUNT",
+        "code": "KPI13"
+      }
+    }
+  },
+  "ABANDONMENT": {
+    "ABANDONMENT": {
+      "Number of wells to be abandoned ": {
+        "kpi": "Number of wells to be abandoned ",
+        "unit": "COUNT",
+        "code": "KPI54"
+      },
+      "Abandonment costs (Wells and facilities)": {
+        "kpi": "Abandonment costs (Wells and facilities)",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI55"
+      }
+    }
+  },
+  "NON-TECHNICAL": {
+    "MANPOWER": {
+      "Total Expatriate ": {
+        "kpi": "Total Expatriate ",
+        "unit": "COUNT",
+        "code": "KPI56"
+      },
+      "Omanization in Leadership Positions (%)": {
+        "kpi": "Omanization in Leadership Positions (%)",
+        "unit": "%",
+        "code": "KPI58"
+      },
+      "Total Omani": {
+        "kpi": "Total Omani",
+        "unit": "COUNT",
+        "code": "KPI57"
+      },
+      "Business Travel Costs": {
+        "kpi": "Business Travel Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI60"
+      },
+      "Other Manpower Costs": {
+        "kpi": "Other Manpower Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI62"
+      },
+      "Staff Costs (Salaries & Benefits)": {
+        "kpi": "Staff Costs (Salaries & Benefits)",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI59"
+      },
+      "Training Costs": {
+        "kpi": "Training Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI61"
+      }
+    },
+    "OFFICE & ADMIN": {
+      "Office Overheads": {
+        "kpi": "Office Overheads",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI63"
+      },
+      "Other Office & Admin Costs": {
+        "kpi": "Other Office & Admin Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI64"
+      }
+    },
+    "IT": {
+      "Hardware & Software": {
+        "kpi": "Hardware & Software",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI65"
+      }
+    },
+    "OTHER EXPENSES": {
+      "Professional & Consultant Fees": {
+        "kpi": "Professional & Consultant Fees",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI66"
+      },
+      "Other Expenses Costs": {
+        "kpi": "Other Expenses Costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI67"
+      }
+    },
+    "AFFILIATE & 3RD PARTY": {
+      "Third Party costs": {
+        "kpi": "Third Party costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI69"
+      },
+      "Affiliate costs": {
+        "kpi": "Affiliate costs",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI68"
+      }
+    },
+    "INVENTORY": {
+      "Inventory total value": {
+        "kpi": "Inventory total value",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI70"
+      }
+    },
+    "NON-RECOVERABLE COSTS": {
+      "Non-Recoverable costs": {
+        "kpi": "Non-Recoverable costs",
+        "unit": "$MM",
+        "code": "KPI71"
+      }
+    },
+    "CONTINGENCY": {
+      "Contingency- capex ": {
+        "kpi": "Contingency- capex ",
+        "unit": "$MM",
+        "costGroup": "CAPEX",
+        "code": "KPI72"
+      },
+      "Contingency-opex": {
+        "kpi": "Contingency-opex",
+        "unit": "$MM",
+        "costGroup": "OPEX",
+        "code": "KPI73"
+      }
+    },
+    "CSR": {
+      "CSR Value": {
+        "kpi": "CSR Value",
+        "unit": "$MM",
+        "code": "KPI74"
+      }
+    }
+  },
+  "HSSE": {
+    "HSSE": {
+      "Lost Time Injuries Frequency (LTIF)": {
+        "kpi": "Lost Time Injuries Frequency (LTIF)",
+        "unit": "FREQUENCY",
+        "code": "KPI02"
+      },
+      "Oil Spills": {
+        "kpi": "Oil Spills",
+        "unit": "COUNT",
+        "code": "KPI05"
+      },
+      "Motor Vehicle Incidents (MVI)": {
+        "kpi": "Motor Vehicle Incidents (MVI)",
+        "unit": "COUNT",
+        "code": "KPI03"
+      },
+      "Gas Flare Volume": {
+        "kpi": "Gas Flare Volume",
+        "unit": "MMSCF",
+        "code": "KPI06"
+      },
+      "Lost Time Injuries (LTI)": {
+        "kpi": "Lost Time Injuries (LTI)",
+        "unit": "COUNT",
+        "code": "KPI01"
+      },
+      "Motor Vehicle Incidents Frequency (MVIF)": {
+        "kpi": "Motor Vehicle Incidents Frequency (MVIF)",
+        "unit": "FREQUENCY",
+        "code": "KPI04"
+      }
+    }
+  }
+}

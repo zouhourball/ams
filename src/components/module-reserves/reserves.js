@@ -534,7 +534,9 @@ const Reserves = () => {
         detailUploadLoading) && <CircularProgress />}
       <TopBar
         title="Reserve Reporting"
+        // currentView={currentView}
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        // onViewChange={setCurrentView}
       />
       <div className="subModule">
         <NavBar

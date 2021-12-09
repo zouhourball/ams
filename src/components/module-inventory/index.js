@@ -12,6 +12,7 @@ const InventoryDetails = lazy(() =>
   import('components/module-inventory/inventory-details'),
 )
 const Inventory = lazy(() => import('./inventory'))
+const Dashboard = lazy(() => import('components/module-inventory/analytics'))
 
 const Inventories = () => {
   return (
@@ -26,6 +27,7 @@ const Inventories = () => {
         <AdditionRecordsDetail path="/:inventoryId/transaction-detail/:transactionId" />
         <ConsumptionRecordDetail path="/:inventoryId/consumption-detail/:transactionId" />
         <SurplusRecordDetail path="/:inventoryId/surplus-detail/:transactionId" />
+        <Dashboard path="/analytics/dashboard" />
       </Router>
     </Suspense>
   )

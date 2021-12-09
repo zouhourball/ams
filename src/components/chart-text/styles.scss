@@ -1,0 +1,56 @@
+.ams-charttext-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.ams-charttext-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90%;
+  margin: 10px;
+  margin-right: 0;
+  text-align: center;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.ams-charttext-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.ams-charttext-name {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.ams-charttext-value {
+  height: 30%;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.md-dialog {
+  .ams-charttext-name {
+    font-size: 48px;
+  }
+
+  .ams-charttext-value {
+    font-size: 28px;
+  }
+}
+
+.ams-charttext-unit {
+  font-size: 14px;
+  font-weight: 100;
+}
