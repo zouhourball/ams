@@ -316,3 +316,18 @@ export const getTransactionDetail = async ({ queryKey }) => {
   }
   return res
 }
+
+export const acceptedTransaction = async ({ transactionId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/acceptedTransaction?id=${transactionId}`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

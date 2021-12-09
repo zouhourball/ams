@@ -10,7 +10,8 @@ import { getConsumptionsList } from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
 
-import { mhtConfigAssetRecords } from '../helpers'
+import { mhtConfigRecords } from './helper'
+import HeaderTemplate from 'components/header-template'
 
 const InventoryConsumptionRecords = () => {
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
@@ -33,26 +34,23 @@ const InventoryConsumptionRecords = () => {
       id: el?.id,
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
-      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate:
-        get(el, 'metaData.month', 'n/a') +
-        ' , ' +
-        get(el, 'metaData.year', 'n/a'),
+      submissionDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      stockCountAfter: el?.stockAfter,
+      consumedItems: el?.totalTansactionCount,
+      stockCountBefore: el?.stockBefore,
       status: get(el, 'metaData.status', 'n/a'),
-      processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
   })
 
   return (
     <>
       <TopBarDetail
-        onClickBack={() => navigate('/ams/inventory')}
+        onClickBack={() => navigate(`/ams/inventory`)}
         detailData={{ title: 'Consumption Declaration Records' }}
         actions={[]}
       />
       <Mht
-        configs={mhtConfigAssetRecords()}
+        configs={mhtConfigRecords()}
         tableData={tableDataListConsumptionRecords}
         hideTotal={false}
         singleSelect={true}
@@ -62,6 +60,32 @@ const InventoryConsumptionRecords = () => {
         onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length === 1 ? (
+            <HeaderTemplate
+              title={
+                selectedRow?.length === 1
+                  ? `1 Row Selected`
+                  : `${selectedRow?.length} Rows selected`
+              }
+              actions={[
+                {
+                  primary: true,
+                  flat: true,
+                  swapTheming: true,
+                  label: 'View Details',
+                  onClick: () => {
+                    navigate(
+                      `/ams/inventory/${inventoryId}/consumption-detail/${selectedRow[0]?.id}`,
+                    )
+                  },
+                },
+              ]}
+            />
+          ) : (
+            ''
+          )
+        }
       />
     </>
   )

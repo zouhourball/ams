@@ -8,9 +8,10 @@ import Mht from '@target-energysolutions/mht'
 
 import { getSurplusList } from 'libs/api/api-inventory'
 
+import HeaderTemplate from 'components/header-template'
 import TopBarDetail from 'components/top-bar-detail'
 
-import { mhtConfigAssetRecords } from '../helpers'
+import { mhtConfigRecords } from './helper'
 
 const InventorySurplusRecords = () => {
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
@@ -31,14 +32,11 @@ const InventorySurplusRecords = () => {
         id: el?.id,
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
-        submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-        submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate:
-          get(el, 'metaData.month', 'n/a') +
-          ' , ' +
-          get(el, 'metaData.year', 'n/a'),
+        submissionDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        stockCountAfter: el?.stockAfter,
+        consumedItems: el?.totalTansactionCount,
+        stockCountBefore: el?.stockBefore,
         status: get(el, 'metaData.status', 'n/a'),
-        processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
     },
   )
@@ -46,11 +44,11 @@ const InventorySurplusRecords = () => {
     <>
       <TopBarDetail
         onClickBack={() => navigate('/ams/inventory')}
-        detailData={{ title: 'Consumption Declaration Records' }}
+        detailData={{ title: 'Surplus Declaration Records' }}
         actions={[]}
       />
       <Mht
-        configs={mhtConfigAssetRecords()}
+        configs={mhtConfigRecords()}
         tableData={tableDataListSurplus}
         hideTotal={false}
         singleSelect={true}
@@ -60,6 +58,32 @@ const InventorySurplusRecords = () => {
         onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
+        headerTemplate={
+          selectedRow?.length === 1 ? (
+            <HeaderTemplate
+              title={
+                selectedRow?.length === 1
+                  ? `1 Row Selected`
+                  : `${selectedRow?.length} Rows selected`
+              }
+              actions={[
+                {
+                  primary: true,
+                  flat: true,
+                  swapTheming: true,
+                  label: 'View Details',
+                  onClick: () => {
+                    navigate(
+                      `/ams/inventory/${inventoryId}/surplus-detail/${selectedRow[0]?.id}`,
+                    )
+                  },
+                },
+              ]}
+            />
+          ) : (
+            ''
+          )
+        }
       />
     </>
   )

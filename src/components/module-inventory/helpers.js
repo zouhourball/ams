@@ -125,6 +125,9 @@ export const mhtConfigAssetRecords = (supportedDocument) => [
     key: 'status',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    render: (row) => (
+      <div className={`table-status ${row?.status}`}>{row?.status}</div>
+    ),
   },
   {
     label: 'Supporting Documents',
@@ -228,17 +231,14 @@ export const actionsHeader = (
       } else if (tab === 'base-consumption') {
         return [
           {
-            id: 2,
-            label: 'Declare Consumption',
-            onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
-            },
-          },
-          {
             id: 3,
             label: 'View Records',
             onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+              key &&
+                id &&
+                navigate(
+                  `/ams/inventory/inventory-consumption-records/${id}/${tab}`,
+                )
             },
           },
         ]
@@ -248,7 +248,11 @@ export const actionsHeader = (
             id: 3,
             label: 'View Records',
             onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+              key &&
+                id &&
+                navigate(
+                  `/ams/inventory/inventory-surplus-records/${id}/${tab}`,
+                )
             },
           },
         ]
@@ -1001,5 +1005,125 @@ export const assetConsumptionDetailsData = [
     totalQuantity: 5665,
     unitPrice: 745,
     totalValue: 56,
+  },
+]
+
+export const consumptionRecordDetailsConfigs = () => [
+  {
+    label: 'Material Name',
+    key: 'materialName',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Material Category',
+    key: 'materialCategory',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Description',
+    key: 'materialDescription',
+    width: '400',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Consumption',
+    key: 'consumption',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Date  of Consumption',
+    key: 'dateOfPurchase',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+
+  {
+    label: 'UOM',
+    key: 'uom',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Unit Price',
+    key: 'unitPrice',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Value',
+    key: 'totalValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
+
+export const surplusRecordDetailsConfigs = () => [
+  {
+    label: 'Material Name',
+    key: 'materialName',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+  },
+  {
+    label: 'Material Category',
+    key: 'materialCategory',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Description',
+    key: 'materialDescription',
+    width: '400',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Surplus',
+    key: 'surplus',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Date  of Consumption',
+    key: 'dateOfPurchase',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+
+  {
+    label: 'UOM',
+    key: 'uom',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Quantity',
+    key: 'quantity',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Unit Price',
+    key: 'unitPrice',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Total Value',
+    key: 'totalValue',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
   },
 ]

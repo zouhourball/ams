@@ -110,6 +110,7 @@ const InventoryDetails = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
+          navigate('/ams/inventory')
           dispatch(
             addToast(
               <ToastMsg
