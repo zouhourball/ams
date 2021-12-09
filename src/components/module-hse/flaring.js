@@ -13,6 +13,7 @@ import {
   uploadMonthlyReport,
   uploadAnnualForecastReport,
   commitFlaring,
+  saveFlaring,
   overrideFlaringReport,
   deleteFlaring,
 } from 'libs/api/api-flaring'
@@ -178,7 +179,42 @@ const Flaring = () => {
       },
     },
   )
+  const saveFlaringMutate = useMutation(saveFlaring, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        if (res.overrideId && !res.success) {
+          setShowConfirmDialog(true)
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          setOverrideId(res?.overrideId)
+        } else {
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          refetchList()
 
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'saved successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        }
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const commitFlaringMutate = useMutation(
     commitFlaring,
 
@@ -357,7 +393,12 @@ const Flaring = () => {
       body: currentUpload?.data,
     })
   }
-
+  const onSaveFlaring = (subModule) => {
+    saveFlaringMutate.mutate({
+      subModule: subModule,
+      body: currentUpload?.data,
+    })
+  }
   const onOverrideFlaring = (subModule, overrideId) => {
     overrideFlaringMutate.mutate({
       subModule: subModule,
@@ -684,6 +725,9 @@ const Flaring = () => {
             onCommit={() => {
               setFileList([...filesList, dataDisplayedMHT])
               onCommitFlaring(currentTab)
+            }}
+            onSave={() => {
+              onSaveFlaring(currentTab)
             }}
           />
         )}

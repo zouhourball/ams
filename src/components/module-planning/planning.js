@@ -30,6 +30,7 @@ import {
   overridePlanningReport,
   deletePlanning,
   updateReport,
+  saveReport,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -251,6 +252,31 @@ const Planning = () => {
     },
   })
 
+  const saveReportMutate = useMutation(saveReport, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchList()
+        setShowUploadRapportDialog(false)
+        setShowUploadMHTDialog(false)
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const updateReportMutate = useMutation(updateReport, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -329,7 +355,12 @@ const Planning = () => {
       body: currentUpload,
     })
   }
-
+  const onSaveReport = (subModule) => {
+    saveReportMutate.mutate({
+      subModule: subModule,
+      body: currentUpload,
+    })
+  }
   const wpbPlanningActionsHelper = [
     {
       title: 'Attach Speadsheet',
@@ -509,7 +540,6 @@ const Planning = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
-          // setSelectedRow([])
         }}
       />
       <Mht
@@ -563,6 +593,9 @@ const Planning = () => {
             selectedRow[0]
               ? onUpdateReport(subModuleByCurrentTab(), selectedRow[0]?.id)
               : onCommitPLanning(subModuleByCurrentTab())
+          }}
+          onSave={() => {
+            onSaveReport(subModuleByCurrentTab())
           }}
         />
       )}

@@ -23,6 +23,7 @@ import {
   uploadMonthlyProductionReport,
   uploadMonthlyTrackingProductionReport,
   commitProduction,
+  saveProduction,
   overrideProductionReport,
   deleteProduction,
 } from 'libs/api/api-production'
@@ -172,7 +173,42 @@ const Production = () => {
       },
     },
   )
+  const saveProductionMutate = useMutation(saveProduction, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        if (res?.msg === 'exist') {
+          setOverrideDialog(true)
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          setOverrideId(res?.overrideId)
+        } else {
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          refetchList()
 
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'saved successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        }
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const commitProductionMutate = useMutation(
     commitProduction,
 
@@ -292,6 +328,13 @@ const Production = () => {
       body: currentUpload,
     })
   }
+  const onSaveProduction = (subModule) => {
+    saveProductionMutate.mutate({
+      subModule: subModule,
+      body: currentUpload,
+    })
+  }
+  // subModule, overrideId, body
 
   const onOverrideProduction = (subModule, overrideId) => {
     overrideProductionMutate.mutate({
@@ -840,6 +883,9 @@ const Production = () => {
           onCommit={() => {
             onCommitProduction(currentTab)
             setFileList([...filesList, dataDisplayedMHT])
+          }}
+          onSave={() => {
+            onSaveProduction(currentTab)
           }}
         />
       )}

@@ -239,14 +239,21 @@ export const commitProduction = async ({ subModule, body }) => {
   }
   return res
 }
-// {
-//   error: null
-// msg: "exist"
-// objectId: null
-// overrideId: "619f50ecebfa6d7a36f1204d"
-// success: false
-// validationOutput: null
-// }
+export const saveProduction = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/save`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 
 export const overrideProductionReport = async ({
   subModule,

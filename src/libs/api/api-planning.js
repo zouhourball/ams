@@ -167,3 +167,18 @@ export const updateReport = async ({ subModule, objectId, body }) => {
   }
   return res
 }
+export const saveReport = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/${subModule}/save`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

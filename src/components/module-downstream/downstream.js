@@ -730,7 +730,7 @@ const Downstream = () => {
           }}
           propsDataTable={dataMht}
           propsConfigs={configsMht()}
-          onSave={() => {
+          onCommit={() => {
             onCommitRapport()
             // setShowUploadMHTDialog(false)
             // setShowUploadRapportDialog(true)

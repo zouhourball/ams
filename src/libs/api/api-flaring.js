@@ -81,6 +81,21 @@ export const commitFlaring = async ({ subModule, body }) => {
   }
   return res
 }
+export const saveFlaring = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/flaring/${subModule}/save`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 
 export const overrideFlaringReport = async ({
   subModule,
