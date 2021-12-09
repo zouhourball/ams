@@ -474,10 +474,8 @@ export const actionsHeader = (
           label: 'View Details',
           onClick: () => {
             key && id && subModule === 'monthly'
-              ? navigate(
-                `/ams/production/${key}/${id}/${subModule}/${subsubModule}`,
-              )
-              : navigate(`/ams/production/${key}/${id}/${subModule}`)
+              ? navigate(`/ams/production/${id}/${subModule}/${subsubModule}`)
+              : navigate(`/ams/production/${id}/${subModule}`)
           },
         },
         {
@@ -507,10 +505,8 @@ export const actionsHeader = (
           label: 'View Details',
           onClick: () => {
             key && id && subModule === 'monthly'
-              ? navigate(
-                `/ams/production/${key}/${id}/${subsubModule}/${subModule}`,
-              )
-              : navigate(`/ams/production/${key}/${id}/${subModule}`)
+              ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
+              : navigate(`/ams/production/${id}/${subModule}`)
           },
         },
         {

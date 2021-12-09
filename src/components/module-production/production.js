@@ -33,7 +33,6 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
-// import { userRole } from 'components/shared-hook/get-roles'
 import getBlocks from 'libs/hooks/get-blocks'
 
 import {
@@ -42,20 +41,16 @@ import {
   monthlyTrackingConfigs,
   omanHydConfigs,
   dailyProductionData,
-  // monthlyProductionData,
-  // monthlyTrackingData,
-  omanHydData,
   actionsHeader,
   dailyProductionDetailsConfigs,
-  // dailyProductionDetailsData,
   MonthlyProductionDetailsConfigs,
-  MonthlyProductionDetailsData,
   MonthlyTrackingDetailsConfigs,
-  // MonthlyTrackingDetailsData,
 } from './helpers'
 
 const Production = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+
+  const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -116,7 +111,6 @@ const Production = () => {
     {
       onSuccess: (res) => {
         if (!res.error) {
-          // setShowUploadRapportDialog(false)
           setCurrentUpload(res?.uploaded)
           onDisplayMHT(...res.values)
           dispatch(
@@ -298,7 +292,6 @@ const Production = () => {
       body: currentUpload,
     })
   }
-  // subModule, overrideId, body
 
   const onOverrideProduction = (subModule, overrideId) => {
     overrideProductionMutate.mutate({
@@ -306,19 +299,6 @@ const Production = () => {
       overrideId: overrideId,
       body: currentUpload,
     })
-  }
-
-  const subModuleByCurrentTab = () => {
-    switch (currentTab) {
-      case 0:
-        return 'daily'
-      case 1:
-        return 'monthly'
-      case 2:
-        return 'monthly-tracking'
-      default:
-        return ''
-    }
   }
 
   const currentSubsubModule = () => {
@@ -335,7 +315,7 @@ const Production = () => {
   const onAddReportByCurrentTab = (body) => {
     let uuid = uuidv4()
     switch (currentTab) {
-      case 0:
+      case 'daily':
         uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
@@ -347,7 +327,7 @@ const Production = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
-      case 1:
+      case 'monthly':
         uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
@@ -360,7 +340,7 @@ const Production = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
-      case 2:
+      case 'monthly-tracking':
         uploadMonthlyTrackingReportMutate.mutate({
           body: {
             block: body?.block,
@@ -377,7 +357,7 @@ const Production = () => {
   }
 
   const { data: listDailyProduction, refetch: refetchList } = useQuery(
-    ['getListProduction', subModuleByCurrentTab()],
+    ['getListProduction', currentTab],
     getListProduction,
     {
       refetchOnWindowFocus: false,
@@ -567,23 +547,46 @@ const Production = () => {
 
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return createActionsByCurrentTab(DailyProductionActionsHelper)
-      case 1:
+      case 'monthly':
         return createActionsByCurrentTab(monthlyProductionActionsHelper)
-      case 2:
+      case 'monthly-tracking':
         return createActionsByCurrentTab(monthlyTrackingActionsHelper)
-      case 3:
+      case 'oman-hydrocarbon':
       default:
         return createActionsByCurrentTab(omanHydrocarbonActionsHelper)
     }
   }
 
+  // const tabsList = [
+  //   'Daily Production',
+  //   'Monthly Production',
+  //   'Monthly Tracking',
+  //   'Oman Hydrocarbon',
+  // ]
   const tabsList = [
-    'Daily Production',
-    'Monthly Production',
-    'Monthly Tracking',
-    'Oman Hydrocarbon',
+    {
+      linkToNewTab: `/ams/production/daily`,
+      label: 'Daily Production',
+      key: 'daily',
+    },
+
+    {
+      linkToNewTab: `/ams/production/monthly`,
+      label: 'Monthly Production',
+      key: 'monthly',
+    },
+    {
+      linkToNewTab: `/ams/production/monthly-tracking`,
+      label: 'Monthly Tracking',
+      key: 'monthly-tracking',
+    },
+    {
+      linkToNewTab: `/ams/production/oman-hydrocarbon`,
+      label: 'Oman Hydrocarbon',
+      key: 'oman-hydrocarbon',
+    },
   ]
   const tableDataListDailyProduction = (
     get(listDailyProduction, 'content', []) || []
@@ -640,14 +643,14 @@ const Production = () => {
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return tableDataListDailyProduction
-      case 1:
+      case 'monthly':
         return tableDataListMonthlyProduction
-      case 2:
+      case 'monthly-tracking':
         return tableDataListMonthlyTracking
-      case 3:
-        return omanHydData
+      case 'oman-hydrocarbon':
+        return []
       default:
         return dailyProductionData
     }
@@ -658,13 +661,13 @@ const Production = () => {
 
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return dailyProductionConfigs(UploadSupportedDocumentFromTable)
-      case 1:
+      case 'monthly':
         return monthlyProductionConfigs(UploadSupportedDocumentFromTable)
-      case 2:
+      case 'monthly-tracking':
         return monthlyTrackingConfigs(UploadSupportedDocumentFromTable)
-      case 3:
+      case 'oman-hydrocarbon':
         return omanHydConfigs(UploadSupportedDocumentFromTable)
       default:
         return dailyProductionConfigs(UploadSupportedDocumentFromTable)
@@ -672,53 +675,53 @@ const Production = () => {
   }
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return dailyProductionDetailsConfigs()
-      case 1:
+      case 'monthly':
         return MonthlyProductionDetailsConfigs()
-      case 2:
+      case 'monthly-tracking':
         return MonthlyTrackingDetailsConfigs()
-      case 3:
-        return MonthlyProductionDetailsConfigs()
+      case 'oman-hydrocarbon':
+        return MonthlyTrackingDetailsConfigs()
       default:
         return dailyProductionDetailsConfigs()
     }
   }
   const renderCurrentTabDetailsData = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return dailyData
-      case 1:
+      case 'monthly':
         return monthlyData
-      case 2:
+      case 'monthly-tracking':
         return monthlyTrackingData
-      case 3:
-        return MonthlyProductionDetailsData
+      case 'oman-hydrocarbon':
+        return []
       default:
         return dailyData
     }
   }
   const renderDialogData = () => {
     switch (currentTab) {
-      case 0:
+      case 'daily':
         return {
           title: 'Upload Daily Production Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 1:
+      case 'monthly':
         return {
           title: 'Upload Monthly Production Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 2:
+      case 'monthly-tracking':
         return {
           title: 'Upload Monthly Tracking Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 3:
+      case 'oman-hydrocarbon':
         return {
           title: 'Upload Oman Hydrocarbon Report',
           optional: 'Attach Supporting Document (Optional)',
@@ -763,7 +766,7 @@ const Production = () => {
         setActiveTab={(tab) => {
           setCurrentTab(tab)
           setSelectFieldValue(
-            tab === 1
+            tab === 'monthly'
               ? 'Monthly Production'
               : tab === 2
                 ? 'Destination'
@@ -793,7 +796,7 @@ const Production = () => {
               actions={actionsHeader(
                 'production-details',
                 selectedRow[0]?.id,
-                subModuleByCurrentTab(),
+                currentTab,
                 currentSubsubModule(),
                 role,
                 setShowSupportedDocumentDialog,
@@ -802,7 +805,7 @@ const Production = () => {
                 handleDeleteProduction,
               )}
             />
-          ) : currentTab === 1 ? (
+          ) : currentTab === 'monthly' ? (
             <SelectField
               id="monthly-prod"
               menuItems={
@@ -835,7 +838,7 @@ const Production = () => {
           propsConfigs={renderCurrentTabDetailsConfigs()}
           propsDataTable={renderCurrentTabDetailsData()}
           onCommit={() => {
-            onCommitProduction(subModuleByCurrentTab())
+            onCommitProduction(currentTab)
             setFileList([...filesList, dataDisplayedMHT])
           }}
         />
@@ -889,8 +892,7 @@ const Production = () => {
               primary: false,
               flat: true,
               swapTheming: true,
-              onClick: () =>
-                onOverrideProduction(subModuleByCurrentTab(), overrideId),
+              onClick: () => onOverrideProduction(currentTab, overrideId),
             },
             {
               children: 'No Thanks',

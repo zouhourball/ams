@@ -5,7 +5,7 @@ export const subModules = [
   {
     key: 'production',
     name: 'Production',
-    onClick: () => navigate('/ams/production'),
+    onClick: () => navigate('/ams/production/daily'),
     icon: (
       <SVGIcon viewBox={'0 0 16 19'}>
         <g

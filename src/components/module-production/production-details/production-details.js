@@ -54,7 +54,7 @@ const ProductionDetails = () => {
   const updateDailyProductionMutation = useMutation(updateDailyProduction, {
     onSuccess: (res) => {
       if (!res.error) {
-        navigate('/ams/production')
+        navigate(`/ams/production/${subModule}`)
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -387,7 +387,7 @@ const ProductionDetails = () => {
   return (
     <div className="details-container">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/production')}
+        onClickBack={() => navigate(`/ams/production/${subModule}`)}
         actions={actions}
         detailData={detailsData}
       />
