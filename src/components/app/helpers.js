@@ -367,7 +367,7 @@ export const subModules = [
   {
     key: 'new-flaring',
     name: 'Flaring',
-    onClick: () => navigate('/ams/hse/flaring'),
+    onClick: () => navigate('/ams/hse/flaring/annual-forecast'),
     icon: (
       <SVGIcon viewBox={'0 0 16 19'}>
         <g

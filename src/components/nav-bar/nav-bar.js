@@ -1,11 +1,12 @@
 import './style.scss'
+import { navigate } from '@reach/router'
 
 const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
   return (
     <div className="navBar">
       <div className="navBar-list">
-        {tabsList &&
-          tabsList.map((el, index) => {
+        {tabsList && typeof tabsList[0] === 'string'
+          ? tabsList.map((el, index) => {
             const id = `nav-bar-${index}`
             return (
               <div
@@ -18,6 +19,23 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
                 {el}
               </div>
             )
+          })
+          : tabsList.map((el, index) => {
+            const id = `nav-bar-${index}`
+            return (
+              <div
+                key={id}
+                className={`navBar-list-title ${
+                  activeTab === el.key ? 'active' : ''
+                }`}
+                onClick={() => {
+                  setActiveTab && setActiveTab(el.key)
+                  navigate(el?.linkToNewTab)
+                }}
+              >
+                {el?.label}
+              </div>
+            )
           })}
       </div>
     </div>
@@ -25,6 +43,23 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
 }
 export default NavBar
 NavBar.defaultProps = {
-  tabsList: ['Permit to Drill', 'Permit to Suspend ', 'Permit to Abandon'],
+  // subModulesList: ['Permit to Drill', 'Permit to Suspend ', 'Permit to Abandon'],
+  // subModulesList: [
+  //   {
+  //     linkToNewTab: `/ams/hse/flaring/daily`,
+  //     label: 'Daily',
+  //     key: 'daily',
+  //   },
+  //   {
+  //     linkToNewTab: `/ams/hse/flaring/monthly-station`,
+  //     label: 'Monthly station',
+  //     key: 'monthly-station',
+  //   },
+  //   {
+  //     linkToNewTab: `/ams/hse/flaring/annual-forecast`,
+  //     label: 'Annual forecast',
+  //     key: 'annual-forecast',
+  //   },
+  // ],
   activeTab: 1,
 }

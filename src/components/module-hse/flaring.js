@@ -51,7 +51,9 @@ import {
 
 const Flaring = () => {
   const dispatch = useDispatch()
-  const [currentTab, setCurrentTab] = useState(0)
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+
+  const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
@@ -67,20 +69,8 @@ const Flaring = () => {
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
 
-  const subModuleByCurrentTab = () => {
-    switch (currentTab) {
-      case 2:
-        return 'daily'
-      case 1:
-        return 'monthly-station' // 'monthly'
-      case 0:
-        return 'annual-forecast'
-      default:
-        return ''
-    }
-  }
   const { data: listFlaring, refetch: refetchList } = useQuery(
-    ['getListFlaring', subModuleByCurrentTab()],
+    ['getListFlaring', currentTab],
     getListFlaring,
     {
       refetchOnWindowFocus: false,
@@ -294,7 +284,7 @@ const Flaring = () => {
   })
   const renderCurrentTabDetailsData = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-forecast':
         return (get(currentUpload, 'data.data', []) || []).map((el) => {
           return {
             gaz_type: el?.name,
@@ -311,7 +301,7 @@ const Flaring = () => {
             year2026: el?.values[9]?.value,
           }
         })
-      case 1:
+      case 'monthly-station':
         return (get(currentUpload, 'data.data', []) || []).map((el) => {
           return {
             flareStation: el?.flareStation,
@@ -325,7 +315,7 @@ const Flaring = () => {
             comment: el?.comment,
           }
         })
-      case 2:
+      case 'daily':
         return (get(currentUpload, 'data.data', []) || []).map((el) => {
           return {
             flareStation: el?.flareStation,
@@ -344,18 +334,17 @@ const Flaring = () => {
 
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-forecast':
         return flaringDetailsAnnualConfigs
-      case 1:
+      case 'monthly-station':
         return flaringDetailsMonthlyConfigs
-      case 2:
+      case 'daily':
         return flaringDetailsDailyConfigs
       default:
         return null
     }
   }
 
-  // -------------
   const handleDeleteFlaring = (subModule, objectId) => {
     deleteFlaringMutate.mutate({
       subModule,
@@ -380,7 +369,7 @@ const Flaring = () => {
   const onAddReportByCurrentTab = (body) => {
     let uuid = uuidv4()
     switch (currentTab) {
-      case 2:
+      case 'daily':
         uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
@@ -391,7 +380,7 @@ const Flaring = () => {
           },
         })
         break
-      case 1:
+      case 'monthly-station':
         uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
@@ -403,7 +392,7 @@ const Flaring = () => {
           },
         })
         break
-      case 0:
+      case 'annual-forecast':
         uploadAnnualForecastMutate.mutate({
           body: {
             block: body?.block,
@@ -467,11 +456,11 @@ const Flaring = () => {
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 2:
+      case 'daily':
         return tableDataDailyFlaring
-      case 1:
+      case 'monthly-station':
         return tableDataMonthlyFlaring
-      case 0:
+      case 'annual-forecast':
         return tableDataAnnualFlaring
       default:
         return null
@@ -527,35 +516,53 @@ const Flaring = () => {
       </Button>
     ))
   }
+
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 1:
+      case 'monthly-station':
         return createActionsByCurrentTab(monthlyReportActionsHelper)
-      case 2:
+      case 'daily':
         return createActionsByCurrentTab(dailyReportActionsHelper)
-      case 0:
+      case 'annual-forecast':
       default:
         return createActionsByCurrentTab(annualReportActionsHelper)
     }
   }
 
-  const tabsList = ['Annual Report', 'Monthly Report', 'Daily Report']
+  const tabsList = [
+    {
+      linkToNewTab: `/ams/hse/flaring/annual-forecast`,
+      label: 'Annual Report',
+      key: 'annual-forecast',
+    },
+
+    {
+      linkToNewTab: `/ams/hse/flaring/monthly-station`,
+      label: 'Monthly Report',
+      key: 'monthly-station',
+    },
+    {
+      linkToNewTab: `/ams/hse/flaring/daily`,
+      label: 'Daily Report',
+      key: 'daily',
+    },
+  ]
 
   const renderDialogData = () => {
     switch (currentTab) {
-      case 1:
+      case 'monthly-station':
         return {
           title: 'Upload Monthly Flaring Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 2:
+      case 'daily':
         return {
           title: 'Upload Daily Flaring Report',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 0:
+      case 'annual-forecast':
         return {
           title: 'Upload Annual Flaring Report',
           optional: `Annual Gas Conservation Plan (Mandatory)`,
@@ -569,36 +576,36 @@ const Flaring = () => {
 
   const actionsHeader = () => {
     switch (currentTab) {
-      case 1:
+      case 'monthly-station':
         return actionsHeaderMonthly(
           'flaring',
           selectedRow[0]?.id,
           role,
           setShowSupportedDocumentDialog,
-          subModuleByCurrentTab(),
+          currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
         )
-      case 2:
+      case 'daily':
         return actionsHeaderDaily(
           'flaring',
           selectedRow[0]?.id,
           role,
           setShowSupportedDocumentDialog,
-          subModuleByCurrentTab(),
+          currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
         )
-      case 0:
+      case 'annual-forecast':
       default:
         return actionsHeaderAnnual(
           'flaring',
           selectedRow[0]?.id,
           role,
           setShowSupportedDocumentDialog,
-          subModuleByCurrentTab(),
+          currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
@@ -644,7 +651,7 @@ const Flaring = () => {
         <div className="subModule--table-wrapper">
           <Mht
             configs={dailyReportConfigs(UploadSupportedDocumentFromTable)}
-            tableData={renderCurrentTabData()}
+            tableData={renderCurrentTabData() || []}
             hideTotal={false}
             singleSelect={true}
             withFooter
@@ -674,9 +681,9 @@ const Flaring = () => {
             }}
             propsConfigs={renderCurrentTabDetailsConfigs()}
             propsDataTable={renderCurrentTabDetailsData()}
-            onSave={() => {
+            onCommit={() => {
               setFileList([...filesList, dataDisplayedMHT])
-              onCommitFlaring(subModuleByCurrentTab())
+              onCommitFlaring(currentTab)
             }}
           />
         )}
@@ -708,9 +715,7 @@ const Flaring = () => {
           <ConfirmDialog
             onDiscard={() => setShowConfirmDialog(false)}
             visible={showConfirmDialog}
-            handleOverride={() =>
-              onOverrideFlaring(subModuleByCurrentTab(), overrideId)
-            }
+            handleOverride={() => onOverrideFlaring(currentTab, overrideId)}
             message={'Do you confirm override ?'}
             confirmLabel={'Override'}
           />

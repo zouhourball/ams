@@ -228,7 +228,7 @@ const FlaringDetails = () => {
   return (
     <div className="details-container">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/hse/flaring')}
+        onClickBack={() => navigate(`/ams/hse/flaring/${subModule}`)}
         actions={actions}
         detailData={detailsData}
       />

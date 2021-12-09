@@ -834,7 +834,7 @@ const Production = () => {
           }}
           propsConfigs={renderCurrentTabDetailsConfigs()}
           propsDataTable={renderCurrentTabDetailsData()}
-          onSave={() => {
+          onCommit={() => {
             onCommitProduction(subModuleByCurrentTab())
             setFileList([...filesList, dataDisplayedMHT])
           }}
