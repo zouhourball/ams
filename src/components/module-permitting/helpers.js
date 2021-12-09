@@ -359,7 +359,9 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           id: 2,
           primary: true,
           label: 'View Documents',
-          onClick: () => {},
+          onClick: () => {
+            supportedDocument(id)
+          },
         },
       ]
     case 'operator':

@@ -1,10 +1,12 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import { useQuery } from 'react-query'
+import { useState } from 'react'
 import moment from 'moment'
 
 import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
+import SupportedDocument from 'components/supported-document'
 
 import { getPermitDetail } from 'libs/api/permit-api'
 import useRole from 'libs/hooks/use-role'
@@ -12,6 +14,8 @@ import useRole from 'libs/hooks/use-role'
 import './style.scss'
 
 const AbandonReportDetails = ({ abandonReportId }) => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const { data: detailData } = useQuery(
     ['abandonReportById', 'Abandon', abandonReportId],
     getPermitDetail,
@@ -24,7 +28,9 @@ const AbandonReportDetails = ({ abandonReportId }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
     >
       View documents
     </Button>,
@@ -354,6 +360,21 @@ const AbandonReportDetails = ({ abandonReportId }) => {
           },
         ]}
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            detailData?.id || showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

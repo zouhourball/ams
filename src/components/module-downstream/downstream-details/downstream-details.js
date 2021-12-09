@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
@@ -21,6 +21,7 @@ import {
 } from '../mht-helper-dialog'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
@@ -34,6 +35,8 @@ import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import './style.scss'
 
 const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const dispatch = useDispatch()
 
   const role = useRole('downstream')
@@ -226,7 +229,9 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
     >
       View documents
     </Button>,
@@ -277,6 +282,22 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            downstreamDetail?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

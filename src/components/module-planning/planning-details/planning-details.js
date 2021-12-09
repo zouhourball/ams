@@ -2,12 +2,13 @@ import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery } from 'react-query'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { getDetailPlanningById } from 'libs/api/api-planning'
 import moment from 'moment'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import useRole from 'libs/hooks/use-role'
 import { configsWpbDialogMht, configsFypDialogMht } from '../mht-helper-dialog'
 import { wpbData, fypData } from '../helpers'
@@ -15,6 +16,8 @@ import { wpbData, fypData } from '../helpers'
 import './style.scss'
 
 const PlanningDetails = ({ objectId, subModule }) => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const { data: dataDetails } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
     objectId && getDetailPlanningById,
@@ -78,7 +81,9 @@ const PlanningDetails = ({ objectId, subModule }) => {
           className="top-bar-buttons-list-item-btn view-doc"
           flat
           swapTheming
-          onClick={() => {}}
+          onClick={() => {
+            setShowSupportedDocumentDialog(true)
+          }}
         >
           Supporting documents
         </Button>
@@ -142,6 +147,22 @@ const PlanningDetails = ({ objectId, subModule }) => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            dataDetails?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

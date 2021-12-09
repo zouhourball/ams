@@ -21,6 +21,7 @@ import {
 } from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import useRole from 'libs/hooks/use-role'
 
 import { costRecoveryDetailsConfigs } from '../helpers'
@@ -36,6 +37,8 @@ import './style.scss'
 
 const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
 
   const subModule = pathname?.split('/')[4]
   const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost)
@@ -345,7 +348,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       swapTheming
-      onClick={() => {}}
+      onClick={() => setShowSupportedDocumentDialog(true)}
     >
       View documents
     </Button>,
@@ -440,6 +443,22 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
           )
         }
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            costsDetail?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

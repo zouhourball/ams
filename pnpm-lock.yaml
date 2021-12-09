@@ -171,7 +171,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jCH+k2Vjlno4YWl6g535nHR09PwCEmTBKAG6VqF+rhkrSPRLfgpU2maagwbZPLjaHuU5Jd1DFQ2KJpQuI6uG8w==
-  /@apollo/client/3.5.5_graphql@15.5.1+react@17.0.2:
+  /@apollo/client/3.5.6_graphql@15.5.1+react@17.0.2:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.5.1
       '@wry/context': 0.6.1
@@ -184,7 +184,7 @@ packages:
       prop-types: 15.7.2
       react: 17.0.2
       symbol-observable: 4.0.0
-      ts-invariant: 0.9.3
+      ts-invariant: 0.9.4
       tslib: 2.3.1
       zen-observable-ts: 1.2.3
     peerDependencies:
@@ -197,7 +197,7 @@ packages:
       subscriptions-transport-ws:
         optional: true
     resolution:
-      integrity: sha512-EiQstc8VjeqosS2h21bwY9fhL3MCRRmACtRrRh2KYpp9vkDyx5pUfMnN3swgiBVYw1twdXg9jHmyZa1gZlvlog==
+      integrity: sha512-XHoouuEJ4L37mtfftcHHO1caCRrKKAofAwqRoq28UQIPMJk+e7n3X9OtRRNXKk/9tmhNkwelSary+EilfPwI7A==
   /@apollo/react-common/3.1.4_e5d7806bc96ca77405cb700daf6d1ef8:
     dependencies:
       '@types/react': 17.0.13
@@ -278,7 +278,7 @@ packages:
       integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollo/react-hooks/4.0.0_graphql@15.5.1+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.5_graphql@15.5.1+react@17.0.2
+      '@apollo/client': 3.5.6_graphql@15.5.1+react@17.0.2
     dev: false
     peerDependencies:
       graphql: '*'
@@ -302,7 +302,7 @@ packages:
       integrity: sha512-wuLPkKlctNn3u8EU8rlECyktpOUCeekFfb0KhIKknpGY6Lza2Qu0bThx7D9MIbVEzhKadNNrzLcpk0Y8/5UuWg==
   /@apollo/react-testing/4.0.0_graphql@15.5.1+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.5_graphql@15.5.1+react@17.0.2
+      '@apollo/client': 3.5.6_graphql@15.5.1+react@17.0.2
     dev: true
     peerDependencies:
       graphql: '*'
@@ -19566,13 +19566,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==
-  /ts-invariant/0.9.3:
+  /ts-invariant/0.9.4:
     dependencies:
       tslib: 2.3.1
     engines:
       node: '>=8'
     resolution:
-      integrity: sha512-HinBlTbFslQI0OHP07JLsSXPibSegec6r9ai5xxq/qHYCsIQbzpymLpDhAUsnXcSrDEcd0L62L8vsOEdzM0qlA==
+      integrity: sha512-63jtX/ZSwnUNi/WhXjnK8kz4cHHpYS60AnmA6ixz17l7E12a5puCWFlNpkne5Rl0J8TBPVHpGjsj4fxs8ObVLQ==
   /ts-loader/6.2.2_typescript@3.9.10:
     dependencies:
       chalk: 2.4.2

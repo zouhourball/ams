@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
@@ -18,6 +18,7 @@ import {
 } from 'libs/api/api-production'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 
 import {
@@ -30,6 +31,8 @@ import {
 import './style.scss'
 
 const ProductionDetails = () => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
 
@@ -347,7 +350,9 @@ const ProductionDetails = () => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
     >
       View documents
     </Button>,
@@ -400,6 +405,22 @@ const ProductionDetails = () => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            productionData?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }
