@@ -12,14 +12,12 @@ const InventoryDetails = lazy(() =>
   import('components/module-inventory/inventory-details'),
 )
 const Inventory = lazy(() => import('./inventory'))
-const AnnualBase = lazy(() => import('./annual-base'))
 
 const Inventories = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Inventory path="/" />
-        <AnnualBase path="/annual-base" />
+        <Inventory path="/:subModule" />
         <InventoryDetails path="/inventory-details/:inventoryId/:tabId" />
         <InventoryConsumptionRecords path="/inventory-consumption-records/:inventoryId/:tabId" />
         <InventorySurplusRecords path="/inventory-surplus-records/:inventoryId/:tabId" />

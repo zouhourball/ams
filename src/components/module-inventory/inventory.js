@@ -47,7 +47,9 @@ import {
 /* import ConfirmDialog from 'components/confirm-dialog'
  */
 const Inventory = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+
+  const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -58,7 +60,7 @@ const Inventory = () => {
 
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
-  const [selectFieldValue, setSelectFieldValue] = useState('Asset Consumption')
+
   /* const [showDeleteDialog, setShowDeleteDialog] = useState(false) */
 
   const [currentUpload, setCurrentUpload] = useState()
@@ -113,11 +115,11 @@ const Inventory = () => {
 
   const refetchAfterCommitByCurrentTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return refetchInventory()
-      case 3:
+      case 'asset-transfer':
         return refetchListAssetTransferInventory()
-      case 4:
+      case 'asset-disposal':
         return refetchListDisposalInventory()
       default:
         return refetchInventory()
@@ -357,7 +359,7 @@ const Inventory = () => {
   const onAddReportByCurrentTab = (body) => {
     let uuid = uuidv4()
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         uploadAnnualBaseReportMutate.mutate({
           body: {
             block: body?.block,
@@ -371,7 +373,7 @@ const Inventory = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
-      case 3:
+      case 'asset-transfer':
         uploadAssetTransferReportMutate.mutate({
           body: {
             block: body?.block,
@@ -387,7 +389,7 @@ const Inventory = () => {
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
 
-      case 4:
+      case 'asset-disposal':
         uploadAssetDisposalReportMutate.mutate({
           body: {
             block: body?.block,
@@ -400,7 +402,7 @@ const Inventory = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
-      case 5:
+      case 'new-asset-addition':
         uploadAnnualBaseReportMutate.mutate({
           body: {
             block: body?.block,
@@ -478,17 +480,17 @@ const Inventory = () => {
 
   const subModuleByCurrentTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return 'base'
-      case 1:
+      case 'asset-consumption':
         return ''
-      case 2:
+      case 'surplus-declaration':
         return ''
-      case 3:
+      case 'asset-transfer':
         return 'transfer'
-      case 4:
+      case 'asset-disposal':
         return 'disposal'
-      case 5:
+      case 'new-asset-addition':
         return 'addition'
       default:
         return ''
@@ -497,18 +499,18 @@ const Inventory = () => {
 
   const commitUploadByTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return onCommitInventory('base')
 
-      case 1:
+      case 'asset-consumption':
         return ''
-      case 2:
+      case 'surplus-declaration':
         return ''
-      case 3:
+      case 'asset-transfer':
         return onCommitInventory('transfer')
-      case 4:
+      case 'asset-disposal':
         return onCommitInventory('disposal')
-      case 5:
+      case 'new-asset-addition':
         return onCommitRows('addition')
       default:
         return ''
@@ -516,21 +518,17 @@ const Inventory = () => {
   }
   const createCategoryAndTransactionByTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return 'base'
-      case 1:
-        return selectFieldValue === 'Consumption Declaration Records'
-          ? 'consumptionReportProcess'
-          : 'base-consumption'
-      case 2:
-        return selectFieldValue === 'Surplus Declaration Records'
-          ? 'surplusInventoryProcess'
-          : 'base-surplus'
-      case 3:
+      case 'asset-consumption':
+        return 'base-consumption'
+      case 'surplus-declaration':
+        return 'base-surplus'
+      case 'asset-transfer':
         return 'assetTransferRequestProcess'
-      case 4:
+      case 'asset-disposal':
         return 'assetDisposalRequestProcess'
-      case 5:
+      case 'new-asset-addition':
         return 'addition'
       default:
         return 'base'
@@ -538,9 +536,9 @@ const Inventory = () => {
   }
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return annualBaseDetailsConfigs()
-      case 4:
+      case 'asset-disposal':
         return assetDisposalDetailsConfigs()
       default:
         return annualBaseDetailsConfigs()
@@ -548,9 +546,9 @@ const Inventory = () => {
   }
   const renderCurrentTabDetailsData = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return mhtUploadedAnnualAssetData
-      case 4:
+      case 'asset-disposal':
         return mhtUploadedAssetDisposalData
       default:
         return mhtUploadedAnnualAssetData
@@ -644,28 +642,52 @@ const Inventory = () => {
 
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return createActionsByCurrentTab(annualBaseActionsHelper)
-      case 1:
+      case 'asset-consumption':
         return createActionsByCurrentTab(assetConsumptionActionsHelper)
-      case 2:
+      case 'surplus-declaration':
         return createActionsByCurrentTab(surplusDeclarationActionsHelper)
-      case 3:
+      case 'asset-transfer':
         return createActionsByCurrentTab(assetTransferActionsHelper)
-      case 4:
+      case 'asset-disposal':
         return createActionsByCurrentTab(assetDisposalActionsHelper)
       default:
         return createActionsByCurrentTab(newAssetAdditionActionsHelper)
     }
   }
 
-  const tabsList = [
-    'Annual Base',
-    'Asset Consumption',
-    'Surplus Declaration',
-    'Asset Transfer',
-    'Asset Disposal',
-    'New Asset Addition',
+  const tabsList2 = [
+    {
+      linkToNewTab: `/ams/inventory/annual-base`,
+      label: 'Annual Base',
+      key: 'annual-base',
+    },
+    {
+      linkToNewTab: `/ams/inventory/asset-consumption`,
+      label: 'Asset Consumption',
+      key: 'asset-consumption',
+    },
+    {
+      linkToNewTab: `/ams/inventory/surplus-declaration`,
+      label: 'Surplus Declaration',
+      key: 'surplus-declaration',
+    },
+    {
+      linkToNewTab: `/ams/inventory/asset-transfer`,
+      label: 'Asset Transfer',
+      key: 'asset-transfer',
+    },
+    {
+      linkToNewTab: `/ams/inventory/asset-disposal`,
+      label: 'Asset Disposal',
+      key: 'asset-disposal',
+    },
+    {
+      linkToNewTab: `/ams/inventory/new-asset-addition`,
+      label: 'New Asset Addition',
+      key: 'new-asset-addition',
+    },
   ]
   const tableDataListAnnualBase = (
     get(listAnnualBase, 'content', []) || []
@@ -731,17 +753,17 @@ const Inventory = () => {
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
-      case 1:
+      case 'asset-consumption':
         return tableDataListInventoriesAccepted
-      case 2:
+      case 'surplus-declaration':
         return tableDataListInventoriesAccepted
-      case 3:
+      case 'asset-transfer':
         return tableDataListAssetTransfer
-      case 4:
+      case 'asset-disposal':
         return tableDataLisDisposal
-      case 5:
+      case 'new-asset-addition':
         return tableDataListInventoriesAccepted
-      case 0:
+      case 'annual-base':
       default:
         return tableDataListAnnualBase
     }
@@ -765,13 +787,13 @@ const Inventory = () => {
   }
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return mhtConfig(UploadSupportedDocumentFromTable)
-      case 1:
+      case 'asset-consumption':
         return mhtConfig(UploadSupportedDocumentFromTable)
-      case 2:
+      case 'surplus-declaration':
         return mhtConfig(UploadSupportedDocumentFromTable)
-      case 3:
+      case 'asset-transfer':
         return mhtConfig(UploadSupportedDocumentFromTable)
       default:
         return mhtConfig(UploadSupportedDocumentFromTable)
@@ -779,37 +801,37 @@ const Inventory = () => {
   }
   const renderDialogData = () => {
     switch (currentTab) {
-      case 0:
+      case 'annual-base':
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 1:
+      case 'asset-consumption':
         return {
           title: 'Upload Consumption File',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 2:
+      case 'surplus-declaration':
         return {
           title: 'Upload Surplus File',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 3:
+      case 'asset-transfer':
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 4:
+      case 'asset-disposal':
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onClick: () => {},
         }
-      case 5:
+      case 'new-asset-addition':
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
@@ -832,18 +854,9 @@ const Inventory = () => {
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
       />
       <NavBar
-        tabsList={tabsList}
+        tabsList={tabsList2}
         activeTab={currentTab}
-        setActiveTab={(tab) => {
-          setCurrentTab(tab)
-          setSelectFieldValue(
-            tab === 1
-              ? 'Consumption Declaration'
-              : tab === 2
-                ? 'Surplus Declaration'
-                : 'Grid 1',
-          )
-        }}
+        setActiveTab={setCurrentTab}
       />
       <Mht
         configs={renderCurrentTabConfigs()}

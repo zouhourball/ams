@@ -517,10 +517,29 @@ const InventoryDetails = () => {
     }
   }
 
+  const returnBack = () => {
+    switch (currentTabName) {
+      case 'base': // annual base tab 0
+        return navigate('/ams/inventory/annual-base')
+      case 'assetTransferRequestProcess': // Asset Transfer tab 3
+        return navigate('/ams/inventory/asset-transfer')
+      case 'assetDisposalRequestProcess': // Asset Disposal tab 4
+        return navigate('/ams/inventory/asset-disposal')
+      case 'base-consumption': // Asset Consumption tab 2
+        return navigate('/ams/inventory/asset-consumption')
+      case 'base-surplus': // Surplus Declaration tab 1
+        return navigate('/ams/inventory/surplus-declaration')
+      case 'addition': // Addition tab 5
+        return navigate('/ams/inventory/new-asset-addition')
+      default:
+        return navigate('/ams/inventory/annual-base')
+    }
+  }
+
   return (
     <div className="details-container">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/inventory')}
+        onClickBack={returnBack}
         actions={renderActionsByTab()}
         detailData={{ title: ' Block 100' }}
       />

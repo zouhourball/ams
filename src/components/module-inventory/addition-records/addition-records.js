@@ -43,7 +43,7 @@ const AdditionRecords = () => {
   return (
     <>
       <TopBarDetail
-        onClickBack={() => navigate('/ams/inventory')}
+        onClickBack={() => navigate('/ams/inventory/new-asset-addition')}
         detailData={{ title: 'Addition Records ' }}
         actions={[]}
       />

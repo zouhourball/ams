@@ -43,7 +43,7 @@ const InventorySurplusRecords = () => {
   return (
     <>
       <TopBarDetail
-        onClickBack={() => navigate('/ams/inventory')}
+        onClickBack={() => navigate('/ams/inventory/asset-consumption')}
         detailData={{ title: 'Surplus Declaration Records' }}
         actions={[]}
       />
