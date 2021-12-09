@@ -1,5 +1,4 @@
-import { fetchJSON, fetchGeneric } from 'libs/fetch'
-import { downloadFromBlob } from 'libs/utils/download-blob'
+import { fetchJSON } from 'libs/fetch'
 
 const appUrl =
   process.env.NODE_ENV === 'production'
@@ -100,17 +99,6 @@ export const getAdditionsList = async ({ queryKey }) => {
     res = { error: e }
   }
   return res
-}
-
-export const downloadTemp = async (module, sub) => {
-  const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
-  const apiResponseBlob = await await fetchGeneric(url, { method: 'GET' }).then(
-    (response) => response.blob(),
-  )
-  downloadFromBlob(
-    apiResponseBlob,
-    `template_${module}_${sub}.xlsx` || URL.split('/').reverse()[0],
-  )
 }
 
 export const commitInventory = async ({ subModule, body }) => {

@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { get } from 'lodash-es'
 import useRole from 'libs/hooks/use-role'
 import {
-  downloadTemp,
   uploadAnnualBaseInventoryReport,
   uploadAssetDisposalInventoryReport,
   getInventories,
@@ -23,6 +22,8 @@ import {
   getCompaniesInventory,
   commitRows,
 } from 'libs/api/api-inventory'
+import { downloadTemp } from 'libs/api/supporting-document-api'
+
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
 import { addToast } from 'modules/app/actions'

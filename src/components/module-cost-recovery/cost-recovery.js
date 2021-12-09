@@ -38,7 +38,7 @@ import {
   deleteProdLifting,
   deleteTransaction,
 } from 'libs/api/cost-recovery-api'
-import { downloadTemp } from 'libs/api/api-reserves'
+import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
 

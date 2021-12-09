@@ -4,7 +4,6 @@ import { Button, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
-import { downloadTemp } from 'libs/api/api-reserves'
 
 import {
   listLpgDownstreamByLoggedUser,
@@ -26,7 +25,10 @@ import {
 
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
-import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import {
+  downloadOriginalFile,
+  downloadTemp,
+} from 'libs/api/supporting-document-api'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'

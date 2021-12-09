@@ -11,14 +11,16 @@ import { addToast } from 'modules/app/actions'
 
 import useRole from 'libs/hooks/use-role'
 import documents from 'libs/hooks/documents'
-import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import {
+  downloadOriginalFile,
+  downloadTemp,
+} from 'libs/api/supporting-document-api'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import ToastMsg from 'components/toast-msg'
 
 import {
   getListProduction,
-  downloadTemp,
   uploadDailyProductionReport,
   uploadMonthlyProductionReport,
   uploadMonthlyTrackingProductionReport,
@@ -515,21 +517,6 @@ const Production = () => {
       }
     },
   )
-
-  // const { data: listBlocks } = useQuery(
-  //   ['getListBlocks'],
-  //   getListBlocks,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
-  // const { data: getDownloadTemplate } = useQuery(
-  //   ['downloadTemplate', 'production', 'daily'],
-  //   downloadTemplate,
-  //   {
-  //     refetchOnWindowFocus: false,
-  //   },
-  // )
 
   const DailyProductionActionsHelper = [
     {

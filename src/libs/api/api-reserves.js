@@ -1,5 +1,4 @@
-import { fetchJSON, fetchGeneric } from 'libs/fetch'
-import { downloadFromBlob } from 'libs/utils/download-blob'
+import { fetchJSON } from 'libs/fetch'
 import { formDataBody } from 'libs/utils/custom-function'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
@@ -80,19 +79,6 @@ export const getAnnualResourceDetail = async () => {
     res = { error: e }
   }
   return res
-}
-
-export const downloadTemp = async (module, sub, onLoading = () => null) => {
-  const url = `${appUrl}/pulse-be/api/v2/files/${module}/${sub}/template/download`
-  const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
-    (response) => response.blob(),
-    onLoading(true),
-  )
-  downloadFromBlob(
-    apiResponseBlob,
-    `template_${module}_${sub}.xlsx` || URL.split('/').reverse()[0],
-  )
-  onLoading(false)
 }
 
 export const commitReport = async ({ body, sub }) => {
