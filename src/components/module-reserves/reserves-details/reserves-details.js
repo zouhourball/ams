@@ -2,7 +2,7 @@ import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
 
@@ -17,6 +17,7 @@ import {
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 
 import {
@@ -29,6 +30,9 @@ import {
 import './style.scss'
 
 const ReservesDetails = ({ reserveId, subkey }) => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
+
   const dispatch = useDispatch()
   const subModule = subkey
   let role = useRole('reserves')
@@ -124,7 +128,9 @@ const ReservesDetails = ({ reserveId, subkey }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
     >
       View documents
     </Button>,
@@ -197,6 +203,22 @@ const ReservesDetails = ({ reserveId, subkey }) => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            reserveDetail?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

@@ -155,6 +155,7 @@ const Reserves = () => {
       resp[0]?.statusCode === 'OK' &&
       setShowSupportedDocumentDialog(false)
   }
+
   const annualReservesReportingSuppDocs = (data) => {
     addSupportingDocuments(
       data,
@@ -163,21 +164,25 @@ const Reserves = () => {
       closeDialog,
     )
   }
+  // const handleSupportingDocs = (data) => {
+  //   switch (currentTab) {
+  //     case 0:
+  //       annualReservesReportingSuppDocs(data)
+  //       break
+  //     case 1:
+  //       annualReservesReportingSuppDocs(data)
+  //       break
+  //     case 2:
+  //       annualReservesReportingSuppDocs(data)
+  //       break
+  //     default:
+  //       break
+  //   }
+  // }
   const handleSupportingDocs = (data) => {
-    switch (currentTab) {
-      case 0:
-        annualReservesReportingSuppDocs(data)
-        break
-      case 1:
-        annualReservesReportingSuppDocs(data)
-        break
-      case 2:
-        annualReservesReportingSuppDocs(data)
-        break
-      default:
-        break
-    }
+    annualReservesReportingSuppDocs(data)
   }
+
   // const role = useRole('reserves')
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -220,6 +225,7 @@ const Reserves = () => {
       case 0:
         return (
           listAnnualReserves?.content?.map((el) => ({
+            processInstanceId: el?.metaData?.processInstanceId,
             id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
@@ -241,6 +247,7 @@ const Reserves = () => {
       case 1:
         return (
           listHistoryAndForecast?.content?.map((el) => ({
+            processInstanceId: el?.metaData?.processInstanceId,
             id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
@@ -262,6 +269,7 @@ const Reserves = () => {
       case 2:
         return (
           listAnnualResourceDetail?.content?.map((el) => ({
+            processInstanceId: el?.metaData?.processInstanceId,
             id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
@@ -283,6 +291,7 @@ const Reserves = () => {
       default:
         return (
           listAnnualResourceDetail?.content?.map((el) => ({
+            processInstanceId: el?.metaData?.processInstanceId,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
             submittedDate: el?.metaData?.createdAt
@@ -624,6 +633,7 @@ const Reserves = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly={role === 'regulator'}
           processInstanceId={
             selectedRow[0]?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId

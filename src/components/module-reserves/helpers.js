@@ -65,7 +65,7 @@ export const annualReservesConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -143,7 +143,7 @@ export const historyConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
@@ -220,7 +220,7 @@ export const annualResourceConfigs = (supportedDocument) => [
         icon={<FontIcon>save_alt</FontIcon>}
         label={'Upload Documents'}
         onClick={(e) => {
-          e.stopPropagation()
+          e.preventDefault()
           supportedDocument(row)
         }}
       />
