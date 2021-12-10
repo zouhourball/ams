@@ -268,7 +268,9 @@ export const actionsHeader = (
           {
             id: 1,
             label: 'Delete',
-            onClick: () => {},
+            onClick: () => {
+              handleDeleteInventory(id)
+            },
           },
           {
             id: 2,

@@ -112,7 +112,6 @@ const Inventory = () => {
       refetchOnWindowFocus: false,
     },
   )
-  // const { mutate: onDeleteInventory } = useMutation(deleteInventory)
 
   const refetchAfterCommitByCurrentTab = () => {
     switch (currentTab) {
