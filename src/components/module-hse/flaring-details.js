@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import Mht from '@target-energysolutions/mht'
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import moment from 'moment'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 
 import { updateFlaring, getDetailFlaringById } from 'libs/api/api-flaring'
@@ -23,6 +24,8 @@ import {
 } from './helpers'
 
 const FlaringDetails = () => {
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const dispatch = useDispatch()
 
   const role = useRole('flaring')
@@ -188,7 +191,9 @@ const FlaringDetails = () => {
       flat
       primary
       swapTheming
-      onClick={() => {}}
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
     >
       View Documents
     </Button>,
@@ -240,6 +245,22 @@ const FlaringDetails = () => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            flaringData?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }

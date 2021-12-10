@@ -288,7 +288,9 @@ export const actionsHeader = (
           {
             id: 4,
             label: 'Upload Documents',
-            onClick: () => {},
+            onClick: () => {
+              supportedDocument(id)
+            },
           },
         ]
       } else if (tab === 'base-consumption') {
@@ -345,7 +347,9 @@ export const actionsHeader = (
           {
             id: 2,
             label: 'Upload Documents',
-            onClick: () => {},
+            onClick: () => {
+              supportedDocument(id)
+            },
           },
           {
             id: 3,

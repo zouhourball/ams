@@ -20,6 +20,7 @@ import {
 } from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
+import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 import {
   annualBaseDetailsConfigs,
@@ -37,6 +38,9 @@ const InventoryDetails = () => {
   const inventoryId = pathItems[1]
 
   const [rows, setRows] = useState([])
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
+
   const categoryKeyword = [
     'base',
     'assetTransferRequestProcess',
@@ -366,7 +370,9 @@ const InventoryDetails = () => {
                 className="top-bar-buttons-list-item-btn view-doc"
                 flat
                 swapTheming
-                onClick={() => {}}
+                onClick={() => {
+                  setShowSupportedDocumentDialog(true)
+                }}
               >
                 Upload documents
               </Button>
@@ -452,7 +458,9 @@ const InventoryDetails = () => {
                 className="top-bar-buttons-list-item-btn view-doc"
                 flat
                 swapTheming
-                onClick={() => {}}
+                onClick={() => {
+                  setShowSupportedDocumentDialog(true)
+                }}
               >
                 Upload documents
               </Button>
@@ -509,7 +517,9 @@ const InventoryDetails = () => {
             className="top-bar-buttons-list-item-btn view-doc"
             flat
             swapTheming
-            onClick={() => {}}
+            onClick={() => {
+              setShowSupportedDocumentDialog(true)
+            }}
           >
             Upload documents
           </Button>,
@@ -552,6 +562,22 @@ const InventoryDetails = () => {
         hideTotal={false}
         withFooter
       />
+      {showSupportedDocumentDialog && (
+        <SupportedDocument
+          title={'upload supporting documents'}
+          visible={showSupportedDocumentDialog}
+          onDiscard={() => setShowSupportedDocumentDialog(false)}
+          readOnly
+          processInstanceId={
+            inventoryData?.metaData?.processInstanceId ||
+            showSupportedDocumentDialog?.processInstanceId
+          }
+          // onSaveUpload={(data) => {
+          //   handleSupportingDocs(data)
+          // }
+          // }
+        />
+      )}
     </div>
   )
 }
