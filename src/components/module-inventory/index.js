@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 import InventoryConsumptionRecords from './inventory-consumption-records'
 import InventorySurplusRecords from './inventory-surplus-records'
@@ -17,6 +17,7 @@ const Inventories = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
+        <Redirect from="/" to="annual-base" noThrow />
         <Inventory path="/:subModule" />
         <InventoryDetails path="/inventory-details/:inventoryId/:tabId" />
         <InventoryConsumptionRecords path="/inventory-consumption-records/:inventoryId/:tabId" />
