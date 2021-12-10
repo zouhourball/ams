@@ -22,7 +22,10 @@ import {
   getCompaniesInventory,
   commitRows,
 } from 'libs/api/api-inventory'
-import { downloadTemp } from 'libs/api/supporting-document-api'
+import {
+  downloadOriginalFile,
+  downloadTemp,
+} from 'libs/api/supporting-document-api'
 
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -696,6 +699,9 @@ const Inventory = () => {
       id: el?.id,
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
+      originalFileName: get(el, 'metaData.originalFileName', ''),
+
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
@@ -711,6 +717,9 @@ const Inventory = () => {
       id: el?.id,
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
+      originalFileName: get(el, 'metaData.originalFileName', ''),
+
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
@@ -725,6 +734,9 @@ const Inventory = () => {
         id: el?.id,
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
+        originalFileId: get(el, 'metaData.originalFileId', ''),
+        originalFileName: get(el, 'metaData.originalFileName', ''),
+
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
@@ -740,6 +752,8 @@ const Inventory = () => {
       id: el?.id,
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
+      originalFileName: get(el, 'metaData.originalFileName', ''),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate:
@@ -886,6 +900,9 @@ const Inventory = () => {
                 handleDeleteInventory,
                 setShowUploadRapportDialog,
                 setCurrentInventoryId,
+                selectedRow[0].originalFileId,
+                selectedRow[0].originalFileName,
+                downloadOriginalFile,
               )}
             />
           ) : (

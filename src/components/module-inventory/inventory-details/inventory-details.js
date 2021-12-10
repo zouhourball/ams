@@ -29,6 +29,7 @@ import {
   assetConsumptionDetailsConfigs,
 } from '../helpers'
 import './style.scss'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 const InventoryDetails = () => {
   const dispatch = useDispatch()
@@ -359,7 +360,10 @@ const InventoryDetails = () => {
                 primary
                 swapTheming
                 onClick={() => {
-                  // navigate(`/ams/production/production-detail`)
+                  downloadOriginalFile(
+                    inventoryData?.metaData?.originalFileId,
+                    inventoryData?.metaData?.originalFileName,
+                  )
                 }}
               >
                 Download Original File
@@ -506,7 +510,10 @@ const InventoryDetails = () => {
             primary
             swapTheming
             onClick={() => {
-              // navigate(`/ams/production/production-detail`)
+              downloadOriginalFile(
+                inventoryData?.metaData?.originalFileId,
+                inventoryData?.metaData?.originalFileName,
+              )
             }}
           >
             Download Original File

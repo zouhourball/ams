@@ -205,6 +205,9 @@ export const actionsHeader = (
   handleDeleteInventory,
   setShowUploadRapportDialog,
   setCurrentInventoryId,
+  originalFileId,
+  originalFileName,
+  downloadOriginalFile,
 ) => {
   switch (role) {
     case 'regulator':
@@ -282,7 +285,9 @@ export const actionsHeader = (
           {
             id: 3,
             label: 'Download Original File',
-            onClick: () => {},
+            onClick: () => {
+              downloadOriginalFile(originalFileId, originalFileName)
+            },
           },
 
           {
