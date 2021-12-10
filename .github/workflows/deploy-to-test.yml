@@ -1,5 +1,4 @@
 name: Test ci pipeline
-
 on:
   push:
     tags:
