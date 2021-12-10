@@ -23,6 +23,8 @@ const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
           navigate(`/ams/hse/flaring/analytics/dashboard`)
         } else if (pathname.includes('ams/production')) {
           navigate(`/ams/production/analytics/dashboard`)
+        } else if (pathname.includes('ams/inventory')) {
+          navigate(`/ams/inventory/analytics/dashboard`)
         } else {
           navigate(`${pathname}/analytics/dashboard`)
         }
