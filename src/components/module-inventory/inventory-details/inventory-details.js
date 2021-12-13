@@ -262,7 +262,13 @@ const InventoryDetails = () => {
       case 'base':
         return annualBaseDetailsConfigs()
       case 'base-consumption':
-        return assetConsumptionDetailsConfigs(rows, setRows, 'Consumption')
+        return assetConsumptionDetailsConfigs(
+          rows,
+          (v) => {
+            setRows(v)
+          },
+          'Consumption',
+        )
       case 'base-surplus':
         return assetConsumptionDetailsConfigs(rows, setRows, 'Surplus')
       case 'assetDisposalRequestProcess':

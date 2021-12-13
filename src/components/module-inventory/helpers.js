@@ -839,8 +839,8 @@ export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
     render: (row) => {
       let overStock = false
       const selectedRow = rows?.find((el) => el?.id === row?.id)
-      if (+selectedRow?.quantity < +selectedRow?.Count) {
-        overStock = true
+      if (+selectedRow?.Count <= +selectedRow?.currentSt) {
+        overStock = false
       }
       return (
         <TextField
@@ -848,25 +848,29 @@ export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
           id={row.id}
           type="number"
           className="upload-permit-dialog-textField"
-          value={rows[row?.id]?.Count}
+          value={rows.find((r) => r.id === row.id)?.Count || ''}
           onChange={(v) => {
-            let newRow = { ...row }
-            const locaLRows = [...rows]
-            newRow.Count = v
-            const rowExist = rows?.find((el) => el?.id === newRow?.id)
-            if (rowExist) {
-              const index = rows.indexOf(rowExist)
-              locaLRows[index].Count = v
+            if (+v <= +row?.currentSt) {
+              let newRow = { ...row }
+              const locaLRows = [...rows]
+              newRow.Count = v
+              const rowExist = rows?.find((el) => el?.id === newRow?.id)
+              if (rowExist) {
+                const index = rows.indexOf(rowExist)
+                locaLRows[index].Count = v
+              } else {
+                locaLRows.push(newRow)
+              }
+              if (v === '') {
+                const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
+                setRows(rowsFiltered)
+              } else {
+                setRows(locaLRows)
+              }
             } else {
-              locaLRows.push(newRow)
-            }
-            if (v === '') {
-              const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
-              setRows(rowsFiltered)
-            } else {
-              setRows(locaLRows)
             }
           }}
+          min={0}
           error={overStock}
           // disabled={status === 'closed'}
           //   supportedDocument(row)
@@ -927,6 +931,7 @@ export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
             rightIcon={<FontIcon>date_range</FontIcon>}
             value={rows[row?.id]?.date}
             block
+            max={3}
             error={validDate}
           />
           {/*      {datePickerState && (

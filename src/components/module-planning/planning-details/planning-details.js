@@ -135,7 +135,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
     <div className="details-container">
       <TopBarDetail
         detailData={headerData()}
-        onClickBack={() => navigate('/ams/planning')}
+        onClickBack={() => navigate(`/ams/planning/${subModule}`)}
         actions={actions}
       />
       <Mht

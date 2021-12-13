@@ -120,7 +120,7 @@ export const subModules = [
   {
     key: 'planning',
     name: 'Planning',
-    onClick: () => navigate('/ams/planning'),
+    onClick: () => navigate('/ams/planning/wpb'),
     icon: (
       <SVGIcon viewBox={'0 0 16 19'}>
         <g

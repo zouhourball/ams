@@ -43,7 +43,9 @@ import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 const Planning = () => {
   const dispatch = useDispatch()
 
-  const [currentTab, setCurrentTab] = useState(0)
+  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+
+  const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -60,21 +62,21 @@ const Planning = () => {
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
 
-  const subModuleByCurrentTab = () => {
-    switch (currentTab) {
-      case 0:
-        return 'wpb'
-      case 1:
-        return 'fyp'
-      case 2:
-        return ''
-      default:
-        return ''
-    }
-  }
+  // const subModuleByCurrentTab = () => {
+  //   switch (currentTab) {
+  //     case 0:
+  //       return 'wpb'
+  //     case 1:
+  //       return 'fyp'
+  //     case 2:
+  //       return ''
+  //     default:
+  //       return ''
+  //   }
+  // }
 
   const { data: listPlanning, refetch: refetchList } = useQuery(
-    ['getListPlanning', subModuleByCurrentTab()],
+    ['getListPlanning', currentTab],
     getListPlanning,
     {
       refetchOnWindowFocus: false,
@@ -410,22 +412,39 @@ const Planning = () => {
 
   const renderActionsByCurrentTab = () => {
     switch (currentTab) {
-      case 0:
+      case 'wpb':
         return createActionsByCurrentTab(wpbPlanningActionsHelper)
-      case 1:
+      case 'fyp':
         return createActionsByCurrentTab(fypPlanningActionsHelper)
-      case 2:
+      case 'budgetary':
         return createActionsByCurrentTab(budgetaryPlanningActionsHelper)
-      case 3:
       default:
         return null
     }
   }
 
+  // const tabsList = [
+  //   'Work Program & Budget',
+  //   'Five Year Plan',
+  //   'Budgetary Report',
+  // ]
   const tabsList = [
-    'Work Program & Budget',
-    'Five Year Plan',
-    'Budgetary Report',
+    {
+      linkToNewTab: `/ams/planning/wpb`,
+      label: 'Work Program & Budget',
+      key: 'wpb',
+    },
+
+    {
+      linkToNewTab: `/ams/planning/fyp`,
+      label: 'Five Year Plan',
+      key: 'fyp',
+    },
+    {
+      linkToNewTab: `/ams/planning/budgetary`,
+      label: 'Budgetary Report',
+      key: 'budgetary',
+    },
   ]
 
   const tableDataPlanning = (get(listPlanning, 'content', []) || []).map(
@@ -450,7 +469,7 @@ const Planning = () => {
 
   const renderDialogData = (data) => {
     switch (currentTab) {
-      case 0:
+      case 'wpb':
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
@@ -460,7 +479,7 @@ const Planning = () => {
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
-      case 1:
+      case 'fyp':
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
@@ -470,7 +489,7 @@ const Planning = () => {
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
-      case 2:
+      case 'budgetary':
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
@@ -506,9 +525,9 @@ const Planning = () => {
 
   const configsMht = () => {
     switch (currentTab) {
-      case 0:
+      case 'wpb':
         return configsWpbDialogMht()
-      case 1:
+      case 'fyp':
         return configsFypDialogMht(currentYear)
       default:
         break
@@ -517,9 +536,9 @@ const Planning = () => {
 
   const uploadData = useMemo(() => {
     switch (currentTab) {
-      case 0:
+      case 'wpb':
         return wpbData(currentUpload) || []
-      case 1:
+      case 'fyp':
         return fypData(currentUpload) || []
       default:
         break
@@ -566,7 +585,7 @@ const Planning = () => {
                 selectedRow[0]?.id,
                 role,
                 setShowSupportedDocumentDialog,
-                subModuleByCurrentTab(),
+                currentTab,
                 handleDeletePlanning,
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
@@ -591,11 +610,11 @@ const Planning = () => {
           onCommit={() => {
             setFileList([...filesList, dataDisplayedMHT])
             selectedRow[0]
-              ? onUpdateReport(subModuleByCurrentTab(), selectedRow[0]?.id)
-              : onCommitPLanning(subModuleByCurrentTab())
+              ? onUpdateReport(currentTab, selectedRow[0]?.id)
+              : onCommitPLanning(currentTab)
           }}
           onSave={() => {
-            onSaveReport(subModuleByCurrentTab())
+            onSaveReport(currentTab)
           }}
         />
       )}
@@ -625,9 +644,7 @@ const Planning = () => {
         <ConfirmDialog
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog}
-          handleOverride={() =>
-            onOverridePlanning(subModuleByCurrentTab(), overrideId)
-          }
+          handleOverride={() => onOverridePlanning(currentTab, overrideId)}
           message={'Do you confirm override ?'}
           confirmLabel={'Override'}
         />

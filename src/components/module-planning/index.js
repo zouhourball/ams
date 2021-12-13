@@ -14,6 +14,7 @@ const PlanningModule = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Planning path="/" />
+        <Planning path="/:subModule" />
         <PlanningDetails path="/planning-details/:subModule/:objectId" />
         <ViewHistorian path="/view-historian/:subModule/:objectId" />
         <Dashboard path="/analytics/dashboard" />
