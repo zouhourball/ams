@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button, FontIcon } from 'react-md'
+import { Button, FontIcon, SelectField } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
@@ -17,6 +17,8 @@ import {
   getTransactionById,
   addTransaction,
   getAdditionsList,
+  getSnapshotsByInventoryId,
+  getSnapshotOfBase,
 } from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -37,6 +39,7 @@ const InventoryDetails = () => {
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
   const currentTabName = pathItems[0]
   const inventoryId = pathItems[1]
+  const [selectFieldValue, setSelectFieldValue] = useState('latest')
 
   const [rows, setRows] = useState([])
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -76,6 +79,28 @@ const InventoryDetails = () => {
       refetchOnWindowFocus: false,
     },
   )
+  const { data: snapshotsData } = useQuery(
+    ['getSnapshotsByInventoryId', inventoryId],
+    categoryKeyword.includes(currentTabName) && getSnapshotsByInventoryId,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const { data: snapshotDataOfBase, refetch: refetchSnapshotBase } = useQuery(
+    ['getSnapshotOfBase', inventoryId, selectFieldValue],
+    selectFieldValue !== 'latest' &&
+      currentTabName === 'base' &&
+      getSnapshotOfBase,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const snaps = [
+    { label: 'latest', value: 'latest' },
+    ...(snapshotsData || [])?.map((el) => {
+      return { label: el?.date, value: el?.transactionId }
+    }),
+  ]
   const { data: listAdditions } = useQuery(
     ['getListConsumptionDeclarationRecords', inventoryId, 0, 2000],
     getAdditionsList,
@@ -157,6 +182,7 @@ const InventoryDetails = () => {
       },
     })
   }
+
   const mhtBaseDetailData = (
     get(
       inventoryData || inventoryAcceptedData || transactionData,
@@ -176,6 +202,20 @@ const InventoryDetails = () => {
     }
   })
 
+  const mhtBaseDetailDataSnapchat = (
+    get(snapshotDataOfBase, 'rows', []) || []
+  ).map((el) => {
+    return {
+      id: el?.rowId,
+      materialName: el?.data['Material Name'],
+      materialCategory: el?.data['Material Category'],
+      materialDescription: el?.data['Material Description '],
+      measurementUnit: el?.data['Measurement Unit'],
+      currentSt: 5,
+      quantity: el?.data['Quantity'],
+      unitPrice: el?.data['Unit Price (USD)'],
+    }
+  })
   const tableDataListAdditions = (get(listAdditions, 'content', []) || []).map(
     (el) => {
       return {
@@ -226,7 +266,9 @@ const InventoryDetails = () => {
   const renderCurrentTabData = () => {
     switch (currentTabName) {
       case 'base': // annual base tab 0
-        return mhtBaseDetailData
+        return selectFieldValue === 'latest'
+          ? mhtBaseDetailData
+          : mhtBaseDetailDataSnapchat
       case 'assetTransferRequestProcess': // Asset Transfer tab 3
         return mhtBaseDetailData
       case 'assetDisposalRequestProcess': // Asset Disposal tab 4
@@ -559,12 +601,72 @@ const InventoryDetails = () => {
     }
   }
 
+  const topBarDetail = () => {
+    switch (currentTabName) {
+      case 'base': // annual base tab 0
+        return {
+          title: `Block ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      case 'assetTransferRequestProcess': // Asset Transfer tab 3
+        return {
+          title: `assetTransferRequestProcess ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      case 'assetDisposalRequestProcess': // Asset Disposal tab 4
+        return {
+          title: `assetDisposalRequestProcess ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      case 'base-consumption': // Asset Consumption tab 2
+        return {
+          title: `base-consumption ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      case 'base-surplus': // Surplus Declaration tab 1
+        return {
+          title: `base-surplus ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      case 'addition': // Addition tab 5
+        return {
+          title: `addition ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+      default:
+        return {
+          title: `default ${inventoryData?.metaData?.block}`,
+          companyAllRoles: true,
+          companyName: `${inventoryData?.metaData?.company}`,
+          status: ` ${inventoryData?.metaData?.status}`,
+          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+        }
+    }
+  }
   return (
     <div className="details-container">
       <TopBarDetail
         onClickBack={returnBack}
         actions={renderActionsByTab()}
-        detailData={{ title: ' Block 100' }}
+        detailData={topBarDetail()}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
@@ -574,6 +676,28 @@ const InventoryDetails = () => {
         withSubColumns
         hideTotal={false}
         withFooter
+        headerTemplate={
+          currentTabName === 'base' ? (
+            <SelectField
+              id="base-version"
+              menuItems={snaps}
+              block
+              position={SelectField.Positions.BELOW}
+              value={selectFieldValue}
+              onChange={(v) => {
+                if (v === 'latest') {
+                  setSelectFieldValue(v)
+                } else {
+                  setSelectFieldValue(v)
+                  refetchSnapshotBase()
+                }
+              }}
+              simplifiedMenu={false}
+            />
+          ) : (
+            ''
+          )
+        }
       />
       {showSupportedDocumentDialog && (
         <SupportedDocument

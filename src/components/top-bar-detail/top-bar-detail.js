@@ -58,13 +58,14 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
                   {' '}
                   {companyName}
                 </div>
-                <div className="top-bar-detail-left-information-details-item-sep"></div>
               </div>
             )}
             {status && (
               <>
                 {' '}
                 <div className="top-bar-detail-left-information-details-item">
+                  <div className="top-bar-detail-left-information-details-item-sep"></div>
+
                   <div className="top-bar-detail-left-information-details-item-key">
                     Status :
                   </div>
@@ -77,6 +78,8 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
             )}
             {submittedBy && (
               <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
+
                 <div className="top-bar-detail-left-information-details-item-key">
                   Submitted by :
                 </div>
@@ -84,11 +87,11 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
                   {' '}
                   {submittedBy}
                 </div>
-                <div className="top-bar-detail-left-information-details-item-sep"></div>
               </div>
             )}
             {submittedDate && (
               <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
                 <div className="top-bar-detail-left-information-details-item-key">
                   {' '}
                   Submitted Date :

@@ -259,6 +259,29 @@ export const actionsHeader = (
             },
           },
         ]
+      } else if (
+        tab === 'assetDisposalRequestProcess' ||
+        tab === 'assetTransferRequestProcess'
+      ) {
+        return [
+          /*   {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {},
+          }, */
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          /*      {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => {},
+          }, */
+        ]
       } else {
         return []
       }
@@ -371,6 +394,29 @@ export const actionsHeader = (
               setShowUploadRapportDialog(true)
             },
           },
+        ]
+      } else if (
+        tab === 'assetDisposalRequestProcess' ||
+        tab === 'assetTransferRequestProcess'
+      ) {
+        return [
+          /*   {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {},
+          }, */
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+            },
+          },
+          /*      {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => {},
+          }, */
         ]
       } else {
         return []
