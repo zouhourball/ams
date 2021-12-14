@@ -58,7 +58,9 @@ const Inventory = () => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
-  const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
+  /*   const [selectedRowBase, setSelectedRowBase] = useState([])
+  const [selectedRowConsumption, setSelectedRowConsumption] = useState([])
+  */ const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
 
@@ -381,7 +383,7 @@ const Inventory = () => {
           body: {
             block: body?.block,
             company: company?.name,
-            category: 'base',
+            category: 'assetTransferRequestProcess',
             file: body?.file,
             companyToTransfer: body?.company,
             processInstanceId: uuidv4(),
@@ -446,7 +448,7 @@ const Inventory = () => {
       materialCategory: el?.data['Material Category'],
       materialDescription: el?.data['Material Description '],
       measurementUnit: el?.data['Measurement Unit'],
-      currentSt: 5,
+      currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
       unitPrice: el?.data['Unit Price (USD)'],
     }
@@ -460,7 +462,7 @@ const Inventory = () => {
       materialCategory: el?.data['Material Category'],
       materialDescription: el?.data['Material Description '],
       measurementUnit: el?.data['Measurement Unit'],
-      currentSt: 5,
+      currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
       unitPrice: el?.data['Unit Price (USD)'],
     }
@@ -756,10 +758,7 @@ const Inventory = () => {
       originalFileName: get(el, 'metaData.originalFileName', ''),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate:
-        get(el, 'metaData.month', 'n/a') +
-        ' , ' +
-        get(el, 'metaData.year', 'n/a'),
+      referenceDate: get(el, 'metaData.year', 'n/a'),
       status: get(el, 'metaData.status', 'n/a'),
       processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
@@ -871,6 +870,8 @@ const Inventory = () => {
         tabsList={tabsList2}
         activeTab={currentTab}
         setActiveTab={setCurrentTab}
+        onSelectRows={setSelectedRow}
+        selectedRow={selectedRow}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
@@ -939,14 +940,14 @@ const Inventory = () => {
             value: el?.block,
           }))}
           companyList={
-            currentTab === 3
+            currentTab === 'asset-transfer'
               ? companies?.content?.map((el) => ({
                 label: el?.company,
                 value: el?.company,
               }))
               : null
           }
-          hideDate={currentTab === 3}
+          hideDate={currentTab === 'asset-transfer'}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])

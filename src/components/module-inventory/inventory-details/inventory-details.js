@@ -166,7 +166,14 @@ const InventoryDetails = () => {
   )
   const onSubmitInventory = () => {
     const data = rows?.map((el) => {
-      return { data: el, inventoryId: inventoryId, rowId: el?.id }
+      let item = { ...el }
+      if (el?.date && currentTabName === 'base-consumption') {
+        item['Date of consumption'] = el?.date
+      }
+      if (el?.date && currentTabName === 'base-surplus') {
+        item['Date of surplus'] = el?.date
+      }
+      return { data: item, inventoryId: inventoryId, rowId: el?.id }
     })
 
     const transactionType =
@@ -196,7 +203,7 @@ const InventoryDetails = () => {
       materialCategory: el?.data['Material Category'],
       materialDescription: el?.data['Material Description '],
       measurementUnit: el?.data['Measurement Unit'],
-      currentSt: 5,
+      currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
       unitPrice: el?.data['Unit Price (USD)'],
     }
@@ -211,7 +218,7 @@ const InventoryDetails = () => {
       materialCategory: el?.data['Material Category'],
       materialDescription: el?.data['Material Description '],
       measurementUnit: el?.data['Measurement Unit'],
-      currentSt: 5,
+      currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
       unitPrice: el?.data['Unit Price (USD)'],
     }
@@ -224,10 +231,7 @@ const InventoryDetails = () => {
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate:
-          get(el, 'metaData.month', 'n/a') +
-          ' , ' +
-          get(el, 'metaData.year', 'n/a'),
+        referenceDate: get(el, 'metaData.year', 'n/a'),
         status: get(el, 'metaData.status', 'n/a'),
         processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
@@ -531,7 +535,7 @@ const InventoryDetails = () => {
                 Discard
               </Button>
               <Button
-                key="2"
+                key="3"
                 id="edit"
                 className="top-bar-buttons-list-item-btn discard"
                 flat
@@ -629,19 +633,19 @@ const InventoryDetails = () => {
         }
       case 'base-consumption': // Asset Consumption tab 2
         return {
-          title: `base-consumption ${inventoryData?.metaData?.block}`,
+          title: `Declare Consumption Block ${inventoryAcceptedData?.metaData?.block}`,
           companyAllRoles: true,
-          companyName: `${inventoryData?.metaData?.company}`,
-          status: ` ${inventoryData?.metaData?.status}`,
-          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+          companyName: `${inventoryAcceptedData?.metaData?.company}`,
+          status: ` ${inventoryAcceptedData?.metaData?.status}`,
+          submittedBy: `${inventoryAcceptedData?.metaData?.createdBy?.name}`,
         }
       case 'base-surplus': // Surplus Declaration tab 1
         return {
-          title: `base-surplus ${inventoryData?.metaData?.block}`,
+          title: `Declare Consumption Block ${inventoryAcceptedData?.metaData?.block}`,
           companyAllRoles: true,
-          companyName: `${inventoryData?.metaData?.company}`,
-          status: ` ${inventoryData?.metaData?.status}`,
-          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
+          companyName: `${inventoryAcceptedData?.metaData?.company}`,
+          status: ` ${inventoryAcceptedData?.metaData?.status}`,
+          submittedBy: `${inventoryAcceptedData?.metaData?.createdBy?.name}`,
         }
       case 'addition': // Addition tab 5
         return {

@@ -1,7 +1,7 @@
 import './style.scss'
 import { navigate } from '@reach/router'
 
-const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
+const NavBar = ({ tabsList, activeTab, setActiveTab, onSelectRows }) => {
   return (
     <div className="navBar">
       <div className="navBar-list">
@@ -14,7 +14,10 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
                 className={`navBar-list-title ${
                   activeTab === index ? 'active' : ''
                 }`}
-                onClick={() => setActiveTab && setActiveTab(index)}
+                onClick={() => {
+                  setActiveTab && setActiveTab(index)
+                  onSelectRows([])
+                }}
               >
                 {el}
               </div>
@@ -29,6 +32,7 @@ const NavBar = ({ tabsList, activeTab, setActiveTab }) => {
                   activeTab === el.key ? 'active' : ''
                 }`}
                 onClick={() => {
+                  onSelectRows([])
                   setActiveTab && setActiveTab(el.key)
                   navigate(el?.linkToNewTab)
                 }}

@@ -259,6 +259,38 @@ export const actionsHeader = (
             },
           },
         ]
+      } else if (tab === 'addition') {
+        return [
+          {
+            id: 1,
+            label: 'Addition Records',
+            onClick: () => {
+              key && id && navigate(`/ams/inventory/addition-records/${id}`)
+            },
+          },
+          {
+            id: 2,
+            label: 'Upload Documents',
+            onClick: () => {
+              supportedDocument(id)
+            },
+          },
+          {
+            id: 3,
+            label: 'Download Template',
+            onClick: () => {
+              downloadTemp('inventoryManagment', 'AnnualInventoryProcess')
+            },
+          },
+          {
+            id: 3,
+            label: 'Attach Spreadsheet',
+            onClick: () => {
+              setCurrentInventoryId(id)
+              setShowUploadRapportDialog(true)
+            },
+          },
+        ]
       } else if (
         tab === 'assetDisposalRequestProcess' ||
         tab === 'assetTransferRequestProcess'
