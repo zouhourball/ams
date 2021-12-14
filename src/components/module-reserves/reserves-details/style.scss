@@ -1,4 +1,6 @@
 .reserves-details {
+  height: 100vh;
+
   .top-bar-buttons-icons {
     display: none;
   }
@@ -7,6 +9,15 @@
     &.discard {
       background-color: #f6f8fa;
       color: gray;
+    }
+  }
+
+  &-table {
+    height: calc(100% - 93px);
+    padding: 0 16px;
+
+    .xeena-table-header {
+      flex-grow: unset;
     }
   }
 }

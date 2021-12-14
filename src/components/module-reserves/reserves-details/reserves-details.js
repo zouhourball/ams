@@ -190,19 +190,21 @@ const ReservesDetails = ({ reserveId, subkey }) => {
         actions={actions}
         detailData={detailData}
       />
-      <Mht
-        id="reserves-details"
-        configs={annualReservesDetailsConfigs(
-          subModule,
-          reserveDetailsData[0]?.currentY,
-        )}
-        tableData={reserveDetailsData}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-      />
+      <div className="reserves-details-table">
+        <Mht
+          id="reserves-details"
+          configs={annualReservesDetailsConfigs(
+            subModule,
+            reserveDetailsData[0]?.currentY,
+          )}
+          tableData={reserveDetailsData}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}

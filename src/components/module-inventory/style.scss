@@ -1,4 +1,6 @@
-.details-container {
+.inventory-module {
+  height: 100vh;
+
   .top-bar-buttons-icons {
     display: none;
   }
@@ -18,5 +20,24 @@
       background-color: #d4f7d4;
       color: #14c765;
     }
+  }
+
+  &-table {
+    height: calc(100% - 147px);
+    padding: 0 16px;
+
+    .xeena-table-header {
+      flex-grow: unset;
+    }
+  }
+}
+
+.datepicker-cell {
+  position: relative;
+  overflow: visible;
+
+  .target-date-picker-datepicker {
+    top: 0;
+    left: 0;
   }
 }

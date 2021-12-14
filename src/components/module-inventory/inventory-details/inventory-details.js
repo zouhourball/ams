@@ -44,7 +44,7 @@ const InventoryDetails = () => {
   const [rows, setRows] = useState([])
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-
+  const [showDatePicker, setShowDatePicker] = useState(false)
   const categoryKeyword = [
     'base',
     'assetTransferRequestProcess',
@@ -314,6 +314,8 @@ const InventoryDetails = () => {
             setRows(v)
           },
           'Consumption',
+          showDatePicker,
+          setShowDatePicker,
         )
       case 'base-surplus':
         return assetConsumptionDetailsConfigs(rows, setRows, 'Surplus')
@@ -511,7 +513,7 @@ const InventoryDetails = () => {
               <Button
                 key="1"
                 id="viewDoc"
-                className="top-bar-buttons-list-item-btn view-doc"
+                className="top-bar-buttons-list-item-btn discard"
                 flat
                 swapTheming
                 onClick={() => {
@@ -524,7 +526,7 @@ const InventoryDetails = () => {
               <Button
                 key="2"
                 id="edit"
-                className="top-bar-buttons-list-item-btn discard"
+                className="top-bar-buttons-list-item-btn reject"
                 flat
                 primary
                 swapTheming
@@ -537,7 +539,7 @@ const InventoryDetails = () => {
               <Button
                 key="3"
                 id="edit"
-                className="top-bar-buttons-list-item-btn discard"
+                className="top-bar-buttons-list-item-btn approve"
                 flat
                 primary
                 swapTheming
@@ -666,43 +668,45 @@ const InventoryDetails = () => {
     }
   }
   return (
-    <div className="details-container">
+    <div className="inventory-details">
       <TopBarDetail
         onClickBack={returnBack}
         actions={renderActionsByTab()}
         detailData={topBarDetail()}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-        headerTemplate={
-          currentTabName === 'base' ? (
-            <SelectField
-              id="base-version"
-              menuItems={snaps}
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={(v) => {
-                if (v === 'latest') {
-                  setSelectFieldValue(v)
-                } else {
-                  setSelectFieldValue(v)
-                  refetchSnapshotBase()
-                }
-              }}
-              simplifiedMenu={false}
-            />
-          ) : (
-            ''
-          )
-        }
-      />
+      <div className="inventory-details-table">
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+          headerTemplate={
+            currentTabName === 'base' ? (
+              <SelectField
+                id="base-version"
+                menuItems={snaps}
+                block
+                position={SelectField.Positions.BELOW}
+                value={selectFieldValue}
+                onChange={(v) => {
+                  if (v === 'latest') {
+                    setSelectFieldValue(v)
+                  } else {
+                    setSelectFieldValue(v)
+                    refetchSnapshotBase()
+                  }
+                }}
+                simplifiedMenu={false}
+              />
+            ) : (
+              ''
+            )
+          }
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}

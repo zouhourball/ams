@@ -861,7 +861,7 @@ const Inventory = () => {
     setDataDisplayedMHT(file)
   }
   return (
-    <>
+    <div className="inventory-module">
       <TopBar
         title="Inventory"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
@@ -873,44 +873,46 @@ const Inventory = () => {
         onSelectRows={setSelectedRow}
         selectedRow={selectedRow}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        hideTotal={false}
-        singleSelect={true}
-        withFooter
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        onSelectRows={setSelectedRow}
-        withChecked
-        selectedRow={selectedRow}
-        headerTemplate={
-          selectedRow?.length === 1 ? (
-            <HeaderTemplate
-              title={
-                selectedRow?.length === 1
-                  ? `1 Row Selected`
-                  : `${selectedRow?.length} Rows selected`
-              }
-              actions={actionsHeader(
-                'inventory-details',
-                selectedRow[0]?.id,
-                role,
-                setShowSupportedDocumentDialog,
-                createCategoryAndTransactionByTab(),
-                handleDeleteInventory,
-                setShowUploadRapportDialog,
-                setCurrentInventoryId,
-                selectedRow[0].originalFileId,
-                selectedRow[0].originalFileName,
-                downloadOriginalFile,
-              )}
-            />
-          ) : (
-            ''
-          )
-        }
-      />
+      <div className="inventory-module-table">
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          hideTotal={false}
+          singleSelect={true}
+          withFooter
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+          onSelectRows={setSelectedRow}
+          withChecked
+          selectedRow={selectedRow}
+          headerTemplate={
+            selectedRow?.length === 1 ? (
+              <HeaderTemplate
+                title={
+                  selectedRow?.length === 1
+                    ? `1 Row Selected`
+                    : `${selectedRow?.length} Rows selected`
+                }
+                actions={actionsHeader(
+                  'inventory-details',
+                  selectedRow[0]?.id,
+                  role,
+                  setShowSupportedDocumentDialog,
+                  createCategoryAndTransactionByTab(),
+                  handleDeleteInventory,
+                  setShowUploadRapportDialog,
+                  setCurrentInventoryId,
+                  selectedRow[0].originalFileId,
+                  selectedRow[0].originalFileName,
+                  downloadOriginalFile,
+                )}
+              />
+            ) : (
+              ''
+            )
+          }
+        />
+      </div>
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={<div></div>}
@@ -1012,7 +1014,7 @@ const Inventory = () => {
           confirmLabel={'Confirm'}
         />
       )} */}
-    </>
+    </div>
   )
 }
 export default Inventory

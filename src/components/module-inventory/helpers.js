@@ -2,6 +2,9 @@ import { FileInput, TextField, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { downloadTemp } from 'libs/api/api-inventory'
 import moment from 'moment'
+
+import { DatePicker } from '@target-energysolutions/date-picker'
+
 export const mhtConfig = (supportedDocument) => [
   {
     label: 'Company',
@@ -886,7 +889,13 @@ export const assetDisposalDetailsData = [
     serialNumber: '_',
   },
 ]
-export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
+export const assetConsumptionDetailsConfigs = (
+  rows,
+  setRows,
+  colTitle,
+  showDatePicker,
+  setShowDatePicker,
+) => [
   {
     label: 'Material Name',
     key: 'materialName',
@@ -905,14 +914,15 @@ export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
   {
     label: 'Material Description',
     key: 'materialDescription',
-    width: '200',
+    width: '300',
     icon: 'mdi mdi-spellcheck',
+    expand: true,
   },
 
   {
     label: colTitle,
     key: 'consumption',
-    width: '100',
+    width: '150',
     icon: 'mdi mdi-spellcheck',
     render: (row) => {
       let overStock = false
@@ -968,75 +978,87 @@ export const assetConsumptionDetailsConfigs = (rows, setRows, colTitle) => [
     key: 'dateOfConsumption',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    className: 'datepicker-cell',
     render: (row) => {
-      const dateFormat = 'DD/MM/YYYY'
-      let validDate = false
+      // const dateFormat = 'DD/MM/YYYY'
+      // let validDate = false
 
       const selectedRow = rows?.find((el) => el?.id === row?.id)
 
-      if (
-        selectedRow?.date &&
-        !moment(selectedRow?.date, dateFormat, true).isValid()
-      ) {
-        validDate = true
-      }
+      // if (
+      //   selectedRow?.date &&
+      //   !moment(selectedRow?.date, dateFormat, true).isValid()
+      // ) {
+      //   validDate = true
+      // }
 
       return (
         <>
           <TextField
             id={row.id}
             className="upload-permit-dialog-textField"
-            onChange={(v) => {
-              let newRow = { ...row }
-              const locaLRows = [...rows]
-              newRow.date = v
-              const rowExist = rows?.find((el) => el?.id === newRow?.id)
-              if (rowExist) {
-                const index = rows.indexOf(rowExist)
-                locaLRows[index].date = v
-              } else {
-                locaLRows.push(newRow)
-              }
+            // onChange={(v) => {
+            //   let newRow = { ...row }
+            //   const locaLRows = [...rows]
+            //   newRow.date = v
+            //   const rowExist = rows?.find((el) => el?.id === newRow?.id)
+            //   if (rowExist) {
+            //     const index = rows.indexOf(rowExist)
+            //     locaLRows[index].date = v
+            //   } else {
+            //     locaLRows.push(newRow)
+            //   }
 
-              if (v === '' && !selectedRow?.Count) {
-                const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
-                setRows(rowsFiltered)
-              } else {
-                setRows(locaLRows)
-              }
-            }}
+            //   if (v === '' && !selectedRow?.Count) {
+            //     const rowsFiltered = rows?.filter((el) => el?.id !== newRow?.id)
+            //     setRows(rowsFiltered)
+            //   } else {
+            //     setRows(locaLRows)
+            //   }
+            // }}
+            onClick={() => setShowDatePicker(row)}
             placeholder={'DD/MM/YYYY'}
             rightIcon={<FontIcon>date_range</FontIcon>}
-            value={rows[row?.id]?.date}
+            // value={rows[row?.id]?.date}
+            value={rows.find((r) => r.id === row.id)?.date || ''}
             block
             max={3}
-            error={validDate}
+            // error={validDate}
           />
-          {/*      {datePickerState && (
-        <Portal
-          visible={datePickerState}
-          className="upload-permit-dialog-date"
-          lastChild={true}
-        >
-          <DatePicker
-            singlePick
-            startView="year"
-            endView="day"
-            defaultView="day"
-            translation={{ update: 'select' }}
-            onUpdate={(date) => {
-              setInformation({
-                ...information,
-                date: date.timestamp,
-              })
+          {showDatePicker?.id === row?.id && (
+            <DatePicker
+              singlePick
+              translation={{ update: 'select' }}
+              onUpdate={(v) => {
+                let newRow = { ...row }
+                const locaLRows = [...rows]
+                newRow.date = moment(v.timestamp).format('DD/MM/YYYY')
+                const rowExist = rows?.find((el) => el?.id === newRow?.id)
+                if (rowExist) {
+                  const index = rows.indexOf(rowExist)
+                  locaLRows[index].date = moment(v.timestamp).format(
+                    'DD/MM/YYYY',
+                  )
+                } else {
+                  locaLRows.push(newRow)
+                }
 
-              setDatePickerState(false)
-            }}
-            onCancel={() => setDatePickerState(false)}
-          />
-        </Portal>
-
-      )} */}
+                if (v === '' && !selectedRow?.Count) {
+                  const rowsFiltered = rows?.filter(
+                    (el) => el?.id !== newRow?.id,
+                  )
+                  setRows(rowsFiltered)
+                } else {
+                  setRows(locaLRows)
+                }
+                setShowDatePicker(false)
+              }}
+              onCancel={() => setShowDatePicker(false)}
+              minValidDate={{ timestamp: new Date().getTime() }}
+              startView="year"
+              endView="day"
+            />
+          )}
         </>
       )
     },

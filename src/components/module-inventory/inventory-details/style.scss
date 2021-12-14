@@ -1,4 +1,6 @@
-.details-container {
+.inventory-details {
+  height: 100vh;
+
   .top-bar-buttons-icons {
     display: none;
   }
@@ -17,6 +19,15 @@
     &.approve {
       background-color: #d4f7d4;
       color: #14c765;
+    }
+  }
+
+  &-table {
+    height: calc(100% - 73px);
+    padding: 0 16px;
+
+    .xeena-table-header {
+      flex-grow: unset;
     }
   }
 }
