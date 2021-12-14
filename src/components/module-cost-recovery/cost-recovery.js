@@ -91,21 +91,25 @@ const CostRecovery = () => {
   const role = useRole('costrecovery')
 
   const { data: annualListRecovery, refetch: refetchAnnualCosts } = useQuery(
-    ['listCostsCost'],
-    listCostsCost,
+    ['listCostsCost', currentTab],
+    currentTab === 0 && listCostsCost,
     {
       refetchOnWindowFocus: false,
     },
   )
 
   const { data: listAffiliateCostData, refetch: refetchListAffiliateCost } =
-    useQuery(['listAffiliateCost'], listAffiliateCost, {
-      refetchOnWindowFocus: false,
-    })
+    useQuery(
+      ['listAffiliateCost', currentTab],
+      currentTab === 4 && listAffiliateCost,
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
 
   const { data: listTransaction, refetch: refetchListTransaction } = useQuery(
-    ['listTransactionCost'],
-    listTransactionCost,
+    ['listTransactionCost', currentTab],
+    currentTab === 3 && listTransactionCost,
     {
       refetchOnWindowFocus: false,
     },
@@ -140,24 +144,28 @@ const CostRecovery = () => {
   const { mutate: deleteTrans } = useMutation(deleteTransaction)
 
   const { data: contractListReport, refetch: contractListRefetch } = useQuery(
-    ['listContractsCost'],
-    listContractsCost,
+    ['listContractsCost', currentTab],
+    currentTab === 1 && listContractsCost,
     {
       refetchOnWindowFocus: false,
     },
   )
   const { data: prodLiftingData, refetch: prodliftRefetch } = useQuery(
-    ['listProdLiftingCost'],
-    listProdLiftingCost,
+    ['listProdLiftingCost', currentTab],
+    currentTab === 2 && listProdLiftingCost,
     {
       refetchOnWindowFocus: false,
     },
   )
 
   const { data: listFacilitiesCostData, refetch: facilitiesListRefetch } =
-    useQuery(['listFacilitiesCost'], listFacilitiesCost, {
-      refetchOnWindowFocus: false,
-    })
+    useQuery(
+      ['listFacilitiesCost', currentTab],
+      currentTab === 5 && listFacilitiesCost,
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
 
   const { mutate: uploadContractsCost, data: responseUploadContractCost } =
     useMutation(uploadContracts)
@@ -1221,34 +1229,35 @@ const CostRecovery = () => {
           }}
         />
         <div className="subModule--table-wrapper">
-          <Mht
-            configs={renderCurrentTabConfigs()}
-            tableData={renderCurrentTabData()}
-            withSearch={selectedRow?.length === 0}
-            commonActions={selectedRow?.length === 0}
-            onSelectRows={setSelectedRow}
-            withChecked
-            singleSelect
-            hideTotal={false}
-            withFooter
-            selectedRow={selectedRow}
-            headerTemplate={
-              selectedRow?.length === 1 && (
-                <HeaderTemplate
-                  title={`${selectedRow?.length} Row Selected`}
-                  actions={actionsHeader(
-                    'cost-recovery-details',
-                    selectedRow[0]?.id,
-                    subKeyRoute(),
-                    role,
-                    setShowSupportedDocumentDialog,
-                    () => setShowDeleteDialog(true),
-                    selectedRow[0],
-                  )}
-                />
-              )
-            }
-          />
+          {renderCurrentTabData()?.length > 0 && (
+            <Mht
+              configs={renderCurrentTabConfigs()}
+              tableData={renderCurrentTabData()}
+              withSearch={selectedRow?.length === 0}
+              commonActions={selectedRow?.length === 0}
+              onSelectRows={setSelectedRow}
+              withChecked
+              singleSelect
+              hideTotal={false}
+              withFooter
+              headerTemplate={
+                selectedRow?.length === 1 && (
+                  <HeaderTemplate
+                    title={`${selectedRow?.length} Row Selected`}
+                    actions={actionsHeader(
+                      'cost-recovery-details',
+                      selectedRow[0]?.id,
+                      subKeyRoute(),
+                      role,
+                      setShowSupportedDocumentDialog,
+                      () => setShowDeleteDialog(true),
+                      selectedRow[0],
+                    )}
+                  />
+                )
+              }
+            />
+          )}
         </div>
       </div>
       {showUploadMHTDialog && (
