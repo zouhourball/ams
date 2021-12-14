@@ -121,6 +121,18 @@ export const deleteLpg = async ({ objectId }) => {
   }
   return res
 }
+export const saveLpg = async ({ body, sub }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg/save`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 // ng
 export const listNgDownstreamByLoggedUser = async () => {
   let res
@@ -236,6 +248,18 @@ export const deleteNg = async ({ objectId }) => {
   }
   return res
 }
+export const saveNg = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng/save`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 // Petroleum Products
 export const listRsDownstreamByLoggedUser = async () => {
   let res
@@ -346,6 +370,18 @@ export const deleteRs = async ({ objectId }) => {
         method: 'DELETE',
       },
     )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const saveRs = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs/save`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
   } catch (e) {
     res = { error: e }
   }

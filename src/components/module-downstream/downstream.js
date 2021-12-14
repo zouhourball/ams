@@ -21,6 +21,9 @@ import {
   deleteLpg,
   deleteNg,
   deleteRs,
+  saveLpg,
+  saveNg,
+  saveRs,
 } from 'libs/api/downstream-api'
 
 import documents from 'libs/hooks/documents'
@@ -102,8 +105,9 @@ const Downstream = () => {
   const deleteNgMutation = useMutation(deleteNg)
   const deleteRsMutation = useMutation(deleteRs)
 
-  // const commitNgMutate = useMutation(commitLoadDownstreamNg)
-  // const commitRsMutate = useMutation(commitLoadDownstreamRs)
+  const onSaveLpgMutate = useMutation(saveLpg)
+  const onSaveNgMutate = useMutation(saveNg)
+  const onSaveRsMutate = useMutation(saveRs)
 
   const liquefiedPetroleumGasActionsHelper = [
     {
@@ -303,7 +307,51 @@ const Downstream = () => {
         break
     }
   }
-
+  const onSaveDownstream = () => {
+    switch (currentTab) {
+      case 0:
+        return onSaveLpgMutate.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => {
+              if (res?.msg === 'commited') {
+              }
+              return !res?.error && refetchLpgList()
+            },
+          },
+        )
+      case 1:
+        return onSaveNgMutate.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => {
+              if (res?.msg === 'commited') {
+              }
+              return !res?.error && refetchNgList()
+            },
+          },
+        )
+      case 2:
+        return onSaveRsMutate.mutate(
+          {
+            body: commitData,
+          },
+          {
+            onSuccess: (res) => {
+              if (res?.msg === 'commited') {
+              }
+              return !res?.error && refetchRsList()
+            },
+          },
+        )
+      default:
+        break
+    }
+  }
   const onOverrideDownstream = (overrideId) => {
     switch (currentTab) {
       case 0:
@@ -737,6 +785,13 @@ const Downstream = () => {
             // setShowUploadMHTDialog(false)
             // setShowUploadRapportDialog(true)
             setFileList([...filesList, dataDisplayedMHT])
+          }}
+          onSave={() => {
+            onSaveDownstream()
+            setShowUploadMHTDialog(false)
+            // setShowUploadRapportDialog(true)
+            setFileList(dataDisplayedMHT)
+            setShowUploadRapportDialog(false)
           }}
         />
       )}
