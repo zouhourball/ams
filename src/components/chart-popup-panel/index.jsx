@@ -4,10 +4,9 @@ import { DialogContainer, SelectionControl } from 'react-md'
 import MultiSelectDropdown from '@target-energysolutions/multi-select-dropdown'
 import Chart from 'components/chart-group/chart'
 import { extractUniqValue } from 'libs/utils'
-import { getCompanyBlockMap } from 'libs/data/company-block'
 import imgDataInvalid from 'images/pic_plan_data_not_valid.png'
 import BreadCrumb from './chart-breadcrumbs'
-import { flatten, isFunction } from 'lodash-es'
+import { flatten, isFunction, reduce } from 'lodash-es'
 import { getWH } from 'libs/utils/math-helper'
 import { cls } from 'reactutils'
 import SidebarDrawer from '@target-energysolutions/sidebar-drawer'
@@ -94,17 +93,19 @@ export default class ChartPopupPanel extends React.PureComponent {
 
   initSelectedBlocks (props = this.props) {
     const companies = extractUniqValue(props.chartData, 'company')
-    const blocks = extractUniqValue(props.chartData, 'block')
-    return companies
-      ? companies.reduce((result, company) => {
-        result[company] = new Set(
-          (
-            getCompanyBlockMap()[company && company.toUpperCase()] || []
-          ).filter((block) => blocks.includes(String(block))),
+    const initialBlocks = reduce(
+      companies,
+      (result, company) => {
+        const blocks = extractUniqValue(
+          props.chartData.filter((i) => i.company === company),
+          'block',
         )
+        result[company.toUpperCase()] = new Set(blocks)
         return result
-      }, {})
-      : []
+      },
+      {},
+    )
+    return initialBlocks
   }
 
   toggleFilters = (filter) => (value) => (selected) => {
@@ -193,7 +194,6 @@ export default class ChartPopupPanel extends React.PureComponent {
       this.state
     const chartOption = {}
     const companies = extractUniqValue(data, 'company')
-    const blocks = extractUniqValue(data, 'block')
     const indexOfConfigInFilter = filters
       .filter(
         (filter) => typeof filter !== 'string' && filter.forConfig === true,
@@ -300,12 +300,11 @@ export default class ChartPopupPanel extends React.PureComponent {
                 {this.state.selectedFilters.company &&
                   companies &&
                   companies.map((company) => {
-                    const blocksInCompany = (
-                      getCompanyBlockMap()[company && company.toUpperCase()] ||
-                      []
-                    ).filter((block) => blocks.includes(String(block)))
+                    const blocksInCompany = Array.from(
+                      this.initSelectedBlocks()[company.toUpperCase()] || [],
+                    )
                     const listOfSelectedBlockIndex = Array.from(
-                      this.state.selectedBlocks[company] || [],
+                      this.state.selectedBlocks[company.toUpperCase()] || [],
                     ).map((block) => blocksInCompany.indexOf(block))
                     return (
                       <section
@@ -338,7 +337,7 @@ export default class ChartPopupPanel extends React.PureComponent {
                             this.setState({
                               selectedBlocks: {
                                 ...this.state.selectedBlocks,
-                                [company]: new Set(blocks),
+                                [company.toUpperCase()]: new Set(blocks),
                               },
                             })
                           }}

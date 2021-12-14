@@ -9,7 +9,7 @@
   .sidebardrawer-sidebar {
     max-height: 485px;
     overflow: visible;
-    overflow-y: auto;
+    // overflow-y: auto;
   }
 
   .sidebardrawer-sidebar-wrapper {
@@ -45,6 +45,7 @@
   .sidebardrawer-sidebar-shrink {
     top: 0;
     transform: translateY(0);
+    background-color: $primary-color;
   }
 
   //override
@@ -124,6 +125,11 @@
   }
 
   &-company-block-block {
+    .target-multi-select-dropdown-list {
+      position: inherit;
+      z-index: 1;
+    }
+
     .multi-select-dropdown-container .multi-select-dropdown-list {
       position: absolute;
       z-index: 10;
