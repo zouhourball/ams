@@ -14,7 +14,7 @@ const MHTDialog = ({
   onCommit,
   propsDataTable,
   propsConfigs,
-  headerTemplate = {},
+  headerTemplate,
 }) => {
   const actions = () => {
     let buttons = [

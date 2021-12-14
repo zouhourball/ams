@@ -27,6 +27,7 @@ module.exports = {
           /\/node_modules\/@target-energysolutions\/toast/,
           /\/node_modules\/@target-energysolutions\/messenger/,
           /\/node_modules\/pdfjs-dist/,
+          /\/node_modules\/@jitsi\/js-utils/,
           /\/src/,
         ],
         loader: 'babel-loader',

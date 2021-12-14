@@ -195,8 +195,6 @@ export default class AppShellWrapper extends Component {
           }}
         >
           <WSAppShell
-            disableSidebar={true}
-            availableApps={[{ key: 'collaboration', disabled: true }]}
             // refetchWs={refetchWs}
             actionMenus={actionMenus}
             notificationAPI={PRODUCT_APP_URL_API}

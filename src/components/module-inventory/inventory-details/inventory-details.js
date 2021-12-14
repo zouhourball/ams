@@ -1,16 +1,21 @@
 import { navigate } from '@reach/router'
 import { Button, FontIcon, SelectField } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { get } from 'lodash-es'
 import { useState } from 'react'
 import moment from 'moment'
+import { useQuery as useQueryHook } from 'react-apollo-hooks'
+import workers from 'libs/queries/workers.gql'
 
+// import { messengerAct } from '@target-energysolutions/messenger'
 import Mht from '@target-energysolutions/mht'
 
 import { addToast } from 'modules/app/actions'
 // import useRole from 'libs/hooks/use-role'
 import useRole from 'libs/hooks/use-role'
+import addGroup from 'libs/hooks/add-group'
+
 import {
   updateInventory,
   getDetailInventoryById,
@@ -24,24 +29,32 @@ import {
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
+import SelectWorkspacesMembersDialog from 'components/select-workspaces-members-dialog'
+
 import {
   annualBaseDetailsConfigs,
   annualBaseDetailsData,
   assetDisposalDetailsConfigs,
   assetConsumptionDetailsConfigs,
 } from '../helpers'
+
 import './style.scss'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 const InventoryDetails = () => {
   const dispatch = useDispatch()
   const role = useRole('inventory')
+  const organizationID = useSelector((state) => state?.shell?.organizationId)
+
   const pathItems = get(location, 'pathname', '/').split('/').reverse()
   const currentTabName = pathItems[0]
   const inventoryId = pathItems[1]
   const [selectFieldValue, setSelectFieldValue] = useState('latest')
 
   const [rows, setRows] = useState([])
+  const [chatId, setId] = useState('')
+  const [showSelectMembersWorkspaces, setShowSelectMembersWorkspaces] =
+    useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -108,6 +121,7 @@ const InventoryDetails = () => {
       refetchOnWindowFocus: false,
     },
   )
+
   const updateInventoryMutation = useMutation(updateInventory, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -325,11 +339,26 @@ const InventoryDetails = () => {
         return annualBaseDetailsConfigs()
     }
   }
+
   const onChangeStatus = (inventoryId, status) => {
     updateInventoryMutation.mutate({
       inventoryId: inventoryId,
       status: status,
     })
+  }
+
+  const { data: membersByOrganisation } = useQueryHook(workers, {
+    context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
+    variables: { organizationID: organizationID, wsIDs: [] },
+  })
+  const membersByOrg = () => {
+    let members = []
+    members = membersByOrganisation?.workers?.map((el) => ({
+      subject: el?.profile?.subject,
+      fullName: el?.profile?.fullName,
+    }))
+
+    return members
   }
 
   const renderActionsByTab = () => {
@@ -406,6 +435,28 @@ const InventoryDetails = () => {
 
           role === 'operator' && (
             <>
+              <Button
+                key="3"
+                id="clarify"
+                className="top-bar-buttons-list-item-btn view-doc"
+                flat
+                swapTheming
+                onClick={() => {
+                  // get group row id
+                  // if group doesn't exist
+                  !chatId && setShowSelectMembersWorkspaces(true)
+
+                  // if group exist
+                  /* dispatch(
+                    messengerAct.openChat({
+                      channelId: chatId || '61b854d6034de30a7801a16f',
+                      type: 'group',
+                    }),
+                  ) */
+                }}
+              >
+                Clarify
+              </Button>
               <Button
                 key="2"
                 id="edit"
@@ -721,6 +772,16 @@ const InventoryDetails = () => {
           //   handleSupportingDocs(data)
           // }
           // }
+        />
+      )}
+      {showSelectMembersWorkspaces && (
+        <SelectWorkspacesMembersDialog
+          visible={showSelectMembersWorkspaces}
+          setShowSelectMembersWorkspaces={setShowSelectMembersWorkspaces}
+          onHide={() => setShowSelectMembersWorkspaces(false)}
+          members={membersByOrg() || []}
+          addGroup={addGroup}
+          setId={setId}
         />
       )}
     </div>

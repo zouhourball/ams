@@ -1,0 +1,113 @@
+.member-page {
+  &-grid-card {
+    padding-top: 10px;
+  }
+
+  &-search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+
+    h3 {
+      margin-bottom: 0;
+      color: #6d7893;
+      font-family: 'proxima_novabold', sans-serif;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    &-tabsWrapper {
+      padding: 5px;
+      border-radius: 10px;
+      background-color: #eee;
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+
+      &-searchField {
+        padding: 0;
+
+        .md-text-field-icon-container {
+          margin: 0 12px;
+          padding: 5px 8px;
+          border-radius: 4px;
+          background-color: #f4f6f8;
+        }
+      }
+    }
+  }
+
+  &-create-form {
+    margin: 0 -5px;
+    padding: 15px 0;
+    border-bottom: 1px dashed #eee;
+
+    &-title {
+      color: #6d7893;
+      font-family: 'proxima_novabold', sans-serif;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    &-textField {
+      padding: 13px 13px;
+      border: 1px solid #cdd0d4;
+      border-radius: 4px;
+
+      &.dateRange {
+        border-color: #f5f6f7;
+        background: #f5f6f7;
+      }
+
+      .md-text-field--floating-margin,
+      .md-text-field--margin {
+        margin: 0;
+        color: rgba($color: #000, $alpha: 0.6);
+      }
+
+      .md-floating-label--floating {
+        z-index: 9;
+        padding: 0 5px;
+        transform: translate3d(-4px, -6px, 0);
+        background: #fff;
+        color: rgba($color: #000, $alpha: 0.9);
+
+        &.md-text--error {
+          color: #f44336;
+        }
+      }
+
+      .md-floating-label--inactive {
+        transform: translate3d(0, 14px, 0);
+      }
+
+      .md-divider {
+        display: none;
+      }
+
+      .md-text-field-icon {
+        margin-bottom: 0;
+        font-size: 17px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .md-text-field-inline-indicator--floating {
+        top: 4px !important;
+        right: 4px;
+        width: 30px;
+        height: 30px;
+        padding: 5px;
+      }
+
+      .md-text {
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
+}
