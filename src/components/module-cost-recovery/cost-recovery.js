@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
-import { Button, SelectField } from 'react-md'
+import { Button, CircularProgress, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
@@ -66,7 +66,7 @@ import {
   transactionConfigs,
   affiliateConfigs,
   facilitiesConfigs,
-  annualCostData,
+  // annualCostData,
   actionsHeader,
 } from './helpers'
 
@@ -89,31 +89,6 @@ const CostRecovery = () => {
   const [filesList, setFileList] = useState([])
 
   const role = useRole('costrecovery')
-
-  const { data: annualListRecovery, refetch: refetchAnnualCosts } = useQuery(
-    ['listCostsCost', currentTab],
-    currentTab === 0 && listCostsCost,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: listAffiliateCostData, refetch: refetchListAffiliateCost } =
-    useQuery(
-      ['listAffiliateCost', currentTab],
-      currentTab === 4 && listAffiliateCost,
-      {
-        refetchOnWindowFocus: false,
-      },
-    )
-
-  const { data: listTransaction, refetch: refetchListTransaction } = useQuery(
-    ['listTransactionCost', currentTab],
-    currentTab === 3 && listTransactionCost,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
 
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
     useMutation(uploadAnnualCosts)
@@ -143,29 +118,37 @@ const CostRecovery = () => {
   const { mutate: deleteProdLift } = useMutation(deleteProdLifting)
   const { mutate: deleteTrans } = useMutation(deleteTransaction)
 
-  const { data: contractListReport, refetch: contractListRefetch } = useQuery(
-    ['listContractsCost', currentTab],
-    currentTab === 1 && listContractsCost,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-  const { data: prodLiftingData, refetch: prodliftRefetch } = useQuery(
-    ['listProdLiftingCost', currentTab],
-    currentTab === 2 && listProdLiftingCost,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
+  const genericApiForMhtData = () => {
+    switch (currentTab) {
+      case 0:
+        return listCostsCost
+      case 1:
+        return listContractsCost
+      case 2:
+        return listProdLiftingCost
+      case 3:
+        return listTransactionCost
+      case 4:
+        return listAffiliateCost
+      case 5:
+        return listFacilitiesCost
+      default:
+        break
+    }
+  }
 
-  const { data: listFacilitiesCostData, refetch: facilitiesListRefetch } =
-    useQuery(
-      ['listFacilitiesCost', currentTab],
-      currentTab === 5 && listFacilitiesCost,
-      {
-        refetchOnWindowFocus: false,
-      },
-    )
+  const {
+    data: globalMhtData,
+    refetch: refetchCurrentData,
+    isLoading: loading,
+  } = useQuery(
+    [`genericApiForMhtData-${currentTab}`, currentTab],
+    genericApiForMhtData(),
+    {
+      refetchOnWindowFocus: false,
+      cacheTime: 0,
+    },
+  )
 
   const { mutate: uploadContractsCost, data: responseUploadContractCost } =
     useMutation(uploadContracts)
@@ -297,108 +280,25 @@ const CostRecovery = () => {
     'Affiliate',
     'Facilities',
   ]
+
   const renderCurrentTabData = () => {
-    switch (currentTab) {
-      case 0:
-        return (
-          annualListRecovery?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      case 1:
-        return (
-          contractListReport?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      case 2:
-        return (
-          prodLiftingData?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      case 3:
-        return (
-          listTransaction?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      case 4:
-        return (
-          listAffiliateCostData?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      case 5:
-        return (
-          listFacilitiesCostData?.content?.map((el) => ({
-            company: el?.metaData?.company,
-            block: el?.metaData?.block,
-            status: el?.metaData?.status,
-            submittedBy: el?.metaData?.createdBy?.name,
-            submittedDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
-              : '',
-            // referenceDate: el?.metaData?.statusDate,
-            id: el?.id,
-            processInstanceId: el?.metaData?.processInstanceId,
-            originalFileId: el?.metaData?.originalFileId,
-          })) || []
-        )
-      default:
-        return annualCostData
-    }
+    return (
+      globalMhtData?.content?.map((el) => ({
+        company: el?.metaData?.company,
+        block: el?.metaData?.block,
+        status: el?.metaData?.status,
+        submittedBy: el?.metaData?.createdBy?.name,
+        submittedDate: el?.metaData?.createdAt
+          ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
+          : '',
+        // referenceDate: el?.metaData?.statusDate,
+        id: el?.id,
+        processInstanceId: el?.metaData?.processInstanceId,
+        originalFileId: el?.metaData?.originalFileId,
+      })) || []
+    )
   }
+
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -807,7 +707,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            refetchAnnualCosts()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -863,7 +763,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            refetchAnnualCosts()
+            refetchCurrentData()
           }
         },
       },
@@ -884,7 +784,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            refetchAnnualCosts()
+            refetchCurrentData()
           }
         },
       },
@@ -902,7 +802,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            prodliftRefetch()
+            refetchCurrentData()
           }
         },
       },
@@ -920,7 +820,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            refetchListTransaction()
+            refetchCurrentData()
           }
         },
       },
@@ -938,7 +838,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            refetchListAffiliateCost()
+            refetchCurrentData()
           }
         },
       },
@@ -959,7 +859,7 @@ const CostRecovery = () => {
           if (res.success) {
             setShowUploadMHTDialog(null)
             setShowConfirmDialog(null)
-            facilitiesListRefetch()
+            refetchCurrentData()
           }
         },
       },
@@ -993,7 +893,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                contractListRefetch()
+                refetchCurrentData()
                 setSelectedRow([])
                 setShowDeleteDialog(false)
               }
@@ -1007,7 +907,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                refetchAnnualCosts()
+                refetchCurrentData()
                 setSelectedRow([])
                 setShowDeleteDialog(false)
               }
@@ -1021,7 +921,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                prodliftRefetch()
+                refetchCurrentData()
                 setSelectedRow([])
                 setShowDeleteDialog(false)
               }
@@ -1035,7 +935,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                refetchListTransaction()
+                refetchCurrentData()
                 setSelectedRow([])
                 setShowDeleteDialog(false)
               }
@@ -1049,7 +949,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                refetchListAffiliateCost()
+                refetchCurrentData()
                 setSelectedRow([])
                 setShowDeleteDialog(false)
               }
@@ -1063,7 +963,7 @@ const CostRecovery = () => {
           {
             onSuccess: (res) => {
               if (res) {
-                facilitiesListRefetch()
+                refetchCurrentData()
                 setShowDeleteDialog(false)
                 setSelectedRow([])
               }
@@ -1086,7 +986,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            contractListRefetch()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -1103,7 +1003,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            prodliftRefetch()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -1120,7 +1020,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            refetchListTransaction()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -1140,7 +1040,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            refetchListAffiliateCost()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -1160,7 +1060,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.success) {
             setShowUploadMHTDialog(null)
-            facilitiesListRefetch()
+            refetchCurrentData()
           } else if (res.overrideId && !res.success) {
             setShowConfirmDialog(res.overrideId)
           }
@@ -1229,7 +1129,7 @@ const CostRecovery = () => {
           }}
         />
         <div className="subModule--table-wrapper">
-          {renderCurrentTabData()?.length > 0 && (
+          {!loading ? (
             <Mht
               configs={renderCurrentTabConfigs()}
               tableData={renderCurrentTabData()}
@@ -1257,6 +1157,8 @@ const CostRecovery = () => {
                 )
               }
             />
+          ) : (
+            <CircularProgress id={`loading-${currentTab}`} />
           )}
         </div>
       </div>
