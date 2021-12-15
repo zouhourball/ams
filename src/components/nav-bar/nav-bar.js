@@ -32,7 +32,7 @@ const NavBar = ({ tabsList, activeTab, setActiveTab, onSelectRows }) => {
                   activeTab === el.key ? 'active' : ''
                 }`}
                 onClick={() => {
-                  onSelectRows([])
+                  onSelectRows && onSelectRows([])
                   setActiveTab && setActiveTab(el.key)
                   navigate(el?.linkToNewTab)
                 }}
