@@ -89,7 +89,7 @@ const ProductionDetails = () => {
     switch (subModule) {
       case 'daily':
         return {
-          title: 'Annual Report',
+          title: 'Daily Production',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
