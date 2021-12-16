@@ -56,6 +56,12 @@ const UploadReportDialog = ({
       setOptionalFile([...suppDocsFiles])
     }
   }, [suppDocsFiles])
+  const validData = () => {
+    if (reportData?.block && filesList?.path && reportData?.referenceDate) {
+      return false
+    }
+    return true
+  }
 
   const onUpload = (file) => {
     // setFileLoader(true)
@@ -104,7 +110,9 @@ const UploadReportDialog = ({
       children: 'Upload',
       primary: true,
       flat: true,
-      swapTheming: true,
+      swapTheming: !validData(),
+      disabled: validData(),
+
       onClick: () => {
         onSave({ ...reportData, filesList, optionalFiles })
         onHide()
