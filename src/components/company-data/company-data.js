@@ -18,11 +18,8 @@ const CompanyData = ({
   onAddCompany,
 }) => {
   const [company, chooseCompany] = useState({})
-  /* const addCompanies = () => {
-    const updatedCompanies = [...companies, companyTitle]
-    setCompanyTitle('')
-    return setCompanies(updatedCompanies)
-  } */
+  const [match, setMatch] = useState([...companies])
+
   const textInput = useRef()
   const validData = () => {
     if (company?.name) {
@@ -30,7 +27,10 @@ const CompanyData = ({
     }
     return true
   }
-
+  const filteredArray = (match) =>
+    companies.filter((el) => {
+      return match?.id === el?.id.toString()
+    })
   const renderHeader = () => {
     return (
       <div className="company-data-header">
@@ -44,9 +44,14 @@ const CompanyData = ({
           filter={Autocomplete.caseInsensitiveFilter}
           dataLabel="name"
           dataValue="id"
+          onChange={(value) => {
+            !value && setMatch([])
+          }}
           inputValue={company?.name}
           onAutocomplete={(suggestion, suggestionIndex, matches) => {
-            chooseCompany(matches[0])
+            chooseCompany(matches[suggestionIndex])
+            const existingMatch = filteredArray(matches[suggestionIndex])
+            setMatch(existingMatch)
           }}
         />
 
@@ -66,9 +71,10 @@ const CompanyData = ({
     )
   }
 
-  const renderCompanies = () => {
-    return companies && companies?.length > 0 ? (
-      companies.map((comp, index) => (
+  const renderCompanies = (match) => {
+    let listCompanies = match?.length > 0 ? match : companies
+    return listCompanies && listCompanies?.length > 0 ? (
+      listCompanies.map((comp, index) => (
         <ConfiguratorCard
           key={index}
           id={comp?.id}
@@ -87,7 +93,7 @@ const CompanyData = ({
   return (
     <div className="company-data">
       {renderHeader()}
-      {renderCompanies()}
+      {renderCompanies(match)}
     </div>
   )
 }

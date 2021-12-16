@@ -51,4 +51,12 @@
       height: 65px;
     }
   }
+
+  .configurator-card {
+    height: 40px;
+
+    .md-layover--simplified {
+      display: none;
+    }
+  }
 }
