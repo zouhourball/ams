@@ -99,7 +99,7 @@ const ProductionDetails = () => {
         }
       case 'monthly':
         return {
-          title: 'Monthly Report',
+          title: 'Monthly Production',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
@@ -109,7 +109,7 @@ const ProductionDetails = () => {
         }
       case 'monthly-tracking':
         return {
-          title: 'Daily Report',
+          title: 'Monthly Production',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
