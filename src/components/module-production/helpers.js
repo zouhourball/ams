@@ -458,6 +458,8 @@ export const actionsHeader = (
   downloadOriginalFile,
   handleDeleteProduction,
   fileName,
+  status,
+  submitDraft,
 ) => {
   switch (role) {
     case 'regulator':
@@ -486,38 +488,81 @@ export const actionsHeader = (
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            handleDeleteProduction(subModule, id)
+      if (status === 'DRAFT') {
+        return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteProduction(subModule, id)
+            },
           },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
+
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
           },
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && subModule === 'monthly'
-              ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
-              : navigate(`/ams/production/${id}/${subModule}`)
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              key && id && subModule === 'monthly'
+                ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
+                : navigate(`/ams/production/${id}/${subModule}`)
+            },
           },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => {
+              supportedDocument(true)
+            },
           },
-        },
-      ]
+          {
+            id: 5,
+            label: 'Submite Draft report',
+            onClick: () => {
+              submitDraft(subModule, id)
+            },
+          },
+        ]
+      } else {
+        return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteProduction(subModule, id)
+            },
+          },
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              key && id && subModule === 'monthly'
+                ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
+                : navigate(`/ams/production/${id}/${subModule}`)
+            },
+          },
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => {
+              supportedDocument(true)
+            },
+          },
+        ]
+      }
   }
 }
 
