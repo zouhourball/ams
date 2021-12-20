@@ -453,7 +453,14 @@ const Production = () => {
       scheduled: [
         { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[1]['SCHEDULED DEFERMENT VOLS'][2]['Target'] },
       ],
+      unscheduled: [
+        { actual: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][2]['Target'] },
+      ],
+      majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
 
