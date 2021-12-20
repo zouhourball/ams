@@ -99,7 +99,7 @@ const ProductionDetails = () => {
         }
       case 'monthly':
         return {
-          title: 'Monthly Production',
+          title: 'Monthly Report',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
@@ -109,7 +109,7 @@ const ProductionDetails = () => {
         }
       case 'monthly-tracking':
         return {
-          title: 'Monthly Production',
+          title: 'Daily Report',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
@@ -137,7 +137,14 @@ const ProductionDetails = () => {
       scheduled: [
         { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[1]['SCHEDULED DEFERMENT VOLS'][2]['Target'] },
       ],
+      unscheduled: [
+        { actual: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][2]['Target'] },
+      ],
+      majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
 
