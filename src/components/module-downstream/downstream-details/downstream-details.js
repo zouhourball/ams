@@ -244,7 +244,7 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
       onClick={() => {
         downloadOriginalFile(
           downstreamDetail?.metaData?.originalFileId,
-          `template_downstream_${subModule}`,
+          downstreamDetail?.metaData?.originalFileName,
         )
       }}
     >

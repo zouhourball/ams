@@ -485,6 +485,7 @@ const Downstream = () => {
           listLiquefiedPetroleumGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -498,6 +499,7 @@ const Downstream = () => {
           LisPetroleumProducts?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -511,6 +513,7 @@ const Downstream = () => {
           ListNaturalGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -525,6 +528,7 @@ const Downstream = () => {
           listLiquefiedPetroleumGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
             submittedDate: el?.metaData?.createdAt,
             submittedBy: el?.metaData?.createdBy?.name,
@@ -763,6 +767,7 @@ const Downstream = () => {
                     handleDeleteDownstream,
                     selectedRow[0]?.originalFileId,
                     downloadOriginalFile,
+                    selectedRow[0]?.fileName,
                   )}
                 />
               )

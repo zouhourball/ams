@@ -457,6 +457,7 @@ export const actionsHeader = (
   originalFileId,
   downloadOriginalFile,
   handleDeleteProduction,
+  fileName,
 ) => {
   switch (role) {
     case 'regulator':
@@ -466,7 +467,7 @@ export const actionsHeader = (
           id: 1,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -497,7 +498,7 @@ export const actionsHeader = (
           id: 2,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {

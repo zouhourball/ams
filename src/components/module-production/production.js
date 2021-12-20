@@ -625,6 +625,7 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -640,6 +641,7 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -659,6 +661,7 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -833,6 +836,7 @@ const Production = () => {
                 selectedRow[0]?.originalFileId,
                 downloadOriginalFile,
                 handleDeleteProduction,
+                selectedRow[0]?.fileName,
               )}
             />
           ) : currentTab === 'monthly' ? (
