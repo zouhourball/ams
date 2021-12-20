@@ -28,6 +28,7 @@ import {
   saveProduction,
   overrideProductionReport,
   deleteProduction,
+  updateDailyProduction,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -61,7 +62,6 @@ const Production = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
-
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
@@ -318,6 +318,31 @@ const Production = () => {
       },
     },
   )
+
+  const updateProductionMutation = useMutation(updateDailyProduction, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchList()
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
   const handleDeleteProduction = (subModule, objectId) => {
     deleteProductionMutate.mutate({
       subModule,
@@ -343,6 +368,14 @@ const Production = () => {
       subModule: subModule,
       overrideId: overrideId,
       body: currentUpload,
+    })
+  }
+
+  const submitDraft = (subModule, objectId) => {
+    updateProductionMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
     })
   }
 
@@ -833,6 +866,8 @@ const Production = () => {
                 selectedRow[0]?.originalFileId,
                 downloadOriginalFile,
                 handleDeleteProduction,
+                selectedRow[0]?.status,
+                submitDraft,
               )}
             />
           ) : currentTab === 'monthly' ? (
