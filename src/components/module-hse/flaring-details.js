@@ -207,7 +207,7 @@ const FlaringDetails = () => {
       onClick={() => {
         downloadOriginalFile(
           flaringData?.metaData?.originalFileId,
-          `template_flaring_${subModule}`,
+          flaringData?.metaData?.originalFileName,
         )
       }}
     >

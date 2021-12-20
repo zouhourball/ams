@@ -453,6 +453,7 @@ const Planning = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -590,6 +591,7 @@ const Planning = () => {
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
                 setShowUploadRapportDialog,
+                selectedRow[0]?.fileName,
               )}
             />
           ) : (

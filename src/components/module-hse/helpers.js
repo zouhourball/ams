@@ -350,6 +350,7 @@ export const actionsHeaderAnnual = (
   onDelete,
   downloadOriginalFile,
   originalFileId,
+  fileName,
 ) => {
   switch (role) {
     case 'regulator':
@@ -364,7 +365,7 @@ export const actionsHeaderAnnual = (
           id: 2,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -400,7 +401,7 @@ export const actionsHeaderAnnual = (
           id: 3,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -430,6 +431,7 @@ export const actionsHeaderMonthly = (
   onDelete,
   downloadOriginalFile,
   originalFileId,
+  fileName,
 ) => {
   switch (role) {
     case 'regulator':
@@ -439,7 +441,7 @@ export const actionsHeaderMonthly = (
           id: 2,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -470,7 +472,7 @@ export const actionsHeaderMonthly = (
           id: 3,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -500,6 +502,7 @@ export const actionsHeaderDaily = (
   onDelete,
   downloadOriginalFile,
   originalFileId,
+  fileName,
 ) => {
   switch (role) {
     case 'regulator':
@@ -509,7 +512,7 @@ export const actionsHeaderDaily = (
           id: 2,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -540,7 +543,7 @@ export const actionsHeaderDaily = (
           id: 3,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {

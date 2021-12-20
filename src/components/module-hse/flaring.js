@@ -453,6 +453,7 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -469,6 +470,7 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -485,6 +487,7 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -614,7 +617,6 @@ const Flaring = () => {
         break
     }
   }
-
   const actionsHeader = () => {
     switch (currentTab) {
       case 'monthly-station':
@@ -627,6 +629,7 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
         )
       case 'daily':
         return actionsHeaderDaily(
@@ -638,6 +641,7 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
         )
       case 'annual-forecast':
       default:
@@ -650,6 +654,7 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
         )
     }
   }

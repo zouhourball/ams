@@ -373,7 +373,7 @@ const ProductionDetails = () => {
       onClick={() => {
         downloadOriginalFile(
           productionData?.metaData?.originalFileId,
-          `template_production_${subModule}`,
+          productionData?.metaData?.originalFileName,
         )
       }}
     >

@@ -119,6 +119,7 @@ export const actionsHeader = (
   downloadOriginalFile,
   originalFileId,
   onUpdate,
+  fileName,
 ) => {
   switch (role) {
     case 'tecom fincom jmc':
@@ -159,7 +160,7 @@ export const actionsHeader = (
           id: 6,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -209,7 +210,7 @@ export const actionsHeader = (
           id: 6,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
