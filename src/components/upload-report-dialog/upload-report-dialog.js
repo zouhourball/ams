@@ -51,15 +51,23 @@ const UploadReportDialog = ({
     ['getDocumentsById', previewData?.processInstanceId],
     previewData && previewData?.processInstanceId && getDocumentsById,
   )
+
   useEffect(() => {
     if (suppDocsFiles && suppDocsFiles.length > 0) {
       setOptionalFile([...suppDocsFiles])
     }
   }, [suppDocsFiles])
   const validData = () => {
-    if (reportData?.block && filesList?.path && reportData?.referenceDate) {
-      return false
+    if (hideDate === false) {
+      if (reportData?.block && filesList?.path && reportData?.referenceDate) {
+        return false
+      }
+    } else {
+      if (filesList?.path && reportData?.referenceDate) {
+        return false
+      }
     }
+
     return true
   }
 
@@ -144,6 +152,8 @@ const UploadReportDialog = ({
       return <FontIcon icon iconClassName={`mdi mdi-file mdi-36px`} />
     }
   } */
+  // formatDate = 'month'
+
   return (
     <DialogContainer
       id="import-report-dialog"
@@ -207,10 +217,16 @@ const UploadReportDialog = ({
               reportData?.referenceDate?.timestamp
                 ? formatDate === 'year'
                   ? moment(+reportData?.referenceDate?.timestamp).format('YYYY')
-                  : moment(+reportData?.referenceDate?.timestamp).format('ll')
+                  : formatDate === 'month'
+                    ? moment(+reportData?.referenceDate?.timestamp).format(
+                      'MM, YYYY',
+                    )
+                    : moment(+reportData?.referenceDate?.timestamp).format('ll')
                 : formatDate === 'year'
-                  ? moment(reportData?.referenceDate).format('YYYY')
-                  : moment(new Date(reportData?.referenceDate)).format('ll')
+                  ? moment(reportData?.referenceDate.timestamp).format('YYYY')
+                  : formatDate === 'month'
+                    ? moment(new Date(reportData?.referenceDate)).format('MM, YYYY')
+                    : moment(new Date(reportData?.referenceDate)).format('ll')
             }
             className="upload-report-dialog-text md-cell md-cell--6"
             onChange={() => {}}
