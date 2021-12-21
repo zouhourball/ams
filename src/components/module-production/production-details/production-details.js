@@ -16,6 +16,7 @@ import {
   getDetailProductionById,
   updateDailyProduction,
 } from 'libs/api/api-production'
+import documents from 'libs/hooks/documents'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
@@ -35,6 +36,8 @@ const ProductionDetails = () => {
     useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
+
+  const { addSupportingDocuments } = documents()
 
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const subSubModule =
@@ -83,6 +86,24 @@ const ProductionDetails = () => {
       objectId: objectId,
       status: status,
     })
+  }
+
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      productionData?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
   }
 
   const detailsData = useMemo(() => {
@@ -417,15 +438,14 @@ const ProductionDetails = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             productionData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>
