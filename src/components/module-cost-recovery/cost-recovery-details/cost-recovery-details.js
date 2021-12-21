@@ -23,6 +23,7 @@ import {
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
 import useRole from 'libs/hooks/use-role'
+import documents from 'libs/hooks/documents'
 
 import { costRecoveryDetailsConfigs } from '../helpers'
 import {
@@ -50,6 +51,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     useMutation(updateFacilitiesCost)
 
   const role = useRole('costrecovery')
+  const { addSupportingDocuments } = documents()
 
   const { data: costsDetail } = useQuery(
     ['detailCostsCostByLoggedUser', detailId],
@@ -98,6 +100,24 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
       refetchOnWindowFocus: false,
     },
   )
+
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      costsDetail?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
+  }
 
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
@@ -448,15 +468,14 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             costsDetail?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>

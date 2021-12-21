@@ -10,6 +10,7 @@ import {
   detailLpgDownstreamByLoggedUser,
   updateDownstreamLpg,
 } from 'libs/api/downstream-api'
+import documents from 'libs/hooks/documents'
 
 import { addToast } from 'modules/app/actions'
 
@@ -41,11 +42,29 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
 
   const role = useRole('downstream')
   const subModule = pathname?.split('/')[4]
+  const { addSupportingDocuments } = documents()
 
   const { data: downstreamDetail } = useQuery(
     ['detailLpgDownstreamByLoggedUser', subModule, downstreamId],
     subModule && detailLpgDownstreamByLoggedUser,
   )
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      downstreamDetail?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
+  }
   const DownstreamDetailsData = useMemo(() => {
     switch (subModule) {
       case 'lpg':
@@ -287,15 +306,14 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             downstreamDetail?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>

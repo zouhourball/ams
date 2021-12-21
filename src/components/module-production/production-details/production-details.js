@@ -16,6 +16,7 @@ import {
   getDetailProductionById,
   updateDailyProduction,
 } from 'libs/api/api-production'
+import documents from 'libs/hooks/documents'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
@@ -35,6 +36,8 @@ const ProductionDetails = () => {
     useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
+
+  const { addSupportingDocuments } = documents()
 
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const subSubModule =
@@ -85,6 +88,24 @@ const ProductionDetails = () => {
     })
   }
 
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      productionData?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
+  }
+
   const detailsData = useMemo(() => {
     switch (subModule) {
       case 'daily':
@@ -99,7 +120,7 @@ const ProductionDetails = () => {
         }
       case 'monthly':
         return {
-          title: 'Monthly Production',
+          title: 'Monthly Report',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
@@ -109,7 +130,7 @@ const ProductionDetails = () => {
         }
       case 'monthly-tracking':
         return {
-          title: 'Monthly Production',
+          title: 'Daily Report',
           subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
           companyName: get(productionData, 'metaData.company', ''),
           submittedDate: moment(productionData?.metaData?.createdAt).format(
@@ -137,7 +158,14 @@ const ProductionDetails = () => {
       scheduled: [
         { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[1]['SCHEDULED DEFERMENT VOLS'][2]['Target'] },
       ],
+      unscheduled: [
+        { actual: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][2]['Target'] },
+      ],
+      majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
 
@@ -410,15 +438,14 @@ const ProductionDetails = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             productionData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>
