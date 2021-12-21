@@ -15,6 +15,7 @@ import {
   commitReport,
 } from 'libs/api/api-reserves'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import documents from 'libs/hooks/documents'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
@@ -36,6 +37,7 @@ const ReservesDetails = ({ reserveId, subkey }) => {
   const dispatch = useDispatch()
   const subModule = subkey
   let role = useRole('reserves')
+  const { addSupportingDocuments } = documents()
 
   const { data: reserveDetail, refetch } = useQuery(
     ['detailReserve', reserveId, subModule],
@@ -95,6 +97,22 @@ const ReservesDetails = ({ reserveId, subkey }) => {
       objectId: objectId,
       status: status,
     })
+  }
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      reserveDetail?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
   }
   const detailTitle = () => {
     switch (subModule) {
@@ -210,15 +228,14 @@ const ReservesDetails = ({ reserveId, subkey }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             reserveDetail?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>

@@ -14,6 +14,7 @@ import ToastMsg from 'components/toast-msg'
 import { updateFlaring, getDetailFlaringById } from 'libs/api/api-flaring'
 import useRole from 'libs/hooks/use-role'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import documents from 'libs/hooks/documents'
 
 import { addToast } from 'modules/app/actions'
 
@@ -29,6 +30,7 @@ const FlaringDetails = () => {
   const dispatch = useDispatch()
 
   const role = useRole('flaring')
+  const { addSupportingDocuments } = documents()
 
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const objectId = get(location, 'pathname', '/').split('/').reverse()[1]
@@ -63,6 +65,24 @@ const FlaringDetails = () => {
       }
     },
   })
+
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      flaringData?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
+  }
 
   const onAcknowledge = (subModule, objectId, status) => {
     updateFlaringMutation.mutate({
@@ -250,15 +270,14 @@ const FlaringDetails = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             flaringData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>
