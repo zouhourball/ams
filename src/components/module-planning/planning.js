@@ -30,6 +30,7 @@ import {
   overridePlanningReport,
   deletePlanning,
   updateReport,
+  updatePlanning,
   saveReport,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -82,7 +83,11 @@ const Planning = () => {
       refetchOnWindowFocus: false,
     },
   )
-
+  const updatePlanningMutation = useMutation(updatePlanning, {
+    onSuccess: (res) => {
+      refetchList()
+    },
+  })
   const uploadWpbReportMutate = useMutation(
     uploadWpbReport,
 
@@ -548,7 +553,13 @@ const Planning = () => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
-
+  const submitDraft = (subModule, objectId) => {
+    updatePlanningMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
   return (
     <>
       <TopBar
@@ -592,6 +603,8 @@ const Planning = () => {
                 selectedRow[0]?.originalFileId,
                 setShowUploadRapportDialog,
                 selectedRow[0]?.fileName,
+                submitDraft,
+                selectedRow[0]?.status,
               )}
             />
           ) : (

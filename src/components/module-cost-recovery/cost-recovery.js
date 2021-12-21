@@ -1187,7 +1187,7 @@ const CostRecovery = () => {
             setShowUploadMHTDialog(false)
             // setShowUploadRapportDialog(true)
           }}
-          onSave={() => {
+          onCommit={() => {
             handleCommit()
             // setShowUploadMHTDialog(false)
             // setShowUploadRapportDialog(true)

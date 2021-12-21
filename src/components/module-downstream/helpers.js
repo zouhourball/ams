@@ -321,7 +321,48 @@ export const actionsHeader = (
   originalFileId,
   downloadOriginalFile,
   fileName,
+  submitDraft,
+  status,
 ) => {
+  const draftBtn = {
+    id: 5,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subKey, id)
+    },
+  }
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        deleteDownstream()
+      },
+    },
+    {
+      id: 2,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key && id && navigate(`/ams/downstream/${key}/${subKey}/${id}`)
+      },
+    },
+    {
+      id: 4,
+      label: 'Upload Documents',
+      primary: true,
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
   switch (role) {
     case 'regulator':
     default:
@@ -348,37 +389,6 @@ export const actionsHeader = (
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            deleteDownstream()
-          },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
-          },
-        },
-
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/downstream/${key}/${subKey}/${id}`)
-          },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          primary: true,
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }

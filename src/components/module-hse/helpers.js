@@ -351,7 +351,52 @@ export const actionsHeaderAnnual = (
   downloadOriginalFile,
   originalFileId,
   fileName,
+  submitDraft,
+  status,
 ) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        onDelete(subModule, id)
+      },
+    },
+    {
+      id: 2,
+      label: 'Download Annual Plan',
+      onClick: () => {},
+    },
+    {
+      id: 3,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Details',
+      onClick: () => {
+        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+      },
+    },
+    {
+      id: 5,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
+
+  const draftBtn = {
+    id: 6,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subModule, id)
+    },
+  }
   switch (role) {
     case 'regulator':
     default:
@@ -384,41 +429,7 @@ export const actionsHeaderAnnual = (
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            onDelete(subModule, id)
-          },
-        },
-        {
-          id: 2,
-          label: 'Download Annual Plan',
-          onClick: () => {},
-        },
-        {
-          id: 3,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
-          },
-        },
-        {
-          id: 4,
-          label: 'View Details',
-          onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
-          },
-        },
-        {
-          id: 5,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 
@@ -432,7 +443,46 @@ export const actionsHeaderMonthly = (
   downloadOriginalFile,
   originalFileId,
   fileName,
+  submitDraft,
+  status,
 ) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        onDelete(subModule, id)
+      },
+    },
+    {
+      id: 3,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Details',
+      onClick: () => {
+        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+      },
+    },
+    {
+      id: 5,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
+  const draftBtn = {
+    id: 6,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subModule, id)
+    },
+  }
   switch (role) {
     case 'regulator':
     default:
@@ -460,36 +510,7 @@ export const actionsHeaderMonthly = (
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            onDelete(subModule, id)
-          },
-        },
-        {
-          id: 3,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
-          },
-        },
-        {
-          id: 4,
-          label: 'View Details',
-          onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
-          },
-        },
-        {
-          id: 5,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 
@@ -503,7 +524,46 @@ export const actionsHeaderDaily = (
   downloadOriginalFile,
   originalFileId,
   fileName,
+  submitDraft,
+  status,
 ) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        onDelete(subModule, id)
+      },
+    },
+    {
+      id: 3,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Details',
+      onClick: () => {
+        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+      },
+    },
+    {
+      id: 5,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
+  const draftBtn = {
+    id: 6,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subModule, id)
+    },
+  }
   switch (role) {
     case 'regulator':
     default:
@@ -531,36 +591,7 @@ export const actionsHeaderDaily = (
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            onDelete(subModule, id)
-          },
-        },
-        {
-          id: 3,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
-          },
-        },
-        {
-          id: 4,
-          label: 'View Details',
-          onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
-          },
-        },
-        {
-          id: 5,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 export const flaringDetailsAnnualConfigs = [

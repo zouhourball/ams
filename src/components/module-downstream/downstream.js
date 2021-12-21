@@ -24,6 +24,9 @@ import {
   saveLpg,
   saveNg,
   saveRs,
+  updateDownstreamLpg,
+  updateDownstreamNg,
+  updateDownstreamRs,
 } from 'libs/api/downstream-api'
 
 import documents from 'libs/hooks/documents'
@@ -109,6 +112,38 @@ const Downstream = () => {
   const onSaveNgMutate = useMutation(saveNg)
   const onSaveRsMutate = useMutation(saveRs)
 
+  const updateDownstreamLpgMutation = useMutation(updateDownstreamLpg, {
+    onSuccess: (res) => {
+      refetchLpgList()
+    },
+  })
+  const updateDownstreamNgMutation = useMutation(updateDownstreamNg, {
+    onSuccess: (res) => {
+      refetchNgList()
+    },
+  })
+  const updateDownstreamRsMutation = useMutation(updateDownstreamRs, {
+    onSuccess: (res) => {
+      refetchRsList()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    const body = {
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    }
+    switch (currentTab) {
+      case 0:
+        return updateDownstreamLpgMutation.mutate(body)
+      case 1:
+        return updateDownstreamNgMutation.mutate(body)
+      case 2:
+        return updateDownstreamRsMutation.mutate(body)
+      default:
+        break
+    }
+  }
   const liquefiedPetroleumGasActionsHelper = [
     {
       title: 'Attach Spreadsheet',
@@ -768,6 +803,8 @@ const Downstream = () => {
                     selectedRow[0]?.originalFileId,
                     downloadOriginalFile,
                     selectedRow[0]?.fileName,
+                    submitDraft,
+                    selectedRow[0]?.status,
                   )}
                 />
               )

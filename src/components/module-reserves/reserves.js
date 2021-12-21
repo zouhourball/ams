@@ -16,6 +16,7 @@ import {
   getAnnualResourceDetail,
   overrideReport,
   saveReport,
+  updateReserveReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -439,6 +440,18 @@ const Reserves = () => {
       },
     )
   }
+  const updateReserveMutation = useMutation(updateReserveReport, {
+    onSuccess: (res) => {
+      renderSectionKey().refetch()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    updateReserveMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
   const onSaveReport = (body, sub, refetch) => {
     onSaveReportMutate.mutate(
       {
@@ -567,6 +580,7 @@ const Reserves = () => {
                     setShowSupportedDocumentDialog,
                     setSelectedRow,
                     renderSectionKey(),
+                    submitDraft,
                   )}
                 />
               )) || <div />

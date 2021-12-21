@@ -16,6 +16,7 @@ import {
   saveFlaring,
   overrideFlaringReport,
   deleteFlaring,
+  updateFlaring,
 } from 'libs/api/api-flaring'
 import {
   downloadTemp,
@@ -289,7 +290,18 @@ const Flaring = () => {
       },
     },
   )
-
+  const updateFlaringMutation = useMutation(updateFlaring, {
+    onSuccess: (res) => {
+      refetchList()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    updateFlaringMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
   const deleteFlaringMutate = useMutation(deleteFlaring, {
     onSuccess: (res) => {
       refetchList()
@@ -630,6 +642,8 @@ const Flaring = () => {
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
           selectedRow[0]?.fileName,
+          submitDraft,
+          selectedRow[0]?.status,
         )
       case 'daily':
         return actionsHeaderDaily(
@@ -642,6 +656,7 @@ const Flaring = () => {
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
           selectedRow[0]?.fileName,
+          submitDraft,
         )
       case 'annual-forecast':
       default:
@@ -655,6 +670,7 @@ const Flaring = () => {
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
           selectedRow[0]?.fileName,
+          submitDraft,
         )
     }
   }

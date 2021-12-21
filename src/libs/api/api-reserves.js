@@ -155,15 +155,28 @@ export const overrideReport = async ({ body, overrideId, subModule }) => {
 }
 export const updateReserveReport = async ({ subModule, objectId, status }) => {
   let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/${subModule}/update?objectId=${objectId}&status=${status}`,
-      {
-        method: 'PUT',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
+  if (subModule === 'fyf') {
+    try {
+      res = await fetchJSON(
+        `${appUrl}/pulse-be/api/v1/reserve/${subModule}/${objectId}?status=${status}`,
+        {
+          method: 'PUT',
+        },
+      )
+    } catch (e) {
+      res = { error: e }
+    }
+  } else {
+    try {
+      res = await fetchJSON(
+        `${appUrl}/pulse-be/api/v1/reserve/${subModule}/update?objectId=${objectId}&status=${status}`,
+        {
+          method: 'PUT',
+        },
+      )
+    } catch (e) {
+      res = { error: e }
+    }
   }
   return res
 }

@@ -523,7 +523,7 @@ export const actionsHeader = (
           },
           {
             id: 5,
-            label: 'Submite Draft report',
+            label: 'Submit Draft report',
             onClick: () => {
               submitDraft(subModule, id)
             },
