@@ -856,6 +856,7 @@ const Downstream = () => {
             onAddReport(data)
             // renderDialogData().onClick()
           }}
+          formatDate="month"
         />
       )}
       {showSupportedDocumentDialog && (
