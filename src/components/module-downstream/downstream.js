@@ -522,9 +522,11 @@ const Downstream = () => {
             originalFileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
           })) || []
@@ -536,9 +538,11 @@ const Downstream = () => {
             originalFileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
           })) || []
@@ -550,9 +554,11 @@ const Downstream = () => {
             originalFileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
             category: el?.metaData?.category,
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
@@ -565,7 +571,9 @@ const Downstream = () => {
             originalFileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
             statusDate: el?.metaData?.year,
             status: el?.metaData?.status,
