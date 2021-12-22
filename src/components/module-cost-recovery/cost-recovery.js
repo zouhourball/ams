@@ -1,42 +1,33 @@
 import { useState, useMemo, useCallback } from 'react'
-import { Button, CircularProgress, SelectField } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+import { Button, SelectField } from 'react-md'
+import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
+import { useSelector, useDispatch } from 'react-redux'
 
 import useRole from 'libs/hooks/use-role'
 import {
-  commitLoadAffiliateCost,
+  commitSubModule,
   overrideTransactionCost,
   listCostsCost,
   uploadAnnualCosts,
-  commitLoadCostsCost,
   overrideCostsCost,
-  deleteCosts,
   listContractsCost,
   uploadContracts,
-  commitLoadContractsCost,
   overrideContractsCost,
-  deleteContracts,
   listProdLiftingCost,
   uploadProdLiftingCost,
-  commitLoadProdLiftingCost,
   overrideProdLiftingCost,
   listTransactionCost,
   uploadTransactionCost,
-  commitLoadTransactionCost,
   listAffiliateCost,
   uploadAffiliateCost,
   overrideAffiliateCost,
   listFacilitiesCost,
   uploadFacilitiesCost,
-  commitLoadFacilitiesCost,
   overrideFacilitiesCost,
-  deleteAffiliate,
-  deleteFacilities,
-  deleteProdLifting,
-  deleteTransaction,
+  deleteRow,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -75,7 +66,7 @@ const CostRecovery = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
+  // const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
@@ -89,34 +80,28 @@ const CostRecovery = () => {
   const [filesList, setFileList] = useState([])
 
   const role = useRole('costrecovery')
+  const selectedRow = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const dispatch = useDispatch()
 
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
     useMutation(uploadAnnualCosts)
-  const { mutate: commitAnnualCostsExp } = useMutation(commitLoadCostsCost)
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
-  const { mutate: deleteAnnualCostsExp } = useMutation(deleteCosts)
-  const { mutate: commitContractors } = useMutation(commitLoadContractsCost)
   const { mutate: overrideContractsReport } = useMutation(overrideContractsCost)
-  const { mutate: deleteContractsReport } = useMutation(deleteContracts)
-  const { mutate: commitProdLifting } = useMutation(commitLoadProdLiftingCost)
   const { mutate: overrideLifting } = useMutation(overrideProdLiftingCost)
   const { mutate: uploadTransaction, data: responseUploadTransaction } =
     useMutation(uploadTransactionCost)
-  const { mutate: commitTransaction } = useMutation(commitLoadTransactionCost)
   const { mutate: overrideTransaction } = useMutation(overrideTransactionCost)
   const { mutate: uploadAffiliate, data: responseUploadAffiliate } =
     useMutation(uploadAffiliateCost)
-  const { mutate: commitAffiliate } = useMutation(commitLoadAffiliateCost)
+  const { mutate: commitSub } = useMutation(commitSubModule)
   const { mutate: overrideAffiliate } = useMutation(overrideAffiliateCost)
   const { mutate: uploadFacilities, data: responseUploadFacilities } =
     useMutation(uploadFacilitiesCost)
-  const { mutate: commitFacilities } = useMutation(commitLoadFacilitiesCost)
   const { mutate: overrideFacilities } = useMutation(overrideFacilitiesCost)
 
-  const { mutate: deleteAffCosts } = useMutation(deleteAffiliate)
-  const { mutate: deleteFacilitiesCosts } = useMutation(deleteFacilities)
-  const { mutate: deleteProdLift } = useMutation(deleteProdLifting)
-  const { mutate: deleteTrans } = useMutation(deleteTransaction)
+  const { mutate: removeRow } = useMutation(deleteRow)
 
   const genericApiForMhtData = () => {
     switch (currentTab) {
@@ -140,13 +125,12 @@ const CostRecovery = () => {
   const {
     data: globalMhtData,
     refetch: refetchCurrentData,
-    isLoading: loading,
+    // isLoading: loading,
   } = useQuery(
     [`genericApiForMhtData-${currentTab}`, currentTab],
     genericApiForMhtData(),
     {
       refetchOnWindowFocus: false,
-      cacheTime: 0,
     },
   )
 
@@ -697,11 +681,14 @@ const CostRecovery = () => {
     subSubModule,
   ])
 
-  const handleSaveCommitAnnualCosts = () => {
-    commitAnnualCostsExp(
+  const handleSaveCommitAnnualCosts = (subModule) => {
+    commitSub(
       {
-        items: responseUploadAnnualCost?.data?.items,
-        metaData: responseUploadAnnualCost?.data?.metaData,
+        body: {
+          items: responseUploadAnnualCost?.data?.items,
+          metaData: responseUploadAnnualCost?.data?.metaData,
+        },
+        subModule,
       },
       {
         onSuccess: (res) => {
@@ -888,13 +875,13 @@ const CostRecovery = () => {
   const handleDelete = () => {
     switch (currentTab) {
       case 1:
-        deleteContractsReport(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'contracts' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
                 setShowDeleteDialog(false)
               }
             },
@@ -902,13 +889,13 @@ const CostRecovery = () => {
         )
         break
       case 0:
-        deleteAnnualCostsExp(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'costs' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
                 setShowDeleteDialog(false)
               }
             },
@@ -916,13 +903,13 @@ const CostRecovery = () => {
         )
         break
       case 2:
-        deleteProdLift(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'prodLifting' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
                 setShowDeleteDialog(false)
               }
             },
@@ -930,13 +917,13 @@ const CostRecovery = () => {
         )
         break
       case 3:
-        deleteTrans(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'transaction' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
                 setShowDeleteDialog(false)
               }
             },
@@ -944,13 +931,13 @@ const CostRecovery = () => {
         )
         break
       case 4:
-        deleteAffCosts(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'affiliate' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
                 setShowDeleteDialog(false)
               }
             },
@@ -958,14 +945,14 @@ const CostRecovery = () => {
         )
         break
       case 5:
-        deleteFacilitiesCosts(
-          { objectId: selectedRow[0]?.id },
+        removeRow(
+          { objectId: selectedRow[0]?.id, subModule: 'facilities' },
           {
             onSuccess: (res) => {
               if (res) {
                 refetchCurrentData()
                 setShowDeleteDialog(false)
-                setSelectedRow([])
+                dispatch(setSelectedRow([]))
               }
             },
           },
@@ -976,11 +963,14 @@ const CostRecovery = () => {
     }
   }
 
-  const handleSaveCommitContractors = () => {
-    commitContractors(
+  const handleSaveCommitContractors = (subModule) => {
+    commitSub(
       {
-        data: responseUploadContractCost?.data?.data,
-        metaData: responseUploadContractCost?.data?.metaData,
+        body: {
+          data: responseUploadContractCost?.data?.data,
+          metaData: responseUploadContractCost?.data?.metaData,
+        },
+        subModule,
       },
       {
         onSuccess: (res) => {
@@ -995,9 +985,50 @@ const CostRecovery = () => {
     )
   }
 
-  const handleSaveCommitProdLifting = () => {
-    commitProdLifting(
-      responseUploadProdLift?.data,
+  const handleSaveCommitProdLifting = (subModule) => {
+    commitSub(
+      {
+        body: responseUploadProdLift?.data,
+        subModule,
+      },
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            refetchCurrentData()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleSaveCommitTransaction = (subModule) => {
+    commitSub(
+      { body: responseUploadTransaction?.data, subModule },
+      {
+        onSuccess: (res) => {
+          if (res?.success) {
+            setShowUploadMHTDialog(null)
+            refetchCurrentData()
+          } else if (res.overrideId && !res.success) {
+            setShowConfirmDialog(res.overrideId)
+          }
+        },
+      },
+    )
+  }
+
+  const handleSaveCommitAffiliate = (subModule) => {
+    commitSub(
+      {
+        body: {
+          data: responseUploadAffiliate?.data?.data,
+          metaData: responseUploadAffiliate?.data?.metaData,
+        },
+        subModule,
+      },
 
       {
         onSuccess: (res) => {
@@ -1012,48 +1043,14 @@ const CostRecovery = () => {
     )
   }
 
-  const handleSaveCommitTransaction = () => {
-    commitTransaction(
-      responseUploadTransaction?.data,
-
+  const handleSaveCommitFacilities = (subModule) => {
+    commitSub(
       {
-        onSuccess: (res) => {
-          if (res?.success) {
-            setShowUploadMHTDialog(null)
-            refetchCurrentData()
-          } else if (res.overrideId && !res.success) {
-            setShowConfirmDialog(res.overrideId)
-          }
+        body: {
+          data: responseUploadFacilities?.data?.data,
+          metaData: responseUploadFacilities?.data?.metaData,
         },
-      },
-    )
-  }
-
-  const handleSaveCommitAffiliate = () => {
-    commitAffiliate(
-      {
-        data: responseUploadAffiliate?.data?.data,
-        metaData: responseUploadAffiliate?.data?.metaData,
-      },
-
-      {
-        onSuccess: (res) => {
-          if (res?.success) {
-            setShowUploadMHTDialog(null)
-            refetchCurrentData()
-          } else if (res.overrideId && !res.success) {
-            setShowConfirmDialog(res.overrideId)
-          }
-        },
-      },
-    )
-  }
-
-  const handleSaveCommitFacilities = () => {
-    commitFacilities(
-      {
-        data: responseUploadFacilities?.data?.data,
-        metaData: responseUploadFacilities?.data?.metaData,
+        subModule,
       },
 
       {
@@ -1072,22 +1069,22 @@ const CostRecovery = () => {
   const handleCommit = () => {
     switch (currentTab) {
       case 0:
-        handleSaveCommitAnnualCosts()
+        handleSaveCommitAnnualCosts('costs')
         break
       case 1:
-        handleSaveCommitContractors()
+        handleSaveCommitContractors('contracts')
         break
       case 2:
-        handleSaveCommitProdLifting()
+        handleSaveCommitProdLifting('prodLifting')
         break
       case 3:
-        handleSaveCommitTransaction()
+        handleSaveCommitTransaction('transaction')
         break
       case 4:
-        handleSaveCommitAffiliate()
+        handleSaveCommitAffiliate('affiliate')
         break
       case 5:
-        handleSaveCommitFacilities()
+        handleSaveCommitFacilities('facilities')
         break
       default:
         break
@@ -1125,41 +1122,37 @@ const CostRecovery = () => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow([])
+            dispatch(setSelectedRow([]))
           }}
         />
         <div className="subModule--table-wrapper">
-          {!loading ? (
-            <Mht
-              configs={renderCurrentTabConfigs()}
-              tableData={renderCurrentTabData()}
-              withSearch={selectedRow?.length === 0}
-              commonActions={selectedRow?.length === 0}
-              onSelectRows={setSelectedRow}
-              withChecked
-              singleSelect
-              hideTotal={false}
-              withFooter
-              headerTemplate={
-                selectedRow?.length === 1 && (
-                  <HeaderTemplate
-                    title={`${selectedRow?.length} Row Selected`}
-                    actions={actionsHeader(
-                      'cost-recovery-details',
-                      selectedRow[0]?.id,
-                      subKeyRoute(),
-                      role,
-                      setShowSupportedDocumentDialog,
-                      () => setShowDeleteDialog(true),
-                      selectedRow[0],
-                    )}
-                  />
-                )
-              }
-            />
-          ) : (
-            <CircularProgress id={`loading-${currentTab}`} />
-          )}
+          <Mht
+            configs={renderCurrentTabConfigs()}
+            tableData={renderCurrentTabData()}
+            withSearch={selectedRow?.length === 0}
+            commonActions={selectedRow?.length === 0}
+            onSelectRows={dispatch(setSelectedRow)}
+            withChecked
+            singleSelect
+            hideTotal={false}
+            withFooter
+            headerTemplate={
+              selectedRow?.length === 1 && (
+                <HeaderTemplate
+                  title={`${selectedRow?.length} Row Selected`}
+                  actions={actionsHeader(
+                    'cost-recovery-details',
+                    selectedRow[0]?.id,
+                    subKeyRoute(),
+                    role,
+                    setShowSupportedDocumentDialog,
+                    () => setShowDeleteDialog(true),
+                    selectedRow[0],
+                  )}
+                />
+              )
+            }
+          />
         </div>
       </div>
       {showUploadMHTDialog && (
@@ -1185,14 +1178,8 @@ const CostRecovery = () => {
           propsConfigs={configsMht()}
           onHide={() => {
             setShowUploadMHTDialog(false)
-            // setShowUploadRapportDialog(true)
           }}
-          onSave={() => {
-            handleCommit()
-            // setShowUploadMHTDialog(false)
-            // setShowUploadRapportDialog(true)
-            // setShowUploadRapportDialog(false)
-          }}
+          onSave={handleCommit}
         />
       )}
       {showUploadRapportDialog && (
