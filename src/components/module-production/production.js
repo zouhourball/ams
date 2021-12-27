@@ -846,6 +846,7 @@ const Production = () => {
                 : 'Grid 1',
           )
         }}
+        onSelectRows={setSelectedRow}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
@@ -957,6 +958,7 @@ const Production = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

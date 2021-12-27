@@ -81,6 +81,7 @@ const Emissions = () => {
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht

@@ -1125,8 +1125,9 @@ const CostRecovery = () => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow([])
+            // setSelectedRow([])
           }}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           {!loading ? (

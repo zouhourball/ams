@@ -199,6 +199,7 @@ const Permit = () => {
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -249,6 +250,7 @@ const Permit = () => {
             selectedRow[0]?.id || showSupportedDocumentDialog?.id
           }
           onSaveUpload={(data) => handleSupportingDocs(data)}
+          readOnly={role === 'regulator'}
         />
       )}
     </>

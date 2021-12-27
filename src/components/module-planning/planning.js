@@ -572,6 +572,7 @@ const Planning = () => {
         setActiveTab={(tab) => {
           setCurrentTab(tab)
         }}
+        onSelectRows={setSelectedRow}
       />
       <Mht
         configs={planningConfigs(UploadSupportedDocumentFromTable)}
@@ -676,6 +677,7 @@ const Planning = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
     </>

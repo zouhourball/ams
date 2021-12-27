@@ -709,6 +709,7 @@ const Flaring = () => {
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -797,6 +798,7 @@ const Flaring = () => {
             onSaveUpload={(data) => {
               flaringSuppDocs(data)
             }}
+            readOnly={role === 'regulator'}
           />
         )}
       </div>

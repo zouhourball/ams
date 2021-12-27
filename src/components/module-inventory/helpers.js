@@ -273,7 +273,7 @@ export const actionsHeader = (
           },
           {
             id: 2,
-            label: 'Upload Documents',
+            label: 'View Documents',
             onClick: () => {
               supportedDocument(id)
             },

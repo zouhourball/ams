@@ -484,7 +484,9 @@ export const actionsHeader = (
         {
           id: 3,
           label: 'View Documents',
-          onClick: () => {},
+          onClick: () => {
+            supportedDocument(subModule)
+          },
         },
       ]
     case 'operator':

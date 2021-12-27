@@ -200,7 +200,7 @@ const Downstream = () => {
     downstreamSuppDocs(data)
   }
 
-  const onAddReport = (body) => {
+  const onAddReport = (body, uuid) => {
     switch (currentTab) {
       case 0:
         return uploadLpgMutate(
@@ -209,7 +209,7 @@ const Downstream = () => {
               company: company?.name || 'ams-org',
               file: body?.file[0],
               month: moment(body?.referenceDate).format('MMMM'),
-              processInstanceId: uuidv4(),
+              processInstanceId: uuid,
               year: moment(body?.referenceDate).format('YYYY'),
             },
           },
@@ -729,25 +729,37 @@ const Downstream = () => {
     }
   }, [responseUploadLpg, responseUploadNg, responseUploadRs])
 
-  const renderDialogData = () => {
+  const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 1:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 2:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
 
       default:
@@ -783,6 +795,7 @@ const Downstream = () => {
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -861,8 +874,7 @@ const Downstream = () => {
             setFileList([])
           }}
           onSave={(data) => {
-            onAddReport(data)
-            // renderDialogData().onClick()
+            renderDialogData(data).onUpload()
           }}
           formatDate="month"
         />
@@ -879,6 +891,7 @@ const Downstream = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

@@ -973,6 +973,7 @@ const Inventory = () => {
           onSaveUpload={(data) => {
             inventorySuppDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

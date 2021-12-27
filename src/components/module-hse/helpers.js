@@ -425,6 +425,7 @@ export const actionsHeaderAnnual = (
           label: 'View Documents',
           onClick: () => {
             // navigate(`/ams/hse/${key}/${id}`)
+            supportedDocument(true)
           },
         },
       ]
@@ -506,6 +507,7 @@ export const actionsHeaderMonthly = (
           label: 'View Documents',
           onClick: () => {
             // navigate(`/ams/hse/${key}/${id}`)
+            supportedDocument(true)
           },
         },
       ]
@@ -587,6 +589,7 @@ export const actionsHeaderDaily = (
           label: 'View Documents',
           onClick: () => {
             // navigate(`/ams/hse/${key}/${id}`)
+            supportedDocument(true)
           },
         },
       ]

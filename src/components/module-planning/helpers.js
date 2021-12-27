@@ -226,7 +226,9 @@ export const actionsHeader = (
         {
           id: 7,
           label: 'View Documents',
-          onClick: () => {},
+          onClick: () => {
+            supportedDocument(true)
+          },
         },
       ]
     case 'operator':
