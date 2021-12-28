@@ -17,6 +17,7 @@ import {
   overrideReport,
   saveReport,
   updateReserveReport,
+  deleteReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -550,6 +551,21 @@ const Reserves = () => {
         // currentView={currentView}
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         // onViewChange={setCurrentView}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    deleteReport(row?.id, renderSectionKey().name),
+                  ),
+                ).then(() => renderSectionKey().refetch()),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
@@ -623,7 +639,6 @@ const Reserves = () => {
           setFileList={setFileList}
           filesList={filesList}
           onDisplayMHT={onDisplayMHT}
-          hideDate
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
@@ -642,6 +657,7 @@ const Reserves = () => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
+          formatDate={'year'}
         />
       )}
 

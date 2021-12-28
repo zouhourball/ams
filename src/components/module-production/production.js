@@ -832,6 +832,23 @@ const Production = () => {
       <TopBar
         title="Production Reporting"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    handleDeleteProduction(currentTab, row?.id),
+                  ),
+                ).then(() => {
+                  refetchList()
+                }),
+            },
+          ]
+        }}
       />
       <NavBar
         tabsList={tabsList}

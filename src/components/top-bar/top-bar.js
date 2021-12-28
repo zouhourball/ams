@@ -70,7 +70,13 @@ const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
           <MenuButton
             id="menu-button-2"
             icon
-            menuItems={menuItems()}
+            menuItems={menuItems()?.map((el) => (
+              <ListItem
+                key={el?.key}
+                primaryText={el?.primaryText}
+                onClick={(e) => el?.onClick()}
+              />
+            ))}
             anchor={{
               x: MenuButton.HorizontalAnchors.RIGHT,
               y: MenuButton.VerticalAnchors.BOTTOM,

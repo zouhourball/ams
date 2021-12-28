@@ -440,12 +440,12 @@ const Downstream = () => {
         break
     }
   }
-  const handleDeleteDownstream = () => {
+  const handleDeleteDownstream = (row = selectedRow[0]) => {
     switch (currentTab) {
       case 0:
         return deleteLpgMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -456,7 +456,7 @@ const Downstream = () => {
       case 1:
         return deleteNgMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -467,7 +467,7 @@ const Downstream = () => {
       case 2:
         return deleteRsMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -789,6 +789,19 @@ const Downstream = () => {
       <TopBar
         title="Downstream"
         actions={role === 'operator' ? renderActionsByCurrentTab() : []}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) => handleDeleteDownstream(row)),
+                ),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar

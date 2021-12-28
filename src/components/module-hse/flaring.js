@@ -703,6 +703,21 @@ const Flaring = () => {
       <TopBar
         title="Flaring"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    handleDeleteFlaring(currentTab, row?.id),
+                  ),
+                ).then(() => refetchList()),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
@@ -774,6 +789,8 @@ const Flaring = () => {
             onSave={(data) => {
               onAddReportByCurrentTab(data)
             }}
+            formatDate={'year'}
+            currentTab={currentTab}
           />
         )}
 

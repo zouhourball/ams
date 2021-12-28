@@ -885,11 +885,11 @@ const CostRecovery = () => {
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = (row = selectedRow[0]) => {
     switch (currentTab) {
       case 1:
         deleteContractsReport(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -903,7 +903,7 @@ const CostRecovery = () => {
         break
       case 0:
         deleteAnnualCostsExp(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -917,7 +917,7 @@ const CostRecovery = () => {
         break
       case 2:
         deleteProdLift(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -931,7 +931,7 @@ const CostRecovery = () => {
         break
       case 3:
         deleteTrans(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -945,7 +945,7 @@ const CostRecovery = () => {
         break
       case 4:
         deleteAffCosts(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -959,7 +959,7 @@ const CostRecovery = () => {
         break
       case 5:
         deleteFacilitiesCosts(
-          { objectId: selectedRow[0]?.id },
+          { objectId: row?.id },
           {
             onSuccess: (res) => {
               if (res) {
@@ -1118,6 +1118,17 @@ const CostRecovery = () => {
       <TopBar
         title="Cost Recovery Reporting"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(selectedRow?.map((row) => handleDelete(row))),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar

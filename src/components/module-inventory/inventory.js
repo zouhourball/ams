@@ -865,6 +865,21 @@ const Inventory = () => {
       <TopBar
         title="Inventory"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) => handleDeleteInventory(row?.id)),
+                ).then(() => {
+                  refetchAfterCommitByCurrentTab()
+                }),
+            },
+          ]
+        }}
       />
       <NavBar
         tabsList={tabsList2}

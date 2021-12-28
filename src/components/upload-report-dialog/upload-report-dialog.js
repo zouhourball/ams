@@ -210,50 +210,56 @@ const UploadReportDialog = ({
             simplifiedMenu={false}
           />
         )}
-        {!hideDate && (
-          <TextField
-            placeholder={'Reference Date'}
-            value={
-              reportData?.referenceDate?.timestamp
-                ? formatDate === 'year'
-                  ? moment(+reportData?.referenceDate?.timestamp).format('YYYY')
-                  : formatDate === 'month'
+        <div className="wrapper md-cell md-cell--6">
+          {!hideDate && (
+            <TextField
+              placeholder={'Reference Date'}
+              value={
+                reportData?.referenceDate?.timestamp
+                  ? formatDate === 'year'
                     ? moment(+reportData?.referenceDate?.timestamp).format(
-                      'MM, YYYY',
+                      'YYYY',
                     )
-                    : moment(+reportData?.referenceDate?.timestamp).format('ll')
-                : formatDate === 'year'
-                  ? moment(reportData?.referenceDate.timestamp).format('YYYY')
-                  : formatDate === 'month'
-                    ? moment(new Date(reportData?.referenceDate)).format('MM, YYYY')
-                    : moment(new Date(reportData?.referenceDate)).format('ll')
-            }
-            className="upload-report-dialog-text md-cell md-cell--6"
-            onChange={() => {}}
-            block
-            rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
-            onClick={() => !previewData && setShowDatePickerEnd(true)}
-            disabled={previewData}
-          />
-        )}
-        {showDatePickerEnd && (
-          <DatePicker
-            singlePick
-            translation={{ update: 'select' }}
-            onUpdate={(date) => {
-              setReportData({ ...reportData, referenceDate: date })
-              setShowDatePickerEnd(false)
-            }}
-            onCancel={() => setShowDatePickerEnd(false)}
-            // minValidDate={{
-            //   timestamp: reportData?.referenceDate?.timestamp
-            //     ? reportData?.referenceDate?.timestamp
-            //     : new Date().getTime(),
-            // }}
-            startView="year"
-            endView={formatDate} // "day"
-          />
-        )}
+                    : formatDate === 'month'
+                      ? moment(+reportData?.referenceDate?.timestamp).format(
+                        'MM, YYYY',
+                      )
+                      : moment(+reportData?.referenceDate?.timestamp).format('ll')
+                  : formatDate === 'year'
+                    ? moment(reportData?.referenceDate.timestamp).format('YYYY')
+                    : formatDate === 'month'
+                      ? moment(new Date(reportData?.referenceDate)).format(
+                        'MM, YYYY',
+                      )
+                      : moment(new Date(reportData?.referenceDate)).format('ll')
+              }
+              className="upload-report-dialog-text"
+              onChange={() => {}}
+              block
+              rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
+              onClick={() => !previewData && setShowDatePickerEnd(true)}
+              disabled={previewData}
+            />
+          )}
+          {showDatePickerEnd && (
+            <DatePicker
+              singlePick
+              translation={{ update: 'select' }}
+              onUpdate={(date) => {
+                setReportData({ ...reportData, referenceDate: date })
+                setShowDatePickerEnd(false)
+              }}
+              onCancel={() => setShowDatePickerEnd(false)}
+              // minValidDate={{
+              //   timestamp: reportData?.referenceDate?.timestamp
+              //     ? reportData?.referenceDate?.timestamp
+              //     : new Date().getTime(),
+              // }}
+              startView="year"
+              endView={formatDate} // "day"
+            />
+          )}
+        </div>
         <div className="upload-report-dialog-subtitle md-cell md-cell--12">
           Attach Report
         </div>
