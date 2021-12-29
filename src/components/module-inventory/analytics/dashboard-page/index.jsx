@@ -7,7 +7,9 @@ import Map from 'components/map'
 import { createTPvsQuantCreator } from './chart-creators'
 import consumption from './consumption'
 import surplus from './surplus'
-import DataTable from '@target-energysolutions/data-table'
+import Mht from '@target-energysolutions/mht'
+
+// import DataTable from '@target-energysolutions/data-table'
 import {
   configMerge,
   pie,
@@ -35,7 +37,7 @@ const mc21Card = mc21('card', ChartText)
 const mc21Pie = mc21('pie', null)
 const mc42Map = mc42('map', Map)
 const mcS42lineBar = mc42FilterByMaterialCategory('line-bar', null)
-const mc42Table = mc42('table', DataTable)
+const mc42Table = mc42('table', Mht)
 const table = (config, title, pinConfig, tableProps) =>
   mc42Table(
     creatorMaker({

@@ -3,7 +3,7 @@ import ChartText from 'components/chart-text'
 import { mcDFBySize } from 'components/analytics/utils'
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import { query, eq, and, or } from 'libs/utils/query'
-import DataTable from '@target-energysolutions/data-table'
+// import DataTable from '@target-energysolutions/data-table'
 import { groupBy, sumBy } from 'lodash-es'
 import { createQTvsVariCreator, createTLvsVariCreator } from './chart-creators'
 import './styles.scss'
@@ -23,6 +23,8 @@ import {
   table,
   card,
 } from 'components/analytics/utils/charts-config-helper'
+import Mht from '@target-energysolutions/mht'
+
 // import i18n from 'i18n-js'
 // import l from 'libs/langs/keys'
 
@@ -48,7 +50,7 @@ const mc42 = mcDFBySize(4, 2, ['company'])
 const mc21Pie = mc21('pie', null)
 const mc11Card = mc11('card', ChartText)
 const mc21lineBar = mc21('line-bar', null)
-const mc42Table = mc42('table', DataTable)
+const mc42Table = mc42('table', Mht)
 const editor = () => ({
   editors: [
     {

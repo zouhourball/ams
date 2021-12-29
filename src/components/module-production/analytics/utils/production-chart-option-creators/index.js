@@ -14,6 +14,7 @@ import {
   values,
   sum as lodashSum,
   uniq,
+  map,
 } from 'lodash-es'
 import moment from 'moment'
 import {
@@ -101,7 +102,42 @@ const isNotFromNg = not(eq('cameFrom', 'ng'))
 //     ...rest
 //   }), option)
 // }
-
+const commonMhtConfig = {
+  commonActions: true,
+  withSubColumns: false,
+  hideTotal: true,
+  withFooter: false,
+  withDownloadCsv: true,
+  withSearch: true,
+}
+export function config2MhtConfig (configs) {
+  return map(configs, (c) => {
+    if (c.groupName) {
+      return {
+        label: c.groupName,
+        key: c.groupName,
+        type: 'subColumns',
+        width: c.columns.length * 150,
+        displayInCsv: true,
+        columns: map(c.columns, (column) => ({
+          label: column.name,
+          icon: 'mdi mdi-spellcheck',
+          subKey: column.dataKey,
+          displayInCsv: true,
+          width: 150,
+        })),
+      }
+    } else {
+      return {
+        width: 150,
+        type: 'text',
+        displayInCsv: true,
+        label: c.name,
+        key: c.dataKey,
+      }
+    }
+  })
+}
 function xDataProccessor (data, params) {
   let groupedData = {}
   let allDate = []
@@ -473,6 +509,10 @@ function createMonthlyList (filter) {
       columnsConfig,
       hideSearchBar: true,
       rowsPerPage: 5,
+      // defaultCsvFileTitle: '',
+      configs: config2MhtConfig(columnsConfig),
+      tableData: validData,
+      ...commonMhtConfig,
     }
   }
 }
@@ -558,6 +598,7 @@ function createProductionDailyTableCreator () {
   return ({ data }) => {
     const names = uniq(data.map((d) => d.name)).filter((i) => i !== 'WATER')
     const groupedData = groupBy(data, 'displayDate')
+    // console.log(groupedData, 'groupedData----')
     const newData = Object.keys(groupedData).map((day) => {
       const items = groupedData[day]
       const blocks = groupBy(items, (d) => `${d.company}-${d.block}`)
@@ -624,6 +665,9 @@ function createProductionDailyTableCreator () {
       getColumnsConfig,
       hideSearchBar: true,
       rowsPerPage: 12,
+      configs: config2MhtConfig(getColumnsConfig()),
+      tableData: newData.concat(footer),
+      ...commonMhtConfig,
     }
   }
 }
@@ -680,6 +724,9 @@ function createProductionMonthlyTableCreator (filter) {
       columnsConfig: productionMonthlyTableColumnsConfig,
       hideSearchBar: true,
       rowsPerPage: 12,
+      configs: config2MhtConfig(productionMonthlyTableColumnsConfig),
+      tableData: data,
+      ...commonMhtConfig,
     }
   }
 }

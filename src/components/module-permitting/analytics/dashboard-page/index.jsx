@@ -2,7 +2,9 @@ import { chartsPageCreator } from 'components/charts-page'
 import { mcDFBySize, mapDataCvtCreator } from 'components/analytics/utils'
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import ChartText from 'components/chart-text'
-import DataTable from '@target-energysolutions/data-table'
+// import DataTable from '@target-energysolutions/data-table'
+import Mht from '@target-energysolutions/mht'
+
 import Map from 'components/map'
 
 // import i18n from 'i18n-js'
@@ -33,7 +35,7 @@ const mc21 = mcDFBySize(2, 1)
 const mc42 = mcDFBySize(4, 2)
 const mc42MoreFilters = mcDFBySize(4, 2, ['company', 'block', 'permitType'])
 const mc21Pie = mc21('pie', null)
-const mc42Table = mc42('table', DataTable)
+const mc42Table = mc42('table', Mht)
 const mc42Stack = mc42('stack', null)
 const mc42Map = mc42MoreFilters('map', Map)
 const mc42Bar = (filterBy) =>

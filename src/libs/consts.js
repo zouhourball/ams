@@ -233,11 +233,13 @@ export const AMS_CUSOM_CHART_ID_PREFIX = 'my_chart_'
 export const AMS_CUSOM_FILTER_ID_PREFIX = 'my_filter_'
 
 export const COLOR_MAP = {
-  ag: 'red',
-  nag: 'red',
-  oil: 'green',
-  water: 'blue',
-  condensate: 'brown',
+  ag: '#26A79A',
+  nag: '#FC3F94',
+  oil: '#FFA001',
+  water: '#00C7FF',
+  condensate: '#FC3F94',
+  total: '#4F69FF',
+  gas: '#4F69FF',
 }
 
 export const dateRangeModules = ['production', 'flaring', 'permit']

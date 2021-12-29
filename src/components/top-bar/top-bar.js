@@ -7,7 +7,24 @@ import listView from './images/list_view.svg'
 import analyticView from './images/analytic_view.svg'
 
 import './style.scss'
-
+const specificPaths = [
+  {
+    path: 'hse/flaring',
+    to: '/ams/hse/flaring/analytics/dashboard',
+  },
+  {
+    path: 'ams/production',
+    to: '/ams/production/analytics/dashboard',
+  },
+  {
+    path: 'ams/inventory',
+    to: '/ams/inventory/analytics/dashboard',
+  },
+  {
+    path: 'ams/planning',
+    to: '/ams/planning/analytics/dashboard',
+  },
+]
 const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
   const [currentView, setCurrentView] = useState(view || 'file')
   const renderListButtons = () => {
@@ -19,12 +36,9 @@ const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
     (view) => {
       setCurrentView(view)
       if (view === 'dashboard' && !pathname.includes('/analytics/dashboard')) {
-        if (pathname.includes('hse/flaring')) {
-          navigate(`/ams/hse/flaring/analytics/dashboard`)
-        } else if (pathname.includes('ams/production')) {
-          navigate(`/ams/production/analytics/dashboard`)
-        } else if (pathname.includes('ams/inventory')) {
-          navigate(`/ams/inventory/analytics/dashboard`)
+        const findItem = specificPaths.find((i) => pathname.includes(i.path))
+        if (findItem) {
+          navigate(findItem.to)
         } else {
           navigate(`${pathname}/analytics/dashboard`)
         }

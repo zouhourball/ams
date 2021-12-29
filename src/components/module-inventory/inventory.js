@@ -76,7 +76,6 @@ const Inventory = () => {
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
   const [currentInventoryId, setCurrentInventoryId] = useState('')
-  // console.log('role', role)
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', 0, 2000],
     getInventories,

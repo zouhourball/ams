@@ -16,7 +16,7 @@ const NavBar = ({ tabsList, activeTab, setActiveTab, onSelectRows }) => {
                 }`}
                 onClick={() => {
                   setActiveTab && setActiveTab(index)
-                  onSelectRows([])
+                  onSelectRows && onSelectRows([])
                 }}
               >
                 {el}

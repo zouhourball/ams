@@ -1,4 +1,4 @@
-import SideCard from 'components/chart-side-card/series-total'
+// import SideCard from 'components/chart-side-card/series-total'
 import {
   gas4andAgNagProd,
   isNAGData,
@@ -49,9 +49,9 @@ import {
 } from '../utils/production-chart-option-creators'
 import ChartText from 'components/chart-text'
 import { mcDFBySize, makeCharts } from 'components/analytics/utils'
-import DataTable from '@target-energysolutions/data-table'
+// import DataTable from '@target-energysolutions/data-table'
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
-import TableWithColorHighlight from './table-with-color-highlight'
+// import TableWithColorHighlight from './table-with-color-highlight'
 import Map from 'components/map'
 
 import { transformGasBalance } from '../processors'
@@ -75,6 +75,7 @@ import {
   mapTransform,
 } from 'components/analytics/utils/charts-config-helper'
 import { dateFormat } from 'libs/utils'
+import Mht from '@target-energysolutions/mht'
 // import i18n from 'i18n-js'
 // import l from 'libs/langs/keys'
 import { chartSizes } from 'components/analytics/utils/consts'
@@ -88,12 +89,8 @@ const mc21Bar = mc21('bar', null)
 const fLineBar = [['company', 'block'], 'line-bar', null]
 const card = [['company', 'block'], 'card', ChartText]
 const fPie = [['company', 'block'], 'pie', null]
-const fTable = [['company', 'block'], 'table', DataTable]
-const fHighlightTable = [
-  ['company', 'block', 'name'],
-  'table',
-  TableWithColorHighlight,
-]
+const fTable = [['company', 'block'], 'table', Mht]
+const fHighlightTable = [['company', 'block', 'name'], 'table', Mht]
 const fScatter = (defaultSelect, defaultSize) => [
   [
     'company',
@@ -774,7 +771,7 @@ export const chartsToDraw = [
             getDailySummaryLineBarChart,
             'Total Production',
             {
-              renderSideCard: () => SideCard,
+              // renderSideCard: () => SideCard,
               pinConfig: configMerge(
                 hasDatePicker,
                 title('Total Production'),
@@ -1174,7 +1171,7 @@ export const chartsToDraw = [
             getMonthlySummaryLineBarChart,
             'Total Production',
             {
-              renderSideCard: () => SideCard,
+              // renderSideCard: () => SideCard,
               pinConfig: configMerge(
                 title('Total Production'),
                 toolbox,
