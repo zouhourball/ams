@@ -597,8 +597,7 @@ export const tableWithMonthlyPinConfig = [
 function createProductionDailyTableCreator () {
   return ({ data }) => {
     const names = uniq(data.map((d) => d.name)).filter((i) => i !== 'WATER')
-    const groupedData = groupBy(data, 'displayDate')
-    // console.log(groupedData, 'groupedData----')
+    const groupedData = groupBy(data, 'date')
     const newData = Object.keys(groupedData).map((day) => {
       const items = groupedData[day]
       const blocks = groupBy(items, (d) => `${d.company}-${d.block}`)
@@ -617,7 +616,7 @@ function createProductionDailyTableCreator () {
         })
       })
       return {
-        displayDate: day,
+        displayDate: format(newDatePolyfill(day), 'DD/MM/YYYY'),
         ...details,
         Total: fixNbr(lodashSum(Object.values(details))),
       }
@@ -644,11 +643,6 @@ function createProductionDailyTableCreator () {
         ...rest,
       }
     })
-    data = data.map((d) => ({
-      ...d,
-      displayDate: moment(d.date).format('DD/MM/YYYY'),
-    }))
-    // data.forEach(d => (d.displayDate = moment(d.date).format('DD/MM/YYYY')))
     const getColumnsConfig = (showHighlight) => [
       {
         name: 'Date',
