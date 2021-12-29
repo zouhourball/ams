@@ -24,6 +24,7 @@ import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
 import useRole from 'libs/hooks/use-role'
 import documents from 'libs/hooks/documents'
+import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import { costRecoveryDetailsConfigs } from '../helpers'
 import {
@@ -118,6 +119,40 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const handleSupportingDocs = (data) => {
     costsSuppDocs(data)
   }
+  const fileDetail = () => {
+    switch (subModule) {
+      case 'costs':
+        return {
+          originalFileId: costsDetail?.metaData?.originalFileId,
+          originalFileName: costsDetail?.metaData?.originalFileName,
+        }
+      case 'contracts':
+        return {
+          originalFileId: contractDetail?.metaData?.originalFileId,
+          originalFileName: contractDetail?.metaData?.originalFileName,
+        }
+      case 'lifting':
+        return {
+          originalFileId: prodLiftingDetail?.metaData?.originalFileId,
+          originalFileName: prodLiftingDetail?.metaData?.originalFileName,
+        }
+      case 'transaction':
+        return {
+          originalFileId: transactionDetail?.metaData?.originalFileId,
+          originalFileName: transactionDetail?.metaData?.originalFileName,
+        }
+      case 'affiliate':
+        return {
+          originalFileId: affiliateDetail?.metaData?.originalFileId,
+          originalFileName: affiliateDetail?.metaData?.originalFileName,
+        }
+      case 'facilities':
+        return {
+          originalFileId: facilitiesDetail?.metaData?.originalFileId,
+          originalFileName: facilitiesDetail?.metaData?.originalFileName,
+        }
+    }
+  }
 
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
@@ -132,7 +167,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
             costDescription: el?.explanation,
             year: [
               {
-                approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
+                approved: el?.values?.map((el) => ({ plan: el?.plan || '' })),
               },
               {
                 outlook: el?.qvalues?.map((el) => ({
@@ -378,7 +413,12 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
       className="top-bar-buttons-list-item-btn view-doc"
       flat
       primary
-      onClick={() => {}}
+      onClick={() => {
+        downloadOriginalFile(
+          fileDetail()?.originalFileId,
+          fileDetail()?.originalFileName,
+        )
+      }}
     >
       Download Original File
     </Button>,

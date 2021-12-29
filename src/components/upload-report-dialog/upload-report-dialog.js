@@ -102,8 +102,8 @@ const UploadReportDialog = ({
     getRootProps: getOptionalRootProps,
     getInputProps: getOptionalInputProps,
   } = useDropzone({
-    accept:
-      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    /* accept:
+      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadOptional,
   })
   const actions = [

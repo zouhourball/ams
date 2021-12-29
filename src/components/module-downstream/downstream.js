@@ -81,11 +81,11 @@ const Downstream = () => {
     ['listLpgDownstreamByLoggedUser'],
     listLpgDownstreamByLoggedUser,
   )
-  const { data: LisPetroleumProducts, refetch: refetchNgList } = useQuery(
+  const { data: ListNaturalGas, refetch: refetchNgList } = useQuery(
     ['listNgDownstreamByLoggedUser'],
     listNgDownstreamByLoggedUser,
   )
-  const { data: ListNaturalGas, refetch: refetchRsList } = useQuery(
+  const { data: LisPetroleumProducts, refetch: refetchRsList } = useQuery(
     ['listRsDownstreamByLoggedUser'],
     listRsDownstreamByLoggedUser,
   )
@@ -526,28 +526,15 @@ const Downstream = () => {
               'DD MMM, YYYY',
             ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
           })) || []
         )
       case 1:
-        return (
-          LisPetroleumProducts?.content?.map((el) => ({
-            id: el?.id,
-            originalFileId: el?.metaData?.originalFileId,
-            fileName: el?.metaData?.originalFileName,
-            company: el?.metaData?.company,
-            submittedDate: moment(el?.metaData?.createdAt).format(
-              'DD MMM, YYYY',
-            ),
-            submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
-            status: el?.metaData?.status,
-            processInstanceId: el?.metaData?.processInstanceId,
-          })) || []
-        )
-      case 2:
         return (
           ListNaturalGas?.content?.map((el) => ({
             id: el?.id,
@@ -558,10 +545,32 @@ const Downstream = () => {
               'DD MMM, YYYY',
             ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'), // 26587511
+            status: el?.metaData?.status,
+            processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
+          })) || []
+        )
+      case 2:
+        return (
+          LisPetroleumProducts?.content?.map((el) => ({
+            id: el?.id,
+            originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
+            company: el?.metaData?.company,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
+            submittedBy: el?.metaData?.createdBy?.name,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             category: el?.metaData?.category,
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
           })) || []
         )
       default:
@@ -575,7 +584,9 @@ const Downstream = () => {
               'DD MMM, YYYY',
             ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
           })) || []
@@ -875,7 +886,13 @@ const Downstream = () => {
         <UploadReportDialog
           setFileList={setFileList}
           ReportingType={currentTab === 2}
-          TypeList={['commercial']}
+          TypeList={[
+            'Commercial',
+            'Government',
+            'Retail Sales',
+            'Crusher & Quarries',
+            'Marine',
+          ]}
           filesList={filesList}
           hideBlock
           onDisplayMHT={onDisplayMHT}

@@ -470,6 +470,9 @@ const Flaring = () => {
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
       }
@@ -487,7 +490,10 @@ const Flaring = () => {
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate: get(el, 'metaData.year', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        referenceDate: `${el?.metaData?.month} ${el?.metaData?.year}`,
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -505,6 +511,9 @@ const Flaring = () => {
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: get(el, 'metaData.year', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -789,8 +798,13 @@ const Flaring = () => {
             onSave={(data) => {
               onAddReportByCurrentTab(data)
             }}
-            formatDate={'year'}
-            currentTab={currentTab}
+            formatDate={
+              currentTab === 'annual-forecast'
+                ? 'year'
+                : currentTab === 'monthly-station'
+                  ? 'month'
+                  : 'day'
+            }
           />
         )}
 

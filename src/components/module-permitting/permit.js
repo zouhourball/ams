@@ -108,7 +108,9 @@ const Permit = () => {
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: el?.metaData?.createdBy?.name,
       referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
-      statusDate: 23098873,
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       supportingDocuments: '',
       status: el?.metaData?.status,
     }

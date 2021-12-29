@@ -105,13 +105,6 @@ const SupportedDocument = ({
                   delete
                 </FontIcon>
               )}
-              <FontIcon
-                onClick={() => {
-                  window.open(getPublicUrl(file?.fileId))
-                }}
-              >
-                download
-              </FontIcon>
             </>
           )}
         </div>

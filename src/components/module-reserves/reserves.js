@@ -235,9 +235,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -257,9 +258,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -279,9 +281,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -300,9 +303,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'

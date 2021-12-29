@@ -23,7 +23,14 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
   {
     label: 'Status Date',
     key: 'statusDate',
@@ -86,7 +93,14 @@ export const naturalGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
   {
     label: 'Status Date',
     key: 'statusDate',

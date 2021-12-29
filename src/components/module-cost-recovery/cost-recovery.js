@@ -291,7 +291,10 @@ const CostRecovery = () => {
         submittedDate: el?.metaData?.createdAt
           ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
           : '',
-        // referenceDate: el?.metaData?.statusDate,
+        referenceDate: el?.metaData?.year,
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         id: el?.id,
         processInstanceId: el?.metaData?.processInstanceId,
         originalFileId: el?.metaData?.originalFileId,
