@@ -596,6 +596,7 @@ const Downstream = () => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
+
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -617,10 +618,10 @@ const Downstream = () => {
           responseUploadLpg?.data?.data?.map((el) => ({
             company: el?.company,
             quota: el?.quota,
-            lifting: el?.actualLifted?.map((source) => ({
-              source1: source[0]?.value,
-              source2: source[1]?.value,
-            })),
+            lifting: [
+              { source1: el?.actualLifted[0]?.value },
+              { source2: el?.actualLifted[1]?.value },
+            ],
             total: el?.totalLifted,
             remarks: el?.remarks,
             variance: el?.variance,

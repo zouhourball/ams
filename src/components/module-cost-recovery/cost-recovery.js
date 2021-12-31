@@ -44,10 +44,11 @@ import documents from 'libs/hooks/documents'
 
 import {
   configsAnnualCostsDialogMht,
-  configsContractsCostsDialogMht,
+  // configsContractsCostsDialogMht,
   configsContractsDialogMht,
   transactionConfig,
   affiliateConfig,
+  configsLiftingCostsDialogMht,
 } from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
@@ -545,7 +546,6 @@ const CostRecovery = () => {
       },
     )
   }
-
   const configsMht = useCallback(() => {
     switch (showUploadMHTDialog) {
       case 'upload-annual-cost':
@@ -560,7 +560,7 @@ const CostRecovery = () => {
       case 'upload-contract-report':
         return configsContractsDialogMht()
       case 'prod-lifting':
-        return configsContractsCostsDialogMht()
+        return configsLiftingCostsDialogMht()
       case 'transaction':
         return transactionConfig()
       case 'affiliate':

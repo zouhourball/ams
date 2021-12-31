@@ -143,7 +143,6 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
       originalFileName: getDetailsKey()?.metaData?.originalFileName,
     }
   }
-
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
       case 'costs':
