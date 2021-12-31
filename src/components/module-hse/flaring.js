@@ -429,7 +429,7 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            date: moment(body?.referenceDate).format('YYYY-MM-DD'),
+            date: moment(body?.referenceDate?.timestamp).format('YYYY-MM-DD'),
           },
         })
         break
@@ -440,8 +440,8 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            year: moment(body?.referenceDate).format('YYYY'),
-            month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
           },
         })
         break
@@ -452,7 +452,7 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         break

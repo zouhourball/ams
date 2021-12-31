@@ -60,6 +60,7 @@ const UploadReportDialog = ({
       : { timestamp: date.getTime(), year: date.getFullYear(), ...monthAndDay },
     block: previewData?.block,
   })
+
   const { data: suppDocsFiles } = useQuery(
     ['getDocumentsById', previewData?.processInstanceId],
     previewData && previewData?.processInstanceId && getDocumentsById,
