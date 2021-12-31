@@ -567,7 +567,7 @@ export const uploadAnnualCosts = async (body) => {
       {
         method: 'POST',
         isFormData: true,
-        body: formDataBody(body),
+        body: body && formDataBody(body),
       },
     )
   } catch (e) {

@@ -280,7 +280,20 @@ const CostRecovery = () => {
     'Affiliate',
     'Facilities',
   ]
-
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
   const renderCurrentTabData = () => {
     return (
       globalMhtData?.content?.map((el) => ({
@@ -291,7 +304,13 @@ const CostRecovery = () => {
         submittedDate: el?.metaData?.createdAt
           ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
           : '',
-        referenceDate: el?.metaData?.year,
+        referenceDate: `${
+          el?.metaData?.month
+            ? parseInt(el?.metaData?.month)
+              ? months[el?.metaData?.month]
+              : el?.metaData?.month
+            : ''
+        } ${el?.metaData?.year}`,
         statusDate: el?.metaData?.updatedAt
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -339,6 +358,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('prod-lifting')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -359,6 +379,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('transaction')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -379,6 +400,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('affiliate')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -398,6 +420,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('facilities')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -496,6 +519,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('upload-annual-cost')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -515,6 +539,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('upload-contract-report')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -735,22 +760,7 @@ const CostRecovery = () => {
   }
 
   const handleSupportingDocs = (data) => {
-    switch (currentTab) {
-      case 0:
-        return costsSuppDocs(data)
-      case 1:
-        return costsSuppDocs(data)
-      case 2:
-        return costsSuppDocs(data)
-      case 3:
-        return costsSuppDocs(data)
-      case 4:
-        return costsSuppDocs(data)
-      case 5:
-        return costsSuppDocs(data)
-      default:
-        break
-    }
+    return costsSuppDocs(data)
   }
   const overrideCosts = () => {
     overrideAnnualCostsExp(
@@ -1230,6 +1240,7 @@ const CostRecovery = () => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
+          formatDate={currentTab === 0 ? 'year' : 'day'}
         />
       )}
       {showSupportedDocumentDialog && (

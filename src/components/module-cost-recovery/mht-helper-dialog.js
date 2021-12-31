@@ -365,7 +365,9 @@ export const facilitiesConfig = () => {
     },
   ]
 }
-
+export const configsContractsCostsDialogMht = () => {
+  return []
+}
 export const configsContractsDialogMht = () => {
   return [
     {

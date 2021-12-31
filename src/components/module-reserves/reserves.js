@@ -166,21 +166,7 @@ const Reserves = () => {
       closeDialog,
     )
   }
-  // const handleSupportingDocs = (data) => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     case 1:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     case 2:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }
+
   const handleSupportingDocs = (data) => {
     annualReservesReportingSuppDocs(data)
   }

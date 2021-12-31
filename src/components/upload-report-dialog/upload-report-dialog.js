@@ -42,9 +42,22 @@ const UploadReportDialog = ({
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
+  const date = new Date()
+  const monthAndDay =
+    formatDate === 'day'
+      ? {
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      }
+      : formatDate === 'month'
+        ? {
+          month: date.getMonth(),
+        }
+        : {}
   const [reportData, setReportData] = useState({
-    referenceDate:
-      moment(previewData?.referenceDate.toString()).valueOf() || new Date(),
+    referenceDate: previewData
+      ? moment(previewData?.referenceDate.toString()).valueOf()
+      : { timestamp: date.getTime(), year: date.getFullYear(), ...monthAndDay },
     block: previewData?.block,
   })
   const { data: suppDocsFiles } = useQuery(

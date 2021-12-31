@@ -193,17 +193,19 @@ const FlaringDetails = () => {
   }
 
   const actions = [
-    <Button
-      key="1"
-      id="save"
-      className="top-bar-detail-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {}}
-    >
-      Download Annual Plan
-    </Button>,
+    subModule === 'annual-forecast' && (
+      <Button
+        key="1"
+        id="save"
+        className="top-bar-detail-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {}}
+      >
+        Download Annual Plan
+      </Button>
+    ),
     <Button
       key="2"
       id="save"

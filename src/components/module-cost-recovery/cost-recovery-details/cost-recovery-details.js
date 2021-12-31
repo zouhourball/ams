@@ -109,9 +109,9 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   }
 
   const costsSuppDocs = (data) => {
-    addSupportingDocuments(
+    return addSupportingDocuments(
       data,
-      costsDetail?.metaData?.processInstanceId,
+      getDetailsKey()?.metaData?.processInstanceId,
       closeDialog,
     )
   }
@@ -119,38 +119,28 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const handleSupportingDocs = (data) => {
     costsSuppDocs(data)
   }
-  const fileDetail = () => {
+  const getDetailsKey = () => {
     switch (subModule) {
       case 'costs':
-        return {
-          originalFileId: costsDetail?.metaData?.originalFileId,
-          originalFileName: costsDetail?.metaData?.originalFileName,
-        }
+        return costsDetail
       case 'contracts':
-        return {
-          originalFileId: contractDetail?.metaData?.originalFileId,
-          originalFileName: contractDetail?.metaData?.originalFileName,
-        }
+        return contractDetail
       case 'lifting':
-        return {
-          originalFileId: prodLiftingDetail?.metaData?.originalFileId,
-          originalFileName: prodLiftingDetail?.metaData?.originalFileName,
-        }
+        return prodLiftingDetail
       case 'transaction':
-        return {
-          originalFileId: transactionDetail?.metaData?.originalFileId,
-          originalFileName: transactionDetail?.metaData?.originalFileName,
-        }
+        return transactionDetail
       case 'affiliate':
-        return {
-          originalFileId: affiliateDetail?.metaData?.originalFileId,
-          originalFileName: affiliateDetail?.metaData?.originalFileName,
-        }
+        return affiliateDetail
       case 'facilities':
-        return {
-          originalFileId: facilitiesDetail?.metaData?.originalFileId,
-          originalFileName: facilitiesDetail?.metaData?.originalFileName,
-        }
+        return facilitiesDetail
+      default:
+        break
+    }
+  }
+  const fileDetail = () => {
+    return {
+      originalFileId: getDetailsKey()?.metaData?.originalFileId,
+      originalFileName: getDetailsKey()?.metaData?.originalFileName,
     }
   }
 
@@ -167,7 +157,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
             costDescription: el?.explanation,
             year: [
               {
-                approved: el?.values?.map((el) => ({ plan: el?.plan || '' })),
+                approved: el?.qvalues?.map((el) => ({ plan: el?.plan || '' })),
               },
               {
                 outlook: el?.qvalues?.map((el) => ({
@@ -279,66 +269,44 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   ])
 
   const detailData = useMemo(() => {
+    const data = {
+      subTitle: getDetailsKey()?.metaData?.block,
+      companyName: getDetailsKey()?.metaData?.company,
+      submittedDate: moment(getDetailsKey()?.metaData?.createdAt).format(
+        'DD MMM, YYYY',
+      ),
+      submittedBy: getDetailsKey()?.metaData?.createdBy?.name,
+    }
     switch (subModule) {
       case 'costs':
         return {
           title: 'Annual Cost and Expenditure',
-          subTitle: costsDetail?.metaData?.block,
-          companyName: costsDetail?.metaData?.company,
-          submittedDate: moment(costsDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: costsDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       case 'contracts':
         return {
           title: 'Cost Recovery Reporting',
-          subTitle: contractDetail?.metaData?.block,
-          companyName: contractDetail?.metaData?.company,
-          submittedDate: moment(contractDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: contractDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       case 'lifting':
         return {
           title: 'Production Lifting',
-          subTitle: prodLiftingDetail?.metaData?.block,
-          companyName: prodLiftingDetail?.metaData?.company,
-          submittedDate: moment(prodLiftingDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: prodLiftingDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       case 'transaction':
         return {
           title: 'Transaction Report',
-          subTitle: transactionDetail?.metaData?.block,
-          companyName: transactionDetail?.metaData?.company,
-          submittedDate: moment(transactionDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: transactionDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       case 'affiliate':
         return {
           title: 'Affiliate',
-          subTitle: affiliateDetail?.metaData?.block,
-          companyName: affiliateDetail?.metaData?.company,
-          submittedDate: moment(affiliateDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: affiliateDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       case 'facilities':
         return {
           title: 'Facilities',
-          subTitle: facilitiesDetail?.metaData?.block,
-          companyName: facilitiesDetail?.metaData?.company,
-          submittedDate: moment(facilitiesDetail?.metaData?.createdAt).format(
-            'DD MMM, YYYY',
-          ),
-          submittedBy: facilitiesDetail?.metaData?.createdBy?.name,
+          ...data,
         }
       default:
         return {}
@@ -441,7 +409,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
   const configs = () => {
     switch (subModule) {
       case 'costs':
-        return (costRecoveryDetailsConfigs || []).map((el) =>
+        return (costRecoveryDetailsConfigs || [])?.map((el) =>
           el.key !== 'year'
             ? el
             : {
@@ -459,17 +427,20 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
         return affiliateConfig()
       case 'facilities':
         return (
-          (Object.entries(facilitiesDetail?.data[0] || {}) || []).map((el) => ({
-            label: el[0],
-            key: el[0],
-            width: '200',
-            icon: 'mdi mdi-spellcheck',
-          })) || []
+          (Object.entries(facilitiesDetail?.data[0] || {}) || [])?.map(
+            (el) => ({
+              label: el[0],
+              key: el[0],
+              width: '200',
+              icon: 'mdi mdi-spellcheck',
+            }),
+          ) || []
         )
       default:
         return []
     }
   }
+
   return (
     <div className="cost-recovery-details">
       <TopBarDetail
@@ -510,7 +481,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           readOnly={role === 'regulator'}
           processInstanceId={
-            costsDetail?.metaData?.processInstanceId ||
+            getDetailsKey()?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
           onSaveUpload={(data) => {
