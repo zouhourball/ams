@@ -1,9 +1,9 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { useMemo, useState } from 'react'
-import { getDetailPlanningById } from 'libs/api/api-planning'
+import { getDetailPlanningById, updatePlanning } from 'libs/api/api-planning'
 import moment from 'moment'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
@@ -18,11 +18,15 @@ import './style.scss'
 const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const { data: dataDetails } = useQuery(
+  const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
     objectId && getDetailPlanningById,
   )
-
+  const updatePlanningMutation = useMutation(updatePlanning, {
+    onSuccess: (res) => {
+      refetch()
+    },
+  })
   const planningDataDetails = useMemo(() => {
     switch (subModule) {
       case 'wpb':
@@ -44,6 +48,13 @@ const PlanningDetails = ({ objectId, subModule }) => {
         'DD MMM, YYYY',
       ),
     }
+  }
+  const submitDraft = (subModule, objectId) => {
+    updatePlanningMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
   }
   const configsMht = () => {
     switch (subModule) {
@@ -89,6 +100,22 @@ const PlanningDetails = ({ objectId, subModule }) => {
         </Button>
         ,
       </>
+    ),
+    useRole('planning') === 'operator' &&
+      dataDetails?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          submitDraft(subModule, objectId, 'SUBMITTED')
+        }}
+      >
+          Commit
+      </Button>
     ),
     useRole('planning') === 'JMC Chairman' && (
       <>

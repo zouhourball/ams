@@ -269,6 +269,21 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
     >
       Download Original File
     </Button>,
+    role === 'operator' && downstreamDetail?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onAcknowledge(subModule, downstreamId, 'SUBMITTED')
+        }}
+      >
+        Commit
+      </Button>
+    ),
     role === 'regulator' &&
       get(downstreamDetail, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button

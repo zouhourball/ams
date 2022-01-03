@@ -400,6 +400,21 @@ const ProductionDetails = () => {
     >
       Download Original File
     </Button>,
+    role === 'operator' && productionData?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onAcknowledge(subModule, prodId, 'SUBMITTED')
+        }}
+      >
+        Commit
+      </Button>
+    ),
     role === 'regulator' &&
       get(productionData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button

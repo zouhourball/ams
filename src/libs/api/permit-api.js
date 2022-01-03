@@ -20,6 +20,7 @@ export const addPermit = async ({ body }) => {
   }
   return res
 }
+
 export const findAllPermits = async ({ queryKey }) => {
   // orgId = 1, priorityId = 2
   let res

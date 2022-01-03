@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from 'react-md'
 import { useMutation } from 'react-query'
 import { navigate } from '@reach/router'
@@ -7,11 +7,12 @@ import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit } from 'libs/api/permit-api'
+import { addPermit, savePermit } from 'libs/api/permit-api'
+import { validForm } from '../validate-form-fields'
 
 import './style.scss'
 
-const AbandonReport = () => {
+const AbandonReport = ({ abandonReportId }) => {
   const [formData, setFormData] = useState({
     metaData: {
       company: 'ams-org',
@@ -21,7 +22,23 @@ const AbandonReport = () => {
       plannedAbandonDate: '2021-02-01',
     },
   })
+  useEffect(() => {
+    if (localStorage.getItem('abandon-report')) {
+      const drillReport = JSON.parse(localStorage.getItem('abandon-report'))
+      setFormData({
+        ...formData,
+        metaData: {
+          ...formData.metaData,
+          block: drillReport.block,
+        },
+        data: {
+          plannedAbandonDate: drillReport.date,
+        },
+      })
+    }
+  }, [])
   const blockList = getBlocks()
+
   const fields = [
     {
       id: 'block',
@@ -39,6 +56,8 @@ const AbandonReport = () => {
       cellWidth: 'md-cell md-cell--6',
       input: 'date',
       type: 'date',
+      onChange: (value) => onEditValue('plannedAbandonDate', value),
+      value: formData?.data?.plannedAbandonDate,
     },
     {
       id: 'fieldName',
@@ -367,6 +386,14 @@ const AbandonReport = () => {
       }
     },
   })
+  const savePermitDrill = useMutation(savePermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
   const onEditValue = (key, value, isMetaData) => {
     if (isMetaData) {
       setFormData({
@@ -386,20 +413,25 @@ const AbandonReport = () => {
       })
     }
   }
+  const data = Object.keys(formData?.data).map((el) => {
+    return {
+      id: el,
+      value: formData?.data[el],
+      name: fields.find((elem) => elem.id === el)?.title,
+      type: fields.find((elem) => elem.id === el)?.type,
+      datePattern:
+        fields.find((elem) => elem.id === el)?.type === 'date'
+          ? 'yyyy-MM-dd'
+          : null,
+    }
+  })
   const onSave = () => {
-    const data = Object.keys(formData?.data).map((el) => {
-      return {
-        id: el,
-        value: formData?.data[el],
-        name: fields.find((elem) => elem.id === el)?.title,
-        type: fields.find((elem) => elem.id === el)?.type,
-        datePattern:
-          fields.find((elem) => elem.id === el)?.type === 'date'
-            ? 'yyyy-MM-dd'
-            : null,
-      }
-    })
     addPermitAbandon.mutate({
+      body: { ...formData, data },
+    })
+  }
+  const onSaveReport = () => {
+    savePermitDrill.mutate({
       body: { ...formData, data },
     })
   }
@@ -422,7 +454,7 @@ const AbandonReport = () => {
       flat
       primary
       swapTheming
-      onClick={onSave}
+      onClick={onSaveReport}
     >
       Save
     </Button>,
@@ -434,6 +466,7 @@ const AbandonReport = () => {
       primary
       swapTheming
       onClick={() => onSave}
+      disabled={validForm(fields)}
     >
       Submit
     </Button>,

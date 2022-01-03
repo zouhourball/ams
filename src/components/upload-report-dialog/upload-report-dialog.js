@@ -73,11 +73,28 @@ const UploadReportDialog = ({
   }, [suppDocsFiles])
   const validData = () => {
     if (hideDate === false) {
-      if (reportData?.block && filesList?.path) {
+      if (
+        ((!hideBlock && reportData?.block) ||
+          (reportData?.type && ReportingType)) &&
+        filesList?.path
+      ) {
         return false
       }
     } else {
-      if (filesList?.path && reportData?.referenceDate && reportData?.block) {
+      if (
+        filesList?.path &&
+        !hideDate &&
+        reportData?.referenceDate &&
+        ((reportData?.block && !hideBlock) ||
+          (reportData?.type && ReportingType))
+      ) {
+        return false
+      } else if (
+        hideBlock &&
+        filesList?.path &&
+        !ReportingType &&
+        reportData?.referenceDate
+      ) {
         return false
       }
     }

@@ -235,6 +235,21 @@ const FlaringDetails = () => {
     >
       Download Original File
     </Button>,
+    role === 'operator' && flaringData?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onAcknowledge(subModule, objectId, 'SUBMITTED')
+        }}
+      >
+        Commit
+      </Button>
+    ),
     role === 'regulator' &&
       get(flaringData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button
