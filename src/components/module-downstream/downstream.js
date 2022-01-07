@@ -208,9 +208,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuid,
-              year: moment(body?.referenceDate).format('YYYY'),
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
             },
           },
           {
@@ -229,9 +229,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuidv4(),
-              year: moment(body?.referenceDate).format('YYYY'),
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
             },
           },
           {
@@ -250,9 +250,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuidv4(),
-              year: moment(body?.referenceDate).format('YYYY'),
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
               category: body?.type,
             },
           },
