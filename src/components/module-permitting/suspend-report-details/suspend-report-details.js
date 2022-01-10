@@ -369,6 +369,26 @@ const SuspendReportDetails = ({ suspendReportId }) => {
                 (el) => el.id === 'emergencyPlansAvailable',
               )?.value || 'no',
           },
+          {
+            id: 'suspensionProgram',
+            title: 'Attach Suspension Program',
+            cellWidth: 'md-cell md-cell-12',
+            input: 'fileInput',
+            required: true,
+            value:
+              detailData?.data?.find((el) => el.id === 'suspensionProgram')
+                ?.value || 'no',
+          },
+          {
+            id: 'wellSchematic',
+            title: 'Current Well Schematic',
+            cellWidth: 'md-cell md-cell-12',
+            input: 'fileInput',
+            required: true,
+            value:
+              detailData?.data?.find((el) => el.id === 'wellSchematic')
+                ?.value || 'no',
+          },
         ]}
       />
       {showSupportedDocumentDialog && (

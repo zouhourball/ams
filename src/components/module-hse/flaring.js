@@ -432,6 +432,8 @@ const Flaring = () => {
             date: moment(body?.referenceDate?.timestamp).format('YYYY-MM-DD'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+
         break
       case 'monthly-station':
         uploadMonthlyReportMutate.mutate({
@@ -444,6 +446,7 @@ const Flaring = () => {
             month: moment(body?.referenceDate?.timestamp).format('MMMM'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
         break
       case 'annual-forecast':
         uploadAnnualForecastMutate.mutate({
@@ -455,6 +458,7 @@ const Flaring = () => {
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
         break
     }
   }

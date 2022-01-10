@@ -206,6 +206,14 @@ export const annualResourceConfigs = (supportedDocument) => [
     // dateFormat: 'DD MMM, YYYY',
   },
   {
+    label: 'Product Type',
+    key: 'productType',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
     label: 'Supporting Documents',
     key: 'supportingDocuments',
     width: '200',

@@ -293,7 +293,7 @@ const DrillReport = ({ drillReportId }) => {
       title: 'Remarks',
       cellWidth: 'md-cell md-cell--12',
       input: 'textField',
-      required: true,
+      // required: true,
       onChange: (value) => onEditValue('remarks', value),
       type: 'string',
       value: formData?.data?.remarks,
