@@ -242,7 +242,6 @@ const UploadReportDialog = ({
             simplifiedMenu={false}
           />
         )}
-
         <div className="md-cell md-cell--6">
           {!hideDate && (
             <TextField
