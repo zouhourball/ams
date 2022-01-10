@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   TextField,
   Checkbox,
@@ -11,7 +11,8 @@ import Dropzone from 'react-dropzone'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 
-import { uploadFileTus } from 'libs/api/tus-upload'
+// import { uploadFileTus } from 'libs/api/tus-upload'
+import { fileManagerUpload } from 'libs/api/api-file-manager'
 import { renderFiles } from 'components/render-files'
 
 import uploadIcon from './upload.png'
@@ -19,12 +20,18 @@ import uploadIcon from './upload.png'
 import './style.scss'
 
 const GenericForm = ({ fields }) => {
-  const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(false)
   const [datePickerState, setDatePickerState] = useState(false)
+  const [files, setFiles] = useState({})
 
-  const uploadFiles = (allFiles) => {
-    let newFiles = []
+  const uploadFiles = (allFiles, nodeId) => {
+    setLoading(true)
+
+    fileManagerUpload(allFiles).then((res) => {
+      setFiles({ ...files, [nodeId]: [...res.files] })
+      setLoading(false)
+    })
+    /* let newFiles = []
     setLoading(true)
     Promise.all(
       allFiles.map((file) =>
@@ -50,9 +57,52 @@ const GenericForm = ({ fields }) => {
     ).then(() => {
       setFiles([...newFiles])
       setLoading(false)
-    })
+    }) */
   }
-
+  const createDropzone = (field) => {
+    const inputRef = useRef()
+    const onDrop = (uploadedFiles) => {
+      uploadFiles(uploadedFiles, field?.id, files)
+    }
+    inputRef.current = onDrop
+    return (
+      <>
+        <div className="title">{field.title}</div>
+        <Dropzone
+          ref={inputRef}
+          id={field?.id}
+          disabled={loading}
+          onDrop={inputRef.current}
+          accept="application/pdf"
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div
+              className={`file-upload ${field.cellWidth}`}
+              {...getRootProps()}
+            >
+              <img src={uploadIcon} />
+              <input {...getInputProps()} />
+              {!files.length && (
+                <p>
+                  {'Drag the file here or'}{' '}
+                  <span
+                    className="dropzone-wrapper-blue-text"
+                    onClick={(e) => {}}
+                  >
+                    {'click to upload'}
+                  </span>
+                </p>
+              )}
+              {files?.[field?.id] && (
+                <p>{files?.[field?.id]?.length} uploaded</p>
+              )}
+            </div>
+          )}
+        </Dropzone>
+        {files && renderFiles(files?.[field?.id], setFiles)}
+      </>
+    )
+  }
   const renderFields = () =>
     fields.map((field) => {
       switch (field.input) {
@@ -147,46 +197,7 @@ const GenericForm = ({ fields }) => {
             />
           )
         case 'fileInput':
-          return (
-            <>
-              <div className="title">{field.title}</div>
-              <Dropzone
-                disabled={loading}
-                onDrop={(files) => {
-                  uploadFiles(files)
-                }}
-                accept="application/pdf"
-              >
-                {({ getRootProps, getInputProps }) => (
-                  <div
-                    className={`file-upload ${field.cellWidth}`}
-                    {...getRootProps()}
-                  >
-                    <img src={uploadIcon} />
-                    <input {...getInputProps()} />
-                    {!files.length && (
-                      <p>
-                        {'Drag the file here or'}{' '}
-                        <span
-                          className="dropzone-wrapper-blue-text"
-                          onClick={(e) => {}}
-                        >
-                          {'click to upload'}
-                        </span>
-                      </p>
-                    )}
-                    {files.length > 0 && <p>{files.length} uploaded</p>}
-                  </div>
-                )}
-              </Dropzone>
-              {files && renderFiles(files, setFiles)}
-              {loading && (
-                <div className="loading">
-                  <CircularProgress />
-                </div>
-              )}
-            </>
-          )
+          return createDropzone(field)
         default:
           return (
             <TextField
@@ -203,77 +214,15 @@ const GenericForm = ({ fields }) => {
       }
     })
 
-  return <div className="md-grid genericForm">{renderFields()}</div>
+  return (
+    <div className="md-grid genericForm">
+      {renderFields()}
+      {loading && (
+        <div className="loading">
+          <CircularProgress />
+        </div>
+      )}
+    </div>
+  )
 }
 export default GenericForm
-GenericForm.defaultProps = {
-  fields: [
-    {
-      id: 'date',
-      title: 'date',
-      cellWidth: 'md-cell md-cell--6',
-      input: 'date',
-      required: true,
-    },
-    {
-      id: 'select',
-      title: 'select',
-      cellWidth: 'md-cell md-cell--6',
-      input: 'select',
-      menuItems: ['item1', 'item2', 'item3', 'item4'],
-    },
-    {
-      id: '1',
-      title: 'one',
-      cellWidth: 'md-cell md-cell-4',
-      input: 'textField',
-      required: true,
-    },
-    {
-      id: '2',
-      title: 'two',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'checkbox',
-    },
-    {
-      id: '3',
-      title: 'three',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'select',
-      menuItems: ['item1', 'item2', 'item3', 'item4'],
-    },
-    {
-      id: '4',
-      title: 'four',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'date',
-      required: true,
-    },
-    {
-      id: '5',
-      title: 'five',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'textField',
-    },
-    {
-      id: '6',
-      title: 'six',
-      cellWidth: 'md-cell md-cell--4',
-      input: 'textField',
-    },
-    {
-      id: '7',
-      title: 'seven',
-      cellWidth: 'md-cell md-cell--12',
-      rows: 5,
-      input: 'textArea',
-    },
-    {
-      id: '8',
-      title: 'eight',
-      cellWidth: 'md-cell md-cell--12',
-      rows: 5,
-      input: 'fileInput',
-    },
-  ],
-}

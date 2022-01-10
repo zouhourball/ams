@@ -273,7 +273,7 @@ const DrillReportDetails = ({ drillReportId }) => {
             title: 'Remarks',
             cellWidth: 'md-cell md-cell-4',
             input: 'textField',
-            required: true,
+            // required: true,
             value: detailData?.data?.find((el) => el.id === 'remarks')?.value,
           },
         ]}

@@ -386,6 +386,22 @@ const SuspendReport = ({ suspendReportId }) => {
       type: 'customBoolean',
       value: formData?.data?.emergencyPlansAvailable,
     },
+    {
+      id: 'suspensionProgram',
+      title: 'Attach Suspension Program',
+      cellWidth: 'md-cell md-cell-12',
+      input: 'fileInput',
+      required: true,
+      // value: 'test',
+    },
+    {
+      id: 'wellSchematic',
+      title: 'Current Well Schematic',
+      cellWidth: 'md-cell md-cell-12',
+      input: 'fileInput',
+      required: true,
+      // value: 'test',
+    },
   ]
 
   const addPermitSuspend = useMutation(addPermit, {

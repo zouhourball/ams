@@ -36,6 +36,7 @@ const UploadReportDialog = ({
   companyList,
   ReportingType,
   previewData,
+  productType,
   formatDate = 'day',
 }) => {
   const fileLoader = false
@@ -241,6 +242,7 @@ const UploadReportDialog = ({
             simplifiedMenu={false}
           />
         )}
+
         <div className="md-cell md-cell--6">
           {!hideDate && (
             <TextField
@@ -291,6 +293,20 @@ const UploadReportDialog = ({
             />
           )}
         </div>
+        {productType && (
+          <SelectField
+            className={`upload-report-dialog-selectField md-cell md-cell--12`}
+            id="productType"
+            placeholder={'Product type'}
+            menuItems={productType}
+            position={SelectField.Positions.BELOW}
+            value={reportData?.hydrocarbonType}
+            onChange={(v) =>
+              setReportData({ ...reportData, hydrocarbonType: v })
+            }
+            simplifiedMenu={false}
+          />
+        )}
         <div className="upload-report-dialog-subtitle md-cell md-cell--12">
           Attach Report
         </div>

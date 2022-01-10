@@ -277,6 +277,10 @@ const Reserves = () => {
                 : el?.metaData?.status,
             fileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
+            productType: el?.metaData?.hydrocarbonType
+              ? el?.metaData?.hydrocarbonType?.charAt(0) +
+                el?.metaData?.hydrocarbonType?.toLowerCase().slice(1)
+              : '',
           })) || []
         )
       default:
@@ -382,7 +386,7 @@ const Reserves = () => {
         }
       case 2:
         return {
-          title: 'Upload Monthly Tracking Report',
+          title: 'Upload ARPR ( Resource) Details',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
@@ -504,7 +508,7 @@ const Reserves = () => {
           block: body?.block,
           company: company?.name,
           file: body?.filesList,
-          hydrocarbonType: 'GAS',
+          hydrocarbonType: body?.hydrocarbonType.toUpperCase(),
           processInstanceId: uuid,
           year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
@@ -644,6 +648,7 @@ const Reserves = () => {
               }))
               : []
           }
+          productType={currentTab === 2 ? ['Oil', 'Gas', 'Condensate'] : null}
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}

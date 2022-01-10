@@ -29,7 +29,13 @@ const UploadPermitDialog = ({
     <Button key={1} flat onClick={() => onHide && onHide()}>
       Discard
     </Button>,
-    <Button key={2} flat primary onClick={() => onContinue && onContinue()}>
+    <Button
+      key={2}
+      disabled={!information?.block}
+      flat
+      primary
+      onClick={() => onContinue && onContinue()}
+    >
       Continue
     </Button>,
   ]
