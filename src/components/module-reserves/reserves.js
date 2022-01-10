@@ -420,7 +420,7 @@ const Reserves = () => {
           company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -487,7 +487,7 @@ const Reserves = () => {
           company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -506,7 +506,7 @@ const Reserves = () => {
           file: body?.filesList,
           hydrocarbonType: 'GAS',
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {

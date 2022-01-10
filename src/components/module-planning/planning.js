@@ -317,7 +317,7 @@ const Planning = () => {
         company: company?.name || 'ams-org',
         file: body?.file[0],
         processInstanceId: uuid,
-        year: moment(body?.referenceDate).format('YYYY'),
+        year: moment(body?.referenceDate?.timestamp).format('YYYY'),
       },
     })
   }
@@ -329,7 +329,7 @@ const Planning = () => {
         company: company?.name || 'ams-org',
         file: body?.file[0],
         processInstanceId: uuid,
-        year: moment(body?.referenceDate).format('YYYY'),
+        year: moment(body?.referenceDate?.timestamp).format('YYYY'),
       },
     })
   }

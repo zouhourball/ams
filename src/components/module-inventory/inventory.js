@@ -372,7 +372,7 @@ const Inventory = () => {
             file: body?.file,
             processInstanceId: uuidv4(),
             // month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -387,7 +387,7 @@ const Inventory = () => {
             companyToTransfer: body?.company,
             processInstanceId: uuidv4(),
             // month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -401,7 +401,7 @@ const Inventory = () => {
             category: 'assetDisposalRequestProcess',
             file: body?.file,
             processInstanceId: uuidv4(),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)

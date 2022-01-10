@@ -400,7 +400,9 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
-            dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
+            dailyDate: moment(body?.referenceDate?.timestamp).format(
+              'YYYY-MM-DD',
+            ),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -412,8 +414,8 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
-            month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -425,8 +427,8 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
-            month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)

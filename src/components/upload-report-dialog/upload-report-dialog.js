@@ -241,7 +241,7 @@ const UploadReportDialog = ({
             simplifiedMenu={false}
           />
         )}
-        <div className="wrapper md-cell md-cell--6">
+        <div className="md-cell md-cell--6">
           {!hideDate && (
             <TextField
               placeholder={'Reference Date'}
