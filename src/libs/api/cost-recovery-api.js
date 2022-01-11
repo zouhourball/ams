@@ -18,24 +18,6 @@ export const listAffiliateCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadAffiliateCost = async (body) => {
-  // body={
-  //   "statement": "string"
-  // }
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
 
 export const findAllAffiliateByUserCompanyAccess = async ({ queryKey }) => {
   let res
@@ -115,21 +97,6 @@ export const detailAffiliateCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteAffiliate = async ({ objectId }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/${objectId}`,
-      {
-        method: 'DELETE',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
 // Contracts
 
 export const listContractsCost = async ({ queryKey }) => {
@@ -139,24 +106,6 @@ export const listContractsCost = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/contracts?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-export const commitLoadContractsCost = async (body) => {
-  // body={
-  //   "statement": "string"
-  // }
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -240,20 +189,6 @@ export const detailContractsCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteContracts = async ({ objectId }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/${objectId}`,
-      {
-        method: 'DELETE',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
 // Facilities
 export const listFacilitiesCost = async ({ queryKey }) => {
   let res
@@ -262,21 +197,6 @@ export const listFacilitiesCost = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/facilities?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-export const commitLoadFacilitiesCost = async (body) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -360,11 +280,11 @@ export const detailFacilitiesCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteFacilities = async ({ objectId }) => {
+export const deleteRow = async ({ objectId, subModule }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/${objectId}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/${subModule}/${objectId}`,
       {
         method: 'DELETE',
       },
@@ -383,21 +303,6 @@ export const listProdLiftingCost = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-export const commitLoadProdLiftingCost = async (body) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -481,21 +386,6 @@ export const detailProdLiftingCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteProdLifting = async ({ objectId }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/${objectId}`,
-      {
-        method: 'DELETE',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
 // Costs
 export const listCostsCost = async ({ queryKey }) => {
   let res
@@ -504,21 +394,6 @@ export const listCostsCost = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/costs?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-export const commitLoadCostsCost = async (body) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -602,21 +477,6 @@ export const detailCostsCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteCosts = async ({ objectId }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs/${objectId}`,
-      {
-        method: 'DELETE',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
 // Transaction
 export const listTransactionCost = async ({ queryKey }) => {
   let res
@@ -632,14 +492,12 @@ export const listTransactionCost = async ({ queryKey }) => {
   }
   return res
 }
-export const commitLoadTransactionCost = async (body) => {
-  // body={
-  //   "statement": "string"
-  // }
+
+export const commitSubModule = async ({ body, subModule }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/commit`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/${subModule}/commit`,
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -721,21 +579,6 @@ export const detailTransactionCostByLoggedUser = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/transaction/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
-export const deleteTransaction = async ({ objectId }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/${objectId}`,
-      {
-        method: 'DELETE',
       },
     )
   } catch (e) {

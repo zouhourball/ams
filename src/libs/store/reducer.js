@@ -6,6 +6,7 @@ import mutation from 'modules/mutate/reducers'
 import app from 'modules/app/reducers'
 import commonAnalytics from 'modules/analytics/reducers'
 import dashboard from 'modules/dashboard/reducers'
+import { selectRowsReducers } from '@target-energysolutions/mht'
 
 const reducer = combineReducers({
   query,
@@ -14,6 +15,7 @@ const reducer = combineReducers({
   mutation,
   commonAnalytics,
   dashboard,
+  selectRowsReducers,
   ...reducers,
 })
 
