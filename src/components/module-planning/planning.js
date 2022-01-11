@@ -30,6 +30,7 @@ import {
   overridePlanningReport,
   deletePlanning,
   updateReport,
+  updatePlanning,
   saveReport,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -82,7 +83,11 @@ const Planning = () => {
       refetchOnWindowFocus: false,
     },
   )
-
+  const updatePlanningMutation = useMutation(updatePlanning, {
+    onSuccess: (res) => {
+      refetchList()
+    },
+  })
   const uploadWpbReportMutate = useMutation(
     uploadWpbReport,
 
@@ -312,7 +317,7 @@ const Planning = () => {
         company: company?.name || 'ams-org',
         file: body?.file[0],
         processInstanceId: uuid,
-        year: moment(body?.referenceDate).format('YYYY'),
+        year: moment(body?.referenceDate?.timestamp).format('YYYY'),
       },
     })
   }
@@ -324,7 +329,7 @@ const Planning = () => {
         company: company?.name || 'ams-org',
         file: body?.file[0],
         processInstanceId: uuid,
-        year: moment(body?.referenceDate).format('YYYY'),
+        year: moment(body?.referenceDate?.timestamp).format('YYYY'),
       },
     })
   }
@@ -453,15 +458,15 @@ const Planning = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate: get(
-          el,
-          'metaData.year',
-          'n/a',
-        ) /* moment(el?.metaData?.reportDate).format('DD MMM, YYYY') */,
+        referenceDate: el?.metaData?.year,
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -547,12 +552,35 @@ const Planning = () => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
-
+  const submitDraft = (subModule, objectId) => {
+    updatePlanningMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
   return (
     <>
       <TopBar
         title="Planning"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    handleDeletePlanning(currentTab, row?.id),
+                  ),
+                ).then(() => {
+                  refetchList()
+                }),
+            },
+          ]
+        }}
       />
       <NavBar
         tabsList={tabsList}
@@ -560,6 +588,7 @@ const Planning = () => {
         setActiveTab={(tab) => {
           setCurrentTab(tab)
         }}
+        onSelectRows={setSelectedRow}
       />
       <Mht
         configs={planningConfigs(UploadSupportedDocumentFromTable)}
@@ -590,6 +619,9 @@ const Planning = () => {
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
                 setShowUploadRapportDialog,
+                selectedRow[0]?.fileName,
+                submitDraft,
+                selectedRow[0]?.status,
               )}
             />
           ) : (
@@ -661,6 +693,7 @@ const Planning = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
     </>

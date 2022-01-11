@@ -302,7 +302,7 @@ export default class ChartGroupChart extends React.Component {
       title,
       subTitle,
       chartStyle,
-      renderSideCard,
+
       className,
       chartConfig: config,
       type,
@@ -334,7 +334,7 @@ export default class ChartGroupChart extends React.Component {
       validData,
       chartExt,
     } = this.state
-    const SideCardComp = renderSideCard && renderSideCard(this.props)
+    const SideCardComp = null
     return (
       <Paper className={cls('ams-chartgroupchart', 'md-box-shadow', className)}>
         <div className="ams-chartgroupchart-title-container">
@@ -661,7 +661,30 @@ export default class ChartGroupChart extends React.Component {
             text: title,
           },
         })
-
+    const baseColorOptions = {
+      color: ['#4F69FF', '#4DB6AC', '#FF5B5A', '#93E196', '#C1CAFF'],
+    }
+    if (this.props.type === 'stack') {
+      baseColorOptions.color = [
+        '#4DB6AC',
+        '#84DDD5',
+        '#854CC8',
+        '#C79FF5',
+        '#92E196',
+        '#D9FCDA',
+        '#4F69FF',
+        '#C1CAFF',
+      ]
+    }
+    if (this.props.type === 'scatter') {
+      baseColorOptions.color = [
+        '#00C7FF',
+        '#93E196',
+        '#FFCA28',
+        '#4F69FF',
+        '#FF5B5A',
+      ]
+    }
     if (this.props.zoom) {
       let zoomOption = {
         yAxis: [
@@ -715,15 +738,34 @@ export default class ChartGroupChart extends React.Component {
         delete zoomOption.xAxis
       }
       return option && option.baseOption
-        ? merge({}, rawOption, { baseOption: zoomOption })
-        : merge({}, rawOption, zoomOption)
+        ? merge(baseColorOptions, rawOption, { baseOption: zoomOption })
+        : merge(baseColorOptions, rawOption, zoomOption)
     } else {
       const zoomoutAddOnOptions = {
         legend: null,
         // xAxis: [{ axisLabel: { fontSize: 10 } }],
         // yAxis: [{ axisLabel: { fontSize: 10 } }],
       }
-      return merge(rawOption, zoomoutAddOnOptions)
+
+      return merge(
+        rawOption,
+        zoomoutAddOnOptions,
+        // {
+        //   legend:
+        //     get(rawOption, 'legend.data.length', 0) < 5
+        //       ? {
+        //           top: includes(
+        //             ['line-bar', 'stack', 'bar', 'scatter', 'washline'],
+        //             this.props.type,
+        //           )
+        //             ? 0
+        //             : 'bottom',
+        //           left: 'center',
+        //         }
+        //       : null,
+        // },
+        baseColorOptions,
+      )
     }
   }
 
@@ -919,7 +961,7 @@ export default class ChartGroupChart extends React.Component {
       finalOption = modified
     }
 
-    if (this.chart) this.chart.setOption(finalOption, true)
+    if (this.chart) this.chart.setOption({ ...finalOption }, true)
   }
 
   invokeCreator (creator, data, filter) {

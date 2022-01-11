@@ -44,8 +44,8 @@ export const permitDrillConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -122,8 +122,8 @@ export const permitSuspendConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -199,8 +199,8 @@ export const permitAbandonConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',

@@ -193,13 +193,15 @@ export const overrideDownstreamNg = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateDownstreamNg = async ({ body }) => {
+export const updateDownstreamNg = async ({ objectId, status }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng/update`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/ng/update?objectId=${objectId}&status=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -320,13 +322,15 @@ export const overrideDownstreamRs = async ({ body, overrideId }) => {
   }
   return res
 }
-export const updateDownstreamRs = async ({ body }) => {
+export const updateDownstreamRs = async ({ objectId, status }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs/update`, {
-      method: 'PUT',
-      body: JSON.stringify(body),
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/rs/update?objectId=${objectId}&status=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

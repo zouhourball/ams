@@ -76,7 +76,6 @@ const Inventory = () => {
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
   const [currentInventoryId, setCurrentInventoryId] = useState('')
-  // console.log('role', role)
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', 0, 2000],
     getInventories,
@@ -373,7 +372,7 @@ const Inventory = () => {
             file: body?.file,
             processInstanceId: uuidv4(),
             // month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -388,7 +387,7 @@ const Inventory = () => {
             companyToTransfer: body?.company,
             processInstanceId: uuidv4(),
             // month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -402,7 +401,7 @@ const Inventory = () => {
             category: 'assetDisposalRequestProcess',
             file: body?.file,
             processInstanceId: uuidv4(),
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -707,6 +706,9 @@ const Inventory = () => {
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
       processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
@@ -725,6 +727,9 @@ const Inventory = () => {
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
       processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
@@ -742,6 +747,9 @@ const Inventory = () => {
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
         processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }
@@ -759,6 +767,9 @@ const Inventory = () => {
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: get(el, 'metaData.year', 'n/a'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
       processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
     }
@@ -865,6 +876,21 @@ const Inventory = () => {
       <TopBar
         title="Inventory"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) => handleDeleteInventory(row?.id)),
+                ).then(() => {
+                  refetchAfterCommitByCurrentTab()
+                }),
+            },
+          ]
+        }}
       />
       <NavBar
         tabsList={tabsList2}
@@ -973,6 +999,7 @@ const Inventory = () => {
           onSaveUpload={(data) => {
             inventorySuppDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

@@ -1,5 +1,6 @@
 import { fetchJSON } from 'libs/fetch'
 import { downloadFromBlob } from 'libs/utils/download-blob'
+import { getAccessToken } from 'utils/manageTokens'
 
 const appendFileToForm = (form, file) => {
   form.append('file', file)
@@ -39,7 +40,7 @@ export function getPublicUrl (fileID) {
     // This test is useful to enable shortcuts such as "src={getPublicUrl(cardData.pictureURL) || defaultCompanyLogo}"
     return null
   }
-  return `${PRODUCT_APP_URL_API}/fm/download/${fileID}`
+  return `${PRODUCT_APP_URL_API}/fm/download/${fileID}?access_token=${getAccessToken()}`
 }
 
 export function AvatarUpload (files, isPublic) {

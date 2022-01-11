@@ -1,7 +1,9 @@
 import { mcDFBySize } from 'components/analytics/utils'
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
-import DataTable from '@target-energysolutions/data-table'
+// import DataTable from '@target-energysolutions/data-table'
 import ChartText from 'components/chart-text'
+import Mht from '@target-energysolutions/mht'
+
 // import i18n from "i18n-js"
 // import l from "libs/langs/keys"
 
@@ -37,7 +39,7 @@ const columnsConfig = [
 
 const mc41 = mcDFBySize(4, 1)
 const mc21 = mcDFBySize(2, 1)
-const mc41Table = mc41('table', DataTable)
+const mc41Table = mc41('table', Mht)
 const mc21Card = mc21('card', ChartText)
 export default {
   title: 'SURPLUS DECLARATION',

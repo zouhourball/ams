@@ -8,5 +8,14 @@
       background-color: #f6f8fa;
       color: gray;
     }
+
+    &[disabled] {
+      color: #f6f8fa;
+      cursor: default;
+
+      &:hover {
+        background-color: #e3eefe;
+      }
+    }
   }
 }

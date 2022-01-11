@@ -119,7 +119,68 @@ export const actionsHeader = (
   downloadOriginalFile,
   originalFileId,
   onUpdate,
+  fileName,
+  submitDraft,
+  status,
 ) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'View Process Historian',
+      onClick: () => {
+        id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+      },
+    },
+    {
+      id: 2,
+      label: 'Delete',
+      onClick: () => {
+        onDelete(subModule, id)
+      },
+    },
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Analytics',
+      onClick: () => {
+        listAnalytics(subModule)
+      },
+    },
+    {
+      id: 5,
+      label: 'Update',
+      onClick: () => {
+        onUpdate(true)
+      },
+    },
+    {
+      id: 6,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 7,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
+  const draftBtn = {
+    id: 5,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subModule, id)
+    },
+  }
   switch (role) {
     case 'tecom fincom jmc':
     default:
@@ -159,67 +220,19 @@ export const actionsHeader = (
           id: 6,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
           id: 7,
           label: 'View Documents',
-          onClick: () => {},
-        },
-      ]
-    case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'View Process Historian',
-          onClick: () => {
-            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-          },
-        },
-        {
-          id: 2,
-          label: 'Delete',
-          onClick: () => {
-            onDelete(subModule, id)
-          },
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
-          },
-        },
-        {
-          id: 4,
-          label: 'View Analytics',
-          onClick: () => {
-            listAnalytics(subModule)
-          },
-        },
-        {
-          id: 5,
-          label: 'Update',
-          onClick: () => {
-            onUpdate(true)
-          },
-        },
-        {
-          id: 6,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, `template_${key}_${subModule}`)
-          },
-        },
-        {
-          id: 7,
-          label: 'Upload Documents',
           onClick: () => {
             supportedDocument(true)
           },
         },
       ]
+    case 'operator':
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 

@@ -1,6 +1,6 @@
-import { flatten, isArray, ceil } from 'lodash-es'
+import { config2MhtConfig } from 'components/module-production/analytics/utils/production-chart-option-creators'
+import { flatten, isArray, ceil, map, filter } from 'lodash-es'
 import { createFromNDResult } from './creator-maker'
-
 export function createTableResult ({
   dataFormatter,
   columnsConfig,
@@ -10,16 +10,41 @@ export function createTableResult ({
   rowsPerPage,
 }) {
   return ({ data }) => {
+    const configs = config2MhtConfig(
+      columnsConfig ||
+        (getColumnsConfig && getColumnsConfig()) ||
+        (columnsConfigOnData && columnsConfigOnData(data)) ||
+        (getColumnsConfigOnData && getColumnsConfigOnData(data)),
+    )
+    const groupedHeaders = filter(configs, (i) => i.columns)
     return {
-      data: dataFormatter ? dataFormatter(data) : data,
-      columnsConfig: columnsConfigOnData
-        ? columnsConfigOnData(data)
-        : columnsConfig,
-      getColumnsConfig: getColumnsConfigOnData
-        ? getColumnsConfigOnData(data)
-        : getColumnsConfig,
-      rowsPerPage,
-      hideSearchBar: true,
+      // data: dataFormatter ? dataFormatter(data) : data,
+      // columnsConfig: columnsConfigOnData
+      //   ? columnsConfigOnData(data)
+      //   : columnsConfig,
+
+      // getColumnsConfig: getColumnsConfigOnData
+      //   ? getColumnsConfigOnData(data)
+      //   : getColumnsConfig,
+      // rowsPerPage,
+      // hideSearchBar: true,
+
+      configs,
+      commonActions: true,
+      withDownloadCsv: true,
+      withSubColumns: !!groupedHeaders.length,
+      // defaultCsvFileTitle: '',
+      hideTotal: true,
+      withFooter: false,
+      withSearch: true,
+      tableData: map(dataFormatter ? dataFormatter(data) : data, (d) => {
+        groupedHeaders.forEach((g) => {
+          d[g.key] = map(g.columns, (gc) => ({
+            [gc.subKey]: d[gc.subKey],
+          }))
+        })
+        return d
+      }),
     }
   }
 }
@@ -64,6 +89,7 @@ export function createMapResult ({
     }
   }
 }
+
 export const createCardResult = createFromNDResult(
   (
     keys,

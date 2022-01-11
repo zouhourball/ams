@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 import { COLOR_MAP } from 'libs/consts'
-import { isArray } from 'lodash-es'
+import { isArray, shuffle } from 'lodash-es'
 import './styles.scss'
 
 export default class ChartText extends PureComponent {
@@ -10,15 +10,16 @@ export default class ChartText extends PureComponent {
       <div className="ams-charttext-container" {...rest}>
         {Object.keys(detail).map((key, i) => (
           <div className="ams-charttext-item" key={key}>
-            <span
-              className="ams-charttext-field ams-charttext-name"
-              style={{
-                color: COLOR_MAP[(key || '').toLowerCase()],
-              }}
-            >
+            <span className="ams-charttext-field ams-charttext-name">
               {key}
             </span>
-            <span className="ams-charttext-field ams-charttext-value">
+            <span
+              className="ams-charttext-field ams-charttext-value"
+              style={{
+                color:
+                  COLOR_MAP[(key || '').toLowerCase()] || shuffle(COLOR_MAP)[0],
+              }}
+            >
               {(detail[key].toFixed
                 ? Number(detail[key])
                 : detail[key]

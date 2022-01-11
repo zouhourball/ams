@@ -16,6 +16,7 @@ import {
   getDetailProductionById,
   updateDailyProduction,
 } from 'libs/api/api-production'
+import documents from 'libs/hooks/documents'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
@@ -35,6 +36,8 @@ const ProductionDetails = () => {
     useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
+
+  const { addSupportingDocuments } = documents()
 
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
   const subSubModule =
@@ -83,6 +86,24 @@ const ProductionDetails = () => {
       objectId: objectId,
       status: status,
     })
+  }
+
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      productionData?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
   }
 
   const detailsData = useMemo(() => {
@@ -137,7 +158,14 @@ const ProductionDetails = () => {
       scheduled: [
         { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[1]['SCHEDULED DEFERMENT VOLS'][2]['Target'] },
       ],
+      unscheduled: [
+        { actual: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][2]['Target'] },
+      ],
+      majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
 
@@ -366,12 +394,27 @@ const ProductionDetails = () => {
       onClick={() => {
         downloadOriginalFile(
           productionData?.metaData?.originalFileId,
-          `template_production_${subModule}`,
+          productionData?.metaData?.originalFileName,
         )
       }}
     >
       Download Original File
     </Button>,
+    role === 'operator' && productionData?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onAcknowledge(subModule, prodId, 'SUBMITTED')
+        }}
+      >
+        Commit
+      </Button>
+    ),
     role === 'regulator' &&
       get(productionData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button
@@ -410,15 +453,14 @@ const ProductionDetails = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             productionData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>

@@ -16,6 +16,8 @@ import {
   getAnnualResourceDetail,
   overrideReport,
   saveReport,
+  updateReserveReport,
+  deleteReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -164,21 +166,7 @@ const Reserves = () => {
       closeDialog,
     )
   }
-  // const handleSupportingDocs = (data) => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     case 1:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     case 2:
-  //       annualReservesReportingSuppDocs(data)
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }
+
   const handleSupportingDocs = (data) => {
     annualReservesReportingSuppDocs(data)
   }
@@ -233,9 +221,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -255,9 +244,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -277,15 +267,20 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
                 : el?.metaData?.status,
             fileId: el?.metaData?.originalFileId,
             fileName: el?.metaData?.originalFileName,
+            productType: el?.metaData?.hydrocarbonType
+              ? el?.metaData?.hydrocarbonType?.charAt(0) +
+                el?.metaData?.hydrocarbonType?.toLowerCase().slice(1)
+              : '',
           })) || []
         )
       default:
@@ -298,9 +293,10 @@ const Reserves = () => {
               ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.createdAt
-              ? moment(el?.metaData?.createdAt).format('YYYY')
-              : '',
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+            referenceDate: el?.metaData?.year,
             status:
               el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
                 ? 'New Request'
@@ -390,7 +386,7 @@ const Reserves = () => {
         }
       case 2:
         return {
-          title: 'Upload Monthly Tracking Report',
+          title: 'Upload ARPR ( Resource) Details',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
@@ -428,7 +424,7 @@ const Reserves = () => {
           company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -438,6 +434,18 @@ const Reserves = () => {
         },
       },
     )
+  }
+  const updateReserveMutation = useMutation(updateReserveReport, {
+    onSuccess: (res) => {
+      renderSectionKey().refetch()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    updateReserveMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
   }
   const onSaveReport = (body, sub, refetch) => {
     onSaveReportMutate.mutate(
@@ -483,7 +491,7 @@ const Reserves = () => {
           company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -500,9 +508,9 @@ const Reserves = () => {
           block: body?.block,
           company: company?.name,
           file: body?.filesList,
-          hydrocarbonType: 'GAS',
+          hydrocarbonType: body?.hydrocarbonType.toUpperCase(),
           processInstanceId: uuid,
-          year: moment(body?.referenceDate).format('YYYY'),
+          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -537,12 +545,28 @@ const Reserves = () => {
         // currentView={currentView}
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         // onViewChange={setCurrentView}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    deleteReport(row?.id, renderSectionKey().name),
+                  ),
+                ).then(() => renderSectionKey().refetch()),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -567,6 +591,7 @@ const Reserves = () => {
                     setShowSupportedDocumentDialog,
                     setSelectedRow,
                     renderSectionKey(),
+                    submitDraft,
                   )}
                 />
               )) || <div />
@@ -608,7 +633,6 @@ const Reserves = () => {
           setFileList={setFileList}
           filesList={filesList}
           onDisplayMHT={onDisplayMHT}
-          hideDate
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
@@ -624,9 +648,11 @@ const Reserves = () => {
               }))
               : []
           }
+          productType={currentTab === 2 ? ['Oil', 'Gas', 'Condensate'] : null}
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
+          formatDate={'year'}
         />
       )}
 

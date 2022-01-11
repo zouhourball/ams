@@ -46,8 +46,8 @@ export const annualReservesConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -125,8 +125,8 @@ export const historyConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -202,8 +202,16 @@ export const annualResourceConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
+  {
+    label: 'Product Type',
+    key: 'productType',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -352,7 +360,49 @@ export const actionsHeader = (
   supportedDocument,
   setRow,
   section,
+  submitDraft,
 ) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        deleteReport(row?.id, section?.name)
+          .then(() => section?.refetch())
+          .then(() => setRow([]))
+      },
+    },
+    {
+      id: 2,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(row?.fileId, row?.fileName)
+      },
+    },
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key &&
+          row?.id &&
+          navigate(`/ams/reserves/${key}/${section?.name}/${row?.id}`)
+      },
+    },
+    {
+      id: 4,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(section?.name)
+      },
+    },
+  ]
+  const draftBtn = {
+    id: 5,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(section?.name, row?.id)
+    },
+  }
   switch (role) {
     case 'regulator':
     default:
@@ -361,7 +411,7 @@ export const actionsHeader = (
           id: 1,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(row?.fileId)
+            downloadOriginalFile(row?.fileId, row?.fileName)
           },
         },
         {
@@ -375,47 +425,14 @@ export const actionsHeader = (
         },
         {
           id: 3,
-          label: 'Upload Documents',
+          label: 'View Documents',
           onClick: () => {
             supportedDocument(section?.name)
           },
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            deleteReport(row?.id, section?.name)
-              .then(() => section?.refetch())
-              .then(() => setRow([]))
-          },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(row?.fileId, row?.fileName)
-          },
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key &&
-              row?.id &&
-              navigate(`/ams/reserves/${key}/${section?.name}/${row?.id}`)
-          },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(section?.name)
-          },
-        },
-      ]
+      return row?.status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 export const annualData = (reserveDetail) => {

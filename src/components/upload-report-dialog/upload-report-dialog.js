@@ -36,26 +36,72 @@ const UploadReportDialog = ({
   companyList,
   ReportingType,
   previewData,
+  productType,
   formatDate = 'day',
 }) => {
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
+  const date = new Date()
+  const monthAndDay =
+    formatDate === 'day'
+      ? {
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      }
+      : formatDate === 'month'
+        ? {
+          month: date.getMonth(),
+        }
+        : {}
   const [reportData, setReportData] = useState({
-    referenceDate:
-      moment(previewData?.referenceDate.toString()).valueOf() || new Date(),
+    referenceDate: previewData
+      ? moment(previewData?.referenceDate.toString()).valueOf()
+      : { timestamp: date.getTime(), year: date.getFullYear(), ...monthAndDay },
     block: previewData?.block,
   })
+
   const { data: suppDocsFiles } = useQuery(
     ['getDocumentsById', previewData?.processInstanceId],
     previewData && previewData?.processInstanceId && getDocumentsById,
   )
+
   useEffect(() => {
     if (suppDocsFiles && suppDocsFiles.length > 0) {
       setOptionalFile([...suppDocsFiles])
     }
   }, [suppDocsFiles])
+  const validData = () => {
+    if (hideDate === false) {
+      if (
+        ((!hideBlock && reportData?.block) ||
+          (reportData?.type && ReportingType)) &&
+        filesList?.path
+      ) {
+        return false
+      }
+    } else {
+      if (
+        filesList?.path &&
+        !hideDate &&
+        reportData?.referenceDate &&
+        ((reportData?.block && !hideBlock) ||
+          (reportData?.type && ReportingType))
+      ) {
+        return false
+      } else if (
+        hideBlock &&
+        filesList?.path &&
+        !ReportingType &&
+        reportData?.referenceDate
+      ) {
+        return false
+      }
+    }
+
+    return true
+  }
 
   const onUpload = (file) => {
     // setFileLoader(true)
@@ -88,8 +134,8 @@ const UploadReportDialog = ({
     getRootProps: getOptionalRootProps,
     getInputProps: getOptionalInputProps,
   } = useDropzone({
-    accept:
-      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    /* accept:
+      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadOptional,
   })
   const actions = [
@@ -104,7 +150,9 @@ const UploadReportDialog = ({
       children: 'Upload',
       primary: true,
       flat: true,
-      swapTheming: true,
+      swapTheming: !validData(),
+      disabled: validData(),
+
       onClick: () => {
         onSave({ ...reportData, filesList, optionalFiles })
         onHide()
@@ -136,6 +184,8 @@ const UploadReportDialog = ({
       return <FontIcon icon iconClassName={`mdi mdi-file mdi-36px`} />
     }
   } */
+  // formatDate = 'month'
+
   return (
     <DialogContainer
       id="import-report-dialog"
@@ -192,42 +242,68 @@ const UploadReportDialog = ({
             simplifiedMenu={false}
           />
         )}
-        {!hideDate && (
-          <TextField
-            placeholder={'Reference Date'}
-            value={
-              reportData?.referenceDate?.timestamp
-                ? formatDate === 'year'
-                  ? moment(+reportData?.referenceDate?.timestamp).format('YYYY')
-                  : moment(+reportData?.referenceDate?.timestamp).format('ll')
-                : formatDate === 'year'
-                  ? moment(reportData?.referenceDate).format('YYYY')
-                  : moment(new Date(reportData?.referenceDate)).format('ll')
+        <div className="md-cell md-cell--6">
+          {!hideDate && (
+            <TextField
+              placeholder={'Reference Date'}
+              value={
+                reportData?.referenceDate?.timestamp
+                  ? formatDate === 'year'
+                    ? moment(+reportData?.referenceDate?.timestamp).format(
+                      'YYYY',
+                    )
+                    : formatDate === 'month'
+                      ? moment(+reportData?.referenceDate?.timestamp).format(
+                        'MM, YYYY',
+                      )
+                      : moment(+reportData?.referenceDate?.timestamp).format('ll')
+                  : formatDate === 'year'
+                    ? moment(reportData?.referenceDate.timestamp).format('YYYY')
+                    : formatDate === 'month'
+                      ? moment(new Date(reportData?.referenceDate)).format(
+                        'MM, YYYY',
+                      )
+                      : moment(new Date(reportData?.referenceDate)).format('ll')
+              }
+              className="upload-report-dialog-text"
+              onChange={() => {}}
+              block
+              rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
+              onClick={() => !previewData && setShowDatePickerEnd(true)}
+              disabled={previewData}
+            />
+          )}
+          {showDatePickerEnd && (
+            <DatePicker
+              singlePick
+              translation={{ update: 'select' }}
+              onUpdate={(date) => {
+                setReportData({ ...reportData, referenceDate: date })
+                setShowDatePickerEnd(false)
+              }}
+              onCancel={() => setShowDatePickerEnd(false)}
+              // minValidDate={{
+              //   timestamp: reportData?.referenceDate?.timestamp
+              //     ? reportData?.referenceDate?.timestamp
+              //     : new Date().getTime(),
+              // }}
+              startView="year"
+              endView={formatDate} // "day"
+            />
+          )}
+        </div>
+        {productType && (
+          <SelectField
+            className={`upload-report-dialog-selectField md-cell md-cell--12`}
+            id="productType"
+            placeholder={'Product type'}
+            menuItems={productType}
+            position={SelectField.Positions.BELOW}
+            value={reportData?.hydrocarbonType}
+            onChange={(v) =>
+              setReportData({ ...reportData, hydrocarbonType: v })
             }
-            className="upload-report-dialog-text md-cell md-cell--6"
-            onChange={() => {}}
-            block
-            rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
-            onClick={() => !previewData && setShowDatePickerEnd(true)}
-            disabled={previewData}
-          />
-        )}
-        {showDatePickerEnd && (
-          <DatePicker
-            singlePick
-            translation={{ update: 'select' }}
-            onUpdate={(date) => {
-              setReportData({ ...reportData, referenceDate: date })
-              setShowDatePickerEnd(false)
-            }}
-            onCancel={() => setShowDatePickerEnd(false)}
-            // minValidDate={{
-            //   timestamp: reportData?.referenceDate?.timestamp
-            //     ? reportData?.referenceDate?.timestamp
-            //     : new Date().getTime(),
-            // }}
-            startView="year"
-            endView={formatDate} // "day"
+            simplifiedMenu={false}
           />
         )}
         <div className="upload-report-dialog-subtitle md-cell md-cell--12">

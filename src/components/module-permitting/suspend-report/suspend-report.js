@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from 'react-md'
 import { useMutation } from 'react-query'
 import { navigate } from '@reach/router'
@@ -7,11 +7,12 @@ import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit } from 'libs/api/permit-api'
+import { addPermit, savePermit } from 'libs/api/permit-api'
+import { validForm } from '../validate-form-fields'
 
 import './style.scss'
 
-const SuspendReport = () => {
+const SuspendReport = ({ suspendReportId }) => {
   const [formData, setFormData] = useState({
     metaData: {
       company: 'ams-org',
@@ -21,6 +22,22 @@ const SuspendReport = () => {
       plannedSuspendDate: '2021-02-01',
     },
   })
+
+  useEffect(() => {
+    if (localStorage.getItem('suspend-report')) {
+      const drillReport = JSON.parse(localStorage.getItem('suspend-report'))
+      setFormData({
+        ...formData,
+        metaData: {
+          ...formData.metaData,
+          block: drillReport.block,
+        },
+        data: {
+          plannedSuspendDate: drillReport.date,
+        },
+      })
+    }
+  }, [])
   const blockList = getBlocks()
   const fields = [
     {
@@ -39,6 +56,8 @@ const SuspendReport = () => {
       cellWidth: 'md-cell md-cell--6',
       input: 'date',
       type: 'date',
+      onChange: (value) => onEditValue('plannedSuspendDate', value),
+      value: formData?.data?.plannedSuspendDate,
     },
     {
       id: 'fieldName',
@@ -367,9 +386,33 @@ const SuspendReport = () => {
       type: 'customBoolean',
       value: formData?.data?.emergencyPlansAvailable,
     },
+    {
+      id: 'suspensionProgram',
+      title: 'Attach Suspension Program',
+      cellWidth: 'md-cell md-cell-12',
+      input: 'fileInput',
+      required: true,
+      // value: 'test',
+    },
+    {
+      id: 'wellSchematic',
+      title: 'Current Well Schematic',
+      cellWidth: 'md-cell md-cell-12',
+      input: 'fileInput',
+      required: true,
+      // value: 'test',
+    },
   ]
 
   const addPermitSuspend = useMutation(addPermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
+  const savePermitDrill = useMutation(savePermit, {
     onSuccess: (res) => {
       if (!res.error) {
         navigate('/ams/permitting')
@@ -396,23 +439,29 @@ const SuspendReport = () => {
       })
     }
   }
+  const data = Object.keys(formData?.data).map((el) => {
+    return {
+      id: el,
+      value: formData?.data[el],
+      name: fields.find((elem) => elem.id === el)?.title,
+      type: fields.find((elem) => elem.id === el)?.type,
+      datePattern:
+        fields.find((elem) => elem.id === el)?.type === 'date'
+          ? 'yyyy-MM-dd'
+          : null,
+    }
+  })
   const onSave = () => {
-    const data = Object.keys(formData?.data).map((el) => {
-      return {
-        id: el,
-        value: formData?.data[el],
-        name: fields.find((elem) => elem.id === el)?.title,
-        type: fields.find((elem) => elem.id === el)?.type,
-        datePattern:
-          fields.find((elem) => elem.id === el)?.type === 'date'
-            ? 'yyyy-MM-dd'
-            : null,
-      }
-    })
     addPermitSuspend.mutate({
       body: { ...formData, data },
     })
   }
+  const onSaveReport = () => {
+    savePermitDrill.mutate({
+      body: { ...formData, data },
+    })
+  }
+
   const actions = [
     <Button
       key="1"
@@ -432,7 +481,7 @@ const SuspendReport = () => {
       flat
       primary
       swapTheming
-      onClick={onSave}
+      onClick={onSaveReport}
     >
       Save
     </Button>,
@@ -444,6 +493,7 @@ const SuspendReport = () => {
       primary
       swapTheming
       onClick={onSave}
+      disabled={validForm(fields)}
     >
       Submit
     </Button>,

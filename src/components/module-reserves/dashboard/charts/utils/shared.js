@@ -2,8 +2,8 @@ import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import { mcDFBySize, mapDataCvtCreator } from 'components/analytics/utils'
 import ChartText from 'components/chart-text'
 import Map from 'components/map'
-
-import DataTable from '@target-energysolutions/data-table'
+import Mht from '@target-energysolutions/mht'
+// import DataTable from '@target-energysolutions/data-table'
 
 const mc21MoreFilters = mcDFBySize(2, 1, [
   'company',
@@ -15,7 +15,7 @@ export const mc11 = mcDFBySize(1, 1)
 export const mc21 = mcDFBySize(2, 1)
 export const mc41 = mcDFBySize(4, 1)
 export const mc42 = mcDFBySize(4, 2)
-export const mc42Table = mc42('table', DataTable)
+export const mc42Table = mc42('table', Mht)
 export const mc21Map = mc21MoreFilters('map', Map)
 export const mc11Pie = mc11('pie', null)
 export const mc21Pie = mc21('pie', null)
@@ -50,7 +50,7 @@ export const smallCard = (sliceByKeys, filterBy) =>
 export const table = (config, title, pinConfig, tableProps) => {
   return mc42(
     'table',
-    DataTable,
+    Mht,
     creatorMaker({
       type: 'table',
       config,

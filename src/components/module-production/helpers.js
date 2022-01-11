@@ -457,6 +457,9 @@ export const actionsHeader = (
   originalFileId,
   downloadOriginalFile,
   handleDeleteProduction,
+  fileName,
+  status,
+  submitDraft,
 ) => {
   switch (role) {
     case 'regulator':
@@ -466,7 +469,7 @@ export const actionsHeader = (
           id: 1,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -481,42 +484,87 @@ export const actionsHeader = (
         {
           id: 3,
           label: 'View Documents',
-          onClick: () => {},
+          onClick: () => {
+            supportedDocument(subModule)
+          },
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            handleDeleteProduction(subModule, id)
+      if (status === 'DRAFT') {
+        return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteProduction(subModule, id)
+            },
           },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
+
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
           },
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && subModule === 'monthly'
-              ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
-              : navigate(`/ams/production/${id}/${subModule}`)
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              key && id && subModule === 'monthly'
+                ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
+                : navigate(`/ams/production/${id}/${subModule}`)
+            },
           },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => {
+              supportedDocument(true)
+            },
           },
-        },
-      ]
+          {
+            id: 5,
+            label: 'Submit Draft report',
+            onClick: () => {
+              submitDraft(subModule, id)
+            },
+          },
+        ]
+      } else {
+        return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteProduction(subModule, id)
+            },
+          },
+          {
+            id: 2,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Details',
+            onClick: () => {
+              key && id && subModule === 'monthly'
+                ? navigate(`/ams/production/${id}/${subsubModule}/${subModule}`)
+                : navigate(`/ams/production/${id}/${subModule}`)
+            },
+          },
+          {
+            id: 4,
+            label: 'Upload Documents',
+            onClick: () => {
+              supportedDocument(true)
+            },
+          },
+        ]
+      }
   }
 }
 
@@ -568,7 +616,7 @@ export const dailyProductionDetailsConfigs = () => [
     ],
   },
   {
-    label: 'Scheduled Department Vols',
+    label: 'Scheduled Deferment Vols',
     type: 'subColumns',
     key: 'scheduled',
     width: 400,
@@ -585,7 +633,46 @@ export const dailyProductionDetailsConfigs = () => [
         icon: 'mdi mdi-spellcheck',
         width: 200,
       },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
     ],
+  },
+  {
+    label: 'Unscheduled Deferment Vols',
+    type: 'subColumns',
+    key: 'unscheduled',
+    width: 400,
+    columns: [
+      {
+        label: 'Actual',
+        subKey: 'actual',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Actual (%)',
+        subKey: 'actualS',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+      {
+        label: 'Target',
+        subKey: 'target',
+        icon: 'mdi mdi-spellcheck',
+        width: 200,
+      },
+    ],
+  },
+  {
+    label: 'Major Production Highlights/Lowlights',
+    key: 'majorProduction',
+    width: '400',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
   },
 ]
 export const dailyProductionDetailsData = [

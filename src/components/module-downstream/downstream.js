@@ -24,6 +24,9 @@ import {
   saveLpg,
   saveNg,
   saveRs,
+  updateDownstreamLpg,
+  updateDownstreamNg,
+  updateDownstreamRs,
 } from 'libs/api/downstream-api'
 
 import documents from 'libs/hooks/documents'
@@ -78,11 +81,11 @@ const Downstream = () => {
     ['listLpgDownstreamByLoggedUser'],
     listLpgDownstreamByLoggedUser,
   )
-  const { data: LisPetroleumProducts, refetch: refetchNgList } = useQuery(
+  const { data: ListNaturalGas, refetch: refetchNgList } = useQuery(
     ['listNgDownstreamByLoggedUser'],
     listNgDownstreamByLoggedUser,
   )
-  const { data: ListNaturalGas, refetch: refetchRsList } = useQuery(
+  const { data: LisPetroleumProducts, refetch: refetchRsList } = useQuery(
     ['listRsDownstreamByLoggedUser'],
     listRsDownstreamByLoggedUser,
   )
@@ -109,6 +112,38 @@ const Downstream = () => {
   const onSaveNgMutate = useMutation(saveNg)
   const onSaveRsMutate = useMutation(saveRs)
 
+  const updateDownstreamLpgMutation = useMutation(updateDownstreamLpg, {
+    onSuccess: (res) => {
+      refetchLpgList()
+    },
+  })
+  const updateDownstreamNgMutation = useMutation(updateDownstreamNg, {
+    onSuccess: (res) => {
+      refetchNgList()
+    },
+  })
+  const updateDownstreamRsMutation = useMutation(updateDownstreamRs, {
+    onSuccess: (res) => {
+      refetchRsList()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    const body = {
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    }
+    switch (currentTab) {
+      case 0:
+        return updateDownstreamLpgMutation.mutate(body)
+      case 1:
+        return updateDownstreamNgMutation.mutate(body)
+      case 2:
+        return updateDownstreamRsMutation.mutate(body)
+      default:
+        break
+    }
+  }
   const liquefiedPetroleumGasActionsHelper = [
     {
       title: 'Attach Spreadsheet',
@@ -165,7 +200,7 @@ const Downstream = () => {
     downstreamSuppDocs(data)
   }
 
-  const onAddReport = (body) => {
+  const onAddReport = (body, uuid) => {
     switch (currentTab) {
       case 0:
         return uploadLpgMutate(
@@ -173,9 +208,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
-              processInstanceId: uuidv4(),
-              year: moment(body?.referenceDate).format('YYYY'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
+              processInstanceId: uuid,
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
             },
           },
           {
@@ -194,9 +229,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuidv4(),
-              year: moment(body?.referenceDate).format('YYYY'),
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
             },
           },
           {
@@ -215,9 +250,9 @@ const Downstream = () => {
             body: {
               company: company?.name || 'ams-org',
               file: body?.file[0],
-              month: moment(body?.referenceDate).format('MMMM'),
+              month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuidv4(),
-              year: moment(body?.referenceDate).format('YYYY'),
+              year: moment(body?.referenceDate?.timestamp).format('YYYY'),
               category: body?.type,
             },
           },
@@ -405,12 +440,12 @@ const Downstream = () => {
         break
     }
   }
-  const handleDeleteDownstream = () => {
+  const handleDeleteDownstream = (row = selectedRow[0]) => {
     switch (currentTab) {
       case 0:
         return deleteLpgMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -421,7 +456,7 @@ const Downstream = () => {
       case 1:
         return deleteNgMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -432,7 +467,7 @@ const Downstream = () => {
       case 2:
         return deleteRsMutation.mutate(
           {
-            objectId: selectedRow[0]?.id,
+            objectId: row?.id,
           },
           {
             onSuccess: (res) => {
@@ -485,39 +520,57 @@ const Downstream = () => {
           listLiquefiedPetroleumGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
           })) || []
         )
       case 1:
         return (
-          LisPetroleumProducts?.content?.map((el) => ({
+          ListNaturalGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'), // 26587511
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
           })) || []
         )
       case 2:
         return (
-          ListNaturalGas?.content?.map((el) => ({
+          LisPetroleumProducts?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             category: el?.metaData?.category,
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
+            referenceDate: `${el?.metaData?.month}, ${el?.metaData?.year}`,
           })) || []
         )
       default:
@@ -525,10 +578,15 @@ const Downstream = () => {
           listLiquefiedPetroleumGas?.content?.map((el) => ({
             id: el?.id,
             originalFileId: el?.metaData?.originalFileId,
+            fileName: el?.metaData?.originalFileName,
             company: el?.metaData?.company,
-            submittedDate: el?.metaData?.createdAt,
+            submittedDate: moment(el?.metaData?.createdAt).format(
+              'DD MMM, YYYY',
+            ),
             submittedBy: el?.metaData?.createdBy?.name,
-            statusDate: el?.metaData?.year,
+            statusDate: el?.metaData?.updatedAt
+              ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+              : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             status: el?.metaData?.status,
             processInstanceId: el?.metaData?.processInstanceId,
           })) || []
@@ -538,6 +596,7 @@ const Downstream = () => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
+
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -559,10 +618,10 @@ const Downstream = () => {
           responseUploadLpg?.data?.data?.map((el) => ({
             company: el?.company,
             quota: el?.quota,
-            lifting: el?.actualLifted?.map((source) => ({
-              source1: source[0]?.value,
-              source2: source[1]?.value,
-            })),
+            lifting: [
+              { source1: el?.actualLifted[0]?.value },
+              { source2: el?.actualLifted[1]?.value },
+            ],
             total: el?.totalLifted,
             remarks: el?.remarks,
             variance: el?.variance,
@@ -682,25 +741,37 @@ const Downstream = () => {
     }
   }, [responseUploadLpg, responseUploadNg, responseUploadRs])
 
-  const renderDialogData = () => {
+  const renderDialogData = (data) => {
     switch (currentTab) {
       case 0:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 1:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       case 2:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onClick: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            onAddReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
 
       default:
@@ -730,12 +801,26 @@ const Downstream = () => {
       <TopBar
         title="Downstream"
         actions={role === 'operator' ? renderActionsByCurrentTab() : []}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) => handleDeleteDownstream(row)),
+                ),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -763,6 +848,9 @@ const Downstream = () => {
                     handleDeleteDownstream,
                     selectedRow[0]?.originalFileId,
                     downloadOriginalFile,
+                    selectedRow[0]?.fileName,
+                    submitDraft,
+                    selectedRow[0]?.status,
                   )}
                 />
               )
@@ -799,7 +887,13 @@ const Downstream = () => {
         <UploadReportDialog
           setFileList={setFileList}
           ReportingType={currentTab === 2}
-          TypeList={['commercial']}
+          TypeList={[
+            'Commercial',
+            'Government',
+            'Retail Sales',
+            'Crusher & Quarries',
+            'Marine',
+          ]}
           filesList={filesList}
           hideBlock
           onDisplayMHT={onDisplayMHT}
@@ -811,9 +905,9 @@ const Downstream = () => {
             setFileList([])
           }}
           onSave={(data) => {
-            onAddReport(data)
-            // renderDialogData().onClick()
+            renderDialogData(data).onUpload()
           }}
+          formatDate="month"
         />
       )}
       {showSupportedDocumentDialog && (
@@ -828,6 +922,7 @@ const Downstream = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

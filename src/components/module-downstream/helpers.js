@@ -13,8 +13,8 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -23,14 +23,21 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -77,7 +84,7 @@ export const naturalGasConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
+    // type: 'date',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -86,14 +93,21 @@ export const naturalGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },
-
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+  },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -139,8 +153,8 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -154,16 +168,16 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Report Type',
@@ -320,7 +334,49 @@ export const actionsHeader = (
   deleteDownstream,
   originalFileId,
   downloadOriginalFile,
+  fileName,
+  submitDraft,
+  status,
 ) => {
+  const draftBtn = {
+    id: 5,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(subKey, id)
+    },
+  }
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        deleteDownstream()
+      },
+    },
+    {
+      id: 2,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key && id && navigate(`/ams/downstream/${key}/${subKey}/${id}`)
+      },
+    },
+    {
+      id: 4,
+      label: 'Upload Documents',
+      primary: true,
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
   switch (role) {
     case 'regulator':
     default:
@@ -329,7 +385,7 @@ export const actionsHeader = (
           id: 1,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
+            downloadOriginalFile(originalFileId, fileName)
           },
         },
         {
@@ -343,41 +399,12 @@ export const actionsHeader = (
           id: 3,
           label: 'View Documents',
           primary: true,
-          onClick: () => {},
-        },
-      ]
-    case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {
-            deleteDownstream()
-          },
-        },
-        {
-          id: 2,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, 'template')
-          },
-        },
-
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/downstream/${key}/${subKey}/${id}`)
-          },
-        },
-        {
-          id: 4,
-          label: 'Upload Documents',
-          primary: true,
           onClick: () => {
             supportedDocument(true)
           },
         },
       ]
+    case 'operator':
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }

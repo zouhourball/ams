@@ -4,7 +4,7 @@ import { DialogContainer, SelectionControl } from 'react-md'
 import MultiSelectDropdown from '@target-energysolutions/multi-select-dropdown'
 import Chart from 'components/chart-group/chart'
 import { extractUniqValue } from 'libs/utils'
-import imgDataInvalid from 'images/pic_plan_data_not_valid.png'
+// import imgDataInvalid from 'images/pic_plan_data_not_valid.png'
 import BreadCrumb from './chart-breadcrumbs'
 import { flatten, isFunction, reduce } from 'lodash-es'
 import { getWH } from 'libs/utils/math-helper'
@@ -16,7 +16,7 @@ import './styles.scss'
 
 const popupChartWindowMargin = 200
 const topBarHeight = 0
-export default class ChartPopupPanel extends React.PureComponent {
+export default class ChartPopupPanel extends React.Component {
   state = {
     height: 600,
     dataDrill: this.props.drillPath ? [] : null,
@@ -192,7 +192,7 @@ export default class ChartPopupPanel extends React.PureComponent {
     } = this.props
     const { height, dataDrill, selectedFilters, selectedBlocks, chartWidth } =
       this.state
-    const chartOption = {}
+
     const companies = extractUniqValue(data, 'company')
     const indexOfConfigInFilter = filters
       .filter(
@@ -247,7 +247,7 @@ export default class ChartPopupPanel extends React.PureComponent {
               className="chart-popup-panel-chart"
               ref={(ref) => (this.chart = ref)}
             >
-              {chartOption ? (
+              {
                 <Chart
                   width={chartWidth}
                   height={height}
@@ -269,13 +269,7 @@ export default class ChartPopupPanel extends React.PureComponent {
                   mainFilters={mainFilters}
                   apiView={apiView}
                 />
-              ) : (
-                <div>
-                  <img src={imgDataInvalid} alt="imgDataInvalid" />
-                  <div>Data not valid. </div>
-                  <div>Please check filter settings.</div>
-                </div>
-              )}
+              }
             </div>
           }
           sidebar={

@@ -8,7 +8,9 @@ import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit, getPermitDetail } from 'libs/api/permit-api'
+import { addPermit, getPermitDetail, savePermit } from 'libs/api/permit-api'
+
+import { validForm } from '../validate-form-fields'
 
 import './style.scss'
 
@@ -22,6 +24,7 @@ const DrillReport = ({ drillReportId }) => {
       plannedSpudDate: new Date(),
     },
   })
+
   const { data: detailData } = useQuery(
     ['drillReportById', 'Drill', drillReportId],
     drillReportId && getPermitDetail,
@@ -41,6 +44,7 @@ const DrillReport = ({ drillReportId }) => {
       })
     }
   }, [])
+
   useEffect(() => {
     if (detailData) {
       let data = formData.data
@@ -289,7 +293,7 @@ const DrillReport = ({ drillReportId }) => {
       title: 'Remarks',
       cellWidth: 'md-cell md-cell--12',
       input: 'textField',
-      required: true,
+      // required: true,
       onChange: (value) => onEditValue('remarks', value),
       type: 'string',
       value: formData?.data?.remarks,
@@ -297,6 +301,14 @@ const DrillReport = ({ drillReportId }) => {
   ]
 
   const addPermitDrill = useMutation(addPermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
+  const savePermitDrill = useMutation(savePermit, {
     onSuccess: (res) => {
       if (!res.error) {
         navigate('/ams/permitting')
@@ -323,8 +335,8 @@ const DrillReport = ({ drillReportId }) => {
       })
     }
   }
-  const onSave = () => {
-    const data = Object.keys(formData?.data).map((el) => {
+  const formatData = () => {
+    return Object.keys(formData?.data).map((el) => {
       return {
         id: el,
         value:
@@ -339,10 +351,18 @@ const DrillReport = ({ drillReportId }) => {
             : null,
       }
     })
+  }
+  const onAdd = () => {
     addPermitDrill.mutate({
-      body: { ...formData, id: detailData?.id, data },
+      body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
+  const onSaveReport = () => {
+    savePermitDrill.mutate({
+      body: { ...formData, id: detailData?.id, data: formatData() },
+    })
+  }
+
   const actions = [
     <Button
       key="1"
@@ -362,7 +382,7 @@ const DrillReport = ({ drillReportId }) => {
       flat
       primary
       swapTheming
-      onClick={onSave}
+      onClick={onSaveReport}
     >
       Save
     </Button>,
@@ -373,7 +393,8 @@ const DrillReport = ({ drillReportId }) => {
       flat
       primary
       swapTheming
-      onClick={onSave}
+      onClick={onAdd}
+      disabled={validForm(fields)}
     >
       Submit
     </Button>,

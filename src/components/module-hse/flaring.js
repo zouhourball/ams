@@ -16,6 +16,7 @@ import {
   saveFlaring,
   overrideFlaringReport,
   deleteFlaring,
+  updateFlaring,
 } from 'libs/api/api-flaring'
 import {
   downloadTemp,
@@ -289,7 +290,18 @@ const Flaring = () => {
       },
     },
   )
-
+  const updateFlaringMutation = useMutation(updateFlaring, {
+    onSuccess: (res) => {
+      refetchList()
+    },
+  })
+  const submitDraft = (subModule, objectId) => {
+    updateFlaringMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
   const deleteFlaringMutate = useMutation(deleteFlaring, {
     onSuccess: (res) => {
       refetchList()
@@ -417,9 +429,11 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            date: moment(body?.referenceDate).format('YYYY-MM-DD'),
+            date: moment(body?.referenceDate?.timestamp).format('YYYY-MM-DD'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+
         break
       case 'monthly-station':
         uploadMonthlyReportMutate.mutate({
@@ -428,10 +442,11 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            year: moment(body?.referenceDate).format('YYYY'),
-            month: moment(body?.referenceDate).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
         break
       case 'annual-forecast':
         uploadAnnualForecastMutate.mutate({
@@ -440,9 +455,10 @@ const Flaring = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            year: moment(body?.referenceDate).format('YYYY'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
+        addSupportingDocuments(body?.optionalFiles, uuid)
         break
     }
   }
@@ -453,10 +469,14 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
       }
@@ -469,11 +489,15 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-        referenceDate: get(el, 'metaData.year', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        referenceDate: `${el?.metaData?.month} ${el?.metaData?.year}`,
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -485,11 +509,15 @@ const Flaring = () => {
         id: el?.id,
         processInstanceId: get(el, 'metaData.processInstanceId', ''),
         originalFileId: get(el, 'metaData.originalFileId', ''),
+        fileName: get(el, 'metaData.originalFileName', ''),
         company: get(el, 'metaData.company', 'n/a'),
         block: get(el, 'metaData.block', 'n/a'),
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: get(el, 'metaData.year', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -614,7 +642,6 @@ const Flaring = () => {
         break
     }
   }
-
   const actionsHeader = () => {
     switch (currentTab) {
       case 'monthly-station':
@@ -627,6 +654,9 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
+          submitDraft,
+          selectedRow[0]?.status,
         )
       case 'daily':
         return actionsHeaderDaily(
@@ -638,6 +668,8 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
+          submitDraft,
         )
       case 'annual-forecast':
       default:
@@ -650,6 +682,8 @@ const Flaring = () => {
           handleDeleteFlaring,
           downloadOriginalFile,
           selectedRow[0]?.originalFileId,
+          selectedRow[0]?.fileName,
+          submitDraft,
         )
     }
   }
@@ -682,12 +716,28 @@ const Flaring = () => {
       <TopBar
         title="Flaring"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    handleDeleteFlaring(currentTab, row?.id),
+                  ),
+                ).then(() => refetchList()),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
           setActiveTab={setCurrentTab}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -752,6 +802,13 @@ const Flaring = () => {
             onSave={(data) => {
               onAddReportByCurrentTab(data)
             }}
+            formatDate={
+              currentTab === 'annual-forecast'
+                ? 'year'
+                : currentTab === 'monthly-station'
+                  ? 'month'
+                  : 'day'
+            }
           />
         )}
 
@@ -776,6 +833,7 @@ const Flaring = () => {
             onSaveUpload={(data) => {
               flaringSuppDocs(data)
             }}
+            readOnly={role === 'regulator'}
           />
         )}
       </div>

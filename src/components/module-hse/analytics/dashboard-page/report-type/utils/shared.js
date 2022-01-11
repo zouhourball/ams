@@ -2,9 +2,11 @@ import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import { mcDFBySize } from 'components/analytics/utils'
 import ChartText from 'components/chart-text'
 import Map from 'components/map'
-import DataTable from '@target-energysolutions/data-table'
-import TableWithColorHighlight from 'components/table-with-color-highlight'
+// import DataTable from '@target-energysolutions/data-table'
+// import TableWithColorHighlight from 'components/table-with-color-highlight'
 import { mapData, mapCircleData } from './index'
+import Mht from '@target-energysolutions/mht'
+
 import { getDays, extractUniqValue, mapMonthNameToNumber } from 'libs/utils'
 import { flatten, sumBy, flattenDeep } from 'lodash-es'
 const mc11 = mcDFBySize(1, 1)
@@ -42,7 +44,7 @@ export const mcS42Bar = (config, title, props) =>
 export const mc42HighlightTable = (config, title, pinConfig, tableProps = {}) =>
   mc42(
     'table',
-    TableWithColorHighlight,
+    Mht,
     creatorMaker({
       type: 'table',
       config,
@@ -54,7 +56,7 @@ export const mc42HighlightTable = (config, title, pinConfig, tableProps = {}) =>
 export const mc42Table = (config, title, pinConfig, tableProps = {}) =>
   mc42(
     'table',
-    DataTable,
+    Mht,
     creatorMaker({
       type: 'table',
       config,

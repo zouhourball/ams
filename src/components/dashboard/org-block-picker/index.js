@@ -1,6 +1,6 @@
 import {
   SelectionControl,
-  MenuButton,
+  // MenuButton,
   FontIcon,
   SelectField,
   ListItem,
@@ -187,7 +187,7 @@ export const OrgBlockPicker = ({ orgs, onChange }) => {
             onChange={onSelectAllCompany}
             checked={isCheckAll}
           />
-          <MenuButton
+          {/* <MenuButton
             id="menu-button-2"
             icon
             menuItems={[]}
@@ -199,7 +199,7 @@ export const OrgBlockPicker = ({ orgs, onChange }) => {
             }}
           >
             more_vert
-          </MenuButton>
+          </MenuButton> */}
         </div>
       </div>
       <div className="dashboard-org-picker-bottom">

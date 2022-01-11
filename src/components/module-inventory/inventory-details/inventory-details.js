@@ -246,6 +246,9 @@ const InventoryDetails = () => {
         submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
         referenceDate: get(el, 'metaData.year', 'n/a'),
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         status: get(el, 'metaData.status', 'n/a'),
         processInstanceId: get(el, 'metaData.processInstanceId', 'n/a'),
       }

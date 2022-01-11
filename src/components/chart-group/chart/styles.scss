@@ -65,6 +65,12 @@
   margin: 5px 0;
   border-radius: 6px;
   background-color: white;
+  // .data-table-single-column-header,.data-table-common-header,.data-table-grouped-column-header{
+  //   background-color: #F2F6F8;
+  // }
+  // .data-table-cell:nth-child(odd){
+  //   background-color: transparent;
+  // }
 
   .ams-chartgroupchart-content-wrapper {
     display: flex;
@@ -72,6 +78,10 @@
     .ams-chartgroupchart-content-cust-comp {
       padding: 10px;
       overflow: auto;
+
+      .xeena-table-header {
+        flex-grow: unset;
+      }
     }
   }
 

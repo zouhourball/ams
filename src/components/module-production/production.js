@@ -28,6 +28,7 @@ import {
   saveProduction,
   overrideProductionReport,
   deleteProduction,
+  updateDailyProduction,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -61,7 +62,6 @@ const Production = () => {
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
-
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
@@ -318,6 +318,31 @@ const Production = () => {
       },
     },
   )
+
+  const updateProductionMutation = useMutation(updateDailyProduction, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchList()
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
   const handleDeleteProduction = (subModule, objectId) => {
     deleteProductionMutate.mutate({
       subModule,
@@ -346,6 +371,14 @@ const Production = () => {
     })
   }
 
+  const submitDraft = (subModule, objectId) => {
+    updateProductionMutation.mutate({
+      subModule: subModule,
+      objectId: objectId,
+      status: 'SUBMITTED',
+    })
+  }
+
   const currentSubsubModule = () => {
     switch (selectFieldValue) {
       case 'Monthly Production':
@@ -367,7 +400,9 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
-            dailyDate: moment(body?.referenceDate).format('YYYY-MM-DD'),
+            dailyDate: moment(body?.referenceDate?.timestamp).format(
+              'YYYY-MM-DD',
+            ),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -379,8 +414,8 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuid,
-            month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -392,8 +427,8 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file,
             processInstanceId: uuidv4(),
-            month: moment(body?.referenceDate).format('MMMM'),
-            year: moment(body?.referenceDate).format('YYYY'),
+            month: moment(body?.referenceDate?.timestamp).format('MMMM'),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -420,7 +455,14 @@ const Production = () => {
       scheduled: [
         { actual: el?.data[1]['SCHEDULED DEFERMENT VOLS'][0]?.Actual },
         { actualS: el?.data[1]['SCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[1]['SCHEDULED DEFERMENT VOLS'][2]['Target'] },
       ],
+      unscheduled: [
+        { actual: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][0]?.Actual },
+        { actualS: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][1]['Actual (%)'] },
+        { target: el?.data[2]['UNSCHEDULED DEFERMENT VOLS'][2]['Target'] },
+      ],
+      majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
 
@@ -625,11 +667,15 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
       referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
@@ -640,14 +686,15 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate:
-        get(el, 'metaData.month', 'n/a') +
-        ' , ' +
-        get(el, 'metaData.year', 'n/a'),
+      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
@@ -659,14 +706,15 @@ const Production = () => {
       id: el?.id,
       processInstanceId: get(el, 'metaData.processInstanceId', ''),
       originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
       company: get(el, 'metaData.company', 'n/a'),
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate:
-        get(el, 'metaData.month', 'n/a') +
-        ' , ' +
-        get(el, 'metaData.year', 'n/a'),
+      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
@@ -789,6 +837,23 @@ const Production = () => {
       <TopBar
         title="Production Reporting"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) =>
+                    handleDeleteProduction(currentTab, row?.id),
+                  ),
+                ).then(() => {
+                  refetchList()
+                }),
+            },
+          ]
+        }}
       />
       <NavBar
         tabsList={tabsList}
@@ -803,6 +868,7 @@ const Production = () => {
                 : 'Grid 1',
           )
         }}
+        onSelectRows={setSelectedRow}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
@@ -833,6 +899,9 @@ const Production = () => {
                 selectedRow[0]?.originalFileId,
                 downloadOriginalFile,
                 handleDeleteProduction,
+                selectedRow[0]?.fileName,
+                selectedRow[0]?.status,
+                submitDraft,
               )}
             />
           ) : currentTab === 'monthly' ? (
@@ -896,6 +965,7 @@ const Production = () => {
             // renderDialogData().onClick()
             onAddReportByCurrentTab(data)
           }}
+          formatDate={currentTab === 'daily' ? 'day' : 'month'}
         />
       )}
 
@@ -911,6 +981,7 @@ const Production = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+          readOnly={role === 'regulator'}
         />
       )}
       {overrideDialog && (

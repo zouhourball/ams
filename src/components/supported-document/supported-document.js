@@ -107,7 +107,7 @@ const SupportedDocument = ({
               )}
               <FontIcon
                 onClick={() => {
-                  window.open(getPublicUrl(file?.fileId))
+                  window.open(getPublicUrl(file?.id))
                 }}
               >
                 download
@@ -157,35 +157,41 @@ const SupportedDocument = ({
       )
     })
   }
-  const actions = [
-    <Button key={1} flat className="discard-btn" onClick={onDiscard}>
-      Discard
-    </Button>,
-    <Button
-      key={2}
-      flat
-      swapTheming
-      primary
-      className="save-btn"
-      onClick={() =>
-        onSaveUpload(
-          files?.filter(
-            (file) =>
-              !filesToDelete
-                .map((fileToDelete) => fileToDelete)
-                ?.includes(file?.id),
-          ),
-          filesToDelete,
-        )
-      }
-    >
-      {isLoading ? (
-        <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" />
-      ) : (
-        'Upload'
-      )}
-    </Button>,
-  ]
+  const actions = !readOnly
+    ? [
+      <Button key={1} flat className="discard-btn" onClick={onDiscard}>
+          Discard
+      </Button>,
+      <Button
+        key={2}
+        flat
+        swapTheming
+        primary
+        className="save-btn"
+        onClick={() =>
+          onSaveUpload(
+              files?.filter(
+                (file) =>
+                  !filesToDelete
+                    .map((fileToDelete) => fileToDelete)
+                    ?.includes(file?.id),
+              ),
+              filesToDelete,
+          )
+        }
+      >
+        {isLoading ? (
+          <FontIcon primary iconClassName="mdi mdi-spin mdi-loading" />
+        ) : (
+          'Upload'
+        )}
+      </Button>,
+    ]
+    : [
+      <Button key={1} flat className="discard-btn" onClick={onDiscard}>
+          Discard
+      </Button>,
+    ]
 
   const nodesFiles = [...renderOldFiles(), ...renderFiles()]
   return (

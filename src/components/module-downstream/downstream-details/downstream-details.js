@@ -10,6 +10,7 @@ import {
   detailLpgDownstreamByLoggedUser,
   updateDownstreamLpg,
 } from 'libs/api/downstream-api'
+import documents from 'libs/hooks/documents'
 
 import { addToast } from 'modules/app/actions'
 
@@ -41,11 +42,29 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
 
   const role = useRole('downstream')
   const subModule = pathname?.split('/')[4]
+  const { addSupportingDocuments } = documents()
 
   const { data: downstreamDetail } = useQuery(
     ['detailLpgDownstreamByLoggedUser', subModule, downstreamId],
     subModule && detailLpgDownstreamByLoggedUser,
   )
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const costsSuppDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      downstreamDetail?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
+
+  const handleSupportingDocs = (data) => {
+    costsSuppDocs(data)
+  }
   const DownstreamDetailsData = useMemo(() => {
     switch (subModule) {
       case 'lpg':
@@ -53,10 +72,10 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
           downstreamDetail?.data?.map((el) => ({
             company: el?.company,
             quota: el?.quota,
-            lifting: el?.actualLifted?.map((source) => ({
-              source1: source[0]?.value,
-              source2: source[1]?.value,
-            })),
+            lifting: [
+              { source1: el?.actualLifted[0]?.value },
+              { source2: el?.actualLifted[1]?.value },
+            ],
             total: el?.totalLifted,
             remarks: el?.remarks,
             variance: el?.variance,
@@ -244,12 +263,27 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
       onClick={() => {
         downloadOriginalFile(
           downstreamDetail?.metaData?.originalFileId,
-          `template_downstream_${subModule}`,
+          downstreamDetail?.metaData?.originalFileName,
         )
       }}
     >
       Download Original File
     </Button>,
+    role === 'operator' && downstreamDetail?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="4"
+        id="acknowledge"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          onAcknowledge(subModule, downstreamId, 'SUBMITTED')
+        }}
+      >
+        Commit
+      </Button>
+    ),
     role === 'regulator' &&
       get(downstreamDetail, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
       <Button
@@ -287,15 +321,14 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             downstreamDetail?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
     </div>

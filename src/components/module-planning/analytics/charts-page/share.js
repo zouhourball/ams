@@ -1,9 +1,11 @@
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import { mcDFBySize } from 'components/analytics/utils'
 import ChartText from 'components/chart-text'
-import TableWithColorHighlight from 'components/table-with-color-highlight'
+// import TableWithColorHighlight from 'components/table-with-color-highlight'
+import Mht from '@target-energysolutions/mht'
+
 import { eq, or } from 'libs/utils/query'
-import DataTable from '@target-energysolutions/data-table'
+// import DataTable from '@target-energysolutions/data-table'
 
 const mc11 = mcDFBySize(1, 1)
 export const mc21 = mcDFBySize(2, 1)
@@ -12,8 +14,8 @@ export const mc41 = mcDFBySize(4, 1)
 export const mc21Pie = mc21('pie', null)
 const mc11Card = mc11('card', ChartText)
 export const mc11Gauge = mc11('gauge', null)
-const mc42Table = mc42('table', TableWithColorHighlight)
-const mc42NormalTable = mc42('table', DataTable)
+const mc42Table = mc42('table', Mht)
+const mc42NormalTable = mc42('table', Mht)
 export const smallCard = (sliceByKeys, filterBy) =>
   mc11Card(
     creatorMaker({

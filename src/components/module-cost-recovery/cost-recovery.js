@@ -35,10 +35,11 @@ import documents from 'libs/hooks/documents'
 
 import {
   configsAnnualCostsDialogMht,
-  configsContractsCostsDialogMht,
+  // configsContractsCostsDialogMht,
   configsContractsDialogMht,
   transactionConfig,
   affiliateConfig,
+  configsLiftingCostsDialogMht,
 } from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
@@ -267,7 +268,20 @@ const CostRecovery = () => {
     'Affiliate',
     'Facilities',
   ]
-
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'Mai',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
   const renderCurrentTabData = () => {
     return (
       globalMhtData?.content?.map((el) => ({
@@ -278,7 +292,16 @@ const CostRecovery = () => {
         submittedDate: el?.metaData?.createdAt
           ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
           : '',
-        // referenceDate: el?.metaData?.statusDate,
+        referenceDate: `${
+          el?.metaData?.month
+            ? parseInt(el?.metaData?.month)
+              ? months[el?.metaData?.month]
+              : el?.metaData?.month
+            : ''
+        } ${el?.metaData?.year}`,
+        statusDate: el?.metaData?.updatedAt
+          ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+          : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         id: el?.id,
         processInstanceId: el?.metaData?.processInstanceId,
         originalFileId: el?.metaData?.originalFileId,
@@ -323,6 +346,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('prod-lifting')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -343,6 +367,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('transaction')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -363,6 +388,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('affiliate')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -382,6 +408,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('facilities')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -480,6 +507,7 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('upload-annual-cost')
+            setShowUploadRapportDialog(false)
           }
         },
       },
@@ -499,12 +527,12 @@ const CostRecovery = () => {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
             setShowUploadMHTDialog('upload-contract-report')
+            setShowUploadRapportDialog(false)
           }
         },
       },
     )
   }
-
   const configsMht = useCallback(() => {
     switch (showUploadMHTDialog) {
       case 'upload-annual-cost':
@@ -519,7 +547,7 @@ const CostRecovery = () => {
       case 'upload-contract-report':
         return configsContractsDialogMht()
       case 'prod-lifting':
-        return configsContractsCostsDialogMht()
+        return configsLiftingCostsDialogMht()
       case 'transaction':
         return transactionConfig()
       case 'affiliate':
@@ -722,22 +750,7 @@ const CostRecovery = () => {
   }
 
   const handleSupportingDocs = (data) => {
-    switch (currentTab) {
-      case 0:
-        return costsSuppDocs(data)
-      case 1:
-        return costsSuppDocs(data)
-      case 2:
-        return costsSuppDocs(data)
-      case 3:
-        return costsSuppDocs(data)
-      case 4:
-        return costsSuppDocs(data)
-      case 5:
-        return costsSuppDocs(data)
-      default:
-        break
-    }
+    return costsSuppDocs(data)
   }
   const overrideCosts = () => {
     overrideAnnualCostsExp(
@@ -875,7 +888,7 @@ const CostRecovery = () => {
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = (row = selectedRow[0]) => {
     switch (currentTab) {
       case 1:
         removeRow(
@@ -1118,6 +1131,17 @@ const CostRecovery = () => {
       <TopBar
         title="Cost Recovery Reporting"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(selectedRow?.map((row) => handleDelete(row))),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar
@@ -1127,6 +1151,7 @@ const CostRecovery = () => {
             setCurrentTab(tab)
             dispatch(setSelectedRow([]))
           }}
+          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht
@@ -1205,6 +1230,7 @@ const CostRecovery = () => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
+          formatDate={currentTab === 0 ? 'year' : 'day'}
         />
       )}
       {showSupportedDocumentDialog && (
