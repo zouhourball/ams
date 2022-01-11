@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { Button, SelectField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
@@ -125,6 +125,12 @@ const CostRecovery = () => {
         break
     }
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedRow([]))
+    }
+  }, [])
 
   const {
     data: globalMhtData,
@@ -1227,7 +1233,7 @@ const CostRecovery = () => {
           onHide={() => {
             setShowUploadMHTDialog(false)
           }}
-          onSave={handleCommit}
+          onCommit={handleCommit}
         />
       )}
       {showUploadRapportDialog && (
