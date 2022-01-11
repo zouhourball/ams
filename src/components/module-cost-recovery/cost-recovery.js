@@ -87,19 +87,22 @@ const CostRecovery = () => {
 
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
     useMutation(uploadAnnualCosts)
+
   const { mutate: overrideAnnualCostsExp } = useMutation(overrideCostsCost)
   const { mutate: overrideContractsReport } = useMutation(overrideContractsCost)
+  const { mutate: overrideFacilities } = useMutation(overrideFacilitiesCost)
   const { mutate: overrideLifting } = useMutation(overrideProdLiftingCost)
+  const { mutate: overrideTransaction } = useMutation(overrideTransactionCost)
+  const { mutate: overrideAffiliate } = useMutation(overrideAffiliateCost)
+
+  const { mutate: commitSub } = useMutation(commitSubModule)
+
   const { mutate: uploadTransaction, data: responseUploadTransaction } =
     useMutation(uploadTransactionCost)
-  const { mutate: overrideTransaction } = useMutation(overrideTransactionCost)
   const { mutate: uploadAffiliate, data: responseUploadAffiliate } =
     useMutation(uploadAffiliateCost)
-  const { mutate: commitSub } = useMutation(commitSubModule)
-  const { mutate: overrideAffiliate } = useMutation(overrideAffiliateCost)
   const { mutate: uploadFacilities, data: responseUploadFacilities } =
     useMutation(uploadFacilitiesCost)
-  const { mutate: overrideFacilities } = useMutation(overrideFacilitiesCost)
 
   const { mutate: removeRow } = useMutation(deleteRow)
 
