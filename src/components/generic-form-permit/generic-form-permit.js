@@ -58,7 +58,7 @@ const GenericForm = ({ fields }) => {
             </div>
           )}
         </Dropzone>
-        {field?.value && renderFiles([field?.value], field?.onDrop)}
+        {field?.value && renderFiles([field?.file], field?.setFile)}
       </>
     )
   }

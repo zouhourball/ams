@@ -436,9 +436,10 @@ const SuspendReport = ({ suspendReportId }) => {
           })
         })
       },
-      file: currentUploadedFile?.wellSchematic,
       loading: loading,
       value: currentUploadedFile?.wellSchematic,
+      setFile: setCurrentUploadedFile,
+      file: currentUploadedFile,
     },
   ]
 

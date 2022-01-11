@@ -11,7 +11,7 @@ const DetailsPermit = ({ fields }) => {
             <div className="md-cell md-cell--12" key={field?.id}>
               <div className="title">{field?.title}</div>
               <div className="md-grid">
-                {field?.value?.map((val) => {
+                {[field?.value]?.map((val) => {
                   return (
                     <div
                       className="file md-cell md-cell--3"
