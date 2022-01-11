@@ -6,7 +6,7 @@ export const getListProduction = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}?page=0&size=2000`,
+      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}?page=0&size=2000&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -20,7 +20,7 @@ export const getDetailProductionById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}/${queryKey[2]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -34,9 +34,12 @@ export const getDetailProductionById = async ({ queryKey }) => {
 export const getListMonthlyProduction = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/production/monthly`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/monthly?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -46,7 +49,7 @@ export const getDetailOfMonthlyProductionById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/monthly/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v1/production/monthly/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -61,7 +64,7 @@ export const getListMonthlyTrackingProduction = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/monthly-tracking`,
+      `${appUrl}/pulse-be/api/v1/production/monthly-tracking?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -78,7 +81,7 @@ export const getDetailOfMonthlyTrackingProductionById = async ({
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/monthly-tracking/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v1/production/monthly-tracking/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -92,9 +95,12 @@ export const getDetailOfMonthlyTrackingProductionById = async ({
 export const getListBlocks = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/config/blocks`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/config/blocks?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

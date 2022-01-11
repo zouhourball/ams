@@ -8,9 +8,12 @@ const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 export const listLpgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/lpg`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/lpg?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -36,7 +39,7 @@ export const findAllDownstreamLpgByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/lpg/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/downstream/lpg/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -96,7 +99,7 @@ export const detailLpgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/${queryKey[1]}/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/downstream/${queryKey[1]}/${queryKey[2]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -137,9 +140,12 @@ export const saveLpg = async ({ body, sub }) => {
 export const listNgDownstreamByLoggedUser = async () => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/ng`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/ng?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -165,7 +171,7 @@ export const findAllDownstreamNgByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/ng/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/downstream/ng/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -225,7 +231,7 @@ export const detailNgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/ng/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/downstream/ng/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -266,9 +272,12 @@ export const saveNg = async ({ body }) => {
 export const listRsDownstreamByLoggedUser = async () => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/downstream/rs`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/rs?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -294,7 +303,7 @@ export const findAllDownstreamRsByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/rs/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/downstream/rs/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -354,7 +363,7 @@ export const detailRsDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/rs/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/downstream/rs/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
