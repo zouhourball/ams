@@ -9,7 +9,7 @@ export const getInventories = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -45,7 +45,7 @@ export const getInventoriesAccepted = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&page=${queryKey[1]}&size=${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&page=${queryKey[1]}&size=${queryKey[2]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -60,7 +60,7 @@ export const getConsumptionsList = async ({ queryKey }) => {
 
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==consumptionReportProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==consumptionReportProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -75,7 +75,7 @@ export const getSurplusList = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==surplusInventoryProcess;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -90,7 +90,7 @@ export const getAdditionsList = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==addition;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}`,
+      `${appUrl}/pulse-be/api/v2/transaction/list?query=transactionType==addition;inventoryId==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -203,7 +203,7 @@ export const getCompaniesInventory = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/arm-be/api/v1/config/companies?size=2000`,
+      `${appUrl}/arm-be/api/v1/config/companies?size=2000&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -233,7 +233,7 @@ export const getDetailInventoryById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -249,7 +249,7 @@ export const getTransactionById = async ({ queryKey }) => {
   try {
     res = await fetchJSON(
       // &page=${queryKey[2]}&size=${queryKey[3]}
-      `${appUrl}/pulse-be/api/v2/transaction/details/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/transaction/details/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -294,7 +294,7 @@ export const getTransactionDetail = async ({ queryKey }) => {
 
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction&objectId=${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/transaction&objectId=${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -324,7 +324,7 @@ export const getSnapshotsByInventoryId = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/transaction/snapshots/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/transaction/snapshots/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -339,7 +339,7 @@ export const getSnapshotOfBase = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/base/${queryKey[1]}/snapshots/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/inventory/base/${queryKey[1]}/snapshots/${queryKey[2]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
