@@ -4,20 +4,23 @@ import './style.scss'
 
 const DetailsPermit = ({ fields }) => {
   const generateValues = () => {
-    return fields.map((field) => {
-      switch (field.input) {
+    return fields?.map((field) => {
+      switch (field?.input) {
         case 'fileInput':
           return (
-            <div className="md-cell md-cell--12" key={field.id}>
-              <div className="title">{field.title}</div>
+            <div className="md-cell md-cell--12" key={field?.id}>
+              <div className="title">{field?.title}</div>
               <div className="md-grid">
-                {field.value.map((val) => {
+                {field?.value?.map((val) => {
                   return (
-                    <div className="file md-cell md-cell--3" key={val.fileName}>
+                    <div
+                      className="file md-cell md-cell--3"
+                      key={val?.fileName}
+                    >
                       <img src={pdfIcon} />
                       <div>
-                        <span className="croppedText">{val.fileName}</span>
-                        <span>{val.size}</span>
+                        <span className="croppedText">{val?.fileName}</span>
+                        <span>{val?.size}</span>
                       </div>
                     </div>
                   )
