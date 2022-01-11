@@ -7,9 +7,12 @@ const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 export const listAffiliateCost = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/costRecovery/affiliate`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -38,7 +41,7 @@ export const findAllAffiliateByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -101,7 +104,7 @@ export const detailAffiliateCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -132,9 +135,12 @@ export const deleteAffiliate = async ({ objectId }) => {
 export const listContractsCost = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/costRecovery/contracts`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/contracts?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -163,7 +169,7 @@ export const findAllContractsByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -223,7 +229,7 @@ export const detailContractsCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/contracts/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -252,9 +258,12 @@ export const deleteContracts = async ({ objectId }) => {
 export const listFacilitiesCost = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/costRecovery/facilities`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/facilities?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -280,7 +289,7 @@ export const findAllFacilitiesByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -340,7 +349,7 @@ export const detailFacilitiesCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/facilities/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -371,7 +380,7 @@ export const listProdLiftingCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -401,7 +410,7 @@ export const findAllProdLiftingByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -461,7 +470,7 @@ export const detailProdLiftingCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -491,9 +500,12 @@ export const deleteProdLifting = async ({ objectId }) => {
 export const listCostsCost = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/costRecovery/costs`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/costs?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -519,7 +531,7 @@ export const findAllCostsByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/costs/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -579,7 +591,7 @@ export const detailCostsCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/costs/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -610,7 +622,7 @@ export const listTransactionCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/transaction?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -643,7 +655,7 @@ export const findAllTransactionByUserCompanyAccess = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -706,7 +718,7 @@ export const detailTransactionCostByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/transaction/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },

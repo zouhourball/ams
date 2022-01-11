@@ -6,9 +6,12 @@ const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 export const getListPlanning = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/${queryKey[1]}`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[1]}?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -83,7 +86,7 @@ export const getDetailPlanningById = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/${queryKey[2]}/${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[2]}/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -127,7 +130,7 @@ export const viewVersions = ({ queryKey }) => {
   let res
   try {
     res = fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/${queryKey[3]}/${queryKey[1]}/versions?version=${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[3]}/${queryKey[1]}/versions?version=${queryKey[2]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -141,7 +144,7 @@ export const listAnalytics = (subModule) => {
   let res
   try {
     res = fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/${subModule}/list/analytics`,
+      `${appUrl}/pulse-be/api/v2/planning/${subModule}/list/analytics?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },

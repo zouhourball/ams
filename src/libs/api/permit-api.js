@@ -25,9 +25,12 @@ export const findAllPermits = async ({ queryKey }) => {
   // orgId = 1, priorityId = 2
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/permit/analytics`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/permit/analytics?sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -70,7 +73,7 @@ export const listPermitsByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/permit/list?query=metaData.permitType==${queryKey[1]}`,
+      `${appUrl}/pulse-be/api/v1/permit/list?query=metaData.permitType==${queryKey[1]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -115,7 +118,7 @@ export const getPermitDetail = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/permit/${queryKey[1]}/${queryKey[2]}`,
+      `${appUrl}/pulse-be/api/v1/permit/${queryKey[1]}/${queryKey[2]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
