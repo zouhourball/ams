@@ -14,12 +14,8 @@ import './style.scss'
 
 const AbandonReport = ({ abandonReportId }) => {
   const [formData, setFormData] = useState({
-    metaData: {
-      company: 'ams-org',
-      permitType: 'Abandon',
-    },
     data: {
-      plannedAbandonDate: '2021-02-01',
+      plannedAbandonDate: new Date(),
     },
   })
   useEffect(() => {
@@ -28,7 +24,8 @@ const AbandonReport = ({ abandonReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          ...formData.metaData,
+          company: drillReport?.metaData?.company,
+          permitType: drillReport?.metaData?.permitType,
           block: drillReport.block,
         },
         data: {

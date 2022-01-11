@@ -15,12 +15,8 @@ import './style.scss'
 
 const SuspendReport = ({ suspendReportId }) => {
   const [formData, setFormData] = useState({
-    metaData: {
-      company: 'ams-org',
-      permitType: 'Suspend',
-    },
     data: {
-      plannedSuspendDate: '2021-02-01',
+      plannedSuspendDate: new Date(),
     },
   })
   const [loading, setLoading] = useState(false)
@@ -31,7 +27,8 @@ const SuspendReport = ({ suspendReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          ...formData.metaData,
+          company: drillReport?.metaData?.company,
+          permitType: drillReport?.metaData?.permitType,
           block: drillReport.block,
         },
         data: {
@@ -416,6 +413,7 @@ const SuspendReport = ({ suspendReportId }) => {
         }
       },
       file: currentUploadedFile?.suspensionProgram,
+      setFile: setCurrentUploadedFile,
       loading: loading,
       value: currentUploadedFile?.suspensionProgram,
     },
@@ -439,7 +437,7 @@ const SuspendReport = ({ suspendReportId }) => {
       loading: loading,
       value: currentUploadedFile?.wellSchematic,
       setFile: setCurrentUploadedFile,
-      file: currentUploadedFile,
+      file: currentUploadedFile?.wellSchematic,
     },
   ]
 
