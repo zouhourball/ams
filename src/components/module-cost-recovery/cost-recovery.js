@@ -305,6 +305,7 @@ const CostRecovery = () => {
         id: el?.id,
         processInstanceId: el?.metaData?.processInstanceId,
         originalFileId: el?.metaData?.originalFileId,
+        originalFileName: el?.metaData?.originalFileName,
       })) || []
     )
   }
@@ -743,7 +744,7 @@ const CostRecovery = () => {
   const costsSuppDocs = (data) => {
     addSupportingDocuments(
       data,
-      selectedRow[0]?.processInstanceId ||
+      renderCurrentTabData()[selectedRow[0]]?.processInstanceId ||
         showSupportedDocumentDialog?.processInstanceId,
       closeDialog,
     )
@@ -888,11 +889,15 @@ const CostRecovery = () => {
     }
   }
 
-  const handleDelete = (row = selectedRow[0]) => {
+  const handleDelete = (indexRow) => {
+    const indexElement = indexRow === 'oneItem' ? selectedRow[0] : indexRow
     switch (currentTab) {
       case 1:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'contracts' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'contracts',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -906,7 +911,10 @@ const CostRecovery = () => {
         break
       case 0:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'costs' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'costs',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -920,7 +928,10 @@ const CostRecovery = () => {
         break
       case 2:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'prodLifting' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'prodLifting',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -934,7 +945,10 @@ const CostRecovery = () => {
         break
       case 3:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'transaction' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'transaction',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -948,7 +962,10 @@ const CostRecovery = () => {
         break
       case 4:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'affiliate' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'affiliate',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -962,7 +979,10 @@ const CostRecovery = () => {
         break
       case 5:
         removeRow(
-          { objectId: selectedRow[0]?.id, subModule: 'facilities' },
+          {
+            objectId: renderCurrentTabData()[indexElement]?.id,
+            subModule: 'facilities',
+          },
           {
             onSuccess: (res) => {
               if (res) {
@@ -1135,7 +1155,7 @@ const CostRecovery = () => {
           return [
             { key: 1, primaryText: 'Edit', onClick: () => null },
             {
-              key: 1,
+              key: 2,
               primaryText: 'Delete',
               onClick: () =>
                 Promise.all(selectedRow?.map((row) => handleDelete(row))),
@@ -1165,17 +1185,17 @@ const CostRecovery = () => {
             hideTotal={false}
             withFooter
             headerTemplate={
-              selectedRow?.length === 1 && (
+              selectedRow?.length !== 0 && (
                 <HeaderTemplate
                   title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader(
                     'cost-recovery-details',
-                    selectedRow[0]?.id,
+                    renderCurrentTabData()[selectedRow[0]]?.id,
                     subKeyRoute(),
                     role,
                     setShowSupportedDocumentDialog,
                     () => setShowDeleteDialog(true),
-                    selectedRow[0],
+                    renderCurrentTabData()[selectedRow[0]],
                   )}
                 />
               )
@@ -1217,7 +1237,7 @@ const CostRecovery = () => {
           blockList={
             Array.isArray(blockList) && blockList?.length > 0
               ? blockList?.map((el) => ({ label: el?.block, value: el?.block }))
-              : ['100']
+              : []
           }
           onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
@@ -1246,7 +1266,7 @@ const CostRecovery = () => {
           processInstanceId={
             typeof showSupportedDocumentDialog === 'object'
               ? showSupportedDocumentDialog?.processInstanceId
-              : selectedRow[0]?.processInstanceId
+              : renderCurrentTabData()[selectedRow[0]]?.processInstanceId
           }
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
@@ -1268,7 +1288,7 @@ const CostRecovery = () => {
         <ConfirmDialog
           onDiscard={() => setShowDeleteDialog(false)}
           visible={showDeleteDialog}
-          handleOverride={handleDelete}
+          handleOverride={() => handleDelete('oneItem')}
           message={'Do you confirm Delete ?'}
           confirmLabel={'Confirm'}
         />

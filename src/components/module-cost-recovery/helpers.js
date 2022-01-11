@@ -727,7 +727,7 @@ export const actionsHeader = (
           id: 1,
           label: 'Download Original File',
           onClick: () => {
-            downloadOriginalFile(row?.originalFileId)
+            downloadOriginalFile(row?.originalFileId, row?.originalFileName)
           },
         },
         {
