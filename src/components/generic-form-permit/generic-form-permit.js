@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import {
   TextField,
   Checkbox,
@@ -12,7 +12,6 @@ import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 
 // import { uploadFileTus } from 'libs/api/tus-upload'
-import { fileManagerUpload } from 'libs/api/api-file-manager'
 import { renderFiles } from 'components/render-files'
 
 import uploadIcon from './upload.png'
@@ -20,59 +19,21 @@ import uploadIcon from './upload.png'
 import './style.scss'
 
 const GenericForm = ({ fields }) => {
-  const [loading, setLoading] = useState(false)
   const [datePickerState, setDatePickerState] = useState(false)
-  const [files, setFiles] = useState({})
+  const [loading, setLoading] = useState(false)
+  // const [files, setFiles] = useState({})
 
-  const uploadFiles = (allFiles, nodeId) => {
-    setLoading(true)
-
-    fileManagerUpload(allFiles).then((res) => {
-      setFiles({ ...files, [nodeId]: [...res.files] })
-      setLoading(false)
-    })
-    /* let newFiles = []
-    setLoading(true)
-    Promise.all(
-      allFiles.map((file) =>
-        uploadFileTus(
-          file,
-          null,
-          (res) => {
-            newFiles = [
-              ...newFiles,
-              {
-                id: res?.url,
-                url: res?.url,
-                size: res?.file?.size,
-
-                filename: res?.file?.name,
-                contentType: res?.file?.type,
-              },
-            ]
-          },
-          true,
-        ),
-      ),
-    ).then(() => {
-      setFiles([...newFiles])
-      setLoading(false)
-    }) */
-  }
   const createDropzone = (field) => {
-    const inputRef = useRef()
-    const onDrop = (uploadedFiles) => {
-      uploadFiles(uploadedFiles, field?.id, files)
+    if (field?.loading !== loading) {
+      setLoading(field?.loading)
     }
-    inputRef.current = onDrop
     return (
       <>
-        <div className="title">{field.title}</div>
+        <div className={`title ${field.cellWidth}`}>{field.title}</div>
         <Dropzone
-          ref={inputRef}
           id={field?.id}
-          disabled={loading}
-          onDrop={inputRef.current}
+          disabled={field?.loading}
+          onDrop={field?.onDrop}
           accept="application/pdf"
         >
           {({ getRootProps, getInputProps }) => (
@@ -82,7 +43,7 @@ const GenericForm = ({ fields }) => {
             >
               <img src={uploadIcon} />
               <input {...getInputProps()} />
-              {!files.length && (
+              {!field?.value?.length && (
                 <p>
                   {'Drag the file here or'}{' '}
                   <span
@@ -93,13 +54,11 @@ const GenericForm = ({ fields }) => {
                   </span>
                 </p>
               )}
-              {files?.[field?.id] && (
-                <p>{files?.[field?.id]?.length} uploaded</p>
-              )}
+              {field?.value && <p>1 uploaded</p>}
             </div>
           )}
         </Dropzone>
-        {files && renderFiles(files?.[field?.id], setFiles)}
+        {field?.value && renderFiles([field?.file], field?.setFile)}
       </>
     )
   }

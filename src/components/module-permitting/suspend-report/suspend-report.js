@@ -9,6 +9,7 @@ import TopBar from 'components/top-bar'
 import getBlocks from 'libs/hooks/get-blocks'
 import { addPermit, savePermit } from 'libs/api/permit-api'
 import { validForm } from '../validate-form-fields'
+import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import './style.scss'
 
@@ -22,7 +23,8 @@ const SuspendReport = ({ suspendReportId }) => {
       plannedSuspendDate: '2021-02-01',
     },
   })
-
+  const [loading, setLoading] = useState(false)
+  const [currentUploadedFile, setCurrentUploadedFile] = useState({})
   useEffect(() => {
     if (localStorage.getItem('suspend-report')) {
       const drillReport = JSON.parse(localStorage.getItem('suspend-report'))
@@ -389,18 +391,55 @@ const SuspendReport = ({ suspendReportId }) => {
     {
       id: 'suspensionProgram',
       title: 'Attach Suspension Program',
-      cellWidth: 'md-cell md-cell-12',
+      cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
       required: true,
-      // value: 'test',
+      onDrop: (value) => {
+        // console.log(value)
+        if (value?.length > 0) {
+          setLoading(true)
+
+          fileManagerUpload(value).then((res) => {
+            setLoading(false)
+            onEditValue('suspensionProgram', res?.files[0]?.url)
+            setCurrentUploadedFile({
+              ...currentUploadedFile,
+              suspensionProgram: res?.files[0],
+            })
+          })
+        } else {
+          onEditValue('suspensionProgram', '')
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            suspensionProgram: {},
+          })
+        }
+      },
+      file: currentUploadedFile?.suspensionProgram,
+      loading: loading,
+      value: currentUploadedFile?.suspensionProgram,
     },
     {
       id: 'wellSchematic',
       title: 'Current Well Schematic',
-      cellWidth: 'md-cell md-cell-12',
+      cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
       required: true,
-      // value: 'test',
+      onDrop: (value) => {
+        setLoading(true)
+        fileManagerUpload(value).then((res) => {
+          onEditValue('wellSchematic', res?.files[0]?.url)
+          setLoading(false)
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            wellSchematic: res?.files[0],
+          })
+        })
+      },
+      loading: loading,
+      value: currentUploadedFile?.wellSchematic,
+      setFile: setCurrentUploadedFile,
+      file: currentUploadedFile,
     },
   ]
 

@@ -376,7 +376,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el.id === 'suspensionProgram')
+              detailData?.data?.find((el) => el?.id === 'suspensionProgram')
                 ?.value || 'no',
           },
           {
@@ -386,7 +386,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el.id === 'wellSchematic')
+              detailData?.data?.find((el) => el?.id === 'wellSchematic')
                 ?.value || 'no',
           },
         ]}
