@@ -204,7 +204,7 @@ const ReservesDetails = ({ reserveId, subkey }) => {
     <div className="reserves-details">
       <TopBarDetail
         // title={'Annual Reserves Reporting'}
-        onClickBack={() => navigate('/ams/reserves')}
+        onClickBack={() => navigate(`/ams/reserves/${subModule}`)}
         actions={actions}
         detailData={detailData}
       />

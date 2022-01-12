@@ -68,7 +68,7 @@ const DrillReportDetails = ({ drillReportId }) => {
   return (
     <div className="drill-report-details">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/permitting')}
+        onClickBack={() => navigate('/ams/permitting/dr')}
         actions={actions}
         detailData={{
           title: 'Permit to Drill',

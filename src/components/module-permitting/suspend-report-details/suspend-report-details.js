@@ -52,7 +52,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
   return (
     <div className="suspend-report-details">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/permitting')}
+        onClickBack={() => navigate('/ams/permitting/sr')}
         actions={actions}
         detailData={{
           title: 'Permit to Suspend',

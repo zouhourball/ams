@@ -37,7 +37,7 @@ import {
 
 import './style.scss'
 
-const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
+const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -444,7 +444,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId }) => {
     <div className="cost-recovery-details">
       <TopBarDetail
         title={'Annual Cost and Expenditure'}
-        onClickBack={() => navigate(`/ams/costrecovery`)}
+        onClickBack={() => navigate(`/ams/costrecovery/${subkey}`)}
         actions={actions}
         detailData={detailData}
       />

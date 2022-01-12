@@ -62,8 +62,20 @@ import {
   actionsHeader,
 } from './helpers'
 
-const CostRecovery = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+const CostRecovery = ({ subkey }) => {
+  const tab =
+    subkey === 'costs'
+      ? 0
+      : subkey === 'contracts'
+        ? 1
+        : subkey === 'lifting'
+          ? 2
+          : subkey === 'transaction'
+            ? 3
+            : subkey === 'affiliate'
+              ? 4
+              : 5
+  const [currentTab, setCurrentTab] = useState(tab)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)

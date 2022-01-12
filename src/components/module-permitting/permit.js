@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import Mht from '@target-energysolutions/mht'
 import moment from 'moment'
+import { useDispatch } from 'react-redux'
+
+import { addToast } from 'modules/app/actions'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -12,8 +15,10 @@ import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
 
+import ToastMsg from 'components/toast-msg'
+
 import useRole from 'libs/hooks/use-role'
-import { listPermitsByLoggedUser } from 'libs/api/permit-api'
+import { listPermitsByLoggedUser, deletePermit } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
 
@@ -27,8 +32,10 @@ import {
   actionsHeader,
 } from './helpers'
 
-const Permit = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+const Permit = ({ subModule }) => {
+  const [currentTab, setCurrentTab] = useState(
+    subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
+  )
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -36,8 +43,9 @@ const Permit = () => {
   const [information, setInformation] = useState({ date: new Date() })
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
+  const dispatch = useDispatch()
 
-  const { data: permitListData } = useQuery(
+  const { data: permitListData, refetch: refetchList } = useQuery(
     [
       'listPermitsByLoggedUser',
       // {
@@ -174,7 +182,21 @@ const Permit = () => {
       closeDialog,
     )
   }
+  const deleteMutation = useMutation(
+    deletePermit,
 
+    {
+      onSuccess: (res) => {
+        refetchList()
+      },
+    },
+  )
+
+  const handleDeletePermit = (objectId) => {
+    deleteMutation.mutate({
+      objectId,
+    })
+  }
   const handleSupportingDocs = (data) => {
     permittingSuppDocs(data)
   }
@@ -195,6 +217,39 @@ const Permit = () => {
       <TopBar
         title="Permitting"
         actions={role === 'operator' ? actions : null}
+        menuItems={() => {
+          return [
+            { key: 1, primaryText: 'Edit', onClick: () => null },
+            {
+              key: 1,
+              primaryText: 'Delete',
+              onClick: () =>
+                Promise.all(
+                  selectedRow?.map((row) => handleDeletePermit(row?.id)),
+                )
+                  .then((res) => {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Deleted successfully'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  })
+                  .catch(() => {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }),
+            },
+          ]
+        }}
       />
       <div className="subModule">
         <NavBar

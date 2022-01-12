@@ -52,7 +52,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
   return (
     <div className="abandon-report-details">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/permitting')}
+        onClickBack={() => navigate('/ams/permitting/ar')}
         actions={actions}
         detailData={{
           title: 'Permit to Abandon',

@@ -35,7 +35,11 @@ import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 
 import './style.scss'
 
-const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
+const DownstreamDetails = ({
+  location: { pathname },
+  downstreamId,
+  subkey,
+}) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const dispatch = useDispatch()
@@ -303,7 +307,7 @@ const DownstreamDetails = ({ location: { pathname }, downstreamId }) => {
   return (
     <div className="details-container">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/downstream')}
+        onClickBack={() => navigate(`/ams/downstream/${subkey}`)}
         actions={actions}
         detailData={detailData}
       />

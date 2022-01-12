@@ -24,6 +24,8 @@ import {
   flaringDetailsMonthlyConfigs,
 } from './helpers'
 
+import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
+
 const FlaringDetails = () => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -201,7 +203,9 @@ const FlaringDetails = () => {
         flat
         primary
         swapTheming
-        onClick={() => {}}
+        onClick={() => {
+          annualPlanTemplate && annualPlanTemplate.downloadFile()
+        }}
       >
         Download Annual Plan
       </Button>

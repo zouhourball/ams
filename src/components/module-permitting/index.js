@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 const DrillReport = lazy(() =>
   import('components/module-permitting/drill-report'),
@@ -25,7 +25,6 @@ const Permitting = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Permit path="/" />
         <DrillReport path="/drill-report" />
         <DrillReportDetails path="/drill-report/:drillReportId" />
         <DrillReport edit path="/drill-report/edit/:drillReportId" />
@@ -36,6 +35,8 @@ const Permitting = () => {
         <AbandonReportDetails path="/abandon-report/:abandonReportId" />
         <AbandonReport edit path="/abandon-report/edit/:abandonReportId" />
         <Dashboard path="/analytics/dashboard" />
+        <Permit path="/:subModule" />
+        <Redirect from="/" to="/ams/permitting/dr" noThrow />
       </Router>
     </Suspense>
   )

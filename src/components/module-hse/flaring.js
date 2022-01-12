@@ -51,6 +51,8 @@ import {
   flaringDetailsDailyConfigs,
 } from './helpers'
 
+import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
+
 const Flaring = () => {
   const dispatch = useDispatch()
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
@@ -547,7 +549,12 @@ const Flaring = () => {
       title: 'Download Template',
       onClick: () => downloadTemp('flaring', 'annualGasFlaringForecast'),
     },
-    { title: 'Download Annual Plan Template', onClick: () => {} },
+    {
+      title: 'Download Annual Plan Template',
+      onClick: () => {
+        annualPlanTemplate && annualPlanTemplate.downloadFile()
+      },
+    },
   ]
   const monthlyReportActionsHelper = [
     {
@@ -841,3 +848,15 @@ const Flaring = () => {
   )
 }
 export default Flaring
+
+/* eslint-disable */
+String.prototype.downloadFile = function () {
+  let a = document.createElement('A')
+  a.href = this
+  a.id = 'hhsgagsgfkopaerj225zef5'
+  a.download = this.substr(this.lastIndexOf('/') + 1)
+  document.body.appendChild(a)
+  a.click()
+  document.getElementById('hhsgagsgfkopaerj225zef5').remove()
+}
+/* eslint-enable */

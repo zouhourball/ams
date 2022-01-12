@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 const Reserves = lazy(() => import('./reserves'))
 const ReservesDetails = lazy(() =>
@@ -13,8 +13,9 @@ const ReservesModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Reserves path="/" />
         <ReservesDetails path="/reserves-details/:subkey/:reserveId" />
+        <Reserves path="/:subkey" />
+        <Redirect from="/" to="/ams/reserves/annual" noThrow />
         <ReservesDashboard path="/analytics/dashboard" />
       </Router>
     </Suspense>
