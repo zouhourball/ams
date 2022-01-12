@@ -1228,8 +1228,8 @@ const CostRecovery = ({ subkey }) => {
               <SelectField
                 id="prod-lifting"
                 menuItems={[
-                  { label: 'Actual Lifting', value: 'dataActualLifting' },
                   { label: 'Base Production', value: 'dataBasedProduction' },
+                  { label: 'Actual Lifting', value: 'dataActualLifting' },
                 ]}
                 block
                 position={SelectField.Positions.BELOW}

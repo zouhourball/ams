@@ -3,6 +3,7 @@ import pdfIcon from 'images/pdfIcon.png'
 import './style.scss'
 
 const DetailsPermit = ({ fields }) => {
+  // test to push
   const generateValues = () => {
     return fields?.map((field) => {
       switch (field?.input) {

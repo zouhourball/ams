@@ -284,7 +284,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         }
       case 'contracts':
         return {
-          title: 'Cost Recovery Reporting',
+          title: 'Contracts Reporting',
           ...data,
         }
       case 'lifting':
@@ -461,8 +461,14 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
             <SelectField
               id="prod-lifting"
               menuItems={[
-                { label: 'Actual Lifting', value: 'dataActualLifting' },
-                { label: 'Base Production', value: 'dataBasedProduction' },
+                {
+                  label: 'Base Production',
+                  value: 'dataBasedProduction',
+                },
+                {
+                  label: 'Actual Lifting',
+                  value: 'dataActualLifting',
+                },
               ]}
               block
               position={SelectField.Positions.BELOW}

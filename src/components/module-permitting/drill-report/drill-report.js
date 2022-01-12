@@ -16,10 +16,6 @@ import './style.scss'
 
 const DrillReport = ({ drillReportId }) => {
   const [formData, setFormData] = useState({
-    metaData: {
-      company: 'ams-org',
-      permitType: 'Drill',
-    },
     data: {
       plannedSpudDate: new Date(),
     },
@@ -57,7 +53,8 @@ const DrillReport = ({ drillReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          ...formData.metaData,
+          company: detailData?.metaData?.company,
+          permitType: detailData?.metaData?.permitType,
           block: detailData?.metaData?.block,
           wellName: detailData?.metaData?.wellName,
         },
