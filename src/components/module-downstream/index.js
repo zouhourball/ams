@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 const Downstream = lazy(() => import('./downstream'))
 const DownstreamDetails = lazy(() =>
@@ -12,7 +12,8 @@ const DownstreamModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Downstream path="/" />
+        <Redirect from="/" to="/ams/downstream/lpg" />
+        <Downstream path="/:subkey" />
         <DownstreamDetails path="/downstream-details/:subkey/:downstreamId" />
         <DownstreamDashboard path="/analytics/dashboard" />
       </Router>

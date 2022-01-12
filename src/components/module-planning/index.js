@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 const Planning = lazy(() => import('./planning'))
 const PlanningDetails = lazy(() =>
@@ -13,11 +13,11 @@ const PlanningModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Planning path="/" />
-        <Planning path="/:subModule" />
         <PlanningDetails path="/planning-details/:subModule/:objectId" />
         <ViewHistorian path="/view-historian/:subModule/:objectId" />
         <Dashboard path="/analytics/dashboard" />
+        <Planning path="/:subModule" />
+        <Redirect from="/" to="/ams/planning/wpb" noThrow />
       </Router>
     </Suspense>
   )

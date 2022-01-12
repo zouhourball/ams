@@ -60,8 +60,10 @@ import {
   configsNgDialogMht,
 } from './mht-helper-dialog'
 
-const Downstream = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+const Downstream = ({ subkey }) => {
+  const [currentTab, setCurrentTab] = useState(
+    subkey === 'lpg' ? 0 : subkey === 'ng' ? 1 : 2,
+  )
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)

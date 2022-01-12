@@ -43,8 +43,10 @@ import {
   annualReservesDetailsConfigs,
 } from './helpers'
 
-const Reserves = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+const Reserves = ({ subkey }) => {
+  const [currentTab, setCurrentTab] = useState(
+    subkey === 'annual' ? 0 : subkey === 'fyf' ? 1 : 2,
+  )
   const [currentUpload, setCurrentUpload] = useState()
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =

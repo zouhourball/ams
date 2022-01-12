@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 
 const CostRecovery = lazy(() => import('./cost-recovery'))
 const CostRecoveryDetails = lazy(() =>
@@ -13,9 +13,10 @@ const Permitting = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <CostRecovery path="/" />
         <CostRecoveryDetails path="/cost-recovery-details/:subkey/:detailId" />
         <Dashboard path="/analytics/dashboard" />
+        <CostRecovery path="/:subkey" />
+        <Redirect from="/" to="/ams/costrecovery/costs" />
       </Router>
     </Suspense>
   )

@@ -27,8 +27,10 @@ import {
   actionsHeader,
 } from './helpers'
 
-const Permit = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+const Permit = ({ subModule }) => {
+  const [currentTab, setCurrentTab] = useState(
+    subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
+  )
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
