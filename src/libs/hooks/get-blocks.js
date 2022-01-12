@@ -13,7 +13,6 @@ const getBlocks = () => {
       enabled: !!orgId,
     },
   )
-
   return blocks
 }
 
