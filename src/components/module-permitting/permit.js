@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
-import { useQuery, useMutation } from 'react-query'
+import { useQuery } from 'react-query'
 import Mht from '@target-energysolutions/mht'
 import moment from 'moment'
 import { useDispatch } from 'react-redux'
@@ -18,7 +18,7 @@ import { userRole } from 'components/shared-hook/get-roles'
 import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
-import { listPermitsByLoggedUser, deletePermit } from 'libs/api/permit-api'
+import { listPermitsByLoggedUser, deleteAll } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
 
@@ -182,21 +182,7 @@ const Permit = ({ subModule }) => {
       closeDialog,
     )
   }
-  const deleteMutation = useMutation(
-    deletePermit,
 
-    {
-      onSuccess: (res) => {
-        refetchList()
-      },
-    },
-  )
-
-  const handleDeletePermit = (objectId) => {
-    deleteMutation.mutate({
-      objectId,
-    })
-  }
   const handleSupportingDocs = (data) => {
     permittingSuppDocs(data)
   }
@@ -223,30 +209,17 @@ const Permit = ({ subModule }) => {
             {
               key: 1,
               primaryText: 'Delete',
-              onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) => handleDeletePermit(row?.id)),
-                )
-                  .then((res) => {
-                    dispatch(
-                      addToast(
-                        <ToastMsg
-                          text={'Deleted successfully'}
-                          type="success"
-                        />,
-                        'hide',
-                      ),
-                    )
-                    refetchList()
-                  })
-                  .catch(() => {
-                    dispatch(
-                      addToast(
-                        <ToastMsg text={'Something went wrong'} type="error" />,
-                        'hide',
-                      ),
-                    )
-                  }),
+              onClick: () => {
+                deleteAll(selectedRow).then((res) => {
+                  dispatch(
+                    addToast(
+                      <ToastMsg text={'Deleted successfully'} type="success" />,
+                      'hide',
+                    ),
+                  )
+                  refetchList()
+                })
+              },
             },
           ]
         }}
