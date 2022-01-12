@@ -106,7 +106,7 @@ devDependencies:
   eslint: 5.16.0
   eslint-config-standard: 12.0.0_f7e687a503a28f0626e8767b541b351c
   eslint-plugin-import: 2.25.4_eslint@5.16.0
-  eslint-plugin-jest: 24.7.0_eslint@5.16.0+typescript@3.9.10
+  eslint-plugin-jest: 24.3.6_eslint@5.16.0+typescript@3.9.10
   eslint-plugin-node: 8.0.1_eslint@5.16.0
   eslint-plugin-promise: 4.3.1
   eslint-plugin-react: 7.28.0_eslint@5.16.0
@@ -2118,6 +2118,7 @@ packages:
       react: 17.0.1
     resolution:
       integrity: sha512-QttzEibkIFkl/WV1dsLXg73YIweNo9ySbB0/26068RqFGWyv7pKyictWsaQXqSj1y66/BDn3kglCHgroGrv3vA==
+      tarball: '@hot-loader/react-dom/-/react-dom-17.0.1.tgz'
   /@icons/material/0.2.4_react@17.0.2:
     dependencies:
       react: 17.0.2
@@ -9549,7 +9550,7 @@ packages:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
     resolution:
       integrity: sha512-/KJBASVFxpu0xg1kIBn9AUa8hQVnszpwgE7Ld0lKAlx7Ie87yzEzCgSkekt+le/YVhiaosO4Y14GDAOc41nfxA==
-  /eslint-plugin-jest/24.7.0_eslint@5.16.0+typescript@3.9.10:
+  /eslint-plugin-jest/24.3.6_eslint@5.16.0+typescript@3.9.10:
     dependencies:
       '@typescript-eslint/experimental-utils': 4.33.0_eslint@5.16.0+typescript@3.9.10
       eslint: 5.16.0
@@ -9564,7 +9565,7 @@ packages:
       '@typescript-eslint/eslint-plugin':
         optional: true
     resolution:
-      integrity: sha512-wUxdF2bAZiYSKBclsUMrYHH6WxiBreNjyDxbRv345TIvPeoCEgPNEn3Sa+ZrSqsf1Dl9SqqSREXMHExlMMu1DA==
+      integrity: sha512-WOVH4TIaBLIeCX576rLcOgjNXqP+jNlCiEmRgFTfQtJ52DpwnIQKAVGlGPAN7CZ33bW6eNfHD6s8ZbEUTQubJg==
   /eslint-plugin-node/8.0.1_eslint@5.16.0:
     dependencies:
       eslint: 5.16.0
@@ -21691,7 +21692,7 @@ specifiers:
   eslint: ^5.15.1
   eslint-config-standard: ^12.0.0
   eslint-plugin-import: ^2.16.0
-  eslint-plugin-jest: ^24.3.6
+  eslint-plugin-jest: 24.3.6
   eslint-plugin-node: ^8.0.1
   eslint-plugin-promise: ^4.0.1
   eslint-plugin-react: ^7.12.4
