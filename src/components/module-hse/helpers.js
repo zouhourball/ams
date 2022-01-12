@@ -1,6 +1,8 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
+import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
+
 export const annualReportConfigs = (supportedDocument) => [
   {
     label: 'Company',
@@ -365,7 +367,9 @@ export const actionsHeaderAnnual = (
     {
       id: 2,
       label: 'Download Annual Plan',
-      onClick: () => {},
+      onClick: () => {
+        annualPlanTemplate && annualPlanTemplate.downloadFile()
+      },
     },
     {
       id: 3,
@@ -404,7 +408,9 @@ export const actionsHeaderAnnual = (
         {
           id: 1,
           label: 'Download Annual Plan',
-          onClick: () => {},
+          onClick: () => {
+            annualPlanTemplate && annualPlanTemplate.downloadFile()
+          },
         },
         {
           id: 2,

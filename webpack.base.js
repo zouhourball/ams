@@ -47,7 +47,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif|svg|pdf|docx)$/i,
+        test: /\.(png|jpe?g|gif|svg|pdf|docx|doc)$/i,
         loader: 'url-loader',
         options: {
           limit: resourceThreshold,
