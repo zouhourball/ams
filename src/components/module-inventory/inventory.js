@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button, DialogContainer } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { get } from 'lodash-es'
 import useRole from 'libs/hooks/use-role'
+import { nextPage, prevPage } from 'libs/hooks/pagination'
+
 import {
   uploadAnnualBaseInventoryReport,
   uploadAssetDisposalInventoryReport,
@@ -76,8 +78,9 @@ const Inventory = () => {
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
   const [currentInventoryId, setCurrentInventoryId] = useState('')
+  const [page, setPage] = useState(0)
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
-    ['getListAnnualBase', 'base', 0, 2000],
+    ['getListAnnualBase', 'base', page, 20],
     getInventories,
     {
       refetchOnWindowFocus: false,
@@ -87,7 +90,7 @@ const Inventory = () => {
     data: listAssetTransfer,
     refetch: refetchListAssetTransferInventory,
   } = useQuery(
-    ['getListAnnualBase', 'assetTransferRequestProcess', 0, 2000],
+    ['getListAnnualBase', 'assetTransferRequestProcess', page, 20],
     getInventories,
     {
       refetchOnWindowFocus: false,
@@ -95,14 +98,14 @@ const Inventory = () => {
   )
   const { data: listDisposal, refetch: refetchListDisposalInventory } =
     useQuery(
-      ['getListAnnualBase', 'assetDisposalRequestProcess', 0, 2000],
+      ['getListAnnualBase', 'assetDisposalRequestProcess', page, 20],
       getInventories,
       {
         refetchOnWindowFocus: false,
       },
     )
   const { data: listInventoriesAccepted } = useQuery(
-    ['getListInventoriesAccepted', 0, 2000],
+    ['getListInventoriesAccepted', page, 20],
     getInventoriesAccepted,
     {
       refetchOnWindowFocus: false,
@@ -871,6 +874,46 @@ const Inventory = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
+
+  const paginationData = () => {
+    switch (currentTab) {
+      case 'annual-base':
+        return {
+          data: listAnnualBase,
+          totalPages: listAnnualBase?.totalPages,
+        }
+      case 'asset-consumption':
+        return {
+          data: listInventoriesAccepted,
+          totalPages: listInventoriesAccepted?.totalPages,
+        }
+      case 'surplus-declaration':
+        return {
+          data: listInventoriesAccepted,
+          totalPages: listInventoriesAccepted?.totalPages,
+        }
+      case 'asset-transfer':
+        return {
+          data: listAssetTransfer,
+          totalPages: listAssetTransfer?.totalPages,
+        }
+      case 'asset-disposal':
+        return {
+          data: listDisposal,
+          totalPages: listDisposal?.totalPages,
+        }
+      case 'new-asset-addition':
+        return {
+          data: listInventoriesAccepted,
+          totalPages: listInventoriesAccepted?.totalPages,
+        }
+      default:
+        break
+    }
+  }
   return (
     <div className="inventory-module">
       <TopBar
@@ -935,6 +978,31 @@ const Inventory = () => {
               />
             ) : (
               ''
+            )
+          }
+          footerTemplate={
+            paginationData()?.totalPages !== 1 && (
+              <>
+                <Button
+                  primary
+                  flat
+                  disabled={page === 0}
+                  onClick={() => prevPage([page, setPage])}
+                >
+                  Prev
+                </Button>
+                {page + 1}
+                <Button
+                  primary
+                  flat
+                  disabled={page + 1 === paginationData()?.totalPages}
+                  onClick={() =>
+                    nextPage(paginationData()?.data, [page, setPage])
+                  }
+                >
+                  Next
+                </Button>
+              </>
             )
           }
         />
