@@ -29,6 +29,7 @@ import {
   updateDownstreamRs,
 } from 'libs/api/downstream-api'
 
+import { nextPage, prevPage } from 'libs/hooks/pagination'
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
 import {
@@ -74,21 +75,40 @@ const Downstream = ({ subkey }) => {
   const [commitData, setCommitData] = useState({})
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
+  const [page, setPage] = useState(0)
 
   const { addSupportingDocuments } = documents()
   const company = getOrganizationInfos()
   const role = useRole('downstream')
 
   const { data: listLiquefiedPetroleumGas, refetch: refetchLpgList } = useQuery(
-    ['listLpgDownstreamByLoggedUser'],
+    [
+      'listLpgDownstreamByLoggedUser',
+      currentTab === 0 && {
+        size: 20,
+        page: page,
+      },
+    ],
     listLpgDownstreamByLoggedUser,
   )
   const { data: ListNaturalGas, refetch: refetchNgList } = useQuery(
-    ['listNgDownstreamByLoggedUser'],
+    [
+      'listNgDownstreamByLoggedUser',
+      currentTab === 1 && {
+        size: 20,
+        page: page,
+      },
+    ],
     listNgDownstreamByLoggedUser,
   )
   const { data: LisPetroleumProducts, refetch: refetchRsList } = useQuery(
-    ['listRsDownstreamByLoggedUser'],
+    [
+      'listRsDownstreamByLoggedUser',
+      currentTab === 2 && {
+        size: 20,
+        page: page,
+      },
+    ],
     listRsDownstreamByLoggedUser,
   )
 
@@ -129,6 +149,10 @@ const Downstream = ({ subkey }) => {
       refetchRsList()
     },
   })
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
+
   const submitDraft = (subModule, objectId) => {
     const body = {
       subModule: subModule,
@@ -730,17 +754,7 @@ const Downstream = ({ subkey }) => {
     }
   }
   const dataMht = useMemo(() => {
-    switch (currentTab) {
-      case 0:
-        return downstreamRespData()
-      case 1:
-        return downstreamRespData()
-      case 2:
-        return downstreamRespData()
-
-      default:
-        return downstreamRespData()
-    }
+    return downstreamRespData()
   }, [responseUploadLpg, responseUploadNg, responseUploadRs])
 
   const renderDialogData = (data) => {
@@ -798,6 +812,25 @@ const Downstream = ({ subkey }) => {
         break
     }
   }
+  const paginationData = () => {
+    switch (currentTab) {
+      case 0:
+        return {
+          data: listLiquefiedPetroleumGas,
+          totalPages: listLiquefiedPetroleumGas?.totalPages,
+        }
+      case 1:
+        return { data: ListNaturalGas, totalPages: ListNaturalGas?.totalPages }
+      case 2:
+        return {
+          data: LisPetroleumProducts,
+          totalPages: LisPetroleumProducts?.totalPages,
+        }
+      default:
+        break
+    }
+  }
+
   return (
     <>
       <TopBar
@@ -831,6 +864,31 @@ const Downstream = ({ subkey }) => {
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
             onSelectRows={setSelectedRow}
+            footerTemplate={
+              paginationData()?.totalPages !== 1 && (
+                <>
+                  <Button
+                    primary
+                    flat
+                    disabled={page === 0}
+                    onClick={() => prevPage([page, setPage])}
+                  >
+                    Prev
+                  </Button>
+                  {page + 1}
+                  <Button
+                    primary
+                    flat
+                    disabled={page + 1 === paginationData()?.totalPages}
+                    onClick={() =>
+                      nextPage(paginationData()?.data, [page, setPage])
+                    }
+                  >
+                    Next
+                  </Button>
+                </>
+              )
+            }
             withChecked
             singleSelect
             hideTotal={false}

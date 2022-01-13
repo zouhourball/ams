@@ -7,7 +7,7 @@ export const getListFlaring = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/flaring/${queryKey[1]}?sort=metaData.createdAt,desc`, // daily, monthly-station, annual-forecast
+      `${appUrl}/pulse-be/api/v2/flaring/${queryKey[1]}?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`, // daily, monthly-station, annual-forecast
       {
         method: 'GET',
       },

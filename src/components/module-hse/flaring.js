@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
@@ -24,6 +24,7 @@ import {
 } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import { nextPage, prevPage } from 'libs/hooks/pagination'
 
 import { addToast } from 'modules/app/actions'
 
@@ -68,13 +69,23 @@ const Flaring = () => {
   const [currentUpload, setCurrentUpload] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
+  const [page, setPage] = useState(0)
 
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
-
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   const { data: listFlaring, refetch: refetchList } = useQuery(
-    ['getListFlaring', currentTab],
+    [
+      'getListFlaring',
+      currentTab,
+      {
+        size: 20,
+        page: page,
+      },
+    ],
     getListFlaring,
     {
       refetchOnWindowFocus: false,
@@ -764,6 +775,29 @@ const Flaring = () => {
                   title={`${selectedRow?.length} Row Selected`}
                   actions={actionsHeader()}
                 />
+              )
+            }
+            footerTemplate={
+              listFlaring?.totalPages !== 1 && (
+                <>
+                  <Button
+                    primary
+                    flat
+                    disabled={page === 0}
+                    onClick={() => prevPage([page, setPage])}
+                  >
+                    Prev
+                  </Button>
+                  {page + 1}
+                  <Button
+                    primary
+                    flat
+                    disabled={page + 1 === listFlaring?.totalPages}
+                    onClick={() => nextPage(listFlaring, [page, setPage])}
+                  >
+                    Next
+                  </Button>
+                </>
               )
             }
           />
