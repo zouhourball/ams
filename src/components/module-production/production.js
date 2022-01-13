@@ -29,6 +29,7 @@ import {
   overrideProductionReport,
   deleteProduction,
   updateDailyProduction,
+  deleteAllProduction,
 } from 'libs/api/api-production'
 
 import TopBar from 'components/top-bar'
@@ -844,11 +845,14 @@ const Production = () => {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) =>
-                    handleDeleteProduction(currentTab, row?.id),
-                  ),
-                ).then(() => {
+                selectedRow?.length > 0 &&
+                deleteAllProduction(currentTab, selectedRow).then((res) => {
+                  dispatch(
+                    addToast(
+                      <ToastMsg text={'Successfully deleted'} type="success" />,
+                      'hide',
+                    ),
+                  )
                   refetchList()
                 }),
             },

@@ -4,6 +4,7 @@ import { Button, DialogContainer } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
+import { useDispatch } from 'react-redux'
 
 import {
   listLpgDownstreamByLoggedUser,
@@ -27,7 +28,9 @@ import {
   updateDownstreamLpg,
   updateDownstreamNg,
   updateDownstreamRs,
+  deleteAllDownstream,
 } from 'libs/api/downstream-api'
+import { addToast } from 'modules/app/actions'
 
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
@@ -44,6 +47,7 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import ToastMsg from 'components/toast-msg'
 
 import {
   liquefiedPetroleumGasConfigs,
@@ -61,6 +65,8 @@ import {
 } from './mht-helper-dialog'
 
 const Downstream = ({ subkey }) => {
+  const dispatch = useDispatch()
+
   const [currentTab, setCurrentTab] = useState(
     subkey === 'lpg' ? 0 : subkey === 'ng' ? 1 : 2,
   )
@@ -142,6 +148,28 @@ const Downstream = ({ subkey }) => {
         return updateDownstreamNgMutation.mutate(body)
       case 2:
         return updateDownstreamRsMutation.mutate(body)
+      default:
+        break
+    }
+  }
+
+  const renderSectionKey = () => {
+    switch (currentTab) {
+      case 0:
+        return {
+          name: 'lpg',
+          refetch: () => refetchLpgList(),
+        }
+      case 1:
+        return {
+          name: 'ng',
+          refetch: () => refetchNgList(),
+        }
+      case 2:
+        return {
+          name: 'rs',
+          refetch: () => refetchRsList(),
+        }
       default:
         break
     }
@@ -510,10 +538,28 @@ const Downstream = ({ subkey }) => {
         break
     }
   }
+  // const tabsList = [
+  //   'Liquefied Petroleum Gas (LPG)',
+  //   'Natural Gas (NG)',
+  //   'Petroleum Products',
+  // ]
   const tabsList = [
-    'Liquefied Petroleum Gas (LPG)',
-    'Natural Gas (NG)',
-    'Petroleum Products',
+    {
+      linkToNewTab: `/ams/downstream/lpg`,
+      label: 'Liquefied Petroleum Gas (LPG)',
+      key: 0,
+    },
+
+    {
+      linkToNewTab: `/ams/downstream/ng`,
+      label: 'Natural Gas (NG)',
+      key: 1,
+    },
+    {
+      linkToNewTab: `/ams/downstream/rs`,
+      label: 'Petroleum Products',
+      key: 2,
+    },
   ]
   const renderCurrentTabData = () => {
     switch (currentTab) {
@@ -810,9 +856,28 @@ const Downstream = ({ subkey }) => {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) => handleDeleteDownstream(row)),
-                ),
+                selectedRow?.length > 0 &&
+                deleteAllDownstream(subkey, selectedRow).then((res) => {
+                  if (res.includes(true)) {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Successfully deleted'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    renderSectionKey().refetch()
+                  } else {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }
+                }),
             },
           ]
         }}
@@ -821,7 +886,10 @@ const Downstream = ({ subkey }) => {
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
-          setActiveTab={setCurrentTab}
+          setActiveTab={(tab) => {
+            setCurrentTab(tab)
+          }}
+          // setActiveTab={setCurrentTab}
           onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">

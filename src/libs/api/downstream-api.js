@@ -400,3 +400,39 @@ export const saveRs = async ({ body }) => {
   }
   return res
 }
+
+// --------
+
+export const deleteDownstream = async (subModule, objectId) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/${subModule}/${objectId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const deleteAllDownstream = async (subModule, selectedRow) => {
+  const list = selectedRow?.map((row) => {
+    return { permitId: row?.id }
+  })
+  const deleteAllPromises = list.map((p) =>
+    deleteDownstream(subModule, p?.permitId),
+  )
+  let returnValue = []
+
+  await Promise.all(deleteAllPromises)
+    .then((values) => {
+      returnValue = values
+    })
+    .catch(() => {
+      returnValue = []
+    })
+  return returnValue
+}

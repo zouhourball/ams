@@ -272,7 +272,7 @@ export const updateDailyProduction = async ({
   return res
 }
 
-export const deleteProduction = async ({ subModule, objectId }) => {
+export const deleteProduction = async (subModule, objectId) => {
   let res
   try {
     res = await fetchJSON(
@@ -285,4 +285,14 @@ export const deleteProduction = async ({ subModule, objectId }) => {
     res = { error: e }
   }
   return res
+}
+
+export const deleteAllProduction = async (subModule, selectedRow) => {
+  const list = selectedRow?.map((row) => {
+    return { permitId: row?.id }
+  })
+  const deleteAllPromises = list.map((p) =>
+    deleteProduction(subModule, p?.permitId),
+  )
+  await Promise.all(deleteAllPromises)
 }
