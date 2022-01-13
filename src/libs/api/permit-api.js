@@ -53,7 +53,7 @@ export const checkPermit = async ({ body }) => {
   return res
 }
 
-export const deletePermit = async ({ objectId }) => {
+export const deletePermit = async (objectId) => {
   let res
   try {
     res = await fetchJSON(
@@ -66,6 +66,14 @@ export const deletePermit = async ({ objectId }) => {
     res = { error: e }
   }
   return res
+}
+
+export const deleteAll = async (selectedRow) => {
+  const list = selectedRow?.map((row) => {
+    return { permitId: row?.id }
+  })
+  const deleteAllPromises = list.map((p) => deletePermit(p?.permitId))
+  await Promise.all(deleteAllPromises)
 }
 
 export const listPermitsByLoggedUser = async ({ queryKey }) => {

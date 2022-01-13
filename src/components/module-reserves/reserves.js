@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
 import useRole from 'libs/hooks/use-role'
 
+import { useDispatch } from 'react-redux'
+
 import {
   uploadAnnualReport,
   uploadHistoryAndForecast,
@@ -17,13 +19,15 @@ import {
   overrideReport,
   saveReport,
   updateReserveReport,
-  deleteReport,
+  // deleteReport,
+  deleteAll,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 
 import documents from 'libs/hooks/documents'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import { addToast } from 'modules/app/actions'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
@@ -31,6 +35,7 @@ import UploadReportDialog from 'components/upload-report-dialog'
 import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
+import ToastMsg from 'components/toast-msg'
 
 import {
   annualReservesConfigs,
@@ -44,6 +49,8 @@ import {
 } from './helpers'
 
 const Reserves = ({ subkey }) => {
+  const dispatch = useDispatch()
+
   const [currentTab, setCurrentTab] = useState(
     subkey === 'annual' ? 0 : subkey === 'fyf' ? 1 : 2,
   )
@@ -554,11 +561,15 @@ const Reserves = ({ subkey }) => {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) =>
-                    deleteReport(row?.id, renderSectionKey().name),
-                  ),
-                ).then(() => renderSectionKey().refetch()),
+                deleteAll(selectedRow, renderSectionKey()?.name).then((res) => {
+                  dispatch(
+                    addToast(
+                      <ToastMsg text={'Successfully deleted'} type="success" />,
+                      'hide',
+                    ),
+                  )
+                  renderSectionKey().refetch()
+                }),
             },
           ]
         }}

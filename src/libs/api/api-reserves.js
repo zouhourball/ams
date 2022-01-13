@@ -147,6 +147,19 @@ export const deleteReport = async (objectId, subModule) => {
   }
   return res
 }
+
+// -----------------
+export const deleteAll = async (selectedRow, subModule) => {
+  const list = selectedRow?.map((row) => {
+    return { permitId: row?.id }
+  })
+  const deleteAllPromises = list.map((p) =>
+    deleteReport(p?.permitId, subModule),
+  )
+  await Promise.all(deleteAllPromises)
+}
+
+// -------------
 export const overrideReport = async ({ body, overrideId, subModule }) => {
   let res
   try {
