@@ -17,6 +17,7 @@ import {
   overrideFlaringReport,
   deleteFlaring,
   updateFlaring,
+  deleteAllFlaring,
 } from 'libs/api/api-flaring'
 import {
   downloadTemp,
@@ -730,11 +731,33 @@ const Flaring = () => {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) =>
-                    handleDeleteFlaring(currentTab, row?.id),
-                  ),
-                ).then(() => refetchList()),
+                selectedRow?.length > 0 &&
+                deleteAllFlaring(subModule, selectedRow).then((res) => {
+                  if (res.includes(true)) {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Successfully deleted'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  } else {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }
+                }),
+              // Promise.all(
+              //   selectedRow?.map((row) =>
+              //     handleDeleteFlaring(currentTab, row?.id),
+              //   ),
+              // ).then(() => refetchList()),
             },
           ]
         }}
