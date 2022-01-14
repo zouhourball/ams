@@ -1,10 +1,14 @@
 import { useState, useMemo } from 'react'
 import { useQuery, useMutation } from 'react-query'
 import { Button, DialogContainer } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
+
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch } from 'react-redux'
 
 import {
   listLpgDownstreamByLoggedUser,
@@ -74,7 +78,6 @@ const Downstream = ({ subkey }) => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
@@ -82,6 +85,11 @@ const Downstream = ({ subkey }) => {
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
+
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
 
   const { addSupportingDocuments } = documents()
   const company = getOrganizationInfos()
@@ -665,6 +673,10 @@ const Downstream = ({ subkey }) => {
         )
     }
   }
+  const selectedRow = selectedRowSelector.map(
+    (id) => renderCurrentTabData()[id],
+  )
+
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -921,9 +933,8 @@ const Downstream = ({ subkey }) => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
+            setSelectedRow(tab)
           }}
-          // setActiveTab={setCurrentTab}
-          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht

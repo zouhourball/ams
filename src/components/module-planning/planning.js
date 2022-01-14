@@ -1,8 +1,12 @@
 import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
+
+import { useDispatch, useSelector } from 'react-redux'
 import { useMutation, useQuery } from 'react-query'
-import { useDispatch } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
 import { get } from 'lodash-es'
@@ -50,7 +54,6 @@ const Planning = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [currentUpload, setCurrentUpload] = useState()
@@ -63,6 +66,10 @@ const Planning = () => {
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
 
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
   // const subModuleByCurrentTab = () => {
   //   switch (currentTab) {
   //     case 0:
@@ -471,6 +478,7 @@ const Planning = () => {
       }
     },
   )
+  const selectedRow = selectedRowSelector.map((id) => tableDataPlanning[id])
 
   const renderDialogData = (data) => {
     switch (currentTab) {
@@ -587,8 +595,8 @@ const Planning = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
+          setSelectedRow(tab)
         }}
-        onSelectRows={setSelectedRow}
       />
       <Mht
         configs={planningConfigs(UploadSupportedDocumentFromTable)}

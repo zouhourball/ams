@@ -2,9 +2,11 @@ import { useState, useMemo } from 'react'
 import { Button, DialogContainer } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
-import Mht from '@target-energysolutions/mht'
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -59,7 +61,6 @@ const Inventory = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   /*   const [selectedRowBase, setSelectedRowBase] = useState([])
   const [selectedRowConsumption, setSelectedRowConsumption] = useState([])
   */ const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
@@ -79,6 +80,12 @@ const Inventory = () => {
   const blocks = getBlocks()
   const [currentInventoryId, setCurrentInventoryId] = useState('')
   const [page, setPage] = useState(0)
+
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
+
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', page, 20],
     getInventories,
@@ -795,6 +802,11 @@ const Inventory = () => {
         return tableDataListAnnualBase
     }
   }
+
+  const selectedRow = selectedRowSelector.map(
+    (id) => renderCurrentTabData()[id],
+  )
+
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -938,9 +950,10 @@ const Inventory = () => {
       <NavBar
         tabsList={tabsList2}
         activeTab={currentTab}
-        setActiveTab={setCurrentTab}
-        onSelectRows={setSelectedRow}
-        selectedRow={selectedRow}
+        setActiveTab={(tab) => {
+          setCurrentTab(tab)
+          setSelectedRow(tab)
+        }}
       />
       <div className="inventory-module-table">
         <Mht
@@ -971,8 +984,8 @@ const Inventory = () => {
                   handleDeleteInventory,
                   setShowUploadRapportDialog,
                   setCurrentInventoryId,
-                  selectedRow[0].originalFileId,
-                  selectedRow[0].originalFileName,
+                  selectedRow[0]?.originalFileId,
+                  selectedRow[0]?.originalFileName,
                   downloadOriginalFile,
                 )}
               />

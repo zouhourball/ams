@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
 import { get } from 'lodash-es'
@@ -66,11 +68,15 @@ const Flaring = () => {
   const [filesList, setFileList] = useState([])
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   const [currentUpload, setCurrentUpload] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
+
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
 
   const blocks = getBlocks()
   const company = getOrganizationInfos()
@@ -538,6 +544,10 @@ const Flaring = () => {
     }
   }
 
+  const selectedRow = selectedRowSelector.map(
+    (id) => renderCurrentTabData()[id],
+  )
+
   const role = useRole('flaring')
 
   const annualReportActionsHelper = [
@@ -765,8 +775,10 @@ const Flaring = () => {
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
-          setActiveTab={setCurrentTab}
-          onSelectRows={setSelectedRow}
+          setActiveTab={(tab) => {
+            setCurrentTab(tab)
+            setSelectedRow(tab)
+          }}
         />
         <div className="subModule--table-wrapper">
           <Mht
