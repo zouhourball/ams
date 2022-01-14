@@ -9,7 +9,7 @@ export const listLpgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/lpg?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/downstream/lpg?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },
@@ -137,11 +137,11 @@ export const saveLpg = async ({ body, sub }) => {
   return res
 }
 // ng
-export const listNgDownstreamByLoggedUser = async () => {
+export const listNgDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/ng?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/downstream/ng?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },
@@ -269,11 +269,11 @@ export const saveNg = async ({ body }) => {
   return res
 }
 // Petroleum Products
-export const listRsDownstreamByLoggedUser = async () => {
+export const listRsDownstreamByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/downstream/rs?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/downstream/rs?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },

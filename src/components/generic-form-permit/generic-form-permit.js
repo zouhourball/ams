@@ -6,6 +6,8 @@ import {
   FontIcon,
   CircularProgress,
   Portal,
+  // Autocomplete,
+  // Button,
 } from 'react-md'
 import Dropzone from 'react-dropzone'
 import { DatePicker } from '@target-energysolutions/date-picker'
@@ -21,8 +23,28 @@ import './style.scss'
 const GenericForm = ({ fields }) => {
   const [datePickerState, setDatePickerState] = useState(false)
   const [loading, setLoading] = useState(false)
+  /* const [language, setLanguage] = useState(false)
   // const [files, setFiles] = useState({})
-
+  const insertChipFromAutocomplete = (suggestion, suggestionIndex, matches) => {
+    const suggestionObject = matches[suggestionIndex]
+    setLanguage(suggestionObject.autoLabel)
+  }
+  const getAllLanguages = (languagesList) => {
+    if (languagesList && languagesList.length > 0) {
+      const cleanDataObject = languagesList.map((elem) => {
+        return { autoLabel: elem.name, autoValue: elem.id }
+      })
+      return cleanDataObject
+      // let yFilter = skillsAdded
+      /* filteredX = cleanDataObject.filter(
+        itemX => !yFilter.includes(itemX.autoLabel),
+      )
+      return filteredX
+    } else {
+      return []
+    }
+    }
+  } */
   const createDropzone = (field) => {
     if (field?.loading !== loading) {
       setLoading(field?.loading)
@@ -157,6 +179,78 @@ const GenericForm = ({ fields }) => {
           )
         case 'fileInput':
           return createDropzone(field)
+          /* case 'autocomplete':
+          return (
+            <div className="requiredLanguages-autocomplete">
+              <Autocomplete
+                focusInputOnAutocomplete
+                simplifiedMenu={false}
+                listHeightRestricted
+                id={'autocomplete-suggestion'}
+                className="addSkillDialog-textField addLanguagesTextField"
+                filter={Autocomplete.caseInsensitiveFilter}
+                placeholder={'add_languages'}
+                data={[]/* getAllLanguages(field?.menuItems).filter(
+                  (v) =>
+                    !requiredLanguages.map((i) => i.name).includes(v.autoLabel),
+                ) } */
+          /* value={language}
+                dataValue={'autoValue'}
+                dataLabel={'autoLabel'}
+                onChange={setLanguage}
+                onAutocomplete={(suggestion, suggestionIndex, matches) => {
+                  insertChipFromAutocomplete(
+                    suggestion,
+                    suggestionIndex,
+                    matches,
+                  )
+                }}
+                rightIcon={
+                  <Button
+                    flat
+                    primary
+                    disabled={!language || !isNaN(language)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      /* field?.menuItems?.find((lg) => lg.name === language) &&
+                        field?.onChange() */
+          /* onEditDetails('requiredLanguages', [
+                          ...requiredLanguages,
+                          field?.menuItems?.find((lg) => lg.name === language),
+                        ]) */
+        /* console.log('hello')
+                      setLanguage('')
+                    }}
+                    className={`add_skill_Button ${
+                      !language || !isNaN(language) ? 'disabled' : ''
+                    }`}
+                  >
+                    {'add_lang'}
+                  </Button>
+                }
+              />
+              <div className="requiredLanguages-autocomplete-languageWrapper">
+                {/* requiredLanguages &&
+                  requiredLanguages.map((lang, index) => (
+                    <span key={index} className="chip">
+                      <span className="chip-label">{lang.name}</span>
+                      <Button
+                        icon
+                        onClick={() => {
+                          onEditDetails('requiredLanguages', [
+                            ...requiredLanguages.filter(
+                              (lg) => lg.id !== lang.id,
+                            ),
+                          ])
+                        }}
+                      >
+                        close
+                      </Button>
+                    </span>
+                      )) }
+              </div>
+            </div>
+          ) */
         default:
           return (
             <TextField
