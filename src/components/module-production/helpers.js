@@ -496,7 +496,7 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction(subModule, id)
+              handleDeleteProduction()
             },
           },
 
@@ -537,7 +537,7 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction(subModule, id)
+              handleDeleteProduction()
             },
           },
           {

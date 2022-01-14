@@ -280,7 +280,7 @@ export const detailFacilitiesCostByLoggedUser = async ({ queryKey }) => {
   return res
 }
 
-export const deleteRow = async ({ objectId, subModule }) => {
+export const deleteRow = async (objectId, subModule) => {
   let res
   try {
     res = await fetchJSON(
@@ -293,6 +293,22 @@ export const deleteRow = async ({ objectId, subModule }) => {
     res = { error: e }
   }
   return res
+}
+export const deleteRows = async (subModule, selectedRows) => {
+  const list = selectedRows?.map((row) => {
+    return { rowId: row?.id }
+  })
+  const deleteAllPromises = list.map((row) => deleteRow(row?.rowId, subModule))
+  let returnValue = []
+
+  await Promise.all(deleteAllPromises)
+    .then((values) => {
+      returnValue = values
+    })
+    .catch(() => {
+      returnValue = []
+    })
+  return returnValue
 }
 
 // ProdLifting

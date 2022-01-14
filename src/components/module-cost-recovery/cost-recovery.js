@@ -27,7 +27,8 @@ import {
   listFacilitiesCost,
   uploadFacilitiesCost,
   overrideFacilitiesCost,
-  deleteRow,
+  // deleteRow,
+  deleteRows,
 } from 'libs/api/cost-recovery-api'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -96,6 +97,7 @@ const CostRecovery = ({ subkey }) => {
   const selectedRow = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
+
   const dispatch = useDispatch()
 
   const { mutate: uploadAnnualCostsExp, data: responseUploadAnnualCost } =
@@ -117,7 +119,7 @@ const CostRecovery = ({ subkey }) => {
   const { mutate: uploadFacilities, data: responseUploadFacilities } =
     useMutation(uploadFacilitiesCost)
 
-  const { mutate: removeRow } = useMutation(deleteRow)
+  // const { mutate: removeRow } = useMutation(deleteRow)
 
   const genericApiForMhtData = () => {
     switch (currentTab) {
@@ -327,7 +329,6 @@ const CostRecovery = ({ subkey }) => {
       })) || []
     )
   }
-
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -907,110 +908,96 @@ const CostRecovery = ({ subkey }) => {
     }
   }
 
-  const handleDelete = (indexRow) => {
-    const indexElement = indexRow === 'oneItem' ? selectedRow[0] : indexRow
+  const renderSelectedItems = () => {
+    return (
+      selectedRow?.map((el) => ({
+        id: renderCurrentTabData()[el]?.id,
+      })) || []
+    )
+  }
+
+  const handleDelete = () => {
+    // const indexElement = indexRow === 'oneItem' ? selectedRow[0] : indexRow
     switch (currentTab) {
       case 1:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'contracts',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                dispatch(setSelectedRow([]))
-                setShowDeleteDialog(false)
-              }
-            },
-          },
-        )
+        selectedRow?.length > 0 &&
+          deleteRows('contracts', renderSelectedItems()).then((res) => {
+            if (res.includes(true)) {
+              refetchCurrentData()
+              dispatch(setSelectedRow([]))
+              setShowDeleteDialog(false)
+            } else {
+              // refetchCurrentData()
+              // dispatch(setSelectedRow([]))
+              setShowDeleteDialog(false)
+            }
+          })
         break
       case 0:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'costs',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                dispatch(setSelectedRow([]))
-                setShowDeleteDialog(false)
-              }
-            },
-          },
-        )
+        deleteRows('costs', renderSelectedItems()).then((res) => {
+          if (res.includes(true)) {
+            refetchCurrentData()
+            dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          } else {
+            // refetchCurrentData()
+            // dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          }
+        })
         break
       case 2:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'prodLifting',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                dispatch(setSelectedRow([]))
-                setShowDeleteDialog(false)
-              }
-            },
-          },
-        )
+        deleteRows('prodLifting', renderSelectedItems()).then((res) => {
+          if (res.includes(true)) {
+            refetchCurrentData()
+            dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          } else {
+            // refetchCurrentData()
+            // dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          }
+        })
         break
       case 3:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'transaction',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                dispatch(setSelectedRow([]))
-                setShowDeleteDialog(false)
-              }
-            },
-          },
-        )
+        deleteRows('transaction', renderSelectedItems()).then((res) => {
+          if (res.includes(true)) {
+            refetchCurrentData()
+            dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          } else {
+            // refetchCurrentData()
+            // dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          }
+        })
         break
       case 4:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'affiliate',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                dispatch(setSelectedRow([]))
-                setShowDeleteDialog(false)
-              }
-            },
-          },
-        )
+        deleteRows('affiliate', renderSelectedItems()).then((res) => {
+          if (res.includes(true)) {
+            refetchCurrentData()
+            dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          } else {
+            // refetchCurrentData()
+            // dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          }
+        })
+
         break
       case 5:
-        removeRow(
-          {
-            objectId: renderCurrentTabData()[indexElement]?.id,
-            subModule: 'facilities',
-          },
-          {
-            onSuccess: (res) => {
-              if (res) {
-                refetchCurrentData()
-                setShowDeleteDialog(false)
-                dispatch(setSelectedRow([]))
-              }
-            },
-          },
-        )
+        deleteRows('facilities', renderSelectedItems()).then((res) => {
+          if (res.includes(true)) {
+            refetchCurrentData()
+            dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          } else {
+            // refetchCurrentData()
+            // dispatch(setSelectedRow([]))
+            setShowDeleteDialog(false)
+          }
+        })
         break
       default:
         break
@@ -1176,7 +1163,8 @@ const CostRecovery = ({ subkey }) => {
               key: 2,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(selectedRow?.map((row) => handleDelete(row))),
+                // Promise.all(selectedRow?.map((row) => handleDelete(row))),
+                handleDelete(),
             },
           ]
         }}
@@ -1306,7 +1294,7 @@ const CostRecovery = ({ subkey }) => {
         <ConfirmDialog
           onDiscard={() => setShowDeleteDialog(false)}
           visible={showDeleteDialog}
-          handleOverride={() => handleDelete('oneItem')}
+          handleOverride={() => handleDelete()}
           message={'Do you confirm Delete ?'}
           confirmLabel={'Confirm'}
         />
