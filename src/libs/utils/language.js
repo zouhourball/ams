@@ -1,7 +1,5 @@
 import { getCookie, setCookie } from 'tiny-cookie'
 
-import { TOKEN_DOMAIN } from '../../../build-profile'
-
 const LANUAGE_KEY = 'language'
 
 const curHost = window.location.hostname

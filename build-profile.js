@@ -49,5 +49,5 @@ module.exports = {
     'https://venue.dev.meeraspace.com',
   ),
   PRODUCT_APP_URL_WORKSPACE: JSON.stringify('https://dev.meeraspace.com'),
-  TOKEN_DOMAIN: '',
+  TOKEN_DOMAIN: JSON.stringify('https://dev.meeraspace.com'),
 }
