@@ -981,7 +981,7 @@ const Inventory = () => {
             )
           }
           footerTemplate={
-            paginationData()?.totalPages !== 1 && (
+            paginationData()?.totalPages > 1 && (
               <>
                 <Button
                   primary

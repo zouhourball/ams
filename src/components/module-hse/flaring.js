@@ -778,7 +778,7 @@ const Flaring = () => {
               )
             }
             footerTemplate={
-              listFlaring?.totalPages !== 1 && (
+              listFlaring?.totalPages > 1 && (
                 <>
                   <Button
                     primary

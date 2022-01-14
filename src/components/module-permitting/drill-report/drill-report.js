@@ -3,6 +3,7 @@ import { Button } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 import { navigate } from '@reach/router'
 import moment from 'moment'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
@@ -20,6 +21,8 @@ const DrillReport = ({ drillReportId }) => {
       plannedSpudDate: new Date(),
     },
   })
+  const company = getOrganizationInfos()
+  // console.log(company);
 
   const { data: detailData } = useQuery(
     ['drillReportById', 'Drill', drillReportId],
@@ -33,6 +36,7 @@ const DrillReport = ({ drillReportId }) => {
         metaData: {
           ...formData.metaData,
           block: drillReport.block,
+          company: company,
         },
         data: {
           plannedSpudDate: drillReport.date,
@@ -53,10 +57,11 @@ const DrillReport = ({ drillReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          company: detailData?.metaData?.company,
+          // company: detailData?.metaData?.company,
           permitType: detailData?.metaData?.permitType,
           block: detailData?.metaData?.block,
           wellName: detailData?.metaData?.wellName,
+          // company: company,
         },
         data,
       })
@@ -350,6 +355,7 @@ const DrillReport = ({ drillReportId }) => {
     })
   }
   const onAdd = () => {
+    // console.log(formData);
     addPermitDrill.mutate({
       body: { ...formData, id: detailData?.id, data: formatData() },
     })
