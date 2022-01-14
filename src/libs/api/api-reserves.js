@@ -46,11 +46,11 @@ export const uploadAnnualResource = async ({ body }) => {
   }
   return res
 }
-export const getAnnualReport = async () => {
+export const getAnnualReport = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annual?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v1/reserve/annual?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },
@@ -61,11 +61,11 @@ export const getAnnualReport = async () => {
   return res
 }
 
-export const getHistoryAndForecast = async () => {
+export const getHistoryAndForecast = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/fyf?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v1/reserve/fyf?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },
@@ -75,11 +75,11 @@ export const getHistoryAndForecast = async () => {
   }
   return res
 }
-export const getAnnualResourceDetail = async () => {
+export const getAnnualResourceDetail = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/reserve/annualResource?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v1/reserve/annualResource?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },

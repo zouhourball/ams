@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Button, DialogContainer } from 'react-md'
+import { Button, DialogContainer, TextField } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
 import Mht, {
@@ -12,7 +12,6 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { get } from 'lodash-es'
 import useRole from 'libs/hooks/use-role'
-import { nextPage, prevPage } from 'libs/hooks/pagination'
 
 import {
   uploadAnnualBaseInventoryReport,
@@ -80,6 +79,7 @@ const Inventory = () => {
   const blocks = getBlocks()
   const [currentInventoryId, setCurrentInventoryId] = useState('')
   const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -87,7 +87,7 @@ const Inventory = () => {
   const setSelectedRow = dispatch(setSelectedRowAction)
 
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
-    ['getListAnnualBase', 'base', page, 20],
+    ['getListAnnualBase', 'base', page, size],
     getInventories,
     {
       refetchOnWindowFocus: false,
@@ -97,7 +97,7 @@ const Inventory = () => {
     data: listAssetTransfer,
     refetch: refetchListAssetTransferInventory,
   } = useQuery(
-    ['getListAnnualBase', 'assetTransferRequestProcess', page, 20],
+    ['getListAnnualBase', 'assetTransferRequestProcess', page, size],
     getInventories,
     {
       refetchOnWindowFocus: false,
@@ -105,14 +105,14 @@ const Inventory = () => {
   )
   const { data: listDisposal, refetch: refetchListDisposalInventory } =
     useQuery(
-      ['getListAnnualBase', 'assetDisposalRequestProcess', page, 20],
+      ['getListAnnualBase', 'assetDisposalRequestProcess', page, size],
       getInventories,
       {
         refetchOnWindowFocus: false,
       },
     )
   const { data: listInventoriesAccepted } = useQuery(
-    ['getListInventoriesAccepted', page, 20],
+    ['getListInventoriesAccepted', page, size],
     getInventoriesAccepted,
     {
       refetchOnWindowFocus: false,
@@ -896,31 +896,37 @@ const Inventory = () => {
         return {
           data: listAnnualBase,
           totalPages: listAnnualBase?.totalPages,
+          totalElements: listAnnualBase?.totalElements,
         }
       case 'asset-consumption':
         return {
           data: listInventoriesAccepted,
           totalPages: listInventoriesAccepted?.totalPages,
+          totalElements: listInventoriesAccepted?.totalElements,
         }
       case 'surplus-declaration':
         return {
           data: listInventoriesAccepted,
           totalPages: listInventoriesAccepted?.totalPages,
+          totalElements: listInventoriesAccepted?.totalElements,
         }
       case 'asset-transfer':
         return {
           data: listAssetTransfer,
           totalPages: listAssetTransfer?.totalPages,
+          totalElements: listAssetTransfer?.totalElements,
         }
       case 'asset-disposal':
         return {
           data: listDisposal,
           totalPages: listDisposal?.totalPages,
+          totalElements: listDisposal?.totalElements,
         }
       case 'new-asset-addition':
         return {
           data: listInventoriesAccepted,
           totalPages: listInventoriesAccepted?.totalPages,
+          totalElements: listInventoriesAccepted?.totalElements,
         }
       default:
         break
@@ -996,25 +1002,38 @@ const Inventory = () => {
           footerTemplate={
             paginationData()?.totalPages > 1 && (
               <>
-                <Button
-                  primary
-                  flat
-                  disabled={page === 0}
-                  onClick={() => prevPage([page, setPage])}
-                >
-                  Prev
-                </Button>
-                {page + 1}
-                <Button
-                  primary
-                  flat
-                  disabled={page + 1 === paginationData()?.totalPages}
-                  onClick={() =>
-                    nextPage(paginationData()?.data, [page, setPage])
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={page + 1}
+                  onChange={(v) =>
+                    v >= paginationData()?.totalPages
+                      ? setPage(paginationData()?.totalPages - 1)
+                      : setPage(v)
                   }
-                >
-                  Next
-                </Button>
+                  // disabled={status === 'closed'}
+                />
+                of {paginationData()?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  placeholder={`Max number is ${
+                    paginationData()?.totalElements
+                  }`}
+                  className="show"
+                  value={size}
+                  onChange={(v) =>
+                    v > paginationData()?.totalElements
+                      ? setSize(paginationData()?.totalElements)
+                      : setSize(v)
+                  }
+                />
               </>
             )
           }

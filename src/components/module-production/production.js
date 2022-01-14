@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { Button, SelectField, DialogContainer } from 'react-md'
+import { useState, useEffect, useMemo } from 'react'
+import { Button, SelectField, DialogContainer, TextField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
 import moment from 'moment'
@@ -66,6 +66,9 @@ const Production = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
+
   const selectedRow = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -437,13 +440,22 @@ const Production = () => {
   }
 
   const { data: listDailyProduction, refetch: refetchList } = useQuery(
-    ['getListProduction', currentTab],
+    [
+      'getListProduction',
+      currentTab,
+      {
+        size: size,
+        page: page,
+      },
+    ],
     getListProduction,
     {
       refetchOnWindowFocus: false,
     },
   )
-
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   const dailyData = (get(currentUpload, 'values', []) || []).map((el) => {
     return {
       production: [{ item: el?.name }, { uom: el?.unit }],
@@ -944,6 +956,41 @@ const Production = () => {
             />
           ) : (
             ''
+          )
+        }
+        footerTemplate={
+          listDailyProduction?.totalPages > 1 && (
+            <>
+              &nbsp;|&nbsp;Page
+              <TextField
+                id="page_num"
+                lineDirection="center"
+                block
+                type={'number'}
+                className="page"
+                value={page + 1}
+                onChange={(v) =>
+                  v >= listDailyProduction?.totalPages
+                    ? setPage(listDailyProduction?.totalPages - 1)
+                    : setPage(v)
+                }
+                // disabled={status === 'closed'}
+              />
+              of {listDailyProduction?.totalPages}
+              &nbsp;|&nbsp;Show
+              <TextField
+                id="el_num"
+                lineDirection="center"
+                block
+                className="show"
+                value={size}
+                onChange={(v) =>
+                  v > listDailyProduction?.totalElements
+                    ? setSize(listDailyProduction?.totalElements)
+                    : setSize(v)
+                }
+              />
+            </>
           )
         }
       />

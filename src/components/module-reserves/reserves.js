@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { Button, CircularProgress, DialogContainer } from 'react-md'
+import { Button, CircularProgress, DialogContainer, TextField } from 'react-md'
 
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -68,6 +68,8 @@ const Reserves = ({ subkey }) => {
   const [filesList, setFileList] = useState({})
   const [loading, setLoading] = useState(false)
   const [overrideId, setOverrideId] = useState()
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
   // const [commitedDialog, setCommitedDialog] = useState(false)
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -80,15 +82,39 @@ const Reserves = ({ subkey }) => {
   const company = getOrganizationInfos()
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
-    ['getAnnualReport'],
+    [
+      'getAnnualReport',
+      {
+        size: size,
+        page: page,
+      },
+    ],
     getAnnualReport,
   )
   const { data: listHistoryAndForecast, refetch: refetchHistoryAndForecast } =
-    useQuery(['getHistoryAndForecast'], getHistoryAndForecast)
+    useQuery(
+      [
+        'getHistoryAndForecast',
+        {
+          size: size,
+          page: page,
+        },
+      ],
+      getHistoryAndForecast,
+    )
   const {
     data: listAnnualResourceDetail,
     refetch: refetchAnnualResourceDetail,
-  } = useQuery(['getAnnualResourceDetail'], getAnnualResourceDetail)
+  } = useQuery(
+    [
+      'getAnnualResourceDetail',
+      {
+        size: size,
+        page: page,
+      },
+    ],
+    getAnnualResourceDetail,
+  )
 
   const {
     mutate: uploadAnnualReportMutate,
@@ -345,16 +371,19 @@ const Reserves = ({ subkey }) => {
         return {
           name: 'annual',
           refetch: () => refetchAnnualReserves(),
+          totalElements: listAnnualReserves?.totalElements,
         }
       case 1:
         return {
           name: 'fyf',
           refetch: () => refetchHistoryAndForecast(),
+          totalElements: listHistoryAndForecast?.totalElements,
         }
       case 2:
         return {
           name: 'annualResource',
           refetch: () => getAnnualResourceDetail(),
+          totalElements: listAnnualResourceDetail?.totalElements,
         }
       default:
         break
@@ -552,6 +581,9 @@ const Reserves = ({ subkey }) => {
       },
     )
   }
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   return (
     <>
       {(loading ||
@@ -604,6 +636,41 @@ const Reserves = ({ subkey }) => {
             onSelectRows={setSelectedRow}
             withChecked
             selectedRow={selectedRow}
+            footerTemplate={
+              renderSectionKey()?.totalPages > 1 && (
+                <>
+                  &nbsp;|&nbsp;Page
+                  <TextField
+                    id="page_num"
+                    lineDirection="center"
+                    block
+                    type={'number'}
+                    className="page"
+                    value={page + 1}
+                    onChange={(v) =>
+                      v >= renderSectionKey()?.totalPages
+                        ? setPage(renderSectionKey()?.totalPages - 1)
+                        : setPage(v)
+                    }
+                    // disabled={status === 'closed'}
+                  />
+                  of {renderSectionKey()?.totalPages}
+                  &nbsp;|&nbsp;Show
+                  <TextField
+                    id="el_num"
+                    lineDirection="center"
+                    block
+                    className="show"
+                    value={size}
+                    onChange={(v) =>
+                      v > renderSectionKey()?.totalElements
+                        ? setSize(renderSectionKey()?.totalElements)
+                        : setSize(v)
+                    }
+                  />
+                </>
+              )
+            }
             headerTemplate={
               (selectedRow?.length === 1 && (
                 <HeaderTemplate

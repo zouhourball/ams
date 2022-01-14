@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useQuery, useMutation } from 'react-query'
-import { Button, DialogContainer } from 'react-md'
+import { Button, DialogContainer, TextField } from 'react-md'
 
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -36,7 +36,6 @@ import {
 } from 'libs/api/downstream-api'
 import { addToast } from 'modules/app/actions'
 
-import { nextPage, prevPage } from 'libs/hooks/pagination'
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
 import {
@@ -69,6 +68,7 @@ import {
   configsNgDialogMht,
 } from './mht-helper-dialog'
 
+import './style.scss'
 const Downstream = ({ subkey }) => {
   const dispatch = useDispatch()
 
@@ -85,6 +85,7 @@ const Downstream = ({ subkey }) => {
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -99,7 +100,7 @@ const Downstream = ({ subkey }) => {
     [
       'listLpgDownstreamByLoggedUser',
       currentTab === 0 && {
-        size: 20,
+        size: size,
         page: page,
       },
     ],
@@ -109,7 +110,7 @@ const Downstream = ({ subkey }) => {
     [
       'listNgDownstreamByLoggedUser',
       currentTab === 1 && {
-        size: 20,
+        size: size,
         page: page,
       },
     ],
@@ -119,7 +120,7 @@ const Downstream = ({ subkey }) => {
     [
       'listRsDownstreamByLoggedUser',
       currentTab === 2 && {
-        size: 20,
+        size: size,
         page: page,
       },
     ],
@@ -876,13 +877,19 @@ const Downstream = ({ subkey }) => {
         return {
           data: listLiquefiedPetroleumGas,
           totalPages: listLiquefiedPetroleumGas?.totalPages,
+          totalElements: listLiquefiedPetroleumGas?.totalElements,
         }
       case 1:
-        return { data: ListNaturalGas, totalPages: ListNaturalGas?.totalPages }
+        return {
+          data: ListNaturalGas,
+          totalPages: ListNaturalGas?.totalPages,
+          totalElements: ListNaturalGas?.totalElements,
+        }
       case 2:
         return {
           data: LisPetroleumProducts,
           totalPages: LisPetroleumProducts?.totalPages,
+          totalElements: LisPetroleumProducts?.totalElements,
         }
       default:
         break
@@ -946,25 +953,39 @@ const Downstream = ({ subkey }) => {
             footerTemplate={
               paginationData()?.totalPages > 1 && (
                 <>
-                  <Button
-                    primary
-                    flat
-                    disabled={page === 0}
-                    onClick={() => prevPage([page, setPage])}
-                  >
-                    Prev
-                  </Button>
-                  {page + 1}
-                  <Button
-                    primary
-                    flat
-                    disabled={page + 1 === paginationData()?.totalPages}
-                    onClick={() =>
-                      nextPage(paginationData()?.data, [page, setPage])
+                  &nbsp;|&nbsp;Page
+                  <TextField
+                    id="page_num"
+                    lineDirection="center"
+                    block
+                    type={'number'}
+                    className="page"
+                    value={page + 1}
+                    onChange={(v) =>
+                      v >= paginationData()?.totalPages
+                        ? setPage(paginationData()?.totalPages - 1)
+                        : setPage(v)
                     }
-                  >
-                    Next
-                  </Button>
+                    // disabled={status === 'closed'}
+                  />
+                  of {paginationData()?.totalPages}
+                  &nbsp;|&nbsp;Show
+                  <TextField
+                    id="el_num"
+                    lineDirection="center"
+                    block
+                    placeholder={`Max number is ${
+                      paginationData()?.totalElements
+                    }`}
+                    className="show"
+                    value={size}
+                    onChange={(v) =>
+                      v > paginationData()?.totalElements
+                        ? setSize(paginationData()?.totalElements)
+                        : setSize(v)
+                    }
+                    // disabled={status === 'closed'}
+                  />
                 </>
               )
             }

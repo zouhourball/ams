@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Button } from 'react-md'
+import { Button, TextField } from 'react-md'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
 } from '@target-energysolutions/mht'
@@ -27,7 +27,6 @@ import {
 } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
-import { nextPage, prevPage } from 'libs/hooks/pagination'
 
 import { addToast } from 'modules/app/actions'
 
@@ -72,6 +71,7 @@ const Flaring = () => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -89,7 +89,7 @@ const Flaring = () => {
       'getListFlaring',
       currentTab,
       {
-        size: 20,
+        size: size,
         page: page,
       },
     ],
@@ -803,23 +803,35 @@ const Flaring = () => {
             footerTemplate={
               listFlaring?.totalPages > 1 && (
                 <>
-                  <Button
-                    primary
-                    flat
-                    disabled={page === 0}
-                    onClick={() => prevPage([page, setPage])}
-                  >
-                    Prev
-                  </Button>
-                  {page + 1}
-                  <Button
-                    primary
-                    flat
-                    disabled={page + 1 === listFlaring?.totalPages}
-                    onClick={() => nextPage(listFlaring, [page, setPage])}
-                  >
-                    Next
-                  </Button>
+                  &nbsp;|&nbsp;Page
+                  <TextField
+                    id="page_num"
+                    lineDirection="center"
+                    block
+                    type={'number'}
+                    className="page"
+                    value={page + 1}
+                    onChange={(v) =>
+                      v >= listFlaring?.totalPages
+                        ? setPage(listFlaring?.totalPages - 1)
+                        : setPage(v)
+                    }
+                    // disabled={status === 'closed'}
+                  />
+                  of {listFlaring?.totalPages}
+                  &nbsp;|&nbsp;Show
+                  <TextField
+                    id="el_num"
+                    lineDirection="center"
+                    block
+                    className="show"
+                    value={size}
+                    onChange={(v) =>
+                      v > listFlaring?.totalElements
+                        ? setSize(listFlaring?.totalElements)
+                        : setSize(v)
+                    }
+                  />
                 </>
               )
             }

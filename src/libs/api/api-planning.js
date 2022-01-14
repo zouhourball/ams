@@ -7,7 +7,7 @@ export const getListPlanning = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/${queryKey[1]}?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[1]}?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },

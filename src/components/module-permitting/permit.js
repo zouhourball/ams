@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Button } from 'react-md'
+import { Button, TextField } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery } from 'react-query'
 
@@ -18,7 +18,6 @@ import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
-import { nextPage, prevPage } from 'libs/hooks/pagination'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -46,6 +45,7 @@ const Permit = ({ subModule }) => {
     useState(false)
   const [information, setInformation] = useState({ date: new Date() })
   const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
@@ -67,6 +67,10 @@ const Permit = ({ subModule }) => {
           : currentTab === 2
             ? 'Abandon'
             : '',
+      {
+        size: size,
+        page: page,
+      },
       // },
     ],
     listPermitsByLoggedUser,
@@ -275,23 +279,36 @@ const Permit = ({ subModule }) => {
             footerTemplate={
               permitData?.totalPages > 1 && (
                 <>
-                  <Button
-                    primary
-                    flat
-                    disabled={page === 0}
-                    onClick={() => prevPage([page, setPage])}
-                  >
-                    Prev
-                  </Button>
-                  {page + 1}
-                  <Button
-                    primary
-                    flat
-                    disabled={page + 1 === permitData?.totalPages}
-                    onClick={() => nextPage(permitData, [page, setPage])}
-                  >
-                    Next
-                  </Button>
+                  &nbsp;|&nbsp;Page
+                  <TextField
+                    id="page_num"
+                    lineDirection="center"
+                    block
+                    type={'number'}
+                    className="page"
+                    value={page + 1}
+                    onChange={(v) =>
+                      v >= permitData?.totalPages
+                        ? setPage(permitData?.totalPages - 1)
+                        : setPage(v)
+                    }
+                    // disabled={status === 'closed'}
+                  />
+                  of {permitData?.totalPages}
+                  &nbsp;|&nbsp;Show
+                  <TextField
+                    id="el_num"
+                    lineDirection="center"
+                    block
+                    placeholder={`Max number is ${permitData?.totalElements}`}
+                    className="show"
+                    value={size}
+                    onChange={(v) =>
+                      v > permitData?.totalElements
+                        ? setSize(permitData?.totalElements)
+                        : setSize(v)
+                    }
+                  />
                 </>
               )
             }

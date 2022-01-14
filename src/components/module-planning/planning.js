@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Button } from 'react-md'
+import { Button, TextField } from 'react-md'
 
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -59,6 +59,8 @@ const Planning = () => {
   const [currentUpload, setCurrentUpload] = useState()
   const [overrideId, setOverrideId] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const [filesList, setFileList] = useState([])
   const role = useRole('planning')
@@ -84,7 +86,14 @@ const Planning = () => {
   // }
 
   const { data: listPlanning, refetch: refetchList } = useQuery(
-    ['getListPlanning', currentTab],
+    [
+      'getListPlanning',
+      currentTab,
+      {
+        size: size,
+        page: page,
+      },
+    ],
     getListPlanning,
     {
       refetchOnWindowFocus: false,
@@ -546,7 +555,9 @@ const Planning = () => {
         break
     }
   }
-
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   const uploadData = useMemo(() => {
     switch (currentTab) {
       case 'wpb':
@@ -634,6 +645,41 @@ const Planning = () => {
             />
           ) : (
             ''
+          )
+        }
+        footerTemplate={
+          listPlanning?.totalPages > 1 && (
+            <>
+              &nbsp;|&nbsp;Page
+              <TextField
+                id="page_num"
+                lineDirection="center"
+                block
+                type={'number'}
+                className="page"
+                value={page + 1}
+                onChange={(v) =>
+                  v >= listPlanning?.totalPages
+                    ? setPage(listPlanning?.totalPages - 1)
+                    : setPage(v)
+                }
+                // disabled={status === 'closed'}
+              />
+              of {listPlanning?.totalPages}
+              &nbsp;|&nbsp;Show
+              <TextField
+                id="el_num"
+                lineDirection="center"
+                block
+                className="show"
+                value={size}
+                onChange={(v) =>
+                  v > listPlanning?.totalElements
+                    ? setSize(listPlanning?.totalElements)
+                    : setSize(v)
+                }
+              />
+            </>
           )
         }
       />

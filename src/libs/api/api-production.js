@@ -6,7 +6,7 @@ export const getListProduction = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}?page=0&size=2000&sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v1/production/${queryKey[1]}?page=0&size=2000&sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
