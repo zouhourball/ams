@@ -15,7 +15,7 @@ import {
   commitFlaring,
   saveFlaring,
   overrideFlaringReport,
-  deleteFlaring,
+  // deleteFlaring,
   updateFlaring,
   deleteAllFlaring,
 } from 'libs/api/api-flaring'
@@ -316,34 +316,7 @@ const Flaring = () => {
       status: 'SUBMITTED',
     })
   }
-  const deleteFlaringMutate = useMutation(deleteFlaring, {
-    onSuccess: (res) => {
-      refetchList()
 
-      if (!res.error) {
-        // refetchList()
-        dispatch(
-          addToast(
-            <ToastMsg
-              text={res.message || 'Deleted successfully'}
-              type="success"
-            />,
-            'hide',
-          ),
-        )
-      } else {
-        dispatch(
-          addToast(
-            <ToastMsg
-              text={res.error?.body?.message || 'Something went wrong'}
-              type="error"
-            />,
-            'hide',
-          ),
-        )
-      }
-    },
-  })
   const renderCurrentTabDetailsData = () => {
     switch (currentTab) {
       case 'annual-forecast':
@@ -407,11 +380,26 @@ const Flaring = () => {
     }
   }
 
-  const handleDeleteFlaring = (subModule, objectId) => {
-    deleteFlaringMutate.mutate({
-      subModule,
-      objectId,
-    })
+  const handleDeleteFlaring = () => {
+    selectedRow?.length > 0 &&
+      deleteAllFlaring(subModule, selectedRow).then((res) => {
+        if (res.includes(true)) {
+          dispatch(
+            addToast(
+              <ToastMsg text={'Successfully deleted'} type="success" />,
+              'hide',
+            ),
+          )
+          refetchList()
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg text={'Something went wrong'} type="error" />,
+              'hide',
+            ),
+          )
+        }
+      })
   }
   const onCommitFlaring = (subModule) => {
     commitFlaringMutate.mutate({
