@@ -1,12 +1,15 @@
 import { useState, useMemo } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress, DialogContainer } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
+
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment'
 import useRole from 'libs/hooks/use-role'
-
-import { useDispatch } from 'react-redux'
 
 import {
   uploadAnnualReport,
@@ -58,7 +61,6 @@ const Reserves = ({ subkey }) => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   const [overrideDialog, setDialogOverride] = useState(false)
 
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
@@ -67,7 +69,13 @@ const Reserves = ({ subkey }) => {
   const [loading, setLoading] = useState(false)
   const [overrideId, setOverrideId] = useState()
   // const [commitedDialog, setCommitedDialog] = useState(false)
-
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
+  const UploadSupportedDocumentFromTable = (row) => {
+    setShowSupportedDocumentDialog(row)
+  }
   const role = useRole('reserves')
   const company = getOrganizationInfos()
 
@@ -314,9 +322,10 @@ const Reserves = ({ subkey }) => {
         )
     }
   }
-  const UploadSupportedDocumentFromTable = (row) => {
-    setShowSupportedDocumentDialog(row)
-  }
+
+  const selectedRow = selectedRowSelector.map(
+    (id) => renderCurrentTabData()[id],
+  )
 
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
@@ -578,8 +587,10 @@ const Reserves = ({ subkey }) => {
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
-          setActiveTab={setCurrentTab}
-          onSelectRows={setSelectedRow}
+          setActiveTab={(tab) => {
+            setCurrentTab(tab)
+            setSelectedRow(tab)
+          }}
         />
         <div className="subModule--table-wrapper">
           <Mht

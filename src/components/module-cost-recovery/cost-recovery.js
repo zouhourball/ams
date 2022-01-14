@@ -1177,7 +1177,6 @@ const CostRecovery = ({ subkey }) => {
             setCurrentTab(tab)
             dispatch(setSelectedRow([]))
           }}
-          onSelectRows={setSelectedRow}
         />
         <div className="subModule--table-wrapper">
           <Mht

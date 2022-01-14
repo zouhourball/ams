@@ -2,9 +2,13 @@ import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery } from 'react-query'
-import Mht from '@target-energysolutions/mht'
+
+import Mht, {
+  setSelectedRow as setSelectedRowAction,
+} from '@target-energysolutions/mht'
+
+import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
-import { useDispatch } from 'react-redux'
 
 import { addToast } from 'modules/app/actions'
 
@@ -40,7 +44,6 @@ const Permit = ({ subModule }) => {
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
   const [page, setPage] = useState(0)
 
@@ -48,6 +51,10 @@ const Permit = ({ subModule }) => {
   const { addSupportingDocuments } = documents()
   const dispatch = useDispatch()
 
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+  const setSelectedRow = dispatch(setSelectedRowAction)
   const { data: permitListData, refetch: refetchList } = useQuery(
     [
       'listPermitsByLoggedUser',
@@ -126,6 +133,7 @@ const Permit = ({ subModule }) => {
       status: el?.metaData?.status,
     }
   })
+  const selectedRow = selectedRowSelector.map((id) => permitData[id])
   // const renderCurrentTabData = () => {
   //   switch (currentTab) {
   //     case 1:
@@ -234,8 +242,10 @@ const Permit = ({ subModule }) => {
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
-          setActiveTab={setCurrentTab}
-          onSelectRows={setSelectedRow}
+          setActiveTab={(tab) => {
+            setCurrentTab(tab)
+            setSelectedRow && setSelectedRow(tab)
+          }}
         />
         <div className="subModule--table-wrapper">
           <Mht
