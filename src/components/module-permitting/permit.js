@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery } from 'react-query'
@@ -14,6 +14,7 @@ import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import { userRole } from 'components/shared-hook/get-roles'
+import { nextPage, prevPage } from 'libs/hooks/pagination'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -41,6 +42,8 @@ const Permit = ({ subModule }) => {
     useState(false)
   const [selectedRow, setSelectedRow] = useState([])
   const [information, setInformation] = useState({ date: new Date() })
+  const [page, setPage] = useState(0)
+
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
   const dispatch = useDispatch()
@@ -198,6 +201,9 @@ const Permit = ({ subModule }) => {
         return 'drill-report'
     }
   }
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   return (
     <>
       <TopBar
@@ -254,6 +260,29 @@ const Permit = ({ subModule }) => {
                     setShowSupportedDocumentDialog,
                   )}
                 />
+              )
+            }
+            footerTemplate={
+              permitData?.totalPages > 1 && (
+                <>
+                  <Button
+                    primary
+                    flat
+                    disabled={page === 0}
+                    onClick={() => prevPage([page, setPage])}
+                  >
+                    Prev
+                  </Button>
+                  {page + 1}
+                  <Button
+                    primary
+                    flat
+                    disabled={page + 1 === permitData?.totalPages}
+                    onClick={() => nextPage(permitData, [page, setPage])}
+                  >
+                    Next
+                  </Button>
+                </>
               )
             }
           />

@@ -933,7 +933,7 @@ const Downstream = ({ subkey }) => {
             commonActions={selectedRow?.length === 0}
             onSelectRows={setSelectedRow}
             footerTemplate={
-              paginationData()?.totalPages !== 1 && (
+              paginationData()?.totalPages > 1 && (
                 <>
                   <Button
                     primary
