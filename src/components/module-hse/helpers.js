@@ -361,7 +361,7 @@ export const actionsHeaderAnnual = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete(subModule, id)
+        onDelete()
       },
     },
     {
@@ -458,7 +458,7 @@ export const actionsHeaderMonthly = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete(subModule, id)
+        onDelete()
       },
     },
     {
@@ -540,7 +540,7 @@ export const actionsHeaderDaily = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete(subModule, id)
+        onDelete()
       },
     },
     {

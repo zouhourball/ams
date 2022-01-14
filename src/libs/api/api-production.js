@@ -287,12 +287,31 @@ export const deleteProduction = async (subModule, objectId) => {
   return res
 }
 
+// export const deleteAllProduction = async (subModule, selectedRow) => {
+//   const list = selectedRow?.map((row) => {
+//     return { permitId: row?.id }
+//   })
+//   const deleteAllPromises = list.map((p) =>
+//     deleteProduction(subModule, p?.permitId),
+//   )
+//   await Promise.all(deleteAllPromises)
+// }
+
 export const deleteAllProduction = async (subModule, selectedRow) => {
   const list = selectedRow?.map((row) => {
-    return { permitId: row?.id }
+    return { selectedId: row?.id }
   })
   const deleteAllPromises = list.map((p) =>
-    deleteProduction(subModule, p?.permitId),
+    deleteProduction(subModule, p?.selectedId),
   )
+  let returnValue = []
+
   await Promise.all(deleteAllPromises)
+    .then((values) => {
+      returnValue = values
+    })
+    .catch(() => {
+      returnValue = []
+    })
+  return returnValue
 }

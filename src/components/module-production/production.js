@@ -27,7 +27,7 @@ import {
   commitProduction,
   saveProduction,
   overrideProductionReport,
-  deleteProduction,
+  // deleteProduction,
   updateDailyProduction,
   deleteAllProduction,
 } from 'libs/api/api-production'
@@ -287,39 +287,6 @@ const Production = () => {
     },
   )
 
-  const deleteProductionMutate = useMutation(
-    deleteProduction,
-
-    {
-      onSuccess: (res) => {
-        refetchList()
-
-        if (!res.error) {
-          // refetchList()
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.message || 'Deleted successfully'}
-                type="success"
-              />,
-              'hide',
-            ),
-          )
-        } else {
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.error?.body?.message || 'Something went wrong'}
-                type="error"
-              />,
-              'hide',
-            ),
-          )
-        }
-      },
-    },
-  )
-
   const updateProductionMutation = useMutation(updateDailyProduction, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -344,11 +311,27 @@ const Production = () => {
     },
   })
 
-  const handleDeleteProduction = (subModule, objectId) => {
-    deleteProductionMutate.mutate({
-      subModule,
-      objectId,
-    })
+  const handleDeleteProduction = () => {
+    selectedRow?.length > 0 &&
+      deleteAllProduction(currentTab, selectedRow).then((res) => {
+        if (res.includes(true)) {
+          dispatch(
+            addToast(
+              <ToastMsg text={'Successfully deleted'} type="success" />,
+              'hide',
+            ),
+          )
+          refetchList()
+        } else {
+          refetchList()
+          dispatch(
+            addToast(
+              <ToastMsg text={'Something went wrong'} type="error" />,
+              'hide',
+            ),
+          )
+        }
+      })
   }
   const onCommitProduction = (subModule) => {
     commitProductionMutate.mutate({
@@ -847,13 +830,25 @@ const Production = () => {
               onClick: () =>
                 selectedRow?.length > 0 &&
                 deleteAllProduction(currentTab, selectedRow).then((res) => {
-                  dispatch(
-                    addToast(
-                      <ToastMsg text={'Successfully deleted'} type="success" />,
-                      'hide',
-                    ),
-                  )
-                  refetchList()
+                  if (res.includes(true)) {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Successfully deleted'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  } else {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }
                 }),
             },
           ]
