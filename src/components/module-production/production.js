@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, SelectField, DialogContainer } from 'react-md'
-import Mht from '@target-energysolutions/mht'
+import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
 import moment from 'moment'
 import { v4 as uuidv4 } from 'uuid'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
 
 import { addToast } from 'modules/app/actions'
@@ -59,20 +59,27 @@ const Production = () => {
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [selectedRow, setSelectedRow] = useState([])
+  // const [selectedRow, setSelectedRow] = useState([])
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
-
+  const selectedRow = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
 
   const company = getOrganizationInfos()
   const role = useRole('production')
 
+  useEffect(() => {
+    return () => {
+      dispatch(setSelectedRow([]))
+    }
+  }, [])
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
   const uploadDailyReportMutate = useMutation(
@@ -311,10 +318,19 @@ const Production = () => {
     },
   })
 
+  const renderSelectedItems = () => {
+    return (
+      selectedRow?.map((el) => ({
+        id: renderCurrentTabData()[el]?.id,
+      })) || []
+    )
+  }
   const handleDeleteProduction = () => {
     selectedRow?.length > 0 &&
-      deleteAllProduction(currentTab, selectedRow).then((res) => {
+      deleteAllProduction(currentTab, renderSelectedItems()).then((res) => {
         if (res.includes(true)) {
+          dispatch(setSelectedRow([]))
+
           dispatch(
             addToast(
               <ToastMsg text={'Successfully deleted'} type="success" />,
@@ -801,7 +817,7 @@ const Production = () => {
   const costsSuppDocs = (data) => {
     addSupportingDocuments(
       data,
-      selectedRow[0]?.processInstanceId ||
+      renderCurrentTabData()[selectedRow[0]]?.processInstanceId ||
         showSupportedDocumentDialog?.processInstanceId,
       closeDialog,
     )
@@ -829,27 +845,32 @@ const Production = () => {
               primaryText: 'Delete',
               onClick: () =>
                 selectedRow?.length > 0 &&
-                deleteAllProduction(currentTab, selectedRow).then((res) => {
-                  if (res.includes(true)) {
-                    dispatch(
-                      addToast(
-                        <ToastMsg
-                          text={'Successfully deleted'}
-                          type="success"
-                        />,
-                        'hide',
-                      ),
-                    )
-                    refetchList()
-                  } else {
-                    dispatch(
-                      addToast(
-                        <ToastMsg text={'Something went wrong'} type="error" />,
-                        'hide',
-                      ),
-                    )
-                  }
-                }),
+                deleteAllProduction(currentTab, renderSelectedItems()).then(
+                  (res) => {
+                    if (res.includes(true)) {
+                      dispatch(
+                        addToast(
+                          <ToastMsg
+                            text={'Successfully deleted'}
+                            type="success"
+                          />,
+                          'hide',
+                        ),
+                      )
+                      refetchList()
+                    } else {
+                      dispatch(
+                        addToast(
+                          <ToastMsg
+                            text={'Something went wrong'}
+                            type="error"
+                          />,
+                          'hide',
+                        ),
+                      )
+                    }
+                  },
+                ),
             },
           ]
         }}
@@ -859,6 +880,7 @@ const Production = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
+          dispatch(setSelectedRow([]))
           setSelectFieldValue(
             tab === 'monthly'
               ? 'Monthly Production'
@@ -867,7 +889,7 @@ const Production = () => {
                 : 'Grid 1',
           )
         }}
-        onSelectRows={setSelectedRow}
+        // onSelectRows={setSelectedRow}
       />
       <Mht
         configs={renderCurrentTabConfigs()}
@@ -877,7 +899,7 @@ const Production = () => {
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        onSelectRows={setSelectedRow}
+        onSelectRows={dispatch(setSelectedRow)}
         withChecked
         selectedRow={selectedRow}
         headerTemplate={
@@ -890,16 +912,16 @@ const Production = () => {
               }
               actions={actionsHeader(
                 'production-details',
-                selectedRow[0]?.id,
+                renderCurrentTabData()[selectedRow[0]]?.id,
                 currentTab,
                 currentSubsubModule(),
                 role,
                 setShowSupportedDocumentDialog,
-                selectedRow[0]?.originalFileId,
+                renderCurrentTabData()[selectedRow[0]]?.originalFileId,
                 downloadOriginalFile,
                 handleDeleteProduction,
-                selectedRow[0]?.fileName,
-                selectedRow[0]?.status,
+                renderCurrentTabData()[selectedRow[0]]?.fileName,
+                renderCurrentTabData()[selectedRow[0]]?.status,
                 submitDraft,
               )}
             />
@@ -974,7 +996,7 @@ const Production = () => {
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           processInstanceId={
-            selectedRow[0]?.processInstanceId ||
+            renderCurrentTabData()[selectedRow[0]]?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
           onSaveUpload={(data) => {
