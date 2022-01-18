@@ -73,10 +73,10 @@ const Flaring = () => {
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
 
-  const selectedRowSelector = useSelector(
+  const selectedRow = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = dispatch(setSelectedRowAction)
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
   const blocks = getBlocks()
   const company = getOrganizationInfos()
@@ -544,9 +544,9 @@ const Flaring = () => {
     }
   }
 
-  const selectedRow = selectedRowSelector.map(
+  /* const selectedRow = selectedRowSelector?.map(
     (id) => renderCurrentTabData()[id],
-  )
+  ) */
 
   const role = useRole('flaring')
 
@@ -664,43 +664,44 @@ const Flaring = () => {
       case 'monthly-station':
         return actionsHeaderMonthly(
           'flaring',
-          selectedRow[0]?.id,
+          renderCurrentTabData()[selectedRow[0]]?.id,
           role,
           setShowSupportedDocumentDialog,
           currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
-          selectedRow[0]?.originalFileId,
-          selectedRow[0]?.fileName,
+          renderCurrentTabData()[selectedRow[0]]?.originalFileId,
+          renderCurrentTabData()[selectedRow[0]]?.fileName,
           submitDraft,
-          selectedRow[0]?.status,
+          renderCurrentTabData()[selectedRow[0]]?.status,
         )
       case 'daily':
         return actionsHeaderDaily(
           'flaring',
-          selectedRow[0]?.id,
+          renderCurrentTabData()[selectedRow[0]]?.id,
           role,
           setShowSupportedDocumentDialog,
           currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
-          selectedRow[0]?.originalFileId,
-          selectedRow[0]?.fileName,
+          renderCurrentTabData()[selectedRow[0]]?.originalFileId,
+          renderCurrentTabData()[selectedRow[0]]?.fileName,
           submitDraft,
         )
       case 'annual-forecast':
       default:
         return actionsHeaderAnnual(
           'flaring',
-          selectedRow[0]?.id,
+          renderCurrentTabData()[selectedRow[0]]?.id,
           role,
           setShowSupportedDocumentDialog,
           currentTab,
           handleDeleteFlaring,
           downloadOriginalFile,
-          selectedRow[0]?.originalFileId,
-          selectedRow[0]?.fileName,
+          renderCurrentTabData()[selectedRow[0]]?.originalFileId,
+          renderCurrentTabData()[selectedRow[0]]?.fileName,
           submitDraft,
+          renderCurrentTabData()[selectedRow[0]]?.status,
         )
     }
   }
@@ -789,9 +790,9 @@ const Flaring = () => {
             withFooter
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
-            onSelectRows={setSelectedRow}
+            onSelectRows={dispatch(setSelectedRowAction)}
             withChecked
-            selectedRow={selectedRow}
+            // selectedRow={selectedRow}
             headerTemplate={
               selectedRow?.length === 1 && (
                 <HeaderTemplate

@@ -24,8 +24,8 @@ const AbandonReport = ({ abandonReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          company: drillReport?.metaData?.company,
-          permitType: drillReport?.metaData?.permitType,
+          company: drillReport?.company,
+          permitType: drillReport?.permitType,
           block: drillReport.block,
         },
         data: {
@@ -462,7 +462,7 @@ const AbandonReport = ({ abandonReportId }) => {
       flat
       primary
       swapTheming
-      onClick={() => onSave}
+      onClick={onSave}
       disabled={validForm(fields)}
     >
       Submit

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button, TextField } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery } from 'react-query'
@@ -25,6 +25,7 @@ import useRole from 'libs/hooks/use-role'
 import { listPermitsByLoggedUser, deleteAll } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import {
   permitDrillConfigs,
@@ -37,6 +38,7 @@ import {
 } from './helpers'
 
 const Permit = ({ subModule }) => {
+  const company = getOrganizationInfos()
   const [currentTab, setCurrentTab] = useState(
     subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
   )
@@ -54,19 +56,34 @@ const Permit = ({ subModule }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
+  useEffect(() => {
+    setInformation({
+      ...information,
+      company: company?.name,
+      permitType:
+        currentTab === 0
+          ? 'Drill'
+          : currentTab === 1
+            ? 'Suspend'
+            : currentTab === 2
+              ? 'Abandon'
+              : '',
+    })
+  }, [company, currentTab])
   const setSelectedRow = dispatch(setSelectedRowAction)
   const { data: permitListData, refetch: refetchList } = useQuery(
     [
       'listPermitsByLoggedUser',
-      // {
-      //   permitType:
-      currentTab === 0
-        ? 'Drill'
-        : currentTab === 1
-          ? 'Suspend'
-          : currentTab === 2
-            ? 'Abandon'
-            : '',
+      {
+        permitType:
+          currentTab === 0
+            ? 'Drill'
+            : currentTab === 1
+              ? 'Suspend'
+              : currentTab === 2
+                ? 'Abandon'
+                : '',
+      },
       {
         size: size,
         page: page,
@@ -248,7 +265,7 @@ const Permit = ({ subModule }) => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow && setSelectedRow(tab)
+            setSelectedRow(tab)
           }}
         />
         <div className="subModule--table-wrapper">

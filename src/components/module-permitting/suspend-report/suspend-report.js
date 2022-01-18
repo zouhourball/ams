@@ -27,8 +27,8 @@ const SuspendReport = ({ suspendReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          company: drillReport?.metaData?.company,
-          permitType: drillReport?.metaData?.permitType,
+          company: drillReport?.company,
+          permitType: drillReport?.permitType,
           block: drillReport.block,
         },
         data: {
@@ -390,7 +390,7 @@ const SuspendReport = ({ suspendReportId }) => {
       title: 'Attach Suspension Program',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
-      required: true,
+      // required: true,
       onDrop: (value) => {
         // console.log(value)
         if (value?.length > 0) {
@@ -422,7 +422,7 @@ const SuspendReport = ({ suspendReportId }) => {
       title: 'Current Well Schematic',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
-      required: true,
+      // required: true,
       onDrop: (value) => {
         setLoading(true)
         fileManagerUpload(value).then((res) => {
