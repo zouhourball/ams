@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { Snackbar, SVGIcon } from 'react-md'
 // import query from 'react-hoc-query'
 // import { getFSToken } from 'libs/api'
-import { subModules } from './helpers'
+import { subModules, attrBasedOnRole } from './helpers'
 import { rolesTab } from 'libs/roles-tab'
 
 // import { format } from 'date-fns'
@@ -104,8 +104,36 @@ export default class AppShellWrapper extends Component {
     const { organizationID, roles } = this.props
     const basedRoleSubMenus = []
     if (roles) {
-      rolesTab.forEach(({ key, roleOp, roleRe, path }) => {
-        if (
+      // debugger
+      rolesTab.forEach(({ key, roleOp, roleRe, path, hasSubModule }) => {
+        if (hasSubModule) {
+          const moduleS = { ...subModules.find((sM) => sM.key === key) }
+
+          let subM = []
+          if (moduleS) {
+            hasSubModule.forEach(({ key, roleOp, roleRe, path }) => {
+              if (
+                roles.includes(
+                  `target-subscription-store:${organizationID}:${roleOp}`,
+                )
+              ) {
+                subM.push({
+                  ...attrBasedOnRole.find((sM) => sM.key === key),
+                  path,
+                })
+              } else if (roles.includes(roleRe)) {
+                subM.push({
+                  ...attrBasedOnRole.find((sM) => sM.key === key),
+                  path,
+                })
+              }
+            })
+            if (subM.length > 0) {
+              moduleS.subModules = subM
+              basedRoleSubMenus.push({ ...moduleS })
+            }
+          }
+        } else if (
           roles.includes(
             `target-subscription-store:${organizationID}:${roleOp}`,
           )

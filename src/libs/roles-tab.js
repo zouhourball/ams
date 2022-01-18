@@ -68,15 +68,21 @@ export const rolesTab = [
     path: 'audit',
   },
   {
-    key: 'new-flaring',
-    roleOp: 'pulse flaring operator',
-    roleRe: 'pulse flaring regulator',
-    path: 'flaring',
-  },
-  {
     key: 'new-audit',
     roleOp: 'pulse audit operator',
     roleRe: 'pulse audit regulator',
     path: 'audit',
+  },
+  {
+    key: 'new-HSE',
+    path: 'hse',
+    hasSubModule: [
+      {
+        roleOp: 'pulse flaring operator',
+        roleRe: 'pulse flaring regulator',
+        key: 'new-flaring',
+        path: 'flaring',
+      },
+    ],
   },
 ]
