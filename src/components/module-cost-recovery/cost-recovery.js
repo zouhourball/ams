@@ -299,20 +299,6 @@ const CostRecovery = ({ subkey }) => {
     'Affiliate',
     'Facilities',
   ]
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'Mai',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ]
   const renderCurrentTabData = () => {
     return (
       globalMhtData?.content?.map((el) => ({
@@ -323,13 +309,9 @@ const CostRecovery = ({ subkey }) => {
         submittedDate: el?.metaData?.createdAt
           ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
           : '',
-        referenceDate: `${
-          el?.metaData?.month
-            ? parseInt(el?.metaData?.month)
-              ? months[el?.metaData?.month]
-              : el?.metaData?.month
-            : ''
-        } ${el?.metaData?.year}`,
+        referenceDate: `${moment(el?.metaData?.month).format('MMM')} ${
+          el?.metaData?.year
+        }`,
         statusDate: el?.metaData?.updatedAt
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -1230,7 +1212,7 @@ const CostRecovery = ({ subkey }) => {
                     onChange={(v) =>
                       v >= globalMhtData?.totalPages
                         ? setPage(globalMhtData?.totalPages - 1)
-                        : setPage(v)
+                        : setPage(parseInt(v) - 1)
                     }
                     // disabled={status === 'closed'}
                   />
@@ -1301,7 +1283,9 @@ const CostRecovery = ({ subkey }) => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
-          formatDate={currentTab === 0 ? 'year' : 'day'}
+          formatDate={
+            currentTab === 0 ? 'year' : currentTab === 1 ? 'day' : 'month'
+          }
         />
       )}
       {showSupportedDocumentDialog && (

@@ -307,7 +307,7 @@ const Permit = ({ subModule }) => {
                     onChange={(v) =>
                       v >= permitData?.totalPages
                         ? setPage(permitData?.totalPages - 1)
-                        : setPage(v)
+                        : setPage(parseInt(v) - 1)
                     }
                     // disabled={status === 'closed'}
                   />

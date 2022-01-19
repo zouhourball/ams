@@ -28,7 +28,7 @@ const UploadReportDialog = ({
   onHide,
   onSave,
   optional,
-  hideDate,
+  hideDate = false,
   onDisplayMHT,
   setFileList,
   filesList,
@@ -43,6 +43,7 @@ const UploadReportDialog = ({
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
+  const [hasDefault, setHasDefault] = useState(!hideDate)
   const date = new Date()
   const monthAndDay =
     formatDate === 'day'
@@ -52,15 +53,23 @@ const UploadReportDialog = ({
       }
       : formatDate === 'month'
         ? {
-          month: date.getMonth(),
+          month: date.getMonth() + 1,
         }
         : {}
-  const [reportData, setReportData] = useState({
+  const setDate = !hideDate && {
     referenceDate: previewData
       ? moment(previewData?.referenceDate.toString()).valueOf()
-      : { timestamp: date.getTime(), year: date.getFullYear(), ...monthAndDay },
+      : {
+        year: date.getFullYear(),
+        ...monthAndDay,
+        timestamp: date.getTime(),
+      },
+  }
+  const [reportData, setReportData] = useState({
+    ...setDate,
     block: previewData?.block,
   })
+  if (previewData?.referenceDate) setHasDefault(!previewData?.referenceDate)
 
   const { data: suppDocsFiles } = useQuery(
     ['getDocumentsById', previewData?.processInstanceId],
@@ -75,19 +84,26 @@ const UploadReportDialog = ({
   const validData = () => {
     if (hideDate === false) {
       if (
-        ((!hideBlock && reportData?.block) ||
-          (reportData?.type && ReportingType)) &&
-        filesList?.path
+        (filesList?.path &&
+          reportData?.referenceDate &&
+          reportData?.block &&
+          !hasDefault) ||
+        (filesList?.path && reportData?.type && ReportingType && !hasDefault) ||
+        (hideBlock &&
+          reportData?.referenceDate &&
+          filesList?.path &&
+          !hasDefault)
       ) {
         return false
       }
     } else {
       if (
-        filesList?.path &&
-        !hideDate &&
-        reportData?.referenceDate &&
-        ((reportData?.block && !hideBlock) ||
-          (reportData?.type && ReportingType))
+        (filesList?.path &&
+          //! hideDate &&
+          reportData?.referenceDate &&
+          ((reportData?.block && !hideBlock) ||
+            (reportData?.type && ReportingType))) ||
+        (hideDate && reportData?.block && !hideBlock && filesList?.path)
       ) {
         return false
       } else if (
@@ -280,6 +296,7 @@ const UploadReportDialog = ({
               onUpdate={(date) => {
                 setReportData({ ...reportData, referenceDate: date })
                 setShowDatePickerEnd(false)
+                setHasDefault(false)
               }}
               onCancel={() => setShowDatePickerEnd(false)}
               // minValidDate={{

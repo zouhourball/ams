@@ -116,7 +116,21 @@ export const commitInventory = async ({ subModule, body }) => {
   }
   return res
 }
-
+export const saveInventory = async ({ subModule, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/save`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const overrideInventoryReport = async ({
   subModule,
   overrideId,
@@ -283,6 +297,21 @@ export const commitRows = async ({ body }) => {
       method: 'POST',
       body: JSON.stringify(body),
     })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const saveRows = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/transaction/saveTransaction`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

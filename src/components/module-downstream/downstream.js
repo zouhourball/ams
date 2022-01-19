@@ -90,7 +90,7 @@ const Downstream = ({ subkey }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = dispatch(setSelectedRowAction)
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
   const { addSupportingDocuments } = documents()
   const company = getOrganizationInfos()
@@ -293,7 +293,7 @@ const Downstream = ({ subkey }) => {
               company: company?.name || 'ams-org',
               file: body?.file[0],
               month: moment(body?.referenceDate?.timestamp).format('MMMM'),
-              processInstanceId: uuidv4(),
+              processInstanceId: uuid,
               year: moment(body?.referenceDate?.timestamp).format('YYYY'),
             },
           },
@@ -314,7 +314,7 @@ const Downstream = ({ subkey }) => {
               company: company?.name || 'ams-org',
               file: body?.file[0],
               month: moment(body?.referenceDate?.timestamp).format('MMMM'),
-              processInstanceId: uuidv4(),
+              processInstanceId: uuid,
               year: moment(body?.referenceDate?.timestamp).format('YYYY'),
               category: body?.type,
             },
@@ -504,6 +504,7 @@ const Downstream = ({ subkey }) => {
     }
   }
   const handleDeleteDownstream = (row = selectedRow[0]) => {
+    setSelectedRow([])
     switch (currentTab) {
       case 0:
         return deleteLpgMutation.mutate(
@@ -817,13 +818,13 @@ const Downstream = ({ subkey }) => {
   }, [responseUploadLpg, responseUploadNg, responseUploadRs])
 
   const renderDialogData = (data) => {
+    const uuid = uuidv4()
     switch (currentTab) {
       case 0:
         return {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
-            const uuid = uuidv4()
             onAddReport(data, uuid)
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
@@ -833,7 +834,6 @@ const Downstream = ({ subkey }) => {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
-            const uuid = uuidv4()
             onAddReport(data, uuid)
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
@@ -843,7 +843,6 @@ const Downstream = ({ subkey }) => {
           title: 'Attach Spreadsheet',
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
-            const uuid = uuidv4()
             onAddReport(data, uuid)
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
@@ -940,7 +939,7 @@ const Downstream = ({ subkey }) => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow(tab)
+            setSelectedRow([])
           }}
         />
         <div className="subModule--table-wrapper">
@@ -949,7 +948,7 @@ const Downstream = ({ subkey }) => {
             tableData={renderCurrentTabData()}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
-            onSelectRows={setSelectedRow}
+            // onSelectRows={setSelectedRow}
             footerTemplate={
               paginationData()?.totalPages > 1 && (
                 <>
@@ -964,7 +963,7 @@ const Downstream = ({ subkey }) => {
                     onChange={(v) =>
                       v >= paginationData()?.totalPages
                         ? setPage(paginationData()?.totalPages - 1)
-                        : setPage(v)
+                        : setPage(parseInt(v) - 1)
                     }
                     // disabled={status === 'closed'}
                   />

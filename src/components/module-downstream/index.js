@@ -12,7 +12,7 @@ const DownstreamModule = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
-        <Redirect from="/" to="/ams/downstream/lpg" />
+        <Redirect from="/" to="/ams/downstream/lpg" noThrow />
         <Downstream path="/:subkey" />
         <DownstreamDetails path="/downstream-details/:subkey/:downstreamId" />
         <DownstreamDashboard path="/analytics/dashboard" />

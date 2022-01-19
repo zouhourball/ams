@@ -652,7 +652,7 @@ const Reserves = ({ subkey }) => {
                     onChange={(v) =>
                       v >= renderSectionKey()?.totalPages
                         ? setPage(renderSectionKey()?.totalPages - 1)
-                        : setPage(v)
+                        : setPage(parseInt(v) - 1)
                     }
                     // disabled={status === 'closed'}
                   />

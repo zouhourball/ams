@@ -56,6 +56,8 @@ import {
 
 import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
 
+import './style.scss'
+
 const Flaring = () => {
   const dispatch = useDispatch()
   const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
@@ -822,7 +824,7 @@ const Flaring = () => {
                     onChange={(v) =>
                       v >= listFlaring?.totalPages
                         ? setPage(listFlaring?.totalPages - 1)
-                        : setPage(v)
+                        : setPage(parseInt(v) - 1)
                     }
                     // disabled={status === 'closed'}
                   />

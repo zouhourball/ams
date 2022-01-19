@@ -19,11 +19,13 @@ import {
   getInventories,
   getInventoriesAccepted,
   commitInventory,
+  saveInventory,
   overrideInventoryReport,
   deleteInventory,
   uploadAssetTransferInventoryReport,
   getCompaniesInventory,
   commitRows,
+  saveRows,
 } from 'libs/api/api-inventory'
 import {
   downloadOriginalFile,
@@ -84,7 +86,7 @@ const Inventory = () => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = dispatch(setSelectedRowAction)
+  const setSelectedRow = (id) => dispatch(setSelectedRowAction(id))
 
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', page, size],
@@ -236,7 +238,47 @@ const Inventory = () => {
       },
     },
   )
+  const saveInventoryMutate = useMutation(
+    saveInventory,
 
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          if (res?.msg === 'exist') {
+            setOverrideDialog(true)
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            setOverrideId(res?.overrideId)
+          } else {
+            setShowUploadRapportDialog(false)
+            setShowUploadMHTDialog(false)
+            refetchInventory()
+            refetchListAssetTransferInventory()
+            refetchAfterCommitByCurrentTab()
+            dispatch(
+              addToast(
+                <ToastMsg
+                  text={res.message || 'committed successfully'}
+                  type="success"
+                />,
+                'hide',
+              ),
+            )
+          }
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const commitInventoryMutate = useMutation(
     commitInventory,
 
@@ -311,6 +353,38 @@ const Inventory = () => {
       },
     },
   )
+  const saveRowsInventoryMutate = useMutation(
+    saveRows,
+
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          refetchInventory()
+          setShowUploadRapportDialog(false)
+          setShowUploadMHTDialog(false)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.message || 'commit successfully'}
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'Something went wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const commitRowsInventoryMutate = useMutation(
     commitRows,
 
@@ -371,7 +445,7 @@ const Inventory = () => {
   })
 
   const onAddReportByCurrentTab = (body) => {
-    let uuid = uuidv4()
+    const uuid = uuidv4()
     switch (currentTab) {
       case 'annual-base':
         uploadAnnualBaseReportMutate.mutate({
@@ -380,7 +454,7 @@ const Inventory = () => {
             company: company?.name,
             category: 'base',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             // month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
@@ -395,7 +469,7 @@ const Inventory = () => {
             category: 'assetTransferRequestProcess',
             file: body?.file,
             companyToTransfer: body?.company,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             // month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
@@ -410,7 +484,7 @@ const Inventory = () => {
             company: company?.name,
             category: 'assetDisposalRequestProcess',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
@@ -423,7 +497,7 @@ const Inventory = () => {
             company: company?.name,
             category: 'addition',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             year: moment(body?.referenceDate).format('YYYY'),
           },
         })
@@ -443,10 +517,22 @@ const Inventory = () => {
       },
     })
   }
+  const onSaveRows = (transactionType) => {
+    saveRowsInventoryMutate.mutate({
+      body: {
+        data: currentUpload?.data?.rows,
+        inventoryId: currentInventoryId,
+        processInstanceId: currentUpload?.data?.metaData?.processInstanceId,
+        transactionType: transactionType,
+      },
+    })
+  }
+
   const handleDeleteInventory = (inventoryId) => {
     deleteInventoryMutate.mutate({
       inventoryId,
     })
+    setSelectedRow([])
   }
   const mhtUploadedAnnualAssetData = (
     get(currentUpload, 'data.rows', []) || []
@@ -483,7 +569,12 @@ const Inventory = () => {
       body: currentUpload?.data,
     })
   }
-
+  const onSaveInventory = (subModule) => {
+    saveInventoryMutate.mutate({
+      subModule: subModule,
+      body: currentUpload?.data,
+    })
+  }
   const onOverrideInventory = (subModule, overrideId) => {
     overrideInventoryMutate.mutate({
       subModule: subModule,
@@ -526,6 +617,25 @@ const Inventory = () => {
         return onCommitInventory('disposal')
       case 'new-asset-addition':
         return onCommitRows('addition')
+      default:
+        return ''
+    }
+  }
+  const saveUploadByTab = () => {
+    switch (currentTab) {
+      case 'annual-base':
+        return onSaveInventory('base')
+
+      case 'asset-consumption':
+        return ''
+      case 'surplus-declaration':
+        return ''
+      case 'asset-transfer':
+        return onSaveInventory('transfer')
+      case 'asset-disposal':
+        return onSaveInventory('disposal')
+      case 'new-asset-addition':
+        return onSaveRows('addition')
       default:
         return ''
     }
@@ -945,7 +1055,9 @@ const Inventory = () => {
               primaryText: 'Delete',
               onClick: () =>
                 Promise.all(
-                  selectedRow?.map((row) => handleDeleteInventory(row?.id)),
+                  selectedRow?.map((row) => {
+                    handleDeleteInventory(row?.id)
+                  }),
                 ).then(() => {
                   refetchAfterCommitByCurrentTab()
                 }),
@@ -958,7 +1070,7 @@ const Inventory = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
-          setSelectedRow(tab)
+          setSelectedRow([])
         }}
       />
       <div className="inventory-module-table">
@@ -970,7 +1082,7 @@ const Inventory = () => {
           withFooter
           withSearch={selectedRow?.length === 0}
           commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-          onSelectRows={setSelectedRow}
+          // onSelectRows={(v) => setSelectedRow([])}
           withChecked
           selectedRow={selectedRow}
           headerTemplate={
@@ -1010,11 +1122,11 @@ const Inventory = () => {
                   type={'number'}
                   className="page"
                   value={page + 1}
-                  onChange={(v) =>
+                  onChange={(v) => {
                     v >= paginationData()?.totalPages
                       ? setPage(paginationData()?.totalPages - 1)
-                      : setPage(v)
-                  }
+                      : setPage(parseInt(v) - 1)
+                  }}
                   // disabled={status === 'closed'}
                 />
                 of {paginationData()?.totalPages}
@@ -1052,6 +1164,9 @@ const Inventory = () => {
           onCommit={() => {
             commitUploadByTab()
             setFileList([...filesList, dataDisplayedMHT])
+          }}
+          onSave={() => {
+            saveUploadByTab()
           }}
         />
       )}

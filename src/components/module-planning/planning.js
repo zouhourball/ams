@@ -661,7 +661,7 @@ const Planning = () => {
                 onChange={(v) =>
                   v >= listPlanning?.totalPages
                     ? setPage(listPlanning?.totalPages - 1)
-                    : setPage(v)
+                    : setPage(parseInt(v) - 1)
                 }
                 // disabled={status === 'closed'}
               />

@@ -394,7 +394,7 @@ const Production = () => {
   }
 
   const onAddReportByCurrentTab = (body) => {
-    let uuid = uuidv4()
+    const uuid = uuidv4()
     switch (currentTab) {
       case 'daily':
         uploadDailyReportMutate.mutate({
@@ -429,7 +429,7 @@ const Production = () => {
             block: body?.block,
             company: company?.name || 'ams-org',
             file: body?.file,
-            processInstanceId: uuidv4(),
+            processInstanceId: uuid,
             month: moment(body?.referenceDate?.timestamp).format('MMMM'),
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
@@ -974,7 +974,7 @@ const Production = () => {
                 onChange={(v) =>
                   v >= listDailyProduction?.totalPages
                     ? setPage(listDailyProduction?.totalPages - 1)
-                    : setPage(v)
+                    : setPage(parseInt(v) - 1)
                 }
                 // disabled={status === 'closed'}
               />
@@ -1035,7 +1035,13 @@ const Production = () => {
             // renderDialogData().onClick()
             onAddReportByCurrentTab(data)
           }}
-          formatDate={currentTab === 'daily' ? 'day' : 'month'}
+          formatDate={
+            currentTab === 'daily'
+              ? 'day'
+              : currentTab === 'oman-hydrocarbon'
+                ? 'year'
+                : 'month'
+          }
         />
       )}
 
