@@ -8,7 +8,7 @@ export const listAffiliateCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/affiliate?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
@@ -103,7 +103,7 @@ export const listContractsCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/contracts?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/contracts?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
@@ -194,7 +194,7 @@ export const listFacilitiesCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/facilities?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/facilities?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
@@ -316,7 +316,7 @@ export const listProdLiftingCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/prodLifting?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
@@ -407,7 +407,7 @@ export const listCostsCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/costs?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/costs?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },
@@ -498,7 +498,7 @@ export const listTransactionCost = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/transaction?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/transaction?sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
       {
         method: 'GET',
       },

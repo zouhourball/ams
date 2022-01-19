@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button, TextField } from 'react-md'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -77,7 +77,11 @@ const Flaring = () => {
     (state) => state?.selectRowsReducers?.selectedRows,
   )
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
-
+  useEffect(() => {
+    return () => {
+      setSelectedRow([])
+    }
+  }, [])
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
@@ -387,9 +391,11 @@ const Flaring = () => {
   }
 
   const handleDeleteFlaring = () => {
+    const selectedRows = selectedRow?.map((el) => renderCurrentTabData()[el])
     selectedRow?.length > 0 &&
-      deleteAllFlaring(subModule, selectedRow).then((res) => {
+      deleteAllFlaring(subModule, selectedRows).then((res) => {
         if (res.includes(true)) {
+          setSelectedRow([])
           dispatch(
             addToast(
               <ToastMsg text={'Successfully deleted'} type="success" />,
@@ -687,6 +693,7 @@ const Flaring = () => {
           renderCurrentTabData()[selectedRow[0]]?.originalFileId,
           renderCurrentTabData()[selectedRow[0]]?.fileName,
           submitDraft,
+          renderCurrentTabData()[selectedRow[0]]?.status,
         )
       case 'annual-forecast':
       default:
@@ -720,7 +727,7 @@ const Flaring = () => {
   const flaringSuppDocs = (data) => {
     addSupportingDocuments(
       data,
-      selectedRow[0]?.processInstanceId ||
+      renderCurrentTabData()[selectedRow[0]]?.processInstanceId ||
         showSupportedDocumentDialog?.processInstanceId,
       closeDialog,
     )
@@ -778,7 +785,7 @@ const Flaring = () => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow(tab)
+            setSelectedRow([])
           }}
         />
         <div className="subModule--table-wrapper">
@@ -904,7 +911,7 @@ const Flaring = () => {
             visible={showSupportedDocumentDialog}
             onDiscard={() => setShowSupportedDocumentDialog(false)}
             processInstanceId={
-              selectedRow[0]?.processInstanceId ||
+              renderCurrentTabData()[selectedRow[0]]?.processInstanceId ||
               showSupportedDocumentDialog?.processInstanceId
             }
             onSaveUpload={(data) => {

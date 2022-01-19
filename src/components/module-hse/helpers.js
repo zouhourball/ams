@@ -382,7 +382,7 @@ export const actionsHeaderAnnual = (
       id: 4,
       label: 'View Details',
       onClick: () => {
-        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+        navigate(`/ams/hse/${key}/${subModule}/${id}`)
       },
     },
     {
@@ -401,6 +401,7 @@ export const actionsHeaderAnnual = (
       submitDraft(subModule, id)
     },
   }
+
   switch (role) {
     case 'regulator':
     default:
@@ -423,7 +424,7 @@ export const actionsHeaderAnnual = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
+            navigate(`/ams/hse/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -472,7 +473,7 @@ export const actionsHeaderMonthly = (
       id: 4,
       label: 'View Details',
       onClick: () => {
-        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+        navigate(`/ams/hse/${key}/${subModule}/${id}`)
       },
     },
     {
@@ -505,7 +506,7 @@ export const actionsHeaderMonthly = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
+            navigate(`/ams/hse/${key}/${subModule}/${id}`)
           },
         },
         {
@@ -554,7 +555,7 @@ export const actionsHeaderDaily = (
       id: 4,
       label: 'View Details',
       onClick: () => {
-        navigate(`/ams/hse/${key}/${id}/${subModule}`)
+        navigate(`/ams/hse/${key}/${subModule}/${id}`)
       },
     },
     {
@@ -587,7 +588,7 @@ export const actionsHeaderDaily = (
           id: 3,
           label: 'View Details',
           onClick: () => {
-            navigate(`/ams/hse/${key}/${id}/${subModule}`)
+            navigate(`/ams/hse/${key}/${subModule}/${id}`)
           },
         },
         {

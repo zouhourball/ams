@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
-import { Button, SelectField } from 'react-md'
+import { Button, SelectField, TextField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
@@ -85,6 +85,8 @@ const CostRecovery = ({ subkey }) => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const blockList = getBlocks()
 
@@ -151,7 +153,14 @@ const CostRecovery = ({ subkey }) => {
     refetch: refetchCurrentData,
     // isLoading: loading,
   } = useQuery(
-    [`genericApiForMhtData-${currentTab}`, currentTab],
+    [
+      `genericApiForMhtData-${currentTab}`,
+      currentTab,
+      {
+        size: size,
+        page: page,
+      },
+    ],
     genericApiForMhtData(),
     {
       refetchOnWindowFocus: false,
@@ -243,7 +252,9 @@ const CostRecovery = ({ subkey }) => {
       },
     },
   ]
-
+  useMemo(() => {
+    setPage(0)
+  }, [currentTab])
   const createActionsByCurrentTab = (actionsList = []) => {
     return actionsList.map((btn, index) => (
       <Button
@@ -1203,6 +1214,41 @@ const CostRecovery = ({ subkey }) => {
                     renderCurrentTabData()[selectedRow[0]],
                   )}
                 />
+              )
+            }
+            footerTemplate={
+              globalMhtData?.totalPages > 1 && (
+                <>
+                  &nbsp;|&nbsp;Page
+                  <TextField
+                    id="page_num"
+                    lineDirection="center"
+                    block
+                    type={'number'}
+                    className="page"
+                    value={page + 1}
+                    onChange={(v) =>
+                      v >= globalMhtData?.totalPages
+                        ? setPage(globalMhtData?.totalPages - 1)
+                        : setPage(v)
+                    }
+                    // disabled={status === 'closed'}
+                  />
+                  of {globalMhtData?.totalPages}
+                  &nbsp;|&nbsp;Show
+                  <TextField
+                    id="el_num"
+                    lineDirection="center"
+                    block
+                    className="show"
+                    value={size}
+                    onChange={(v) =>
+                      v > globalMhtData?.totalElements
+                        ? setSize(globalMhtData?.totalElements)
+                        : setSize(v)
+                    }
+                  />
+                </>
               )
             }
           />

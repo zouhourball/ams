@@ -83,6 +83,18 @@ export const rolesTab = [
         key: 'new-flaring',
         path: 'flaring',
       },
+      {
+        roleOp: 'pulse hsse operator',
+        roleRe: 'pulse hsse regulator',
+        key: 'new-hsse',
+        path: 'hsse',
+      },
+      {
+        roleOp: 'pulse emissions operator',
+        roleRe: 'pulse emissions regulator',
+        key: 'new-emissions',
+        path: 'emissions',
+      },
     ],
   },
 ]

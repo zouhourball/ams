@@ -15,7 +15,7 @@ const HSE = () => {
         <Redirect from="/" to="/ams/hse/flaring" noThrow />
         {/* <Flaring path="/flaring" /> */}
         <Flaring path="/flaring/:subModule" />
-        <FlaringDetails path="/flaring/:flaringId/:subModule" />
+        <FlaringDetails path="/flaring/:subModule/:flaringId" />
         <HSSE path="/hsse" />
         <HsseDetails path="/hsse/:hsseId" />
         <Emissions path="/emissions" />

@@ -26,7 +26,7 @@ import {
 
 import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
 
-const FlaringDetails = () => {
+const FlaringDetails = ({ flaringId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const dispatch = useDispatch()
@@ -34,8 +34,8 @@ const FlaringDetails = () => {
   const role = useRole('flaring')
   const { addSupportingDocuments } = documents()
 
-  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
-  const objectId = get(location, 'pathname', '/').split('/').reverse()[1]
+  // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+  const objectId = flaringId // get(location, 'pathname', '/').split('/').reverse()[1]
 
   const { data: flaringData, refetch: refetchList } = useQuery(
     ['getDetailFlaringById', subModule, objectId],
