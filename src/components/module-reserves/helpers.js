@@ -10,6 +10,7 @@ export const annualReservesConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -18,6 +19,7 @@ export const annualReservesConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -26,12 +28,14 @@ export const annualReservesConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -40,6 +44,7 @@ export const annualReservesConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -48,6 +53,7 @@ export const annualReservesConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -79,6 +85,7 @@ export const annualReservesConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 
@@ -89,6 +96,7 @@ export const historyConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -97,6 +105,7 @@ export const historyConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -105,18 +114,21 @@ export const historyConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
     // type: 'date',
     // dateFormat: 'YYYY',
   },
@@ -125,6 +137,7 @@ export const historyConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
   },
@@ -157,6 +170,7 @@ export const historyConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 export const annualResourceConfigs = (supportedDocument) => [
@@ -166,6 +180,7 @@ export const annualResourceConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -174,6 +189,7 @@ export const annualResourceConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -182,18 +198,21 @@ export const annualResourceConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
     // type: 'date',
     // dateFormat: 'YYYY',
   },
@@ -202,6 +221,7 @@ export const annualResourceConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
   },
@@ -210,6 +230,7 @@ export const annualResourceConfigs = (supportedDocument) => [
     key: 'productType',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
   },
@@ -242,6 +263,7 @@ export const annualResourceConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 

@@ -635,6 +635,8 @@ const Reserves = ({ subkey }) => {
             commonActions={selectedRow?.length === 0}
             onSelectRows={setSelectedRow}
             withChecked
+            withDownloadCsv
+            defaultCsvFileTitle={renderSectionKey()?.name}
             selectedRow={selectedRow}
             footerTemplate={
               renderSectionKey()?.totalPages > 1 && (

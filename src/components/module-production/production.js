@@ -914,6 +914,8 @@ const Production = () => {
         onSelectRows={dispatch(setSelectedRow)}
         withChecked
         selectedRow={selectedRow}
+        withDownloadCsv
+        defaultCsvFileTitle={currentTab}
         headerTemplate={
           selectedRow?.length === 1 ? (
             <HeaderTemplate
