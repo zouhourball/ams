@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Button, SelectField, DialogContainer, TextField } from 'react-md'
+import { Button, DialogContainer, TextField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
 import moment from 'moment'
@@ -939,25 +939,8 @@ const Production = () => {
                 submitDraft,
               )}
             />
-          ) : currentTab === 'monthly' ? (
-            <SelectField
-              id="monthly-prod"
-              menuItems={
-                ['Monthly Production', 'Monthly Well Counts']
-                // currentTab === 1
-                //   ? ['Monthly Production', 'Monthly Well Counts']
-                //   : currentTab === 2
-                //     ? ['Destination', 'Average Delivery to ORPIC']
-                //     : ['Grid 1', 'Grid 2']
-              }
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={setSelectFieldValue}
-              simplifiedMenu={false}
-            />
           ) : (
-            ''
+            <div />
           )
         }
         footerTemplate={

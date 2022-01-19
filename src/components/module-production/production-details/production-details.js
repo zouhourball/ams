@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { navigate } from '@reach/router'
-import { Button } from 'react-md'
+import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { get } from 'lodash-es'
 import { useQuery, useMutation } from 'react-query'
@@ -31,27 +31,18 @@ import {
 
 import './style.scss'
 
-const ProductionDetails = () => {
+const ProductionDetails = ({ subModule, productionId }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
+  const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
 
   const { addSupportingDocuments } = documents()
 
-  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
-  const subSubModule =
-    subModule === 'monthly'
-      ? get(location, 'pathname', '/').split('/').reverse()[1]
-      : ''
-  const prodId =
-    subModule === 'monthly'
-      ? get(location, 'pathname', '/').split('/').reverse()[2]
-      : get(location, 'pathname', '/').split('/').reverse()[1]
-
   const { data: productionData } = useQuery(
-    ['getDetailProductionById', subModule, prodId],
-    prodId && getDetailProductionById,
+    ['getDetailProductionById', subModule, productionId],
+    productionId && getDetailProductionById,
     {
       refetchOnWindowFocus: false,
     },
@@ -342,7 +333,7 @@ const ProductionDetails = () => {
       case 'daily':
         return tableDataListDailyProduction
       case 'monthly':
-        return subSubModule === 'production'
+        return selectFieldValue === 'Monthly Production'
           ? monthlyData
           : monthlyDataWellCount
       case 'monthly-tracking':
@@ -359,7 +350,7 @@ const ProductionDetails = () => {
       case 'daily':
         return dailyProductionDetailsConfigs()
       case 'monthly':
-        return subSubModule === 'production'
+        return selectFieldValue === 'Monthly Production'
           ? MonthlyProductionDetailsConfigs()
           : MonthlyWellCountDetailsConfigs()
       case 'monthly-tracking':
@@ -409,7 +400,7 @@ const ProductionDetails = () => {
         primary
         swapTheming
         onClick={() => {
-          onAcknowledge(subModule, prodId, 'SUBMITTED')
+          onAcknowledge(subModule, productionId, 'SUBMITTED')
         }}
       >
         Commit
@@ -425,7 +416,7 @@ const ProductionDetails = () => {
         primary
         swapTheming
         onClick={() => {
-          onAcknowledge(subModule, prodId, 'ACKNOWLEDGED')
+          onAcknowledge(subModule, productionId, 'ACKNOWLEDGED')
         }}
       >
           Acknowledge
@@ -447,6 +438,21 @@ const ProductionDetails = () => {
         withSubColumns
         hideTotal={false}
         withFooter
+        headerTemplate={
+          subModule === 'monthly' ? (
+            <SelectField
+              id="monthly-prod"
+              menuItems={['Monthly Production', 'Monthly Well Counts']}
+              block
+              position={SelectField.Positions.BELOW}
+              value={selectFieldValue}
+              onChange={setSelectFieldValue}
+              simplifiedMenu={false}
+            />
+          ) : (
+            ''
+          )
+        }
       />
       {showSupportedDocumentDialog && (
         <SupportedDocument
