@@ -168,50 +168,15 @@ export default class AppShellWrapper extends Component {
       me,
       toasts,
       dismissToast,
-      t,
       lang,
       changeLanguage,
       // langs,
     } = this.props
     const newSubModules = this.renderMenus()
-    // const token = getAccessToken()
-    // const { activeNavSubModule } = this.state
+
     const token = getAuthToken()
-    // const orgId = organizationID || get('organizationId')
-    const actionMenus = [
-      {
-        primaryText: 'Manage Accounts',
-        onClick: () => navigate('/talent/accounts'),
-      },
-      {
-        key: 'signout',
-        primaryText: t('signout'),
-        primaryTextStyle: { color: '#f44336' },
-        onClick: this.signOut,
-      },
-    ]
-    // const attrBasedOnRole =
-    //   userRole() === 'operator'
-    //     ? {
-    //       subModules: [
-    //         {
-    //           key: 'flaring',
-    //           name: 'Flaring',
-    //           onClick: () => navigate('/ams/hse/flaring'),
-    //         },
-    //         {
-    //           key: 'hsse',
-    //           name: 'HSSE',
-    //           onClick: () => navigate('/ams/hse/hsse'),
-    //         },
-    //         {
-    //           key: 'emissions',
-    //           name: 'Emissions',
-    //           onClick: () => navigate('/ams/hse/emissions'),
-    //         },
-    //       ],
-    //     }
-    //     : { onClick: () => navigate('/ams/hse') }
+
+    const actionMenus = []
 
     return (
       <IntlContext.Provider value={lang}>
@@ -313,32 +278,6 @@ export default class AppShellWrapper extends Component {
       </IntlContext.Provider>
     )
   }
-  // handleNotificationItemClick = item => {
-  //   const { data: itemData } = item
-  //   let { action, url, moduleName, workspaceId, startDate } = itemData || {}
-  //   const { productName, body } = item
-  //   if (productName === 'meetings' && body.includes('removed')) return
-  //   if (moduleName === 'meeting' && action === 'popup') {
-  //     location.href = `${PRODUCT_WORKSPACE_URL}/meetings?cat=new&date=${format(
-  //       startDate || new Date(),
-  //       'YYYY-MM-DD',
-  //     )}&wsid=${workspaceId}`
-  //     return
-  //   }
-  //   if (moduleName === 'message') {
-  //     const { workspaceId } = itemData
-  //     location.href = `${PRODUCT_WORKSPACE_URL}/workspace/details/${workspaceId}`
-  //     return
-  //   }
-  //   if (url) {
-  //     if (validURL(url)) {
-  //       location.href = url
-  //     } else {
-  //       url = url[0] === '/' ? url : `/${url}`
-  //       location.href = url
-  //     }
-  //   }
-  // }
   handleModuleChange = (key, { jumpUrl }) => {
     if (jumpUrl.startsWith('http')) {
       location.href = jumpUrl
