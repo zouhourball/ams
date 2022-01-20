@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useQuery } from 'react-apollo'
 import { get as getLodash } from 'lodash-es'
 import { AppShellSide } from '@target-energysolutions/app-shell'
+import { cleanUp } from '@target-energysolutions/hoc-oauth'
 
 import { Router, Redirect } from '@reach/router'
 
@@ -24,6 +25,7 @@ import meQuery from 'libs/queries/me-query.gql'
 import * as act from 'modules/app/actions'
 import { validURL } from 'libs/utils/custom-function'
 // import { userRole } from 'components/shared-hook/get-roles'
+import * as cookies from 'tiny-cookie'
 
 import './styles.scss'
 
@@ -61,7 +63,16 @@ const Shell = ({ lang }) => {
   useEffect(() => {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
   }, [])
-
+  const signOut = () => {
+    cleanUp()
+    window.location.href = '/'
+    if (process.env.NODE_ENV === 'development') {
+      localStorage.setItem('organizationId', '')
+    } else {
+      cookies.set('organizationId', '')
+    }
+    // this.props.clearMessages()
+  }
   const me = getLodash(data, 'mev2')
 
   const renderMenus = () => {
@@ -212,6 +223,7 @@ const Shell = ({ lang }) => {
           ]}
           // onNewNotification={this.handleNewNotification}
           meeraLogoUrl="/"
+          onSignOut={() => signOut()}
           meTo={ENV_VAR_ME_TO}
           lang={lang}
           onLangChange={act.changeLanguage}
