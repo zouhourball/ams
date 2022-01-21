@@ -285,6 +285,8 @@ const Permit = ({ subModule }) => {
             withChecked
             singleSelect={true}
             selectedRow={selectedRow}
+            withDownloadCsv
+            defaultCsvFileTitle={renderKey()}
             headerTemplate={
               selectedRow?.length === 1 && (
                 <HeaderTemplate

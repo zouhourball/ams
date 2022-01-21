@@ -325,7 +325,6 @@ const ProductionDetails = ({ subModule, productionId }) => {
       }
     },
   )
-
   const renderDetailsDataBySubModule = () => {
     switch (subModule) {
       case 'daily':
@@ -422,12 +421,21 @@ const ProductionDetails = ({ subModule, productionId }) => {
     ),
   ]
   return (
-    <div className="details-container">
+    <div className="production-details">
       <TopBarDetail
         onClickBack={() => navigate(`/ams/production/${subModule}`)}
         actions={actions}
         detailData={detailsData}
       />
+      {subModule === 'monthly-tracking' && (
+        <div className="average-delivery">
+          <div className="average-delivery-label">
+            AVERAGE DELIVERY TO ORPIC(BBLS/D):
+          </div>
+          <div>{productionData?.totalGDTORPIC || 'n/a'}</div>
+        </div>
+      )}
+
       <Mht
         configs={renderCurrentTabDetailsConfigs()}
         tableData={renderDetailsDataBySubModule()}

@@ -446,7 +446,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       case 'contracts':
         return configsContractsDialogMht()
       case 'lifting':
-        return configsLiftingCostsDialogMht()
+        return configsLiftingCostsDialogMht(subSubModule)
       case 'transaction':
         return transactionConfig()
       case 'affiliate':

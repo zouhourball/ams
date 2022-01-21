@@ -8,6 +8,7 @@ export const permitDrillConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -16,6 +17,7 @@ export const permitDrillConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -24,12 +26,14 @@ export const permitDrillConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -38,6 +42,7 @@ export const permitDrillConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -46,6 +51,7 @@ export const permitDrillConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -76,6 +82,7 @@ export const permitDrillConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 
@@ -86,6 +93,7 @@ export const permitSuspendConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -94,6 +102,7 @@ export const permitSuspendConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -102,12 +111,14 @@ export const permitSuspendConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -116,6 +127,7 @@ export const permitSuspendConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -124,6 +136,7 @@ export const permitSuspendConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -154,6 +167,7 @@ export const permitSuspendConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 export const permitAbandonConfigs = (supportedDocument) => [
@@ -163,6 +177,7 @@ export const permitAbandonConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -171,6 +186,7 @@ export const permitAbandonConfigs = (supportedDocument) => [
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -179,12 +195,14 @@ export const permitAbandonConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -193,6 +211,7 @@ export const permitAbandonConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -201,6 +220,7 @@ export const permitAbandonConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -231,6 +251,7 @@ export const permitAbandonConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 

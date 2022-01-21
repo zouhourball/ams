@@ -1182,6 +1182,8 @@ const CostRecovery = ({ subkey }) => {
             singleSelect
             hideTotal={false}
             withFooter
+            withDownloadCsv
+            defaultCsvFileTitle={subKeyRoute()}
             headerTemplate={
               selectedRow?.length !== 0 && (
                 <HeaderTemplate

@@ -95,7 +95,7 @@ export const configsAnnualCostsDialogMht = () => {
     },
   ]
 }
-export const configsLiftingCostsDialogMht = () => {
+export const configsLiftingCostsDialogMht = (subSubModule) => {
   return [
     {
       label: 'Month',
@@ -110,7 +110,10 @@ export const configsLiftingCostsDialogMht = () => {
       icon: 'mdi mdi-spellcheck',
     },
     {
-      label: 'Total Lifting',
+      label:
+        subSubModule === 'dataActualLifting'
+          ? 'Total Lifting'
+          : 'Total Production',
       key: 'totalProduction',
       width: '300',
       icon: 'mdi mdi-spellcheck',
@@ -401,14 +404,68 @@ export const configsContractsDialogMht = () => {
       icon: 'mdi mdi-spellcheck',
     },
     {
-      label: 'Description Of Services',
-      key: 'descriptionOfServices',
+      label: 'Is it Budgeted',
+      key: 'isItBudgeted',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Approved Amount',
+      key: 'approvedAmount',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Actual Spent',
+      key: 'actualSpent',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Amount Committed / Spent to date',
+      key: 'amountCommittedSpentDate',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Amount Rejected by Tender Board',
+      key: 'amountRejectedTenderBoard',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Tender Board / Committee approval date',
+      key: 'tenderBoardCommitteeApprovalDate',
       width: '200',
       icon: 'mdi mdi-spellcheck',
     },
     {
       label: 'competitively Bid Sole Source',
       key: 'competitivelyBidSoleSource',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Start Date',
+      key: 'startDate',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Expiry Date',
+      key: 'expiryDate',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: 'Initial Approved amount',
+      key: 'initialApprovedAmount',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+    },
+    {
+      label: '# of Revisions',
+      key: 'ofRevisions',
       width: '200',
       icon: 'mdi mdi-spellcheck',
     },

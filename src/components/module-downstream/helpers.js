@@ -8,6 +8,7 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
   {
     label: 'Submitted Date',
@@ -16,12 +17,14 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -30,6 +33,7 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -38,6 +42,7 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -68,6 +73,7 @@ export const liquefiedPetroleumGasConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 
@@ -78,6 +84,7 @@ export const naturalGasConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -86,12 +93,14 @@ export const naturalGasConfigs = (supportedDocument) => [
     width: '200',
     // type: 'date',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -100,6 +109,7 @@ export const naturalGasConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -108,6 +118,7 @@ export const naturalGasConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -138,6 +149,7 @@ export const naturalGasConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 export const petroleumProductsConfigs = (supportedDocument) => [
@@ -147,6 +159,7 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
 
   {
@@ -156,12 +169,14 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Submitted By',
     key: 'submittedBy',
     width: '200',
     icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
   },
   {
     label: 'Reference Date',
@@ -170,6 +185,7 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Status Date',
@@ -178,6 +194,7 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
   },
   {
     label: 'Report Type',
@@ -185,6 +202,7 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     width: '200',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
+    displayInCsv: true,
   },
   {
     label: 'Supporting Documents',
@@ -215,6 +233,7 @@ export const petroleumProductsConfigs = (supportedDocument) => [
     render: (row) => (
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
+    displayInCsv: true,
   },
 ]
 

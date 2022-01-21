@@ -9,4 +9,17 @@
       color: gray;
     }
   }
+
+  .average-delivery {
+    display: flex;
+    margin: 15px 5px;
+    padding: 10px 0;
+    border-radius: 5px;
+    background-color: #fff;
+
+    &-label {
+      padding: 0 5px;
+      font-weight: bold;
+    }
+  }
 }

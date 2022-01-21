@@ -951,6 +951,8 @@ const Downstream = ({ subkey }) => {
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
             // onSelectRows={setSelectedRow}
+            withDownloadCsv
+            defaultCsvFileTitle={renderSectionKey().name}
             footerTemplate={
               paginationData()?.totalPages > 1 && (
                 <>

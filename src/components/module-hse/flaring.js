@@ -802,6 +802,8 @@ const Flaring = () => {
             onSelectRows={dispatch(setSelectedRowAction)}
             withChecked
             // selectedRow={selectedRow}
+            withDownloadCsv
+            defaultCsvFileTitle={subModule}
             headerTemplate={
               selectedRow?.length === 1 && (
                 <HeaderTemplate

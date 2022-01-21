@@ -622,6 +622,8 @@ const Planning = () => {
         // onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
+        withDownloadCsv
+        defaultCsvFileTitle={currentTab}
         headerTemplate={
           selectedRow?.length === 1 ? (
             <HeaderTemplate
