@@ -4,6 +4,8 @@ import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import { useMemo, useState } from 'react'
 import moment from 'moment'
+import { useDispatch } from 'react-redux'
+import { addToast } from 'modules/app/actions'
 
 import {
   detailCostsCostByLoggedUser,
@@ -22,6 +24,8 @@ import {
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
+import ToastMsg from 'components/toast-msg'
+
 import useRole from 'libs/hooks/use-role'
 import documents from 'libs/hooks/documents'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
@@ -41,9 +45,32 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const dispatch = useDispatch()
 
   const subModule = pathname?.split('/')[4]
-  const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost)
+  const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/costrecovery')
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const { mutate: acknowledgeContracts } = useMutation(updateContractsCost)
   const { mutate: acknowledgeProdLifting } = useMutation(updateProdLiftingCost)
   const { mutate: acknowledgeTransaction } = useMutation(updateTransactionCost)
@@ -389,7 +416,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && (
+    role === 'regulator' && costsDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
       <Button
         key="4"
         id="acknowledge"

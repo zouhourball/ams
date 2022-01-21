@@ -70,7 +70,10 @@ const Permit = ({ subModule }) => {
               : '',
     })
   }, [company, currentTab])
-  const setSelectedRow = dispatch(setSelectedRowAction)
+  useEffect(() => {
+    setSelectedRow([])
+  }, [])
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const { data: permitListData, refetch: refetchList } = useQuery(
     [
       'listPermitsByLoggedUser',
@@ -154,7 +157,9 @@ const Permit = ({ subModule }) => {
       status: el?.metaData?.status,
     }
   })
-  const selectedRow = selectedRowSelector.map((id) => permitData[id])
+  const selectedRow = selectedRowSelector?.map((id) =>
+    permitData ? permitData[id] : null,
+  )
   // const renderCurrentTabData = () => {
   //   switch (currentTab) {
   //     case 1:
@@ -265,7 +270,7 @@ const Permit = ({ subModule }) => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow(tab)
+            setSelectedRow([])
           }}
         />
         <div className="subModule--table-wrapper">
@@ -276,7 +281,7 @@ const Permit = ({ subModule }) => {
             tableData={permitData || []}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-            onSelectRows={setSelectedRow}
+            // onSelectRows={setSelectedRow}
             withChecked
             singleSelect={true}
             selectedRow={selectedRow}

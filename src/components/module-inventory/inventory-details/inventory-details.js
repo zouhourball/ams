@@ -125,7 +125,7 @@ const InventoryDetails = () => {
   const updateInventoryMutation = useMutation(updateInventory, {
     onSuccess: (res) => {
       if (!res.error) {
-        // navigate('/ams/inventory')
+        navigate('/ams/inventory')
         renderRefetchAfterUpdate()
 
         dispatch(
@@ -392,47 +392,50 @@ const InventoryDetails = () => {
               >
                 View Support Documents
               </Button>
-              {inventoryData?.metaData?.status === 'APPROVED' ? (
-                <Button
-                  key="8"
-                  id="reject"
-                  className="top-bar-buttons-list-item-btn approve"
-                  flat
-                  primary
-                  swapTheming
-                  disabled
-                  iconEl={<FontIcon>check_circle</FontIcon>}
-                  onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
-                >
-                  Accepted
-                </Button>
-              ) : (
-                <>
-                  {' '}
+              {inventoryData?.metaData?.status === 'APPROVED' ||
+              inventoryData?.metaData?.status === 'ACCEPTED' ? (
                   <Button
-                    key="5"
+                    key="8"
                     id="reject"
-                    className="top-bar-buttons-list-item-btn reject"
-                    flat
-                    primary
-                    swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    key="3"
-                    id="approve"
                     className="top-bar-buttons-list-item-btn approve"
                     flat
                     primary
                     swapTheming
+                    disabled
+                    iconEl={<FontIcon>check_circle</FontIcon>}
                     onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
                   >
-                    Accept
+                  Accepted
                   </Button>
-                </>
-              )}
+                ) : (
+                inventoryData?.metaData?.status === 'SUBMITTED' && (
+                  <>
+                    {' '}
+                    <Button
+                      key="5"
+                      id="reject"
+                      className="top-bar-buttons-list-item-btn reject"
+                      flat
+                      primary
+                      swapTheming
+                      onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
+                    >
+                      Reject
+                    </Button>
+                    <Button
+                      key="3"
+                      id="approve"
+                      className="top-bar-buttons-list-item-btn approve"
+                      flat
+                      primary
+                      swapTheming
+                      onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
+                    >
+                      Accept
+                    </Button>
+                  </>
+                  )
+                )}
             </>
           ),
 

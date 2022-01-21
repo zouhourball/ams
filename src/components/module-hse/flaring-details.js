@@ -48,6 +48,7 @@ const FlaringDetails = ({ flaringId, subModule }) => {
     onSuccess: (res) => {
       if (res === true) {
         refetchList()
+        navigate('/ams/hse/flaring')
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,

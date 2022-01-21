@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useQuery, useMutation } from 'react-query'
 import { Button, DialogContainer, TextField } from 'react-md'
 
@@ -91,7 +91,9 @@ const Downstream = ({ subkey }) => {
     (state) => state?.selectRowsReducers?.selectedRows,
   )
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
-
+  useEffect(() => {
+    setSelectedRow([])
+  }, [])
   const { addSupportingDocuments } = documents()
   const company = getOrganizationInfos()
   const role = useRole('downstream')

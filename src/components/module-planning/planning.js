@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button, TextField } from 'react-md'
 
 import Mht, {
@@ -67,11 +67,13 @@ const Planning = () => {
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
-
+  useEffect(() => {
+    setSelectedRow([])
+  }, [])
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = dispatch(setSelectedRowAction)
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   // const subModuleByCurrentTab = () => {
   //   switch (currentTab) {
   //     case 0:
@@ -606,7 +608,7 @@ const Planning = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
-          setSelectedRow(tab)
+          setSelectedRow([])
         }}
       />
       <Mht
@@ -617,7 +619,7 @@ const Planning = () => {
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        onSelectRows={setSelectedRow}
+        // onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
         headerTemplate={

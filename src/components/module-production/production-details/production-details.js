@@ -40,18 +40,16 @@ const ProductionDetails = ({ subModule, productionId }) => {
 
   const { addSupportingDocuments } = documents()
 
-  const { data: productionData } = useQuery(
+  const { data: productionData, refetch } = useQuery(
     ['getDetailProductionById', subModule, productionId],
     productionId && getDetailProductionById,
-    {
-      refetchOnWindowFocus: false,
-    },
   )
 
   const updateDailyProductionMutation = useMutation(updateDailyProduction, {
     onSuccess: (res) => {
       if (!res.error) {
         navigate(`/ams/production/${subModule}`)
+        refetch()
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,

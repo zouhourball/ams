@@ -16,7 +16,7 @@ const Permitting = () => {
         <CostRecoveryDetails path="/cost-recovery-details/:subkey/:detailId" />
         <Dashboard path="/analytics/dashboard" />
         <CostRecovery path="/:subkey" />
-        <Redirect from="/" to="/ams/costrecovery/costs" />
+        <Redirect from="/" to="/ams/costrecovery/costs" noThrow />
       </Router>
     </Suspense>
   )

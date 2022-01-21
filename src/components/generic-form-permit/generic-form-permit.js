@@ -6,6 +6,7 @@ import {
   FontIcon,
   CircularProgress,
   Portal,
+  Button,
   // Autocomplete,
   // Button,
 } from 'react-md'
@@ -83,6 +84,9 @@ const GenericForm = ({ fields }) => {
         {field?.value && renderFiles([field?.file], field?.setFile)}
       </>
     )
+  }
+  const changeInputType = (field) => {
+    return field?.onChange('')
   }
   const renderFields = () =>
     fields.map((field) => {
@@ -179,90 +183,31 @@ const GenericForm = ({ fields }) => {
           )
         case 'fileInput':
           return createDropzone(field)
-          /* case 'autocomplete':
-          return (
-            <div className="requiredLanguages-autocomplete">
-              <Autocomplete
-                focusInputOnAutocomplete
-                simplifiedMenu={false}
-                listHeightRestricted
-                id={'autocomplete-suggestion'}
-                className="addSkillDialog-textField addLanguagesTextField"
-                filter={Autocomplete.caseInsensitiveFilter}
-                placeholder={'add_languages'}
-                data={[]/* getAllLanguages(field?.menuItems).filter(
-                  (v) =>
-                    !requiredLanguages.map((i) => i.name).includes(v.autoLabel),
-                ) } */
-          /* value={language}
-                dataValue={'autoValue'}
-                dataLabel={'autoLabel'}
-                onChange={setLanguage}
-                onAutocomplete={(suggestion, suggestionIndex, matches) => {
-                  insertChipFromAutocomplete(
-                    suggestion,
-                    suggestionIndex,
-                    matches,
-                  )
-                }}
-                rightIcon={
-                  <Button
-                    flat
-                    primary
-                    disabled={!language || !isNaN(language)}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      /* field?.menuItems?.find((lg) => lg.name === language) &&
-                        field?.onChange() */
-          /* onEditDetails('requiredLanguages', [
-                          ...requiredLanguages,
-                          field?.menuItems?.find((lg) => lg.name === language),
-                        ]) */
-        /* console.log('hello')
-                      setLanguage('')
-                    }}
-                    className={`add_skill_Button ${
-                      !language || !isNaN(language) ? 'disabled' : ''
-                    }`}
-                  >
-                    {'add_lang'}
-                  </Button>
-                }
-              />
-              <div className="requiredLanguages-autocomplete-languageWrapper">
-                {/* requiredLanguages &&
-                  requiredLanguages.map((lang, index) => (
-                    <span key={index} className="chip">
-                      <span className="chip-label">{lang.name}</span>
-                      <Button
-                        icon
-                        onClick={() => {
-                          onEditDetails('requiredLanguages', [
-                            ...requiredLanguages.filter(
-                              (lg) => lg.id !== lang.id,
-                            ),
-                          ])
-                        }}
-                      >
-                        close
-                      </Button>
-                    </span>
-                      )) }
-              </div>
-            </div>
-          ) */
+
         default:
           return (
-            <TextField
-              id={field.id}
-              className={`${field.cellWidth} field`}
-              required={field.required}
-              placeholder={field.title}
-              block
-              onChange={field?.onChange}
-              value={field?.value}
-              type={field.type === 'double' ? 'number' : null}
-            />
+            <div
+              className={`${field.cellWidth} ${
+                field.id === 'justification' && 'd-flex'
+              }`}
+            >
+              <TextField
+                id={field.id}
+                className={`field`}
+                required={field.required}
+                placeholder={field.title}
+                block
+                onChange={field?.onChange}
+                value={field?.value}
+                type={field.type === 'double' ? 'number' : null}
+              />
+              {field.id === 'justification' && (
+                <Button
+                  iconClassName="mdi mdi-backup-restore"
+                  onClick={() => changeInputType(field)}
+                />
+              )}
+            </div>
           )
       }
     })

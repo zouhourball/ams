@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Button, DialogContainer, TextField } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
@@ -87,7 +87,11 @@ const Inventory = () => {
     (state) => state?.selectRowsReducers?.selectedRows,
   )
   const setSelectedRow = (id) => dispatch(setSelectedRowAction(id))
-
+  useEffect(() => {
+    return () => {
+      setSelectedRow([])
+    }
+  }, [])
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', page, size],
     getInventories,
@@ -1199,6 +1203,7 @@ const Inventory = () => {
             // renderDialogData().onClick()
             onAddReportByCurrentTab(data)
           }}
+          formatDate={currentTab === 'annual-base' ? 'month' : 'day'}
         />
       )}
 

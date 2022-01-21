@@ -38,6 +38,12 @@ const SuspendReport = ({ suspendReportId }) => {
     }
   }, [])
   const blockList = getBlocks()
+  const justificationOptions = [
+    'Well Integrity Failure',
+    'Uneconomic Well at Submission Date',
+    'Waiting for Production Facility',
+    'Other',
+  ]
   const fields = [
     {
       id: 'block',
@@ -346,13 +352,14 @@ const SuspendReport = ({ suspendReportId }) => {
       id: 'justification',
       title: 'Justification for Suspension',
       cellWidth: 'md-cell md-cell--4',
-      input: 'select',
-      menuItems: [
-        'Well Integrity Failure',
-        'Uneconomic Well at Submission Date',
-        'Waiting for Production Facility',
-        'Other',
-      ],
+      input:
+        justificationOptions
+          .slice(0, justificationOptions?.length - 1)
+          .includes(formData?.data?.justification) ||
+        !formData?.data?.justification
+          ? 'select'
+          : 'textField',
+      menuItems: justificationOptions,
       required: true,
       onChange: (value) => onEditValue('justification', value),
       type: 'selectWithOther',

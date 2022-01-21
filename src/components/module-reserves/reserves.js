@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { Button, CircularProgress, DialogContainer, TextField } from 'react-md'
 
@@ -74,7 +74,8 @@ const Reserves = ({ subkey }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = dispatch(setSelectedRowAction)
+
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -352,7 +353,9 @@ const Reserves = ({ subkey }) => {
   const selectedRow = selectedRowSelector.map(
     (id) => renderCurrentTabData()[id],
   )
-
+  useEffect(() => {
+    setSelectedRow([])
+  }, [])
   const renderCurrentTabConfigs = () => {
     switch (currentTab) {
       case 0:
@@ -621,7 +624,7 @@ const Reserves = ({ subkey }) => {
           activeTab={currentTab}
           setActiveTab={(tab) => {
             setCurrentTab(tab)
-            setSelectedRow(tab)
+            setSelectedRow([])
           }}
         />
         <div className="subModule--table-wrapper">
@@ -633,7 +636,7 @@ const Reserves = ({ subkey }) => {
             tableData={renderCurrentTabData()}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
-            onSelectRows={setSelectedRow}
+            // onSelectRows={setSelectedRow}
             withChecked
             withDownloadCsv
             defaultCsvFileTitle={renderSectionKey()?.name}

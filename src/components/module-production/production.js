@@ -79,9 +79,7 @@ const Production = () => {
   const role = useRole('production')
 
   useEffect(() => {
-    return () => {
-      dispatch(setSelectedRow([]))
-    }
+    dispatch(setSelectedRow([]))
   }, [])
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
@@ -331,7 +329,7 @@ const Production = () => {
   const handleDeleteProduction = () => {
     selectedRow?.length > 0 &&
       deleteAllProduction(currentTab, renderSelectedItems()).then((res) => {
-        if (res.includes(true)) {
+        if (res) {
           dispatch(setSelectedRow([]))
 
           dispatch(
@@ -913,7 +911,7 @@ const Production = () => {
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
         onSelectRows={dispatch(setSelectedRow)}
         withChecked
-        selectedRow={selectedRow}
+        // selectedRow={selectedRow}
         withDownloadCsv
         defaultCsvFileTitle={currentTab}
         headerTemplate={
