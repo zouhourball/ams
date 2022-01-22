@@ -241,7 +241,7 @@ const Shell = ({ lang }) => {
       <Snackbar
         autohide
         toasts={toasts}
-        onDismiss={dispatch(act.dismissToast)}
+        onDismiss={() => dispatch(act.dismissToast())}
       />
     </IntlContext.Provider>
   )
