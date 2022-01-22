@@ -11,3 +11,19 @@
 .page {
   width: 70px;
 }
+
+.filter-view {
+  position: absolute;
+  z-index: 9;
+  top: 26px;
+  left: 0;
+  width: max-content;
+  min-width: 400px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.filter-view .filter-by {
+  position: relative;
+  padding: 0;
+}
