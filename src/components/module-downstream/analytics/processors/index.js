@@ -142,7 +142,8 @@ export function processRSData (raw) {
       content &&
       flatMap(content, (record) => {
         const { metaData, data } = record
-        const { month, year, company } = metaData
+        const { month, year, company, category } = metaData
+        if (category !== 'Retail Sales') return []
         const base = {
           month: MonthNames[mapMonthNameToNumber(capitalize(month)) - 1],
           year,

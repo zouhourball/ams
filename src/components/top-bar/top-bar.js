@@ -24,6 +24,22 @@ const specificPaths = [
     path: 'ams/planning',
     to: '/ams/planning/analytics/dashboard',
   },
+  {
+    path: 'ams/permitting',
+    to: '/ams/permitting/analytics/dashboard',
+  },
+  {
+    path: 'ams/costrecovery',
+    to: '/ams/costrecovery/analytics/dashboard',
+  },
+  {
+    path: 'ams/downstream',
+    to: '/ams/downstream/analytics/dashboard',
+  },
+  {
+    path: 'ams/reserves',
+    to: '/ams/reserves/analytics/dashboard',
+  },
 ]
 const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
   const [currentView, setCurrentView] = useState(view || 'file')
