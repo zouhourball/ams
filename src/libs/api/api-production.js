@@ -297,21 +297,17 @@ export const deleteProduction = async (subModule, objectId) => {
 //   await Promise.all(deleteAllPromises)
 // }
 
-export const deleteAllProduction = async (subModule, selectedRow) => {
-  const list = selectedRow?.map((row) => {
-    return { selectedId: row?.id }
-  })
-  const deleteAllPromises = list.map((p) =>
-    deleteProduction(subModule, p?.selectedId),
-  )
-  let returnValue = []
-
-  await Promise.all(deleteAllPromises)
-    .then((values) => {
-      returnValue = values
-    })
-    .catch(() => {
-      returnValue = []
-    })
-  return returnValue
+export const deleteAllProduction = async (subModule, objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/${subModule}/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }

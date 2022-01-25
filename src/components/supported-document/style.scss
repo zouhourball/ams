@@ -60,9 +60,14 @@
     align-items: center;
     justify-content: space-between;
 
+    i {
+      margin: 0 10px;
+    }
+
     .file-data {
       display: flex;
       align-items: center;
+      margin-right: auto;
 
       .file-details {
         display: flex;

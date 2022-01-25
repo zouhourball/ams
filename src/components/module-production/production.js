@@ -27,7 +27,7 @@ import {
   commitProduction,
   saveProduction,
   overrideProductionReport,
-  // deleteProduction,
+  deleteProduction,
   updateDailyProduction,
   deleteAllProduction,
 } from 'libs/api/api-production'
@@ -326,29 +326,28 @@ const Production = () => {
       })) || []
     )
   }
-  const handleDeleteProduction = () => {
-    selectedRow?.length > 0 &&
-      deleteAllProduction(currentTab, renderSelectedItems()).then((res) => {
-        if (res) {
-          dispatch(setSelectedRow([]))
+  const handleDeleteProduction = (id) => {
+    deleteProduction(currentTab, id).then((res) => {
+      if (res) {
+        dispatch(setSelectedRow([]))
 
-          dispatch(
-            addToast(
-              <ToastMsg text={'Successfully deleted'} type="success" />,
-              'hide',
-            ),
-          )
-          refetchList()
-        } else {
-          refetchList()
-          dispatch(
-            addToast(
-              <ToastMsg text={'Something went wrong'} type="error" />,
-              'hide',
-            ),
-          )
-        }
-      })
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchList()
+      } else {
+        refetchList()
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    })
   }
   const onCommitProduction = (subModule) => {
     commitProductionMutate.mutate({
@@ -848,39 +847,35 @@ const Production = () => {
         title="Production Reporting"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
+          const ids = renderSelectedItems()?.map((el) => el?.id)
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
                 selectedRow?.length > 0 &&
-                deleteAllProduction(currentTab, renderSelectedItems()).then(
-                  (res) => {
-                    if (res.includes(true)) {
-                      dispatch(
-                        addToast(
-                          <ToastMsg
-                            text={'Successfully deleted'}
-                            type="success"
-                          />,
-                          'hide',
-                        ),
-                      )
-                      refetchList()
-                    } else {
-                      dispatch(
-                        addToast(
-                          <ToastMsg
-                            text={'Something went wrong'}
-                            type="error"
-                          />,
-                          'hide',
-                        ),
-                      )
-                    }
-                  },
-                ),
+                deleteAllProduction(currentTab, ids).then((res) => {
+                  if (res) {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Successfully deleted'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  } else {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }
+                }),
             },
           ]
         }}

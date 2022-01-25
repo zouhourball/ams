@@ -363,7 +363,50 @@ export const permitAbandonData = [
   },
 ]
 
-export const actionsHeader = (key, id, role, supportedDocument) => {
+export const actionsHeader = (
+  key,
+  row,
+  role,
+  supportedDocument,
+  handleDeletePermit,
+  submitDraft,
+) => {
+  const draftBtn = {
+    id: 6,
+    label: 'Submit Draft report',
+    onClick: () => {
+      submitDraft(row?.id)
+    },
+  }
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        handleDeletePermit(row?.id)
+      },
+    },
+    /* {
+      id: 2,
+      label: 'Edit details',
+      onClick: () => {},
+    }, */
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key && row?.id && navigate(`/ams/permitting/${key}/${row?.id}`)
+      },
+    },
+    {
+      id: 4,
+      primary: true,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
   switch (role) {
     case 'regulator':
     default:
@@ -373,7 +416,7 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           primary: true,
           label: 'View Details',
           onClick: () => {
-            key && id && navigate(`/ams/permitting/${key}/${id}`)
+            key && row?.id && navigate(`/ams/permitting/${key}/${row?.id}`)
           },
         },
         {
@@ -381,37 +424,11 @@ export const actionsHeader = (key, id, role, supportedDocument) => {
           primary: true,
           label: 'View Documents',
           onClick: () => {
-            supportedDocument(id)
+            supportedDocument(row?.id)
           },
         },
       ]
     case 'operator':
-      return [
-        {
-          id: 1,
-          label: 'Delete',
-          onClick: () => {},
-        },
-        {
-          id: 2,
-          label: 'Edit details',
-          onClick: () => {},
-        },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/permitting/${key}/${id}`)
-          },
-        },
-        {
-          id: 4,
-          primary: true,
-          label: 'Upload Documents',
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return row?.status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }

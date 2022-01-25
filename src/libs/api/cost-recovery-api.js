@@ -294,21 +294,19 @@ export const deleteRow = async (objectId, subModule) => {
   }
   return res
 }
-export const deleteRows = async (subModule, selectedRows) => {
-  const list = selectedRows?.map((row) => {
-    return { rowId: row?.id }
-  })
-  const deleteAllPromises = list.map((row) => deleteRow(row?.rowId, subModule))
-  let returnValue = []
-
-  await Promise.all(deleteAllPromises)
-    .then((values) => {
-      returnValue = values
-    })
-    .catch(() => {
-      returnValue = []
-    })
-  return returnValue
+export const deleteRows = async (subModule, objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${subModule}/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }
 
 // ProdLifting

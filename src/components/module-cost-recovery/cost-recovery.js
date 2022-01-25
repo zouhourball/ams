@@ -911,11 +911,12 @@ const CostRecovery = ({ subkey }) => {
 
   const handleDelete = () => {
     // const indexElement = indexRow === 'oneItem' ? selectedRow[0] : indexRow
+    const ids = renderSelectedItems()?.map((el) => el?.id)
     switch (currentTab) {
       case 1:
         selectedRow?.length > 0 &&
-          deleteRows('contracts', renderSelectedItems()).then((res) => {
-            if (res.includes(true)) {
+          deleteRows('contracts', ids).then((res) => {
+            if (res) {
               refetchCurrentData()
               dispatch(setSelectedRow([]))
               setShowDeleteDialog(false)
@@ -927,8 +928,8 @@ const CostRecovery = ({ subkey }) => {
           })
         break
       case 0:
-        deleteRows('costs', renderSelectedItems()).then((res) => {
-          if (res.includes(true)) {
+        deleteRows('costs', ids).then((res) => {
+          if (res) {
             refetchCurrentData()
             dispatch(setSelectedRow([]))
             setShowDeleteDialog(false)
@@ -940,8 +941,8 @@ const CostRecovery = ({ subkey }) => {
         })
         break
       case 2:
-        deleteRows('prodLifting', renderSelectedItems()).then((res) => {
-          if (res.includes(true)) {
+        deleteRows('prodLifting', ids).then((res) => {
+          if (res) {
             refetchCurrentData()
             dispatch(setSelectedRow([]))
             setShowDeleteDialog(false)
@@ -953,8 +954,8 @@ const CostRecovery = ({ subkey }) => {
         })
         break
       case 3:
-        deleteRows('transaction', renderSelectedItems()).then((res) => {
-          if (res.includes(true)) {
+        deleteRows('transaction', ids).then((res) => {
+          if (res) {
             refetchCurrentData()
             dispatch(setSelectedRow([]))
             setShowDeleteDialog(false)
@@ -966,8 +967,8 @@ const CostRecovery = ({ subkey }) => {
         })
         break
       case 4:
-        deleteRows('affiliate', renderSelectedItems()).then((res) => {
-          if (res.includes(true)) {
+        deleteRows('affiliate', ids).then((res) => {
+          if (res) {
             refetchCurrentData()
             dispatch(setSelectedRow([]))
             setShowDeleteDialog(false)
@@ -980,8 +981,8 @@ const CostRecovery = ({ subkey }) => {
 
         break
       case 5:
-        deleteRows('facilities', renderSelectedItems()).then((res) => {
-          if (res.includes(true)) {
+        deleteRows('facilities', ids).then((res) => {
+          if (res) {
             refetchCurrentData()
             dispatch(setSelectedRow([]))
             setShowDeleteDialog(false)
@@ -1151,9 +1152,9 @@ const CostRecovery = ({ subkey }) => {
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
-              key: 2,
+              key: 1,
               primaryText: 'Delete',
               onClick: () =>
                 // Promise.all(selectedRow?.map((row) => handleDelete(row))),

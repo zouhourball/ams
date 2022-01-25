@@ -903,15 +903,16 @@ const Downstream = ({ subkey }) => {
         title="Downstream"
         actions={role === 'operator' ? renderActionsByCurrentTab() : []}
         menuItems={() => {
+          const ids = selectedRow?.map((el) => el?.id)
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
                 selectedRow?.length > 0 &&
-                deleteAllDownstream(subkey, selectedRow).then((res) => {
-                  if (res.includes(true)) {
+                deleteAllDownstream(subkey, ids).then((res) => {
+                  if (res) {
                     dispatch(
                       addToast(
                         <ToastMsg
@@ -922,6 +923,7 @@ const Downstream = ({ subkey }) => {
                       ),
                     )
                     renderSectionKey().refetch()
+                    setSelectedRow([])
                   } else {
                     dispatch(
                       addToast(

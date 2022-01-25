@@ -149,14 +149,19 @@ export const deleteReport = async (objectId, subModule) => {
 }
 
 // -----------------
-export const deleteAll = async (selectedRow, subModule) => {
-  const list = selectedRow?.map((row) => {
-    return { permitId: row?.id }
-  })
-  const deleteAllPromises = list.map((p) =>
-    deleteReport(p?.permitId, subModule),
-  )
-  await Promise.all(deleteAllPromises)
+export const deleteAll = async (objectIds, subModule) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/reserve/${subModule}/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }
 
 // -------------

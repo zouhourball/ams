@@ -22,7 +22,6 @@ import {
   overrideReport,
   saveReport,
   updateReserveReport,
-  // deleteReport,
   deleteAll,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
@@ -599,13 +598,14 @@ const Reserves = ({ subkey }) => {
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         // onViewChange={setCurrentView}
         menuItems={() => {
+          const ids = selectedRow?.map((el) => el?.id)
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                deleteAll(selectedRow, renderSectionKey()?.name).then((res) => {
+                deleteAll(ids, renderSectionKey()?.name).then((res) => {
                   dispatch(
                     addToast(
                       <ToastMsg text={'Successfully deleted'} type="success" />,

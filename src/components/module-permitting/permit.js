@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Button, TextField } from 'react-md'
 import { navigate } from '@reach/router'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -17,12 +17,16 @@ import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
-import { userRole } from 'components/shared-hook/get-roles'
 
 import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
-import { listPermitsByLoggedUser, deleteAll } from 'libs/api/permit-api'
+import {
+  listPermitsByLoggedUser,
+  deleteAll,
+  deletePermit,
+  updatePermit,
+} from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -97,7 +101,6 @@ const Permit = ({ subModule }) => {
   )
 
   const role = useRole('permitting')
-
   const actions =
     currentTab === 0
       ? [
@@ -140,7 +143,29 @@ const Permit = ({ subModule }) => {
             Upload Permit to Abandon Report
           </Button>,
         ]
+  const handleDeletePermit = (id) => {
+    deletePermit(id).then((res) => {
+      if (res) {
+        setSelectedRow([])
 
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchList()
+      } else {
+        refetchList()
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    })
+  }
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
   const permitData = permitListData?.content?.map((el) => {
     return {
@@ -238,19 +263,32 @@ const Permit = ({ subModule }) => {
   useMemo(() => {
     setPage(0)
   }, [currentTab])
+  const updatePermitMutation = useMutation(updatePermit, {
+    onSuccess: (res) => {
+      refetchList()
+    },
+  })
+  const submitDraft = (id) => {
+    updatePermitMutation.mutate({
+      id: id,
+      status: 'SUBMITTED',
+    })
+  }
   return (
     <>
       <TopBar
         title="Permitting"
         actions={role === 'operator' ? actions : null}
         menuItems={() => {
+          // string array of Ids
+          const ids = selectedRow?.map((el) => el?.id)
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () => {
-                deleteAll(selectedRow).then((res) => {
+                deleteAll(ids).then((res) => {
                   dispatch(
                     addToast(
                       <ToastMsg text={'Deleted successfully'} type="success" />,
@@ -293,9 +331,11 @@ const Permit = ({ subModule }) => {
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
                     renderKey(),
-                    selectedRow[0]?.id,
-                    userRole(),
+                    selectedRow[0],
+                    role,
                     setShowSupportedDocumentDialog,
+                    handleDeletePermit,
+                    submitDraft,
                   )}
                 />
               )

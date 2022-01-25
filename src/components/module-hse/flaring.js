@@ -17,7 +17,7 @@ import {
   commitFlaring,
   saveFlaring,
   overrideFlaringReport,
-  // deleteFlaring,
+  deleteFlaring,
   updateFlaring,
   deleteAllFlaring,
 } from 'libs/api/api-flaring'
@@ -392,11 +392,11 @@ const Flaring = () => {
     }
   }
 
-  const handleDeleteFlaring = () => {
-    const selectedRows = selectedRow?.map((el) => renderCurrentTabData()[el])
+  const handleDeleteFlaring = (id) => {
+    // const selectedRows = selectedRow?.map((el) => renderCurrentTabData()[el])
     selectedRow?.length > 0 &&
-      deleteAllFlaring(subModule, selectedRows).then((res) => {
-        if (res.includes(true)) {
+      deleteFlaring(subModule, id).then((res) => {
+        if (res) {
           setSelectedRow([])
           dispatch(
             addToast(
@@ -744,15 +744,16 @@ const Flaring = () => {
         title="Flaring"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
+          const ids = selectedRow?.map((el) => renderCurrentTabData()[el]?.id)
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
                 selectedRow?.length > 0 &&
-                deleteAllFlaring(subModule, selectedRow).then((res) => {
-                  if (res.includes(true)) {
+                deleteAllFlaring(subModule, ids).then((res) => {
+                  if (res) {
                     dispatch(
                       addToast(
                         <ToastMsg

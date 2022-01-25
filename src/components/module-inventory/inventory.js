@@ -1053,7 +1053,7 @@ const Inventory = () => {
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
           return [
-            { key: 1, primaryText: 'Edit', onClick: () => null },
+            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',

@@ -61,6 +61,7 @@ const UploadPermitDialog = ({
         onChange={(v) => setInformation({ ...information, block: v })}
         className="upload-permit-dialog-selectField"
         menuItems={blockList}
+        simplifiedMenu={false}
       />
 
       <TextField

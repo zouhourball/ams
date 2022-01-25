@@ -418,21 +418,17 @@ export const deleteDownstream = async (subModule, objectId) => {
   return res
 }
 
-export const deleteAllDownstream = async (subModule, selectedRow) => {
-  const list = selectedRow?.map((row) => {
-    return { permitId: row?.id }
-  })
-  const deleteAllPromises = list.map((p) =>
-    deleteDownstream(subModule, p?.permitId),
-  )
-  let returnValue = []
-
-  await Promise.all(deleteAllPromises)
-    .then((values) => {
-      returnValue = values
-    })
-    .catch(() => {
-      returnValue = []
-    })
-  return returnValue
+export const deleteAllDownstream = async (subModule, objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/downstream/${subModule}/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }

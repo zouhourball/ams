@@ -56,8 +56,20 @@ export const checkPermit = async ({ body }) => {
 export const deletePermit = async (objectId) => {
   let res
   try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v1/permit/${objectId}`, {
+      method: 'DELETE',
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const deleteAll = async (objectIds) => {
+  let res
+  try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/permit/delete/${objectId}`,
+      `${appUrl}/pulse-be/api/v1/permit/?objectIds=${objectIds}`,
       {
         method: 'DELETE',
       },
@@ -66,14 +78,6 @@ export const deletePermit = async (objectId) => {
     res = { error: e }
   }
   return res
-}
-
-export const deleteAll = async (selectedRow) => {
-  const list = selectedRow?.map((row) => {
-    return { permitId: row?.id }
-  })
-  const deleteAllPromises = list.map((p) => deletePermit(p?.permitId))
-  await Promise.all(deleteAllPromises)
 }
 
 export const listPermitsByLoggedUser = async ({ queryKey }) => {

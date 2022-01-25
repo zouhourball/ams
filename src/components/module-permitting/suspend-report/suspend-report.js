@@ -397,7 +397,7 @@ const SuspendReport = ({ suspendReportId }) => {
       title: 'Attach Suspension Program',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
-      // required: true,
+      required: true,
       onDrop: (value) => {
         // console.log(value)
         if (value?.length > 0) {
@@ -415,7 +415,7 @@ const SuspendReport = ({ suspendReportId }) => {
           onEditValue('suspensionProgram', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            suspensionProgram: {},
+            suspensionProgram: '',
           })
         }
       },
@@ -429,17 +429,25 @@ const SuspendReport = ({ suspendReportId }) => {
       title: 'Current Well Schematic',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
-      // required: true,
+      required: true,
       onDrop: (value) => {
-        setLoading(true)
-        fileManagerUpload(value).then((res) => {
-          onEditValue('wellSchematic', res?.files[0]?.url)
-          setLoading(false)
+        if (value?.length > 0) {
+          setLoading(true)
+          fileManagerUpload(value).then((res) => {
+            onEditValue('wellSchematic', res?.files[0]?.url)
+            setLoading(false)
+            setCurrentUploadedFile({
+              ...currentUploadedFile,
+              wellSchematic: res?.files[0],
+            })
+          })
+        } else {
+          onEditValue('wellSchematic', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            wellSchematic: res?.files[0],
+            wellSchematic: '',
           })
-        })
+        }
       },
       loading: loading,
       value: currentUploadedFile?.wellSchematic,

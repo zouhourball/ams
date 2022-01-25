@@ -522,7 +522,7 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction()
+              handleDeleteProduction(id)
             },
           },
 
@@ -561,7 +561,7 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction()
+              handleDeleteProduction(id)
             },
           },
           {

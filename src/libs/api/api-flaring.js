@@ -162,21 +162,17 @@ export const deleteFlaring = async (subModule, objectId) => {
   return res
 }
 
-export const deleteAllFlaring = async (subModule, selectedRow) => {
-  const list = selectedRow?.map((row) => {
-    return { selectedId: row?.id }
-  })
-  const deleteAllPromises = list.map((p) =>
-    deleteFlaring(subModule, p?.selectedId),
-  )
-  let returnValue = []
-
-  await Promise.all(deleteAllPromises)
-    .then((values) => {
-      returnValue = values
-    })
-    .catch(() => {
-      returnValue = []
-    })
-  return returnValue
+export const deleteAllFlaring = async (subModule, objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/flaring/${subModule}/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
 }

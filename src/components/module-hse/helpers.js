@@ -368,7 +368,7 @@ export const actionsHeaderAnnual = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete()
+        onDelete(id)
       },
     },
     {
@@ -466,7 +466,7 @@ export const actionsHeaderMonthly = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete()
+        onDelete(id)
       },
     },
     {
@@ -548,7 +548,7 @@ export const actionsHeaderDaily = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        onDelete()
+        onDelete(id)
       },
     },
     {
