@@ -3,21 +3,21 @@ import { Button, FontIcon, SelectField } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { get } from 'lodash-es'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import moment from 'moment'
 import { useQuery as useQueryHook } from 'react-apollo-hooks'
 import workers from 'libs/queries/workers.gql'
 
-// import { messengerAct } from '@target-energysolutions/messenger'
+import { messengerAct } from '@target-energysolutions/messenger'
 import Mht from '@target-energysolutions/mht'
 
 import { addToast } from 'modules/app/actions'
-// import useRole from 'libs/hooks/use-role'
 import useRole from 'libs/hooks/use-role'
 import addGroup from 'libs/hooks/add-group'
 
 import {
   updateInventory,
+  channelUpdate,
   getDetailInventoryById,
   getTransactionById,
   addTransaction,
@@ -121,7 +121,36 @@ const InventoryDetails = () => {
       refetchOnWindowFocus: false,
     },
   )
-
+  useEffect(() => {
+    setId(inventoryData?.metaData?.discussionChannelId)
+  }, [inventoryData])
+  const channelUpdateMutation = useMutation(channelUpdate, {
+    onSuccess: (res) => {
+      if (res) {
+        // navigate('/ams/inventory')
+        renderRefetchAfterUpdate()
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'created channel successfully '}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const updateInventoryMutation = useMutation(updateInventory, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -343,10 +372,16 @@ const InventoryDetails = () => {
     }
   }
 
-  const onChangeStatus = (inventoryId, status) => {
+  const onChangeStatus = (status) => {
     updateInventoryMutation.mutate({
       inventoryId: inventoryId,
       status: status,
+    })
+  }
+  const chatChannelHandler = (id) => {
+    channelUpdateMutation.mutate({
+      inventoryId: inventoryId,
+      channelId: id,
     })
   }
 
@@ -448,17 +483,18 @@ const InventoryDetails = () => {
                 flat
                 swapTheming
                 onClick={() => {
-                  // get group row id
-                  // if group doesn't exist
+                  // get discussionChannelId from API GET
+                  // create and save discussionChannelId
                   !chatId && setShowSelectMembersWorkspaces(true)
 
-                  // if group exist
-                  /* dispatch(
-                    messengerAct.openChat({
-                      channelId: chatId || '61b854d6034de30a7801a16f',
-                      type: 'group',
-                    }),
-                  ) */
+                  // if discussionChannelId exists open chat
+                  chatId &&
+                    dispatch(
+                      messengerAct.openChat({
+                        channelId: chatId,
+                        type: 'group',
+                      }),
+                    )
                 }}
               >
                 Clarify
@@ -506,7 +542,11 @@ const InventoryDetails = () => {
                 flat
                 primary
                 swapTheming
-                onClick={() => {}}
+                onClick={() => {
+                  // get discussionChannelId from API GET
+                  // if discussionChannelId exists open chat
+                  // else create and save discussionChannelId
+                }}
               >
                 Clarify
               </Button>
@@ -787,7 +827,8 @@ const InventoryDetails = () => {
           onHide={() => setShowSelectMembersWorkspaces(false)}
           members={membersByOrg() || []}
           addGroup={addGroup}
-          setId={setId}
+          // setId={setId}
+          chatChannelHandler={chatChannelHandler}
         />
       )}
     </div>

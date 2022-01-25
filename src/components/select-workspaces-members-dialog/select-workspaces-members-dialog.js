@@ -12,7 +12,8 @@ const SelectWorkspacesMembersDialog = ({
   visible,
   onHide,
   addGroup,
-  setId,
+  // setId,
+  chatChannelHandler,
 }) => {
   const dispatch = useDispatch()
 
@@ -39,7 +40,8 @@ const SelectWorkspacesMembersDialog = ({
             email: el?.email,
           })),
         }).then((res) => {
-          setId(res?.id)
+          // setId(res?.id)
+          chatChannelHandler(res?.id)
           dispatch(
             messengerAct.openChat({
               channelId: res?.id,

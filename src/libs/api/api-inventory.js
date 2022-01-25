@@ -242,6 +242,20 @@ export const updateInventory = async ({ inventoryId, status }) => {
   }
   return res
 }
+export const channelUpdate = async ({ inventoryId, channelId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/base/${inventoryId}/chat-channel-id?channelId=${channelId}`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 
 export const getDetailInventoryById = async ({ queryKey }) => {
   let res
