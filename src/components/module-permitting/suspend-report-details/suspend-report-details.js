@@ -1,6 +1,6 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
 import { useState } from 'react'
 
@@ -8,7 +8,7 @@ import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
 import SupportedDocument from 'components/supported-document'
 
-import { getPermitDetail } from 'libs/api/permit-api'
+import { getPermitDetail, updatePermit } from 'libs/api/permit-api'
 import useRole from 'libs/hooks/use-role'
 
 import './style.scss'
@@ -20,7 +20,25 @@ const SuspendReportDetails = ({ suspendReportId }) => {
     ['suspendReportById', 'Suspend', suspendReportId],
     getPermitDetail,
   )
+  const updatePermitMutation = useMutation(updatePermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
   const role = useRole('permitting')
+  const acknowledge = () => {
+    updatePermitMutation.mutate({ id: suspendReportId, status: 'ACKNOWLEDGED' })
+  }
+  const clickHandler = () => {
+    if (role === 'operator') {
+      navigate(`/ams/permitting/suspend-report/edit/${suspendReportId}`)
+    } else {
+      acknowledge()
+    }
+  }
   const actions = [
     <Button
       key="1"
@@ -34,20 +52,22 @@ const SuspendReportDetails = ({ suspendReportId }) => {
     >
       View documents
     </Button>,
-    <Button
-      key="2"
-      id="edit"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-        navigate(`/ams/permitting/suspend-report`)
-      }}
-      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
-    >
-      {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
-    </Button>,
+    !(role === 'operator' && detailData?.metaData?.status !== 'DRAFT') && (
+      <Button
+        key="2"
+        id="edit"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          clickHandler()
+        }}
+        // disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
+      >
+        {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
+      </Button>
+    ),
   ]
   return (
     <div className="suspend-report-details">
@@ -377,7 +397,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
             required: true,
             value:
               detailData?.data?.find((el) => el?.id === 'suspensionProgram')
-                ?.value || 'no',
+                ?.value || '',
           },
           {
             id: 'wellSchematic',
@@ -387,7 +407,7 @@ const SuspendReportDetails = ({ suspendReportId }) => {
             required: true,
             value:
               detailData?.data?.find((el) => el?.id === 'wellSchematic')
-                ?.value || 'no',
+                ?.value || '',
           },
         ]}
       />

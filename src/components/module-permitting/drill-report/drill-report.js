@@ -55,11 +55,9 @@ const DrillReport = ({ drillReportId }) => {
       setFormData({
         ...formData,
         metaData: {
-          // company: detailData?.metaData?.company,
           permitType: detailData?.metaData?.permitType,
           block: detailData?.metaData?.block,
           wellName: detailData?.metaData?.wellName,
-          // company: company,
         },
         data,
       })
@@ -371,7 +369,7 @@ const DrillReport = ({ drillReportId }) => {
       className="top-bar-buttons-list-item-btn discard"
       flat
       onClick={() => {
-        navigate(`/ams/permitting`)
+        navigate(`/ams/permitting/dr`)
       }}
     >
       Discard

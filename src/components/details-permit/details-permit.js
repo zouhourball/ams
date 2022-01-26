@@ -9,26 +9,28 @@ const DetailsPermit = ({ fields }) => {
       switch (field?.input) {
         case 'fileInput':
           return (
-            <div className="md-cell md-cell--12" key={field?.id}>
-              <div className="title">{field?.title}</div>
-              <div className="md-grid">
-                {field?.value && (
-                  <div
-                    className="file md-cell md-cell--1"
-                    // key={val?.fileName}
-                    onClick={() =>
-                      window.open(`${PRODUCT_APP_URL_API}/fm${field?.value}`)
-                    }
-                  >
-                    <img src={pdfIcon} />
-                    {/* <div>
+            field?.value && (
+              <div className="md-cell md-cell--12" key={field?.id}>
+                <div className="title">{field?.title}</div>
+                <div className="md-grid">
+                  {field?.value && (
+                    <div
+                      className="file md-cell md-cell--1"
+                      // key={val?.fileName}
+                      onClick={() =>
+                        window.open(`${PRODUCT_APP_URL_API}/fm${field?.value}`)
+                      }
+                    >
+                      <img src={pdfIcon} />
+                      {/* <div>
                         <span className="croppedText">{val?.fileName}</span>
                         <span>{val?.size}</span>
                       </div> */}
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+            )
           )
         case 'checkbox':
           return (

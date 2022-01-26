@@ -32,7 +32,7 @@ const DrillReportDetails = ({ drillReportId }) => {
   const acknowledge = () => {
     updatePermitDrill.mutate({ id: drillReportId, status: 'ACKNOWLEDGED' })
   }
-  const onHandleClick = () => {
+  const clickHandler = () => {
     if (role === 'operator') {
       navigate(`/ams/permitting/drill-report/edit/${drillReportId}`)
     } else {
@@ -52,18 +52,22 @@ const DrillReportDetails = ({ drillReportId }) => {
     >
       View documents
     </Button>,
-    <Button
-      key="2"
-      id="edit"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => onHandleClick()}
-      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
-    >
-      {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
-    </Button>,
+    !(role === 'operator' && detailData?.metaData?.status !== 'DRAFT') && (
+      <Button
+        key="2"
+        id="edit"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => clickHandler()}
+        /* disabled={
+          role === 'operator' && detailData?.metaData?.status !== 'DRAFT'
+        } */
+      >
+        {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
+      </Button>
+    ),
   ]
   return (
     <div className="drill-report-details">

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Button } from 'react-md'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { navigate } from '@reach/router'
 
 import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit, savePermit } from 'libs/api/permit-api'
+import { addPermit, savePermit, getPermitDetail } from 'libs/api/permit-api'
 import { validForm } from '../validate-form-fields'
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
@@ -21,6 +21,10 @@ const SuspendReport = ({ suspendReportId }) => {
   })
   const [loading, setLoading] = useState(false)
   const [currentUploadedFile, setCurrentUploadedFile] = useState({})
+  const { data: detailData } = useQuery(
+    ['suspendReportById', 'Suspend', suspendReportId],
+    suspendReportId && getPermitDetail,
+  )
   useEffect(() => {
     if (localStorage.getItem('suspend-report')) {
       const drillReport = JSON.parse(localStorage.getItem('suspend-report'))
@@ -37,6 +41,26 @@ const SuspendReport = ({ suspendReportId }) => {
       })
     }
   }, [])
+  useEffect(() => {
+    if (detailData) {
+      let data = formData.data
+      ;(detailData?.data || []).forEach((el) => {
+        data = {
+          ...data,
+          [el.id]: el.value,
+        }
+      })
+      setFormData({
+        ...formData,
+        metaData: {
+          permitType: detailData?.metaData?.permitType,
+          block: detailData?.metaData?.block,
+          company: detailData?.metaData?.company,
+        },
+        data,
+      })
+    }
+  }, [detailData])
   const blockList = getBlocks()
   const justificationOptions = [
     'Well Integrity Failure',
@@ -491,26 +515,27 @@ const SuspendReport = ({ suspendReportId }) => {
       })
     }
   }
-  const data = Object.keys(formData?.data).map((el) => {
-    return {
-      id: el,
-      value: formData?.data[el],
-      name: fields.find((elem) => elem.id === el)?.title,
-      type: fields.find((elem) => elem.id === el)?.type,
-      datePattern:
-        fields.find((elem) => elem.id === el)?.type === 'date'
-          ? 'yyyy-MM-dd'
-          : null,
-    }
-  })
+  const formatData = () =>
+    Object.keys(formData?.data).map((el) => {
+      return {
+        id: el,
+        value: formData?.data[el],
+        name: fields.find((elem) => elem.id === el)?.title,
+        type: fields.find((elem) => elem.id === el)?.type,
+        datePattern:
+          fields.find((elem) => elem.id === el)?.type === 'date'
+            ? 'yyyy-MM-dd'
+            : null,
+      }
+    })
   const onSave = () => {
     addPermitSuspend.mutate({
-      body: { ...formData, data },
+      body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
   const onSaveReport = () => {
     savePermitDrill.mutate({
-      body: { ...formData, data },
+      body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
 
@@ -521,7 +546,7 @@ const SuspendReport = ({ suspendReportId }) => {
       className="top-bar-buttons-list-item-btn discard"
       flat
       onClick={() => {
-        navigate(`/ams/permitting`)
+        navigate(`/ams/permitting/sr`)
       }}
     >
       Discard

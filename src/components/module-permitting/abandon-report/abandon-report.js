@@ -1,23 +1,51 @@
 import { useState, useEffect } from 'react'
 import { Button } from 'react-md'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { navigate } from '@reach/router'
 
 import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit, savePermit } from 'libs/api/permit-api'
+import { addPermit, savePermit, getPermitDetail } from 'libs/api/permit-api'
+import { fileManagerUpload } from 'libs/api/api-file-manager'
 import { validForm } from '../validate-form-fields'
 
 import './style.scss'
 
 const AbandonReport = ({ abandonReportId }) => {
+  const [loading, setLoading] = useState(false)
+  const [currentUploadedFile, setCurrentUploadedFile] = useState({})
   const [formData, setFormData] = useState({
     data: {
       plannedAbandonDate: new Date(),
     },
   })
+
+  const { data: detailData } = useQuery(
+    ['abandonReportById', 'Abandon', abandonReportId],
+    abandonReportId & getPermitDetail,
+  )
+  useEffect(() => {
+    if (detailData) {
+      let data = formData.data
+      ;(detailData?.data || []).forEach((el) => {
+        data = {
+          ...data,
+          [el.id]: el.value,
+        }
+      })
+      setFormData({
+        ...formData,
+        metaData: {
+          permitType: detailData?.metaData?.permitType,
+          block: detailData?.metaData?.block,
+          company: detailData?.metaData?.company,
+        },
+        data,
+      })
+    }
+  }, [detailData])
   useEffect(() => {
     if (localStorage.getItem('abandon-report')) {
       const drillReport = JSON.parse(localStorage.getItem('abandon-report'))
@@ -34,6 +62,7 @@ const AbandonReport = ({ abandonReportId }) => {
       })
     }
   }, [])
+
   const blockList = getBlocks()
   const justificationOptions = [
     'Well Integrity Failure',
@@ -379,6 +408,70 @@ const AbandonReport = ({ abandonReportId }) => {
       type: 'customBoolean',
       value: formData?.data?.emergencyPlansAvailable,
     },
+    {
+      id: 'PAProgram',
+      title: 'Attach P/A Program',
+      cellWidth: 'md-cell md-cell--12',
+      input: 'fileInput',
+      required: true,
+      onDrop: (value) => {
+        // console.log(value)
+        if (value?.length > 0) {
+          setLoading(true)
+
+          fileManagerUpload(value).then((res) => {
+            setLoading(false)
+            onEditValue('PAProgram', res?.files[0]?.url)
+            setCurrentUploadedFile({
+              ...currentUploadedFile,
+              PAProgram: res?.files[0],
+            })
+          })
+        } else {
+          onEditValue('PAProgram', '')
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            PAProgram: '',
+          })
+        }
+      },
+      file: currentUploadedFile?.PAProgram,
+      setFile: setCurrentUploadedFile,
+      loading: loading,
+      value: currentUploadedFile?.PAProgram,
+    },
+    {
+      id: 'currentWellSchematic',
+      title: 'Current Well Schematic',
+      cellWidth: 'md-cell md-cell--12',
+      input: 'fileInput',
+      required: true,
+      onDrop: (value) => {
+        // console.log(value)
+        if (value?.length > 0) {
+          setLoading(true)
+
+          fileManagerUpload(value).then((res) => {
+            setLoading(false)
+            onEditValue('currentWellSchematic', res?.files[0]?.url)
+            setCurrentUploadedFile({
+              ...currentUploadedFile,
+              currentWellSchematic: res?.files[0],
+            })
+          })
+        } else {
+          onEditValue('currentWellSchematic', '')
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            currentWellSchematic: '',
+          })
+        }
+      },
+      file: currentUploadedFile?.currentWellSchematic,
+      setFile: setCurrentUploadedFile,
+      loading: loading,
+      value: currentUploadedFile?.currentWellSchematic,
+    },
   ]
 
   const addPermitAbandon = useMutation(addPermit, {
@@ -416,26 +509,27 @@ const AbandonReport = ({ abandonReportId }) => {
       })
     }
   }
-  const data = Object.keys(formData?.data).map((el) => {
-    return {
-      id: el,
-      value: formData?.data[el],
-      name: fields.find((elem) => elem.id === el)?.title,
-      type: fields.find((elem) => elem.id === el)?.type,
-      datePattern:
-        fields.find((elem) => elem.id === el)?.type === 'date'
-          ? 'yyyy-MM-dd'
-          : null,
-    }
-  })
+  const formatData = () =>
+    Object.keys(formData?.data).map((el) => {
+      return {
+        id: el,
+        value: formData?.data[el],
+        name: fields.find((elem) => elem.id === el)?.title,
+        type: fields.find((elem) => elem.id === el)?.type,
+        datePattern:
+          fields.find((elem) => elem.id === el)?.type === 'date'
+            ? 'yyyy-MM-dd'
+            : null,
+      }
+    })
   const onSave = () => {
     addPermitAbandon.mutate({
-      body: { ...formData, data },
+      body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
   const onSaveReport = () => {
     savePermitDrill.mutate({
-      body: { ...formData, data },
+      body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
   const actions = [
@@ -445,7 +539,7 @@ const AbandonReport = ({ abandonReportId }) => {
       className="top-bar-buttons-list-item-btn discard"
       flat
       onClick={() => {
-        navigate(`/ams/permitting`)
+        navigate(`/ams/permitting/ar`)
       }}
     >
       Discard

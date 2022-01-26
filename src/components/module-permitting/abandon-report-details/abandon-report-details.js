@@ -1,6 +1,6 @@
 import { navigate } from '@reach/router'
 import { Button } from 'react-md'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { useState } from 'react'
 import moment from 'moment'
 
@@ -8,7 +8,7 @@ import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
 import SupportedDocument from 'components/supported-document'
 
-import { getPermitDetail } from 'libs/api/permit-api'
+import { getPermitDetail, updatePermit } from 'libs/api/permit-api'
 import useRole from 'libs/hooks/use-role'
 
 import './style.scss'
@@ -20,7 +20,25 @@ const AbandonReportDetails = ({ abandonReportId }) => {
     ['abandonReportById', 'Abandon', abandonReportId],
     getPermitDetail,
   )
+  const updatePermitMutation = useMutation(updatePermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  })
   const role = useRole('permitting')
+  const acknowledge = () => {
+    updatePermitMutation.mutate({ id: abandonReportId, status: 'ACKNOWLEDGED' })
+  }
+  const clickHandler = () => {
+    if (role === 'operator') {
+      navigate(`/ams/permitting/abandon-report/edit/${abandonReportId}`)
+    } else {
+      acknowledge()
+    }
+  }
   const actions = [
     <Button
       key="1"
@@ -34,20 +52,22 @@ const AbandonReportDetails = ({ abandonReportId }) => {
     >
       View documents
     </Button>,
-    <Button
-      key="2"
-      id="edit"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-        navigate(`/ams/permitting/abandon-report`)
-      }}
-      disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
-    >
-      {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
-    </Button>,
+    !(role === 'operator' && detailData?.metaData?.status !== 'DRAFT') && (
+      <Button
+        key="2"
+        id="edit"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => clickHandler()}
+        /* disabled={
+          role === 'operator' && detailData?.metaData?.status !== 'DRAFT'
+        } */
+      >
+        {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
+      </Button>
+    ),
   ]
   return (
     <div className="abandon-report-details">
@@ -357,6 +377,26 @@ const AbandonReportDetails = ({ abandonReportId }) => {
               detailData?.data?.find(
                 (el) => el.id === 'emergencyPlansAvailable',
               )?.value || 'no',
+          },
+          {
+            id: 'PAProgram',
+            title: 'P/A Program Attachment',
+            cellWidth: 'md-cell md-cell-12',
+            input: 'fileInput',
+            required: true,
+            value:
+              detailData?.data?.find((el) => el?.id === 'PAProgram')?.value ||
+              '',
+          },
+          {
+            id: 'currentWellSchematic',
+            title: 'Current Well Schematic',
+            cellWidth: 'md-cell md-cell-12',
+            input: 'fileInput',
+            required: true,
+            value:
+              detailData?.data?.find((el) => el?.id === 'currentWellSchematic')
+                ?.value || '',
           },
         ]}
       />
