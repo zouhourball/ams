@@ -270,7 +270,7 @@ export const omanHydConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
+    type: 'text',
     dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
     displayInCsv: true,
@@ -287,7 +287,7 @@ export const omanHydConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
+    type: 'text',
     dateFormat: 'DD MMM, YYYY',
     displayInCsv: true,
   },
@@ -296,7 +296,7 @@ export const omanHydConfigs = (supportedDocument) => [
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
+    type: 'text',
     dateFormat: 'DD MMM, YYYY',
     displayInCsv: true,
   },
@@ -1053,4 +1053,30 @@ export const MonthlyWellCountDetailsConfigs = () => [
       },
     ],
   },
+]
+const renderYears = (keys) => {
+  let values = []
+  for (let i = 0; i < keys?.duration; i++) {
+    values = [
+      ...values,
+      {
+        label: keys?.firstYear + i,
+        key: 'year' + i,
+        type: 'text',
+        width: 400,
+        icon: 'mdi mdi-spellcheck',
+      },
+    ]
+  }
+  return values
+}
+export const OmanHydrocarbonDetailsConfigs = (keys) => [
+  {
+    label: 'Companies & Blocks',
+    key: 'compAndBlock',
+    type: 'text',
+    width: 400,
+    icon: 'mdi mdi-spellcheck',
+  },
+  ...renderYears(keys),
 ]

@@ -143,9 +143,7 @@ const CostRecovery = ({ subkey }) => {
   }
 
   useEffect(() => {
-    return () => {
-      dispatch(setSelectedRow([]))
-    }
+    dispatch(setSelectedRow([]))
   }, [])
 
   const {

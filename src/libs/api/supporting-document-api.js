@@ -66,3 +66,10 @@ export const downloadOriginalFile = async (fileId, name) => {
   )
   downloadFromBlob(apiResponseBlob, `${name}` || URL.split('/').reverse()[0])
 }
+export const downloadAnnualPlan = async () => {
+  const url = `${appUrl}/pulse-be/api/v2/files/download?fileName=Annual Gas Conservation Plan.doc`
+  const apiResponseBlob = await fetchGeneric(url, { method: 'GET' }).then(
+    (response) => response.blob(),
+  )
+  downloadFromBlob(apiResponseBlob, `Annual Gas Conservation Plan.doc`)
+}

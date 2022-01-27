@@ -88,9 +88,7 @@ const Inventory = () => {
   )
   const setSelectedRow = (id) => dispatch(setSelectedRowAction(id))
   useEffect(() => {
-    return () => {
-      setSelectedRow([])
-    }
+    setSelectedRow([])
   }, [])
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
     ['getListAnnualBase', 'base', page, size],

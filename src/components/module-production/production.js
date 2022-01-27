@@ -24,6 +24,7 @@ import {
   uploadDailyProductionReport,
   uploadMonthlyProductionReport,
   uploadMonthlyTrackingProductionReport,
+  uploadOmanHydrocarbonReport,
   commitProduction,
   saveProduction,
   overrideProductionReport,
@@ -150,7 +151,39 @@ const Production = () => {
       },
     },
   )
+  const uploadOmanHydrocarbonReportMutate = useMutation(
+    uploadOmanHydrocarbonReport,
 
+    {
+      onSuccess: (res) => {
+        if (!res.error) {
+          setCurrentUpload(res)
+          onDisplayMHT(...res.values)
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={
+                  res.message || 'Daily production report uploaded successfully'
+                }
+                type="success"
+              />,
+              'hide',
+            ),
+          )
+        } else {
+          dispatch(
+            addToast(
+              <ToastMsg
+                text={res.error?.body?.message || 'something_went_wrong'}
+                type="error"
+              />,
+              'hide',
+            ),
+          )
+        }
+      },
+    },
+  )
   const uploadMonthlyTrackingReportMutate = useMutation(
     uploadMonthlyTrackingProductionReport,
 
@@ -433,6 +466,20 @@ const Production = () => {
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
         break
+      case 'oman-hydrocarbon':
+        uploadOmanHydrocarbonReportMutate.mutate({
+          body: {
+            block: body?.block,
+            company: company?.name || 'ams-org',
+            file: body?.file[0],
+            processInstanceId: uuid,
+            refDate: moment(body?.referenceDate?.timestamp).format(
+              'YYYY-MM-DD',
+            ),
+          },
+        })
+        addSupportingDocuments(body?.optionalFiles, uuid)
+        break
     }
   }
 
@@ -606,7 +653,10 @@ const Production = () => {
       title: 'Upload Oman Hydrocarbon Report',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => downloadTemp('production', 'oman-hydrocarbon'),
+    },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -663,7 +713,7 @@ const Production = () => {
       label: 'Monthly Tracking',
       key: 'monthly-tracking',
     },
-    {
+    role === 'regulator' && {
       linkToNewTab: `/ams/production/oman-hydrocarbon`,
       label: 'Oman Hydrocarbon',
       key: 'oman-hydrocarbon',
@@ -727,6 +777,25 @@ const Production = () => {
       status: get(el, 'metaData.status', 'n/a'),
     }
   })
+  const tableOmanHydrocarbon = (
+    get(listDailyProduction, 'content', []) || []
+  ).map((el) => {
+    return {
+      id: el?.id,
+      processInstanceId: get(el, 'metaData.processInstanceId', ''),
+      originalFileId: get(el, 'metaData.originalFileId', ''),
+      fileName: get(el, 'metaData.originalFileName', ''),
+      company: get(el, 'metaData.company', 'n/a'),
+      block: get(el, 'metaData.block', 'n/a'),
+      submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
+      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      statusDate: el?.metaData?.updatedAt
+        ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
+        : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+      status: get(el, 'metaData.status', 'n/a'),
+    }
+  })
 
   const renderCurrentTabData = () => {
     switch (currentTab) {
@@ -737,7 +806,7 @@ const Production = () => {
       case 'monthly-tracking':
         return tableDataListMonthlyTracking
       case 'oman-hydrocarbon':
-        return []
+        return tableOmanHydrocarbon
       default:
         return dailyProductionData
     }
@@ -845,7 +914,11 @@ const Production = () => {
     <>
       <TopBar
         title="Production Reporting"
-        actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        actions={
+          role === 'operator' || currentTab === 'oman-hydrocarbon'
+            ? renderActionsByCurrentTab()
+            : null
+        }
         menuItems={() => {
           const ids = renderSelectedItems()?.map((el) => el?.id)
           return [

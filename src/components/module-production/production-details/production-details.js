@@ -27,6 +27,7 @@ import {
   MonthlyProductionDetailsConfigs,
   MonthlyTrackingDetailsConfigs,
   MonthlyWellCountDetailsConfigs,
+  OmanHydrocarbonDetailsConfigs,
 } from '../helpers'
 
 import './style.scss'
@@ -127,8 +128,16 @@ const ProductionDetails = ({ subModule, productionId }) => {
           ),
           submittedBy: get(productionData, 'metaData.createdBy.name', ''),
         }
-      case 'Oman Hydrocarbon':
-        return null
+      case 'oman-hydrocarbon':
+        return {
+          title: 'Oman Hydrocarbon Report',
+          subTitle: 'Block ' + get(productionData, 'metaData.block', ''),
+          companyName: get(productionData, 'metaData.company', ''),
+          submittedDate: moment(productionData?.metaData?.createdAt).format(
+            'DD MMM, YYYY',
+          ),
+          submittedBy: get(productionData, 'metaData.createdBy.name', ''),
+        }
       default:
         return null
     }
@@ -325,6 +334,26 @@ const ProductionDetails = ({ subModule, productionId }) => {
       }
     },
   )
+  const valueEntries = (body) => {
+    let values = {}
+    for (let i = 0; i < body?.length; i++) {
+      values = { ...values, ['year' + i]: body[i]?.value || 0 }
+    }
+    return values
+  }
+  let numKeys = {
+    firstYear: get(productionData, 'data', [])[0]?.yvalues[0]?.year,
+    duration: get(productionData, 'data', [])[0]?.yvalues?.length,
+  }
+  const omanHydrocarbonData = (get(productionData, 'data', []) || []).map(
+    (el) => {
+      return {
+        compAndBlock: `${el?.company} - ${el?.block} (${el?.unit})`,
+
+        ...valueEntries(el?.yvalues),
+      }
+    },
+  )
   const renderDetailsDataBySubModule = () => {
     switch (subModule) {
       case 'daily':
@@ -335,8 +364,8 @@ const ProductionDetails = ({ subModule, productionId }) => {
           : monthlyDataWellCount
       case 'monthly-tracking':
         return monthlyTrackingData
-      case 'Oman Hydrocarbon':
-        return null
+      case 'oman-hydrocarbon':
+        return omanHydrocarbonData
       default:
         return null
     }
@@ -352,8 +381,8 @@ const ProductionDetails = ({ subModule, productionId }) => {
           : MonthlyWellCountDetailsConfigs()
       case 'monthly-tracking':
         return MonthlyTrackingDetailsConfigs()
-      case 'Oman Hydrocarbon':
-        return MonthlyProductionDetailsConfigs()
+      case 'oman-hydrocarbon':
+        return OmanHydrocarbonDetailsConfigs(numKeys)
       default:
         return dailyProductionDetailsConfigs()
     }

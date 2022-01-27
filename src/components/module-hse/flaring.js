@@ -24,6 +24,7 @@ import {
 import {
   downloadTemp,
   downloadOriginalFile,
+  downloadAnnualPlan,
 } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -54,8 +55,6 @@ import {
   flaringDetailsDailyConfigs,
 } from './helpers'
 
-import annualPlanTemplate from './files/Annual-Gas-Conservation-Plan.doc'
-
 import './style.scss'
 
 const Flaring = () => {
@@ -80,9 +79,7 @@ const Flaring = () => {
   )
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   useEffect(() => {
-    return () => {
-      setSelectedRow([])
-    }
+    setSelectedRow([])
   }, [])
   const blocks = getBlocks()
   const company = getOrganizationInfos()
@@ -570,7 +567,7 @@ const Flaring = () => {
     {
       title: 'Download Annual Plan Template',
       onClick: () => {
-        annualPlanTemplate && annualPlanTemplate.downloadFile()
+        downloadAnnualPlan()
       },
     },
   ]

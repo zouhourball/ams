@@ -1,4 +1,5 @@
 import { fetchJSON } from 'libs/fetch'
+import { formDataBody } from 'libs/utils/custom-function'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
@@ -195,6 +196,22 @@ export const uploadMonthlyTrackingProductionReport = async ({ body }) => {
         method: 'POST',
         isFormData: true,
         body: newBody,
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const uploadOmanHydrocarbonReport = async ({ body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v1/production/oman-hydrocarbon/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: formDataBody(body),
       },
     )
   } catch (e) {

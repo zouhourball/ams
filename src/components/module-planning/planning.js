@@ -254,6 +254,7 @@ const Planning = () => {
       refetchList()
 
       if (!res.error) {
+        setSelectedRow([])
         dispatch(
           addToast(
             <ToastMsg
