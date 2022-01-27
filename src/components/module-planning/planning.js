@@ -526,10 +526,6 @@ const Planning = ({ subModule }) => {
     }
   }, [uploadReportMutate])
 
-  // useMemo(() => {
-  //   setPage(0)
-  // }, [currentTab])
-
   const uploadData = useMemo(() => {
     switch (currentTab) {
       case 'wpb':

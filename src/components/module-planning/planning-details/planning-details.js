@@ -125,14 +125,13 @@ const PlanningDetails = ({ objectId, subModule }) => {
       flat
       swapTheming
       onClick={() => {
-        // setShowSupportedDocumentDialog(true)
+        setShowSupportedDocumentDialog(true)
       }}
     >
       {role === 'operator' ? 'Supporting documents' : 'View Documents'}
     </Button>,
 
-    useRole('planning') === 'operator' &&
-      dataDetails?.metaData?.status === 'DRAFT' && (
+    role === 'operator' && dataDetails?.metaData?.status === 'DRAFT' && (
       <Button
         key="4"
         id="acknowledge"
@@ -144,50 +143,50 @@ const PlanningDetails = ({ objectId, subModule }) => {
           submitDraft(subModule, objectId, 'SUBMITTED')
         }}
       >
-          Commit
+        Commit
       </Button>
     ),
 
-    useRole('planning') === 'JMC Chairman' && (
-      <>
-        <Button
-          key="3"
-          id="joinMeeting"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {}}
-        >
-          Join Meeting
-        </Button>
-        ,
-        <Button
-          key="4"
-          id="reject"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {}}
-        >
-          Reject
-        </Button>
-        ,
-        <Button
-          key="5"
-          id="approve"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {}}
-        >
-          Approve
-        </Button>
-        ,
-      </>
-    ),
+    // role === 'JMC Chairman' && (
+    //   <>
+    //     <Button
+    //       key="3"
+    //       id="joinMeeting"
+    //       className="top-bar-buttons-list-item-btn"
+    //       flat
+    //       primary
+    //       swapTheming
+    //       onClick={() => {}}
+    //     >
+    //       Join Meeting
+    //     </Button>
+    //     ,
+    //     <Button
+    //       key="4"
+    //       id="reject"
+    //       className="top-bar-buttons-list-item-btn"
+    //       flat
+    //       primary
+    //       swapTheming
+    //       onClick={() => {}}
+    //     >
+    //       Reject
+    //     </Button>
+    //     ,
+    //     <Button
+    //       key="5"
+    //       id="approve"
+    //       className="top-bar-buttons-list-item-btn"
+    //       flat
+    //       primary
+    //       swapTheming
+    //       onClick={() => {}}
+    //     >
+    //       Approve
+    //     </Button>
+    //     ,
+    //   </>
+    // ),
   ]
 
   return (
@@ -211,7 +210,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly={useRole('planning') === 'regulator'}
+          readOnly={role === 'regulator'}
           processInstanceId={
             dataDetails?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
