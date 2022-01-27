@@ -125,19 +125,19 @@ export const actionsHeader = (
   onDelete,
   downloadOriginalFile,
   originalFileId,
-  onUpdate,
+  // handleUpdateUploadRapport,
   fileName,
   submitDraft,
   status,
 ) => {
   const opEntries = [
-    {
-      id: 1,
-      label: 'View Process Historian',
-      onClick: () => {
-        id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-      },
-    },
+    // {
+    //   id: 1,
+    //   label: 'View Process Historian',
+    //   onClick: () => {
+    //     id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+    //   },
+    // },
     {
       id: 2,
       label: 'Delete',
@@ -159,13 +159,14 @@ export const actionsHeader = (
         listAnalytics(subModule)
       },
     },
-    {
-      id: 5,
-      label: 'Update',
-      onClick: () => {
-        onUpdate(true)
-      },
-    },
+    // {
+    //   id: 5,
+    //   label: 'Update',
+    //   onClick: (e) => {
+    //     e.stopPropagation()
+    //     // handleUpdateUploadRapport(true)
+    //   },
+    // },
     {
       id: 6,
       label: 'Download Original File',
@@ -182,28 +183,30 @@ export const actionsHeader = (
     },
   ]
   const draftBtn = {
-    id: 5,
+    id: 15,
     label: 'Submit Draft report',
     onClick: () => {
       submitDraft(subModule, id)
     },
   }
   switch (role) {
-    case 'tecom fincom jmc':
+    case 'operator':
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : opEntries
+    case 'regulator':
     default:
       return [
-        {
-          id: 1,
-          label: 'Initiate Meeting',
-          onClick: () => {},
-        },
-        {
-          id: 2,
-          label: 'View Process Historian',
-          onClick: () => {
-            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-          },
-        },
+        // {
+        //   id: 1,
+        //   label: 'Initiate Meeting',
+        //   onClick: () => {},
+        // },
+        // {
+        //   id: 2,
+        //   label: 'View Process Historian',
+        //   onClick: () => {
+        //     id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+        //   },
+        // },
         {
           id: 3,
           label: 'View Details',
@@ -218,11 +221,11 @@ export const actionsHeader = (
             listAnalytics(subModule)
           },
         },
-        {
-          id: 5,
-          label: 'Clarity',
-          onClick: () => {},
-        },
+        // {
+        //   id: 5,
+        //   label: 'Clarity',
+        //   onClick: () => {},
+        // },
         {
           id: 6,
           label: 'Download Original File',
@@ -238,8 +241,6 @@ export const actionsHeader = (
           },
         },
       ]
-    case 'operator':
-      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
 

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import { Button, TextField } from 'react-md'
 
 import Mht, {
@@ -27,8 +27,10 @@ import {
   downloadOriginalFile,
 } from 'libs/api/supporting-document-api'
 import {
-  uploadWpbReport,
-  uploadFypReport,
+  // uploadWpbReport,
+  // uploadFypReport,
+  // uploadBudgetReport,
+  uploadReport,
   commitPlanning,
   getListPlanning,
   overridePlanningReport,
@@ -39,16 +41,21 @@ import {
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
-import { configsWpbDialogMht, configsFypDialogMht } from './mht-helper-dialog'
+import {
+  configsWpbDialogMht,
+  configsFypDialogMht,
+  configsBudgetDialogMht,
+} from './mht-helper-dialog'
+import { buildObjectFromArray } from './utils'
 
 import { addToast } from 'modules/app/actions'
 
 import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 
-const Planning = () => {
+const Planning = ({ subModule }) => {
   const dispatch = useDispatch()
 
-  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+  // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
 
   const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -74,18 +81,6 @@ const Planning = () => {
     (state) => state?.selectRowsReducers?.selectedRows,
   )
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
-  // const subModuleByCurrentTab = () => {
-  //   switch (currentTab) {
-  //     case 0:
-  //       return 'wpb'
-  //     case 1:
-  //       return 'fyp'
-  //     case 2:
-  //       return ''
-  //     default:
-  //       return ''
-  //   }
-  // }
 
   const { data: listPlanning, refetch: refetchList } = useQuery(
     [
@@ -103,11 +98,12 @@ const Planning = () => {
   )
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
-      refetchList()
+      !res?.error && refetchList()
     },
   })
-  const uploadWpbReportMutate = useMutation(
-    uploadWpbReport,
+
+  const uploadReportMutate = useMutation(
+    uploadReport,
 
     {
       onSuccess: (res) => {
@@ -119,41 +115,7 @@ const Planning = () => {
           dispatch(
             addToast(
               <ToastMsg
-                text={res.message || 'Wpb report uploaded successfully'}
-                type="success"
-              />,
-              'hide',
-            ),
-          )
-        } else {
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.error?.body?.message || 'Something went wrong'}
-                type="error"
-              />,
-              'hide',
-            ),
-          )
-        }
-      },
-    },
-  )
-
-  const uploadFypReportMutate = useMutation(
-    uploadFypReport,
-
-    {
-      onSuccess: (res) => {
-        if (!res.error) {
-          setShowUploadMHTDialog(true)
-
-          setCurrentUpload(res)
-          onDisplayMHT(...res)
-          dispatch(
-            addToast(
-              <ToastMsg
-                text={res.message || 'Wpb report uploaded successfully'}
+                text={res.message || 'Report uploaded successfully'}
                 type="success"
               />,
               'hide',
@@ -329,8 +291,8 @@ const Planning = () => {
     },
   })
 
-  const handleUploadWpb = (body, uuid) => {
-    uploadWpbReportMutate.mutate({
+  const handleUploadReport = (body, uuid) => {
+    uploadReportMutate.mutate({
       body: {
         block: body?.block,
         company: company?.name || 'ams-org',
@@ -338,18 +300,7 @@ const Planning = () => {
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),
       },
-    })
-  }
-
-  const handleUploadFyp = (body, uuid) => {
-    uploadFypReportMutate.mutate({
-      body: {
-        block: body?.block,
-        company: company?.name || 'ams-org',
-        file: body?.file[0],
-        processInstanceId: uuid,
-        year: moment(body?.referenceDate?.timestamp).format('YYYY'),
-      },
+      key: subModule,
     })
   }
 
@@ -414,7 +365,12 @@ const Planning = () => {
       title: 'Attach Speadsheet',
       onClick: () => setShowUploadRapportDialog(true),
     },
-    { title: 'Download Template', onClick: () => {} },
+    {
+      title: 'Download Template',
+      onClick: () => {
+        downloadTemp('planning', 'budgetary-report')
+      },
+    },
   ]
 
   const createActionsByCurrentTab = (actionsList = []) => {
@@ -440,18 +396,13 @@ const Planning = () => {
         return createActionsByCurrentTab(wpbPlanningActionsHelper)
       case 'fyp':
         return createActionsByCurrentTab(fypPlanningActionsHelper)
-      case 'budgetary':
+      case 'budgetary-report':
         return createActionsByCurrentTab(budgetaryPlanningActionsHelper)
       default:
         return null
     }
   }
 
-  // const tabsList = [
-  //   'Work Program & Budget',
-  //   'Five Year Plan',
-  //   'Budgetary Report',
-  // ]
   const tabsList = [
     {
       linkToNewTab: `/ams/planning/wpb`,
@@ -465,9 +416,9 @@ const Planning = () => {
       key: 'fyp',
     },
     {
-      linkToNewTab: `/ams/planning/budgetary`,
+      linkToNewTab: `/ams/planning/budgetary-report`,
       label: 'Budgetary Report',
-      key: 'budgetary',
+      key: 'budgetary-report',
     },
   ]
 
@@ -500,7 +451,7 @@ const Planning = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadWpb(data, uuid)
+            handleUploadReport(data, uuid)
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
@@ -510,15 +461,19 @@ const Planning = () => {
           optional: 'Attach Supporting Document (Optional)',
           onUpload: () => {
             const uuid = uuidv4()
-            handleUploadFyp(data, uuid)
+            handleUploadReport(data, uuid)
             addSupportingDocuments(data?.optionalFiles, uuid)
           },
         }
-      case 'budgetary':
+      case 'budgetary-report':
         return {
           title: 'Attach Speadsheet',
           optional: 'Attach Supporting Document (Optional)',
-          onUpload: () => {},
+          onUpload: () => {
+            const uuid = uuidv4()
+            handleUploadReport(data, uuid)
+            addSupportingDocuments(data?.optionalFiles, uuid)
+          },
         }
       default:
         break
@@ -546,31 +501,53 @@ const Planning = () => {
   }
 
   const currentYear =
+    currentUpload?.categories &&
     currentUpload?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year
 
-  const configsMht = () => {
+  const configsMht = useCallback(() => {
     switch (currentTab) {
       case 'wpb':
         return configsWpbDialogMht()
+      case 'budgetary-report':
+        return [
+          ...configsBudgetDialogMht(),
+          ...(uploadReportMutate?.data?.data[0]?.years?.map((el) => ({
+            label: el.year + '',
+            key: el.year + '',
+            width: '200',
+            icon: 'mdi mdi-spellcheck',
+            type: 'text',
+          })) || []),
+        ]
       case 'fyp':
         return configsFypDialogMht(currentYear)
       default:
         break
     }
-  }
-  useMemo(() => {
-    setPage(0)
-  }, [currentTab])
+  }, [uploadReportMutate])
+
+  // useMemo(() => {
+  //   setPage(0)
+  // }, [currentTab])
+
   const uploadData = useMemo(() => {
     switch (currentTab) {
       case 'wpb':
         return wpbData(currentUpload) || []
       case 'fyp':
         return fypData(currentUpload) || []
+      case 'budgetary-report':
+        return (
+          (uploadReportMutate?.data?.data || [])?.map((el) => ({
+            ...el,
+            ...buildObjectFromArray(el.years),
+          })) || []
+        )
       default:
         break
     }
   }, [currentUpload])
+
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
@@ -581,6 +558,7 @@ const Planning = () => {
       status: 'SUBMITTED',
     })
   }
+
   return (
     <>
       <TopBar
@@ -588,7 +566,6 @@ const Planning = () => {
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
           return [
-            /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
@@ -609,6 +586,7 @@ const Planning = () => {
         activeTab={currentTab}
         setActiveTab={(tab) => {
           setCurrentTab(tab)
+          setPage(0)
           setSelectedRow([])
         }}
       />
@@ -620,7 +598,6 @@ const Planning = () => {
         withFooter
         withSearch={selectedRow?.length === 0}
         commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        // onSelectRows={setSelectedRow}
         withChecked
         selectedRow={selectedRow}
         withDownloadCsv
@@ -642,7 +619,7 @@ const Planning = () => {
                 handleDeletePlanning,
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
-                setShowUploadRapportDialog,
+                // setShowUploadRapportDialog,
                 selectedRow[0]?.fileName,
                 submitDraft,
                 selectedRow[0]?.status,

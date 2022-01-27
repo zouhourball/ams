@@ -453,3 +453,29 @@ export const configsFypDialogMht = (startYear = 2021) => {
     },
   ]
 }
+
+export const configsBudgetDialogMht = () => {
+  return [
+    {
+      label: 'Item',
+      key: 'item',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: 'Sector',
+      key: 'sector',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: 'Unit',
+      key: 'unit',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+  ]
+}

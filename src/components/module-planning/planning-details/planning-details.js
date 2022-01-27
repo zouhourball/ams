@@ -2,43 +2,63 @@ import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
-import { useMemo, useState } from 'react'
-import { getDetailPlanningById, updatePlanning } from 'libs/api/api-planning'
+import { useMemo, useState, useCallback } from 'react'
 import moment from 'moment'
+
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
+import useRole from 'libs/hooks/use-role'
+import { getDetailPlanningById, updatePlanning } from 'libs/api/api-planning'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
-import useRole from 'libs/hooks/use-role'
-import { configsWpbDialogMht, configsFypDialogMht } from '../mht-helper-dialog'
+import {
+  configsWpbDialogMht,
+  configsFypDialogMht,
+  configsBudgetDialogMht,
+} from '../mht-helper-dialog'
 import { wpbData, fypData } from '../helpers'
+import { buildObjectFromArray } from '../utils'
 
 import './style.scss'
 
 const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const role = useRole('planning')
+
   const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
     objectId && getDetailPlanningById,
   )
+
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
       refetch()
     },
   })
+
   const planningDataDetails = useMemo(() => {
     switch (subModule) {
       case 'wpb':
         return wpbData(dataDetails) || []
       case 'fyp':
         return fypData(dataDetails) || []
+      case 'budgetary-report':
+        return (
+          (dataDetails?.data || [])?.map((el) => ({
+            ...el,
+            ...buildObjectFromArray(el.years),
+          })) || []
+        )
       default:
-        break
+        return []
     }
   }, [dataDetails])
+
   const currentYear =
+    dataDetails?.categories &&
     dataDetails?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year
+
   const headerData = () => {
     return {
       title: `Block ${dataDetails?.metaData?.block}`,
@@ -49,6 +69,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       ),
     }
   }
+
   const submitDraft = (subModule, objectId) => {
     updatePlanningMutation.mutate({
       subModule: subModule,
@@ -56,51 +77,60 @@ const PlanningDetails = ({ objectId, subModule }) => {
       status: 'SUBMITTED',
     })
   }
-  const configsMht = () => {
+
+  const configsMht = useCallback(() => {
     switch (subModule) {
       case 'wpb':
         return configsWpbDialogMht()
+      case 'budgetary-report':
+        return [
+          ...configsBudgetDialogMht(),
+          ...(dataDetails?.data[0]?.years?.map((el) => ({
+            label: el.year + '',
+            key: el.year + '',
+            width: '200',
+            icon: 'mdi mdi-spellcheck',
+            type: 'text',
+          })) || []),
+        ]
+
       case 'fyp':
         return configsFypDialogMht(currentYear)
       default:
-        break
+        return []
     }
-  }
+  }, [dataDetails])
+
   const actions = [
-    useRole('planning') === 'operator' && (
-      <>
-        <Button
-          key="1"
-          id="edit"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            downloadOriginalFile(
-              dataDetails?.metaData?.originalFileId,
-              dataDetails?.metaData?.originalFileName,
-            )
-          }}
-        >
-          Download Original File
-        </Button>
-        ,
-        <Button
-          key="2"
-          id="viewDoc"
-          className="top-bar-buttons-list-item-btn view-doc"
-          flat
-          swapTheming
-          onClick={() => {
-            setShowSupportedDocumentDialog(true)
-          }}
-        >
-          Supporting documents
-        </Button>
-        ,
-      </>
-    ),
+    <Button
+      key="1"
+      id="edit"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {
+        downloadOriginalFile(
+          dataDetails?.metaData?.originalFileId,
+          dataDetails?.metaData?.originalFileName,
+        )
+      }}
+    >
+      Download Original File
+    </Button>,
+    <Button
+      key="2"
+      id="viewDoc"
+      className="top-bar-buttons-list-item-btn view-doc"
+      flat
+      swapTheming
+      onClick={() => {
+        // setShowSupportedDocumentDialog(true)
+      }}
+    >
+      {role === 'operator' ? 'Supporting documents' : 'View Documents'}
+    </Button>,
+
     useRole('planning') === 'operator' &&
       dataDetails?.metaData?.status === 'DRAFT' && (
       <Button
@@ -117,6 +147,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
           Commit
       </Button>
     ),
+
     useRole('planning') === 'JMC Chairman' && (
       <>
         <Button
@@ -158,6 +189,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       </>
     ),
   ]
+
   return (
     <div className="details-container">
       <TopBarDetail
@@ -179,7 +211,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={useRole('planning') === 'regulator'}
           processInstanceId={
             dataDetails?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId

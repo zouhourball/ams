@@ -18,10 +18,10 @@ export const getListPlanning = async ({ queryKey }) => {
   return res
 }
 
-export const uploadWpbReport = async ({ body }) => {
+export const uploadReport = async ({ body, key }) => {
   let res
   try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/wpb/upload`, {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/${key}/upload`, {
       method: 'POST',
       isFormData: true,
       body: formDataBody(body),
@@ -32,19 +32,33 @@ export const uploadWpbReport = async ({ body }) => {
   return res
 }
 
-export const uploadFypReport = async ({ body }) => {
-  let res
-  try {
-    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/fyp/upload`, {
-      method: 'POST',
-      isFormData: true,
-      body: formDataBody(body),
-    })
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
+// export const uploadFypReport = async ({ body }) => {
+//   let res
+//   try {
+//     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/fyp/upload`, {
+//       method: 'POST',
+//       isFormData: true,
+//       body: formDataBody(body),
+//     })
+//   } catch (e) {
+//     res = { error: e }
+//   }
+//   return res
+// }
+
+// export const uploadBudgetReport = async ({ body }) => {
+//   let res
+//   try {
+//     res = await fetchJSON(`${appUrl}/pulse-be/api/v2/planning/budgetary-report/upload`, {
+//       method: 'POST',
+//       isFormData: true,
+//       body: formDataBody(body),
+//     })
+//   } catch (e) {
+//     res = { error: e }
+//   }
+//   return res
+// }
 
 export const commitPlanning = async ({ subModule, body }) => {
   let res

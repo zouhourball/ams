@@ -15,7 +15,7 @@ export const { Wrapper, withTranslation, useTranslation } =
 
 const ctx = React.createContext({
   change: () => 0,
-  lang: 'ar',
+  lang: 'en',
 })
 
 export function useChangeLanguage () {
@@ -42,7 +42,7 @@ function defaultLang () {
   if (lang === 'en') {
     return 'en-US'
   }
-  return lang || 'ar'
+  return lang || 'en'
 }
 export function LangProvider ({ children }) {
   const [lang, changeLang] = React.useState(defaultLang())
