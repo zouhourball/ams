@@ -81,6 +81,7 @@ const UploadReportDialog = ({
       setOptionalFile([...suppDocsFiles])
     }
   }, [suppDocsFiles])
+
   const validData = () => {
     if (hideDate === false) {
       if (

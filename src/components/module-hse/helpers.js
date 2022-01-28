@@ -101,8 +101,6 @@ export const monthlyReportConfigs = (supportedDocument) => [
     label: 'Submitted Date',
     key: 'submittedDate',
     width: '200',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
   },
   {
@@ -116,16 +114,12 @@ export const monthlyReportConfigs = (supportedDocument) => [
     key: 'referenceDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Status Date',
     key: 'statusDate',
     width: '200',
     icon: 'mdi mdi-spellcheck',
-    type: 'date',
-    dateFormat: 'DD MMM, YYYY',
   },
   {
     label: 'Supporting Documents',
@@ -514,6 +508,87 @@ export const actionsHeaderMonthly = (
           label: 'View Details',
           onClick: () => {
             navigate(`/ams/hse/${key}/${subModule}/${id}`)
+          },
+        },
+        {
+          id: 4,
+          label: 'View Documents',
+          onClick: () => {
+            // navigate(`/ams/hse/${key}/${id}`)
+            supportedDocument(true)
+          },
+        },
+      ]
+    case 'operator':
+      return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
+  }
+}
+
+export const actionsHeader = (
+  key,
+  id,
+  role,
+  supportedDocument,
+  onDelete,
+  downloadOriginalFile,
+  originalFileId,
+  fileName,
+  submitDraft,
+  status,
+) => {
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        onDelete(id)
+      },
+    },
+    {
+      id: 3,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Details',
+      onClick: () => {
+        navigate(`/ams/hse/${key}/${id}`)
+      },
+    },
+    {
+      id: 5,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
+  const draftBtn = {
+    id: 6,
+    label: 'Update',
+    onClick: () => {
+      submitDraft(id)
+    },
+  }
+  switch (role) {
+    case 'regulator':
+    default:
+      return [
+        {
+          id: 2,
+          label: 'Download Original File',
+          onClick: () => {
+            downloadOriginalFile(originalFileId, fileName)
+          },
+        },
+        {
+          id: 3,
+          label: 'View Details',
+          onClick: () => {
+            navigate(`/ams/hse/${key}/${id}`)
           },
         },
         {

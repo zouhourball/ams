@@ -13,7 +13,6 @@ const HSE = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <Redirect from="/" to="/ams/hse/flaring" noThrow />
-        {/* <Flaring path="/flaring" /> */}
         <Flaring path="/flaring/:subModule" />
         <FlaringDetails path="/flaring/:subModule/:flaringId" />
         <HSSE path="/hsse" />

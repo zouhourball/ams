@@ -41,11 +41,16 @@ const specificPaths = [
     to: '/ams/reserves/analytics/dashboard',
   },
 ]
-const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
+const TopBar = ({
+  title,
+  actions,
+  menuItems,
+  returnTo,
+  currentView: view,
+  role,
+}) => {
   const [currentView, setCurrentView] = useState(view || 'file')
-  const renderListButtons = () => {
-    return actions?.map((btn) => btn)
-  }
+
   const { pathname } = useLocation()
 
   const onViewClick = useCallback(
@@ -72,7 +77,7 @@ const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
       )}
       <div className="top-bar-title">{title}</div>
       <div className="top-bar-buttons">
-        <div className="top-bar-buttons-list">{renderListButtons()}</div>
+        <div className="top-bar-buttons-list">{actions}</div>
 
         <div className="top-bar-buttons-icons">
           <div className="top-bar-buttons-switch-view">
@@ -97,24 +102,26 @@ const TopBar = ({ title, actions, menuItems, returnTo, currentView: view }) => {
               iconEl={<img src={analyticView} />}
             />
           </div>
-          <MenuButton
-            id="menu-button-2"
-            icon
-            menuItems={menuItems()?.map((el) => (
-              <ListItem
-                key={el?.key}
-                primaryText={el?.primaryText}
-                onClick={(e) => el?.onClick()}
-              />
-            ))}
-            anchor={{
-              x: MenuButton.HorizontalAnchors.RIGHT,
-              y: MenuButton.VerticalAnchors.BOTTOM,
-            }}
-            menuClassName=""
-          >
-            more_vert
-          </MenuButton>
+          {role === 'operator' && (
+            <MenuButton
+              id="menu-button-2"
+              icon
+              menuItems={menuItems()?.map((el) => (
+                <ListItem
+                  key={el?.key}
+                  primaryText={el?.primaryText}
+                  onClick={(e) => el?.onClick()}
+                />
+              ))}
+              anchor={{
+                x: MenuButton.HorizontalAnchors.RIGHT,
+                y: MenuButton.VerticalAnchors.BOTTOM,
+              }}
+              menuClassName=""
+            >
+              more_vert
+            </MenuButton>
+          )}
         </div>
       </div>
     </div>

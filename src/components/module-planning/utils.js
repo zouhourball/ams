@@ -1,5 +1,5 @@
-export const buildObjectFromArray = (arr) => {
-  const keys = arr.map((el) => el.year + '')
+export const buildObjectFromArray = (arr, key = 'year') => {
+  const keys = arr.map((el) => el[key] + '')
   let object = {}
 
   keys.forEach((key, index) => {
