@@ -224,6 +224,7 @@ const HSSE = () => {
           if (!res.error) {
             refetchHsse()
             dispatch(setSelectedRowDispatch([]))
+            setSelectedRow([])
             dispatch(
               addToast(
                 <ToastMsg
@@ -291,6 +292,7 @@ const HSSE = () => {
             if (!res.error) {
               refetchHsse()
               dispatch(setSelectedRowDispatch([]))
+              setSelectedRow([])
             }
           },
         },
@@ -300,7 +302,13 @@ const HSSE = () => {
           objectIds: selectedRow?.map((el) => el.id),
         },
         {
-          onSuccess: (res) => !res?.error && refetchHsse(),
+          onSuccess: (res) => {
+            if (!res?.error) {
+              refetchHsse()
+              dispatch(setSelectedRowDispatch([]))
+              setSelectedRow([])
+            }
+          },
         },
       )
   }
@@ -397,7 +405,6 @@ const HSSE = () => {
         <UploadReportDialog
           title={'Upload Monthly HSSE Report'}
           optional={'Attach Supporting Document (Optional)'}
-          onDisplayMHT={() => null}
           setFileList={setFileList}
           filesList={filesList}
           blockList={blocks?.map((el) => ({

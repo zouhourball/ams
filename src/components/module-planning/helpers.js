@@ -183,8 +183,8 @@ export const actionsHeader = (
     },
   ]
   const draftBtn = {
-    id: 15,
-    label: 'Submit Draft report',
+    id: 8,
+    label: 'Update',
     onClick: () => {
       submitDraft(subModule, id)
     },

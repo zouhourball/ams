@@ -55,8 +55,6 @@ import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 const Planning = ({ subModule }) => {
   const dispatch = useDispatch()
 
-  // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
-
   const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -74,9 +72,11 @@ const Planning = ({ subModule }) => {
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
+
   useEffect(() => {
-    setSelectedRow([])
+    return () => setSelectedRow([])
   }, [])
+
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -98,7 +98,10 @@ const Planning = ({ subModule }) => {
   )
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
-      !res?.error && refetchList()
+      if (!res?.error) {
+        refetchList()
+        setSelectedRow([])
+      }
     },
   })
 
@@ -542,7 +545,7 @@ const Planning = ({ subModule }) => {
       default:
         break
     }
-  }, [currentUpload])
+  }, [uploadReportMutate, currentUpload])
 
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
@@ -615,7 +618,6 @@ const Planning = ({ subModule }) => {
                 handleDeletePlanning,
                 downloadOriginalFile,
                 selectedRow[0]?.originalFileId,
-                // setShowUploadRapportDialog,
                 selectedRow[0]?.fileName,
                 submitDraft,
                 selectedRow[0]?.status,
