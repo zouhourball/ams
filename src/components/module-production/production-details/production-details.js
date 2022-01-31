@@ -341,10 +341,13 @@ const ProductionDetails = ({ subModule, productionId }) => {
     }
     return values
   }
-  let numKeys = {
-    firstYear: get(productionData, 'data', [])[0]?.yvalues[0]?.year,
-    duration: get(productionData, 'data', [])[0]?.yvalues?.length,
-  }
+  let numKeys =
+    subModule === 'oman-hydrocarbon'
+      ? {
+        firstYear: get(productionData, 'data', [])[0]?.yvalues[0]?.year,
+        duration: get(productionData, 'data', [])[0]?.yvalues?.length,
+      }
+      : {}
   const omanHydrocarbonData = (get(productionData, 'data', []) || []).map(
     (el) => {
       return {

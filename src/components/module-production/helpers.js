@@ -492,29 +492,63 @@ export const actionsHeader = (
   switch (role) {
     case 'regulator':
     default:
-      return [
-        {
-          id: 1,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
+      if (subModule === 'oman-hydrocarbon') {
+        return [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
           },
-        },
-        {
-          id: 2,
-          label: 'View Details',
-          onClick: () => {
-            navigate(`/ams/production/${subModule}/${id}`)
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/production/${subModule}/${id}`)
+            },
           },
-        },
-        {
-          id: 3,
-          label: 'View Documents',
-          onClick: () => {
-            supportedDocument(subModule)
+          {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => {
+              supportedDocument(subModule)
+            },
           },
-        },
-      ]
+          {
+            id: 3,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteProduction(id)
+            },
+          },
+        ]
+      } else {
+        return [
+          {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, fileName)
+            },
+          },
+          {
+            id: 2,
+            label: 'View Details',
+            onClick: () => {
+              navigate(`/ams/production/${subModule}/${id}`)
+            },
+          },
+          {
+            id: 3,
+            label: 'View Documents',
+            onClick: () => {
+              supportedDocument(subModule)
+            },
+          },
+        ]
+      }
+
     case 'operator':
       if (status === 'DRAFT') {
         return [

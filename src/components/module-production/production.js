@@ -361,7 +361,7 @@ const Production = () => {
   }
   const handleDeleteProduction = (id) => {
     deleteProduction(currentTab, id).then((res) => {
-      if (res) {
+      if (res || res === 'sucess') {
         dispatch(setSelectedRow([]))
 
         dispatch(
@@ -473,9 +473,7 @@ const Production = () => {
             company: company?.name || 'ams-org',
             file: body?.file[0],
             processInstanceId: uuid,
-            refDate: moment(body?.referenceDate?.timestamp).format(
-              'YYYY-MM-DD',
-            ),
+            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
@@ -1106,7 +1104,9 @@ const Production = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
-          readOnly={role === 'regulator'}
+          readOnly={
+            role === 'regulator' && !(currentTab === 'oman-hydrocarbon')
+          }
         />
       )}
       {overrideDialog && (
