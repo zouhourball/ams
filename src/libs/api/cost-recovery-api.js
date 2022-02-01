@@ -507,11 +507,11 @@ export const listTransactionCost = async ({ queryKey }) => {
   return res
 }
 
-export const commitSubModule = async ({ body, subModule }) => {
+export const commitSubModule = async ({ body, key }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/${subModule}/commit`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/${key}/commit`,
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -593,6 +593,55 @@ export const detailTransactionCostByLoggedUser = async ({ queryKey }) => {
       `${appUrl}/pulse-be/api/v2/costRecovery/transaction/${queryKey[1]}?sort=metaData.createdAt,desc`,
       {
         method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const uploadReport = async ({ data, key }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${key}/upload`,
+      {
+        method: 'POST',
+        isFormData: true,
+        body: data && formDataBody(data),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const listOfReports = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const overrideReport = async ({ body, overrideId, key }) => {
+  // body={
+  //   "statement": "string"
+  // }
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${key}/override/${overrideId}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
       },
     )
   } catch (e) {
