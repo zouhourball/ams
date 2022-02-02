@@ -1,0 +1,83 @@
+.candidate_members {
+  &-cards {
+    height: 100%;
+    overflow: auto;
+  }
+
+  &-collapseButton {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-left: -10px;
+    padding: 0;
+    background: #f1f1f1;
+  }
+
+  .candidate_remained_members {
+    font-size: 60%;
+    font-weight: bold;
+  }
+
+  &_card {
+    margin: 8px 0;
+    border: 1px solid #ddd;
+
+    &.md-paper--1 {
+      box-shadow: none;
+    }
+  }
+
+  &_avatar {
+    width: 42px;
+    height: 42px;
+    margin-right: 12px;
+  }
+
+  &_title {
+    align-items: flex-start;
+
+    &.md-card-title {
+      padding: 10px 12px;
+    }
+
+    h2 {
+      color: #000;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .md-avatar--default {
+      background: #fff;
+      color: #616161;
+    }
+  }
+
+  .candidate_member {
+    margin-left: -10px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    .md-avatar {
+      border: 2px solid white;
+      cursor: pointer;
+
+      &--default {
+        background: #eee;
+        color: #676767;
+      }
+    }
+  }
+
+  &_position {
+    color: rgba($color: #000, $alpha: 0.54);
+  }
+}

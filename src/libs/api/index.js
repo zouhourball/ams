@@ -1,6 +1,13 @@
 import { fetchJSON } from 'libs/fetch'
 import { stringify } from 'querystring'
 
+import { dispatch } from 'libs/store'
+
+import {
+  displayAPIWorkingOverlay,
+  hideAPIWorkingOverlay,
+} from 'modules/ui/actions'
+
 export async function refresh (token) {
   const body = stringify({
     grant_type: 'refresh_token',
@@ -109,4 +116,14 @@ export async function getFSToken (params) {
     res = { error: e }
   }
   return res
+}
+
+export function overlayControl (func) {
+  return async (...params) => {
+    dispatch(displayAPIWorkingOverlay())
+    const result = await func(...params)
+    dispatch(hideAPIWorkingOverlay())
+
+    return result
+  }
 }

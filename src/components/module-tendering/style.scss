@@ -1,0 +1,28 @@
+.tendering {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 50px);
+  height: 100%;
+  background: #f0f0f0;
+
+  .global-container {
+    height: 100%;
+    overflow: auto;
+  }
+
+  .global-container-not-topbar {
+    height: 100%;
+  }
+
+  .xeena-table-container {
+    background: #f0f0f0;
+
+    .xeena-table-body {
+      background: #f0f0f0;
+
+      .empty {
+        height: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+$base-padding: 8px;
+
+.agenda-container {
+  margin: 0 0 16px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.16);
+
+  &-header {
+    padding: $base-padding;
+    border-radius: 4px 4px 0 0;
+    background: rgba(0, 0, 0, 0.16);
+    color: rgba(0, 0, 0, 0.85);
+    font-size: $base-padding * 2;
+    font-weight: 500;
+  }
+
+  &-body {
+    padding: $base-padding * 2 $base-padding 0;
+
+    &:last-child {
+      padding: $base-padding * 2 $base-padding;
+      border-radius: 0 0 4px 4px;
+    }
+
+    > :last-child {
+      margin: 0;
+    }
+  }
+
+  &-footer {
+    padding: $base-padding * 2 $base-padding;
+    border-radius: 0 0 4px 4px;
+
+    button {
+      display: inline-flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: start;
+      height: auto;
+      margin-right: $base-padding;
+      padding: 0;
+      border-radius: 4px;
+      font-size: 14px;
+
+      i {
+        width: auto;
+        margin-right: $base-padding;
+        font-size: $base-padding * 3;
+        line-height: 1;
+      }
+
+      &:hover {
+        background: none;
+      }
+    }
+  }
+}

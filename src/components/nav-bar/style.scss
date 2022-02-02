@@ -43,4 +43,25 @@
       }
     }
   }
+
+  .buttons-list {
+    &-btn {
+      margin: 5px 10px;
+      border-radius: 8px;
+      background-color: #e3eefe;
+      color: #3080fc;
+      font-size: 14px;
+      font-weight: 700;
+
+      &:active {
+        background-color: #3080fc;
+        color: white;
+      }
+
+      &:hover {
+        background-color: #3080fc;
+        color: white;
+      }
+    }
+  }
 }

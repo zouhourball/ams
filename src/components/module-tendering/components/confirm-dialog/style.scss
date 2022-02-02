@@ -1,0 +1,33 @@
+.confirmDialog {
+  > .md-dialog {
+    width: auto;
+
+    .md-dialog-content--padded {
+      padding: 8px 16px;
+    }
+
+    .md-title {
+      padding: 8px 16px;
+      font-size: 16px;
+    }
+
+    .md-dialog-footer {
+      padding: 8px 16px;
+
+      .md-btn--dialog {
+        height: 28px;
+        padding-right: 0;
+        padding-left: 0;
+        border-radius: 4px;
+
+        .md-text--theme-primary {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+
+  p {
+    font-size: 15px;
+  }
+}

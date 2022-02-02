@@ -1,0 +1,8 @@
+query meWorkspacesByOrganization($organizationID: String!) {
+  meWorkspacesByOrganization(organizationID: $organizationID) {
+    workspaces {
+      id
+      name
+    }
+  }
+}

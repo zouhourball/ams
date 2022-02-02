@@ -11,8 +11,9 @@ const HeaderTemplate = ({ title, actions = [] }) => {
           <Button
             primary={el?.primary}
             onClick={el?.onClick}
+            disabled={el?.disabled}
             flat
-            className="header-template-actions-btn"
+            className={el?.className || 'header-template-actions-btn'}
             key={el?.id}
             id={el?.id}
           >

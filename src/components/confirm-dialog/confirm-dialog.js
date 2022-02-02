@@ -1,7 +1,7 @@
 import { DialogContainer, Button } from 'react-md'
 
 const ConfirmDialog = ({
-  message = '',
+  message,
   onDiscard,
   handleOverride,
   visible,

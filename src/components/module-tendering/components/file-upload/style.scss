@@ -1,0 +1,38 @@
+.reports_dropZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  margin-left: 0;
+  border: 1px dashed #ccccccd6;
+  border-radius: 4px;
+  background: #eeeeeebd;
+  text-align: center;
+  cursor: pointer;
+
+  &_content {
+    color: #6e6e6e;
+
+    > img {
+      margin: 12px 0;
+    }
+
+    p {
+      margin-bottom: 0;
+      color: #6e6e6ede;
+      font-size: 14px;
+
+      span {
+        color: #0065c7;
+      }
+    }
+
+    .md-icon {
+      margin-bottom: 5px;
+      color: rgba(0, 0, 0, 0.31);
+      font-size: 30px;
+    }
+  }
+}

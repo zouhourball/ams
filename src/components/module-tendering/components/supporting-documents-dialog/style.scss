@@ -1,0 +1,136 @@
+$base-padding: 8px;
+
+.supporting-documents-dialog {
+  .md-dialog--centered {
+    width: 35%;
+  }
+
+  .md-title--dialog {
+    padding: 10px 25px;
+    background: #1564c0;
+    color: #fff;
+    font-size: 18px;
+  }
+
+  .md-dialog-content--padded {
+    max-height: 500px !important;
+    padding: 8px 16px;
+    overflow: auto;
+  }
+
+  .docs-icon-area {
+    .mdi-file-pdf {
+      color: red;
+    }
+
+    .mdi-office {
+      color: #1565c0;
+    }
+  }
+
+  .documents {
+    margin-bottom: 12px;
+
+    &_container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-radius: 3px;
+      background: #f1f1f1;
+
+      &_file-details {
+        display: flex;
+        align-items: center;
+
+        .file-name {
+          margin-right: auto;
+          margin-left: 10px;
+
+          .title {
+            font-size: 14px;
+            text-transform: capitalize;
+          }
+        }
+
+        .file-size {
+          color: rgba($color: #000, $alpha: 0.54);
+          font-size: 12px;
+        }
+
+        .file-icon {
+          .md-icon {
+            font-size: 35px;
+          }
+
+          .mdi-file-word {
+            color: #1565c0;
+          }
+
+          .mdi-file-pdf {
+            color: #c01515;
+          }
+
+          .mdi-zip-box {
+            color: #0c8b41;
+          }
+
+          .mdi-language-javascript {
+            color: #a6c015;
+          }
+        }
+      }
+
+      &_file-actions {
+        .uploadButton {
+          width: 35px;
+          height: 35px;
+          margin-right: 10px;
+          padding: 2px;
+          background-color: rgba(0, 0, 0, 0.05);
+
+          .mdi-upload::before {
+            transform: rotate(180deg);
+            font-size: 20px;
+          }
+
+          &:hover {
+            .mdi-upload::before {
+              color: #1564c0;
+            }
+          }
+        }
+
+        .deleteButton {
+          width: 35px;
+          height: 35px;
+          padding: 2px;
+          background-color: rgba(0, 0, 0, 0.05);
+
+          .md-icon {
+            font-size: 18px;
+          }
+
+          &:hover {
+            .md-icon {
+              color: #1564c0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .md-dialog-footer--inline {
+    padding: 16px 24px;
+
+    .closebtn {
+      padding: 4px 16px;
+    }
+
+    .uploadAll {
+      margin-left: 12px;
+      padding: 4px 16px;
+    }
+  }
+}

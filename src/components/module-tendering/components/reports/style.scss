@@ -1,0 +1,126 @@
+.reportsContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  // overflow: scroll;
+  background: #eee;
+
+  &-base-paper {
+    width: calc(100% - 428px);
+    height: 100%;
+    border-radius: 4px;
+    // overflow: auto;
+    background: #fff;
+
+    .data-table-toolbar-title {
+      padding: 0 16px;
+      font-size: 18px;
+    }
+
+    .data-table-toolbar-container {
+      padding: 5px;
+    }
+
+    .data-table-footer {
+      padding: 0 16px;
+    }
+
+    .data-table-table-container {
+      height: calc(100% - 60px);
+      overflow: auto;
+
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        border-radius: 15px;
+        background: rgba(204, 204, 204, 0.753);
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #c1c1c1;
+      }
+    }
+
+    .data-table-data-table {
+      height: 100%;
+
+      > div {
+        height: calc(100% - 70px);
+      }
+
+      .data-table-select-row-checkbox {
+        height: 50px;
+
+        .md-btn--icon {
+          padding: 0;
+        }
+      }
+
+      .data-table-common-cell-ellipsis {
+        font-size: 16px;
+
+        .md-btn--icon {
+          padding: 0;
+        }
+      }
+    }
+  }
+
+  .emptyContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 428px);
+    height: 100%;
+
+    .empty-icon {
+      width: 75px;
+    }
+  }
+
+  .deleteFileDialog {
+    .md-dialog {
+      width: 18%;
+      border-radius: 4px;
+    }
+
+    .md-title--dialog {
+      margin-bottom: 16px;
+      padding: 12px 24px;
+      border-radius: 4px 4px 0 0;
+      background-color: #1565c0;
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .md-dialog-content--padded:not(:first-child) {
+      padding-top: 24px;
+    }
+
+    .md-dialog-footer--inline {
+      padding: 16px 24px;
+
+      .button-discard {
+        margin-right: 8px;
+        border: 2px solid #1565c0;
+        background-color: #fff;
+        color: #1565c0;
+      }
+
+      .md-btn--text {
+        border-radius: 4px;
+      }
+    }
+  }
+}

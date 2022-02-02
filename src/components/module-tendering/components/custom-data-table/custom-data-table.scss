@@ -1,0 +1,221 @@
+// style
+.target-react-table-wrapper-header {
+  padding: 0;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.ReactTable {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.18);
+}
+
+.ReactTable .rt-thead.-header {
+  background-color: #fff;
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.15);
+}
+
+.ReactTable .rt-tbody .rt-tr-group {
+  border-bottom: solid 1px rgba(243, 243, 243, 0.5);
+}
+
+.target-react-table-wrapper-tool-bar-container {
+  align-items: center;
+  margin-right: 16px;
+
+  .md-btn--icon {
+    width: 35px;
+    height: 35px;
+    margin-left: 10px;
+    padding: 5px;
+  }
+}
+
+.target-react-table-wrapper-header-toolbar-container-select-label {
+  display: none;
+}
+
+.rt-th,
+.rt-td {
+  &:not(.target-react-table-wrapper-left-cell) {
+    //margin: auto;
+    text-align: center;
+  }
+}
+
+.target-react-table-wrapper-common-cell-ellipsis {
+  margin: auto;
+}
+
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  border-right: 1px solid rgba(111, 111, 111, 0.21);
+}
+
+.ReactTable .rt-thead .rt-th.-sort-desc {
+  box-shadow: none;
+}
+
+.ReactTable .rt-thead .rt-resizable-header-content {
+  margin: auto;
+  white-space: normal;
+
+  .target-react-table-wrapper-common-cell-ellipsis {
+    color: rgba(0, 0, 0, 0.57);
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+}
+
+.ReactTable.-striped .rt-tr.-odd {
+  background: rgb(243, 242, 242) !important;
+}
+
+.ReactTable .rt-tr.-even {
+  background: #fff !important;
+}
+
+.ReactTable .rt-tr.-odd[style='background-color: rgb(185, 223, 249);'] {
+  background: rgb(185, 223, 249) !important;
+}
+
+.ReactTable .rt-tr.-even[style='background-color: rgb(185, 223, 249);'] {
+  background: rgb(185, 223, 249) !important;
+}
+
+.ReactTable .rt-tbody .rt-td {
+  border-right: 1px solid rgba(111, 111, 111, 0.21);
+}
+
+.target-react-table-wrapper-header-toolbar-container {
+  h2 {
+    margin-bottom: 0;
+  }
+
+  &:first-child {
+    flex: 1 1 auto;
+
+    > div {
+      width: 100%;
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 16px;
+      font-weight: 500;
+
+      > span {
+        margin-left: 16px;
+      }
+    }
+
+    .customFilter {
+      .md-btn--icon {
+        width: 35px;
+        height: 35px;
+        padding: 7px;
+      }
+    }
+  }
+
+  &:last-child {
+    flex: 0 1 auto;
+
+    .md-switch-thumb--on {
+      background: #1565c0;
+    }
+
+    .md-switch-track--on {
+      background: #1565c0a1;
+    }
+
+    .md-switch-container {
+      margin-right: 15px;
+    }
+
+    .md-list--menu-tr {
+      top: 35px;
+      right: 20px;
+
+      .md-text--theme-secondary {
+        color: #1565c0;
+      }
+    }
+  }
+
+  .target-react-table-wrapper-tool-bar-container {
+    .md-btn {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    .md-text--theme-primary {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+.statued-table {
+  .rt-tbody {
+    .rt-td {
+      &:last-child {
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: calc(100% + 10px);
+          height: calc(100% + 14px);
+          margin: -7px -5px;
+
+          &.passed_to_agenda {
+            background: rgba(52, 178, 92, 0.15);
+            color: #34b25b;
+          }
+
+          &.approved {
+            background: rgba(41, 170, 226, 0.15);
+            color: #29abe2;
+          }
+
+          &.under_review {
+            background: rgba(251, 177, 59, 0.15);
+            color: #fbb03b;
+          }
+
+          &.rejected {
+            background: rgba(244, 76, 77, 0.15);
+            color: #f44c4d;
+          }
+
+          &.not_discussed {
+            background: rgba(237, 30, 120, 0.15);
+            color: #ed1e79;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ReactTable .rt-thead .rt-th.-sort-asc {
+  box-shadow: none;
+}
+
+.ReactTable .-pagination {
+  padding: 32px 16px 16px;
+  background-color: #fff;
+
+  .-previous {
+    flex: 0.3;
+  }
+
+  .-next {
+    flex: 0.3;
+  }
+}

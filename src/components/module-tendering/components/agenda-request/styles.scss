@@ -1,0 +1,15 @@
+$base-padding: 8px;
+
+.column-list {
+  column-count: 3;
+
+  &-item {
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+
+.agenda-request {
+  display: block;
+}

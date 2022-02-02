@@ -151,6 +151,26 @@ const proxyConfig = {
       Origin: troveAppFullUrl,
     },
   },
+  '/tdr': {
+    target: troveAppFullUrl,
+    ssl: {},
+    secure: false,
+    changeOrigin: true,
+    headers: {
+      Host: troveAppUrl,
+      Origin: troveAppFullUrl,
+    },
+  },
+  '/arm': {
+    target: troveAppFullUrl,
+    ssl: {},
+    secure: false,
+    changeOrigin: true,
+    headers: {
+      Host: troveAppUrl,
+      Origin: troveAppFullUrl,
+    },
+  },
 }
 
 module.exports = proxyConfig

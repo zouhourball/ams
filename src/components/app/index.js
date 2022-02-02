@@ -16,6 +16,9 @@ import { rolesTab } from 'libs/roles-tab'
 // import { format } from 'date-fns'
 
 import Home from 'components/home'
+
+import TenderingModule from 'components/module-tendering'
+
 import { IntlContext, ContentContext } from 'components/app/context'
 
 import { useSupportedLangs } from 'libs/langs'
@@ -38,6 +41,7 @@ const DynamicApp = ({ path }) => {
       <Redirect from="/" to="/ams" noThrow />
 
       <Home path="/ams/*" defaultModule={path} />
+      <TenderingModule path="/tendering/*" />
     </Router>
   )
 }
@@ -56,6 +60,7 @@ const Shell = ({ lang }) => {
       toasts: app.toasts,
       visibleLoader: app.visibleLoader,
       roles: query?.DEFAULT?.me?.data?.roles,
+      query: query,
     }),
   )
   const dispatch = useDispatch()
@@ -74,55 +79,74 @@ const Shell = ({ lang }) => {
     // this.props.clearMessages()
   }
   const me = getLodash(data, 'mev2')
-
   const renderMenus = () => {
     const basedRoleSubMenus = []
     if (roles) {
       // debugger
-      rolesTab.forEach(({ key, roleOp, roleRe, path, hasSubModule }) => {
-        if (hasSubModule) {
-          const moduleS = { ...subModules.find((sM) => sM.key === key) }
+      rolesTab.forEach(
+        ({ key, roleOp, roleRe, roleCh, path, hasSubModule }) => {
+          if (hasSubModule) {
+            const moduleS = { ...subModules.find((sM) => sM.key === key) }
 
-          let subM = []
-          if (moduleS) {
-            hasSubModule.forEach(({ key, roleOp, roleRe, path }) => {
-              if (
-                roles.includes(
-                  `target-subscription-store:${organizationID}:${roleOp}`,
-                )
-              ) {
-                subM.push({
-                  ...attrBasedOnRole.find((sM) => sM.key === key),
-                  path,
-                })
-              } else if (roles.includes(roleRe)) {
-                subM.push({
-                  ...attrBasedOnRole.find((sM) => sM.key === key),
-                  path,
-                })
+            let subM = []
+            if (moduleS) {
+              hasSubModule.forEach(({ key, roleOp, roleRe, roleCh, path }) => {
+                if (
+                  roles.includes(
+                    `target-subscription-store:${organizationID}:${roleOp}`,
+                  )
+                ) {
+                  subM.push({
+                    ...attrBasedOnRole.find((sM) => sM.key === key),
+                    path,
+                  })
+                } else if (roles.includes(roleRe)) {
+                  subM.push({
+                    ...attrBasedOnRole.find((sM) => sM.key === key),
+                    path,
+                  })
+                } else if (
+                  roles.includes(
+                    `target-subscription-store:${organizationID}:${roleCh}`,
+                  )
+                ) {
+                  subM.push({
+                    ...attrBasedOnRole.find((sM) => sM.key === key),
+                    path,
+                  })
+                }
+              })
+              if (subM.length > 0) {
+                moduleS.subModules = subM
+                basedRoleSubMenus.push({ ...moduleS })
               }
-            })
-            if (subM.length > 0) {
-              moduleS.subModules = subM
-              basedRoleSubMenus.push({ ...moduleS })
             }
+          } else if (
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleOp}`,
+            )
+          ) {
+            basedRoleSubMenus.push({
+              ...subModules.find((sM) => sM.key === key),
+              path,
+            })
+          } else if (
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleCh}`,
+            )
+          ) {
+            basedRoleSubMenus.push({
+              ...subModules.find((sM) => sM.key === key),
+              path,
+            })
+          } else if (roles.includes(roleRe)) {
+            basedRoleSubMenus.push({
+              ...subModules.find((sM) => sM.key === key),
+              path,
+            })
           }
-        } else if (
-          roles.includes(
-            `target-subscription-store:${organizationID}:${roleOp}`,
-          )
-        ) {
-          basedRoleSubMenus.push({
-            ...subModules.find((sM) => sM.key === key),
-            path,
-          })
-        } else if (roles.includes(roleRe)) {
-          basedRoleSubMenus.push({
-            ...subModules.find((sM) => sM.key === key),
-            path,
-          })
-        }
-      })
+        },
+      )
       if (
         roles.includes('sys:admin') ||
         roles.includes('target-subscription-store:superadmin')

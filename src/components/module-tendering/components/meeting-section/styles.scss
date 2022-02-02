@@ -1,0 +1,43 @@
+.meetings {
+  .navigate-bar {
+    margin: 0;
+    border-bottom: 1px solid #eee;
+
+    .navigate-bar-leftBar {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  .slick-track {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-width: 100%;
+    padding: 16px;
+    background: #fff;
+
+    .slick-slide {
+      display: inline-flex;
+      align-items: stretch;
+      align-self: stretch;
+      justify-content: stretch;
+      height: auto;
+
+      > div {
+        align-self: stretch;
+        width: 100%;
+
+        .meeting-card {
+          padding: 0 8px 0 0;
+        }
+      }
+    }
+  }
+
+  &-card-wrapper {
+    display: flex;
+    padding: 0;
+  }
+}

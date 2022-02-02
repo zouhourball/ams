@@ -1,0 +1,57 @@
+.filter-developement-analysis {
+  fieldset {
+    padding: 0;
+  }
+
+  .md-overlay {
+    position: static;
+    background: transparent;
+  }
+
+  .md-dialog {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+    max-width: calc(100% - 20px);
+    height: auto;
+    max-height: initial;
+    transform: none;
+  }
+
+  .md-title--dialog {
+    font-size: 16px;
+  }
+
+  &-checklist {
+    .md-btn--icon {
+      width: auto;
+      padding: 10px 10px 10px 0;
+
+      &.md-text--theme-secondary,
+      &.md-text--theme-secondary + span {
+        color: #1564c0;
+      }
+
+      &.md-text--secondary,
+      &.md-text--secondary + span {
+        color: rgba(0, 0, 0, 0.54);
+      }
+    }
+  }
+
+  .md-dialog-footer {
+    .md-btn {
+      width: 100px;
+      height: auto;
+      padding: 8px 16px;
+      border: 1px solid #1564c0;
+      border-radius: 2px;
+
+      &.outline {
+        background: transparent;
+        color: #1564c0;
+      }
+    }
+  }
+}

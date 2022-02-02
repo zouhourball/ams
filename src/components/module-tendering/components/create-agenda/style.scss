@@ -1,0 +1,360 @@
+.add-new-agenda {
+  > .md-dialog {
+    width: 60%;
+    border-radius: 5px;
+    background: #fff;
+
+    .md-dialog-content--padded {
+      // max-height: 600px !important;
+      padding: 8px 0;
+      overflow: auto;
+
+      .meeting-date {
+        top: 180px;
+        left: 30px;
+      }
+
+      .start-time {
+        top: 175px;
+        left: 337px;
+      }
+
+      .end-time {
+        top: 175px;
+        left: 640px;
+      }
+    }
+
+    .md-dialog-footer--inline {
+      padding: 16px 24px;
+
+      .md-btn--dialog {
+        height: 30px;
+
+        .md-text--theme-primary {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+
+  .md-grid {
+    .list_wrapper {
+      width: 100%;
+
+      .list_wrapper_list {
+        position: unset;
+        width: 97%;
+      }
+    }
+  }
+
+  .md-title--dialog {
+    padding: 10px 25px;
+    border-radius: 5px;
+    background: #fff;
+    color: rgba($color: #000, $alpha: 0.84);
+    font-size: 18px;
+  }
+
+  &-textField {
+    max-height: 40px;
+    padding: 11px 13px;
+    border: 1px solid #b7b7b7;
+    border-radius: 4px;
+
+    &:focus-within {
+      border-color: #1565c0;
+    }
+
+    .md-text--error {
+      color: #5c5b5bdb;
+    }
+
+    .md-text-field--floating-margin {
+      margin: 0;
+    }
+
+    .md-floating-label--floating {
+      z-index: 9;
+      padding: 0 5px;
+      transform: translate3d(-4px, -6px, 0);
+      background: #fff;
+      color: #1565c0;
+
+      &.md-text--error {
+        color: #5c5b5bdb;
+      }
+    }
+
+    .md-floating-label--inactive {
+      transform: translate3d(0, 12px, 0);
+    }
+
+    .md-divider {
+      display: none;
+    }
+
+    .md-text-field-icon {
+      margin-bottom: 0;
+      font-size: 17px;
+    }
+
+    &.noBorder {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .md-text-field-inline-indicator--floating {
+      top: 4px !important;
+      right: 4px;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+    }
+  }
+
+  &-selectField {
+    &[aria-expanded^='true'] {
+      box-shadow: unset;
+    }
+
+    hr {
+      display: none;
+    }
+
+    .md-layover-child--simplified {
+      display: block;
+    }
+
+    .md-text-field {
+      height: 44px;
+      border: 1px solid #9c9c9c;
+      border-radius: 4px;
+
+      &--floating-margin {
+        margin-top: 0;
+      }
+    }
+
+    .md-floating-label {
+      z-index: 9;
+      padding: 0 5px;
+      background: #fff;
+
+      &--inactive {
+        transform: translate3d(10px, 15px, 0);
+      }
+
+      &--floating {
+        transform: translate3d(10px, -6px, 0);
+        color: #0065c7;
+      }
+    }
+
+    .md-list {
+      padding-bottom: 0;
+    }
+
+    &.noBorder {
+      .md-text-field {
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+
+  .proposalList {
+    display: flex;
+    flex-flow: wrap;
+    align-items: center;
+    padding: 8px;
+
+    .proposalItem {
+      display: flex;
+      align-items: center;
+      margin: 4px;
+      padding: 4px 4px 4px 0;
+      border: 1px solid #eee;
+      border-radius: 25px;
+      background: #eee;
+      cursor: pointer;
+
+      &_name {
+        margin: 0 4px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1;
+      }
+
+      &-textField {
+        padding: 0;
+
+        .md-text {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1;
+        }
+      }
+
+      &_editBtn {
+        margin-left: auto;
+      }
+    }
+
+    .md-btn {
+      width: 25px;
+      height: 25px;
+      padding: 3px;
+
+      .md-icon {
+        font-size: 18px;
+      }
+    }
+
+    .checked {
+      border-color: #1565c0;
+      background-color: lighten(#1565c0, 50);
+      color: #1565c0;
+
+      .md-icon {
+        color: #1565c0;
+      }
+    }
+
+    .checkedTextField {
+      flex-grow: 1;
+      min-width: 50%;
+    }
+  }
+
+  .selectMembers {
+    background: #f0f0f0;
+
+    &_header {
+      display: flex;
+      align-items: center;
+      margin: 16px;
+      padding: 0 8px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+    }
+
+    .member {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-radius: 3px;
+      background: #fff;
+      box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+
+      &_avatar {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        margin-right: 8px;
+      }
+
+      &_info {
+        max-width: calc(100% - 48px);
+
+        &_email {
+          max-width: 100%;
+          overflow: hidden;
+          color: rgba($color: #000, $alpha: 0.34);
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  .voiceMemo {
+    &_reactMic {
+      position: absolute;
+      top: 50%;
+      right: 50px;
+      left: 120px;
+      width: calc(100% - 180px);
+      height: 30px;
+      transform: translateY(-50%);
+    }
+
+    &_content {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 8px 16px;
+      border: 1px solid #c9c9c9;
+      border-radius: 4px;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      .micButton {
+        width: 30px;
+        height: 30px;
+        padding: 3px;
+
+        &.stopButton {
+          .md-icon {
+            color: #f00;
+          }
+        }
+      }
+    }
+  }
+
+  .selected {
+    border: 1px solid #1565c0;
+  }
+}
+
+.datePickerWrapper {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba($color: #000, $alpha: 0.4);
+
+  .target-date-picker-double-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  > .target-date-picker-datepicker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+.selectOwner {
+  &-selector {
+    .itemMultiPick {
+      padding: 8px;
+    }
+
+    .customSelect_wrapper_list_items_position {
+      max-width: 100%;
+      overflow: hidden;
+      color: rgba($color: #000, $alpha: 0.54);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .customSelect_wrapper_list_items_image + div {
+      max-width: calc(100% - 60px);
+    }
+  }
+}

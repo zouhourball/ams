@@ -1,0 +1,46 @@
+.top-bar-left {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding-left: 20px;
+  background: #fff;
+
+  &_navigation {
+    .md-pointer--hover {
+      background: transparent;
+    }
+
+    .md-btn {
+      padding: 10px;
+      font-size: 18px;
+    }
+
+    .md-icon {
+      font-size: 26px;
+    }
+  }
+}
+
+.infoWrapper {
+  position: relative;
+
+  .info-button {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    padding: 6px;
+
+    .material-icons.md-icon {
+      margin: 0;
+      font-size: 20px;
+    }
+  }
+
+  &-component {
+    position: absolute;
+    z-index: 99999;
+    top: 14px;
+    left: 33px;
+    width: max-content;
+  }
+}

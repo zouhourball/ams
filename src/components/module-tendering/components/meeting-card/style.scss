@@ -1,0 +1,142 @@
+.meeting-card {
+  // height: 100%;
+
+  &-container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+    height: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: #ecf4f9;
+      cursor: pointer;
+    }
+
+    & > div:first-child {
+      margin-bottom: 40px;
+    }
+
+    &-Content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      .vertical-button {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        line-height: 1;
+      }
+
+      &-DateTime {
+        padding: 4px 0;
+        color: #707070;
+        font-weight: 400;
+        line-height: 1;
+      }
+
+      &-requestTitle {
+        margin: 0 auto 16px 0;
+        color: #0065c6;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: left;
+      }
+
+      &-text {
+        padding-right: 20px;
+        color: rgba(0, 0, 0, 0.84);
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      &-avatar {
+        &-md-list-unstyled {
+          display: flex;
+
+          &-img {
+            margin-right: 8px;
+            background-color: #bbb;
+          }
+
+          &-plus {
+            background-color: #bbb;
+
+            .md-avatar-content {
+              font-size: 15px;
+            }
+          }
+        }
+      }
+
+      &-status {
+        position: relative;
+        border-radius: 5px;
+        text-align: right;
+
+        &-label {
+          display: inline-block;
+          width: auto;
+          height: 30px;
+          padding: 5px 16px;
+          border-radius: 4px;
+          background-color: #fff;
+          text-align: center;
+
+          &.left {
+            background: rgba(0, 0, 0, 0.1);
+            color: rgba(0, 0, 0, 0.5);
+          }
+
+          &.joined {
+            background: rgba(52, 178, 91, 0.1);
+            color: #34b25b;
+          }
+
+          &.declined {
+            background: rgba($color: #f44336, $alpha: 0.1);
+            color: #f44336;
+          }
+        }
+
+        &-pending-btn {
+          display: flex;
+          flex-flow: row wrap;
+          align-items: flex-end;
+          justify-content: flex-end;
+          margin: -5px;
+
+          .md-btn--text {
+            width: auto;
+            min-width: initial;
+            height: auto;
+            margin: 0 8px;
+            padding: 5px;
+            font-size: 14px;
+
+            &:hover {
+              background: none;
+            }
+          }
+
+          &-accept {
+            color: #1665be;
+
+            &:hover {
+              color: #38772d;
+            }
+          }
+
+          &-reject {
+            color: #f44336;
+          }
+        }
+      }
+    }
+  }
+}

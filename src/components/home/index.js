@@ -11,7 +11,7 @@ import './style.scss'
 const Permitting = lazy(() => import('components/module-permitting'))
 const Audit = lazy(() => import('components/module-audit'))
 const Agreement = lazy(() => import('components/module-agreements'))
-const Tendering = lazy(() => import('components/module-tendering'))
+// const TenderingModule = lazy(() => import('components/module-tendering'))
 const InventoryHome = lazy(() => import('components/module-inventory'))
 const Downstream = lazy(() => import('components/module-downstream'))
 const Planning = lazy(() => import('components/module-planning'))
@@ -48,7 +48,7 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Permitting path="/permitting/*" />
               <Downstream path="/downstream/*" />
               <InventoryHome path="/inventory/*" />
-              <Tendering path="/tendering/*" />
+              {/* <TenderingModule path="/tendering/*" /> */}
               <Agreement path="/agreement/*" />
               <Audit path="/audit/*" />
               <ConfiguratorPage path="/configurator" />

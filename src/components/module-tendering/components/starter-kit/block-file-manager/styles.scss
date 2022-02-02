@@ -1,0 +1,54 @@
+.start-blockfilemanager-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 50px;
+  background: #ff5f00;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.start-blockfilemanager-card-svg {
+  width: 70px;
+}
+
+.start-blockfilemanager-card-title {
+  margin: 20px 0;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.start-blockfilemanager-card-description {
+  display: -webkit-box;
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+}
+
+.start-blockfilemanager-card-foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  height: 32px;
+  margin-top: 20px;
+  font-size: 16px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.start-blockfilemanager-card-upload-svg {
+  height: 24px;
+}

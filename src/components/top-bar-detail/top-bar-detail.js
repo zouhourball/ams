@@ -13,6 +13,8 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
     submittedDate,
     companyAllRoles,
     status,
+    blockNumber,
+    totalProposals,
   } = detailData
   const renderListButtons = () => {
     return actions.map((action) => action)
@@ -48,6 +50,37 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
           </div>
 
           <div className="top-bar-detail-left-information-details">
+            {blockNumber && (
+              <>
+                {' '}
+                <div className="top-bar-detail-left-information-details-item">
+                  <div className="top-bar-detail-left-information-details-item-key">
+                    Block :
+                  </div>
+                  <div className="top-bar-detail-left-information-details-item-value">
+                    {' '}
+                    {blockNumber}
+                  </div>
+                </div>
+              </>
+            )}
+            {totalProposals && (
+              <>
+                {' '}
+                <div className="top-bar-detail-left-information-details-item">
+                  <div className="top-bar-detail-left-information-details-item-sep"></div>
+
+                  <div className="top-bar-detail-left-information-details-item-key">
+                    Total Proposals :
+                  </div>
+                  <div className="top-bar-detail-left-information-details-item-value">
+                    {' '}
+                    {totalProposals}
+                  </div>
+                </div>
+              </>
+            )}
+
             {((companyName && userRole() === 'regulator') ||
               companyAllRoles) && (
               <div className="top-bar-detail-left-information-details-item">

@@ -1,0 +1,129 @@
+.card-hiring {
+  cursor: pointer;
+
+  &_card {
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+
+    &.md-paper--1 {
+      box-shadow: none;
+    }
+  }
+
+  &_avatar {
+    width: 42px;
+    height: 42px;
+    margin-right: 12px;
+  }
+
+  &_title {
+    align-items: flex-start;
+
+    &.md-card-title {
+      padding: 10px 12px;
+    }
+
+    h2 {
+      color: #000;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    h3 {
+      font-size: 12px;
+      font-weight: normal;
+    }
+
+    .md-avatar--default {
+      background: #fff;
+      color: #616161;
+    }
+  }
+
+  &_text {
+    color: rgba($color: #000, $alpha: 0.38);
+
+    &.md-card-text {
+      padding: 0 12px 10px;
+    }
+
+    > strong {
+      color: #000;
+    }
+
+    &.green {
+      > strong {
+        color: #5b9d52;
+      }
+    }
+
+    &.orange {
+      > strong {
+        color: #e35d33;
+      }
+    }
+
+    &.blue {
+      > strong {
+        color: #419adf;
+      }
+    }
+  }
+
+  &_position {
+    color: rgba($color: #000, $alpha: 0.54);
+  }
+
+  &_exp {
+    color: rgba($color: #000, $alpha: 0.38);
+  }
+
+  &_meetingTitle {
+    margin: 5px 0;
+    color: #000;
+    font-size: 16px;
+  }
+
+  &_content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-top: 1px dashed #ddd;
+    color: rgba($color: #000, $alpha: 0.54);
+    font-size: 16px;
+
+    &:last-child {
+      padding-bottom: 8px;
+    }
+
+    .sep {
+      width: 1px;
+      height: 14px;
+      background: #c9c9c9;
+
+      &:first-of-type {
+        display: none;
+      }
+    }
+  }
+
+  &_action-button {
+    height: auto;
+    padding: 2px 5px;
+    font-size: 11px;
+  }
+
+  &_menu-button {
+    width: 22px;
+    height: 22px;
+    padding: 1px;
+    background: rgba($color: #1565c0, $alpha: 0.12);
+    color: #1565c0;
+
+    .material-icons.md-icon {
+      font-size: 16px;
+    }
+  }
+}

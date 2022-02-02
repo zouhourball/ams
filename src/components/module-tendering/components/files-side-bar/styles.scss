@@ -1,0 +1,85 @@
+.filesSidebar {
+  &-item {
+    background: none;
+
+    &.md-paper--1 {
+      box-shadow: none;
+    }
+
+    .md-panel-header {
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      height: 38px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      padding: 0 10px;
+      border-radius: 22px;
+
+      &--expanded {
+        height: 38px;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.26);
+      }
+
+      .md-panel-column {
+        min-width: unset !important;
+        max-width: calc(100% - 30px);
+        overflow: hidden;
+        color: #fff;
+        text-overflow: ellipsis;
+      }
+
+      .md-expansion-panel__collapser {
+        margin-right: 3px;
+        color: #fff;
+
+        &.material-icons {
+          &.md-icon {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+
+    .md-panel-content {
+      padding-left: 20px;
+    }
+
+    .filesSidebar-button {
+      width: 100%;
+      margin-bottom: 2px;
+      padding: 0 10px;
+      border-radius: 22px;
+
+      .md-icon-separator {
+        position: relative;
+
+        &::before {
+          content: '\F137';
+          position: absolute;
+          right: 0;
+          width: 20px;
+          height: 20px;
+          opacity: 0;
+          font: normal normal normal 16px/1 'Material Design Icons', sans-serif;
+        }
+      }
+
+      .md-icon {
+        color: #fff;
+      }
+
+      &.md-btn--hover {
+        background: rgba(0, 0, 0, 0.26);
+
+        .md-icon-separator {
+          &::before {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

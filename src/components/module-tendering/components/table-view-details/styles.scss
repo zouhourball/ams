@@ -1,0 +1,68 @@
+.TableViewDetails {
+  height: 100%;
+
+  &-content {
+    height: calc(100% - 58px);
+    overflow: auto;
+
+    &-table {
+      flex-grow: 1;
+      height: 100%;
+    }
+
+    &-clarify {
+      .viewComment {
+        .md-dialog {
+          z-index: 0;
+          width: 25%;
+          border-radius: 3px;
+
+          .md-title {
+            padding: 12px 20px;
+            border-radius: 3px 3px 0 0;
+            background: #1565c0;
+            color: #fff;
+            font-size: 16px;
+          }
+
+          .md-dialog-content {
+            max-height: unset;
+            overflow: unset;
+
+            &--padded {
+              min-height: 150px;
+              padding: 24px 16px;
+            }
+          }
+
+          .md-dialog-footer {
+            padding: 16px;
+            border-top: 1px solid #ddd;
+
+            .md-btn {
+              padding: 4px 16px;
+              border-radius: 4px;
+            }
+
+            .md-btn--dialog {
+              height: 30px;
+            }
+
+            .discard-btn {
+              margin-right: 10px;
+              border: 2px solid #1565c0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .filter-developement-analysis {
+    position: absolute;
+    z-index: 1;
+    top: 94px;
+    right: 120px;
+    width: 400px;
+  }
+}

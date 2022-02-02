@@ -1,0 +1,136 @@
+// style
+.navigate-bar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 8px;
+  border-radius: 4px;
+  background: #fff;
+
+  &-filters,
+  &-list {
+    display: flex;
+  }
+
+  &-list {
+    &-element {
+      position: relative;
+      height: 52px;
+      padding: 0 16px;
+      line-height: 52px;
+      cursor: pointer;
+
+      span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+        padding: 5px 8px;
+        border-radius: 50%;
+        background: #ccc;
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      &.active {
+        color: #ff6200;
+
+        span {
+          background: #ff6200;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &_topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+
+    &_title {
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 20px;
+    }
+
+    .md-btn--text {
+      height: 32px;
+      font-size: 17px;
+      text-transform: capitalize;
+    }
+
+    .md-icon {
+      font-size: 22px;
+    }
+
+    .md-icon-text:last-child {
+      padding-left: 7px;
+    }
+
+    .md-btn--hover {
+      background: none;
+    }
+  }
+
+  &_body {
+    height: calc(100% - 50px);
+    overflow: auto;
+    background: #fff;
+  }
+
+  &:last-child {
+    .meet-sectionContainer_content {
+      padding-right: 0;
+    }
+  }
+
+  &-leftBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+
+    &_title {
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 20px;
+    }
+
+    .md-btn--text {
+      height: 32px;
+      font-size: 17px;
+      text-transform: capitalize;
+    }
+
+    .md-icon {
+      font-size: 22px;
+    }
+
+    .today {
+      margin-right: 8px;
+    }
+
+    .md-icon-text:last-child {
+      padding-left: 7px;
+    }
+
+    .md-btn--hover {
+      background: none;
+    }
+
+    .add_circle {
+      height: auto;
+      margin: 0;
+      padding: 16px;
+      border-left: 1px solid #eee;
+    }
+
+    .meeting-date {
+      top: 8px;
+      right: 8px;
+    }
+  }
+}

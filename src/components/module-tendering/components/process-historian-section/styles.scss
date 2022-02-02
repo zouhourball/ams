@@ -1,0 +1,191 @@
+.ProcessHistorianSection {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100%;
+
+  .streamsContainer {
+    flex: 1 1 20%;
+    margin-right: 8px;
+    border-radius: 3px;
+
+    &_header {
+      display: flex;
+      justify-content: center;
+      padding: 14px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      background: #999;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+
+      &.Approved {
+        background: rgba($color: #29abe2, $alpha: 1);
+      }
+
+      &.PassedToAgenda {
+        background: rgba($color: #34b25b, $alpha: 1);
+      }
+
+      &.UnderReview {
+        background: rgba($color: #fbb03b, $alpha: 1);
+      }
+
+      &.Rejected {
+        background: rgba($color: #f44c4d, $alpha: 1);
+      }
+
+      &.New {
+        background: rgba($color: #000, $alpha: 1);
+      }
+
+      .card-counter {
+        margin-left: 5px;
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 14px;
+        font-weight: normal;
+      }
+
+      .md-icon {
+        margin-right: 5px;
+      }
+
+      &.disabled {
+        background: #efefef;
+
+        .card-counter,
+        .md-icon,
+        > label {
+          color: rgba(0, 0, 0, 0.2);
+        }
+
+        &::before {
+          background: #efefef;
+        }
+      }
+
+      &.enabled {
+        .card-counter,
+        .md-icon,
+        > label {
+          color: #1565c0;
+        }
+      }
+    }
+
+    &_content {
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 50px);
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      background: #fff;
+
+      &_body {
+        position: relative;
+        height: 100%;
+        padding: 8px;
+        overflow: auto;
+
+        .card-hiring_card {
+          padding: 12px;
+        }
+
+        .card-hiring_title {
+          display: flex;
+          align-items: center;
+          margin-bottom: 5px;
+          padding: 0;
+
+          .md-avatar {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .card-hiring_text {
+          display: -webkit-box;
+          height: 20px;
+          padding: 0;
+          overflow: hidden;
+          color: rgba(0, 0, 0, 0.5);
+          line-height: 1.4;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+
+          span {
+            margin-right: 2px;
+            color: rgba(0, 0, 0, 0.7);
+            font-weight: 500;
+          }
+        }
+      }
+
+      .Approved {
+        .card-hiring_text {
+          span {
+            color: #29abe2;
+          }
+        }
+      }
+
+      .PassedToAgenda {
+        .card-hiring_text {
+          span {
+            color: #34b25b;
+          }
+        }
+      }
+
+      .UnderReview {
+        .card-hiring_text {
+          span {
+            color: #fbb03b;
+          }
+        }
+      }
+
+      .Rejected {
+        .card-hiring_text {
+          span {
+            color: #f44c4d;
+          }
+        }
+      }
+
+      .New {
+        .card-hiring_text {
+          span {
+            color: #000;
+          }
+        }
+      }
+
+      &_avatarWrapper {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        max-height: 50%;
+        padding: 12px 0 8px;
+        border-bottom: 1px dashed #ddd;
+
+        .candidate_members {
+          display: flex;
+
+          .candidate_member .md-avatar--default {
+            background: #848383fa;
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

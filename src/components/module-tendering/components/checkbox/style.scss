@@ -1,0 +1,67 @@
+.checkbox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 120px;
+  height: 120px;
+  padding: 8px;
+  border-radius: 5px;
+  background: #14539b;
+  cursor: pointer;
+
+  &-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .md-icon {
+      color: #fff;
+      font-size: 24px;
+    }
+  }
+
+  &-menu {
+    .md-list--menu-tl {
+      top: 17px;
+      right: -6px;
+    }
+
+    .md-divider {
+      display: none;
+    }
+
+    .md-text-field--margin {
+      margin-top: 0;
+    }
+  }
+
+  &-key {
+    color: #fff;
+    font-size: 16px;
+  }
+
+  &-value {
+    color: #fff;
+    font-size: 16px;
+  }
+
+  &-imageContainer {
+    display: flex;
+    align-self: center;
+    width: 45px;
+    height: 45px;
+    padding: 5px;
+    border-radius: 50%;
+    background: #fff;
+
+    &-image {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+  }
+
+  &.clicked {
+    border: 2px solid #60d9d0;
+  }
+}

@@ -1,7 +1,16 @@
 import './style.scss'
 import { navigate } from '@reach/router'
+import { Button } from 'react-md'
 
-const NavBar = ({ tabsList, activeTab, setActiveTab, onSelectRows }) => {
+const NavBar = ({
+  tabsList,
+  activeTab,
+  setActiveTab,
+  setIsVisibleTopBar,
+  hidePrimaryTopBar,
+  onSelectRows,
+  actions,
+}) => {
   return (
     <div className="navBar">
       <div className="navBar-list">
@@ -41,6 +50,23 @@ const NavBar = ({ tabsList, activeTab, setActiveTab, onSelectRows }) => {
               </div>
             )
           })}
+      </div>
+
+      <div className="buttons-list">
+        {actions &&
+          actions?.map((el) => (
+            <Button
+              key={el?.id}
+              id={el?.id}
+              className="buttons-list-btn"
+              primary
+              flat
+              onClick={el?.onClick}
+              disabled={el?.disabled}
+            >
+              {el?.label}
+            </Button>
+          ))}
       </div>
     </div>
   )

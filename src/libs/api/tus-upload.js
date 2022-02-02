@@ -2,18 +2,19 @@ import * as cookies from 'tiny-cookie'
 import * as tus from 'tus-js-client'
 import { downloadFromBlob } from 'libs/utils/download-blob'
 
-import store from 'libs/store'
 // let headers = s.defaultOptions.headers = headers
 
 export function uploadFileTus (
   file,
-  onError,
-  onSuccess,
+  fileToken,
+  //   metadata,
   onProgress,
+  onSuccess,
+
   auth = true,
 ) {
-  const fileToken =
-    store?.getState()?.query?.DEFAULT?.getFSToken?.data?.['file_token']
+  // console.log('fileToken', fileToken)
+
   let token
   if (auth && process.env.NODE_ENV !== 'production') {
     token = localStorage.getItem('access_token')
@@ -22,13 +23,16 @@ export function uploadFileTus (
       cookies.get('__Secure-id_token') || cookies.get('__Secure-access_token')
   }
   // console.log('token', token)
+
   return new Promise(function (resolve, reject) {
-    // function onSuccess() {
-    //   resolve('I am done')
+    // function onSuccess () {
+    //   resolve()
     // }
-    // function onError(error) {
-    //   reject(error)
-    // }
+
+    function onError (error) {
+      reject(error)
+      //   console.log(error)
+    }
     const upload = new tus.Upload(file, {
       endpoint: `${PRODUCT_APP_URL_API}/meerastorage/files/`,
       //   fingerprint: () => `${encodeMetadata(metadata)}`,
@@ -41,15 +45,12 @@ export function uploadFileTus (
         Authorization: `Bearer ${token}`, // Required if the `auth` in the
         // X-Meera-Storage-Token is true.
       },
-      retryDelays: [0, 3000, 5000, 10000],
-      onError: (err) => {
-        const error = JSON.parse(err?.originalResponse?._xhr?.response)
-        reject(onError(error))
-      },
 
+      retryDelays: [0, 3000, 5000, 10000],
+      onError,
       onProgress,
       onSuccess: function () {
-        resolve(onSuccess(upload))
+        resolve(upload)
       },
       removeFingerprintOnSuccess: true,
       //   headers: {
@@ -60,6 +61,7 @@ export function uploadFileTus (
     upload.start()
   })
 }
+
 export function encodeMetadata (metadata) {
   var encoded = []
   for (var key in metadata) {
@@ -76,12 +78,9 @@ export async function fileDownloadTus (URL, fileNameOnDownload, dlToken) {
     token =
       cookies.get('__Secure-id_token') || cookies.get('__Secure-access_token')
   }
-  const apiResponseBlob = await fetch(
-    `${PRODUCT_APP_URL_API}/meerastorage/files/${URL}?token=${dlToken}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  ).then((response) => response.blob())
+  const apiResponseBlob = await fetch(`${URL}?token=${dlToken}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  }).then((response) => response.blob())
   // let res
   // try {
   //   res = await fetchJSON(`${URL}?token=${dlToken}`, {

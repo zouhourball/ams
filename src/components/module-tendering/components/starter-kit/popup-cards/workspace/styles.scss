@@ -1,0 +1,59 @@
+.ws-bigcard-workspace {
+  width: 610px;
+  height: 470px;
+
+  &-img {
+    width: 100%;
+  }
+
+  &-content {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 230px;
+    background: #0366c7;
+    color: #fff;
+  }
+
+  &-content-inner {
+    padding: 20px;
+    padding-top: 15px;
+  }
+
+  &-content-title {
+    margin-bottom: 5px;
+    font-size: 23px;
+    font-weight: 500;
+  }
+
+  &-items {
+    display: flex;
+    align-items: center;
+    height: 65px;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    margin-right: 18px;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+  &-item-icon-wrap {
+    margin-right: 8px;
+  }
+
+  &-item-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  &-item-label {
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

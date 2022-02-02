@@ -1,0 +1,41 @@
+.ws-bigcard-layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 610px;
+  height: 470px;
+  padding-top: 18px;
+
+  &-content {
+    margin-bottom: 40px;
+    margin-left: 30px;
+    padding-top: 35px;
+    color: #fff;
+  }
+
+  &-content-title {
+    margin-bottom: 8px;
+    font-size: 23px;
+    font-weight: 500;
+  }
+
+  &-content-subtitle {
+    margin-bottom: 8px;
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  &-content-bottom {
+    display: flex;
+  }
+
+  &-content-right {
+    display: flex;
+    align-items: center;
+  }
+
+  &-icon {
+    width: 100px;
+    margin: 0 64px;
+  }
+}

@@ -304,7 +304,7 @@ export const subModules = [
   {
     key: 'new-tendering',
     name: 'Tendering',
-    onClick: () => navigate('/ams/tendering'),
+    onClick: () => navigate('/tendering'),
     icon: (
       <SVGIcon viewBox={'0 0 16 19'}>
         <g

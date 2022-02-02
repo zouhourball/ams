@@ -1,0 +1,26 @@
+.drawer-with-content {
+  top: 40px;
+  padding: 35px 24px 20px;
+  overflow: auto;
+  background: #0046a6;
+  color: #fff;
+
+  .md-icon {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .md-text {
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .drawer-with-content-CloseButton {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+  }
+
+  .filesSidebar {
+    max-height: 100%;
+    overflow: auto;
+  }
+}

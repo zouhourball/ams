@@ -1,0 +1,15 @@
+.compare-result {
+  display: flex;
+  padding: 0 10px;
+}
+
+.single-thread,
+.multi-thread {
+  flex: 1;
+  padding: 15px;
+  border: 2px dashed burlywood;
+}
+
+.single-thread {
+  margin-right: 10px;
+}

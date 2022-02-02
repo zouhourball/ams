@@ -51,8 +51,9 @@ export const rolesTab = [
   },
   {
     key: 'new-tendering',
-    roleOp: 'pulse tendering operator',
-    roleRe: 'pulse tendering regulator',
+    roleOp: 'target:tendering:operator',
+    roleRe: 'target:tendering:secretary',
+    roleCh: 'target:tendering:chairman',
     path: 'tendering',
   },
   {
