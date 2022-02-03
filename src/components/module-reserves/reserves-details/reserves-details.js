@@ -168,20 +168,35 @@ const ReservesDetails = ({ reserveId, subkey }) => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && reserveDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
-      <Button
-        key="4"
-        id="acknowledge"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-          onAcknowledge(subModule, reserveId, 'ACKNOWLEDGED')
-        }}
-      >
-        Acknowledge
-      </Button>
+    role === 'regulator' && reserveDetail?.metaData?.status === 'SUBMITTED' && (
+      <>
+        <Button
+          key="4"
+          id="accept"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            onAcknowledge(subModule, reserveId, 'ACCEPTED')
+          }}
+        >
+          Accept
+        </Button>
+        <Button
+          key="4"
+          id="reject"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            onAcknowledge(subModule, reserveId, 'REJECTED')
+          }}
+        >
+          Reject
+        </Button>
+      </>
     ),
     role === 'operator' && reserveDetail?.metaData?.status === 'DRAFT' && (
       <Button

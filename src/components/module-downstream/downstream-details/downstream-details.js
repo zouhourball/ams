@@ -289,19 +289,35 @@ const DownstreamDetails = ({
       </Button>
     ),
     role === 'regulator' &&
-      get(downstreamDetail, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
-      <Button
-        key="4"
-        id="acknowledge"
-        className="top-bar-buttons-list-item-btn view-doc"
-        flat
-        primary
-        onClick={() => {
-          onAcknowledge(subModule, downstreamId, 'ACKNOWLEDGED')
-        }}
-      >
-          Acknowledge
-      </Button>
+      get(downstreamDetail, 'metaData.status', '') === 'SUBMITTED' && (
+        <>
+          <Button
+            key="4"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, downstreamId, 'ACCEPTED')
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            key="4"
+            id="reject"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, downstreamId, 'REJECTED')
+            }}
+          >
+            Reject
+          </Button>
+        </>
     ),
   ]
   return (

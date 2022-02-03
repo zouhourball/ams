@@ -950,6 +950,7 @@ const Production = () => {
             },
           ]
         }}
+        role={role}
       />
       <NavBar
         tabsList={tabsList}

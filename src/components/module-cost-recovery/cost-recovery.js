@@ -499,6 +499,7 @@ const CostRecovery = ({ subkey }) => {
             },
           ]
         }}
+        role={role}
       />
       <div className="subModule">
         <NavBar

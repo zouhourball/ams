@@ -269,7 +269,7 @@ const Reserves = ({ subkey }) => {
               : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
             referenceDate: el?.metaData?.year,
             status:
-              el?.metaData?.status !== 'ACKNOWLEDGED' && role === 'regulator'
+              el?.metaData?.status === 'SUBMITTED' && role === 'regulator'
                 ? 'New Request'
                 : el?.metaData?.status,
             fileId: el?.metaData?.originalFileId,
@@ -617,6 +617,7 @@ const Reserves = ({ subkey }) => {
             },
           ]
         }}
+        role={role}
       />
       <div className="subModule">
         <NavBar

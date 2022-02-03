@@ -190,14 +190,25 @@ TopBarDetail.defaultProps = {
     </Button>,
     <Button
       key="4"
-      id="save"
+      id="accept"
       className="top-bar-detail-buttons-list-item-btn"
       flat
       primary
       swapTheming
       onClick={() => {}}
     >
-      Acknowledge
+      Accept
+    </Button>,
+    <Button
+      key="4"
+      id="reject"
+      className="top-bar-detail-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {}}
+    >
+      Reject
     </Button>,
   ],
 }

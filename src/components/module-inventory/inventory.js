@@ -1066,6 +1066,7 @@ const Inventory = () => {
             },
           ]
         }}
+        role={role}
       />
       <NavBar
         tabsList={tabsList2}

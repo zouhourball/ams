@@ -936,6 +936,7 @@ const Downstream = ({ subkey }) => {
             },
           ]
         }}
+        role={role}
       />
       <div className="subModule">
         <NavBar

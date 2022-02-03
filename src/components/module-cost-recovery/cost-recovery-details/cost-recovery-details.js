@@ -8,18 +8,13 @@ import { useDispatch } from 'react-redux'
 import { addToast } from 'modules/app/actions'
 
 import {
-  detailCostsCostByLoggedUser,
   updateCostsCost,
-  detailContractsCostByLoggedUser,
   updateContractsCost,
-  detailProdLiftingCostByLoggedUser,
   updateProdLiftingCost,
-  detailTransactionCostByLoggedUser,
   updateTransactionCost,
-  detailAffiliateCostByLoggedUser,
   updateAffiliateCost,
-  detailFacilitiesCostByLoggedUser,
   updateFacilitiesCost,
+  detailReport,
 } from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -48,10 +43,10 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const dispatch = useDispatch()
 
   const subModule = pathname?.split('/')[4]
-  const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost, {
+  const resFn = {
     onSuccess: (res) => {
       if (!res.error) {
-        navigate('/ams/costrecovery')
+        navigate(`/ams/costrecovery/${subModule}`)
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -70,64 +65,43 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         )
       }
     },
+  }
+  const { mutate: acknowledgeAnnualCostsExp } = useMutation(updateCostsCost, {
+    ...resFn,
   })
-  const { mutate: acknowledgeContracts } = useMutation(updateContractsCost)
-  const { mutate: acknowledgeProdLifting } = useMutation(updateProdLiftingCost)
-  const { mutate: acknowledgeTransaction } = useMutation(updateTransactionCost)
-  const { mutate: acknowledgeAffiliateCost } = useMutation(updateAffiliateCost)
-  const { mutate: acknowledgeFacilitiesCost } =
-    useMutation(updateFacilitiesCost)
+  const { mutate: acknowledgeContracts } = useMutation(updateContractsCost, {
+    ...resFn,
+  })
+  const { mutate: acknowledgeProdLifting } = useMutation(
+    updateProdLiftingCost,
+    {
+      ...resFn,
+    },
+  )
+  const { mutate: acknowledgeTransaction } = useMutation(
+    updateTransactionCost,
+    {
+      ...resFn,
+    },
+  )
+  const { mutate: acknowledgeAffiliateCost } = useMutation(
+    updateAffiliateCost,
+    {
+      ...resFn,
+    },
+  )
+  const { mutate: acknowledgeFacilitiesCost } = useMutation(
+    updateFacilitiesCost,
+    {
+      ...resFn,
+    },
+  )
 
   const role = useRole('costrecovery')
   const { addSupportingDocuments } = documents()
-
-  const { data: costsDetail } = useQuery(
-    ['detailCostsCostByLoggedUser', detailId],
-    subModule === 'costs' && detailCostsCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: facilitiesDetail } = useQuery(
-    ['detailFacilitiesCostByLoggedUser', detailId],
-    subModule === 'facilities' && detailFacilitiesCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: affiliateDetail } = useQuery(
-    ['detailAffiliateCostByLoggedUser', detailId],
-    subModule === 'affiliate' && detailAffiliateCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: transactionDetail } = useQuery(
-    ['detailTransactionCostByLoggedUser', detailId],
-    subModule === 'transaction' && detailTransactionCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: prodLiftingDetail } = useQuery(
-    ['detailProdLiftingCostByLoggedUser', detailId],
-    subModule === 'lifting' && detailProdLiftingCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
-
-  const { data: contractDetail } = useQuery(
-    ['detailContractsCostByLoggedUser', detailId],
-    subModule === 'contracts' && detailContractsCostByLoggedUser,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
+  const { data: reportDetail } = useQuery([subModule, detailId], detailReport, {
+    refetchOnWindowFocus: false,
+  })
 
   const closeDialog = (resp) => {
     resp &&
@@ -138,7 +112,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const costsSuppDocs = (data) => {
     return addSupportingDocuments(
       data,
-      getDetailsKey()?.metaData?.processInstanceId,
+      reportDetail?.metaData?.processInstanceId,
       closeDialog,
     )
   }
@@ -146,35 +120,18 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const handleSupportingDocs = (data) => {
     costsSuppDocs(data)
   }
-  const getDetailsKey = () => {
-    switch (subModule) {
-      case 'costs':
-        return costsDetail
-      case 'contracts':
-        return contractDetail
-      case 'lifting':
-        return prodLiftingDetail
-      case 'transaction':
-        return transactionDetail
-      case 'affiliate':
-        return affiliateDetail
-      case 'facilities':
-        return facilitiesDetail
-      default:
-        break
-    }
-  }
+
   const fileDetail = () => {
     return {
-      originalFileId: getDetailsKey()?.metaData?.originalFileId,
-      originalFileName: getDetailsKey()?.metaData?.originalFileName,
+      originalFileId: reportDetail?.metaData?.originalFileId,
+      originalFileName: reportDetail?.metaData?.originalFileName,
     }
   }
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
       case 'costs':
         return (
-          costsDetail?.items?.map((el) => ({
+          reportDetail?.items?.map((el) => ({
             category: el?.category,
             subCategory: el?.subCategory,
             uom: el?.uom,
@@ -195,11 +152,11 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           })) || []
         )
       case 'contracts':
-        return contractDetail?.data || []
-      case 'lifting':
+        return reportDetail?.data || []
+      case 'prodLifting':
         return (
-          (prodLiftingDetail &&
-            prodLiftingDetail[subSubModule]?.map((el) => ({
+          (reportDetail &&
+            reportDetail[subSubModule]?.map((el) => ({
               month: el?.month,
               price: el?.mogPriceUsd,
               totalProduction: [
@@ -254,7 +211,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         )
       case 'transaction':
         return (
-          transactionDetail?.data?.map((el) => ({
+          reportDetail?.data?.map((el) => ({
             block: el?.block,
             transactionDate: el?.transactionDate,
             transactionReference: el?.transactionReference,
@@ -266,7 +223,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         )
       case 'affiliate':
         return (
-          affiliateDetail?.data?.map((el) => ({
+          reportDetail?.data?.map((el) => ({
             nameOfService: el?.nameService,
             budget: el?.budget,
             hourlyRate: el?.hourlyRate,
@@ -279,29 +236,20 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           })) || []
         )
       case 'facilities':
-        return facilitiesDetail?.data || []
+        return reportDetail?.data || []
       default:
         return []
     }
-  }, [
-    costsDetail,
-    subModule,
-    contractDetail,
-    prodLiftingDetail,
-    subSubModule,
-    transactionDetail,
-    affiliateDetail,
-    facilitiesDetail,
-  ])
+  }, [subModule, subSubModule, reportDetail])
 
   const detailData = useMemo(() => {
     const data = {
-      subTitle: getDetailsKey()?.metaData?.block,
-      companyName: getDetailsKey()?.metaData?.company,
-      submittedDate: moment(getDetailsKey()?.metaData?.createdAt).format(
+      subTitle: reportDetail?.metaData?.block,
+      companyName: reportDetail?.metaData?.company,
+      submittedDate: moment(reportDetail?.metaData?.createdAt).format(
         'DD MMM, YYYY',
       ),
-      submittedBy: getDetailsKey()?.metaData?.createdBy?.name,
+      submittedBy: reportDetail?.metaData?.createdBy?.name,
     }
     switch (subModule) {
       case 'costs':
@@ -314,7 +262,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           title: 'Contracts Reporting',
           ...data,
         }
-      case 'lifting':
+      case 'prodLifting':
         return {
           title: 'Production Lifting',
           ...data,
@@ -337,59 +285,50 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       default:
         return {}
     }
-  }, [
-    costsDetail,
-    subModule,
-    contractDetail,
-    prodLiftingDetail,
-    transactionDetail,
-    affiliateDetail,
-    facilitiesDetail,
-  ])
+  }, [subModule, reportDetail])
 
-  const handleAcknowledge = () => {
+  const handleAcknowledge = (status) => {
     switch (subModule) {
       case 'costs':
         acknowledgeAnnualCostsExp({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
       case 'contracts':
         acknowledgeContracts({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
-      case 'lifting':
+      case 'prodLifting':
         acknowledgeProdLifting({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
       case 'transaction':
         acknowledgeTransaction({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
       case 'affiliate':
         acknowledgeAffiliateCost({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
       case 'facilities':
         acknowledgeFacilitiesCost({
           objectId: detailId,
-          status: 'ACKNOWLEDGED',
+          status,
         })
         break
       default:
         break
     }
   }
-
   const actions = [
     <Button
       key="1"
@@ -416,19 +355,35 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && costsDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
-      <Button
-        key="4"
-        id="acknowledge"
-        className="top-bar-buttons-list-item-btn view-doc"
-        flat
-        primary
-        onClick={() => {
-          handleAcknowledge()
-        }}
-      >
-        Acknowledge
-      </Button>
+    role === 'regulator' && reportDetail?.metaData?.status === 'SUBMITTED' && (
+      <>
+        <Button
+          key="4"
+          id="accept"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            handleAcknowledge('ACCEPTED')
+          }}
+        >
+          Accept
+        </Button>
+        <Button
+          key="4"
+          id="reject"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            handleAcknowledge('REJECTED')
+          }}
+        >
+          Reject
+        </Button>
+      </>
     ),
   ]
 
@@ -440,12 +395,12 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
             ? el
             : {
               ...el,
-              label: costsDetail?.metaData?.year,
+              label: reportDetail?.metaData?.year,
             },
         )
       case 'contracts':
         return configsContractsDialogMht()
-      case 'lifting':
+      case 'prodLifting':
         return configsLiftingCostsDialogMht(subSubModule)
       case 'transaction':
         return transactionConfig()
@@ -453,14 +408,12 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         return affiliateConfig()
       case 'facilities':
         return (
-          (Object.entries(facilitiesDetail?.data[0] || {}) || [])?.map(
-            (el) => ({
-              label: el[0],
-              key: el[0],
-              width: '200',
-              icon: 'mdi mdi-spellcheck',
-            }),
-          ) || []
+          (Object.entries(reportDetail?.data[0] || {}) || [])?.map((el) => ({
+            label: el[0],
+            key: el[0],
+            width: '200',
+            icon: 'mdi mdi-spellcheck',
+          })) || []
         )
       default:
         return []
@@ -484,7 +437,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         hideTotal={false}
         withFooter
         headerTemplate={
-          subModule === 'lifting' && (
+          subModule === 'prodLifting' && (
             <SelectField
               id="prod-lifting"
               menuItems={[
@@ -513,7 +466,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           readOnly={role === 'regulator'}
           processInstanceId={
-            getDetailsKey()?.metaData?.processInstanceId ||
+            reportDetail?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
           onSaveUpload={(data) => {

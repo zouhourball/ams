@@ -29,14 +29,14 @@ const SuspendReportDetails = ({ suspendReportId }) => {
     },
   })
   const role = useRole('permitting')
-  const acknowledge = () => {
-    updatePermitMutation.mutate({ id: suspendReportId, status: 'ACKNOWLEDGED' })
+  const acknowledge = (status) => {
+    updatePermitMutation.mutate({ id: suspendReportId, status: status })
   }
-  const clickHandler = () => {
+  const clickHandler = (status) => {
     if (role === 'operator') {
       navigate(`/ams/permitting/suspend-report/edit/${suspendReportId}`)
     } else {
-      acknowledge()
+      acknowledge(status)
     }
   }
   const actions = [
@@ -65,8 +65,49 @@ const SuspendReportDetails = ({ suspendReportId }) => {
         }}
         // disabled={role === 'operator' && detailData?.metaData?.status !== 'DRAFT'}
       >
-        {role === 'operator' ? 'Edit Details' : 'Acknowledge'}
+        Edit Details
       </Button>
+    ),
+    <Button
+      key="5"
+      id="print"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => window.print()}
+    >
+      Print
+    </Button>,
+    role === 'regulator' && detailData?.metaData?.status === 'SUBMITTED' && (
+      <>
+        <Button
+          key="4"
+          id="accept"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            clickHandler('ACCEPTED')
+          }}
+        >
+          Accept
+        </Button>
+        <Button
+          key="4"
+          id="reject"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            clickHandler('REJECTED')
+          }}
+        >
+          Reject
+        </Button>
+      </>
     ),
   ]
   return (

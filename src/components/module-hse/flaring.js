@@ -778,6 +778,7 @@ const Flaring = () => {
             },
           ]
         }}
+        role={role}
       />
       <div className="subModule">
         <NavBar

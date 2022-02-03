@@ -301,6 +301,7 @@ const Permit = ({ subModule }) => {
             },
           ]
         }}
+        role={role}
       />
       <div className="subModule">
         <NavBar

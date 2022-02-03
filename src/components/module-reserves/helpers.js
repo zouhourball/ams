@@ -2,6 +2,9 @@ import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import { deleteReport } from 'libs/api/api-reserves'
+import { addToast } from 'modules/app/actions'
+import { useDispatch } from 'react-redux'
+import ToastMsg from 'components/toast-msg'
 
 export const annualReservesConfigs = (supportedDocument) => [
   {
@@ -384,14 +387,32 @@ export const actionsHeader = (
   section,
   submitDraft,
 ) => {
+  const dispatch = useDispatch()
+
   const opEntries = [
     {
       id: 1,
       label: 'Delete',
       onClick: () => {
-        deleteReport(row?.id, section?.name)
-          .then(() => section?.refetch())
-          .then(() => setRow([]))
+        deleteReport(row?.id, section?.name).then((res) => {
+          if (res) {
+            setRow([])
+            dispatch(
+              addToast(
+                <ToastMsg text={'Successfully deleted'} type="success" />,
+                'hide',
+              ),
+            )
+            return section?.refetch()
+          } else {
+            dispatch(
+              addToast(
+                <ToastMsg text={'Something went wrong'} type="error" />,
+                'hide',
+              ),
+            )
+          }
+        })
       },
     },
     {

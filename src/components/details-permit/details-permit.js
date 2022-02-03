@@ -47,7 +47,11 @@ const DetailsPermit = ({ fields }) => {
       }
     })
   }
-  return <div className="details-permit md-grid">{generateValues()}</div>
+  return (
+    <div id="details-permit" className="details-permit md-grid">
+      {generateValues()}
+    </div>
+  )
 }
 export default DetailsPermit
 DetailsPermit.defaultProps = {

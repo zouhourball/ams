@@ -48,7 +48,7 @@ const FlaringDetails = ({ flaringId, subModule }) => {
     onSuccess: (res) => {
       if (res === true) {
         refetchList()
-        navigate('/ams/hse/flaring')
+        navigate(`/ams/hse/flaring/${subModule}`)
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -256,20 +256,35 @@ const FlaringDetails = ({ flaringId, subModule }) => {
       </Button>
     ),
     role === 'regulator' &&
-      get(flaringData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
-      <Button
-        key="4"
-        id="acknowledge"
-        className="top-bar-detail-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-          onAcknowledge(subModule, objectId, 'ACKNOWLEDGED')
-        }}
-      >
-          Acknowledge
-      </Button>
+      get(flaringData, 'metaData.status', '') === 'SUBMITTED' && (
+        <>
+          <Button
+            key="4"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, objectId, 'ACCEPTED')
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            key="4"
+            id="reject"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, objectId, 'REJECTED')
+            }}
+          >
+            Reject
+          </Button>
+        </>
     ),
   ]
   return (

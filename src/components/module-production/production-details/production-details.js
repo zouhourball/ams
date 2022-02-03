@@ -436,20 +436,35 @@ const ProductionDetails = ({ subModule, productionId }) => {
       </Button>
     ),
     role === 'regulator' &&
-      get(productionData, 'metaData.status', '') !== 'ACKNOWLEDGED' && (
-      <Button
-        key="3"
-        id="acknowledge"
-        className="top-bar-buttons-list-item-btn"
-        flat
-        primary
-        swapTheming
-        onClick={() => {
-          onAcknowledge(subModule, productionId, 'ACKNOWLEDGED')
-        }}
-      >
-          Acknowledge
-      </Button>
+      get(productionData, 'metaData.status', '') === 'SUBMITTED' && (
+        <>
+          <Button
+            key="4"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, productionId, 'ACCEPTED')
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            key="4"
+            id="reject"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, productionId, 'REJECTED')
+            }}
+          >
+            Reject
+          </Button>
+        </>
     ),
   ]
   return (

@@ -73,9 +73,7 @@ const Planning = ({ subModule }) => {
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
 
-  useEffect(() => {
-    return () => setSelectedRow([])
-  }, [])
+  useEffect(() => setSelectedRow([]), [])
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -579,6 +577,7 @@ const Planning = ({ subModule }) => {
             },
           ]
         }}
+        role={role}
       />
       <NavBar
         tabsList={tabsList}
