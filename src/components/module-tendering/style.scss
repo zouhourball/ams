@@ -5,6 +5,25 @@
   height: 100%;
   background: #f0f0f0;
 
+  .supporting-documents {
+    .md-dialog {
+      width: 35%;
+      min-width: 350px;
+      padding: 0;
+      border-radius: 8px;
+    }
+
+    .md-title--dialog {
+      padding: 10px 25px;
+      border-bottom: 1px solid #dcdcdc;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #2f3842;
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+
   .global-container {
     height: 100%;
     overflow: auto;

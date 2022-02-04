@@ -349,6 +349,28 @@ const CreateProposal = ({
 
   return (
     <div className="createProposal">
+      <div className="createProposal_topBar">
+        <div className="createProposal_topBar_title">New Proposal</div>
+        <div className="createProposal_topBar_actions">
+          <Button
+            flat
+            className="createProposal_topBar_actions_cancel"
+            onClick={onCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            flat
+            primary
+            swapTheming={canSubmitReview && !validInput() && companyCost()}
+            className="createProposal_topBar_actions_submit"
+            onClick={onSubmitReview}
+            disabled={!canSubmitReview || validInput() || !companyCost()}
+          >
+            {!proposalId ? 'Submit For Review' : 'Resubmit For Review'}
+          </Button>
+        </div>
+      </div>
       <div className="createProposal_section md-grid">
         <div className="createProposal_section_header md-cell md-cell--12">
           Proposal Details
@@ -653,25 +675,6 @@ const CreateProposal = ({
         <div className="createProposal_section_fileWrapper md-grid">
           {renderListOfFiles(proposal.fileAttachment)}
         </div>
-      </div>
-      <div className="createProposal_actions">
-        <Button
-          flat
-          className="createProposal_actions_cancel"
-          onClick={onCancel}
-        >
-          Cancel
-        </Button>
-        <Button
-          flat
-          primary
-          swapTheming={canSubmitReview && !validInput() && companyCost()}
-          className="createProposal_actions_submit"
-          onClick={onSubmitReview}
-          disabled={!canSubmitReview || validInput() || !companyCost()}
-        >
-          {!proposalId ? 'Submit For Review' : 'Resubmit For Review'}
-        </Button>
       </div>
     </div>
   )

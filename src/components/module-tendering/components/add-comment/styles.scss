@@ -1,43 +1,24 @@
 .newComment {
+  .md-dialog {
+    width: 35%;
+    min-width: 500px;
+    border-radius: 8px;
+  }
+
+  .md-title {
+    padding: 10px 25px;
+    border-bottom: 1px solid #dcdcdc;
+    color: #2f3842;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .md-dialog-content {
+    padding-top: 20px;
+  }
+
   &.md-dialog-container.md-overlay {
     z-index: 9999;
-  }
-
-  > .md-dialog {
-    width: 35%;
-    min-width: 320px;
-    max-height: 90%;
-    overflow: hidden;
-    border-radius: 3px;
-
-    .md-dialog-content {
-      overflow: auto;
-
-      &--padded {
-        padding: 16px;
-      }
-    }
-
-    .md-dialog-footer--inline {
-      padding: 16px 24px;
-
-      .md-text--theme-primary {
-        margin-left: 15px;
-      }
-
-      .md-btn--dialog {
-        height: 30px;
-        padding-right: 0;
-        padding-left: 0;
-      }
-    }
-  }
-
-  h2.md-title {
-    padding: 10px 25px;
-    background: #1565c0;
-    color: #fff;
-    font-size: 18px;
   }
 
   &-textField {

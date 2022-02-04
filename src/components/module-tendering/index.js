@@ -891,7 +891,7 @@ const TenderingModule = ({
       {openViewSupportDoc && (
         <UploaderDialog
           key={'upload-button'}
-          className="UploaderButton__UploaderDialog"
+          // className="UploaderButton__UploaderDialog"
           readOnly={true}
           documents={attachments}
           visible={openViewSupportDoc}

@@ -40,7 +40,7 @@ function AddComment ({
   return (
     <DialogContainer
       id="newComment"
-      title={'Add Comment'}
+      title={'Clarify'}
       className="newComment"
       visible={visible}
       onHide={onHideDialog}
