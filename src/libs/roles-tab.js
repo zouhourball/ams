@@ -29,6 +29,12 @@ export const rolesTab = [
     key: 'planning',
     roleOp: 'pulse planning operator',
     roleRe: 'pulse planning regulator',
+    roleTecSec: 'TECOM_SECRETARY',
+    roleFinSec: 'FINCOM_SECRETARY',
+    roleJmcSec: 'JMC_SECRETARY',
+    roleTecChair: 'TECOM_CHAIRMAN',
+    roleFinChair: 'FINCOM_CHAIRMAN',
+    roleJmcChair: 'JMC_CHAIRMAN',
     path: 'planning',
   },
   {

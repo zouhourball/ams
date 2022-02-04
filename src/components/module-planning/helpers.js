@@ -129,7 +129,22 @@ export const actionsHeader = (
   fileName,
   submitDraft,
   status,
+  onUpdateWpb,
+  accessibilityInitMeeting,
 ) => {
+  const statusArray = [
+    'SUBMITTED',
+    'REJECTED_BY_JMC',
+    'REJECTED_BY_FINCOM',
+    'REJECTED_BY_TECOM',
+  ]
+  const updateBtn = {
+    id: 5,
+    label: 'Update',
+    onClick: () => {
+      onUpdateWpb(true)
+    },
+  }
   const opEntries = [
     // {
     //   id: 1,
@@ -159,14 +174,6 @@ export const actionsHeader = (
         listAnalytics(subModule)
       },
     },
-    // {
-    //   id: 5,
-    //   label: 'Update',
-    //   onClick: (e) => {
-    //     e.stopPropagation()
-    //     // handleUpdateUploadRapport(true)
-    //   },
-    // },
     {
       id: 6,
       label: 'Download Original File',
@@ -184,63 +191,77 @@ export const actionsHeader = (
   ]
   const draftBtn = {
     id: 8,
-    label: 'Update',
+    label: 'Submit draft',
     onClick: () => {
-      submitDraft(subModule, id)
+      submitDraft(subModule, id, 'SUBMITTED')
     },
   }
+  const initMeeting = {
+    id: 2,
+    label: 'Initiate Meeting',
+    onClick: () => {
+      window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting-home`)
+    },
+  }
+  const regEntries = [
+    // {
+    //   id: 1,
+    //   label: 'Initiate Meeting',
+    //   onClick: () => {},
+    // },
+    // {
+    //   id: 2,
+    //   label: 'View Process Historian',
+    //   onClick: () => {
+    //     id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+    //   },
+    // },
+    {
+      id: 3,
+      label: 'View Details',
+      onClick: () => {
+        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
+      },
+    },
+    {
+      id: 4,
+      label: 'View Analytics',
+      onClick: () => {
+        listAnalytics(subModule)
+      },
+    },
+    // {
+    //   id: 5,
+    //   label: 'Clarity',
+    //   onClick: () => {},
+    // },
+    {
+      id: 6,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, fileName)
+      },
+    },
+    {
+      id: 7,
+      label: 'View Documents',
+      onClick: () => {
+        supportedDocument(true)
+      },
+    },
+  ]
   switch (role) {
     case 'operator':
-      return status === 'DRAFT' ? [...opEntries, draftBtn] : opEntries
+      return status === 'DRAFT'
+        ? [...opEntries, draftBtn]
+        : statusArray?.includes(status)
+          ? [...opEntries, updateBtn]
+          : opEntries
     case 'regulator':
     default:
-      return [
-        // {
-        //   id: 1,
-        //   label: 'Initiate Meeting',
-        //   onClick: () => {},
-        // },
-        // {
-        //   id: 2,
-        //   label: 'View Process Historian',
-        //   onClick: () => {
-        //     id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-        //   },
-        // },
-        {
-          id: 3,
-          label: 'View Details',
-          onClick: () => {
-            key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
-          },
-        },
-        {
-          id: 4,
-          label: 'View Analytics',
-          onClick: () => {
-            listAnalytics(subModule)
-          },
-        },
-        // {
-        //   id: 5,
-        //   label: 'Clarity',
-        //   onClick: () => {},
-        // },
-        {
-          id: 6,
-          label: 'Download Original File',
-          onClick: () => {
-            downloadOriginalFile(originalFileId, fileName)
-          },
-        },
-        {
-          id: 7,
-          label: 'View Documents',
-          onClick: () => {
-            supportedDocument(true)
-          },
-        },
-      ]
+      return accessibilityInitMeeting
+        ? [initMeeting, ...regEntries]
+        : regEntries
   }
 }
 

@@ -10,14 +10,26 @@ const useRole = (path) => {
   const allRoles = [...rolesTab, ...nestedRoles]
   const findModule = allRoles?.find((module) => module?.path === path)
   if (findModule && roles) {
-    if (
+    if (roles?.includes(findModule.roleJmcChair)) {
+      return 'JMCC'
+    } else if (roles?.includes(findModule.roleRe)) {
+      return 'regulator'
+    } else if (roles?.includes(findModule.roleTecSec)) {
+      return 'TECOMS'
+    } else if (roles?.includes(findModule.roleFinSec)) {
+      return 'FINCOMS'
+    } else if (roles?.includes(findModule.roleJmcSec)) {
+      return 'JMCS'
+    } else if (roles?.includes(findModule.roleTecChair)) {
+      return 'TECOMC'
+    } else if (roles?.includes(findModule.roleFinChair)) {
+      return 'FINCOMC'
+    } else if (
       roles?.includes(
         `target-subscription-store:${organizationID}:${findModule.roleOp}`,
       )
     ) {
       return 'operator'
-    } else if (roles?.includes(findModule.roleRe)) {
-      return 'regulator'
     } else return null
   } else return null
 }

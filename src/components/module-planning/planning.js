@@ -38,6 +38,9 @@ import {
   updateReport,
   updatePlanning,
   saveReport,
+  updateWpb,
+  updateWpbStatus,
+  getActionsList,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -64,6 +67,8 @@ const Planning = ({ subModule }) => {
   const [currentUpload, setCurrentUpload] = useState()
   const [overrideId, setOverrideId] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+  // const [showRescheduleDialog, setShowRescheduleDialog] = useState(false)
+
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
 
@@ -72,13 +77,12 @@ const Planning = ({ subModule }) => {
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
-
   useEffect(() => setSelectedRow([]), [])
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
+  // const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
   const { data: listPlanning, refetch: refetchList } = useQuery(
     [
@@ -94,6 +98,21 @@ const Planning = ({ subModule }) => {
       refetchOnWindowFocus: false,
     },
   )
+  /* const { data: membersData, refetch: refetchMembers } = useQuery(
+    ['getAllProjectMembers', company?.id],
+    getAllProjectMembers,
+    {
+      refetchOnWindowFocus: false,
+    },
+  ) */
+  const updateStatusMutation = useMutation(updateWpbStatus, {
+    onSuccess: (res) => {
+      if (!res?.error) {
+        refetchList()
+        setSelectedRow([])
+      }
+    },
+  })
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
       if (!res?.error) {
@@ -240,7 +259,34 @@ const Planning = ({ subModule }) => {
       }
     },
   })
+  const updateWpbMutate = useMutation(updateWpb, {
+    onSuccess: (res) => {
+      refetchList()
 
+      if (!res.error) {
+        setSelectedRow([])
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'Updated successfully'}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const saveReportMutate = useMutation(saveReport, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -324,6 +370,12 @@ const Planning = ({ subModule }) => {
     deletePlanningMutate.mutate({
       subModule,
       objectId,
+    })
+  }
+  const handleUpdateWpb = (objectId, data) => {
+    updateWpbMutate.mutate({
+      objectId,
+      body: data,
     })
   }
   const onUpdateReport = (subModule, objectId) => {
@@ -442,8 +494,14 @@ const Planning = ({ subModule }) => {
       }
     },
   )
+  const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const selectedRow = selectedRowSelector.map((id) => tableDataPlanning[id])
+  const { data: actionsList } = useQuery(
+    ['wbpActions', selectedRow[0]?.id],
+    selectedRow && getActionsList,
 
+    // return array
+  )
   const renderDialogData = (data) => {
     switch (currentTab) {
       case 'wpb':
@@ -548,12 +606,25 @@ const Planning = ({ subModule }) => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
-  const submitDraft = (subModule, objectId) => {
+  const submitDraft = (subModule, objectId, status) => {
     updatePlanningMutation.mutate({
-      subModule: subModule,
-      objectId: objectId,
-      status: 'SUBMITTED',
+      subModule,
+      objectId,
+      status,
     })
+  }
+  const updateStatus = (objectId, status) => {
+    updateStatusMutation.mutate({
+      objectId,
+      status,
+    })
+  }
+  const handleStatus = (key) => {
+    const roleKey = role.slice(0, -1)
+    return updateStatus(
+      selectedRow[0]?.id,
+      key === 'accept' ? (roleKey === 'JMC' ? `APPROVE` : `ENDORSE`) : `REJECT`,
+    )
   }
 
   return (
@@ -588,6 +659,21 @@ const Planning = ({ subModule }) => {
           setSelectedRow([])
         }}
       />
+      {actionsList?.length > 0 && (
+        <>
+          {(actionsList?.includes('ENDORSE') ||
+            actionsList?.includes('APPROVE')) && (
+            <Button id="accept" onClick={() => handleStatus('accept')}>
+              Accept
+            </Button>
+          )}
+          {actionsList?.includes('REJECT') && (
+            <Button id="reject" onClick={() => handleStatus('reject')}>
+              Reject
+            </Button>
+          )}
+        </>
+      )}
       <Mht
         configs={planningConfigs(UploadSupportedDocumentFromTable)}
         tableData={tableDataPlanning}
@@ -620,6 +706,8 @@ const Planning = ({ subModule }) => {
                 selectedRow[0]?.fileName,
                 submitDraft,
                 selectedRow[0]?.status,
+                setShowUploadRapportDialog,
+                actionsList?.length && actionsList?.includes('CREATE_MEETINGS'),
               )}
             />
           ) : (
@@ -687,7 +775,7 @@ const Planning = ({ subModule }) => {
         <UploadReportDialog
           setFileList={setFileList}
           filesList={filesList}
-          onDisplayMHT={onDisplayMHT}
+          // onDisplayMHT={onDisplayMHT}
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
@@ -700,8 +788,10 @@ const Planning = ({ subModule }) => {
             setFileList([])
           }}
           onSave={(data) => renderDialogData(data).onUpload()}
-          previewData={selectedRow[0]}
+          // previewData={selectedRow[0]}
           formatDate="year"
+          onUpdate={handleUpdateWpb}
+          row={selectedRow[0]}
         />
       )}
 
@@ -729,6 +819,20 @@ const Planning = ({ subModule }) => {
           readOnly={role === 'regulator'}
         />
       )}
+      {/* showRescheduleDialog && (
+        <VenueInvite
+          onClose
+          email={''}
+          visible={showRescheduleDialog}
+          subject={''}
+          id={selectedRow[0]?.id}
+          title={'Initiate Meeting'}
+          toggle={() => {
+            setShowRescheduleDialog(false)
+          }}
+          members={get(membersData, 'data', []) || []}
+        />
+        ) */}
     </>
   )
 }

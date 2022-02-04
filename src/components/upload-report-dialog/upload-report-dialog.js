@@ -38,6 +38,8 @@ const UploadReportDialog = ({
   previewData,
   productType,
   formatDate = 'day',
+  onUpdate,
+  row,
 }) => {
   const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
@@ -155,15 +157,20 @@ const UploadReportDialog = ({
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadOptional,
   })
-  const actions = [
-    {
-      children: 'Discard',
-      primary: false,
+  const uploadBtn = row?.id
+    ? {
+      children: 'Update',
+      primary: true,
       flat: true,
-      swapTheming: true,
-      onClick: () => onHide && onHide(),
-    },
-    {
+      swapTheming: !validData(),
+      disabled: validData(),
+
+      onClick: () => {
+        onUpdate(row?.id, { ...reportData, filesList, optionalFiles })
+        onHide()
+      },
+    }
+    : {
       children: 'Upload',
       primary: true,
       flat: true,
@@ -174,7 +181,16 @@ const UploadReportDialog = ({
         onSave({ ...reportData, filesList, optionalFiles })
         onHide()
       },
+    }
+  const actions = [
+    {
+      children: 'Discard',
+      primary: false,
+      flat: true,
+      swapTheming: true,
+      onClick: () => onHide && onHide(),
     },
+    ...uploadBtn,
   ]
   /* const renderDocumentIcon = (extension) => {
     const image = ['png', 'jpeg', 'jpg']
@@ -229,7 +245,7 @@ const UploadReportDialog = ({
             value={reportData?.block}
             onChange={(v) => setReportData({ ...reportData, block: v })}
             simplifiedMenu={false}
-            disabled={previewData}
+            // disabled={!!previewData}
           />
         )}
 
@@ -287,7 +303,7 @@ const UploadReportDialog = ({
               block
               rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
               onClick={() => !previewData && setShowDatePickerEnd(true)}
-              disabled={previewData}
+              // disabled={!!previewData}
             />
           )}
           {showDatePickerEnd && (
@@ -378,7 +394,7 @@ const UploadReportDialog = ({
               onClick={() => {
                 // onDisplayMHT && setFileList({})
                 // setFile(files.filter((el) => el?.id !== file.id))
-                onDisplayMHT && setFileList({})
+                // onDisplayMHT && setFileList({})
               }}
             >
               delete_outline

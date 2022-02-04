@@ -7,7 +7,12 @@ import moment from 'moment'
 
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import useRole from 'libs/hooks/use-role'
-import { getDetailPlanningById, updatePlanning } from 'libs/api/api-planning'
+import {
+  getDetailPlanningById,
+  updatePlanning,
+  updateWpbStatus,
+  getActionsList,
+} from 'libs/api/api-planning'
 
 import TopBarDetail from 'components/top-bar-detail'
 import SupportedDocument from 'components/supported-document'
@@ -25,18 +30,28 @@ const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const role = useRole('planning')
-
   const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
     objectId && getDetailPlanningById,
   )
+  const { data: actionsList } = useQuery(
+    ['wbpActions', objectId],
+    getActionsList,
 
+    // return array
+  )
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
       refetch()
     },
   })
-
+  const updateStatusMutation = useMutation(updateWpbStatus, {
+    onSuccess: (res) => {
+      if (!res?.error) {
+        refetch()
+      }
+    },
+  })
   const planningDataDetails = useMemo(() => {
     switch (subModule) {
       case 'wpb':
@@ -100,7 +115,20 @@ const PlanningDetails = ({ objectId, subModule }) => {
         return []
     }
   }, [dataDetails])
+  const updateStatus = (objectId, status) => {
+    updateStatusMutation.mutate({
+      objectId,
+      status,
+    })
+  }
+  const handleStatus = (key) => {
+    const roleKey = role.slice(0, -1)
 
+    return updateStatus(
+      objectId,
+      key === 'accept' ? (roleKey === 'JMC' ? `APPROVE` : `ENDORSE`) : `REJECT`,
+    )
+  }
   const actions = [
     <Button
       key="1"
@@ -146,6 +174,51 @@ const PlanningDetails = ({ objectId, subModule }) => {
         Commit
       </Button>
     ),
+    <Button
+      key="4"
+      id="accept"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {
+        handleStatus('accept')
+      }}
+    >
+      Accept
+    </Button>,
+    actionsList?.length > 0 &&
+      (actionsList?.includes('ENDORSE') || actionsList?.includes('APPROVE')) &&
+      ((
+        <Button
+          key="4"
+          id="accept"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            handleStatus('accept')
+          }}
+        >
+          Accept
+        </Button>
+      ),
+      (
+        <Button
+          key="4"
+          id="reject"
+          className="top-bar-buttons-list-item-btn"
+          flat
+          primary
+          swapTheming
+          onClick={() => {
+            handleStatus('reject')
+          }}
+        >
+          Reject
+        </Button>
+      )),
 
     // role === 'JMC Chairman' && (
     //   <>

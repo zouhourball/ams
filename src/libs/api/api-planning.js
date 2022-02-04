@@ -125,6 +125,35 @@ export const updatePlanning = async ({ subModule, objectId, status }) => {
   }
   return res
 }
+export const updateWpb = async ({ objectId, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/wpb/${objectId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (error) {
+    res = { e: error }
+  }
+  return res
+}
+export const updateWpbStatus = async ({ objectId, status }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/wpb/update?objectId=${objectId}&action=${status}`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (error) {
+    res = { e: error }
+  }
+  return res
+}
 
 export const deletePlanning = async ({ subModule, objectId }) => {
   let res
@@ -192,6 +221,20 @@ export const saveReport = async ({ subModule, body }) => {
       {
         method: 'POST',
         body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const getActionsList = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/wpb/${queryKey[1]}/actions`,
+      {
+        method: 'GET',
       },
     )
   } catch (e) {
