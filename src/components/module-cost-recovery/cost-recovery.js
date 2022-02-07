@@ -222,7 +222,7 @@ const CostRecovery = ({ subkey }) => {
       {
         onSuccess: (res) => {
           if (res?.responseStatus?.success) {
-            setShowUploadMHTDialog('upload-annual-cost')
+            setShowUploadMHTDialog(`upload-${currentTab}`)
             setShowUploadRapportDialog(false)
           }
         },
@@ -232,7 +232,7 @@ const CostRecovery = ({ subkey }) => {
 
   const configsMht = useCallback(() => {
     switch (showUploadMHTDialog) {
-      case 'upload-annual-cost':
+      case 'upload-0':
         return configsAnnualCostsDialogMht().map((el) =>
           el.key !== 'year'
             ? el
@@ -241,15 +241,15 @@ const CostRecovery = ({ subkey }) => {
               label: uploadData?.metaData?.year,
             },
         )
-      case 'upload-contract-report':
+      case 'upload-1':
         return configsContractsDialogMht()
-      case 'prod-lifting':
+      case 'upload-2':
         return configsLiftingCostsDialogMht()
-      case 'transaction':
+      case 'upload-3':
         return transactionConfig()
-      case 'affiliate':
+      case 'upload-4':
         return affiliateConfig()
-      case 'facilities':
+      case 'upload-5':
         return (
           (Object.entries(uploadData?.data?.data[0] || {}) || []).map((el) => ({
             label: el[0],
@@ -290,7 +290,6 @@ const CostRecovery = ({ subkey }) => {
   const resContractsCostData = () => {
     return uploadData?.data?.data || []
   }
-
   const resProdLiftingData = () => {
     return (
       (uploadData?.data &&
@@ -381,17 +380,17 @@ const CostRecovery = ({ subkey }) => {
 
   const dataMht = useMemo(() => {
     switch (showUploadMHTDialog) {
-      case 'upload-annual-cost':
+      case 'upload-0':
         return resAnnualCostData()
-      case 'upload-contract-report':
+      case 'upload-1':
         return resContractsCostData()
-      case 'prod-lifting':
+      case 'upload-2':
         return resProdLiftingData()
-      case 'transaction':
+      case 'upload-3':
         return resTransactionData()
-      case 'affiliate':
+      case 'upload-4':
         return resAffiliateData()
-      case 'facilities':
+      case 'upload-5':
         return uploadData?.data?.data || []
 
       default:
@@ -580,7 +579,7 @@ const CostRecovery = ({ subkey }) => {
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={
-            showUploadMHTDialog === 'prod-lifting' && (
+            showUploadMHTDialog === 'prodLifting' && (
               <SelectField
                 id="prod-lifting"
                 menuItems={[

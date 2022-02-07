@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
+// import useRole from 'libs/hooks/use-role'
 
 import {
   monthlyReportConfigs,
@@ -18,6 +19,7 @@ const Emissions = () => {
   const [currentTab, setCurrentTab] = useState(0)
   const [selectedRow, setSelectedRow] = useState([])
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  // const role = useRole('flaring')
 
   const monthlyReportActionsHelper = [
     {

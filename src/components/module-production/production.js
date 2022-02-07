@@ -1075,6 +1075,7 @@ const Production = () => {
             label: el?.block,
             value: el?.block,
           }))}
+          hideBlock={role === 'regulator'}
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])

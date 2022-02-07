@@ -258,14 +258,14 @@ export const omanHydConfigs = (supportedDocument) => [
     displayInCsv: true,
   },
 
-  {
+  /* {
     label: 'Block',
     key: 'block',
     width: '200',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
     displayInCsv: true,
-  },
+  }, */
   {
     label: 'Submitted Date',
     key: 'submittedDate',

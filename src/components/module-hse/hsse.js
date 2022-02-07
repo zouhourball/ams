@@ -59,7 +59,7 @@ const HSSE = () => {
   const dispatch = useDispatch()
   const { addSupportingDocuments } = documents()
 
-  const role = useRole('hsse')
+  const role = useRole('flaring')
 
   useEffect(() => {
     return () => {

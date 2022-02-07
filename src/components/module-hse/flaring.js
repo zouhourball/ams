@@ -333,16 +333,16 @@ const Flaring = () => {
           return {
             gaz_type: el?.name,
             unit: el?.unit,
-            year2017: el?.values[0]?.value,
-            year2018: el?.values[1]?.value,
-            year2019: el?.values[2]?.value,
-            year2020: el?.values[3]?.value,
-            year2021: el?.values[4]?.value,
-            year2022: el?.values[5]?.value,
-            year2023: el?.values[6]?.value,
-            year2024: el?.values[7]?.value,
-            year2025: el?.values[8]?.value,
-            year2026: el?.values[9]?.value,
+            [`year${el?.values[0]?.year}`]: el?.values[0]?.value,
+            [`year${el?.values[1]?.year}`]: el?.values[1]?.value,
+            [`year${el?.values[2]?.year}`]: el?.values[2]?.value,
+            [`year${el?.values[3]?.year}`]: el?.values[3]?.value,
+            [`year${el?.values[4]?.year}`]: el?.values[4]?.value,
+            [`year${el?.values[5]?.year}`]: el?.values[5]?.value,
+            [`year${el?.values[6]?.year}`]: el?.values[6]?.value,
+            [`year${el?.values[7]?.year}`]: el?.values[7]?.value,
+            [`year${el?.values[8]?.year}`]: el?.values[8]?.value,
+            [`year${el?.values[9]?.year}`]: el?.values[9]?.value,
           }
         })
       case 'monthly-station':
@@ -375,11 +375,11 @@ const Flaring = () => {
         return null
     }
   }
-
+  const startYear = currentUpload?.data?.data[0]?.values[0]?.year
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
       case 'annual-forecast':
-        return flaringDetailsAnnualConfigs
+        return flaringDetailsAnnualConfigs(startYear)
       case 'monthly-station':
         return flaringDetailsMonthlyConfigs
       case 'daily':
@@ -623,7 +623,7 @@ const Flaring = () => {
   const tabsList = [
     {
       linkToNewTab: `/ams/hse/flaring/annual-forecast`,
-      label: 'Annual Report',
+      label: 'Reduction Roadmap',
       key: 'annual-forecast',
     },
 
