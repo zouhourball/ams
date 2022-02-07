@@ -463,12 +463,11 @@ const CostRecovery = ({ subkey }) => {
   }
 
   const handleCommit = () => {
+    // console.log(uploadData, 'uploadData')
+
     commitSub(
       {
-        body: {
-          items: uploadData?.data?.items,
-          metaData: uploadData?.data?.metaData,
-        },
+        body: uploadData?.data,
         key: tab[currentTab],
       },
       {
