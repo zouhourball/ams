@@ -26,6 +26,7 @@ import {
   getCompaniesInventory,
   commitRows,
   saveRows,
+  deleteAllInventory,
 } from 'libs/api/api-inventory'
 import {
   downloadOriginalFile,
@@ -422,6 +423,8 @@ const Inventory = () => {
   const deleteInventoryMutate = useMutation(deleteInventory, {
     onSuccess: (res) => {
       if (!res.error) {
+        setSelectedRow([])
+        refetchAfterCommitByCurrentTab()
         dispatch(
           addToast(
             <ToastMsg
@@ -534,7 +537,7 @@ const Inventory = () => {
     deleteInventoryMutate.mutate({
       inventoryId,
     })
-    setSelectedRow([])
+    // setSelectedRow([])
   }
   const mhtUploadedAnnualAssetData = (
     get(currentUpload, 'data.rows', []) || []
@@ -1050,18 +1053,34 @@ const Inventory = () => {
         title="Inventory"
         actions={role === 'operator' ? renderActionsByCurrentTab() : null}
         menuItems={() => {
+          const ids = selectedRow?.map((el) => el?.id)
           return [
             /* { key: 1, primaryText: 'Edit', onClick: () => null }, */
             {
               key: 1,
               primaryText: 'Delete',
               onClick: () =>
-                Promise.all(
-                  selectedRow?.map((row) => {
-                    handleDeleteInventory(row?.id)
-                  }),
-                ).then(() => {
-                  refetchAfterCommitByCurrentTab()
+                deleteAllInventory(subModuleByCurrentTab(), ids).then((res) => {
+                  if (res) {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Successfully deleted'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    setSelectedRow([])
+                    refetchAfterCommitByCurrentTab()
+                  } else {
+                    dispatch(
+                      addToast(
+                        <ToastMsg text={'Something went wrong'} type="error" />,
+                        'hide',
+                      ),
+                    )
+                  }
                 }),
             },
           ]

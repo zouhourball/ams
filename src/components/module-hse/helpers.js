@@ -686,92 +686,107 @@ export const actionsHeaderDaily = (
       return status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
   }
 }
-export const flaringDetailsAnnualConfigs = (startYear = 2018) => [
-  {
-    label: 'Gaz Type',
-    key: 'gaz_type',
-    width: '300',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: 'Unit',
-    key: 'unit',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear,
-    key: `year${startYear}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 1,
-    key: `year${startYear + 1}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 2,
-    key: `year${startYear + 2}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 3,
-    key: `year${startYear + 3}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 4,
-    key: `year${startYear + 4}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 5,
-    key: `year${startYear + 5}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 6,
-    key: `year${startYear + 6}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 7,
-    key: `year${startYear + 7}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 8,
-    key: `year${startYear + 8}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-  {
-    label: startYear + 9,
-    key: `year${startYear + 9}`,
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-]
+export const flaringDetailsAnnualConfigs = (
+  // startYear = 2018,
+  yearsFromReport,
+) => {
+  const yearTabConfigs = yearsFromReport?.map((y) => {
+    return {
+      label: y?.year,
+      key: `year${y?.year}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    }
+  })
+  return [
+    {
+      label: 'Gaz Type',
+      key: 'gaz_type',
+      width: '300',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: 'Unit',
+      key: 'unit',
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    ...yearTabConfigs,
+    /* {
+      label: startYear,
+      key: `year${startYear}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 1,
+      key: `year${startYear + 1}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 2,
+      key: `year${startYear + 2}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 3,
+      key: `year${startYear + 3}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 4,
+      key: `year${startYear + 4}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 5,
+      key: `year${startYear + 5}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 6,
+      key: `year${startYear + 6}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 7,
+      key: `year${startYear + 7}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 8,
+      key: `year${startYear + 8}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    },
+    {
+      label: startYear + 9,
+      key: `year${startYear + 9}`,
+      width: '200',
+      icon: 'mdi mdi-spellcheck',
+      type: 'text',
+    }, */
+  ]
+}
 
 export const flaringDetailsDailyConfigs = [
   {

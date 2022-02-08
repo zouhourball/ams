@@ -98,6 +98,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   )
 
   const role = useRole('costrecovery')
+
   const { addSupportingDocuments } = documents()
   const { data: reportDetail } = useQuery([subModule, detailId], detailReport, {
     refetchOnWindowFocus: false,

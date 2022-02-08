@@ -442,6 +442,13 @@ export const actionsHeader = (
         tab === 'assetTransferRequestProcess'
       ) {
         return [
+          {
+            id: 1,
+            label: 'Delete',
+            onClick: () => {
+              handleDeleteInventory(id)
+            },
+          },
           /*   {
             id: 1,
             label: 'Download Original File',

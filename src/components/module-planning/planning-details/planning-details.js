@@ -174,19 +174,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
         Commit
       </Button>
     ),
-    <Button
-      key="4"
-      id="accept"
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-        handleStatus('accept')
-      }}
-    >
-      Accept
-    </Button>,
+
     actionsList?.length > 0 &&
       (actionsList?.includes('ENDORSE') || actionsList?.includes('APPROVE')) &&
       ((

@@ -325,7 +325,13 @@ const Flaring = () => {
       status: 'SUBMITTED',
     })
   }
-
+  const createYearKeys = (el) => {
+    let data = {}
+    for (const element of el?.values) {
+      data = { ...data, [`year${element?.year}`]: element?.value }
+    }
+    return data
+  }
   const renderCurrentTabDetailsData = () => {
     switch (currentTab) {
       case 'annual-forecast':
@@ -333,7 +339,14 @@ const Flaring = () => {
           return {
             gaz_type: el?.name,
             unit: el?.unit,
-            [`year${el?.values[0]?.year}`]: el?.values[0]?.value,
+            /* ...el?.values?.forEach((element) => {
+              return { [`year${element?.year}`]: element?.value }
+            }), */
+            /* for (const [key, value] of Object.entries(object1)) {
+              console.log(`${key}: ${value}`);
+            } */
+            ...createYearKeys(el),
+            /* [`year${el?.values[0]?.year}`]: el?.values[0]?.value,
             [`year${el?.values[1]?.year}`]: el?.values[1]?.value,
             [`year${el?.values[2]?.year}`]: el?.values[2]?.value,
             [`year${el?.values[3]?.year}`]: el?.values[3]?.value,
@@ -342,7 +355,7 @@ const Flaring = () => {
             [`year${el?.values[6]?.year}`]: el?.values[6]?.value,
             [`year${el?.values[7]?.year}`]: el?.values[7]?.value,
             [`year${el?.values[8]?.year}`]: el?.values[8]?.value,
-            [`year${el?.values[9]?.year}`]: el?.values[9]?.value,
+            [`year${el?.values[9]?.year}`]: el?.values[9]?.value, */
           }
         })
       case 'monthly-station':
@@ -375,11 +388,12 @@ const Flaring = () => {
         return null
     }
   }
-  const startYear = currentUpload?.data?.data[0]?.values[0]?.year
+
+  const yearsFromReport = currentUpload?.data?.data[0]?.values
   const renderCurrentTabDetailsConfigs = () => {
     switch (currentTab) {
       case 'annual-forecast':
-        return flaringDetailsAnnualConfigs(startYear)
+        return flaringDetailsAnnualConfigs(yearsFromReport)
       case 'monthly-station':
         return flaringDetailsMonthlyConfigs
       case 'daily':

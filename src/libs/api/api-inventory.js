@@ -392,3 +392,17 @@ export const getSnapshotOfBase = async ({ queryKey }) => {
   }
   return res
 }
+export const deleteAllInventory = async (subModule, objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

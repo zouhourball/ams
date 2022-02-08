@@ -623,7 +623,7 @@ const CostRecovery = ({ subkey }) => {
             renderDialogData(data).onUpload()
           }}
           formatDate={
-            currentTab === 0 ? 'year' : currentTab === 1 ? 'day' : 'month'
+            currentTab === 0 ? 'year' /*: currentTab === 1 ? 'day' */ : 'month'
           }
         />
       )}
