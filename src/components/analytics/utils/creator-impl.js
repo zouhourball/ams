@@ -38,12 +38,13 @@ export function createTableResult ({
       withFooter: false,
       withSearch: true,
       tableData: map(dataFormatter ? dataFormatter(data) : data, (d) => {
+        const result = Object.assign({}, d)
         groupedHeaders.forEach((g) => {
-          d[g.key] = map(g.columns, (gc) => ({
-            [gc.subKey]: d[gc.subKey],
+          result[g.key] = map(g.columns, (gc) => ({
+            [gc.subKey]: result[gc.subKey],
           }))
         })
-        return d
+        return result
       }),
     }
   }

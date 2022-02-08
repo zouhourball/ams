@@ -3,7 +3,6 @@ import onClickOutside from 'react-onclickoutside'
 import { Paper, Card, FontIcon } from 'react-md'
 import cls from 'classnames'
 import echarts from 'echarts/lib/echarts'
-
 import '@target-energysolutions/charts-enhance'
 import { addToast } from 'modules/app/actions'
 import { connect } from 'react-redux'

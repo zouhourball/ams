@@ -1,4 +1,4 @@
-import { flatMap, flatten } from 'lodash-es'
+import { flatMap, flatten, flattenDeep } from 'lodash-es'
 import { MonthNames, MonthNameLabels } from 'libs/consts'
 import { fixNbr } from 'libs/utils'
 
@@ -59,6 +59,26 @@ export function converFypPlanningData ({ content }) {
       )
     })
   }
+}
+
+export function converBudgetaryPlanningData ({ content }) {
+  return flattenDeep(
+    content.map((report) => {
+      const { data, metaData } = report
+      return data.map((d) => {
+        const { years } = d
+        return years.map((year) => ({
+          year: year.year,
+          value: year.value,
+          block: metaData.block,
+          company: metaData.company,
+          unit: d.unit,
+          sector: d.sector,
+          item: d.item,
+        }))
+      })
+    }),
+  )
 }
 
 export default function ({ content }) {

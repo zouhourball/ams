@@ -6,6 +6,8 @@ import 'components/table-with-color-highlight/styles.scss'
 import {
   planningTableConfig,
   formDataFormatter,
+  budgetTableConfig,
+  budgetDataFormatter,
 } from '../processor/table-config'
 import {
   configMerge,
@@ -1097,6 +1099,30 @@ const chartsToDraw = [
     ],
   },
   ...fypDashboard,
+  {
+    title: 'Budgetary Report',
+    reportType: 'budgetary',
+    groups: [
+      {
+        charts: [
+          m42Table({
+            dataFormatter: budgetDataFormatter,
+            columnsConfigOnData: budgetTableConfig,
+          })(
+            'PRIMARY DRAFT FOR THE FIFTH YEAR PLAN ',
+            {
+              // pinConfig: configMerge(
+              //   title('Expenditure'),
+              //   dataFilter(objCondIsCost),
+              //   comTablePinConf,
+              // ),
+            },
+            {},
+          ),
+        ],
+      },
+    ],
+  },
 ]
 
 export default chartsPageCreator(chartsToDraw)

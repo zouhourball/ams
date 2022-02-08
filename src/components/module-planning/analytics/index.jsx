@@ -1,6 +1,9 @@
 import { createAnalytics } from 'components/analytics'
 import { getPlanningData } from 'libs/api/api-dashboard'
-import converPlanningData, { converFypPlanningData } from './processor'
+import converPlanningData, {
+  converBudgetaryPlanningData,
+  converFypPlanningData,
+} from './processor'
 import { planningFilters } from 'libs/consts'
 import DashboardPage from './charts-page'
 // import i18n from 'i18n-js'
@@ -24,7 +27,10 @@ export default createAnalytics({
     const fyp = converFypPlanningData({
       content: await getPlanningData('fyp', params && params.id),
     })
-    return { wpb, fyp }
+    const budgetary = converBudgetaryPlanningData({
+      content: await getPlanningData('budgetary-report', params && params.id),
+    })
+    return { wpb, fyp, budgetary }
   },
   list: [
     {

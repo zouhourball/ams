@@ -80,6 +80,7 @@ import Mht from '@target-energysolutions/mht'
 // import l from 'libs/langs/keys'
 import { chartSizes } from 'components/analytics/utils/consts'
 import { query, eq, not, or, and } from 'libs/utils/query'
+import { filter, uniq, reduce, round, groupBy } from 'lodash-es'
 
 const mc21 = mcDFBySize(2, 1)
 const mc21StackBar = mc21('stack', null)
@@ -159,6 +160,27 @@ const isGasSale = eq('type', 'GAS SALE')
 const isActual = eq('dataType', 'Actual')
 const isNotTotal = not(isTotal)
 const isFromTracking = eq('cameFrom', 'tracking')
+
+const filterOmanHydrocarbonFunc = (item) => {
+  const { company, htype } = item
+  if (company === 'PDO') return true
+  else if (
+    company !== 'PDO' &&
+    (htype === 'Oil' || htype === 'AG' || htype === 'NAG')
+  ) {
+    return true
+  }
+  return false
+}
+function filterCrudeOilAndCond (item) {
+  const { htype } = item
+  return htype !== 'AG' && htype !== 'NAG'
+}
+function filterGas (item) {
+  const { htype } = item
+  return htype === 'AG' || htype === 'NAG'
+}
+
 const objCondIsNAGData = { eq: ['hydrocarbon', 'NAG'] }
 const objCondIsOilData = { eq: ['hydrocarbon', 'OIL'] }
 const objCondIsCondensateData = { eq: ['hydrocarbon', 'CONDENSATE'] }
@@ -431,7 +453,6 @@ const transformWashline = {
             return +(a + (+b.actual || 0))
           }, 0))
           const value = companyAcutal - companyTarget
-          console.log(value,'value')
           const obj = Object.assign({value}, companyData[0])
           newData.push(obj)
         })
@@ -1491,6 +1512,151 @@ export const chartsToDraw = [
             {},
             {},
           ),
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Oman Hydrocarbon',
+    reportType: 'hydrocarbon',
+    titleFormat: dateFormat,
+    groups: [
+      {
+        title: '',
+        charts: [
+          mc21StackBar(({ data }) => {
+            const filterdData = filter(data, filterOmanHydrocarbonFunc)
+            const axisData = uniq(filterdData.map((d) => d.year))
+            const legendData = [
+              {
+                label: 'PDO black oil',
+                filterFunc: (d) => {
+                  return d.company === 'PDO' && d.htype === 'Oil'
+                },
+              },
+              {
+                label: 'PDO Condensate',
+                filterFunc: (d) => {
+                  return d.company === 'PDO' && d.htype === 'Condensate'
+                },
+              },
+              {
+                label: 'PDO Gas',
+                filterFunc: (d) => {
+                  return (
+                    d.company === 'PDO' &&
+                    (d.htype === 'AG' || d.htype === 'NAG')
+                  )
+                },
+              },
+              {
+                label: 'Others Oil',
+                filterFunc: (d) => {
+                  return d.company !== 'PDO' && d.htype === 'Oil'
+                },
+              },
+              {
+                label: 'Others Gas',
+                filterFunc: (d) => {
+                  return (
+                    d.company !== 'PDO' &&
+                    (d.htype === 'AG' || d.htype === 'NAG')
+                  )
+                },
+              },
+            ]
+            const series = legendData.map((legend) => {
+              const gasCoefficient = legend.label.toLowerCase().includes('gas')
+                ? 182
+                : 1
+              return {
+                name: legend.label,
+                type: 'bar',
+                stack: 'value',
+                data: axisData.map((x) => {
+                  const dataInXaxis = filterdData
+                    .filter((d) => d.year === x)
+                    .filter(legend.filterFunc)
+                  const result = round(
+                    reduce(dataInXaxis, (a, b) => a + b.value || 0, 0) *
+                      gasCoefficient,
+                    2,
+                  )
+                  return result
+                }),
+              }
+            })
+            return {
+              axisData,
+              legendData: legendData.map((l) => l.label),
+              unit: 'BOE/D',
+              series,
+            }
+          })(`Oman Hydrocarbon Production`, {}, {}),
+          mc21StackBar(({ data }) => {
+            const filterdData = filter(data, filterCrudeOilAndCond)
+            const groupData = groupBy(
+              filterdData,
+              (i) => `${i.company}-Block ${i.block} (${i.htype})`,
+            )
+            const axisData = uniq(filterdData.map((d) => d.year))
+            const legendData = Object.keys(groupData)
+            const series = legendData.map((legend) => {
+              return {
+                name: legend,
+                type: 'bar',
+                stack: 'value',
+                data: axisData.map((x) => {
+                  const dataInXaxis = groupData[legend].filter(
+                    (d) => d.year === x,
+                  )
+                  const result = round(
+                    reduce(dataInXaxis, (a, b) => a + b.value || 0, 0),
+                    2,
+                  )
+                  return result
+                }),
+              }
+            })
+            return {
+              axisData,
+              legendData: legendData,
+              unit: 'bbls/d',
+              series,
+            }
+          })(`Oman Crude oil and Condensate Production`, {}, {}),
+          mc21StackBar(({ data }) => {
+            const filterdData = filter(data, filterGas)
+            const groupData = groupBy(
+              filterdData,
+              (i) => `${i.company}-Block ${i.block} (${i.htype})`,
+            )
+            const axisData = uniq(filterdData.map((d) => d.year))
+            const legendData = Object.keys(groupData)
+            const series = legendData.map((legend) => {
+              return {
+                name: legend,
+                type: 'bar',
+                stack: 'value',
+                data: axisData.map((x) => {
+                  const dataInXaxis = groupData[legend].filter(
+                    (d) => d.year === x,
+                  )
+                  const result = round(
+                    reduce(dataInXaxis, (a, b) => a + b.value || 0, 0),
+                    2,
+                  )
+                  return result
+                }),
+              }
+            })
+            return {
+              axisData,
+              legendData: legendData,
+              unit: 'MMscf/d',
+              series,
+            }
+          })(`Oman Natural Gas Production`, {}, {}),
         ],
       },
     ],

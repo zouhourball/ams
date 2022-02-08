@@ -12,6 +12,7 @@ import {
   processMonthlyData,
   mapDataConvertor,
   processTrackingData,
+  processHydrocarbonData,
 } from './processors'
 import { productionFilters } from 'libs/consts'
 // import i18n from 'i18n-js'
@@ -67,6 +68,9 @@ export default createAnalytics({
     const rawTracking = {
       content: await getProductionTrackingData(),
     }
+    const hydrocarbon = {
+      content: await getProductionData('oman-hydrocarbon', id),
+    }
     const NG = processNGData({
       content: await getDownstreamAnalyticsData('ng', id),
     })
@@ -76,6 +80,7 @@ export default createAnalytics({
       daily: processDailyData(rawDaily),
       monthly,
       tracking,
+      hydrocarbon: processHydrocarbonData(hydrocarbon),
     }
   },
   map: {

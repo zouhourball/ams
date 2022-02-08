@@ -88,6 +88,26 @@ export function processDailyData (data) {
   )
 }
 
+export function processHydrocarbonData (data) {
+  const { content } = data
+  return flattenDeep(
+    content.map((report) => {
+      const { data } = report
+      return data.map((d) => {
+        const { yvalues } = d
+        return yvalues.map((yValue) => ({
+          year: yValue.year,
+          value: yValue.value,
+          block: d.block,
+          company: d.company,
+          htype: d.htype,
+          stackKey: '',
+        }))
+      })
+    }),
+  )
+}
+
 function generateDs (name) {
   let dataStatus = null
   switch (name) {

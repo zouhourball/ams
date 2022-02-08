@@ -1,14 +1,10 @@
-import {
-  SelectionControl,
-  // MenuButton,
-  FontIcon,
-  SelectField,
-  ListItem,
-} from 'react-md'
+import { SelectionControl, FontIcon, ListItem, List } from 'react-md'
 import './styles.scss'
-import { useMemo, useCallback } from 'react'
+import { useMemo, useCallback, useState, useRef } from 'react'
 import cls from 'classnames'
+import { usePopper } from 'react-popper'
 import { fromPairs } from 'lodash-es'
+import useOutsideClick from '@rooks/use-outside-click'
 import APEX from 'images/companies/APEX.png'
 import ARA from 'images/companies/ARA.png'
 import BP from 'images/companies/BP.png'
@@ -25,6 +21,7 @@ import PetroTel from 'images/companies/PetroTel.png'
 import PetrogasKahil from 'images/companies/PetrogasKahil.png'
 import medco from 'images/companies/medco.png'
 import target from 'images/companies/target.png'
+import { createPortal } from 'react-dom'
 const images = {
   APEX,
   ARA,
@@ -45,36 +42,51 @@ const images = {
 }
 const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
   const menuItems = useMemo(() => {
-    return blocks.map((b) => (
-      <ListItem
-        key={b}
-        primaryText={b}
-        className={
-          selectedBlocks.includes(b)
-            ? 'clsprefix-edit-task-selection--active'
-            : 'clsprefix-edit-task-selection-list'
-        }
-        rightIcon={selectedBlocks.includes(b) && <FontIcon>check</FontIcon>}
-        onClick={() => {
-          const newChecked = !selectedBlocks.includes(b)
-          if (newChecked) {
-            onChange({
-              [name]: {
-                selectedBlocks: selectedBlocks.concat(b),
-              },
-            })
-          } else {
-            onChange({
-              [name]: {
-                selectedBlocks: selectedBlocks.filter((i) => i !== b),
-              },
-            })
-          }
-        }}
-      />
-    ))
+    return (
+      <List className="org-item-ul">
+        {blocks.map((b) => (
+          <ListItem
+            key={b}
+            primaryText={b}
+            className={
+              selectedBlocks.includes(b)
+                ? 'clsprefix-edit-task-selection--active'
+                : 'clsprefix-edit-task-selection-list'
+            }
+            rightIcon={selectedBlocks.includes(b) && <FontIcon>check</FontIcon>}
+            onClick={() => {
+              const newChecked = !selectedBlocks.includes(b)
+              if (newChecked) {
+                onChange({
+                  [name]: {
+                    selectedBlocks: selectedBlocks.concat(b),
+                  },
+                })
+              } else {
+                onChange({
+                  [name]: {
+                    selectedBlocks: selectedBlocks.filter((i) => i !== b),
+                  },
+                })
+              }
+            }}
+          />
+        ))}
+      </List>
+    )
   }, [blocks, selectedBlocks])
 
+  const orgDialogRef = useRef()
+  const [referenceElement, setReferenceElement] = useState(null)
+  const [popperElement, setPopperElement] = useState(null)
+  const [menuVisible, setMenuVisible] = useState(false)
+  const { styles, attributes } = usePopper(referenceElement, popperElement)
+
+  const outsiceClick = useCallback(() => {
+    setMenuVisible(false)
+  }, [])
+
+  useOutsideClick(orgDialogRef, outsiceClick)
   const onSelectAllBlock = useCallback(
     (e) => {
       if (e) {
@@ -99,11 +111,12 @@ const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
   const placeholder = useMemo(() => {
     if (!selectedBlocks.length) {
       return 'Select Blocks'
-    } else if (selectedBlocks.length && selectedBlocks.length > blocks.length) {
+    } else if (selectedBlocks.length && selectedBlocks.length < blocks.length) {
       return `${selectedBlocks.length} Blocks`
     }
     return 'All Blocks'
   }, [selectedBlocks, blocks])
+
   return (
     <div className="org-item-container">
       <div className="org-item-top">
@@ -123,18 +136,32 @@ const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
           className="selection-control selection-control-small"
         />
       </div>
-      <SelectField
-        id="select-field-6"
-        placeholder={placeholder}
-        className={'org-item-select-block'}
-        inputClassName={cls(
-          'org-item-select-block-input',
-          // !currentStream?.name &&
-          //         'clsprefix-edit-task-select-ws-stream-input--placeholder',
-        )}
-        menuItems={menuItems}
-        position={SelectField.Positions.BELOW}
-      />
+      <div ref={orgDialogRef} className="">
+        <button
+          className="org-item-select-block-btn"
+          ref={setReferenceElement}
+          onClick={() => setMenuVisible((v) => !v)}
+        >
+          {placeholder}
+          <FontIcon
+            iconClassName={cls(
+              'mdi ',
+              menuVisible ? 'mdi-menu-up' : 'mdi-menu-down',
+            )}
+          ></FontIcon>
+        </button>
+        {menuVisible &&
+          createPortal(
+            <div
+              ref={setPopperElement}
+              style={{ ...styles.popper }}
+              {...attributes.popper}
+            >
+              {menuItems}
+            </div>,
+            referenceElement?.current || document.querySelector('#root'),
+          )}
+      </div>
     </div>
   )
 }
