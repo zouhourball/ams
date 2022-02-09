@@ -178,23 +178,10 @@ const ReservesDetails = ({ reserveId, subkey }) => {
           primary
           swapTheming
           onClick={() => {
-            onAcknowledge(subModule, reserveId, 'ACCEPTED')
+            onAcknowledge(subModule, reserveId, 'ACKNOWLEDGED')
           }}
         >
-          Accept
-        </Button>
-        <Button
-          key="4"
-          id="reject"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            onAcknowledge(subModule, reserveId, 'REJECTED')
-          }}
-        >
-          Reject
+          Acknowledge
         </Button>
       </>
     ),

@@ -366,23 +366,10 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           primary
           swapTheming
           onClick={() => {
-            handleAcknowledge('ACCEPTED')
+            handleAcknowledge('ACKNOWLEDGED')
           }}
         >
-          Accept
-        </Button>
-        <Button
-          key="4"
-          id="reject"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            handleAcknowledge('REJECTED')
-          }}
-        >
-          Reject
+          Acknowledge
         </Button>
       </>
     ),

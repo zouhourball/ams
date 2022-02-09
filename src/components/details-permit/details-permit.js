@@ -48,7 +48,7 @@ const DetailsPermit = ({ fields }) => {
     })
   }
   return (
-    <div id="details-permit" className="details-permit md-grid">
+    <div id="details-permit" className="details-permit md-grid" media="print">
       {generateValues()}
     </div>
   )

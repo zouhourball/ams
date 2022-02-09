@@ -7,6 +7,7 @@ import moment from 'moment'
 import TopBarDetail from 'components/top-bar-detail'
 import DetailsPermit from 'components/details-permit'
 import SupportedDocument from 'components/supported-document'
+import { handlePrint } from '../print-component'
 
 import { getPermitDetail, updatePermit } from 'libs/api/permit-api'
 import useRole from 'libs/hooks/use-role'
@@ -72,7 +73,14 @@ const DrillReportDetails = ({ drillReportId }) => {
       flat
       primary
       swapTheming
-      onClick={() => window.print()}
+      onClick={() => {
+        handlePrint(
+          'Permit to Drill',
+          detailData?.metaData?.company,
+          detailData?.metaData?.createdBy?.name,
+          moment(detailData?.metaData?.createdAt).format('DD MMM, YYYY'),
+        )
+      }}
     >
       Print
     </Button>,

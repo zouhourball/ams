@@ -446,23 +446,10 @@ const ProductionDetails = ({ subModule, productionId }) => {
             primary
             swapTheming
             onClick={() => {
-              onAcknowledge(subModule, productionId, 'ACCEPTED')
+              onAcknowledge(subModule, productionId, 'ACKNOWLEDGED')
             }}
           >
-            Accept
-          </Button>
-          <Button
-            key="4"
-            id="reject"
-            className="top-bar-buttons-list-item-btn"
-            flat
-            primary
-            swapTheming
-            onClick={() => {
-              onAcknowledge(subModule, productionId, 'REJECTED')
-            }}
-          >
-            Reject
+            Acknowledge
           </Button>
         </>
     ),

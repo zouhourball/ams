@@ -688,7 +688,7 @@ export const actionsHeaderDaily = (
 }
 export const flaringDetailsAnnualConfigs = (
   // startYear = 2018,
-  yearsFromReport,
+  yearsFromReport = ['2018', '2022'],
 ) => {
   const yearTabConfigs = yearsFromReport?.map((y) => {
     return {

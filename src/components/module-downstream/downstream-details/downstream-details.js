@@ -299,23 +299,10 @@ const DownstreamDetails = ({
             primary
             swapTheming
             onClick={() => {
-              onAcknowledge(subModule, downstreamId, 'ACCEPTED')
+              onAcknowledge(subModule, downstreamId, 'ACKNOWLEDGED')
             }}
           >
-            Accept
-          </Button>
-          <Button
-            key="4"
-            id="reject"
-            className="top-bar-buttons-list-item-btn"
-            flat
-            primary
-            swapTheming
-            onClick={() => {
-              onAcknowledge(subModule, downstreamId, 'REJECTED')
-            }}
-          >
-            Reject
+            Acknowledge
           </Button>
         </>
     ),
