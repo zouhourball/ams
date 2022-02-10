@@ -244,7 +244,7 @@ const InventoryDetails = () => {
       id: el?.rowId,
       materialName: el?.data['Material Name'],
       materialCategory: el?.data['Material Category'],
-      materialDescription: el?.data['Material Description '],
+      materialDescription: el?.data['Material Description'],
       measurementUnit: el?.data['Measurement Unit'],
       currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
@@ -259,7 +259,7 @@ const InventoryDetails = () => {
       id: el?.rowId,
       materialName: el?.data['Material Name'],
       materialCategory: el?.data['Material Category'],
-      materialDescription: el?.data['Material Description '],
+      materialDescription: el?.data['Material Description'],
       measurementUnit: el?.data['Measurement Unit'],
       currentSt: el?.data['Quantity'],
       quantity: el?.data['Quantity'],
@@ -412,7 +412,20 @@ const InventoryDetails = () => {
                 flat
                 primary
                 swapTheming
-                onClick={() => {}}
+                onClick={() => {
+                  // get discussionChannelId from API GET
+                  // create and save discussionChannelId
+                  !chatId && setShowSelectMembersWorkspaces(true)
+
+                  // if discussionChannelId exists open chat
+                  chatId &&
+                    dispatch(
+                      messengerAct.openChat({
+                        channelId: chatId,
+                        type: 'group',
+                      }),
+                    )
+                }}
               >
                 Clarify
               </Button>
@@ -438,7 +451,7 @@ const InventoryDetails = () => {
                     swapTheming
                     disabled
                     iconEl={<FontIcon>check_circle</FontIcon>}
-                    onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
+                    onClick={() => onChangeStatus('ACCEPTED')}
                   >
                   Accepted
                   </Button>
@@ -453,7 +466,7 @@ const InventoryDetails = () => {
                       flat
                       primary
                       swapTheming
-                      onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
+                      onClick={() => onChangeStatus('REJECTED')}
                     >
                       Reject
                     </Button>
@@ -464,7 +477,7 @@ const InventoryDetails = () => {
                       flat
                       primary
                       swapTheming
-                      onClick={() => onChangeStatus(inventoryId, 'ACCEPTED')}
+                      onClick={() => onChangeStatus('ACCEPTED')}
                     >
                       Accept
                     </Button>
@@ -544,8 +557,17 @@ const InventoryDetails = () => {
                 swapTheming
                 onClick={() => {
                   // get discussionChannelId from API GET
+                  // create and save discussionChannelId
+                  !chatId && setShowSelectMembersWorkspaces(true)
+
                   // if discussionChannelId exists open chat
-                  // else create and save discussionChannelId
+                  chatId &&
+                    dispatch(
+                      messengerAct.openChat({
+                        channelId: chatId,
+                        type: 'group',
+                      }),
+                    )
                 }}
               >
                 Clarify
@@ -585,7 +607,7 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'REJECTED')}
+                    onClick={() => onChangeStatus('REJECTED')}
                   >
                     Reject
                   </Button>
@@ -596,7 +618,7 @@ const InventoryDetails = () => {
                     flat
                     primary
                     swapTheming
-                    onClick={() => onChangeStatus(inventoryId, 'APPROVED')}
+                    onClick={() => onChangeStatus('APPROVED')}
                   >
                     Approve
                   </Button>
@@ -708,7 +730,7 @@ const InventoryDetails = () => {
     switch (currentTabName) {
       case 'base': // annual base tab 0
         return {
-          title: `Block ${inventoryData?.metaData?.block}`,
+          title: `Annual Base | Block ${inventoryData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryData?.metaData?.company}`,
           status: ` ${inventoryData?.metaData?.status}`,
@@ -716,7 +738,7 @@ const InventoryDetails = () => {
         }
       case 'assetTransferRequestProcess': // Asset Transfer tab 3
         return {
-          title: `assetTransferRequestProcess ${inventoryData?.metaData?.block}`,
+          title: `Asset Consumption | Block ${inventoryData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryData?.metaData?.company}`,
           status: ` ${inventoryData?.metaData?.status}`,
@@ -724,7 +746,7 @@ const InventoryDetails = () => {
         }
       case 'assetDisposalRequestProcess': // Asset Disposal tab 4
         return {
-          title: `assetDisposalRequestProcess ${inventoryData?.metaData?.block}`,
+          title: `Asset Disposal | Block ${inventoryData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryData?.metaData?.company}`,
           status: ` ${inventoryData?.metaData?.status}`,
@@ -732,7 +754,7 @@ const InventoryDetails = () => {
         }
       case 'base-consumption': // Asset Consumption tab 2
         return {
-          title: `Declare Consumption Block ${inventoryAcceptedData?.metaData?.block}`,
+          title: `Declare Consumption | Block ${inventoryAcceptedData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryAcceptedData?.metaData?.company}`,
           status: ` ${inventoryAcceptedData?.metaData?.status}`,
@@ -740,7 +762,7 @@ const InventoryDetails = () => {
         }
       case 'base-surplus': // Surplus Declaration tab 1
         return {
-          title: `Declare Consumption Block ${inventoryAcceptedData?.metaData?.block}`,
+          title: `Declare Consumption | Block ${inventoryAcceptedData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryAcceptedData?.metaData?.company}`,
           status: ` ${inventoryAcceptedData?.metaData?.status}`,
@@ -748,20 +770,14 @@ const InventoryDetails = () => {
         }
       case 'addition': // Addition tab 5
         return {
-          title: `addition ${inventoryData?.metaData?.block}`,
+          title: `Addition | Block ${inventoryData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryData?.metaData?.company}`,
           status: ` ${inventoryData?.metaData?.status}`,
           submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
         }
       default:
-        return {
-          title: `default ${inventoryData?.metaData?.block}`,
-          companyAllRoles: true,
-          companyName: `${inventoryData?.metaData?.company}`,
-          status: ` ${inventoryData?.metaData?.status}`,
-          submittedBy: `${inventoryData?.metaData?.createdBy?.name}`,
-        }
+        break
     }
   }
   return (

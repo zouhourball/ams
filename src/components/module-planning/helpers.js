@@ -131,6 +131,7 @@ export const actionsHeader = (
   status,
   onUpdateWpb,
   accessibilityInitMeeting,
+  setShowRescheduleDialog,
 ) => {
   const statusArray = [
     'SUBMITTED',
@@ -200,7 +201,8 @@ export const actionsHeader = (
     id: 2,
     label: 'Initiate Meeting',
     onClick: () => {
-      window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting-home`)
+      setShowRescheduleDialog(true)
+      // window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting-home`)
     },
   }
   const regEntries = [

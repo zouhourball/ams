@@ -12,6 +12,13 @@
     font-size: 18px;
     font-weight: 800;
     text-transform: capitalize;
+
+    @at-root {
+      h3#{&} {
+        margin: 15px;
+        color: black;
+      }
+    }
   }
 
   &-buttons {

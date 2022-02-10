@@ -35,6 +35,7 @@ import {
   permitDrillConfigs,
   permitSuspendConfigs,
   permitAbandonConfigs,
+  reportsConfigs,
   // permitDrillData,
   // permitSuspendData,
   // permitAbandonData,
@@ -46,12 +47,14 @@ const Permit = ({ subModule }) => {
   const [currentTab, setCurrentTab] = useState(
     subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
   )
+  const [reportCurrentTab, setReportCurrentTab] = useState(0)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [information, setInformation] = useState({ date: new Date() })
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
+  const [view, setView] = useState('default')
 
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
@@ -60,6 +63,7 @@ const Permit = ({ subModule }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
+  const reportsData = []
   useEffect(() => {
     setInformation({
       ...information,
@@ -101,6 +105,10 @@ const Permit = ({ subModule }) => {
   )
 
   const role = useRole('permitting')
+  const reportsActions = [
+    { id: 'downTemp', label: 'Download Template', onClick: () => {} },
+    { id: 'uplRep', label: 'Upload Report', onClick: () => {} },
+  ]
   const actions =
     currentTab === 0
       ? [
@@ -167,6 +175,11 @@ const Permit = ({ subModule }) => {
     })
   }
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
+  const reportTabsList = [
+    'End Of Well Report.xlsx',
+    'Quarterly Well Integrity Report.xlsx',
+    'Annual Drilling Report.xls',
+  ]
   const permitData = permitListData?.content?.map((el) => {
     return {
       id: el.id,
@@ -278,7 +291,8 @@ const Permit = ({ subModule }) => {
     <>
       <TopBar
         title="Permitting"
-        actions={role === 'operator' ? actions : null}
+        actions={role === 'operator' && view === 'default' ? actions : null}
+        changeView={setView}
         menuItems={() => {
           // string array of Ids
           const ids = selectedRow?.map((el) => el?.id)
@@ -304,81 +318,172 @@ const Permit = ({ subModule }) => {
         role={role}
       />
       <div className="subModule">
-        <NavBar
-          tabsList={tabsList}
-          activeTab={currentTab}
-          setActiveTab={(tab) => {
-            setCurrentTab(tab)
-            setSelectedRow([])
-          }}
-        />
-        <div className="subModule--table-wrapper">
-          <Mht
-            hideTotal={false}
-            withFooter
-            configs={renderCurrentTabConfigs()}
-            tableData={permitData || []}
-            withSearch={selectedRow?.length === 0}
-            commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-            // onSelectRows={setSelectedRow}
-            withChecked
-            singleSelect={true}
-            selectedRow={selectedRow}
-            withDownloadCsv
-            defaultCsvFileTitle={renderKey()}
-            headerTemplate={
-              selectedRow?.length === 1 && (
-                <HeaderTemplate
-                  title={`${selectedRow.length} Row Selected`}
-                  actions={actionsHeader(
-                    renderKey(),
-                    selectedRow[0],
-                    role,
-                    setShowSupportedDocumentDialog,
-                    handleDeletePermit,
-                    submitDraft,
-                  )}
-                />
-              )
-            }
-            footerTemplate={
-              permitData?.totalPages > 1 && (
-                <>
-                  &nbsp;|&nbsp;Page
-                  <TextField
-                    id="page_num"
-                    lineDirection="center"
-                    block
-                    type={'number'}
-                    className="page"
-                    value={page + 1}
-                    onChange={(v) =>
-                      v >= permitData?.totalPages
-                        ? setPage(permitData?.totalPages - 1)
-                        : setPage(parseInt(v) - 1)
-                    }
-                    // disabled={status === 'closed'}
-                  />
-                  of {permitData?.totalPages}
-                  &nbsp;|&nbsp;Show
-                  <TextField
-                    id="el_num"
-                    lineDirection="center"
-                    block
-                    placeholder={`Max number is ${permitData?.totalElements}`}
-                    className="show"
-                    value={size}
-                    onChange={(v) =>
-                      v > permitData?.totalElements
-                        ? setSize(permitData?.totalElements)
-                        : setSize(v)
-                    }
-                  />
-                </>
-              )
-            }
-          />
-        </div>
+        {view === 'default' && (
+          <>
+            <NavBar
+              tabsList={tabsList}
+              activeTab={currentTab}
+              setActiveTab={(tab) => {
+                setCurrentTab(tab)
+                setSelectedRow([])
+              }}
+            />
+            <div className="subModule--table-wrapper">
+              <Mht
+                hideTotal={false}
+                withFooter
+                configs={renderCurrentTabConfigs()}
+                tableData={permitData || []}
+                withSearch={selectedRow?.length === 0}
+                commonActions={
+                  selectedRow?.length === 0 || selectedRow?.length > 1
+                }
+                // onSelectRows={setSelectedRow}
+                withChecked
+                singleSelect={true}
+                selectedRow={selectedRow}
+                withDownloadCsv
+                defaultCsvFileTitle={renderKey()}
+                headerTemplate={
+                  selectedRow?.length === 1 && (
+                    <HeaderTemplate
+                      title={`${selectedRow.length} Row Selected`}
+                      actions={actionsHeader(
+                        renderKey(),
+                        selectedRow[0],
+                        role,
+                        setShowSupportedDocumentDialog,
+                        handleDeletePermit,
+                        submitDraft,
+                      )}
+                    />
+                  )
+                }
+                footerTemplate={
+                  permitData?.totalPages > 1 && (
+                    <>
+                      &nbsp;|&nbsp;Page
+                      <TextField
+                        id="page_num"
+                        lineDirection="center"
+                        block
+                        type={'number'}
+                        className="page"
+                        value={page + 1}
+                        onChange={(v) =>
+                          v >= permitData?.totalPages
+                            ? setPage(permitData?.totalPages - 1)
+                            : setPage(parseInt(v) - 1)
+                        }
+                        // disabled={status === 'closed'}
+                      />
+                      of {permitData?.totalPages}
+                      &nbsp;|&nbsp;Show
+                      <TextField
+                        id="el_num"
+                        lineDirection="center"
+                        block
+                        placeholder={`Max number is ${permitData?.totalElements}`}
+                        className="show"
+                        value={size}
+                        onChange={(v) =>
+                          v > permitData?.totalElements
+                            ? setSize(permitData?.totalElements)
+                            : setSize(v)
+                        }
+                      />
+                    </>
+                  )
+                }
+              />
+            </div>
+          </>
+        )}
+        {view === 'reports' && (
+          <>
+            <NavBar
+              tabsList={reportTabsList}
+              activeTab={reportCurrentTab}
+              setActiveTab={(tab) => {
+                setReportCurrentTab(tab)
+                setSelectedRow([])
+              }}
+              actions={reportsActions}
+            />
+            <div className="subModule--table-wrapper">
+              <h3 className="top-bar-title">Organizations</h3>
+            </div>
+            <div className="subModule--table-wrapper">
+              <Mht
+                hideTotal={false}
+                withFooter
+                configs={reportsConfigs}
+                tableData={reportsData || []}
+                withSearch
+                commonActions={
+                  selectedRow?.length === 0 || selectedRow?.length > 1
+                }
+                // onSelectRows={setSelectedRow}
+                // withChecked
+                // singleSelect={true}
+                // selectedRow={selectedRow}
+                // withDownloadCsv
+                // defaultCsvFileTitle={renderKey()}
+                headerTemplate={
+                  selectedRow?.length === 1 && (
+                    <HeaderTemplate
+                      title={`${selectedRow.length} Row Selected`}
+                      actions={actionsHeader(
+                        renderKey(),
+                        selectedRow[0],
+                        role,
+                        setShowSupportedDocumentDialog,
+                        handleDeletePermit,
+                        submitDraft,
+                      )}
+                    />
+                  )
+                }
+                footerTemplate={
+                  permitData?.totalPages > 1 && (
+                    <>
+                      &nbsp;|&nbsp;Page
+                      <TextField
+                        id="page_num"
+                        lineDirection="center"
+                        block
+                        type={'number'}
+                        className="page"
+                        value={page + 1}
+                        onChange={(v) =>
+                          v >= permitData?.totalPages
+                            ? setPage(permitData?.totalPages - 1)
+                            : setPage(parseInt(v) - 1)
+                        }
+                        // disabled={status === 'closed'}
+                      />
+                      of {permitData?.totalPages}
+                      &nbsp;|&nbsp;Show
+                      <TextField
+                        id="el_num"
+                        lineDirection="center"
+                        block
+                        placeholder={`Max number is ${permitData?.totalElements}`}
+                        className="show"
+                        value={size}
+                        onChange={(v) =>
+                          v > permitData?.totalElements
+                            ? setSize(permitData?.totalElements)
+                            : setSize(v)
+                        }
+                      />
+                    </>
+                  )
+                }
+              />
+            </div>
+          </>
+        )}
       </div>
       {showPermitDialog && (
         <UploadPermitDialog

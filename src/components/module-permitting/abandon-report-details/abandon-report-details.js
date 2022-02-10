@@ -87,6 +87,21 @@ const AbandonReportDetails = ({ abandonReportId }) => {
     >
       Print
     </Button>,
+    detailData?.metaData?.status === 'DRAFT' && (
+      <Button
+        key="6"
+        id="submit"
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          acknowledge('SUBMITTED')
+        }}
+      >
+        Submit
+      </Button>
+    ),
     role === 'regulator' && detailData?.metaData?.status === 'SUBMITTED' && (
       <>
         <Button
@@ -97,7 +112,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
           primary
           swapTheming
           onClick={() => {
-            clickHandler('ACCEPTED')
+            acknowledge('ACCEPTED')
           }}
         >
           Accept
@@ -110,7 +125,7 @@ const AbandonReportDetails = ({ abandonReportId }) => {
           primary
           swapTheming
           onClick={() => {
-            clickHandler('REJECTED')
+            acknowledge('REJECTED')
           }}
         >
           Reject

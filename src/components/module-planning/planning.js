@@ -19,6 +19,7 @@ import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 import ConfirmDialog from 'components/confirm-dialog'
+import VenueInvite from 'components/venue-invite'
 
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
@@ -55,6 +56,7 @@ import { addToast } from 'modules/app/actions'
 
 import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 
+import './style.scss'
 const Planning = ({ subModule }) => {
   const dispatch = useDispatch()
 
@@ -67,7 +69,7 @@ const Planning = ({ subModule }) => {
   const [currentUpload, setCurrentUpload] = useState()
   const [overrideId, setOverrideId] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
-  // const [showRescheduleDialog, setShowRescheduleDialog] = useState(false)
+  const [showRescheduleDialog, setShowRescheduleDialog] = useState(false)
 
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
@@ -620,10 +622,14 @@ const Planning = ({ subModule }) => {
     })
   }
   const handleStatus = (key) => {
-    const roleKey = role.slice(0, -1)
+    // const roleKey = role.slice(0, -1)
     return updateStatus(
       selectedRow[0]?.id,
-      key === 'accept' ? (roleKey === 'JMC' ? `APPROVE` : `ENDORSE`) : `REJECT`,
+      key === 'accept'
+        ? actionsList?.includes('ENDORSE')
+          ? `ENDORSE`
+          : `APPROVE`
+        : `REJECT`,
     )
   }
 
@@ -659,20 +665,34 @@ const Planning = ({ subModule }) => {
           setSelectedRow([])
         }}
       />
-      {actionsList?.length > 0 && (
-        <>
+      {actionsList?.length > 0 && selectedRow[0]?.status === 'SUBMITTED' && (
+        <div className="btns-section">
           {(actionsList?.includes('ENDORSE') ||
             actionsList?.includes('APPROVE')) && (
-            <Button id="accept" onClick={() => handleStatus('accept')}>
-              Accept
+            <Button
+              id="accept"
+              className="top-bar-buttons-list-item-btn"
+              flat
+              primary
+              swapTheming
+              onClick={() => handleStatus('accept')}
+            >
+              {actionsList?.includes('ENDORSE') ? 'Endorse' : 'Approve'}
             </Button>
           )}
           {actionsList?.includes('REJECT') && (
-            <Button id="reject" onClick={() => handleStatus('reject')}>
+            <Button
+              id="reject"
+              className="top-bar-buttons-list-item-btn"
+              flat
+              primary
+              swapTheming
+              onClick={() => handleStatus('reject')}
+            >
               Reject
             </Button>
           )}
-        </>
+        </div>
       )}
       <Mht
         configs={planningConfigs(UploadSupportedDocumentFromTable)}
@@ -708,6 +728,7 @@ const Planning = ({ subModule }) => {
                 selectedRow[0]?.status,
                 setShowUploadRapportDialog,
                 actionsList?.length && actionsList?.includes('CREATE_MEETINGS'),
+                setShowRescheduleDialog,
               )}
             />
           ) : (
@@ -819,7 +840,7 @@ const Planning = ({ subModule }) => {
           readOnly={role === 'regulator'}
         />
       )}
-      {/* showRescheduleDialog && (
+      {showRescheduleDialog && (
         <VenueInvite
           onClose
           email={''}
@@ -830,9 +851,9 @@ const Planning = ({ subModule }) => {
           toggle={() => {
             setShowRescheduleDialog(false)
           }}
-          members={get(membersData, 'data', []) || []}
+          members={/* get(membersData, 'data', []) || */ []}
         />
-        ) */}
+      )}
     </>
   )
 }

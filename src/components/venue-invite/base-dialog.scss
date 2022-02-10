@@ -1,0 +1,80 @@
+.app--base-dialog {
+  &--container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    border-radius: 4px;
+
+    .base-dialog-close {
+      position: absolute;
+      z-index: 1;
+      top: 5px;
+      right: 5px;
+
+      .md-icon {
+        line-height: 20px;
+      }
+    }
+  }
+
+  &--title {
+    height: 50px;
+    padding: 0 20px;
+    border-bottom: 1px solid #eaeaea;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 50px;
+  }
+
+  &--content {
+    margin-top: 15px;
+  }
+
+  &--btn-action {
+    min-width: 96px;
+    border-radius: 4px;
+    font-weight: 900;
+  }
+
+  &--footer {
+    padding: 14px 20px;
+    border-top: 1px solid #eaeaea;
+
+    .md-btn {
+      width: 120px;
+      height: 40px;
+      margin-right: 5px;
+      padding: 0;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 40px;
+      text-align: center;
+      text-transform: capitalize;
+
+      &.app--base-dialog--btn-primary {
+        background: #1979ff;
+        color: #fff;
+      }
+    }
+
+    .md-text--disabled {
+      opacity: 0.38;
+    }
+  }
+
+  .md-dialog-footer--inline .md-btn--text.md-text {
+    background: #eaeaea;
+  }
+}
+
+// .app--base-dialog--btn-primary.md-btn {
+//   background-color: #1979ff;
+//   color: #fff !important;
+// }
+
+// .app--base-dialog--btn-secondary.md-btn {
+//   background-color: #f44336;
+//   color: #fff;
+// }

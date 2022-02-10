@@ -70,7 +70,7 @@ const HsseDetails = ({ hsseId }) => {
     const res = hsseDetails?.data?.map((el) => ({
       item: el?.item,
       ...buildObjectFromArray(el.values, 'month'),
-      columns: [{ operator: '' }, { contractor: '' }],
+      yearEnd: el?.yearEndTarget /* [{ operator: '' }, { contractor: '' }] */,
     }))
 
     return res || []

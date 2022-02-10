@@ -47,6 +47,7 @@ const TopBar = ({
   menuItems,
   returnTo,
   currentView: view,
+  changeView,
   role,
 }) => {
   const [currentView, setCurrentView] = useState(view || 'file')
@@ -56,6 +57,9 @@ const TopBar = ({
   const onViewClick = useCallback(
     (view) => {
       setCurrentView(view)
+      if (view === 'reports') {
+        changeView(view)
+      }
       if (view === 'dashboard' && !pathname.includes('/analytics/dashboard')) {
         const findItem = specificPaths.find((i) => pathname.includes(i.path))
         if (findItem) {
@@ -98,6 +102,16 @@ const TopBar = ({
               className={cls(
                 'top-bar-buttons-switch-view-btn',
                 currentView === 'dashboard' && 'active',
+              )}
+              iconEl={<img src={analyticView} />}
+            />
+            <Button
+              icon
+              onClick={() => onViewClick('reports')}
+              tooltipLabel={'reports'}
+              className={cls(
+                'top-bar-buttons-switch-view-btn',
+                currentView === 'reports' && 'active',
               )}
               iconEl={<img src={analyticView} />}
             />

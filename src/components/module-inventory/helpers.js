@@ -539,6 +539,7 @@ export const annualBaseDetailsConfigs = () => [
   {
     label: 'Material Description',
     key: 'materialDescription',
+    type: 'text',
     width: '200',
     icon: 'mdi mdi-spellcheck',
   },

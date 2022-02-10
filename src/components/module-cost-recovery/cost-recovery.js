@@ -418,11 +418,12 @@ const CostRecovery = ({ subkey }) => {
   }
 
   const handleOverride = () => {
+    const data = currentTab === 2 ? uploadData?.data : uploadData?.data?.data
     overrideReportMutate(
       {
         body: {
-          data: uploadData?.data?.data,
-          metaData: uploadData?.data?.metaData,
+          data,
+          // metaData: uploadData?.data?.metaData,
         },
         overrideId: showConfirmDialog,
         key: tab[currentTab],

@@ -1,0 +1,357 @@
+$grag-bg-color: #eaeaea;
+
+.clsprefix-date-picker-content {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  border: 1px solid #ddd;
+  background: #fff;
+
+  &--active {
+    display: block;
+  }
+}
+
+.clsprefix-date-picker-wrap {
+  position: relative;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+/* date picker panel */
+.clsprefix-date-picker-weeks {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(234, 234, 234, 0.6);
+}
+
+.clsprefix-date-picker-first-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid $grag-bg-color;
+}
+
+.clsprefix-date-picker-week-item {
+  color: #000;
+  font-size: 12px;
+  line-height: 34px;
+  text-transform: capitalize;
+}
+
+.clsprefix-date-picker-panel {
+  width: 318px;
+  background: #fff;
+  box-shadow: rgba($color: #000, $alpha: 0.5) 0 0 5px;
+}
+
+.clsprefix-date-picker-btn.md-btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.clsprefix-date-picker-date-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.clsprefix-date-picker-date-row-item {
+  display: flex;
+  flex-basis: 30px;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 50%;
+  color: #000;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background: #eaeaea;
+  }
+}
+
+.clsprefix-date-picker-date-row-item--is-today {
+  color: #1979ff;
+}
+
+.clsprefix-date-picker-year {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.clsprefix-date-picker-today.md-btn {
+  min-width: auto;
+  height: 24px;
+  margin: 0;
+  padding: 0 14px;
+  background-color: $grag-bg-color;
+  color: #808080;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: capitalize;
+}
+
+.clsprefix-date-picker-title {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.clsprefix-date-picker-date-row-item--is-before {
+  color: rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+}
+
+.clsprefix-date-picker-date-rows {
+  padding: 12px 0;
+}
+
+.clsprefix-date-picker-reset.mdc-button:not(:disabled) {
+  height: 24px;
+  border-color: $grag-bg-color;
+  color: rgba(0, 0, 0, 0.6);
+  letter-spacing: 0;
+  text-transform: capitalize;
+}
+
+.date-picker-input-error {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  color: #b00020;
+  white-space: nowrap;
+}
+
+.clsprefix-date-picker-date-row-item--selected {
+  background: $grag-bg-color;
+
+  .clsprefix-date-picker-content {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    border: 1px solid #ddd;
+    background: #fff;
+
+    &--active {
+      display: block;
+    }
+  }
+
+  .clsprefix-date-picker-wrap {
+    position: relative;
+    margin-bottom: 20px;
+    outline: none;
+  }
+
+  /* date picker panel */
+  .clsprefix-date-picker-weeks {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(234, 234, 234, 0.6);
+  }
+
+  .clsprefix-date-picker-first-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid $grag-bg-color;
+  }
+
+  .clsprefix-date-picker-week-item {
+    color: #000;
+    font-size: 12px;
+    line-height: 34px;
+    text-transform: capitalize;
+  }
+
+  .clsprefix-date-picker-panel {
+    width: 318px;
+    background: #fff;
+    box-shadow: rgba($color: #000, $alpha: 0.5) 0 0 5px;
+  }
+
+  .clsprefix-date-picker-btn.md-btn {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.38);
+  }
+
+  .clsprefix-date-picker-date-row {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 5px 0;
+  }
+
+  .clsprefix-date-picker-date-row-item {
+    display: flex;
+    flex-basis: 30px;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    border-radius: 50%;
+    color: #000;
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: #eaeaea;
+    }
+  }
+
+  .clsprefix-date-picker-date-row-item--is-today {
+    color: #1979ff;
+  }
+
+  .clsprefix-date-picker-year {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+  }
+
+  .clsprefix-date-picker-today.md-btn {
+    min-width: auto;
+    height: 24px;
+    margin: 0;
+    padding: 0 14px;
+    background-color: $grag-bg-color;
+    color: #808080;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: capitalize;
+  }
+
+  .clsprefix-date-picker-title {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .clsprefix-date-picker-date-row-item--is-before {
+    color: rgba(0, 0, 0, 0.38);
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: #000;
+  }
+
+  .clsprefix-date-picker-date-row-item--selected {
+    background: #1979ff;
+    color: white;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  .clsprefix-date-picker-date-rows {
+    padding: 12px 0;
+  }
+
+  .clsprefix-date-picker-reset.mdc-button:not(:disabled) {
+    height: 24px;
+    border-color: $grag-bg-color;
+    color: rgba(0, 0, 0, 0.6);
+    letter-spacing: 0;
+    text-transform: capitalize;
+  }
+
+  .date-picker-input-error {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    color: #b00020;
+    white-space: nowrap;
+  }
+
+  color: white;
+}
+
+.time-date-picker {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 0 13px;
+  border: 1px solid #9c9c9c;
+  border-radius: 4px;
+
+  input {
+    margin-top: 0;
+  }
+
+  .md-text-field--floating-margin {
+    margin: 0;
+    color: rgba($color: #000, $alpha: 0.6);
+  }
+
+  .md-floating-label--floating {
+    z-index: 9;
+    padding: 0 5px;
+    transform: translate3d(-4px, -6px, 0);
+    background: #fff;
+    color: rgba($color: #000, $alpha: 0.9);
+
+    &.md-text--error {
+      color: #f44336;
+    }
+  }
+
+  .md-floating-label--inactive {
+    transform: translate3d(0, 14px, 0);
+  }
+
+  .md-divider {
+    display: none;
+  }
+
+  .md-text-field-icon {
+    margin-bottom: 0;
+    font-size: 17px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &.noBorder {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .md-text-field-inline-indicator--floating {
+    top: 4px !important;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+  }
+
+  .md-text {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  &.color-orange {
+    .md-text {
+      color: orange;
+    }
+  }
+
+  &.description {
+    .md-text-field-multiline-container,
+    .md-text-field--multiline {
+      height: 106px !important;
+    }
+  }
+}

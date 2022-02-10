@@ -1,6 +1,58 @@
 import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 
+export const reportsConfigs = [
+  {
+    label: 'File Name',
+    key: 'file',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Company Name',
+    key: 'company',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+
+  {
+    label: 'Block',
+    key: 'block',
+    width: '200',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
+  },
+  {
+    label: 'Submitted Date',
+    key: 'submittedDate',
+    width: '200',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+    icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
+  },
+  {
+    label: 'Submitted By',
+    key: 'submittedBy',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    displayInCsv: true,
+  },
+  {
+    label: 'Reference Date',
+    key: 'referenceDate',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    // type: 'date',
+    // dateFormat: 'DD MMM, YYYY',
+    displayInCsv: true,
+  },
+]
 export const permitDrillConfigs = (supportedDocument) => [
   {
     label: 'Company',

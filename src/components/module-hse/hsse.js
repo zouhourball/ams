@@ -134,10 +134,10 @@ const HSSE = () => {
             id: el?.id,
             company: el?.metaData?.company,
             block: el?.metaData?.block,
-            submittedDate: el?.createdAt
+            submittedDate: el?.metaData?.createdAt
               ? moment(el?.createdAt).format('DD MMM, YYYY')
               : '',
-            submittedBy: el?.createdBy,
+            submittedBy: el?.metaData?.createdBy?.name,
             referenceDate: el?.metaData?.year,
             statusDate: el?.metaData?.updatedAt
               ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
@@ -173,7 +173,7 @@ const HSSE = () => {
     const res = uploadDataResponse?.data?.map((el) => ({
       item: el?.item,
       ...buildObjectFromArray(el.values, 'month'),
-      columns: [{ operator: '' }, { contractor: '' }],
+      yearEnd: el?.yearEndTarget,
     }))
 
     return res
