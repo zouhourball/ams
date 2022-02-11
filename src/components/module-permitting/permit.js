@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Button, TextField } from 'react-md'
+import { Button, TextField, SelectField } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery, useMutation } from 'react-query'
 
@@ -42,6 +42,9 @@ import {
   actionsHeader,
 } from './helpers'
 
+import './style.scss'
+import placeholder from 'images/phase.png'
+
 const Permit = ({ subModule }) => {
   const company = getOrganizationInfos()
   const [currentTab, setCurrentTab] = useState(
@@ -55,6 +58,7 @@ const Permit = ({ subModule }) => {
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
   const [view, setView] = useState('default')
+  const [filterValue, setFilterValue] = useState('')
 
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
@@ -180,6 +184,11 @@ const Permit = ({ subModule }) => {
     'Quarterly Well Integrity Report.xlsx',
     'Annual Drilling Report.xls',
   ]
+  const cards = [
+    { id: 1, name: 'org1', icon: placeholder },
+    { id: 2, name: 'org2', icon: placeholder },
+    { id: 3, name: 'org3', icon: placeholder },
+  ]
   const permitData = permitListData?.content?.map((el) => {
     return {
       id: el.id,
@@ -287,6 +296,31 @@ const Permit = ({ subModule }) => {
       status: 'SUBMITTED',
     })
   }
+  const renderOrgs = () =>
+    cards?.map((card) => {
+      return (
+        <div className="card" key={card?.id}>
+          <div>
+            <img src={card?.icon} />
+            <span>{card?.name}</span>
+            <span>toggle</span>
+          </div>{' '}
+          <SelectField
+            id={'orgblocks'}
+            className={`selectField`}
+            menuItems={['item1', 'item2']}
+            position={SelectField.Positions.BELOW}
+            sameWidth
+            simplifiedMenu={false}
+            placeholder={'Select Blocks'}
+            block
+            onChange={setFilterValue}
+            value={filterValue}
+          />
+        </div>
+      )
+    })
+
   return (
     <>
       <TopBar
@@ -410,8 +444,11 @@ const Permit = ({ subModule }) => {
               }}
               actions={reportsActions}
             />
-            <div className="subModule--table-wrapper">
-              <h3 className="top-bar-title">Organizations</h3>
+            <div className="subModule--table-wrapper reports">
+              <div className="header">
+                <h3 className="top-bar-title">Organizations</h3>
+              </div>
+              <div className="cards">{renderOrgs()}</div>
             </div>
             <div className="subModule--table-wrapper">
               <Mht

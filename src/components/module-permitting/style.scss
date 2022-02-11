@@ -1,0 +1,62 @@
+.subModule--table-wrapper {
+  &.reports {
+    flex-grow: 0;
+  }
+
+  .header {
+    margin-bottom: 15px;
+    border-bottom: #f4f6f8 1px solid;
+  }
+
+  .cards {
+    display: flex;
+    width: 100vw;
+    overflow: auto;
+
+    .card {
+      width: 200px;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f4f6f8;
+
+      .selectField {
+        margin: 10px 0 0 0;
+
+        > span {
+          display: none;
+        }
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: hidden;
+
+        > span:first-of-type {
+          margin-right: auto;
+          padding: 0 5px;
+        }
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        border: #b3b4b4 1px solid;
+        border-radius: 5px;
+        object-fit: contain;
+      }
+
+      .md-select-field__toggle {
+        width: 100%;
+      }
+
+      .md-select-field--btn {
+        padding: 0 5px;
+        border-radius: 7px;
+        background-color: white;
+      }
+    }
+  }
+}

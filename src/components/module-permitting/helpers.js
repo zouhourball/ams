@@ -5,7 +5,7 @@ export const reportsConfigs = [
   {
     label: 'File Name',
     key: 'file',
-    width: '200',
+    width: '300',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
     displayInCsv: true,
@@ -13,7 +13,7 @@ export const reportsConfigs = [
   {
     label: 'Company Name',
     key: 'company',
-    width: '200',
+    width: '300',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
     displayInCsv: true,
@@ -22,7 +22,7 @@ export const reportsConfigs = [
   {
     label: 'Block',
     key: 'block',
-    width: '200',
+    width: '300',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
     displayInCsv: true,
@@ -30,7 +30,7 @@ export const reportsConfigs = [
   {
     label: 'Submitted Date',
     key: 'submittedDate',
-    width: '200',
+    width: '250',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
     icon: 'mdi mdi-spellcheck',
@@ -39,14 +39,14 @@ export const reportsConfigs = [
   {
     label: 'Submitted By',
     key: 'submittedBy',
-    width: '200',
+    width: '300',
     icon: 'mdi mdi-spellcheck',
     displayInCsv: true,
   },
   {
     label: 'Reference Date',
     key: 'referenceDate',
-    width: '200',
+    width: '250',
     icon: 'mdi mdi-spellcheck',
     // type: 'date',
     // dateFormat: 'DD MMM, YYYY',
