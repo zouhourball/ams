@@ -1,14 +1,8 @@
 import { chartsPageCreator } from 'components/charts-page'
-import { mcDFBySize, mapDataCvtCreator } from 'components/analytics/utils'
+import { mcDFBySize } from 'components/analytics/utils'
 import { creatorMaker } from 'components/analytics/utils/creator-maker'
 import ChartText from 'components/chart-text'
-// import DataTable from '@target-energysolutions/data-table'
 import Mht from '@target-energysolutions/mht'
-
-import Map from 'components/map'
-
-// import i18n from 'i18n-js'
-// import l from 'libs/langs/keys'
 import { query, eq } from 'libs/utils/query'
 // import { wellObjective2Text } from "components/ams-permit/analytics/processors"
 import {
@@ -33,11 +27,9 @@ const drillObjective = ['wellObjective', 'permitType', 'company', 'block']
 const mc11 = mcDFBySize(1, 1)
 const mc21 = mcDFBySize(2, 1)
 const mc42 = mcDFBySize(4, 2)
-const mc42MoreFilters = mcDFBySize(4, 2, ['company', 'block', 'permitType'])
 const mc21Pie = mc21('pie', null)
 const mc42Table = mc42('table', Mht)
 const mc42Stack = mc42('stack', null)
-const mc42Map = mc42MoreFilters('map', Map)
 const mc42Bar = (filterBy) =>
   mc42Stack(
     creatorMaker({
@@ -356,34 +348,34 @@ export const chartsToDraw = [
             },
             {},
           ),
-          smallCard({ onShoreOffShore: 'Onshore' })(
-            'Onshore Wells',
-            {
-              pinConfig: configMerge(
-                title('Onshore Wells'),
-                mapTransform([{ col: 'count-1', formula: '1' }]),
-                mapCardSumBy('count-1'),
-                dataFilter({
-                  eq: ['Onshore/Offshore', 'Onshore'],
-                }),
-              ),
-            },
-            {},
-          ),
-          smallCard({ onShoreOffShore: 'Offshore' })(
-            'Offshore Wells',
-            {
-              pinConfig: configMerge(
-                title('Offshore Wells'),
-                mapTransform([{ col: 'count-1', formula: '1' }]),
-                mapCardSumBy('count-1'),
-                dataFilter({
-                  eq: ['Onshore/Offshore', 'Offshore'],
-                }),
-              ),
-            },
-            {},
-          ),
+          // smallCard({ onShoreOffShore: 'Onshore' })(
+          //   'Onshore Wells',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Onshore Wells'),
+          //       mapTransform([{ col: 'count-1', formula: '1' }]),
+          //       mapCardSumBy('count-1'),
+          //       dataFilter({
+          //         eq: ['Onshore/Offshore', 'Onshore'],
+          //       }),
+          //     ),
+          //   },
+          //   {},
+          // ),
+          // smallCard({ onShoreOffShore: 'Offshore' })(
+          //   'Offshore Wells',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Offshore Wells'),
+          //       mapTransform([{ col: 'count-1', formula: '1' }]),
+          //       mapCardSumBy('count-1'),
+          //       dataFilter({
+          //         eq: ['Onshore/Offshore', 'Offshore'],
+          //       }),
+          //     ),
+          //   },
+          //   {},
+          // ),
           drillPie(mc21Pie, 'count', '')(
             'Well Type',
             {
@@ -403,48 +395,48 @@ export const chartsToDraw = [
             },
             {},
           ),
-          smallCard({ wellType: 'horizontal' })(
-            'Horizontal Wells',
-            {
-              pinConfig: configMerge(
-                title('Horizontal Wells'),
-                mapTransform([{ col: 'count-1', formula: '1' }]),
-                mapCardSumBy('count-1'),
-                dataFilter({
-                  eq: ['Well Type', 'horizontal'],
-                }),
-              ),
-            },
-            {},
-          ),
-          smallCard({ wellType: 'vertical' })(
-            'Vertical Wells',
-            {
-              pinConfig: configMerge(
-                title('Vertical Wells'),
-                mapTransform([{ col: 'count-1', formula: '1' }]),
-                mapCardSumBy('count-1'),
-                dataFilter({
-                  eq: ['Well Type', 'vertical'],
-                }),
-              ),
-            },
-            {},
-          ),
-          smallCard({ wellType: 'deviated' })(
-            'Deviated Wells',
-            {
-              pinConfig: configMerge(
-                title('Deviated Wells'),
-                mapTransform([{ col: 'count-1', formula: '1' }]),
-                mapCardSumBy('count-1'),
-                dataFilter({
-                  eq: ['Well Type', 'deviated'],
-                }),
-              ),
-            },
-            {},
-          ),
+          // smallCard({ wellType: 'horizontal' })(
+          //   'Horizontal Wells',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Horizontal Wells'),
+          //       mapTransform([{ col: 'count-1', formula: '1' }]),
+          //       mapCardSumBy('count-1'),
+          //       dataFilter({
+          //         eq: ['Well Type', 'horizontal'],
+          //       }),
+          //     ),
+          //   },
+          //   {},
+          // ),
+          // smallCard({ wellType: 'vertical' })(
+          //   'Vertical Wells',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Vertical Wells'),
+          //       mapTransform([{ col: 'count-1', formula: '1' }]),
+          //       mapCardSumBy('count-1'),
+          //       dataFilter({
+          //         eq: ['Well Type', 'vertical'],
+          //       }),
+          //     ),
+          //   },
+          //   {},
+          // ),
+          // smallCard({ wellType: 'deviated' })(
+          //   'Deviated Wells',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Deviated Wells'),
+          //       mapTransform([{ col: 'count-1', formula: '1' }]),
+          //       mapCardSumBy('count-1'),
+          //       dataFilter({
+          //         eq: ['Well Type', 'deviated'],
+          //       }),
+          //     ),
+          //   },
+          //   {},
+          // ),
           drillPie(mc21Pie, 'count', '')(
             'Well Objective',
             {
@@ -527,40 +519,40 @@ export const chartsToDraw = [
               exportFileName: 'permit-data',
             },
           ),
-          mc42Map(
-            creatorMaker({
-              type: 'map',
-              config: {
-                mapName: 'permit map',
-                mapDataConvert: mapDataCvtCreator({
-                  blockField: 'block',
-                  valueField: 'aFECost',
-                }),
-              },
-            }),
-            'Permits AFE Costs',
-            {
-              pinConfig: configMerge(filterByCompanyBlock, {
-                type: 'GisMap',
-                title: 'Permits AFE Costs',
-                map: {
-                  blockBy: 'block',
-                  value1Key: 'AFE Cost, mm$',
-                },
-                filter: {
-                  type: 'simple',
-                  definition: [
-                    {
-                      type: 'check',
-                      label: 'Type',
-                      field: 'permitType',
-                    },
-                  ],
-                },
-              }),
-            },
-            {},
-          ),
+          // mc42Map(
+          //   creatorMaker({
+          //     type: 'map',
+          //     config: {
+          //       mapName: 'permit map',
+          //       mapDataConvert: mapDataCvtCreator({
+          //         blockField: 'block',
+          //         valueField: 'aFECost',
+          //       }),
+          //     },
+          //   }),
+          //   'Permits AFE Costs',
+          //   {
+          //     pinConfig: configMerge(filterByCompanyBlock, {
+          //       type: 'GisMap',
+          //       title: 'Permits AFE Costs',
+          //       map: {
+          //         blockBy: 'block',
+          //         value1Key: 'AFE Cost, mm$',
+          //       },
+          //       filter: {
+          //         type: 'simple',
+          //         definition: [
+          //           {
+          //             type: 'check',
+          //             label: 'Type',
+          //             field: 'permitType',
+          //           },
+          //         ],
+          //       },
+          //     }),
+          //   },
+          //   {},
+          // ),
         ],
       },
     ],

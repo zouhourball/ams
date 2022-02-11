@@ -1,7 +1,6 @@
 import { chartsPageCreator } from 'components/charts-page'
 import monthlyStationCharts from './report-type/monthly-station'
 import dailyCharts from './report-type/daily'
-import monthlyCharts from './report-type/monthly'
 import annualForecast from './report-type/annual-forecast'
 
 export const chartsToDraw = [
@@ -24,17 +23,6 @@ export const chartsToDraw = [
         title: 'Summary',
         layout: 'float',
         charts: dailyCharts,
-      },
-    ],
-  },
-  {
-    title: 'Monthly Flaring Performance',
-    reportType: 'MONTHLY',
-    groups: [
-      {
-        title: 'Summary',
-        layout: 'float',
-        charts: monthlyCharts,
       },
     ],
   },
