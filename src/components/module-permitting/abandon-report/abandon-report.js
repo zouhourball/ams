@@ -16,6 +16,7 @@ import './style.scss'
 const AbandonReport = ({ abandonReportId }) => {
   const [loading, setLoading] = useState(false)
   const [currentUploadedFile, setCurrentUploadedFile] = useState({})
+  const [inputFileMEM, showInputFile] = useState(false)
   const [formData, setFormData] = useState({
     data: {
       plannedAbandonDate: new Date(),
@@ -202,7 +203,14 @@ const AbandonReport = ({ abandonReportId }) => {
         { label: 'Other', value: 'Other' },
       ],
       required: true,
-      onChange: (value) => onEditValue('wellObjective', value),
+      onChange: (value) => {
+        onEditValue('wellObjective', value)
+        if (value === 'oilExploration' || value === 'gasExploration') {
+          showInputFile(true)
+        } else {
+          showInputFile(false)
+        }
+      },
       type: 'selectWithOther',
       value: formData?.data?.wellObjective,
     },
@@ -524,7 +532,15 @@ const AbandonReport = ({ abandonReportId }) => {
     })
   const onSave = () => {
     addPermitAbandon.mutate({
-      body: { ...formData, id: detailData?.id, data: formatData() },
+      body: {
+        ...formData,
+        id: detailData?.id,
+        data: formatData(),
+        metaData: {
+          ...formData.metaData,
+          status: 'AUTO_APPROVED',
+        },
+      },
     })
   }
   const onSaveReport = () => {
@@ -532,6 +548,39 @@ const AbandonReport = ({ abandonReportId }) => {
       body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
+  const fileField = {
+    id: 'mem',
+    title: 'MEM',
+    cellWidth: 'md-cell md-cell--12',
+    input: 'fileInput',
+    required: true,
+    onDrop: (value) => {
+      // console.log(value)
+      if (value?.length > 0) {
+        setLoading(true)
+
+        fileManagerUpload(value).then((res) => {
+          setLoading(false)
+          onEditValue('mem', res?.files[0]?.url)
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            mem: res?.files[0],
+          })
+        })
+      } else {
+        onEditValue('mem', '')
+        setCurrentUploadedFile({
+          ...currentUploadedFile,
+          mem: '',
+        })
+      }
+    },
+    file: currentUploadedFile?.mem,
+    setFile: setCurrentUploadedFile,
+    loading: loading,
+    value: currentUploadedFile?.mem,
+  }
+  const allfields = inputFileMEM ? [...fields, fileField] : fields
   const actions = [
     <Button
       key="1"
@@ -571,7 +620,7 @@ const AbandonReport = ({ abandonReportId }) => {
   return (
     <div className="abandon-report">
       <TopBar title="Permit to Abandon" actions={actions} />
-      <GenericForm fields={fields} />
+      <GenericForm fields={allfields} />
     </div>
   )
 }

@@ -12,9 +12,11 @@ const MHTDialog = ({
   onHide,
   onSave,
   onCommit,
+  onUpdate,
   propsDataTable,
   propsConfigs,
   headerTemplate,
+  id,
 }) => {
   const actions = () => {
     let buttons = [
@@ -27,7 +29,7 @@ const MHTDialog = ({
       },
     ]
 
-    if (onSave) {
+    if (onSave && !id) {
       buttons.push({
         children: 'Save',
         primary: true,
@@ -38,7 +40,7 @@ const MHTDialog = ({
         },
       })
     }
-    if (onCommit) {
+    if (onCommit && !id) {
       buttons.push({
         children: 'Commit',
         primary: true,
@@ -46,6 +48,17 @@ const MHTDialog = ({
         swapTheming: true,
         onClick: () => {
           onCommit && onCommit()
+        },
+      })
+    }
+    if (onUpdate && id) {
+      buttons.push({
+        children: 'Update',
+        primary: true,
+        flat: true,
+        swapTheming: true,
+        onClick: () => {
+          onUpdate && onUpdate()
         },
       })
     }

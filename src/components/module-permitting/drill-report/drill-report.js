@@ -6,9 +6,15 @@ import moment from 'moment'
 
 import GenericForm from 'components/generic-form-permit'
 import TopBar from 'components/top-bar'
+import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import getBlocks from 'libs/hooks/get-blocks'
-import { addPermit, getPermitDetail, savePermit } from 'libs/api/permit-api'
+import {
+  addPermit,
+  getPermitDetail,
+  savePermit,
+  // updatePermit,
+} from 'libs/api/permit-api'
 
 import { validForm } from '../validate-form-fields'
 
@@ -20,7 +26,9 @@ const DrillReport = ({ drillReportId }) => {
       plannedSpudDate: new Date(),
     },
   })
-
+  const [inputFileMEM, showInputFile] = useState(false)
+  const [currentUploadedFile, setCurrentUploadedFile] = useState({})
+  const [loading, setLoading] = useState(false)
   const { data: detailData } = useQuery(
     ['drillReportById', 'Drill', drillReportId],
     drillReportId && getPermitDetail,
@@ -64,6 +72,46 @@ const DrillReport = ({ drillReportId }) => {
     }
   }, [detailData])
   const blockList = getBlocks()
+  /* const updatePermitDrill = useMutation(updatePermit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        navigate('/ams/permitting')
+      } else {
+      }
+    },
+  }) */
+  const fileField = {
+    id: 'mem',
+    title: 'MEM',
+    cellWidth: 'md-cell md-cell--12',
+    input: 'fileInput',
+    required: true,
+    onDrop: (value) => {
+      // console.log(value)
+      if (value?.length > 0) {
+        setLoading(true)
+
+        fileManagerUpload(value).then((res) => {
+          setLoading(false)
+          onEditValue('mem', res?.files[0]?.url)
+          setCurrentUploadedFile({
+            ...currentUploadedFile,
+            mem: res?.files[0],
+          })
+        })
+      } else {
+        onEditValue('mem', '')
+        setCurrentUploadedFile({
+          ...currentUploadedFile,
+          mem: '',
+        })
+      }
+    },
+    file: currentUploadedFile?.mem,
+    setFile: setCurrentUploadedFile,
+    loading: loading,
+    value: currentUploadedFile?.mem,
+  }
   const fields = [
     {
       id: 'block',
@@ -186,7 +234,14 @@ const DrillReport = ({ drillReportId }) => {
         { label: 'Other', value: 'Other' },
       ],
       required: true,
-      onChange: (value) => onEditValue('wellObjective', value),
+      onChange: (value) => {
+        onEditValue('wellObjective', value)
+        if (value === 'oilExploration' || value === 'gasExploration') {
+          showInputFile(true)
+        } else {
+          showInputFile(false)
+        }
+      },
       type: 'selectWithOther',
       value: formData?.data?.wellObjective,
     },
@@ -352,7 +407,14 @@ const DrillReport = ({ drillReportId }) => {
   }
   const onAdd = () => {
     // console.log(formData);
-    addPermitDrill.mutate({
+    /* detailData?.metaData?.status === 'REJECTED'
+      ? updatePermitDrill.mutate({
+        ...formData,
+        id: detailData?.id,
+        data: formatData(),
+        status: 'SUBMITTED',
+      })
+      : */ addPermitDrill.mutate({
       body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
@@ -361,7 +423,7 @@ const DrillReport = ({ drillReportId }) => {
       body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
-
+  const allfields = inputFileMEM ? [...fields, fileField] : fields
   const actions = [
     <Button
       key="1"
@@ -401,7 +463,7 @@ const DrillReport = ({ drillReportId }) => {
   return (
     <div className="drill-report">
       <TopBar title="Permit to Drill Report" actions={actions} />
-      <GenericForm fields={fields} />
+      <GenericForm fields={allfields} />
     </div>
   )
 }

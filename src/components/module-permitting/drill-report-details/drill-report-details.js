@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button } from 'react-md'
+import { Button, DialogContainer, TextField } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 import { useState } from 'react'
 import moment from 'moment'
@@ -17,6 +17,8 @@ import './style.scss'
 const DrillReportDetails = ({ drillReportId }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const [rejectionDialog, setRejectionDialog] = useState(false)
+  const [rejectionReason, setRejectionReason] = useState('')
   const { data: detailData } = useQuery(
     ['drillReportById', 'Drill', drillReportId],
     getPermitDetail,
@@ -53,7 +55,11 @@ const DrillReportDetails = ({ drillReportId }) => {
     >
       View documents
     </Button>,
-    !(role === 'operator' && detailData?.metaData?.status !== 'DRAFT') && (
+    !(
+      role === 'operator' &&
+      detailData?.metaData?.status !== 'DRAFT' &&
+      detailData?.metaData?.status !== 'REJECTED'
+    ) && (
       <Button
         key="2"
         id="edit"
@@ -122,7 +128,8 @@ const DrillReportDetails = ({ drillReportId }) => {
           primary
           swapTheming
           onClick={() => {
-            clickHandler('REJECTED')
+            // clickHandler('REJECTED')
+            setRejectionDialog(true)
           }}
         >
           Reject
@@ -130,6 +137,37 @@ const DrillReportDetails = ({ drillReportId }) => {
       </>
     ),
   ]
+  const submitRejection = [
+    <Button
+      key="4"
+      id="reject"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {
+        clickHandler('REJECTED')
+        setRejectionDialog(false)
+      }}
+    >
+      Reject
+    </Button>,
+    <Button
+      key="5"
+      id="discard"
+      className="top-bar-buttons-list-item-btn"
+      flat
+      primary
+      swapTheming
+      onClick={() => {
+        // clickHandler('REJECTED')
+        setRejectionDialog(false)
+      }}
+    >
+      Discard
+    </Button>,
+  ]
+
   return (
     <div className="drill-report-details">
       <TopBarDetail
@@ -145,6 +183,27 @@ const DrillReportDetails = ({ drillReportId }) => {
           ),
         }}
       />
+      {rejectionDialog && (
+        <DialogContainer
+          id="reject-dialog"
+          actions={submitRejection}
+          visible={rejectionDialog}
+          title={'Reason of Rejection'}
+          className="override-dialog"
+        >
+          <TextField
+            id="search"
+            lineDirection="center"
+            block
+            placeholder="Type here the cause of rejection"
+            className="blocks-data-header-textField"
+            value={rejectionReason}
+            onChange={(v) => setRejectionReason(v)}
+            rows={5}
+            // disabled={status === 'closed'}
+          />
+        </DialogContainer>
+      )}
       <DetailsPermit
         fields={[
           {

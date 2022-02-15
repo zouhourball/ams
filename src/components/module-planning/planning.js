@@ -267,6 +267,8 @@ const Planning = ({ subModule }) => {
 
       if (!res.error) {
         setSelectedRow([])
+        setShowUploadRapportDialog(false)
+        setShowUploadMHTDialog(false)
         dispatch(
           addToast(
             <ToastMsg
@@ -790,6 +792,11 @@ const Planning = ({ subModule }) => {
           onSave={() => {
             onSaveReport(currentTab)
           }}
+          onUpdate={() => {
+            setFileList([...filesList, dataDisplayedMHT])
+            handleUpdateWpb(selectedRow[0]?.id, currentUpload)
+          }}
+          id={selectedRow[0]?.id}
         />
       )}
       {showUploadRapportDialog && (
@@ -811,7 +818,7 @@ const Planning = ({ subModule }) => {
           onSave={(data) => renderDialogData(data).onUpload()}
           // previewData={selectedRow[0]}
           formatDate="year"
-          onUpdate={handleUpdateWpb}
+          // onUpdate={handleUpdateWpb}
           row={selectedRow[0]}
         />
       )}

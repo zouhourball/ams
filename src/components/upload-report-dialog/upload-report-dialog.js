@@ -157,31 +157,18 @@ const UploadReportDialog = ({
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadOptional,
   })
-  const uploadBtn = row?.id
-    ? {
-      children: 'Update',
-      primary: true,
-      flat: true,
-      swapTheming: !validData(),
-      disabled: validData(),
+  const uploadBtn = {
+    children: row?.id ? 'Update ' : 'Upload',
+    primary: true,
+    flat: true,
+    swapTheming: !validData(),
+    disabled: validData(),
 
-      onClick: () => {
-        onUpdate(row?.id, { ...reportData, filesList, optionalFiles })
-        onHide()
-      },
-    }
-    : {
-      children: 'Upload',
-      primary: true,
-      flat: true,
-      swapTheming: !validData(),
-      disabled: validData(),
-
-      onClick: () => {
-        onSave({ ...reportData, filesList, optionalFiles })
-        onHide()
-      },
-    }
+    onClick: () => {
+      onSave({ ...reportData, filesList, optionalFiles })
+      onHide()
+    },
+  }
   const actions = [
     {
       children: 'Discard',
