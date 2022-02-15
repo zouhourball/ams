@@ -9,7 +9,7 @@ import { PrimeContext } from 'components/app/context'
 import './style.scss'
 
 const Permitting = lazy(() => import('components/module-permitting'))
-const Audit = lazy(() => import('components/module-audit'))
+const Audit = lazy(() => import('components/audit-module'))
 const Agreement = lazy(() => import('components/module-agreements'))
 // const TenderingModule = lazy(() => import('components/module-tendering'))
 const InventoryHome = lazy(() => import('components/module-inventory'))

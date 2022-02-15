@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { Button, TextField, SelectField } from 'react-md'
+import { Button, TextField, SelectField, Switch } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery, useMutation } from 'react-query'
 
@@ -303,7 +303,9 @@ const Permit = ({ subModule }) => {
           <div>
             <img src={card?.icon} />
             <span>{card?.name}</span>
-            <span>toggle</span>
+            <span>
+              <Switch />
+            </span>
           </div>{' '}
           <SelectField
             id={'orgblocks'}
