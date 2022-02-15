@@ -57,7 +57,7 @@ const TopBar = ({
   const onViewClick = useCallback(
     (view) => {
       setCurrentView(view)
-      if (view === 'reports') {
+      if (view === 'reports' && changeView) {
         changeView(view)
       }
       if (view === 'dashboard' && !pathname.includes('/analytics/dashboard')) {
@@ -105,16 +105,18 @@ const TopBar = ({
               )}
               iconEl={<img src={analyticView} />}
             />
-            <Button
-              icon
-              onClick={() => onViewClick('reports')}
-              tooltipLabel={'reports'}
-              className={cls(
-                'top-bar-buttons-switch-view-btn',
-                currentView === 'reports' && 'active',
-              )}
-              iconEl={<img src={analyticView} />}
-            />
+            {changeView && (
+              <Button
+                icon
+                onClick={() => onViewClick('reports')}
+                tooltipLabel={'reports'}
+                className={cls(
+                  'top-bar-buttons-switch-view-btn',
+                  currentView === 'reports' && 'active',
+                )}
+                iconEl={<img src={analyticView} />}
+              />
+            )}
           </div>
           {role === 'operator' && (
             <MenuButton
