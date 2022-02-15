@@ -6,11 +6,13 @@ import {
   CircularProgress,
 } from 'react-md'
 import { useDropzone } from 'react-dropzone'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 import { get } from 'lodash-es'
+import { v4 as uuidv4 } from 'uuid'
 
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import uploadIcon from './upload-icon.svg'
@@ -20,11 +22,29 @@ import HtmlEditor from 'components/html-editor'
 import './style.scss'
 
 const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
+  const company = getOrganizationInfos()
   const [files, setFiles] = useState([])
   const [fileLoader, setFileLoader] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [auditData, setAuditData] = useState({})
+  const [auditData, setAuditData] = useState({
+    company: company?.name,
+    processInstanceId: uuidv4(),
+  })
+  useEffect(
+    () => setAuditData({ ...auditData, company: company?.name }),
+    [company],
+  )
 
+  /* "company": "string",
+  "description": "string",
+  "expectedDeliverable": "dd-MM-yyyy",
+  "processInstanceId": "string",
+  "purpose": "string",
+  "scope": "string",
+  "title": "string",
+  "uploads": [
+    "string"
+  ] */
   const onUploadDocument = (file) => {
     setFileLoader(true)
     fileManagerUpload(file).then((res) => {
@@ -46,7 +66,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
     flat: true,
 
     onClick: () => {
-      onSave({ ...auditData, files })
+      onSave({ ...auditData, uploads: files })
       onHide()
     },
   }
@@ -136,9 +156,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
         <div className="md-cell md-cell--12">
           <TextField
             placeholder={'Reference Date'}
-            value={moment(
-              new Date(auditData?.deliverablesData?.timestamp),
-            ).format('ll')}
+            value={moment(auditData?.expectedDeliverable).format('ll')}
             className="new-audit-request-dialog-text"
             onChange={() => {}}
             block
@@ -150,7 +168,10 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
               singlePick
               translation={{ update: 'select' }}
               onUpdate={(date) => {
-                setAuditData({ ...auditData, deliverablesData: date })
+                setAuditData({
+                  ...auditData,
+                  expectedDeliverable: moment(date).format('DD-MM-YYYY'),
+                })
                 setShowDatePicker(false)
               }}
               onCancel={() => setShowDatePicker(false)}

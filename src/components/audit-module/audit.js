@@ -14,7 +14,6 @@ import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
-
 import { configs, actionsHeader, dummyData } from './helpers'
 
 const Audit = () => {

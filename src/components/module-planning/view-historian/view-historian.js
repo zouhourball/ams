@@ -6,7 +6,13 @@ import TopBarDetail from 'components/top-bar-detail'
 
 import './style.scss'
 
-const ViewHistorian = ({ sections, objectId = 1, version = 2, subModule }) => {
+const ViewHistorian = ({
+  sections,
+  objectId = 1,
+  version = 2,
+  subModule,
+  returnTo = 'planning',
+}) => {
   const detailData = {
     title: 'Block 55',
     companyName: 'company',
@@ -45,7 +51,7 @@ const ViewHistorian = ({ sections, objectId = 1, version = 2, subModule }) => {
   return (
     <div className="view-historian">
       <TopBarDetail
-        onClickBack={() => navigate('/ams/planning')}
+        onClickBack={() => navigate(`/ams/${returnTo}`)}
         actions={[]}
         detailData={detailData}
       />
