@@ -1,0 +1,67 @@
+.response-details-dialog {
+  > .md-dialog {
+    width: 40%;
+    min-width: 500px;
+    border-radius: 8px;
+  }
+
+  .md-title {
+    padding: 16px 30px;
+    border-bottom: 1px solid #dcdcdc;
+  }
+
+  .md-dialog-content {
+    padding-top: 20px;
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .attachment-detail {
+    display: flex;
+    justify-content: space-between;
+
+    &-docs-icon-area {
+      display: flex;
+      align-items: center;
+      width: calc(100% - 20px);
+      padding: 8px 0;
+
+      .name {
+        color: rgba($color: #000, $alpha: 0.8);
+      }
+
+      .size {
+        color: rgba($color: #000, $alpha: 0.54);
+        font-size: 12px;
+      }
+
+      .md-icon {
+        font-size: 24px;
+        line-height: 1;
+
+        &.mdi-file-pdf {
+          color: red;
+        }
+
+        &.color-mdi-office {
+          color: #1565c0;
+        }
+
+        &.color-mdi-xls {
+          color: green;
+        }
+
+        &.color-mdi-img {
+          color: #9f67e6;
+        }
+
+        &.color-mdi-zip-box {
+          color: #000;
+        }
+      }
+    }
+  }
+}
