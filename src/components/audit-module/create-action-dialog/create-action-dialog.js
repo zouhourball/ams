@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { DialogContainer, Button, TextField, FontIcon, Portal } from 'react-md'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
+import { useQuery } from 'react-apollo-hooks'
+import { useSelector } from 'react-redux'
+
+import { getPublicUrl } from 'libs/utils/custom-function'
+import workers from 'libs/queries/workers.gql'
 
 import HtmlEditor from '../../module-tendering/components/create-agenda/html-editor'
 import AutocompleteWithCard from '../autocomplete-with-card'
@@ -17,6 +22,25 @@ const CreateActionDialog = ({
   members,
 }) => {
   const [datePickerState, setDatePickerState] = useState(false)
+  const organizationID = useSelector((state) => state?.shell?.organizationId)
+
+  const { data: membersByOrganisation } = useQuery(workers, {
+    context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
+    variables: { organizationID: organizationID, wsIDs: [] },
+  })
+
+  const membersByOrg = () => {
+    let members = []
+    members = membersByOrganisation?.workers?.map((el) => ({
+      subject: el?.profile?.subject,
+      name: el?.profile?.fullName,
+      email: el?.profile?.email,
+      id: el?.profile?.userID,
+      avatar: getPublicUrl(el?.profile?.pictureURL),
+    }))
+
+    return members
+  }
 
   const actions = [
     <Button id="1" key="1" primary flat onClick={onHide}>
@@ -115,7 +139,7 @@ const CreateActionDialog = ({
           />
         </div>
         <AutocompleteWithCard
-          membersList={members}
+          membersList={membersByOrg()}
           selectedMembers={information?.participants || []}
           setSelectedMembers={(v) =>
             setInformation({

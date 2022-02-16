@@ -4,6 +4,12 @@ import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 import AutocompleteWithCard from '../autocomplete-with-card'
 
+import { useSelector } from 'react-redux'
+import { useQuery } from 'react-apollo-hooks'
+
+import { getPublicUrl } from 'libs/utils/custom-function'
+import workers from 'libs/queries/workers.gql'
+
 import './style.scss'
 
 const CreateAuditSpace = ({
@@ -12,8 +18,27 @@ const CreateAuditSpace = ({
   visible,
   onHide,
   onSubmit,
-  members,
 }) => {
+  const organizationID = useSelector((state) => state?.shell?.organizationId)
+
+  const { data: membersByOrganisation } = useQuery(workers, {
+    context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
+    variables: { organizationID: organizationID, wsIDs: [] },
+  })
+
+  const membersByOrg = () => {
+    let members = []
+    members = membersByOrganisation?.workers?.map((el) => ({
+      subject: el?.profile?.subject,
+      name: el?.profile?.fullName,
+      email: el?.profile?.email,
+      id: el?.profile?.userID,
+      avatar: getPublicUrl(el?.profile?.pictureURL),
+    }))
+
+    return members
+  }
+
   const [datePickerStart, setDatePickerStart] = useState(false)
   const [datePickerEnd, setDatePickerEnd] = useState(false)
   const actions = [
@@ -67,7 +92,7 @@ const CreateAuditSpace = ({
           block
         />
         <AutocompleteWithCard
-          membersList={members}
+          membersList={membersByOrg()}
           selectedMembers={information?.participants || []}
           setSelectedMembers={(v) =>
             setInformation({
