@@ -1,0 +1,37 @@
+.audit-closure-details-dialog {
+  > .md-dialog {
+    width: 40%;
+    min-width: 500px;
+    border-radius: 8px;
+  }
+
+  .md-title {
+    padding: 16px 30px;
+    border-bottom: 1px solid #dcdcdc;
+    color: #2f3842;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .md-dialog-content {
+    padding-top: 20px;
+  }
+
+  .label {
+    margin-bottom: 15px;
+    color: #484848;
+    font-weight: bold;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+
+    &-info {
+      &-fullName {
+        margin-left: 10px;
+      }
+    }
+  }
+}
