@@ -2,6 +2,10 @@
   .md-dialog {
     width: 40%;
     border-radius: 10px;
+
+    &-content--padded {
+      padding: 16px;
+    }
   }
 
   .md-text-field-icon {

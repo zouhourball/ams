@@ -1,4 +1,10 @@
 import { Button, DialogContainer } from 'react-md'
+import { useSelector } from 'react-redux'
+import { useQuery } from 'react-apollo-hooks'
+
+import { getPublicUrl } from 'libs/utils/custom-function'
+import workers from 'libs/queries/workers.gql'
+
 import AutocompleteWithCard from '../autocomplete-with-card'
 
 import './style.scss'
@@ -9,8 +15,27 @@ const InviteParticipantDialog = ({
   onSubmit,
   participants,
   setParticipants,
-  members,
 }) => {
+  const organizationID = useSelector((state) => state?.shell?.organizationId)
+
+  const { data: membersByOrganisation } = useQuery(workers, {
+    context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
+    variables: { organizationID: organizationID, wsIDs: [] },
+  })
+
+  const membersByOrg = () => {
+    let members = []
+    members = membersByOrganisation?.workers?.map((el) => ({
+      subject: el?.profile?.subject,
+      name: el?.profile?.fullName,
+      email: el?.profile?.email,
+      id: el?.profile?.userID,
+      avatar: getPublicUrl(el?.profile?.pictureURL),
+    }))
+
+    return members
+  }
+
   const actions = [
     <Button id="1" key="1" primary flat onClick={onHide}>
       Discard
@@ -32,7 +57,7 @@ const InviteParticipantDialog = ({
     >
       <div className="md-grid">
         <AutocompleteWithCard
-          membersList={members}
+          membersList={membersByOrg()}
           selectedMembers={participants || []}
           setSelectedMembers={setParticipants}
           className={'md-cell md-cell--12'}

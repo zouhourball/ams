@@ -8,21 +8,30 @@ import {
 import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import { get } from 'lodash-es'
+import { useQuery } from 'react-apollo-hooks'
+import { useSelector } from 'react-redux'
 
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
+import workers from 'libs/queries/workers.gql'
 import SelectItemsWithSearch from 'components/select-items-with-search'
 
 import uploadIcon from 'images/upload.svg'
 
 import './style.scss'
 
-const AuditClosureDialog = ({ title, visible, onHide, onSave, items }) => {
+const AuditClosureDialog = ({ title, visible, onHide, onSave }) => {
   const [files, setFiles] = useState([])
   const [fileLoader, setFileLoader] = useState(false)
   const [selectedItems, setSelectedItems] = useState([])
   const [itemsVisibility, setItemsVisibility] = useState(false)
   const [textSearch, setTextSearch] = useState('')
+  const organizationID = useSelector((state) => state?.shell?.organizationId)
+
+  const { data: membersByOrganisation } = useQuery(workers, {
+    context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
+    variables: { organizationID: organizationID, wsIDs: [] },
+  })
 
   const onUploadDocument = (file) => {
     setFileLoader(true)
@@ -96,7 +105,18 @@ const AuditClosureDialog = ({ title, visible, onHide, onSave, items }) => {
     ))
   }
 
-  let filterList = items
+  const membersByOrg = () => {
+    let members = []
+    members = membersByOrganisation?.workers?.map((el) => ({
+      subject: el?.profile?.subject,
+      fullName: el?.profile?.fullName,
+      email: el?.profile?.email,
+      id: el?.profile?.userID,
+    }))
+
+    return members
+  }
+  let filterList = membersByOrg()
   if (textSearch) {
     const expr = new RegExp(textSearch, 'i')
     filterList = filterList.filter((nal) => expr.test(nal['fullName']))
