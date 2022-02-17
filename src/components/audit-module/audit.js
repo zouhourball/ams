@@ -1,19 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField } from 'react-md'
 import { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
 } from '@target-energysolutions/mht'
 import moment from 'moment'
 
-import { getStateAudit } from 'libs/api/api-audit'
+import { getStateAudit, submitAudits, closureReport } from 'libs/api/api-audit'
 import documents from 'libs/hooks/documents'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
+import NewAuditRequestDialog from 'components/new-audit-request-dialog'
+import AuditClosureDialog from 'components/audit-closure-dialog'
 import { configs, actionsHeader, dummyData } from './helpers'
 
 const Audit = () => {
@@ -21,6 +23,7 @@ const Audit = () => {
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
   const [uploadDialog, showUploadDialog] = useState(false)
+  const [auditClosureDialog, showAuditClosureDialog] = useState(false)
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -58,6 +61,9 @@ const Audit = () => {
     ],
     getStateAudit,
   )
+  const submitAuditsMutation = useMutation(submitAudits)
+  const submitClosureReportMutation = useMutation(closureReport)
+
   const handleSupportingDocs = (data) => {
     addSupportingDocuments(
       data,
@@ -68,7 +74,7 @@ const Audit = () => {
   }
   const actions = [
     <Button
-      key={`reserves-btn-1`}
+      key={`audit-btn-1`}
       className="top-bar-buttons-list-item-btn"
       flat
       primary
@@ -80,6 +86,21 @@ const Audit = () => {
       New Audit Request
     </Button>,
   ]
+  const submitRequest = (body) => {
+    submitAuditsMutation.mutate(
+      {
+        body,
+      },
+      {
+        onSuccess: (res) => {},
+      },
+    )
+  }
+  const submitClosureReport = (body) => {
+    submitClosureReportMutation.mutate({
+      body,
+    })
+  }
   return (
     <>
       <TopBar
@@ -122,8 +143,8 @@ const Audit = () => {
             singleSelect={true}
             withFooter
             configs={configs}
-            // tableData={renderData()}
-            tableData={dummyData}
+            tableData={renderData()?.length ? renderData() : dummyData}
+            // tableData={dummyData}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
             // onSelectRows={setSelectedRow}
@@ -173,7 +194,7 @@ const Audit = () => {
                   actions={actionsHeader(
                     selectedRow[0],
                     setShowSupportedDocumentDialog,
-                    setSelectedRow,
+                    showAuditClosureDialog,
                   )}
                 />
               )) || <div />
@@ -196,7 +217,22 @@ const Audit = () => {
           }}
         />
       )}
-      {uploadDialog && <h1>upload dialog</h1>}
+      {uploadDialog && (
+        <NewAuditRequestDialog
+          title={''}
+          visible={uploadDialog}
+          onHide={() => showUploadDialog(false)}
+          onSave={submitRequest}
+        />
+      )}
+      {auditClosureDialog && (
+        <AuditClosureDialog
+          title={'Send Audit Closure Report'}
+          visible={auditClosureDialog}
+          onHide={() => showAuditClosureDialog(false)}
+          onSave={submitClosureReport}
+        />
+      )}
     </>
   )
 }

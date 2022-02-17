@@ -70,7 +70,7 @@ const CreateAuditSpace = ({
           value={
             information?.startDate
               ? `${moment(new Date(information?.startDate)).format(
-                'DD/MM/YYYY',
+                'DD-MM-YYYY',
               )} `
               : ''
           }
@@ -85,7 +85,7 @@ const CreateAuditSpace = ({
           value={
             information?.endDate
               ? `${moment(new Date(information?.endDate)).format(
-                'DD/MM/YYYY',
+                'DD-MM-YYYY',
               )} `
               : ''
           }
@@ -97,7 +97,13 @@ const CreateAuditSpace = ({
           setSelectedMembers={(v) =>
             setInformation({
               ...information,
-              participants: v,
+              participants: [
+                {
+                  email: 'string',
+                  name: 'string',
+                  sub: 'string',
+                },
+              ],
             })
           }
           className={'md-cell md-cell--12'}

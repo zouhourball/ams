@@ -1,20 +1,17 @@
 import { Button } from 'react-md'
 
-import { userRole } from 'components/shared-hook/get-roles'
-
 import './style.scss'
 
-const TopBarDetail = ({ detailData, actions, onClickBack }) => {
+const TopBarDetail = ({ detailData, actions, onClickBack, view }) => {
   const {
     title,
-    subTitle,
-    companyName,
-    submittedBy,
-    submittedDate,
-    companyAllRoles,
+    purpose,
+    auditId,
+    date,
+    scope,
+    expectedDeliv,
     status,
-    blockNumber,
-    totalProposals,
+    description,
   } = detailData
   const renderListButtons = () => {
     return actions.map((action) => action)
@@ -36,102 +33,91 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
             <div className="top-bar-detail-left-information-titles-title">
               {title}
             </div>
-
-            {subTitle && (
-              <>
-                <div className="top-bar-detail-left-information-titles-sub-title-sep">
-                  /
-                </div>
-                <div className="top-bar-detail-left-information-titles-sub-title">
-                  {subTitle}
-                </div>
-              </>
-            )}
+            <div className={`status status-${status}`}>{status}</div>
           </div>
 
           <div className="top-bar-detail-left-information-details">
-            {blockNumber && (
+            {auditId && (
               <>
                 {' '}
                 <div className="top-bar-detail-left-information-details-item">
                   <div className="top-bar-detail-left-information-details-item-key">
-                    Block :
+                    Audit ID :
                   </div>
                   <div className="top-bar-detail-left-information-details-item-value">
                     {' '}
-                    {blockNumber}
+                    {auditId}
                   </div>
                 </div>
               </>
             )}
-            {totalProposals && (
+
+            {date && (
+              <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
+
+                <div className="top-bar-detail-left-information-details-item-key">
+                  {view === 'default' && 'Requested date :'}
+                  {view === 'response' && 'Date Raised :'}
+                </div>
+                <div className="top-bar-detail-left-information-details-item-value">
+                  {' '}
+                  {date}
+                </div>
+              </div>
+            )}
+            {purpose && view === 'default' && (
               <>
                 {' '}
                 <div className="top-bar-detail-left-information-details-item">
                   <div className="top-bar-detail-left-information-details-item-sep"></div>
 
                   <div className="top-bar-detail-left-information-details-item-key">
-                    Total Proposals :
+                    {view === 'default' && 'Purpose :'}
                   </div>
                   <div className="top-bar-detail-left-information-details-item-value">
                     {' '}
-                    {totalProposals}
+                    {purpose}
                   </div>
                 </div>
               </>
             )}
-
-            {((companyName && userRole() === 'regulator') ||
-              companyAllRoles) && (
-              <div className="top-bar-detail-left-information-details-item">
-                <div className="top-bar-detail-left-information-details-item-key">
-                  Company :
-                </div>
-                <div className="top-bar-detail-left-information-details-item-value">
-                  {' '}
-                  {companyName}
-                </div>
-              </div>
-            )}
-            {status && (
-              <>
-                {' '}
-                <div className="top-bar-detail-left-information-details-item">
-                  <div className="top-bar-detail-left-information-details-item-sep"></div>
-
-                  <div className="top-bar-detail-left-information-details-item-key">
-                    Status :
-                  </div>
-                  <div className="top-bar-detail-left-information-details-item-value">
-                    {' '}
-                    {status}
-                  </div>
-                </div>
-              </>
-            )}
-            {submittedBy && (
+            {description && view === 'response' && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-sep"></div>
 
                 <div className="top-bar-detail-left-information-details-item-key">
-                  Submitted by :
+                  Short Description :
                 </div>
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}
-                  {submittedBy}
+                  {description}
                 </div>
               </div>
             )}
-            {submittedDate && (
+            {scope && view === 'default' && (
+              <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
+
+                <div className="top-bar-detail-left-information-details-item-key">
+                  {view === 'default' && 'Scope :'}
+                </div>
+                <div className="top-bar-detail-left-information-details-item-value">
+                  {' '}
+                  {scope}
+                </div>
+              </div>
+            )}
+            {expectedDeliv && view === 'default' && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-sep"></div>
                 <div className="top-bar-detail-left-information-details-item-key">
                   {' '}
-                  Submitted Date :
+                  {view === 'default' && 'Expected Deliverable :'}
                 </div>
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}
-                  {submittedDate}
+                  {expectedDeliv}
                 </div>
               </div>
             )}
