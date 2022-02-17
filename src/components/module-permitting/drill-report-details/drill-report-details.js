@@ -1,5 +1,8 @@
 import { navigate } from '@reach/router'
-import { Button, DialogContainer, TextField } from 'react-md'
+import {
+  Button,
+  // DialogContainer, TextField
+} from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 import { useState } from 'react'
 import moment from 'moment'
@@ -17,8 +20,8 @@ import './style.scss'
 const DrillReportDetails = ({ drillReportId }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
-  const [rejectionDialog, setRejectionDialog] = useState(false)
-  const [rejectionReason, setRejectionReason] = useState('')
+  // const [rejectionDialog, setRejectionDialog] = useState(false)
+  // const [rejectionReason, setRejectionReason] = useState('')
   const { data: detailData } = useQuery(
     ['drillReportById', 'Drill', drillReportId],
     getPermitDetail,
@@ -128,8 +131,8 @@ const DrillReportDetails = ({ drillReportId }) => {
           primary
           swapTheming
           onClick={() => {
-            // clickHandler('REJECTED')
-            setRejectionDialog(true)
+            clickHandler('REJECTED')
+            // setRejectionDialog(true)
           }}
         >
           Reject
@@ -137,7 +140,7 @@ const DrillReportDetails = ({ drillReportId }) => {
       </>
     ),
   ]
-  const submitRejection = [
+  /* const submitRejection = [
     <Button
       key="4"
       id="reject"
@@ -166,7 +169,7 @@ const DrillReportDetails = ({ drillReportId }) => {
     >
       Discard
     </Button>,
-  ]
+  ] */
 
   return (
     <div className="drill-report-details">
@@ -183,7 +186,7 @@ const DrillReportDetails = ({ drillReportId }) => {
           ),
         }}
       />
-      {rejectionDialog && (
+      {/* rejectionDialog && (
         <DialogContainer
           id="reject-dialog"
           actions={submitRejection}
@@ -203,7 +206,7 @@ const DrillReportDetails = ({ drillReportId }) => {
             // disabled={status === 'closed'}
           />
         </DialogContainer>
-      )}
+      ) */}
       <DetailsPermit
         fields={[
           {

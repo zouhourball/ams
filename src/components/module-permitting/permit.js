@@ -533,7 +533,9 @@ const Permit = ({ subModule }) => {
           information={information}
           setInformation={setInformation}
           onContinue={() => navigateTo()}
-          blockList={blockList?.map((el) => el.block)}
+          blockList={
+            Array.isArray(blockList) ? blockList?.map((el) => el.block) : []
+          }
         />
       )}
       {showSupportedDocumentDialog && (

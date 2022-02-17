@@ -77,7 +77,9 @@ const AbandonReport = ({ abandonReportId }) => {
       title: 'Block',
       cellWidth: 'md-cell md-cell--6',
       input: 'select',
-      menuItems: blockList?.map((el) => el.block),
+      menuItems: Array.isArray(blockList)
+        ? blockList?.map((el) => el.block)
+        : [],
       required: true,
       onChange: (value) => onEditValue('block', value, true),
       value: formData?.metaData?.block,
@@ -127,8 +129,18 @@ const AbandonReport = ({ abandonReportId }) => {
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) =>
-        onEditValue('wellSurfaceLocationCoordinatesNorth', value),
+      onChange: (value) => {
+        if (formData?.data?.wellType === 'vertical') {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellSurfaceLocationCoordinatesNorth: value,
+              wellSubsurfaceTargetCoordinateNorth: value,
+            },
+          })
+        } else onEditValue('wellSurfaceLocationCoordinatesNorth', value)
+      },
       type: 'string',
       value: formData?.data?.wellSurfaceLocationCoordinatesNorth,
     },
@@ -138,8 +150,18 @@ const AbandonReport = ({ abandonReportId }) => {
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) =>
-        onEditValue('wellSurfaceLocationCoordinatesEast', value),
+      onChange: (value) => {
+        if (formData?.data?.wellType === 'vertical') {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellSubsurfaceTargetCoordinateEast: value,
+              wellSurfaceLocationCoordinatesEast: value,
+            },
+          })
+        } else onEditValue('wellSurfaceLocationCoordinatesEast', value)
+      },
       type: 'string',
       value: formData?.data?.wellSurfaceLocationCoordinatesEast,
     },
@@ -149,8 +171,18 @@ const AbandonReport = ({ abandonReportId }) => {
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) =>
-        onEditValue('wellSubsurfaceTargetCoordinateNorth', value),
+      onChange: (value) => {
+        if (formData?.data?.wellType === 'vertical') {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellSurfaceLocationCoordinatesNorth: value,
+              wellSubsurfaceTargetCoordinateNorth: value,
+            },
+          })
+        } else onEditValue('wellSubsurfaceTargetCoordinateNorth', value)
+      },
       type: 'string',
       value: formData?.data?.wellSubsurfaceTargetCoordinateNorth,
     },
@@ -160,8 +192,18 @@ const AbandonReport = ({ abandonReportId }) => {
       cellWidth: 'md-cell md-cell--4',
       input: 'textField',
       required: true,
-      onChange: (value) =>
-        onEditValue('wellSubsurfaceTargetCoordinateEast', value),
+      onChange: (value) => {
+        if (formData?.data?.wellType === 'vertical') {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellSubsurfaceTargetCoordinateEast: value,
+              wellSurfaceLocationCoordinatesEast: value,
+            },
+          })
+        } else onEditValue('wellSubsurfaceTargetCoordinateEast', value)
+      },
       type: 'string',
       value: formData?.data?.wellSubsurfaceTargetCoordinateEast,
     },
@@ -210,6 +252,19 @@ const AbandonReport = ({ abandonReportId }) => {
         } else {
           showInputFile(false)
         }
+        if (
+          (value === 'oilExploration' || value === 'gasExploration') &&
+          formData?.data?.onShoreOffShore === 'Offshore'
+        ) {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellObjective: value,
+              wellRiskCategory: 'High',
+            },
+          })
+        } else onEditValue('wellObjective', value)
       },
       type: 'selectWithOther',
       value: formData?.data?.wellObjective,
@@ -237,7 +292,15 @@ const AbandonReport = ({ abandonReportId }) => {
       input: 'select',
       menuItems: ['Low', 'Medium', 'High'],
       required: true,
-      onChange: (value) => onEditValue('wellRiskCategory', value),
+      onChange: (value) => {
+        if (
+          (formData?.data?.wellObjective === 'oilExploration' ||
+            formData?.data?.wellObjective === 'gasExploration') &&
+          formData?.data?.onShoreOffShore === 'Offshore'
+        ) {
+          onEditValue('wellRiskCategory', 'High')
+        } else onEditValue('wellRiskCategory', value)
+      },
       type: 'enum',
       value: formData?.data?.wellRiskCategory,
     },
@@ -248,7 +311,22 @@ const AbandonReport = ({ abandonReportId }) => {
       input: 'select',
       menuItems: ['Offshore', 'Onshore'],
       required: true,
-      onChange: (value) => onEditValue('onShoreOffShore', value),
+      onChange: (value) => {
+        if (
+          (formData?.data?.wellObjective === 'oilExploration' ||
+            formData?.data?.wellObjective === 'gasExploration') &&
+          value === 'Offshore'
+        ) {
+          setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              onShoreOffShore: value,
+              wellRiskCategory: 'High',
+            },
+          })
+        } else onEditValue('onShoreOffShore', value)
+      },
       type: 'enum',
       value: formData?.data?.onShoreOffShore,
     },
