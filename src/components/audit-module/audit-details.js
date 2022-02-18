@@ -17,6 +17,8 @@ import EnquiryDialog from 'components/enquiry-dialog'
 import HeaderTemplate from 'components/header-template'
 import EnquireDetailsDialog from 'components/audit-module/enquire-details-dialog'
 import InviteParticipantDialog from 'components/audit-module/invite-participant-dialog'
+import ResponseDetailsDialog from 'components/audit-module/response-details-dialog'
+import CreateActionDialog from 'components/audit-module/create-action-dialog'
 
 import { addToast } from 'modules/app/actions'
 
@@ -27,7 +29,12 @@ import {
   createEnquiry,
   assignParticipant,
   createResponse,
+  updateEnquiryByGivenResponse,
+  submitNewAction,
+  // getActions,
+  submitResolutionForAction,
   // getResponses,
+  // getResolutions,
 } from 'libs/api/api-audit'
 import documents from 'libs/hooks/documents'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -36,10 +43,11 @@ import {
   requestConfigs,
   responseConfigs,
   actionConfigs,
+  resolutionConfigs,
   enquiryActionsHeader,
 } from './helpers'
 
-const AuditDetails = ({ auditId = 1 }) => {
+const AuditDetails = ({ subkey, auditId = 1 }) => {
   const dispatch = useDispatch()
 
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -49,9 +57,13 @@ const AuditDetails = ({ auditId = 1 }) => {
   const [newResponseDialog, showNewResponseDialog] = useState(false)
   const [information, setInformation] = useState({})
   const [detailsDialog, showDetailsDialog] = useState(false)
+  const [responseDetailsDialog, showResponseDetailsDialog] = useState(false)
   const [assignDialog, showAssignDialog] = useState(false)
+  const [actionDialog, showActionDialog] = useState(false)
+  const [newResolutionDialog, showNewResolutionDialog] = useState(false)
   const [participants, setParticipants] = useState([])
-  const [view, setView] = useState('default')
+  const [view, setView] =
+    subkey === 'actions' ? useState('actions') : useState('default')
   const { addSupportingDocuments } = documents()
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -62,6 +74,11 @@ const AuditDetails = ({ auditId = 1 }) => {
     auditId && getEnquiries,
   )
   // const { data: responseDetails } = useQuery(['responseDetail'], getResponses)
+  // const { data: actionsList } = useQuery(['actionsList'], getActions)
+  /* const { data: resolutionsList } = useQuery(
+    ['resolutionsList'],
+    getResolutions,
+  ) */
   const company = getOrganizationInfos()
   const successFn = {
     onSuccess: (res) => {
@@ -101,6 +118,18 @@ const AuditDetails = ({ auditId = 1 }) => {
   const createResponseMutation = useMutation(createResponse, {
     ...successFn,
   })
+  const submitActionMutation = useMutation(submitNewAction, {
+    ...successFn,
+  })
+  const updateEnquiryByResponseMutation = useMutation(
+    updateEnquiryByGivenResponse,
+    {
+      ...successFn,
+    },
+  )
+  const createResolutionMutation = useMutation(submitResolutionForAction, {
+    ...successFn,
+  })
   const dummyDetailData = {
     title: 'New Audit Request',
     purpose: 'purpose',
@@ -116,23 +145,63 @@ const AuditDetails = ({ auditId = 1 }) => {
       case 'response':
         return [
           {
+            responseId: '123',
             respDate: '111',
-            response: 'el?.id',
+            response: 'response',
             attachedDocs: 'date',
             status: 'el?.metaData?.status',
           },
         ]
       /* responseDetails?.content?.map((el) => ({
+          responseId: el?.id,
           respDate: moment(el?.metaData?.createdAt).format('DD MMM YYYY'),
           response: el?.description,
           attachedDocs: el?.attachments[0]?.filename,
           status: el?.metaData?.status,
         })) */
+      case 'actions':
+        return [
+          {
+            actionId: '111',
+            date: 'action',
+            assignee: 'date',
+            description: 'description',
+            status: 'el?.metaData?.status',
+          },
+        ]
+      /*
+          actionsList?.content?.map((el) => ({
+          actionId: el?.id,
+          date: moment(el?.metaData?.createdAt).format('DD MMM YYYY'),
+          assignee: el?.assignees[0]?.name,
+          description: el?.description,
+          status: el?.metaData?.status,
+          auditId: el?.auditId,
+        })) */
+      case 'resolutions':
+        return [
+          {
+            resolutionId: '123',
+            enquireId: '111',
+            attachedDocs: 'file',
+            date: 'date',
+            description: 'el?.metaData?.description',
+            status: 'el?.metaData?.status',
+          },
+        ] /* (
+          resolutionsList?.content?.map((el) => ({
+            resolutionId: el?.id,
+            description: el?.description,
+            status: el?.metaData?.status,
+            attachedDocs: el?.attachments[0]?.filename,
+            date: moment(el?.metaData?.createdAt).format('DD MMM YYYY'),
+          })) || []
+        ) */
       default:
         return [
           {
             enquireId: '111',
-            auditId: 'el?.id',
+            auditId: 'enquire',
             date: 'date',
             assignee: 'test',
             description: 'el?.metaData?.description',
@@ -140,7 +209,7 @@ const AuditDetails = ({ auditId = 1 }) => {
           },
         ]
       /* requestDetail?.content?.map((el) => ({
-          enquireId: '111',
+          enquireId: el?.id,
           auditId: el?.id,
           date: el?.metaData?.createdAt
             ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
@@ -207,6 +276,18 @@ const AuditDetails = ({ auditId = 1 }) => {
       body,
     })
   }
+  const createResolutionOnSubmit = (description, files, actionId = '111') => {
+    const body = {
+      actionId,
+      company: company?.name,
+      description,
+      processInstanceId: uuidv4(),
+      // uploads: files,
+    }
+    createResolutionMutation.mutate({
+      body,
+    })
+  }
   const submitAssignee = (assignee) => {
     createAssignee.mutate({
       body: participants[0] || {
@@ -221,13 +302,81 @@ const AuditDetails = ({ auditId = 1 }) => {
     switch (view) {
       case 'response':
         return responseConfigs
-      case 'action':
+      case 'actions':
         return actionConfigs
+      case 'resolutions':
+        return resolutionConfigs
       default:
         return requestConfigs
     }
   }
+  const responseId = '111'
+  const updateEnquiryByResponse = (status) => {
+    updateEnquiryByResponseMutation.mutate({
+      responseId,
+      status,
+    })
+  }
+  const dummyBodyAction = {
+    assignees: [
+      {
+        email: 'string',
+        name: 'string',
+        sub: 'string',
+      },
+    ],
+    auditId: '111',
+    auditReportReference: 'string',
+    company: 'string',
+    deadLine: '12-11-2022',
+    description: 'string',
+    priority: 'HIGH',
+    processInstanceId: uuidv4(),
+    uploads: ['string'],
+  }
+  const submitAction = (body = dummyBodyAction) => {
+    submitActionMutation.mutate({
+      body,
+    })
+  }
+  const renderHeaderDetails = () => {
+    switch (view) {
+      case 'resolutions':
+        return {
+          title: 'Resolutions',
+        }
+      default:
+        return dummyDetailData
+    }
+  }
+
   const actions = [
+    <Button
+      key="2"
+      id="viewDoc"
+      className="top-bar-buttons-list-item-btn view-doc"
+      flat
+      swapTheming
+      onClick={() => {
+        showActionDialog(true)
+      }}
+    >
+      Create New Action
+    </Button>,
+    <Button
+      key="1"
+      id="viewDoc"
+      className="top-bar-buttons-list-item-btn view-doc"
+      flat
+      swapTheming
+      onClick={() => {
+        setShowSupportedDocumentDialog(true)
+      }}
+    >
+      Supporting documents
+    </Button>,
+  ]
+  const defaultActions = [
     <Button
       key="2"
       id="viewDoc"
@@ -293,15 +442,21 @@ const AuditDetails = ({ auditId = 1 }) => {
     <div>
       <TopBarDetailAudit
         onClickBack={() => navigate(`/ams/audit`)}
-        actions={view === 'default' ? actions : []}
-        detailData={dummyDetailData}
+        actions={
+          view === 'default'
+            ? defaultActions
+            : view === 'actions'
+              ? actions
+              : []
+        }
+        detailData={renderHeaderDetails()}
         view={view}
       />
       <div className="subModule--table-wrapper">
         <Mht
-          id="reserves-details"
+          id="audit-details"
           configs={configsByView()}
-          tableData={renderData()}
+          tableData={renderData() || []}
           withSearch={selectedRow?.length === 0}
           commonActions={selectedRow?.length === 0}
           withChecked
@@ -321,6 +476,8 @@ const AuditDetails = ({ auditId = 1 }) => {
                   showNewResponseDialog,
                   setView,
                   view,
+                  showResponseDetailsDialog,
+                  showNewResolutionDialog,
                 )}
               />
             )) || <div />
@@ -388,6 +545,36 @@ const AuditDetails = ({ auditId = 1 }) => {
             showNewResponseDialog(false)
           }}
           onSave={createResponseOnSubmit}
+        />
+      )}
+      {responseDetailsDialog && (
+        <ResponseDetailsDialog
+          visible={responseDetailsDialog}
+          onHide={() => showResponseDetailsDialog(false)}
+          // readOnly
+          title={'Response Details'}
+          descriptionLabel={'Response'}
+          onAccept={() => updateEnquiryByResponse('ACCEPTED')}
+          onReject={() => updateEnquiryByResponse('REJECTED')}
+        />
+      )}
+      {actionDialog && (
+        <CreateActionDialog
+          // information={information}
+          // setInformation={setInformation}
+          visible={actionDialog}
+          onHide={() => showActionDialog(false)}
+          onSubmit={() => submitAction()}
+        />
+      )}
+      {newResolutionDialog && (
+        <EnquiryDialog
+          title="New Resolution"
+          btnLabel="Submit"
+          docLabel="Attach Document"
+          visible={newResolutionDialog}
+          onHide={() => showNewResolutionDialog(false)}
+          onSave={createResolutionOnSubmit}
         />
       )}
     </div>

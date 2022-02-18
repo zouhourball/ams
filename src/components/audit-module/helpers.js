@@ -45,6 +45,82 @@ export const configs = [
     displayInCsv: true,
   },
 ]
+export const resolutionConfigs = [
+  {
+    label: 'Date Raised',
+    key: 'date',
+    width: '350',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Resolution Description',
+    key: 'description',
+    width: '550',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Attached Document',
+    key: 'attachedDocs',
+    width: '350',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Status',
+    key: 'status',
+    width: '350',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+]
+export const actionConfigs = [
+  {
+    label: 'Action ID',
+    key: 'actionId',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Date Raised',
+    key: 'date',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Assignee',
+    key: 'assignee',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Action Description',
+    key: 'description',
+    width: '400',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+  {
+    label: 'Status',
+    key: 'status',
+    width: '300',
+    icon: 'mdi mdi-spellcheck',
+    type: 'text',
+    displayInCsv: true,
+  },
+]
 export const responseConfigs = [
   {
     label: 'Response Date / Time',
@@ -130,7 +206,13 @@ export const requestConfigs = [
   },
 ]
 
-export const actionsHeader = (row, suppDoc, showAuditClosureDialog) => {
+export const actionsHeader = (
+  row,
+  suppDoc,
+  showAuditClosureDialog,
+  viewClosureReport,
+  updateStatus,
+) => {
   return [
     {
       id: 1,
@@ -142,7 +224,9 @@ export const actionsHeader = (row, suppDoc, showAuditClosureDialog) => {
     {
       id: 2,
       label: 'Close Audit',
-      onClick: () => {},
+      onClick: () => {
+        updateStatus('CLOSED')
+      },
     },
     {
       id: 3,
@@ -175,6 +259,20 @@ export const actionsHeader = (row, suppDoc, showAuditClosureDialog) => {
         suppDoc(true)
       },
     },
+    {
+      id: 8,
+      label: 'View Report',
+      onClick: () => {
+        viewClosureReport(true)
+      },
+    },
+    {
+      id: 9,
+      label: 'View Actions',
+      onClick: () => {
+        navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+      },
+    },
   ]
 }
 export const enquiryActionsHeader = (
@@ -185,6 +283,8 @@ export const enquiryActionsHeader = (
   showResponseDialog,
   setView,
   view,
+  showResponseDetails,
+  showNewResolutionDialog,
 ) => {
   const ackBtn = {
     id: 2,
@@ -214,26 +314,44 @@ export const enquiryActionsHeader = (
       setView('response')
     },
   }
+  const newResponse = {
+    id: 6,
+    label: 'New Resolution',
+    onClick: () => {
+      showNewResolutionDialog(true)
+    },
+  }
+  const viewResolutionBtn = {
+    id: 7,
+    label: 'View Resolution',
+    onClick: () => {
+      setView('resolutions')
+    },
+  }
   const defBtns = [
     {
       id: 1,
       label: 'View Details',
       onClick: () => {
-        showDetails(true)
+        view === 'default' ? showDetails(true) : showResponseDetails(true)
       },
     },
   ]
-  if (row?.status === 'NEW' || row?.status === 'ASSIGNED') {
-    return [...defBtns, ackBtn]
-  } else if (row?.status === 'ACKNOWLEDGED') {
-    return [...defBtns, assignBtn]
-  } else if (row?.status === 'RESPONDED' && view === 'default') {
-    // row?.status === 'RESPONDED' && view === 'default'
-    return [...defBtns, viewResponseBtn, newResponseBtn]
-  } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
-    // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
+  if (view === 'default') {
+    if (row?.status === 'NEW' || row?.status === 'ASSIGNED') {
+      return [...defBtns, ackBtn]
+    } else if (row?.status === 'ACKNOWLEDGED') {
+      return [...defBtns, assignBtn]
+    } else if (row?.status === 'RESPONDED' && view === 'default') {
+      // row?.status === 'RESPONDED' && view === 'default'
+      return [...defBtns, viewResponseBtn, newResponseBtn]
+    } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
+      // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
 
-    return [...defBtns, newResponseBtn]
+      return [...defBtns, newResponseBtn]
+    } else return defBtns
+  } else if (view === 'response' || view === 'actions') {
+    return [...defBtns, newResponse, viewResolutionBtn]
   } else return defBtns
 }
 export const dummyData = [

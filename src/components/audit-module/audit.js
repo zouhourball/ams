@@ -7,7 +7,12 @@ import Mht, {
 } from '@target-energysolutions/mht'
 import moment from 'moment'
 
-import { getStateAudit, submitAudits, closureReport } from 'libs/api/api-audit'
+import {
+  getStateAudit,
+  submitAudits,
+  closureReport,
+  updateAudit,
+} from 'libs/api/api-audit'
 import documents from 'libs/hooks/documents'
 
 import TopBar from 'components/top-bar'
@@ -16,6 +21,11 @@ import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import NewAuditRequestDialog from 'components/new-audit-request-dialog'
 import AuditClosureDialog from 'components/audit-closure-dialog'
+import AuditClosureDetailsDialog from 'components/audit-closure-details-dialog'
+import ToastMsg from 'components/toast-msg'
+
+import { addToast } from 'modules/app/actions'
+
 import { configs, actionsHeader, dummyData } from './helpers'
 
 const Audit = () => {
@@ -24,6 +34,7 @@ const Audit = () => {
   const [size, setSize] = useState(20)
   const [uploadDialog, showUploadDialog] = useState(false)
   const [auditClosureDialog, showAuditClosureDialog] = useState(false)
+  const [closureReportDetails, showClosureReport] = useState(false)
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -61,6 +72,28 @@ const Audit = () => {
     ],
     getStateAudit,
   )
+  const updateRequestStatus = useMutation(updateAudit, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const submitAuditsMutation = useMutation(submitAudits)
   const submitClosureReportMutation = useMutation(closureReport)
 
@@ -99,6 +132,12 @@ const Audit = () => {
   const submitClosureReport = (body) => {
     submitClosureReportMutation.mutate({
       body,
+    })
+  }
+  const updateStatus = (status) => {
+    updateRequestStatus.mutate({
+      auditId: selectedRow[0]?.auditId,
+      status,
     })
   }
   return (
@@ -195,6 +234,8 @@ const Audit = () => {
                     selectedRow[0],
                     setShowSupportedDocumentDialog,
                     showAuditClosureDialog,
+                    showClosureReport,
+                    updateStatus,
                   )}
                 />
               )) || <div />
@@ -231,6 +272,13 @@ const Audit = () => {
           visible={auditClosureDialog}
           onHide={() => showAuditClosureDialog(false)}
           onSave={submitClosureReport}
+        />
+      )}
+      {closureReportDetails && (
+        <AuditClosureDetailsDialog
+          onDiscard={() => showClosureReport(false)}
+          visible={closureReportDetails}
+          title={'Audit Closure Report'}
         />
       )}
     </>
