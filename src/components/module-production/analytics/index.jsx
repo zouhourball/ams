@@ -76,6 +76,7 @@ export default createAnalytics({
     })
     const monthly = processMonthlyData(rawMonthly)
     const tracking = processTrackingData(rawTracking, NG, monthly)
+    // console.log(tracking, 'tarcking')
     return {
       daily: processDailyData(rawDaily),
       monthly,

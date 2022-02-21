@@ -188,9 +188,9 @@ export const toolbox = {
 export const formatter = {
   formatter: [
     {
-      name: 'DD/MM/YYYY',
+      name: 'dd/MM/yyyy',
       type: 'dateFmt',
-      params: ['DD/MM/YYYY'],
+      params: ['dd/MM/yyyy'],
     },
     {
       name: 'numberFmt',

@@ -53,9 +53,9 @@ export default class Picker extends Component {
         <span>Date Range:</span>
         <span className="datepicker-label">
           {this.props.startDate
-            ? format(this.props.startDate, 'DD/MM/YYYY')
+            ? format(this.props.startDate, 'dd/MM/yyyy')
             : ''}
-          -{this.props.endDate ? format(this.props.endDate, 'DD/MM/YYYY') : ''}
+          -{this.props.endDate ? format(this.props.endDate, 'dd/MM/yyyy') : ''}
         </span>
         <div className="datepicker-icon">
           <FontIcon

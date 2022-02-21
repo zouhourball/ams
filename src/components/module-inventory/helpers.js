@@ -1032,7 +1032,7 @@ export const assetConsumptionDetailsConfigs = (
             //   }
             // }}
             onClick={() => setShowDatePicker(row)}
-            placeholder={'DD/MM/YYYY'}
+            placeholder={'dd/MM/yyyy'}
             rightIcon={<FontIcon>date_range</FontIcon>}
             // value={rows[row?.id]?.date}
             value={rows.find((r) => r.id === row.id)?.date || ''}

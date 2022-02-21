@@ -199,7 +199,7 @@ export const processDaily = unwrapDailyCommon((baseData, data) => {
     type: i.replace('Amount', '').replace(/flaring/i, ''),
     value: data[i].value,
     unit: data[i].unit === 'MMSCF/D' ? 'MMSCF' : data[i].unit,
-    dateText: format(baseData.date, 'DD/MM/YYYY'),
+    dateText: format(baseData.date, 'dd/MM/yyyy'),
   }))
 })
 

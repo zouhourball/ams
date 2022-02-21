@@ -21,6 +21,7 @@ import {
   getOilDailyFluidsSummary,
   getOilDailyGasSummary,
   getDailyProductionData,
+  // getCompareGOMIWithMonthlyData,
   getOilDailyBarChartOptionGen,
   getDailySummaryLineBarChart,
   getDailyChartBubble,
@@ -76,8 +77,6 @@ import {
 } from 'components/analytics/utils/charts-config-helper'
 import { dateFormat } from 'libs/utils'
 import Mht from '@target-energysolutions/mht'
-// import i18n from 'i18n-js'
-// import l from 'libs/langs/keys'
 import { chartSizes } from 'components/analytics/utils/consts'
 import { query, eq, not, or, and } from 'libs/utils/query'
 import { filter, uniq, reduce, round, groupBy } from 'lodash-es'
@@ -543,7 +542,7 @@ const myScatter = configMerge(
     },
     setting: {
       // A name defined in formatter
-      split1Fmt: 'DD/MM/YYYY',
+      split1Fmt: 'dd/MM/yyyy',
     },
   }),
   formatter,
@@ -807,7 +806,7 @@ export const chartsToDraw = [
                   },
                   setting: {
                     lineSeries: ['NAG', 'AG'],
-                    split1Fmt: 'DD/MM/YYYY',
+                    split1Fmt: 'dd/MM/yyyy',
                     barSeries: ['CONDENSATE', 'OIL', 'WATER'],
                   },
                 }),
@@ -902,7 +901,7 @@ export const chartsToDraw = [
                 formatter,
                 {
                   setting: {
-                    split2Fmt: 'DD/MM/YYYY',
+                    split2Fmt: 'dd/MM/yyyy',
                   },
                 },
                 dailyDataFilter(objCondIsOilData),
@@ -1512,6 +1511,12 @@ export const chartsToDraw = [
             {},
             {},
           ),
+          // mcS42FHighlightTable(
+          //   getCompareGOMIWithMonthlyData,
+          //   'Comparison between GOMI and monthly production',
+          //   {},
+          //   {},
+          // ),
         ],
       },
     ],

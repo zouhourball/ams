@@ -665,6 +665,149 @@ function createProductionDailyTableCreator () {
     }
   }
 }
+function createGOMITableCreator () {
+  return ({ data }) => {
+    const { year, month } = getMonths()
+    let denominator = 1
+    if (year.length && month.length) {
+      denominator = year.length * month.length
+    }
+    const monthlyData = data.filter((d) => d.cameFrom === 'monthly')
+    const rows = [
+      {
+        company: 'PDO',
+        type: 'OIL PRODN',
+        label: 'PDO Oil',
+      },
+      {
+        company: 'PDO',
+        type: 'CONDENSATE PROD',
+        label: 'PDO Condensate',
+      },
+      {
+        company: 'HCF',
+        label: 'HCF',
+      },
+      {
+        company: 'OXY',
+        label: 'OXY Norh(B9 & B27)',
+        blocks: ['9', '27'],
+      },
+      {
+        company: 'Daleel',
+        label: 'Daleel',
+      },
+      {
+        company: 'BP',
+        label: 'BP',
+      },
+      {
+        company: 'OXY',
+        blocks: ['53'],
+        label: 'OXY MUKHAIZANA(53)',
+      },
+      {
+        company: 'ARA',
+        label: 'ARA',
+      },
+      {
+        company: 'CCE',
+        label: 'CCED',
+      },
+      {
+        company: 'OQ',
+        label: 'OQ',
+      },
+      {
+        company: 'OXY',
+        label: 'OCCG(B62)',
+        blocks: ['62'],
+      },
+    ]
+    const getColumnsConfig = (showHighlight) => {
+      return [
+        {
+          name: 'Production',
+          dataKey: 'production',
+          width: 310,
+        },
+        {
+          name: 'GOMI(bbls/d)',
+          dataKey: 'gomiValue',
+          width: 310,
+        },
+        {
+          name: 'Monthly Production',
+          dataKey: 'monthlyValue',
+          width: 310,
+          // render: (data) => {
+          //   const item = data.monthlyValue
+          //   const baseItem = data.gomiValue
+          //   if (item === baseItem) {
+          //     return <div className="ams-production-colored-cell">
+          //       {item}
+          //     </div>
+          //   }
+          //   if (item > baseItem) {
+          //     return <div
+          //       className="ams-production-colored-cell"
+          //       style={{
+          //         background: `rgba(255, 205, 210, 0.4)`,
+          //         // red
+          //       }}
+          //     >
+          //       {item}
+          //     </div>
+          //   } else {
+          //     return <div
+          //       className="ams-production-colored-cell"
+          //       style={{
+          //         background: `rgba(105, 240, 174, 0.4)`, // green
+          //       }}
+          //     >
+          //       {item}
+          //     </div>
+          //   }
+          // },
+        },
+      ]
+    }
+    const newData = rows.map((r, index) => {
+      const monthlyDataRow = monthlyData.filter((m) => {
+        let validType = m.type === 'OIL PRODN' || m.type === 'CONDENSATE PROD'
+        let validBlocks = true
+        if (r.blocks) {
+          validType = r.blocks.includes(m.block)
+        }
+        if (r.type) {
+          validType = r.type === m.type
+        }
+        return (
+          m.company === r.company &&
+          validType &&
+          validBlocks &&
+          m.dataType === 'Actual'
+        )
+      })
+      return {
+        production: r.label,
+        gomiValue: index,
+        monthlyValue: fixNbr(
+          monthlyDataRow.reduce((a, b) => a + +b.value, 0) / denominator,
+          1,
+        ),
+      }
+    })
+    return {
+      data: newData,
+      getColumnsConfig,
+      hideSearchBar: true,
+      rowsPerPage: 12,
+      configs: config2MhtConfig(getColumnsConfig()),
+      tableData: newData,
+    }
+  }
+}
 export const productionMonthlyTableColumnsConfig = [
   {
     name: 'PRODUCT',
@@ -1335,6 +1478,7 @@ export const getOilDailyGasSummary = createSummaryAverageCreator({
 })
 
 export const getDailyProductionData = createProductionDailyTableCreator()
+export const getCompareGOMIWithMonthlyData = createGOMITableCreator()
 
 export const getDailySummaryLineBarChart = createDailySummaryCreator({
   AG: query(isAGData),

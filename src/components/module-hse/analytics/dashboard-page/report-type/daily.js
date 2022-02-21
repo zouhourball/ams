@@ -203,7 +203,7 @@ export default [
           type: 'VBarStack',
           setting: {
             value1Fmt: 'numberFmt',
-            split2Fmt: 'DD/MM/YYYY',
+            split2Fmt: 'dd/MM/yyyy',
             showLegend: true,
             showDataZoomSlider: true,
           },
