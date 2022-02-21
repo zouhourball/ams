@@ -303,3 +303,17 @@ export const detailReport = async ({ queryKey }) => {
   }
   return res
 }
+export const detailReportByVersion = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}/versions?version=${queryKey[2]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

@@ -110,7 +110,20 @@ export const getDetailPlanningById = async ({ queryKey }) => {
   }
   return res
 }
-
+export const getDetailPlanningByVersion = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/${queryKey[2]}/${queryKey[1]}/versions?version=${queryKey[3]}&sort=metaData.createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const updatePlanning = async ({ subModule, objectId, status }) => {
   let res
   try {

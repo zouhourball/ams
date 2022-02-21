@@ -15,6 +15,7 @@ import {
   updateAffiliateCost,
   updateFacilitiesCost,
   detailReport,
+  detailReportByVersion,
 } from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -40,6 +41,8 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const [version, setVersion] = useState('1.0')
+
   const dispatch = useDispatch()
 
   const subModule = pathname?.split('/')[4]
@@ -103,7 +106,14 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const { data: reportDetail } = useQuery([subModule, detailId], detailReport, {
     refetchOnWindowFocus: false,
   })
-
+  const { data: reportDetailByVersion } = useQuery(
+    [subModule, detailId, version],
+    detailReportByVersion,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const rawData = subModule === 'costs' ? reportDetailByVersion : reportDetail
   const closeDialog = (resp) => {
     resp &&
       resp[0]?.statusCode === 'OK' &&
@@ -113,7 +123,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const costsSuppDocs = (data) => {
     return addSupportingDocuments(
       data,
-      reportDetail?.metaData?.processInstanceId,
+      rawData?.metaData?.processInstanceId,
       closeDialog,
     )
   }
@@ -124,15 +134,15 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
 
   const fileDetail = () => {
     return {
-      originalFileId: reportDetail?.metaData?.originalFileId,
-      originalFileName: reportDetail?.metaData?.originalFileName,
+      originalFileId: rawData?.metaData?.originalFileId,
+      originalFileName: rawData?.metaData?.originalFileName,
     }
   }
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
       case 'costs':
         return (
-          reportDetail?.items?.map((el) => ({
+          rawData?.items?.map((el) => ({
             category: el?.category,
             subCategory: el?.subCategory,
             uom: el?.uom,
@@ -241,16 +251,16 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       default:
         return []
     }
-  }, [subModule, subSubModule, reportDetail])
+  }, [subModule, subSubModule, reportDetail, reportDetailByVersion])
 
   const detailData = useMemo(() => {
     const data = {
-      subTitle: reportDetail?.metaData?.block,
-      companyName: reportDetail?.metaData?.company,
-      submittedDate: moment(reportDetail?.metaData?.createdAt).format(
+      subTitle: rawData?.metaData?.block,
+      companyName: rawData?.metaData?.company,
+      submittedDate: moment(rawData?.metaData?.createdAt).format(
         'DD MMM, YYYY',
       ),
-      submittedBy: reportDetail?.metaData?.createdBy?.name,
+      submittedBy: rawData?.metaData?.createdBy?.name,
     }
     switch (subModule) {
       case 'costs':
@@ -286,7 +296,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       default:
         return {}
     }
-  }, [subModule, reportDetail])
+  }, [subModule, reportDetail, reportDetailByVersion])
 
   const handleAcknowledge = (status) => {
     switch (subModule) {
@@ -356,7 +366,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
     >
       Download Original File
     </Button>,
-    role === 'regulator' && reportDetail?.metaData?.status === 'SUBMITTED' && (
+    role === 'regulator' && rawData?.metaData?.status === 'SUBMITTED' && (
       <>
         <Button
           key="4"
@@ -383,7 +393,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
             ? el
             : {
               ...el,
-              label: reportDetail?.metaData?.year,
+              label: rawData?.metaData?.year,
             },
         )
       case 'contracts':
@@ -407,7 +417,14 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         return []
     }
   }
-
+  const versionsList = useMemo(
+    () =>
+      reportDetail?.versions?.map((v) => ({
+        label: v,
+        value: v,
+      })),
+    [reportDetail],
+  )
   return (
     <div className="cost-recovery-details">
       <TopBarDetail
@@ -425,26 +442,39 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         hideTotal={false}
         withFooter
         headerTemplate={
-          subModule === 'prodLifting' && (
-            <SelectField
-              id="prod-lifting"
-              menuItems={[
-                {
-                  label: 'Base Production',
-                  value: 'dataBasedProduction',
-                },
-                {
-                  label: 'Actual Lifting',
-                  value: 'dataActualLifting',
-                },
-              ]}
-              block
-              position={SelectField.Positions.BELOW}
-              value={subSubModule}
-              onChange={setSubSubModule}
-              simplifiedMenu={false}
-            />
-          )
+          <>
+            {subModule === 'prodLifting' && (
+              <SelectField
+                id="prod-lifting"
+                menuItems={[
+                  {
+                    label: 'Base Production',
+                    value: 'dataBasedProduction',
+                  },
+                  {
+                    label: 'Actual Lifting',
+                    value: 'dataActualLifting',
+                  },
+                ]}
+                block
+                position={SelectField.Positions.BELOW}
+                value={subSubModule}
+                onChange={setSubSubModule}
+                simplifiedMenu={false}
+              />
+            )}{' '}
+            {subModule === 'costs' && (
+              <SelectField
+                id="versions"
+                menuItems={versionsList}
+                block
+                position={SelectField.Positions.BELOW}
+                value={version}
+                onChange={setVersion}
+                simplifiedMenu={false}
+              />
+            )}
+          </>
         }
       />
       {showSupportedDocumentDialog && (
@@ -454,7 +484,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           readOnly={role === 'regulator'}
           processInstanceId={
-            reportDetail?.metaData?.processInstanceId ||
+            rawData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
           onSaveUpload={(data) => {

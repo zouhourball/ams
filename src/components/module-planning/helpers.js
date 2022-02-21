@@ -2,7 +2,7 @@ import { FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { listAnalytics } from 'libs/api/api-planning'
 
-export const planningConfigs = (supportedDocument) => [
+export const planningConfigs = (supportedDocument, currentTab) => [
   {
     label: 'Company',
     key: 'company',
@@ -48,6 +48,17 @@ export const planningConfigs = (supportedDocument) => [
     icon: 'mdi mdi-spellcheck',
     displayInCsv: true,
   },
+  ...(currentTab === 'wpb'
+    ? [
+      {
+        label: 'Latest Version',
+        key: 'latestVersion',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+    ]
+    : []),
   {
     label: 'Supporting Documents',
     key: 'supportingDocuments',

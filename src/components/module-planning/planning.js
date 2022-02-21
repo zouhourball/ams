@@ -494,6 +494,9 @@ const Planning = ({ subModule }) => {
         statusDate: el?.metaData?.updatedAt
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        ...(currentTab === 'wpb' && {
+          latestVersion: el?.versions[el?.versions?.length - 1],
+        }),
         status: get(el, 'metaData.status', 'n/a'),
       }
     },
@@ -697,7 +700,7 @@ const Planning = ({ subModule }) => {
         </div>
       )}
       <Mht
-        configs={planningConfigs(UploadSupportedDocumentFromTable)}
+        configs={planningConfigs(UploadSupportedDocumentFromTable, currentTab)}
         tableData={tableDataPlanning}
         hideTotal={false}
         singleSelect={true}

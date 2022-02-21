@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button } from 'react-md'
+import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import { useMemo, useState, useCallback } from 'react'
@@ -9,6 +9,7 @@ import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import useRole from 'libs/hooks/use-role'
 import {
   getDetailPlanningById,
+  getDetailPlanningByVersion,
   updatePlanning,
   updateWpbStatus,
   getActionsList,
@@ -29,10 +30,15 @@ import './style.scss'
 const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const [version, setVersion] = useState('1.0')
   const role = useRole('planning')
   const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
     objectId && getDetailPlanningById,
+  )
+  const { data: dataDetailsByVersion, refetch: refetchDetailData } = useQuery(
+    ['getDetailPlanningByVersion', objectId, subModule, version],
+    objectId && version?.length && getDetailPlanningByVersion,
   )
   const { data: actionsList } = useQuery(
     ['wbpActions', objectId],
@@ -43,19 +49,22 @@ const PlanningDetails = ({ objectId, subModule }) => {
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
       refetch()
+      version && refetchDetailData()
     },
   })
   const updateStatusMutation = useMutation(updateWpbStatus, {
     onSuccess: (res) => {
       if (!res?.error) {
         refetch()
+        version && refetchDetailData()
       }
     },
   })
+  const rawData = version ? dataDetailsByVersion : dataDetails
   const planningDataDetails = useMemo(() => {
     switch (subModule) {
       case 'wpb':
-        return wpbData(dataDetails) || []
+        return wpbData(rawData) || []
       case 'fyp':
         return fypData(dataDetails) || []
       case 'budgetary-report':
@@ -68,18 +77,25 @@ const PlanningDetails = ({ objectId, subModule }) => {
       default:
         return []
     }
-  }, [dataDetails])
-
+  }, [dataDetails, dataDetailsByVersion])
+  const versionsList = useMemo(
+    () =>
+      dataDetails?.versions?.map((v) => ({
+        label: v,
+        value: v,
+      })),
+    [dataDetails],
+  )
   const currentYear =
-    dataDetails?.categories &&
-    dataDetails?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year
+    rawData?.categories &&
+    rawData?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year
 
   const headerData = () => {
     return {
-      title: `Block ${dataDetails?.metaData?.block}`,
-      companyName: dataDetails?.metaData?.company,
-      submittedBy: dataDetails?.metaData?.createdBy?.name,
-      submittedDate: moment(dataDetails?.metaData?.createdAt).format(
+      title: `Block ${rawData?.metaData?.block}`,
+      companyName: rawData?.metaData?.company,
+      submittedBy: rawData?.metaData?.createdBy?.name,
+      submittedDate: moment(rawData?.metaData?.createdAt).format(
         'DD MMM, YYYY',
       ),
     }
@@ -100,7 +116,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       case 'budgetary-report':
         return [
           ...configsBudgetDialogMht(),
-          ...(dataDetails?.data[0]?.years?.map((el) => ({
+          ...(rawData?.data[0]?.years?.map((el) => ({
             label: el.year + '',
             key: el.year + '',
             width: '200',
@@ -139,8 +155,8 @@ const PlanningDetails = ({ objectId, subModule }) => {
       swapTheming
       onClick={() => {
         downloadOriginalFile(
-          dataDetails?.metaData?.originalFileId,
-          dataDetails?.metaData?.originalFileName,
+          rawData?.metaData?.originalFileId,
+          rawData?.metaData?.originalFileName,
         )
       }}
     >
@@ -159,7 +175,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       {role === 'operator' ? 'Supporting documents' : 'View Documents'}
     </Button>,
 
-    role === 'operator' && dataDetails?.metaData?.status === 'DRAFT' && (
+    role === 'operator' && rawData?.metaData?.status === 'DRAFT' && (
       <Button
         key="4"
         id="acknowledge"
@@ -265,6 +281,19 @@ const PlanningDetails = ({ objectId, subModule }) => {
         withSubColumns
         hideTotal={false}
         withFooter
+        headerTemplate={
+          subModule === 'wpb' && (
+            <SelectField
+              id="versions"
+              menuItems={versionsList}
+              block
+              position={SelectField.Positions.BELOW}
+              value={version}
+              onChange={setVersion}
+              simplifiedMenu={false}
+            />
+          )
+        }
       />
       {showSupportedDocumentDialog && (
         <SupportedDocument
@@ -273,7 +302,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           readOnly={role === 'regulator'}
           processInstanceId={
-            dataDetails?.metaData?.processInstanceId ||
+            rawData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
           // onSaveUpload={(data) => {
