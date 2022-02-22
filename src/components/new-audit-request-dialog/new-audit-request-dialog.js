@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
-import uploadIcon from './upload-icon.svg'
+import uploadIcon from 'images/upload-icon.svg'
 
 import HtmlEditor from 'components/html-editor'
 
@@ -60,10 +60,20 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadDocument,
   })
+  const validateData = () => {
+    return !(
+      auditData?.title &&
+      auditData?.purpose &&
+      auditData?.scope &&
+      auditData?.expectedDeliverable &&
+      files?.length
+    )
+  }
   const uploadBtn = {
     children: 'Submit',
     primary: true,
     flat: true,
+    disabled: validateData(),
 
     onClick: () => {
       onSave({ ...auditData, uploads: files })

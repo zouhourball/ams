@@ -18,15 +18,14 @@
   }
 
   .label {
-    margin-bottom: 15px;
-    color: #484848;
-    font-weight: bold;
+    margin-bottom: 0;
+    color: #727677;
   }
 
   .item {
     display: flex;
     align-items: center;
-    padding: 8px;
+    padding: 8px 0;
 
     &-info {
       &-fullName {

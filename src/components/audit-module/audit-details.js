@@ -524,6 +524,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
         <EnquireDetailsDialog
           visible={detailsDialog}
           onHide={() => showDetailsDialog(false)}
+          title={'Enquiry Details'}
         />
       )}
       {assignDialog && (
@@ -560,8 +561,8 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
       )}
       {actionDialog && (
         <CreateActionDialog
-          // information={information}
-          // setInformation={setInformation}
+          information={information}
+          setInformation={setInformation}
           visible={actionDialog}
           onHide={() => showActionDialog(false)}
           onSubmit={() => submitAction()}

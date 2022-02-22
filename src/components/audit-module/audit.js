@@ -33,13 +33,15 @@ const Audit = () => {
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
   const [uploadDialog, showUploadDialog] = useState(false)
-  const [auditClosureDialog, showAuditClosureDialog] = useState(false)
+  const [newAuditClosureDialog, showAuditClosureDialog] = useState(false)
   const [closureReportDetails, showClosureReport] = useState(false)
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+  const [participants, setParticipants] = useState([])
+
   const { addSupportingDocuments } = documents()
 
   const renderData = () => {
@@ -260,18 +262,20 @@ const Audit = () => {
       )}
       {uploadDialog && (
         <NewAuditRequestDialog
-          title={''}
+          title={'New Audit Request'}
           visible={uploadDialog}
           onHide={() => showUploadDialog(false)}
           onSave={submitRequest}
         />
       )}
-      {auditClosureDialog && (
+      {newAuditClosureDialog && (
         <AuditClosureDialog
           title={'Send Audit Closure Report'}
-          visible={auditClosureDialog}
+          visible={newAuditClosureDialog}
           onHide={() => showAuditClosureDialog(false)}
           onSave={submitClosureReport}
+          setParticipants={setParticipants}
+          participants={participants}
         />
       )}
       {closureReportDetails && (

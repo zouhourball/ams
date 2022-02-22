@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { FontIcon, Autocomplete, Avatar } from 'react-md'
 import { cls } from 'reactutils'
 
+import './style.scss'
+
 const AutocompleteWithCard = ({
   membersList,
   selectedMembers,
@@ -11,6 +13,7 @@ const AutocompleteWithCard = ({
   placeholder,
 }) => {
   const [participant, setParticipant] = useState('')
+
   return (
     <>
       <Autocomplete
@@ -20,30 +23,43 @@ const AutocompleteWithCard = ({
         // filter={Autocomplete.caseInsensitiveFilter}
         placeholder={placeholder}
         data={membersList?.filter(
-          (el) => !selectedMembers?.includes(el?.subject),
+          (el) =>
+            !selectedMembers.some(
+              (selectedEl) => el.subject === selectedEl.subject,
+            ),
         )}
         value={participant}
         dataValue={'subject'}
         dataLabel={'name'}
         onChange={setParticipant}
-        onAutocomplete={(v) => {
-          setSelectedMembers([...selectedMembers, v])
+        simplifiedMenu={false}
+        onAutocomplete={(suggestion, suggestionIndex, matches) => {
+          setSelectedMembers([...selectedMembers, matches[suggestionIndex]])
           setParticipant('')
         }}
         rightIcon={<FontIcon>search</FontIcon>}
       />
       {selectedMembers?.map((el) => (
         <div key={el} className={cls('autocomplete', cardClassName)}>
-          <div>
+          <div className="member-card">
             <Avatar
-              src={membersList?.find((item) => item?.subject === el)?.avatar}
+              src={
+                membersList?.find((item) => item?.subject === el?.subject)
+                  ?.avatar
+              }
             />
-            <div>
-              <div>
-                {membersList?.find((item) => item?.subject === el)?.name}
+            <div className="info-section">
+              <div className="name">
+                {
+                  membersList?.find((item) => item?.subject === el?.subject)
+                    ?.name
+                }
               </div>
-              <div>
-                {membersList?.find((item) => item?.subject === el)?.email}
+              <div className="email">
+                {
+                  membersList?.find((item) => item?.subject === el?.subject)
+                    ?.email
+                }
               </div>
             </div>
             <FontIcon

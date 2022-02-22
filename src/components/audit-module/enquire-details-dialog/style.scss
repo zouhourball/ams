@@ -6,8 +6,35 @@
   }
 
   .md-title {
+    display: flex;
+    justify-content: space-between;
     padding: 16px 30px;
     border-bottom: 1px solid #dcdcdc;
+    color: #2f3842;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .status {
+    width: auto;
+    margin: 0 10px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #fff4e0;
+    color: #ff8300;
+    font-size: 14px;
+    font-weight: 500;
+
+    &-preloaded,
+    &-Assigned {
+      background: #fff4e0;
+      color: #ff8300;
+    }
+  }
+
+  h4 {
+    margin-bottom: 0;
+    color: #727677;
   }
 
   .md-dialog-content {
@@ -39,7 +66,7 @@
       }
 
       .md-icon {
-        font-size: 24px;
+        font-size: 35px;
         line-height: 1;
 
         &.mdi-file-pdf {
@@ -62,6 +89,21 @@
           color: #000;
         }
       }
+    }
+  }
+
+  &-value {
+    margin: 7px 0;
+  }
+
+  .assignee {
+    display: flex;
+    align-items: center;
+    margin: 7px 0;
+    margin-right: 10px;
+
+    &-name {
+      padding: 0 5px;
     }
   }
 }

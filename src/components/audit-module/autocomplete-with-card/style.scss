@@ -1,0 +1,43 @@
+.member-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 7px;
+
+  i {
+    margin-left: auto;
+  }
+
+  .name {
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  .email {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 11px;
+  }
+
+  .info-section {
+    margin: 0 5px;
+  }
+}
+
+.autoComplete-field {
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: #f6f8fa;
+
+  hr {
+    display: none;
+  }
+
+  input,
+  i {
+    margin: 0;
+  }
+}

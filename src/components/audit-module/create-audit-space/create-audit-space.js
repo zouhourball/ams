@@ -41,11 +41,25 @@ const CreateAuditSpace = ({
 
   const [datePickerStart, setDatePickerStart] = useState(false)
   const [datePickerEnd, setDatePickerEnd] = useState(false)
+  const validateData = () => {
+    return !(
+      information?.participants?.length &&
+      information?.startDate &&
+      information?.endDate
+    )
+  }
   const actions = [
     <Button id="1" key="1" primary flat onClick={onHide}>
       Discard
     </Button>,
-    <Button id="2" key="2" onClick={onSubmit} primary flat>
+    <Button
+      id="2"
+      key="2"
+      onClick={onSubmit}
+      disabled={validateData()}
+      primary
+      flat
+    >
       Submit
     </Button>,
   ]
@@ -91,21 +105,22 @@ const CreateAuditSpace = ({
           }
           block
         />
+        <h4>Assign Users</h4>
         <AutocompleteWithCard
           membersList={membersByOrg()}
           selectedMembers={information?.participants || []}
-          setSelectedMembers={(v) =>
+          setSelectedMembers={(v) => {
             setInformation({
               ...information,
               participants: [
-                {
-                  email: 'string',
-                  name: 'string',
-                  sub: 'string',
-                },
+                ...v?.map((el) => ({
+                  email: el?.email,
+                  name: el?.name,
+                  subject: el?.subject,
+                })),
               ],
             })
-          }
+          }}
           className={'md-cell md-cell--12'}
           cardClassName={'md-cell md-cell--6'}
           placeholder={'Search participants to assign'}

@@ -66,17 +66,17 @@ const CreateActionDialog = ({
       disableScrollLocking
       modal
     >
-      <div className="title">Action Priority</div>
+      <h4 className="title">Action Priority</h4>
       <div className="priority-action">
         {priority.map((el, index) => (
           <div
             key={index}
-            onClick={() =>
+            onClick={() => {
               setInformation({
                 ...information,
                 priority: el.value,
               })
-            }
+            }}
             className={`priority-action-item ${
               el.value === information?.priority ? 'active' : ''
             }`}
@@ -90,7 +90,7 @@ const CreateActionDialog = ({
           key={1}
           className="create-action-dialog-textField md-cell md-cell--12"
           label="Reference Audit Report ID"
-          onClick={(v) =>
+          onChange={(v) =>
             setInformation({
               ...information,
               reportId: v,
@@ -103,7 +103,7 @@ const CreateActionDialog = ({
           key={1}
           className="create-action-dialog-textField md-cell md-cell--12"
           label="Audit Report Reference"
-          onClick={(v) =>
+          onChange={(v) =>
             setInformation({
               ...information,
               reportReference: v,

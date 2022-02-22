@@ -40,7 +40,14 @@ const InviteParticipantDialog = ({
     <Button id="1" key="1" primary flat onClick={onHide}>
       Discard
     </Button>,
-    <Button id="2" key="2" onClick={onSubmit} primary flat>
+    <Button
+      id="2"
+      key="2"
+      onClick={onSubmit}
+      disabled={!participants?.length}
+      primary
+      flat
+    >
       Submit
     </Button>,
   ]

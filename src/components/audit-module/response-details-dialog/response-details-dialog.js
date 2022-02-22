@@ -19,10 +19,10 @@ const ResponseDetailsDialog = ({
     <Button id="1" key="1" flat onClick={onHide}>
       Discard
     </Button>,
-    <Button id="2" key="2" className={'reject'} onClick={onReject} primary flat>
+    <Button id="2" key="2" className={'reject'} onClick={onReject} flat>
       Reject
     </Button>,
-    <Button id="3" key="3" className={'accept'} onClick={onAccept} primary flat>
+    <Button id="3" key="3" className={'accept'} onClick={onAccept} flat>
       Accept
     </Button>,
   ]
@@ -79,18 +79,16 @@ const ResponseDetailsDialog = ({
           ]
       }
       title={
-        <div className="response-details-dialog-header">
-          <div className="title">{title}</div>
-          <div className={`chip ${status}`}>{status}</div>
-        </div>
+        <>
+          {title}
+          <div className={`status status-${status}`}>{status}</div>
+        </>
       }
       className="response-details-dialog"
-      disableScrollLocking
-      modal
     >
-      <div className="response-details-dialog-title">{descriptionLabel}</div>
+      <h4 className="response-details-dialog-title">{descriptionLabel}</h4>
       <div className="response-details-dialog-value">{descriptionValue}</div>
-      <div className="response-details-dialog-title">Attached Document</div>
+      <h4 className="response-details-dialog-title">Attached Document</h4>
       <div className="attachment-detail">
         <div className="attachment-detail-docs-icon-area">
           {renderDocumentIcon(file.type)}

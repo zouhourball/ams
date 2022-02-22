@@ -1,31 +1,31 @@
-import {
-  DialogContainer,
-  FontIcon,
-  Button,
-  CircularProgress,
-  Avatar,
-} from 'react-md'
+import { DialogContainer, FontIcon, Button, CircularProgress } from 'react-md'
 import { useDropzone } from 'react-dropzone'
 import { useState } from 'react'
 import { get } from 'lodash-es'
 import { useQuery } from 'react-apollo-hooks'
 import { useSelector } from 'react-redux'
+import { getPublicUrl } from 'libs/utils/custom-function'
 
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import workers from 'libs/queries/workers.gql'
-import SelectItemsWithSearch from 'components/select-items-with-search'
+// import SelectItemsWithSearch from 'components/select-items-with-search'
+import AutocompleteWithCard from 'components/audit-module/autocomplete-with-card'
 
-import uploadIcon from 'images/upload.svg'
+import uploadIcon from 'images/upload-icon.svg'
 
 import './style.scss'
 
-const AuditClosureDialog = ({ title, visible, onHide, onSave }) => {
+const AuditClosureDialog = ({
+  title,
+  visible,
+  onHide,
+  onSave,
+  participants,
+  setParticipants,
+}) => {
   const [files, setFiles] = useState([])
   const [fileLoader, setFileLoader] = useState(false)
-  const [selectedItems, setSelectedItems] = useState([])
-  const [itemsVisibility, setItemsVisibility] = useState(false)
-  const [textSearch, setTextSearch] = useState('')
   const organizationID = useSelector((state) => state?.shell?.organizationId)
 
   const { data: membersByOrganisation } = useQuery(workers, {
@@ -48,13 +48,17 @@ const AuditClosureDialog = ({ title, visible, onHide, onSave }) => {
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadDocument,
   })
+  const validateData = () => {
+    return !(files?.length && participants?.length)
+  }
   const uploadBtn = {
     children: 'Submit',
     primary: true,
     flat: true,
+    disabled: validateData(),
 
     onClick: () => {
-      onSave(files, selectedItems)
+      onSave(files, participants)
       onHide()
     },
   }
@@ -69,57 +73,17 @@ const AuditClosureDialog = ({ title, visible, onHide, onSave }) => {
     ...uploadBtn,
   ]
 
-  const addItems = (item) => {
-    setSelectedItems(
-      selectedItems.map((el) => el.id).includes(item.id)
-        ? selectedItems.filter((el) => el.id !== item.id)
-        : [...selectedItems, item],
-    )
-  }
-
-  const getSelectedItems = () => {
-    return (selectedItems || []).map((el) => (
-      <div key={el.id} className="item md-cell md-cell--6">
-        <Avatar src={el.image} className="item-image" />
-        <div className="item-info">
-          <div className="item-info-header">
-            <div className={`item-info-fullName`}>{el.fullName}</div>
-            <div className={`item-info-email`}>{el.email}</div>
-          </div>
-        </div>
-        <div className="item-rightSide">
-          {selectedItems.map((el) => el.id)?.includes(el.id) ? (
-            <FontIcon
-              onClick={() => {
-                addItems(el)
-              }}
-              primary
-            >
-              close
-            </FontIcon>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-    ))
-  }
-
   const membersByOrg = () => {
     let members = []
     members = membersByOrganisation?.workers?.map((el) => ({
       subject: el?.profile?.subject,
-      fullName: el?.profile?.fullName,
+      name: el?.profile?.fullName,
       email: el?.profile?.email,
       id: el?.profile?.userID,
+      avatar: getPublicUrl(el?.profile?.pictureURL),
     }))
 
     return members
-  }
-  let filterList = membersByOrg()
-  if (textSearch) {
-    const expr = new RegExp(textSearch, 'i')
-    filterList = filterList.filter((nal) => expr.test(nal['fullName']))
   }
 
   const renderDocumentIcon = (extension) => {
@@ -172,19 +136,16 @@ const AuditClosureDialog = ({ title, visible, onHide, onSave }) => {
       actions={actions}
     >
       <div className="audit-closure-dialog-content">
-        <SelectItemsWithSearch
-          placeholder="Assign User"
-          textFieldClassName="md-cell md-cell--12"
-          selectedItems={selectedItems}
-          selectItem={addItems}
-          itemsVisibility={itemsVisibility}
-          setItemsVisibility={setItemsVisibility}
-          textSearch={textSearch}
-          setTextSearch={setTextSearch}
-          items={filterList}
-          rightIcon={<FontIcon>search</FontIcon>}
-        />
-        <div className="md-grid">{getSelectedItems()}</div>
+        <div className="md-grid">
+          <AutocompleteWithCard
+            membersList={membersByOrg()}
+            selectedMembers={participants || []}
+            setSelectedMembers={setParticipants}
+            className={'md-cell md-cell--12'}
+            cardClassName={'md-cell md-cell--6'}
+            placeholder={'Assign User'}
+          />
+        </div>
 
         <div className="audit-closure-dialog-subtitle md-cell md-cell--12">
           Attach Document

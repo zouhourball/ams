@@ -5,7 +5,7 @@ import { get } from 'lodash-es'
 
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
-import uploadIcon from 'images/upload.svg'
+import uploadIcon from 'images/upload-icon.svg'
 
 import HtmlEditor from 'components/html-editor'
 
@@ -38,10 +38,14 @@ const EnquiryDialog = ({
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadDocument,
   })
+  const validateData = () => {
+    return !(description && files?.length)
+  }
   const uploadBtn = {
     children: btnLabel,
     primary: true,
     flat: true,
+    disabled: validateData(),
 
     onClick: () => {
       onSave(description, files)
@@ -136,9 +140,9 @@ const EnquiryDialog = ({
             }}
           />
         </div>
-        <div className="enquiry-dialog-subtitle md-cell md-cell--12">
+        <h4 className="enquiry-dialog-subtitle md-cell md-cell--12">
           {docLabel}
-        </div>
+        </h4>
 
         <>
           {fileLoader ? (
@@ -151,6 +155,7 @@ const EnquiryDialog = ({
             >
               <input {...getOptionalInputProps()} multiple />
               <img src={uploadIcon} width="20px" />
+
               <p>
                 Drag & Drop file here or <b>Select File</b>
               </p>

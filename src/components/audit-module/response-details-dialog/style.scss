@@ -5,11 +5,6 @@
     border-radius: 8px;
   }
 
-  .md-title {
-    padding: 16px 30px;
-    border-bottom: 1px solid #dcdcdc;
-  }
-
   .md-dialog-content {
     padding-top: 20px;
   }
@@ -39,7 +34,7 @@
       }
 
       .md-icon {
-        font-size: 24px;
+        font-size: 35px;
         line-height: 1;
 
         &.mdi-file-pdf {
@@ -63,5 +58,47 @@
         }
       }
     }
+  }
+
+  .md-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 30px;
+    border-bottom: 1px solid #dcdcdc;
+    color: #2f3842;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .status {
+    width: auto;
+    margin: 0 10px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #fff4e0;
+    color: #ff8300;
+    font-size: 14px;
+    font-weight: 500;
+
+    &-preloaded,
+    &-Assigned {
+      background: #fff4e0;
+      color: #ff8300;
+    }
+  }
+
+  h4 {
+    margin-bottom: 0;
+    color: #727677;
+  }
+
+  .accept {
+    background: #e8f4e9 !important;
+    color: #59a774;
+  }
+
+  .reject {
+    background: #fae7e6 !important;
+    color: #e84a3b;
   }
 }

@@ -11,6 +11,7 @@ const EnquireDetailsDialog = ({
   status,
   assignee,
   onDownload,
+  title,
 }) => {
   const actions = [
     <Button id="1" key="1" flat onClick={onHide}>
@@ -62,20 +63,22 @@ const EnquireDetailsDialog = ({
       onHide={() => onHide && onHide()}
       actions={actions}
       title={
-        <div className="enquire-details-dialog-header">
-          <div className="title">Enquire Details</div>
-          <div className={`chip ${status}`}>{status}</div>
-        </div>
+        <>
+          {title}
+          <div className={`status status-${status}`}>{status}</div>
+        </>
       }
       className="enquire-details-dialog"
       disableScrollLocking
       modal
     >
-      <div className="enquire-details-dialog-title">Audit ID</div>
+      <h4 className="enquire-details-dialog-title">Audit ID</h4>
       <div className="enquire-details-dialog-value">{auditValue}</div>
-      <div className="enquire-details-dialog-title">Enquiry Description</div>
+      <h4 className="enquire-details-dialog-title">Enquiry Description</h4>
       <div className="enquire-details-dialog-value">{descriptionValue}</div>
-      <div className="enquire-details-dialog-title">Enquiry Description</div>
+      <h4 className="enquire-details-dialog-title">
+        Attached Enquiry Document
+      </h4>
       <div className="attachment-detail">
         <div className="attachment-detail-docs-icon-area">
           {renderDocumentIcon(file.type)}
@@ -94,10 +97,10 @@ const EnquireDetailsDialog = ({
           save_alt
         </Button>
       </div>
-      <div className="enquire-details-dialog-title">Assignee</div>
-      <div>
+      <h4 className="enquire-details-dialog-title">Assignee</h4>
+      <div className="assignee">
         <Avatar src={assignee.avatar} />
-        <div>{assignee.name}</div>
+        <div className="assignee-name">{assignee.name}</div>
       </div>
     </DialogContainer>
   )

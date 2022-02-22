@@ -109,15 +109,15 @@ const AuditClosureDetailsDialog = ({
       disableScrollLocking
       modal
     >
-      <div className="label">Assignee</div>
+      <h4 className="label">Assignee</h4>
       <div className="item">
-        <Avatar src={assigneeUser.image} className="item-image" />
+        <Avatar src={assigneeUser?.avatar} className="item-image" />
         <div className="item-info">
-          <div className={`item-info-fullName`}>{assigneeUser.fullName}</div>
+          <div className={`item-info-fullName`}>{assigneeUser?.name}</div>
         </div>
       </div>
 
-      <div className="label">Attached Document</div>
+      <h4 className="label">Attached Document</h4>
       <div className="supported-document">
         {nodesFiles?.length > 0 ? nodesFiles : 'There is no Files'}
       </div>
@@ -130,8 +130,8 @@ AuditClosureDetailsDialog.defaultProps = {
   oldFiles: [],
   assigneeUser: {
     id: 1,
-    image: 'https://picsum.photos/100/100',
-    fullName: 'Mohamed Ahmed',
+    avatar: 'https://picsum.photos/100/100',
+    name: 'Mohamed Ahmed',
     email: 'tariq.z@gmail.com',
   },
 

@@ -31,8 +31,8 @@
   &-fileDropZone {
     padding: 30px;
     border: 1px dashed #dcdcdc;
-    border-radius: 4px;
-    background: #f5f6f7;
+    border-radius: 8px;
+    background: #f6f8fa;
     fill: #727677;
     color: #727677;
     text-align: center;
@@ -113,5 +113,27 @@
     .md-text {
       color: rgba(0, 0, 0, 0.6);
     }
+  }
+}
+
+.HtmlEditor {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+
+  .editorToolbar {
+    border-radius: 8px 8px 0 0;
+    background-color: #f6f8fa;
+
+    .rdw-option-wrapper {
+      background: unset;
+    }
+  }
+
+  .editorContent {
+    border: none !important;
+  }
+
+  .rdw-editor-toolbar {
+    border: none;
   }
 }
