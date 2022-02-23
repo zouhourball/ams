@@ -534,7 +534,12 @@ const Permit = ({ subModule }) => {
           setInformation={setInformation}
           onContinue={() => navigateTo()}
           blockList={
-            Array.isArray(blockList) ? blockList?.map((el) => el.block) : []
+            Array.isArray(blockList)
+              ? blockList?.map((el) => ({
+                label: el.block,
+                value: el?.block,
+              }))
+              : []
           }
         />
       )}

@@ -1202,10 +1202,14 @@ const Inventory = () => {
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          blockList={blocks?.map((el) => ({
-            label: el?.block,
-            value: el?.block,
-          }))}
+          blockList={
+            Array.isArray(blocks)
+              ? blocks?.map((el) => ({
+                label: el.block,
+                value: el?.block,
+              }))
+              : []
+          }
           companyList={
             currentTab === 'asset-transfer'
               ? companies?.content?.map((el) => ({

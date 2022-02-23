@@ -407,10 +407,14 @@ const HSSE = () => {
           optional={'Attach Supporting Document (Optional)'}
           setFileList={setFileList}
           filesList={filesList}
-          blockList={blocks?.map((el) => ({
-            label: el?.block,
-            value: el?.block,
-          }))}
+          blockList={
+            Array.isArray(blocks)
+              ? blocks?.map((el) => ({
+                label: el.block,
+                value: el?.block,
+              }))
+              : []
+          }
           visible={showUploadRapportDialog}
           onHide={() => {
             setShowUploadRapportDialog(false)

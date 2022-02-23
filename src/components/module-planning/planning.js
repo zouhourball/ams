@@ -810,10 +810,14 @@ const Planning = ({ subModule }) => {
           title={renderDialogData().title}
           optional={renderDialogData().optional}
           visible={showUploadRapportDialog}
-          blockList={blocks?.map((el) => ({
-            label: el?.block,
-            value: el?.block,
-          }))}
+          blockList={
+            Array.isArray(blocks)
+              ? blocks?.map((el) => ({
+                label: el.block,
+                value: el?.block,
+              }))
+              : []
+          }
           onHide={() => {
             setShowUploadRapportDialog(false)
             setFileList([])
