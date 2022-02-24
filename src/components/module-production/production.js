@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Button, DialogContainer, TextField } from 'react-md'
+import { Button, DialogContainer, TextField, SelectField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
 import moment from 'moment'
@@ -67,6 +67,7 @@ const Production = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
   const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
+  const [selectedGrid, setSelectedGrid] = useState('data')
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
 
@@ -519,7 +520,34 @@ const Production = () => {
       majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
+  /* const monthlyDataKeys = [
+    'oilProd',
+    'condensateProd',
+    'nagProd',
+    'agProd',
+    'waterProd',
+    'waterInj',
+    'waterDisposal',
+    'flareGasRate',
+    'fuelGasRate',
+    'gasShrink',
+    'gasInjection',
+    'gasLift',
+    'gasSale',
+  ] */
 
+  /* get(currentUpload, 'production.data', [])?.map((el, index) => {
+    return {
+      [monthlyDataKeys[index]]: [
+        {
+          actual: el?.value[0]?.Actual,
+        },
+        {
+          target: el?.value[1]?.Target,
+        },
+      ],
+    }
+  }) */
   const monthlyData = [
     {
       oilProd: [
@@ -605,11 +633,18 @@ const Production = () => {
     },
   ]
 
-  const monthlyTrackingData = (get(currentUpload, 'data', []) || []).map(
+  const monthlyTrackingData = (get(currentUpload, selectedGrid, []) || []).map(
     (el) => {
       return {
-        destination: el?.destination,
-        volume: el?.volume,
+        ...(selectedGrid === 'data' && {
+          destination: el?.destination,
+          volume: el?.volume,
+        }),
+        ...(selectedGrid === 'gomi' && {
+          gomi: el?.gomi,
+          production: el?.production,
+          unit: el?.unit,
+        }),
       }
     },
   )
@@ -834,7 +869,7 @@ const Production = () => {
       case 'monthly':
         return MonthlyProductionDetailsConfigs()
       case 'monthly-tracking':
-        return MonthlyTrackingDetailsConfigs()
+        return MonthlyTrackingDetailsConfigs(selectedGrid)
       case 'oman-hydrocarbon':
         return MonthlyTrackingDetailsConfigs()
       default:
@@ -1046,7 +1081,24 @@ const Production = () => {
       />
       {showUploadMHTDialog && (
         <MHTDialog
-          headerTemplate={<></>}
+          headerTemplate={
+            currentTab === 'monthly-tracking' ? (
+              <SelectField
+                id="monthly-prod-tracking"
+                menuItems={[
+                  { label: 'Monthly Tracking', value: 'data' },
+                  { label: 'GOMI', value: 'gomi' },
+                ]}
+                block
+                position={SelectField.Positions.BELOW}
+                value={selectedGrid}
+                onChange={setSelectedGrid}
+                simplifiedMenu={false}
+              />
+            ) : (
+              <></>
+            )
+          }
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)

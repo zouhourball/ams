@@ -37,8 +37,9 @@ const ProductionDetails = ({ subModule, productionId }) => {
     useState(false)
   const dispatch = useDispatch()
   const role = useRole('production')
-  const [selectFieldValue, setSelectFieldValue] = useState('Monthly Production')
-
+  const [selectFieldValue, setSelectFieldValue] = useState(
+    subModule === 'monthly-tracking' ? 'data' : 'production',
+  )
   const { addSupportingDocuments } = documents()
 
   const { data: productionData, refetch } = useQuery(
@@ -166,6 +167,35 @@ const ProductionDetails = ({ subModule, productionId }) => {
       majorProduction: el?.data[3]['MAJOR PRODUCTION HIGHLIGHTS/LOWLIGHTS'],
     }
   })
+  /* const monthlyDataKeys = [
+    'oilProd',
+    'condensateProd',
+    'nagProd',
+    'agProd',
+    'waterProd',
+    'waterInj',
+    'waterDisposal',
+    'flareGasRate',
+    'fuelGasRate',
+    'gasShrink',
+    'gasInjection',
+    'gasLift',
+    'gasSale',
+  ] */
+  /* const monthlyData = get(productionData, 'production.data', [])?.map(
+    (el, index) => {
+      return {
+        [monthlyDataKeys[index]]: [
+          {
+            actual: el?.value[0]?.Actual,
+          },
+          {
+            target: el?.value[1]?.Target,
+          },
+        ],
+      }
+    },
+  ) */
 
   const monthlyData = [
     {
@@ -326,14 +356,21 @@ const ProductionDetails = ({ subModule, productionId }) => {
     },
   ]
 
-  const monthlyTrackingData = (get(productionData, 'data', []) || []).map(
-    (el) => {
+  const monthlyTrackingData =
+    subModule === 'monthly-tracking' &&
+    (get(productionData, selectFieldValue, []) || []).map((el) => {
       return {
-        destination: el?.destination,
-        volume: el?.volume,
+        ...(selectFieldValue === 'data' && {
+          destination: el?.destination,
+          volume: el?.volume,
+        }),
+        ...(selectFieldValue === 'gomi' && {
+          gomi: el?.gomi,
+          production: el?.production,
+          unit: el?.unit,
+        }),
       }
-    },
-  )
+    })
   const valueEntries = (body) => {
     let values = {}
     for (let i = 0; i < body?.length; i++) {
@@ -362,7 +399,7 @@ const ProductionDetails = ({ subModule, productionId }) => {
       case 'daily':
         return tableDataListDailyProduction
       case 'monthly':
-        return selectFieldValue === 'Monthly Production'
+        return selectFieldValue === 'production'
           ? monthlyData
           : monthlyDataWellCount
       case 'monthly-tracking':
@@ -379,7 +416,7 @@ const ProductionDetails = ({ subModule, productionId }) => {
       case 'daily':
         return dailyProductionDetailsConfigs()
       case 'monthly':
-        return selectFieldValue === 'Monthly Production'
+        return selectFieldValue === 'production'
           ? MonthlyProductionDetailsConfigs()
           : MonthlyWellCountDetailsConfigs()
       case 'monthly-tracking':
@@ -454,6 +491,8 @@ const ProductionDetails = ({ subModule, productionId }) => {
         </>
     ),
   ]
+  // console.log('selectFieldValue', monthlyData, monthlyDataWellCount)
+
   return (
     <div className="production-details">
       <TopBarDetail
@@ -482,7 +521,23 @@ const ProductionDetails = ({ subModule, productionId }) => {
           subModule === 'monthly' ? (
             <SelectField
               id="monthly-prod"
-              menuItems={['Monthly Production', 'Monthly Well Counts']}
+              menuItems={[
+                { label: 'Monthly Production', value: 'production' },
+                { label: 'Monthly Well Counts', value: 'wellCount' },
+              ]}
+              block
+              position={SelectField.Positions.BELOW}
+              value={selectFieldValue}
+              onChange={setSelectFieldValue}
+              simplifiedMenu={false}
+            />
+          ) : subModule === 'monthly-tracking' ? (
+            <SelectField
+              id="monthly-prod-tracking"
+              menuItems={[
+                { label: 'Monthly Tracking', value: 'data' },
+                { label: 'GOMI', value: 'gomi' },
+              ]}
               block
               position={SelectField.Positions.BELOW}
               value={selectFieldValue}
@@ -490,7 +545,7 @@ const ProductionDetails = ({ subModule, productionId }) => {
               simplifiedMenu={false}
             />
           ) : (
-            ''
+            <></>
           )
         }
       />

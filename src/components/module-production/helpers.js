@@ -914,23 +914,48 @@ export const MonthlyProductionDetailsData = [
     flareGasRate: [{ actual: 'OIL' }, { target: 'bbl/d' }],
   },
 ]
-
-export const MonthlyTrackingDetailsConfigs = () => [
+const gomiConfigs = [
   {
-    label: 'Destination',
-    key: 'destination',
-    width: '800',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-  },
-
-  {
-    label: 'Volume (bbis/d)',
-    key: 'volume',
+    label: 'GOMI',
+    key: 'gomi',
     width: '800',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
   },
+  {
+    label: 'Production',
+    key: 'production',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Unit',
+    key: 'unit',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+]
+export const MonthlyTrackingDetailsConfigs = (selectedGrid) => [
+  ...(selectedGrid === 'gomi'
+    ? gomiConfigs
+    : [
+      {
+        label: 'Destination',
+        key: 'destination',
+        width: '800',
+        icon: 'mdi mdi-spellcheck',
+        type: 'text',
+      },
+      {
+        label: 'Volume (bbis/d)',
+        key: 'volume',
+        width: '800',
+        type: 'text',
+        icon: 'mdi mdi-spellcheck',
+      },
+    ]),
 ]
 
 export const MonthlyTrackingDetailsData = [

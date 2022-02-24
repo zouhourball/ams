@@ -67,20 +67,20 @@ const InventoryDetails = () => {
     'consumptionReportProcess',
     'surplusInventoryProcess',
   ]
-  const categoryAccepted = ['base-consumption', 'base-surplus']
+  // const categoryAccepted = ['base-consumption', 'base-surplus']
 
   const { data: inventoryData, refetch: refetchInventory } = useQuery(
     ['getDetailInventoryById', currentTabName, inventoryId],
-    categoryKeyword.includes(currentTabName) && getDetailInventoryById,
+    getDetailInventoryById,
     {
       refetchOnWindowFocus: false,
     },
   )
-
+  // console.log(currentTabName)
   const { data: inventoryAcceptedData, refetch: refetchInventoryAccepted } =
     useQuery(
       ['getDetailInventoryById', 'base', inventoryId],
-      categoryAccepted.includes(currentTabName) && getDetailInventoryById,
+      getDetailInventoryById,
       {
         refetchOnWindowFocus: false,
       },
@@ -545,6 +545,8 @@ const InventoryDetails = () => {
         ]
       case 'base-consumption':
       case 'base-surplus':
+      case 'assetTransferRequestProcess':
+      case 'assetDisposalRequestProcess':
         return [
           role === 'regulator' && (
             <>
@@ -671,8 +673,7 @@ const InventoryDetails = () => {
             </>
           ),
         ]
-      case 'assetDisposalRequestProcess':
-        return []
+
       default:
         return [
           <Button

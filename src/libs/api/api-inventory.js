@@ -217,7 +217,7 @@ export const getCompaniesInventory = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/arm-be/api/v1/config/companies?size=2000&sort=metaData.createdAt,desc`,
+      `${appUrl}/arm/api/v1/config/companies?size=2000&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
