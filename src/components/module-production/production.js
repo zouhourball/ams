@@ -632,7 +632,6 @@ const Production = () => {
       ],
     },
   ]
-
   const monthlyTrackingData = (get(currentUpload, selectedGrid, []) || []).map(
     (el) => {
       return {

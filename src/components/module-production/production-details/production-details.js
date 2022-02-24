@@ -371,6 +371,7 @@ const ProductionDetails = ({ subModule, productionId }) => {
         }),
       }
     })
+
   const valueEntries = (body) => {
     let values = {}
     for (let i = 0; i < body?.length; i++) {
@@ -420,7 +421,7 @@ const ProductionDetails = ({ subModule, productionId }) => {
           ? MonthlyProductionDetailsConfigs()
           : MonthlyWellCountDetailsConfigs()
       case 'monthly-tracking':
-        return MonthlyTrackingDetailsConfigs()
+        return MonthlyTrackingDetailsConfigs(selectFieldValue)
       case 'oman-hydrocarbon':
         return OmanHydrocarbonDetailsConfigs(numKeys)
       default:
