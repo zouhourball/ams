@@ -616,7 +616,7 @@ function createProductionDailyTableCreator () {
         })
       })
       return {
-        displayDate: format(newDatePolyfill(day), 'DD/MM/YYYY'),
+        displayDate: format(newDatePolyfill(day), 'dd/MM/yyyy'),
         ...details,
         Total: fixNbr(lodashSum(Object.values(details))),
       }

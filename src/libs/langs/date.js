@@ -7,6 +7,6 @@ export function format (timeStamp) {
   if (isNaN(date.getTime())) {
     return 'Invalid Date'
   } else {
-    return dateFns(date, 'DD/MM/YYYY') // TODO
+    return dateFns(date, 'dd/MM/yyyy') // TODO
   }
 }

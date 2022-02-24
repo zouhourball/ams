@@ -920,7 +920,7 @@ export const chartsToDraw = [
                 formatter,
                 {
                   setting: {
-                    split2Fmt: 'DD/MM/YYYY',
+                    split2Fmt: 'dd/MM/yyyy',
                   },
                 },
                 dailyDataFilter(objCondIsCondensateData),
@@ -938,7 +938,7 @@ export const chartsToDraw = [
                 formatter,
                 {
                   setting: {
-                    split2Fmt: 'DD/MM/YYYY',
+                    split2Fmt: 'dd/MM/yyyy',
                   },
                 },
                 dailyDataFilter(objCondIsAGData),
@@ -957,7 +957,7 @@ export const chartsToDraw = [
                 formatter,
                 {
                   setting: {
-                    split2Fmt: 'DD/MM/YYYY',
+                    split2Fmt: 'dd/MM/yyyy',
                   },
                 },
                 dailyDataFilter(objCondIsNAGData),
