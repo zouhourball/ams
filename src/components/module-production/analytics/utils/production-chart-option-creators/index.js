@@ -148,7 +148,7 @@ function xDataProccessor (data, params) {
   for (let item of data) {
     let date = newDatePolyfill(item.date)
 
-    let dateStr = format(date, 'DD/MM')
+    let dateStr = format(date, 'dd/MM')
     if (!(dateStr in groupedData)) {
       allDate.push(date)
       groupedData[dateStr] = [item]
@@ -157,7 +157,7 @@ function xDataProccessor (data, params) {
     }
   }
   allDate.sort((d1, d2) => d1 - d2)
-  let groupIndex = allDate.map((date) => format(date, 'DD/MM'))
+  let groupIndex = allDate.map((date) => format(date, 'dd/MM'))
   return {
     groupedData,
     groupIndex,

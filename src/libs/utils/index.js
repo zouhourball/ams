@@ -150,7 +150,7 @@ export function buildJsonQuery (obj) {
 
 export function dateFormat (date) {
   const d = new Date(date)
-  return format(d, 'MM/DD/YYYY')
+  return format(d, 'MM/dd/yyyy')
 }
 
 export function urlToModuleName (url) {
