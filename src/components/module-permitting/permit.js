@@ -202,6 +202,7 @@ const Permit = ({ subModule }) => {
         : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       supportingDocuments: '',
       status: el?.metaData?.status,
+      updatedBy: el?.metaData?.updatedBy?.email,
     }
   })
   const selectedRow = selectedRowSelector?.map((id) =>

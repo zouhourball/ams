@@ -749,7 +749,8 @@ const Reserves = ({ subkey }) => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
-          formatDate={'year'}
+          // formatDate={'year'}
+          hideDate
         />
       )}
 

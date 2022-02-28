@@ -629,48 +629,49 @@ const InventoryDetails = () => {
             </>
           ),
 
-          role === 'operator' && (
-            <>
-              <Button
-                key="1"
-                id="viewDoc"
-                className="top-bar-buttons-list-item-btn discard"
-                flat
-                swapTheming
-                onClick={() => {
-                  setShowSupportedDocumentDialog(true)
-                }}
-              >
-                Upload documents
-              </Button>
+          role === 'operator' &&
+            inventoryData?.metaData?.status === 'SUBMITTED' && (
+              <>
+                <Button
+                  key="1"
+                  id="viewDoc"
+                  className="top-bar-buttons-list-item-btn discard"
+                  flat
+                  swapTheming
+                  onClick={() => {
+                    setShowSupportedDocumentDialog(true)
+                  }}
+                >
+                  Upload documents
+                </Button>
 
-              <Button
-                key="2"
-                id="edit"
-                className="top-bar-buttons-list-item-btn reject"
-                flat
-                primary
-                swapTheming
-                onClick={() => {
-                  navigate(`/ams/inventory`)
-                }}
-              >
-                Discard
-              </Button>
-              <Button
-                key="3"
-                id="edit"
-                className="top-bar-buttons-list-item-btn approve"
-                flat
-                primary
-                swapTheming
-                onClick={() => {
-                  onSubmitInventory()
-                }}
-              >
-                Submit
-              </Button>
-            </>
+                <Button
+                  key="2"
+                  id="edit"
+                  className="top-bar-buttons-list-item-btn reject"
+                  flat
+                  primary
+                  swapTheming
+                  onClick={() => {
+                    navigate(`/ams/inventory`)
+                  }}
+                >
+                  Discard
+                </Button>
+                <Button
+                  key="3"
+                  id="edit"
+                  className="top-bar-buttons-list-item-btn approve"
+                  flat
+                  primary
+                  swapTheming
+                  onClick={() => {
+                    onSubmitInventory()
+                  }}
+                >
+                  Submit
+                </Button>
+              </>
           ),
         ]
 

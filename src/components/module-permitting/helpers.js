@@ -430,6 +430,16 @@ export const actionsHeader = (
       submitDraft(row?.id)
     },
   }
+  const clarifyBtn = {
+    id: 7,
+    label: 'Clarify',
+    onClick: () => {
+      // open email window
+      window.open(
+        `mailto:${row?.updatedBy}?subject=Subject&body=message%20goes%20here`,
+      )
+    },
+  }
   const opEntries = [
     {
       id: 1,
@@ -481,6 +491,10 @@ export const actionsHeader = (
         },
       ]
     case 'operator':
-      return row?.status === 'DRAFT' ? [...opEntries, draftBtn] : [...opEntries]
+      return row?.status === 'DRAFT'
+        ? [...opEntries, draftBtn]
+        : row?.status === 'REJECTED'
+          ? [...opEntries, clarifyBtn]
+          : [...opEntries]
   }
 }
