@@ -1,23 +1,7 @@
 name: push helm chart
 
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  # Also trigger on page_build, as well as release created events
-  page_build:
-  release:
-    types: # This configuration does not affect the page_build event above
-      - created
-      - published
-      - edited
 env:
-  GITLAB_REGISTRY: registry.gitlab.com/target-digital-transformation/fe-apps
+  GITLAB_REGISTRY: registry.gitlab.com/target-digital-transformation/devops
   DEFAULT_MOULE: true     ## true, ingore, default is true
   SECOND_MODULE: "null" ## null, ignore, ${MODULE_NAME},  default is null
   SECOND_MODULE_FOR_COMMON: "common2 common3"
@@ -28,14 +12,16 @@ env:
   HELM_REPO: https://chartmuseum.dev.meeraspace.com/
   HELM_USER: ${{ secrets.HELM_USER }}
   HELM_PASSWORD: ${{ secrets.HELM_PASSWORD }}
-  TES_ENV: dev  
-          
-          
-# echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+  TES_ENV: dev
+
+on:
+  push:
+    tags:
+      - '*.*.*'    
 
 jobs:
   tag_image:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, k8s]
     name: tag and push image
     if: contains(github.ref, 'refs/tags/')
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -43,34 +29,38 @@ jobs:
       - id: tag_image
         name: Tag and Push image to gitlab registry
         run: |
-          REPOSITORY_NAME=$(echo "${GITHUB_REPOSITORY}" | awk -F / '{print $2}')
           echo ${{ secrets.GITLAB_CR_PAT }} | docker login registry.gitlab.com -u ${{ secrets.GITLAB_CR_USER }} --password-stdin
+
           IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
           if [[ ${IMAGE_TAG} == v* ]]; then IMAGE_TAG=`echo ${IMAGE_TAG:1}`; fi
           echo ${IMAGE_TAG}
+
           if [ "$DEFAULT_MOULE" != "ignore" ] ;
           then
-            docker pull ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github:${GITHUB_SHA::8}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github:${IMAGE_TAG}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github:latest
-            docker push ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github -a
+            docker pull ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_SHA::8}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${IMAGE_TAG}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:latest
+            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}
           fi
+
           if [ "$SECOND_MODULE" != "ignore" ] && [ "$SECOND_MODULE" != "null" ] && [ "$SECOND_MODULE" != "" ] ;
           then
-            docker pull ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}:${GITHUB_SHA::8}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}:${IMAGE_TAG}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}:latest
-            docker push ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${SECOND_MODULE}
+            docker pull ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${IMAGE_TAG}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:latest
+            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}
           fi
+
           if [ "$THIRD_MODULE" != "ignore" ] && [ "$THIRD_MODULE" != "null" ] && [ "$THIRD_MODULE" != "" ] ;
           then
-            docker pull ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}:${GITHUB_SHA::8}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}:${IMAGE_TAG}
-            docker tag ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}:latest
-            docker push ${GITLAB_REGISTRY}/$REPOSITORY_NAME/github-${THIRD_MODULE}            
+            docker pull ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${IMAGE_TAG}
+            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:latest
+            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}            
           fi
+
   push_chart_to_helm_repo:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, k8s]
     name: push chart to helm repo
     if: contains(github.ref, 'refs/tags/')
     needs:
@@ -89,6 +79,7 @@ jobs:
           BRANCH_NAME=`git log --oneline --decorate | head -1 | awk -Forigin/ '{print $2}' | awk -F')' '{print $1}'`
           echo "BRANCH_NAME: ${BRANCH_NAME}"
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+
       - name: Checkout manifest repo
         uses: actions/checkout@v2
         with:
@@ -104,7 +95,7 @@ jobs:
           ALIAS_GITHUB_REPOSITORY: ${{ github.repository }}
 
   sync_helm_chart_to_env:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, k8s]
     name: sync helm chart to env
     if: contains(github.ref, 'refs/tags/')
     needs:
@@ -116,8 +107,8 @@ jobs:
           repository: tespkg/tes_manifests
           token: ${{ secrets.TES_MANIFEST_TOKEN }}
 
-      - name: Set up tools
-        uses: tespkg/action@set_up_tools
+      # - name: Set up tools
+      #   uses: tespkg/action@set_up_tools
 
       - name: auto sync to env-test
         uses: tespkg/action@sync_helm_chart
