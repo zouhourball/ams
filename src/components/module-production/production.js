@@ -782,7 +782,10 @@ const Production = () => {
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      referenceDate:
+        currentTab === 'daily'
+          ? moment(el?.metaData?.reportDate).format('DD MMM, YYYY')
+          : `${el?.metaData?.month} ${el?.metaData?.year}`,
       statusDate: el?.metaData?.updatedAt
         ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
         : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -802,7 +805,10 @@ const Production = () => {
       block: get(el, 'metaData.block', 'n/a'),
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      referenceDate:
+        currentTab === 'daily'
+          ? moment(el?.metaData?.reportDate).format('DD MMM, YYYY')
+          : `${el?.metaData?.month} ${el?.metaData?.year}`,
       statusDate: el?.metaData?.updatedAt
         ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
         : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),

@@ -14,6 +14,7 @@ import Mht from '@target-energysolutions/mht'
 import { addToast } from 'modules/app/actions'
 import useRole from 'libs/hooks/use-role'
 import addGroup from 'libs/hooks/add-group'
+import documents from 'libs/hooks/documents'
 
 import {
   updateInventory,
@@ -108,6 +109,8 @@ const InventoryDetails = () => {
       refetchOnWindowFocus: false,
     },
   )
+  const { addSupportingDocuments } = documents()
+
   const snaps = [
     { label: 'latest', value: 'latest' },
     ...(snapshotsData || [])?.map((el) => {
@@ -629,49 +632,49 @@ const InventoryDetails = () => {
             </>
           ),
 
-          role === 'operator' &&
-            inventoryData?.metaData?.status === 'SUBMITTED' && (
-              <>
-                <Button
-                  key="1"
-                  id="viewDoc"
-                  className="top-bar-buttons-list-item-btn discard"
-                  flat
-                  swapTheming
-                  onClick={() => {
-                    setShowSupportedDocumentDialog(true)
-                  }}
-                >
-                  Upload documents
-                </Button>
+          role === 'operator' && inventoryData?.metaData?.status === 'DRAFT' && (
+            /* ||
+             inventoryData?.metaData?.status === 'PRELOADED' */ <>
+              <Button
+                key="1"
+                id="viewDoc"
+                className="top-bar-buttons-list-item-btn discard"
+                flat
+                swapTheming
+                onClick={() => {
+                  setShowSupportedDocumentDialog(true)
+                }}
+              >
+                Upload documents
+              </Button>
 
-                <Button
-                  key="2"
-                  id="edit"
-                  className="top-bar-buttons-list-item-btn reject"
-                  flat
-                  primary
-                  swapTheming
-                  onClick={() => {
-                    navigate(`/ams/inventory`)
-                  }}
-                >
-                  Discard
-                </Button>
-                <Button
-                  key="3"
-                  id="edit"
-                  className="top-bar-buttons-list-item-btn approve"
-                  flat
-                  primary
-                  swapTheming
-                  onClick={() => {
-                    onSubmitInventory()
-                  }}
-                >
-                  Submit
-                </Button>
-              </>
+              <Button
+                key="2"
+                id="edit"
+                className="top-bar-buttons-list-item-btn reject"
+                flat
+                primary
+                swapTheming
+                onClick={() => {
+                  returnBack()
+                }}
+              >
+                Discard
+              </Button>
+              <Button
+                key="3"
+                id="edit"
+                className="top-bar-buttons-list-item-btn approve"
+                flat
+                primary
+                swapTheming
+                onClick={() => {
+                  onSubmitInventory()
+                }}
+              >
+                Submit
+              </Button>
+            </>
           ),
         ]
 
@@ -782,6 +785,19 @@ const InventoryDetails = () => {
         break
     }
   }
+  const closeDialog = (resp) => {
+    resp &&
+      resp[0]?.statusCode === 'OK' &&
+      setShowSupportedDocumentDialog(false)
+  }
+
+  const handleSupportingDocs = (data) => {
+    addSupportingDocuments(
+      data,
+      inventoryData?.metaData?.processInstanceId,
+      closeDialog,
+    )
+  }
   return (
     <div className="inventory-details">
       <TopBarDetail
@@ -827,15 +843,14 @@ const InventoryDetails = () => {
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
-          readOnly
+          readOnly={role === 'regulator'}
           processInstanceId={
             inventoryData?.metaData?.processInstanceId ||
             showSupportedDocumentDialog?.processInstanceId
           }
-          // onSaveUpload={(data) => {
-          //   handleSupportingDocs(data)
-          // }
-          // }
+          onSaveUpload={(data) => {
+            handleSupportingDocs(data)
+          }}
         />
       )}
       {showSelectMembersWorkspaces && (

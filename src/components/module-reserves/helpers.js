@@ -590,45 +590,7 @@ export const annualReservesDetailsConfigs = (subModule, cuYear = 2033) => {
           type: 'subColumns',
           columns: [
             {
-              label: cuYear - 1,
-              subKey: 'year',
-              width: 100,
-              subColumns: [
-                {
-                  label: '1P',
-                  subKeyS: 'oneP',
-                  icon: 'mdi mdi-spellcheck',
-                  width: 100,
-                },
-                {
-                  label: '2P',
-                  subKeyS: 'twoP',
-                  icon: 'mdi mdi-spellcheck',
-                  width: 100,
-                },
-              ],
-            },
-            {
-              label: cuYear - 2,
-              subKey: 'year',
-              width: 100,
-              subColumns: [
-                {
-                  label: '1P',
-                  subKeyS: 'oneP',
-                  icon: 'mdi mdi-spellcheck',
-                  width: 100,
-                },
-                {
-                  label: '2P',
-                  subKeyS: 'twoP',
-                  icon: 'mdi mdi-spellcheck',
-                  width: 100,
-                },
-              ],
-            },
-            {
-              label: cuYear - 3,
+              label: cuYear - 5,
               subKey: 'year',
               width: 100,
               subColumns: [
@@ -666,7 +628,45 @@ export const annualReservesDetailsConfigs = (subModule, cuYear = 2033) => {
               ],
             },
             {
-              label: cuYear - 5,
+              label: cuYear - 3,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 2,
+              subKey: 'year',
+              width: 100,
+              subColumns: [
+                {
+                  label: '1P',
+                  subKeyS: 'oneP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+                {
+                  label: '2P',
+                  subKeyS: 'twoP',
+                  icon: 'mdi mdi-spellcheck',
+                  width: 100,
+                },
+              ],
+            },
+            {
+              label: cuYear - 1,
               subKey: 'year',
               width: 100,
               subColumns: [
