@@ -7,6 +7,7 @@ const appUrl =
 
 export const getInventories = async ({ queryKey }) => {
   let res
+  // `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
   try {
     res = await fetchJSON(
       `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
@@ -22,7 +23,7 @@ export const getInventories = async ({ queryKey }) => {
 export const uploadAnnualBaseInventoryReport = async ({ body }) => {
   let newBody = new FormData()
   newBody.append('block', body?.block)
-  newBody.append('category', body?.category)
+  // newBody.append('category', body?.category)
   newBody.append('company', body?.company)
   newBody.append('file', body?.file[0])
   newBody.append('processInstanceId', body?.processInstanceId)
@@ -105,7 +106,7 @@ export const commitInventory = async ({ subModule, body }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/commit`,
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/${body?.id}/commit`,
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -120,7 +121,7 @@ export const saveInventory = async ({ subModule, body }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/save`,
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/${body?.id}/save`,
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -139,7 +140,7 @@ export const overrideInventoryReport = async ({
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/override/${overrideId}`,
+      `${appUrl}/pulse-be/api/v2/inventory/${subModule}/${body?.id}/override/${overrideId}`,
       {
         method: 'POST',
         body: JSON.stringify(body),
@@ -168,7 +169,7 @@ export const deleteInventory = async ({ inventoryId }) => {
 export const uploadAssetDisposalInventoryReport = async ({ body }) => {
   let newBody = new FormData()
   newBody.append('block', body?.block)
-  newBody.append('category', body?.category)
+  // newBody.append('category', body?.category)
   newBody.append('company', body?.company)
 
   newBody.append('file', body?.file[0])

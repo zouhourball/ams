@@ -101,21 +101,13 @@ const Inventory = () => {
   const {
     data: listAssetTransfer,
     refetch: refetchListAssetTransferInventory,
-  } = useQuery(
-    ['getListAnnualBase', 'assetTransferRequestProcess', page, size],
-    getInventories,
-    {
-      refetchOnWindowFocus: false,
-    },
-  )
+  } = useQuery(['getListAnnualBase', 'transfer', page, size], getInventories, {
+    refetchOnWindowFocus: false,
+  })
   const { data: listDisposal, refetch: refetchListDisposalInventory } =
-    useQuery(
-      ['getListAnnualBase', 'assetDisposalRequestProcess', page, size],
-      getInventories,
-      {
-        refetchOnWindowFocus: false,
-      },
-    )
+    useQuery(['getListAnnualBase', 'disposal', page, size], getInventories, {
+      refetchOnWindowFocus: false,
+    })
   const { data: listInventoriesAccepted } = useQuery(
     ['getListInventoriesAccepted', page, size],
     getInventoriesAccepted,
@@ -487,10 +479,10 @@ const Inventory = () => {
           body: {
             block: body?.block,
             company: company?.name,
-            category: 'assetDisposalRequestProcess',
+            // category: 'assetDisposalRequestProcess',
             file: body?.file,
             processInstanceId: uuid,
-            year: moment(body?.referenceDate?.timestamp).format('YYYY'),
+            // year: moment(body?.referenceDate?.timestamp).format('YYYY'),
           },
         })
         addSupportingDocuments(body?.optionalFiles, uuid)
