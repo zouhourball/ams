@@ -7,7 +7,7 @@ dependencies:
   '@reach/router': 1.3.4_react-dom@17.0.2+react@17.0.2
   '@rooks/use-outside-click': 4.11.2_react@17.0.2
   '@rooks/use-toggle': 4.11.2_react@17.0.2
-  '@target-energysolutions/app-shell': 23.5.0-alpha.6_a3eb31647626617915e7a3b5ebc2f875
+  '@target-energysolutions/app-shell': 23.10.2_a3eb31647626617915e7a3b5ebc2f875
   '@target-energysolutions/auth-check': 0.3.7_75cb922c19ee1b7939faae9b4d1f4cf7
   '@target-energysolutions/charts-enhance': 1.0.1
   '@target-energysolutions/data-table': 2.10.3_599bbb940c87d3b83bac9ed82f49c9aa
@@ -203,7 +203,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jCH+k2Vjlno4YWl6g535nHR09PwCEmTBKAG6VqF+rhkrSPRLfgpU2maagwbZPLjaHuU5Jd1DFQ2KJpQuI6uG8w==
-  /@apollo/client/3.5.9_graphql@15.8.0+react@17.0.2:
+  /@apollo/client/3.5.10_graphql@15.8.0+react@17.0.2:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       '@wry/context': 0.6.1
@@ -221,15 +221,18 @@ packages:
       zen-observable-ts: 1.2.3
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql-ws: ^5.5.5
       react: ^16.8.0 || ^17.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
+      graphql-ws:
+        optional: true
       react:
         optional: true
       subscriptions-transport-ws:
         optional: true
     resolution:
-      integrity: sha512-Qq3OE3GpyPG2fYXBzi1n4QXcKZ11c6jHdrXK2Kkn9SD+vUymSrllXsldqnKUK9tslxKqkKzNrkCXkLv7PxwfSQ==
+      integrity: sha512-tL3iSpFe9Oldq7gYikZK1dcYxp1c01nlSwtsMz75382HcI6fvQXyFXUCJTTK3wgO2/ckaBvRGw7VqjFREdVoRw==
   /@apollo/react-common/3.1.4_556b533c078ddf6e4bd3e9a27655a5e4:
     dependencies:
       '@types/react': 17.0.38
@@ -310,7 +313,7 @@ packages:
       integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollo/react-hooks/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.9_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
     dev: false
     peerDependencies:
       graphql: '*'
@@ -334,7 +337,7 @@ packages:
       integrity: sha512-wuLPkKlctNn3u8EU8rlECyktpOUCeekFfb0KhIKknpGY6Lza2Qu0bThx7D9MIbVEzhKadNNrzLcpk0Y8/5UuWg==
   /@apollo/react-testing/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.9_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
     dev: true
     peerDependencies:
       graphql: '*'
@@ -1912,7 +1915,7 @@ packages:
       '@babel/core': 7.16.7
       '@babel/helper-module-imports': 7.16.7
       '@babel/plugin-syntax-jsx': 7.16.7_@babel+core@7.16.7
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/hash': 0.8.0
       '@emotion/memoize': 0.7.5
       '@emotion/serialize': 1.0.2
@@ -2452,7 +2455,7 @@ packages:
       integrity: sha1-GViWWHTyS8Ub5Ih1/rUNZC/EH3s=
   /@material-ui/core/4.12.3_b3482aaf5744fc7c2aeb7941b0e0a78f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@material-ui/styles': 4.11.4_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@material-ui/system': 4.12.1_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@material-ui/types': 5.1.0_@types+react@17.0.38
@@ -2482,11 +2485,12 @@ packages:
       integrity: sha512-sdpgI/PL56QVsEJldwEe4FFaFTLUqN+rd7sSZiRCdx2E/C7z5yK0y/khAWVBH24tXwto7I1hCzNWfJGZIYJKnw==
   /@material-ui/icons/4.11.2_d7c58ad036f460dedca755aa3bc1bb8f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@material-ui/core': 4.12.3_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@types/react': 17.0.38
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    deprecated: 'You can now upgrade to @mui/icons. See the guide: https://mui.com/guides/migration-v4/'
     dev: false
     engines:
       node: '>=8.0.0'
@@ -2502,7 +2506,7 @@ packages:
       integrity: sha512-fQNsKX2TxBmqIGJCSi3tGTO/gZ+eJgWmMJkgDiOfyNaunNaxcklJQFaFogYcFl0qFuaEz1qaXYXboa/bUXVSOQ==
   /@material-ui/lab/4.0.0-alpha.60_d7c58ad036f460dedca755aa3bc1bb8f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@material-ui/core': 4.12.3_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@material-ui/utils': 4.11.2_react-dom@17.0.2+react@17.0.2
       '@types/react': 17.0.38
@@ -2511,6 +2515,7 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-is: 17.0.2
+    deprecated: 'You can now upgrade to @mui/lab. See the guide: https://mui.com/guides/migration-v4/'
     dev: false
     engines:
       node: '>=8.0.0'
@@ -2526,7 +2531,7 @@ packages:
       integrity: sha512-fadlYsPJF+0fx2lRuyqAuJj7hAS1tLDdIEEdov5jlrpb5pp4b+mRDUqQTUxi4inRZHS1bEXpU8QWUhO6xX88aA==
   /@material-ui/pickers/3.3.10_e7ac93ae904353bc7c257f3dc4979b3f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@date-io/core': 1.3.13
       '@material-ui/core': 4.12.3_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@types/styled-jsx': 2.2.9
@@ -2546,7 +2551,7 @@ packages:
       integrity: sha512-hS4pxwn1ZGXVkmgD4tpFpaumUaAg2ZzbTrxltfC5yPw4BJV+mGkfnQOB4VpWEYZw2jv65Z0wLwDE/piQiPPZ3w==
   /@material-ui/styles/4.11.4_b3482aaf5744fc7c2aeb7941b0e0a78f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/hash': 0.8.0
       '@material-ui/types': 5.1.0_@types+react@17.0.38
       '@material-ui/utils': 4.11.2_react-dom@17.0.2+react@17.0.2
@@ -2565,6 +2570,7 @@ packages:
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    deprecated: 'You can now upgrade to @mui/styles. See the guide: https://mui.com/guides/migration-v4/'
     dev: false
     engines:
       node: '>=8.0.0'
@@ -2579,13 +2585,14 @@ packages:
       integrity: sha512-KNTIZcnj/zprG5LW0Sao7zw+yG3O35pviHzejMdcSGCdWbiO8qzRgOYL8JAxAsWBKOKYwVZxXtHWaB5T2Kvxew==
   /@material-ui/system/4.12.1_b3482aaf5744fc7c2aeb7941b0e0a78f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@material-ui/utils': 4.11.2_react-dom@17.0.2+react@17.0.2
       '@types/react': 17.0.38
       csstype: 2.6.19
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    deprecated: 'You can now upgrade to @mui/system. See the guide: https://mui.com/guides/migration-v4/'
     dev: false
     engines:
       node: '>=8.0.0'
@@ -2611,7 +2618,7 @@ packages:
       integrity: sha512-7cqRjrY50b8QzRSYyhSpx4WRw2YuO0KKIGQEVk5J8uoz2BanawykgZGoWEqKm7pVIbzFDN0SpPcVV4IhOFkl8A==
   /@material-ui/utils/4.11.2_react-dom@17.0.2+react@17.0.2:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -3135,7 +3142,7 @@ packages:
       integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==
   /@mui/base/5.0.0-alpha.65_b3482aaf5744fc7c2aeb7941b0e0a78f:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/is-prop-valid': 1.1.1
       '@mui/utils': 5.3.0_react@17.0.2
       '@popperjs/core': 2.11.2
@@ -3159,7 +3166,7 @@ packages:
       integrity: sha512-6LCTWVoSnEoQuWdxA+Z1qqmlNK4aZj7LvCuLJzq3RVS2PskRuo1O3caVFxAzRu7xrY3zsyL/sUsJI+rdcjhuXw==
   /@mui/material/5.3.0_f5341c4d41f1e34c3a73251df9f98a19:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/react': 11.7.1_b3e67f1b1cc68ee82c343add0615c039
       '@emotion/styled': 11.6.0_023218a630dedcfdc5aa065bf93ff9d7
       '@mui/base': 5.0.0-alpha.65_b3482aaf5744fc7c2aeb7941b0e0a78f
@@ -3196,7 +3203,7 @@ packages:
       integrity: sha512-zLdlweBHrKpOwHFoMXA6FFgKQOONuX4sQhODcj9dk5uPeScuMDE26svcsrPam5Y1PKXZX78YEGHB5Jr5PHGpTA==
   /@mui/private-theming/5.3.0_b08e3c15324cbe90a6ff8fcd416c932c:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@mui/utils': 5.3.0_react@17.0.2
       '@types/react': 17.0.38
       prop-types: 15.8.1
@@ -3214,7 +3221,7 @@ packages:
       integrity: sha512-EBobUEyM9fMnteKrVPp8pTMUh81xXakyfdpkoh7Y19q9JpD2eh7QGAQVJVj0JBFlcUJD60NIE4K8rdokrRmLwg==
   /@mui/styled-engine/5.3.0_922a85da57e3646a57465b7970b0de85:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/cache': 11.7.1
       '@emotion/react': 11.7.1_b3e67f1b1cc68ee82c343add0615c039
       '@emotion/styled': 11.6.0_023218a630dedcfdc5aa065bf93ff9d7
@@ -3236,7 +3243,7 @@ packages:
       integrity: sha512-I4YemFy9WnCLUdZ5T+6egpzc8e7Jq/uh9AJ3QInZHbyNu/9I2SWvNn7vHjWOT/D8Y8LMzIOhu5WwZbzjez7YRw==
   /@mui/system/5.3.0_bcb8cb45f4440c38ab7df0ee3f383339:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/react': 11.7.1_b3e67f1b1cc68ee82c343add0615c039
       '@emotion/styled': 11.6.0_023218a630dedcfdc5aa065bf93ff9d7
       '@mui/private-theming': 5.3.0_b08e3c15324cbe90a6ff8fcd416c932c
@@ -3278,7 +3285,7 @@ packages:
       integrity: sha512-Hh7ALdq/GjfIwLvqH3XftuY3bcKhupktTm+S6qRIDGOtPtRuq2L21VWzOK4p7kblirK0XgGVH5BLwa6u8z/6QQ==
   /@mui/utils/5.3.0_react@17.0.2:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@types/prop-types': 15.7.4
       '@types/react-is': 17.0.3
       prop-types: 15.8.1
@@ -4303,10 +4310,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RIzQ7MLRSJLUpTHcje1ZclnHH982amJSKC9bDxGO0wyu5OF9ROuuiLf7TxKxo1zUu7lGEYNedg9SEi87uMWDqg==
-  /@target-energysolutions/app-shell/23.5.0-alpha.6_a3eb31647626617915e7a3b5ebc2f875:
+  /@target-energysolutions/app-shell/23.10.2_a3eb31647626617915e7a3b5ebc2f875:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@emotion/cache': 11.7.1
+      '@emotion/css': 11.7.1_@babel+core@7.16.7
       '@emotion/react': 11.7.1_b3e67f1b1cc68ee82c343add0615c039
       '@emotion/styled': 11.6.0_023218a630dedcfdc5aa065bf93ff9d7
       '@mdi/js': 4.9.95
@@ -4320,7 +4328,7 @@ packages:
       '@target-energysolutions/common-ui-md': 4.8.0_6c0682b89a1631fa253c2831c798f1ce
       '@target-energysolutions/date-picker': 3.1.5_599bbb940c87d3b83bac9ed82f49c9aa
       '@target-energysolutions/fluxble-searcher': 1.0.19_1bf4c21e8b62027b796d6e559a56aa3e
-      '@target-energysolutions/global-search': 0.1.6_50dec457e12248401e464ebd2cedc28d
+      '@target-energysolutions/global-search': 0.1.10_50dec457e12248401e464ebd2cedc28d
       '@target-energysolutions/messenger': 16.8.4_47f8f26069ce9abe2bd1c1f091aa091c
       '@target-energysolutions/multi-select-dropdown': 1.8.2_75cb922c19ee1b7939faae9b4d1f4cf7
       '@target-energysolutions/pdf': 1.0.2_75cb922c19ee1b7939faae9b4d1f4cf7
@@ -4346,7 +4354,7 @@ packages:
       redux: 4.1.2
       redux-actions: 2.6.5
       stylis-plugin-rtl: 2.1.1
-      swr: 1.1.2_react@17.0.2
+      swr: 1.2.1_react@17.0.2
       tiny-cookie: 2.3.2
       use-timer: 1.4.0_react-dom@17.0.2+react@17.0.2
     dev: false
@@ -4365,7 +4373,7 @@ packages:
       redux: ^3.7.2
       webpack: '*'
     resolution:
-      integrity: sha512-TizLoK9bveOzuqmK2WrIdFxwOGk9jZDwEPx81zIS16Qmg4v7HLb5YKecHY3vsgSrS1pxD44D4ImnHDbNiEKgjg==
+      integrity: sha512-b1lvqcZSbmRwSgtWIha8kiOirWSHskPXyQjOvw+Y1RkfJ5T2Y4ooXx3D9azdXKHdO5vVeudQ89krlk4jbflPEQ==
   /@target-energysolutions/auth-check/0.3.7_75cb922c19ee1b7939faae9b4d1f4cf7:
     dependencies:
       lodash-es: 4.17.21
@@ -4415,7 +4423,7 @@ packages:
       integrity: sha512-xlmA26ZiMWJ4x6KqoVHYIwZlwmytChb29nHS8AIJCw7MNlhXHQJOAmk7aSsLY4/R54qjBQcpg4pZtC8DjjFZ8g==
   /@target-energysolutions/common-ui-md/4.8.0_6c0682b89a1631fa253c2831c798f1ce:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       '@mdi/js': 5.9.55
       '@mdi/react': 1.5.0
       '@target-energysolutions/material-widgets': 0.2.9_75cb922c19ee1b7939faae9b4d1f4cf7
@@ -4738,7 +4746,7 @@ packages:
       webpack: '*'
     resolution:
       integrity: sha512-yPwivs8j0ynNHSCWDw9KEcwn2EvLESgU+Nc7UJRELIigPjQ6l6wxBPWxbaEez0HuK9waX11ejftRxkJoNtEMDQ==
-  /@target-energysolutions/global-search/0.1.6_50dec457e12248401e464ebd2cedc28d:
+  /@target-energysolutions/global-search/0.1.10_50dec457e12248401e464ebd2cedc28d:
     dependencies:
       '@material-ui/core': 4.12.3_b3482aaf5744fc7c2aeb7941b0e0a78f
       '@material-ui/icons': 4.11.2_d7c58ad036f460dedca755aa3bc1bb8f
@@ -4752,13 +4760,13 @@ packages:
       lodash-es: 4.17.21
       prop-types: 15.8.1
       react: 17.0.2
-      react-day-picker: 8.0.0-beta.36_4781667a0ce088dd5680677bceac5559
+      react-day-picker: 8.0.0-beta.38_4781667a0ce088dd5680677bceac5559
       react-dom: 17.0.2_react@17.0.2
       react-hook-form: 7.22.5_react@17.0.2
       react-outside-click-handler: 1.3.0_react-dom@17.0.2+react@17.0.2
-      react-select: 5.2.1_50dec457e12248401e464ebd2cedc28d
+      react-select: 5.2.2_50dec457e12248401e464ebd2cedc28d
       recoil: 0.5.2_react-dom@17.0.2+react@17.0.2
-      swr: 1.1.2_react@17.0.2
+      swr: 1.2.1_react@17.0.2
       tiny-cookie: 2.3.2
       typescript: 3.9.10
     dev: false
@@ -4768,7 +4776,7 @@ packages:
       react: ^16.2.0
       react-dom: ^16.2.0
     resolution:
-      integrity: sha512-2jJ8DxFtFNvopFw5ruhWLrCA48uhs8FycDY37J3qBPeZ86Z0UvVerBN9UOleyeRiXDK4UuD45ei+Bv2U+Ji/DA==
+      integrity: sha512-vFA9lLURsjAWOHdAI94TzS91UMSGKajnbe292ciamTEmFD3E0y4ZR1e3b8MAn/Nx4tFy1C370jfuhBcR0bHleA==
   /@target-energysolutions/grid-dnd/0.2.3_react-dom@17.0.2+react@17.0.2:
     dependencies:
       classnames: 2.3.1
@@ -4878,7 +4886,7 @@ packages:
       '@rmwc/types': 5.6.0
       '@types/classnames': 2.3.1
       '@types/prop-types': 15.7.4
-      '@types/react': 17.0.38
+      '@types/react': 17.0.39
       classnames: 2.3.1
       mdi-react: 5.6.0_react@17.0.2
       react: 17.0.2
@@ -5044,7 +5052,7 @@ packages:
       '@rmwc/avatar': 5.7.2_react-dom@17.0.2+react@17.0.2
       '@target-energysolutions/material-design': 0.7.13_3c61898da27a0bd3c9413592f0b4dd7e
       '@types/classnames': 2.3.1
-      '@types/react': 17.0.38
+      '@types/react': 17.0.39
       '@types/react-dom': 17.0.11
       classnames: 2.3.1
       fzy.js: 0.4.1
@@ -5671,7 +5679,7 @@ packages:
       integrity: sha512-f96K3k+24RaLGVu/Y2Ng3e1EbZ8/cVJvypZWd7cy0ofCBaf2lcM46xNhycMZ2xGwbBjRql7hOlZ+e2WlJ5MH3Q==
   /@types/react-is/17.0.3:
     dependencies:
-      '@types/react': 17.0.38
+      '@types/react': 17.0.39
     dev: false
     resolution:
       integrity: sha512-aBTIWg1emtu95bLTLx0cpkxwGW3ueZv71nE2YFBpL8k/z5czEW8yYpOo8Dp+UUAFAtKwNaOsh/ioSeQnWlZcfw==
@@ -5726,7 +5734,7 @@ packages:
       integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==
   /@types/styled-jsx/2.2.9:
     dependencies:
-      '@types/react': 17.0.38
+      '@types/react': 17.0.39
     dev: false
     resolution:
       integrity: sha512-W/iTlIkGEyTBGTEvZCey8EgQlQ5l0DwMqi3iOXlLs2kyBwYTXHKEiU6IZ5EwoRwngL8/dGYuzezSup89ttVHLw==
@@ -6954,7 +6962,7 @@ packages:
       integrity: sha512-yDZLjK7TCkWl1gpBeBGmuaDIFhZKmkoL+Cu2MUUjv5VxUZx/z7tBGBCBcQs5RI1Bkz5LLmNdjx7paOyQtMovyg==
   /babel-plugin-macros/2.8.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       cosmiconfig: 6.0.0
       resolve: 1.21.0
     dev: false
@@ -8597,7 +8605,7 @@ packages:
       integrity: sha512-tRpdppF7TRazZrjJ6v3stzv93qxRcSsFmW6cX0Zm2NVKpxE1WV1HblnghVv9TreireHkqI/VDEsfolRF1p6y7Q==
   /css-vendor/2.0.8:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       is-in-browser: 1.1.3
     dev: false
     resolution:
@@ -13286,7 +13294,7 @@ packages:
       integrity: sha512-P2bSOMAc/ciLz6DzgjVlGJP9+BrJWu5UDGK70C2iweC5QBIeFf0ZXRvGjEj2uYgrY2MkAAhsSWHDWlFtEroZWw==
   /jss-plugin-camel-case/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       hyphenate-style-name: 1.0.4
       jss: 10.9.0
     dev: false
@@ -13294,21 +13302,21 @@ packages:
       integrity: sha512-UH6uPpnDk413/r/2Olmw4+y54yEF2lRIV8XIZyuYpgPYTITLlPOsq6XB9qeqv+75SQSg3KLocq5jUBXW8qWWww==
   /jss-plugin-default-unit/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       jss: 10.9.0
     dev: false
     resolution:
       integrity: sha512-7Ju4Q9wJ/MZPsxfu4T84mzdn7pLHWeqoGd/D8O3eDNNJ93Xc8PxnLmV8s8ZPNRYkLdxZqKtm1nPQ0BM4JRlq2w==
   /jss-plugin-global/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       jss: 10.9.0
     dev: false
     resolution:
       integrity: sha512-4G8PHNJ0x6nwAFsEzcuVDiBlyMsj2y3VjmFAx/uHk/R/gzJV+yRHICjT4MKGGu1cJq2hfowFWCyrr/Gg37FbgQ==
   /jss-plugin-nested/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       jss: 10.9.0
       tiny-warning: 1.0.3
     dev: false
@@ -13316,14 +13324,14 @@ packages:
       integrity: sha512-2UJnDrfCZpMYcpPYR16oZB7VAC6b/1QLsRiAutOt7wJaaqwCBvNsosLEu/fUyKNQNGdvg2PPJFDO5AX7dwxtoA==
   /jss-plugin-props-sort/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       jss: 10.9.0
     dev: false
     resolution:
       integrity: sha512-7A76HI8bzwqrsMOJTWKx/uD5v+U8piLnp5bvru7g/3ZEQOu1+PjHvv7bFdNO3DwNPC9oM0a//KwIJsIcDCjDzw==
   /jss-plugin-rule-value-function/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       jss: 10.9.0
       tiny-warning: 1.0.3
     dev: false
@@ -13331,7 +13339,7 @@ packages:
       integrity: sha512-IHJv6YrEf8pRzkY207cPmdbBstBaE+z8pazhPShfz0tZSDtRdQua5jjg6NMz3IbTasVx9FdnmptxPqSWL5tyJg==
   /jss-plugin-vendor-prefixer/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       css-vendor: 2.0.8
       jss: 10.9.0
     dev: false
@@ -13339,7 +13347,7 @@ packages:
       integrity: sha512-MbvsaXP7iiVdYVSEoi+blrW+AYnTDvHTW6I6zqi7JcwXdc6I9Kbm234nEblayhF38EftoenbM+5218pidmC5gA==
   /jss/10.9.0:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       csstype: 3.0.10
       is-in-browser: 1.1.3
       tiny-warning: 1.0.3
@@ -17361,7 +17369,7 @@ packages:
       react: ~0.13.x || ~0.14.x || ^15.0.0 || ^16.0.0 || ^17.0.0
     resolution:
       integrity: sha512-/QkK75qLKdyLmv0kcVzhL7HoJPazoZXS8a6HixbVoK6vWey1Od1WRLcxfyEiUsRfccAlIlf6oKHShqY2SM82rA==
-  /react-day-picker/8.0.0-beta.36_4781667a0ce088dd5680677bceac5559:
+  /react-day-picker/8.0.0-beta.38_4781667a0ce088dd5680677bceac5559:
     dependencies:
       '@reach/auto-id': 0.16.0_react-dom@17.0.2+react@17.0.2
       date-fns: 2.28.0
@@ -17372,7 +17380,7 @@ packages:
       react: ^16.8.0 || ^17.0.0
       react-dom: '*'
     resolution:
-      integrity: sha512-ATQ5QSOKTnffLX90REnAM6eNfr+ISF1NxxFM+RPIb0ZfMPyzzPJdL6DBcwXVFqBLDRMGVFTkB/WAMWTpIb5M8g==
+      integrity: sha512-Uf4Yi2dyQG/Vud8oUnH6iDFcgz3Q2hHUwDNNa7Tu52rGq1UCwK1RkrkI1UqIaLowfe8w/Y9c1ZOMWp3cm14KVQ==
   /react-dnd-html5-backend/10.0.2:
     dependencies:
       dnd-core: 10.0.2
@@ -18042,25 +18050,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0
     resolution:
       integrity: sha512-B/q3TnCZXEKItO0fFN/I0tWOX3WJvi/X2wtdffmwSQVRwg5BpValScTO1vdic9AxlUgmeSzib2hAZAwIUQUZGQ==
-  /react-select/5.2.1_50dec457e12248401e464ebd2cedc28d:
-    dependencies:
-      '@babel/runtime': 7.16.7
-      '@emotion/cache': 11.7.1
-      '@emotion/react': 11.7.1_b3e67f1b1cc68ee82c343add0615c039
-      '@types/react-transition-group': 4.4.4
-      memoize-one: 5.2.1
-      prop-types: 15.8.1
-      react: 17.0.2
-      react-dom: 17.0.2_react@17.0.2
-      react-transition-group: 4.4.2_react-dom@17.0.2+react@17.0.2
-    dev: false
-    peerDependencies:
-      '@babel/core': '*'
-      '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0
-      react-dom: ^16.8.0 || ^17.0.0
-    resolution:
-      integrity: sha512-OOyNzfKrhOcw/BlembyGWgdlJ2ObZRaqmQppPFut1RptJO423j+Y+JIsmxkvsZ4D/3CpOmwIlCvWbbAWEdh12A==
   /react-select/5.2.2_50dec457e12248401e464ebd2cedc28d:
     dependencies:
       '@babel/runtime': 7.17.2
@@ -18201,7 +18190,7 @@ packages:
       integrity: sha512-L8yPjqPE5CZO6rKsKXRO/rVPiaCOy0tQQJbC+UjPNlobl5mad59lvPjwFsQHTvL03caVDIVr9x9/OSgDe6I5Eg==
   /react-textarea-autosize/7.1.2_react@17.0.2:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       prop-types: 15.8.1
       react: 17.0.2
     dev: false
@@ -18931,7 +18920,7 @@ packages:
       integrity: sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=
   /rifm/0.7.0_react@17.0.2:
     dependencies:
-      '@babel/runtime': 7.16.7
+      '@babel/runtime': 7.17.2
       react: 17.0.2
     dev: false
     peerDependencies:
@@ -20348,14 +20337,6 @@ packages:
       react: ^16.11.0 || ^17.0.0
     resolution:
       integrity: sha512-ya30LuRGK2R7eDlttnb7tU5EmJYJ+N6ytIOM2j0Hqs0qauJcDjVLDOGy7KmFeH5ivOwLHalFaIyYl2K+SGa7HQ==
-  /swr/1.1.2_react@17.0.2:
-    dependencies:
-      react: 17.0.2
-    dev: false
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0 || ^18.0.0
-    resolution:
-      integrity: sha512-UsM0eo5T+kRPyWFZtWRx2XR5qzohs/LS4lDC0GCyLpCYFmsfTk28UCVDbOE9+KtoXY4FnwHYiF+ZYEU3hnJ1lQ==
   /swr/1.2.1_react@17.0.2:
     dependencies:
       react: 17.0.2
@@ -22046,7 +22027,7 @@ specifiers:
   '@reach/router': ^1.3.4
   '@rooks/use-outside-click': ^4.11.2
   '@rooks/use-toggle': ^4.11.2
-  '@target-energysolutions/app-shell': 23.5.0-alpha.6
+  '@target-energysolutions/app-shell': 23.10.2
   '@target-energysolutions/auth-check': ^0.3.7
   '@target-energysolutions/charts-enhance': ^1.0.1
   '@target-energysolutions/data-table': ^2.9.1

@@ -60,7 +60,7 @@
     "@reach/router": "^1.3.4",
     "@rooks/use-outside-click": "^4.11.2",
     "@rooks/use-toggle": "^4.11.2",
-    "@target-energysolutions/app-shell": "23.5.0-alpha.6",
+    "@target-energysolutions/app-shell": "23.10.2",
     "@target-energysolutions/auth-check": "^0.3.7",
     "@target-energysolutions/charts-enhance": "^1.0.1",
     "@target-energysolutions/data-table": "^2.9.1",
