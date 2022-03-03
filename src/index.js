@@ -12,6 +12,9 @@ import configureApolloClient from 'libs/apollo'
 
 import Root from 'components/root'
 
+// eslint-disable-next-line no-console
+console.log(`GIT COMMIT HASH - ${GIT_COMMIT_HASH}`)
+
 initOauthHelper(navigate)
 // initAxiosInterceptors()
 

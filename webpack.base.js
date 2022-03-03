@@ -2,6 +2,13 @@ const { resolve } = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+const GitRevisionPlugin = require('git-revision-webpack-plugin')
+
+const gitRevisionPlugin = new GitRevisionPlugin({
+  branch: true,
+  lightweightTags: true,
+})
+
 // if the size of resource is bigger than threshold,
 // it will be splitted into additional file
 // rather than bundle to javascript file
@@ -85,6 +92,7 @@ module.exports = {
   },
 
   plugins: [
+    gitRevisionPlugin,
     new webpack.DefinePlugin(
       Object.assign(
         {},
@@ -94,7 +102,7 @@ module.exports = {
         {
           APP_VERSION: JSON.stringify(require('./package.json').dependencies),
           GIT_COMMIT_HASH: JSON.stringify(
-            process.env.GIT_COMMIT_HASH || 'unknown_git_commit_hash',
+            `${gitRevisionPlugin.version()} - ${gitRevisionPlugin.commithash()} - ${gitRevisionPlugin.branch()}`,
           ),
           // PRODUCT_APP_URL_PROFILE: require('./build-profile.js')
           //   .PRODUCT_APP_URL_PROFILE,
