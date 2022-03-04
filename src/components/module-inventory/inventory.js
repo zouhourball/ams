@@ -123,7 +123,6 @@ const Inventory = () => {
       refetchOnWindowFocus: false,
     },
   )
-
   const refetchAfterCommitByCurrentTab = () => {
     switch (currentTab) {
       case 'annual-base':
@@ -463,7 +462,7 @@ const Inventory = () => {
           body: {
             block: body?.block,
             company: company?.name,
-            category: 'assetTransferRequestProcess',
+            // category: 'assetTransferRequestProcess',
             file: body?.file,
             companyToTransfer: body?.company,
             processInstanceId: uuid,

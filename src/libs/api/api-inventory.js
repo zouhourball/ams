@@ -193,7 +193,7 @@ export const uploadAssetDisposalInventoryReport = async ({ body }) => {
 export const uploadAssetTransferInventoryReport = async ({ body }) => {
   let newBody = new FormData()
   newBody.append('block', body?.block)
-  newBody.append('category', body?.category)
+  // newBody.append('category', body?.category)
   newBody.append('company', body?.company)
   newBody.append('companyToTransfer', body?.companyToTransfer)
   newBody.append('file', body?.file[0])
@@ -217,12 +217,9 @@ export const uploadAssetTransferInventoryReport = async ({ body }) => {
 export const getCompaniesInventory = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(
-      `${appUrl}/arm/api/v1/config/companies?size=2000&sort=metaData.createdAt,desc`,
-      {
-        method: 'GET',
-      },
-    )
+    res = await fetchJSON(`${appUrl}/arm/api/v1/config/companies?size=2000`, {
+      method: 'GET',
+    })
   } catch (e) {
     res = { error: e }
   }
