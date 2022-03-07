@@ -41,6 +41,7 @@ import {
   saveReport,
   updateWpb,
   updateWpbStatus,
+  submitFromDraft,
   getActionsList,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -107,6 +108,14 @@ const Planning = ({ subModule }) => {
       refetchOnWindowFocus: false,
     },
   ) */
+  const updateWpbStatusToSubmit = useMutation(submitFromDraft, {
+    onSuccess: (res) => {
+      if (res?.success) {
+        refetchList()
+        setSelectedRow([])
+      }
+    },
+  })
   const updateStatusMutation = useMutation(updateWpbStatus, {
     onSuccess: (res) => {
       if (!res?.error) {
@@ -614,11 +623,15 @@ const Planning = ({ subModule }) => {
     setShowSupportedDocumentDialog(row)
   }
   const submitDraft = (subModule, objectId, status) => {
-    updatePlanningMutation.mutate({
-      subModule,
-      objectId,
-      status,
-    })
+    subModule === 'wpb'
+      ? updateWpbStatusToSubmit.mutate({
+        objectId,
+      })
+      : updatePlanningMutation.mutate({
+        subModule,
+        objectId,
+        status,
+      })
   }
   const updateStatus = (objectId, status) => {
     updateStatusMutation.mutate({

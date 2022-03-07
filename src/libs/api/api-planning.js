@@ -168,6 +168,20 @@ export const updateWpbStatus = async ({ objectId, status }) => {
   return res
 }
 
+export const submitFromDraft = async ({ objectId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/wpb/${objectId}/submit`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (error) {
+    res = { e: error }
+  }
+  return res
+}
 export const deletePlanning = async ({ subModule, objectId }) => {
   let res
   try {

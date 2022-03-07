@@ -80,6 +80,12 @@ const DrillReport = ({ drillReportId }) => {
       }
     },
   }) */
+  const setWellValue = (value) => ({
+    wellSurfaceLocationCoordinatesNorth: value,
+    wellSubsurfaceTargetCoordinateNorth: value,
+    wellSubsurfaceTargetCoordinateEast: value,
+    wellSurfaceLocationCoordinatesEast: value,
+  })
   const fileField = {
     id: 'mem',
     title: 'MEM',
@@ -157,8 +163,7 @@ const DrillReport = ({ drillReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSurfaceLocationCoordinatesNorth: value,
-              wellSubsurfaceTargetCoordinateNorth: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSurfaceLocationCoordinatesNorth', value)
@@ -178,8 +183,7 @@ const DrillReport = ({ drillReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSubsurfaceTargetCoordinateEast: value,
-              wellSurfaceLocationCoordinatesEast: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSurfaceLocationCoordinatesEast', value)
@@ -199,8 +203,7 @@ const DrillReport = ({ drillReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSurfaceLocationCoordinatesNorth: value,
-              wellSubsurfaceTargetCoordinateNorth: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSubsurfaceTargetCoordinateNorth', value)
@@ -220,8 +223,7 @@ const DrillReport = ({ drillReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSubsurfaceTargetCoordinateEast: value,
-              wellSurfaceLocationCoordinatesEast: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSubsurfaceTargetCoordinateEast', value)
@@ -501,7 +503,7 @@ const DrillReport = ({ drillReportId }) => {
       body: { ...formData, id: detailData?.id, data: formatData() },
     })
   }
-  const allfields = inputFileMEM ? [...fields, fileField] : fields
+  const allFields = inputFileMEM ? [...fields, fileField] : fields
   const actions = [
     <Button
       key="1"
@@ -541,7 +543,7 @@ const DrillReport = ({ drillReportId }) => {
   return (
     <div className="drill-report">
       <TopBar title="Permit to Drill Report" actions={actions} />
-      <GenericForm fields={allfields} />
+      <GenericForm fields={allFields} />
     </div>
   )
 }

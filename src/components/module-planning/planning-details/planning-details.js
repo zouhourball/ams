@@ -38,7 +38,10 @@ const PlanningDetails = ({ objectId, subModule }) => {
   )
   const { data: dataDetailsByVersion, refetch: refetchDetailData } = useQuery(
     ['getDetailPlanningByVersion', objectId, subModule, version],
-    objectId && version?.length && getDetailPlanningByVersion,
+    objectId &&
+      version?.length &&
+      subModule === 'wpb' &&
+      getDetailPlanningByVersion,
   )
   const { data: actionsList } = useQuery(
     ['wbpActions', objectId],
@@ -108,7 +111,6 @@ const PlanningDetails = ({ objectId, subModule }) => {
       status: 'SUBMITTED',
     })
   }
-
   const configsMht = useCallback(() => {
     switch (subModule) {
       case 'wpb':
@@ -116,7 +118,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       case 'budgetary-report':
         return [
           ...configsBudgetDialogMht(),
-          ...(rawData?.data[0]?.years?.map((el) => ({
+          ...(dataDetails?.data[0]?.years?.map((el) => ({
             label: el.year + '',
             key: el.year + '',
             width: '200',
