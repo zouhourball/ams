@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import { useQuery } from 'react-apollo'
 import { get as getLodash } from 'lodash-es'
 import { AppShellSide } from '@target-energysolutions/app-shell'
@@ -32,7 +32,7 @@ import * as cookies from 'tiny-cookie'
 
 import './styles.scss'
 
-const DynamicApp = ({ path }) => {
+const DynamicApp = memo(({ path }) => {
   if (!path) {
     return null
   }
@@ -44,7 +44,7 @@ const DynamicApp = ({ path }) => {
       <TenderingModule path="/tendering/*" />
     </Router>
   )
-}
+})
 
 const Shell = ({ lang }) => {
   const langs = useSupportedLangs()
