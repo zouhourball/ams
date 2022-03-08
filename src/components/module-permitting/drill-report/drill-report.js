@@ -80,6 +80,12 @@ const DrillReport = ({ drillReportId }) => {
       }
     },
   }) */
+  const wellCoordinatesFirstNonEmptyValue = [
+    formData?.data?.wellSurfaceLocationCoordinatesNorth,
+    formData?.data?.wellSubsurfaceTargetCoordinateNorth,
+    formData?.data?.wellSubsurfaceTargetCoordinateEast,
+    formData?.data?.wellSurfaceLocationCoordinatesEast,
+  ].filter((el) => el)
   const setWellValue = (value) => ({
     wellSurfaceLocationCoordinatesNorth: value,
     wellSubsurfaceTargetCoordinateNorth: value,
@@ -333,7 +339,18 @@ const DrillReport = ({ drillReportId }) => {
         { label: 'Other', value: 'Other' },
       ],
       required: true,
-      onChange: (value) => onEditValue('wellType', value),
+      onChange: (value) => {
+        value === 'vertical' && wellCoordinatesFirstNonEmptyValue[0]
+          ? setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellType: value,
+              ...setWellValue(wellCoordinatesFirstNonEmptyValue[0]),
+            },
+          })
+          : onEditValue('wellType', value)
+      },
       type: 'selectWithOther',
       value: formData?.data?.wellType,
     },

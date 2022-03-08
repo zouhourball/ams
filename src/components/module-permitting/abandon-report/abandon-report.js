@@ -71,6 +71,18 @@ const AbandonReport = ({ abandonReportId }) => {
     'Waiting for Production Facility',
     'Other',
   ]
+  const wellCoordinatesFirstNonEmptyValue = [
+    formData?.data?.wellSurfaceLocationCoordinatesNorth,
+    formData?.data?.wellSubsurfaceTargetCoordinateNorth,
+    formData?.data?.wellSubsurfaceTargetCoordinateEast,
+    formData?.data?.wellSurfaceLocationCoordinatesEast,
+  ].filter((el) => el)
+  const setWellValue = (value) => ({
+    wellSurfaceLocationCoordinatesNorth: value,
+    wellSubsurfaceTargetCoordinateNorth: value,
+    wellSubsurfaceTargetCoordinateEast: value,
+    wellSurfaceLocationCoordinatesEast: value,
+  })
   const fields = [
     {
       id: 'block',
@@ -135,8 +147,7 @@ const AbandonReport = ({ abandonReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSurfaceLocationCoordinatesNorth: value,
-              wellSubsurfaceTargetCoordinateNorth: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSurfaceLocationCoordinatesNorth', value)
@@ -156,8 +167,7 @@ const AbandonReport = ({ abandonReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSubsurfaceTargetCoordinateEast: value,
-              wellSurfaceLocationCoordinatesEast: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSurfaceLocationCoordinatesEast', value)
@@ -177,8 +187,7 @@ const AbandonReport = ({ abandonReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSurfaceLocationCoordinatesNorth: value,
-              wellSubsurfaceTargetCoordinateNorth: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSubsurfaceTargetCoordinateNorth', value)
@@ -198,8 +207,7 @@ const AbandonReport = ({ abandonReportId }) => {
             ...formData,
             data: {
               ...formData.data,
-              wellSubsurfaceTargetCoordinateEast: value,
-              wellSurfaceLocationCoordinatesEast: value,
+              ...setWellValue(value),
             },
           })
         } else onEditValue('wellSubsurfaceTargetCoordinateEast', value)
@@ -281,7 +289,18 @@ const AbandonReport = ({ abandonReportId }) => {
         { label: 'Other', value: 'Other' },
       ],
       required: true,
-      onChange: (value) => onEditValue('wellType', value),
+      onChange: (value) => {
+        value === 'vertical' && wellCoordinatesFirstNonEmptyValue[0]
+          ? setFormData({
+            ...formData,
+            data: {
+              ...formData.data,
+              wellType: value,
+              ...setWellValue(wellCoordinatesFirstNonEmptyValue[0]),
+            },
+          })
+          : onEditValue('wellType', value)
+      },
       type: 'selectWithOther',
       value: formData?.data?.wellType,
     },
