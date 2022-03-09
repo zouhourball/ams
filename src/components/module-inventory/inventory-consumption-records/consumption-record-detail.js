@@ -89,7 +89,7 @@ const ConsumptionRecordDetail = () => {
             `/ams/inventory/inventory-consumption-records/${inventoryId}/base-consumption`,
           )
         }
-        detailData={{ title: 'consumption Record Detail' }}
+        detailData={{ title: 'Consumption Record Detail' }}
         actions={[
           role === 'regulator' && (
             <>

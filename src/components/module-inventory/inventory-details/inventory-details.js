@@ -577,17 +577,6 @@ const InventoryDetails = () => {
               >
                 Clarify
               </Button>
-              <Button
-                key="7"
-                id="support"
-                className="top-bar-buttons-list-item-btn discard"
-                flat
-                primary
-                swapTheming
-                onClick={() => {}}
-              >
-                View Support Documents
-              </Button>
               {inventoryData?.metaData?.status === 'APPROVED' ? (
                 <Button
                   key="8"
@@ -632,22 +621,39 @@ const InventoryDetails = () => {
             </>
           ),
 
+          currentTabName === 'assetTransferRequestProcess' && (
+            <Button
+              key="2"
+              id="edit"
+              className="top-bar-buttons-list-item-btn"
+              flat
+              primary
+              swapTheming
+              onClick={() => {
+                downloadOriginalFile(
+                  inventoryData?.metaData?.originalFileId,
+                  inventoryData?.metaData?.originalFileName,
+                )
+              }}
+            >
+              Download Original File
+            </Button>
+          ),
+          <Button
+            key="1"
+            id="viewDoc"
+            className="top-bar-buttons-list-item-btn discard"
+            flat
+            swapTheming
+            onClick={() => {
+              setShowSupportedDocumentDialog(true)
+            }}
+          >
+            {role === 'operator' ? 'Upload documents' : 'View documents'}
+          </Button>,
           role === 'operator' && inventoryData?.metaData?.status === 'DRAFT' && (
             /* ||
              inventoryData?.metaData?.status === 'PRELOADED' */ <>
-              <Button
-                key="1"
-                id="viewDoc"
-                className="top-bar-buttons-list-item-btn discard"
-                flat
-                swapTheming
-                onClick={() => {
-                  setShowSupportedDocumentDialog(true)
-                }}
-              >
-                Upload documents
-              </Button>
-
               <Button
                 key="2"
                 id="edit"
@@ -743,7 +749,7 @@ const InventoryDetails = () => {
         }
       case 'assetTransferRequestProcess': // Asset Transfer tab 3
         return {
-          title: `Asset Consumption | Block ${inventoryData?.metaData?.block}`,
+          title: `Asset Transfer | Block ${inventoryData?.metaData?.block}`,
           companyAllRoles: true,
           companyName: `${inventoryData?.metaData?.company}`,
           status: ` ${inventoryData?.metaData?.status}`,
