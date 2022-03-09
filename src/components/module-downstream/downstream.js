@@ -166,7 +166,7 @@ const Downstream = ({ subkey }) => {
       refetchRsList()
     },
   })
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
 

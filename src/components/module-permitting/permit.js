@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, TextField, SelectField, Switch } from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery, useMutation } from 'react-query'
@@ -283,7 +283,7 @@ const Permit = ({ subModule }) => {
         return 'drill-report'
     }
   }
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
   const updatePermitMutation = useMutation(updatePermit, {

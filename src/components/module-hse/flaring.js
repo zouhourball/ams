@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, TextField } from 'react-md'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -84,7 +84,7 @@ const Flaring = () => {
   const blocks = getBlocks()
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
   const { data: listFlaring, refetch: refetchList } = useQuery(

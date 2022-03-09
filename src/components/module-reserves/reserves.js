@@ -583,7 +583,7 @@ const Reserves = ({ subkey }) => {
       },
     )
   }
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
   return (

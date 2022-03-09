@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, DialogContainer, TextField } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 
@@ -687,10 +687,10 @@ const Inventory = () => {
     },
   ]
   const assetConsumptionActionsHelper = [
-    {
+    /* {
       title: 'Upload Consumption File',
       onClick: () => setShowUploadRapportDialog(true),
-    },
+    }, */
     {
       title: 'Download Template',
       onClick: () =>
@@ -992,10 +992,9 @@ const Inventory = () => {
     setShowUploadRapportDialog(false)
     setDataDisplayedMHT(file)
   }
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
-
   const paginationData = () => {
     switch (currentTab) {
       case 'annual-base':

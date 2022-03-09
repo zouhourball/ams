@@ -126,7 +126,7 @@ const CostRecovery = ({ subkey }) => {
     },
   ]
 
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
   const createActionsByCurrentTab = (actionsList = []) => {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, DialogContainer, TextField, SelectField } from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useMutation, useQuery } from 'react-query'
@@ -496,7 +496,7 @@ const Production = () => {
       refetchOnWindowFocus: false,
     },
   )
-  useMemo(() => {
+  useEffect(() => {
     setPage(0)
   }, [currentTab])
   const dailyData = (get(currentUpload, 'values', []) || []).map((el) => {
