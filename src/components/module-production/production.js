@@ -632,6 +632,7 @@ const Production = () => {
       ],
     },
   ]
+
   const monthlyTrackingData = (get(currentUpload, selectedGrid, []) || []).map(
     (el) => {
       return {
@@ -640,9 +641,12 @@ const Production = () => {
           volume: el?.volume,
         }),
         ...(selectedGrid === 'gomi' && {
-          gomi: el?.gomi,
-          production: el?.production,
+          gomi: el?.value,
+          // production: el?.production,
           unit: el?.unit,
+          company: el?.company,
+          materialTypes: el?.materialTypes.join(', '),
+          blocks: el?.blocks.join(', '),
         }),
       }
     },

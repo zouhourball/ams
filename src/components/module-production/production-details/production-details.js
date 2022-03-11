@@ -365,9 +365,12 @@ const ProductionDetails = ({ subModule, productionId }) => {
           volume: el?.volume,
         }),
         ...(selectFieldValue === 'gomi' && {
-          gomi: el?.gomi,
-          production: el?.production,
+          gomi: el?.value,
+          // production: el?.production,
           unit: el?.unit,
+          company: el?.company,
+          materialTypes: el?.materialTypes.join(', '),
+          blocks: el?.blocks.join(', '),
         }),
       }
     })

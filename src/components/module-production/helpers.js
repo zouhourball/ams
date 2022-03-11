@@ -916,22 +916,43 @@ export const MonthlyProductionDetailsData = [
 ]
 const gomiConfigs = [
   {
-    label: 'GOMI',
+    label: 'GOMI Value',
     key: 'gomi',
     width: '800',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
   },
-  {
+  /* {
     label: 'Production',
     key: 'production',
     width: '800',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
-  },
+  }, */
   {
     label: 'Unit',
     key: 'unit',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Material Types',
+    key: 'materialTypes',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Company',
+    key: 'company',
+    width: '800',
+    type: 'text',
+    icon: 'mdi mdi-spellcheck',
+  },
+  {
+    label: 'Blocks',
+    key: 'blocks',
     width: '800',
     type: 'text',
     icon: 'mdi mdi-spellcheck',
