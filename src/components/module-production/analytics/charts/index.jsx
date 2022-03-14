@@ -21,7 +21,7 @@ import {
   getOilDailyFluidsSummary,
   getOilDailyGasSummary,
   getDailyProductionData,
-  // getCompareGOMIWithMonthlyData,
+  getCompareGOMIWithMonthlyData,
   getOilDailyBarChartOptionGen,
   getDailySummaryLineBarChart,
   getDailyChartBubble,
@@ -91,6 +91,7 @@ const card = [['company', 'block'], 'card', ChartText]
 const fPie = [['company', 'block'], 'pie', null]
 const fTable = [['company', 'block'], 'table', Mht]
 const fHighlightTable = [['company', 'block', 'name'], 'table', Mht]
+const fHighlight2Table = [['company', 'block'], 'table', Mht]
 const fScatter = (defaultSelect, defaultSize) => [
   [
     'company',
@@ -147,6 +148,7 @@ const mcS1FCard = mcSize1(...card)
 const mcS21FCard = mcSize21(...card)
 const mcS42FTable = mcSize42(...fTable)
 const mcS42FHighlightTable = mcSize42(...fHighlightTable)
+const mcS42FHighlight2Table = mcSize42(...fHighlight2Table)
 const mcS21FBar = mcSize21(...fBar)
 const mcS21FlineBar = mcSize2s1(...fLineBar)
 const mcS21FScatter = mcSize21(...fScatter(['Oil'], ['Condensate']))
@@ -1511,12 +1513,6 @@ export const chartsToDraw = [
             {},
             {},
           ),
-          // mcS42FHighlightTable(
-          //   getCompareGOMIWithMonthlyData,
-          //   'Comparison between GOMI and monthly production',
-          //   {},
-          //   {},
-          // ),
         ],
       },
     ],
@@ -1662,6 +1658,24 @@ export const chartsToDraw = [
               series,
             }
           })(`Oman Natural Gas Production`, {}, {}),
+        ],
+      },
+    ],
+  },
+  {
+    title: 'Production Benchmark',
+    reportType: 'gomi',
+    titleFormat: dateFormat,
+    groups: [
+      {
+        title: '',
+        charts: [
+          mcS42FHighlight2Table(
+            getCompareGOMIWithMonthlyData,
+            'Comparison between GOMI and monthly production',
+            {},
+            {},
+          ),
         ],
       },
     ],

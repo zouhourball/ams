@@ -52,7 +52,7 @@ Source:
     "DAILY FIELD PRODUCTION-Actual": 14,
   }
 */
-import { flatten, flattenDeep, concat, merge, get } from 'lodash-es'
+import { flatten, flattenDeep, concat, merge } from 'lodash-es'
 import { mapMonthNameToNumber } from 'libs/utils/wpb-data-helper'
 import { compareAsc, getDaysInMonth } from 'date-fns'
 import { mapDataCvtCreator } from 'components/analytics/utils'
@@ -107,7 +107,22 @@ export function processHydrocarbonData (data) {
     }),
   )
 }
-
+export function processGomiData (data) {
+  const { monthly, tracking } = data
+  const trackingFlatten = flattenDeep(
+    tracking.content.map((c) => c.gomi),
+  ).filter((i) => i && i.value)
+  const trackingData = trackingFlatten.map((tracking) => ({
+    ...tracking,
+    block: tracking.blocks.toString(),
+    cameFrom: 'tracking',
+  }))
+  const monthlyData = monthly.map((m) => ({
+    ...m,
+    cameFrom: 'monthly',
+  }))
+  return [...trackingData, ...monthlyData]
+}
 function generateDs (name) {
   let dataStatus = null
   switch (name) {
@@ -213,8 +228,7 @@ const fullObj = {
 }
 export function processTrackingData (data, ngData, monthlyData) {
   const { content } = data
-  const defaultBlock = get(content, '0.metaData.block')
-  const trackingData = flatten(
+  const trackingData = flattenDeep(
     content.map((c) => {
       const { data, totalGDTORPIC, metaData } = c
       const { block, company, month, year } = metaData
@@ -253,7 +267,7 @@ export function processTrackingData (data, ngData, monthlyData) {
     return merge({}, fullObj, {
       ...i,
       cameFrom: 'ng',
-      block: defaultBlock,
+      block: i.block,
       value: i.value / (28262 * eachDayInMonth),
       split1By: i.terminalTypes,
       split2By: i.name,
@@ -270,6 +284,7 @@ export function processTrackingData (data, ngData, monthlyData) {
     })
   })
   return concat(trackingData, ng, monthly).sort((a, b) => {
+    if (!a.yearMonth || !b.yearMonth) return 1
     const [aYear, aMonth] = a.yearMonth.split('-')
     const [bYear, bMonth] = b.yearMonth.split('-')
     if (aYear === bYear) {

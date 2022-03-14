@@ -11,6 +11,7 @@ import {
   processDailyData,
   processMonthlyData,
   mapDataConvertor,
+  processGomiData,
   processTrackingData,
   processHydrocarbonData,
 } from './processors'
@@ -76,12 +77,15 @@ export default createAnalytics({
     })
     const monthly = processMonthlyData(rawMonthly)
     const tracking = processTrackingData(rawTracking, NG, monthly)
-    // console.log(tracking, 'tarcking')
     return {
       daily: processDailyData(rawDaily),
       monthly,
       tracking,
       hydrocarbon: processHydrocarbonData(hydrocarbon),
+      gomi: processGomiData({
+        monthly,
+        tracking: rawTracking,
+      }),
     }
   },
   map: {

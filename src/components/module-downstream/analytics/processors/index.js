@@ -113,7 +113,7 @@ export function processNGData (raw) {
       content &&
       flatMap(content, (record) => {
         const { metaData, data } = record
-        const { year, company, month } = metaData
+        const { year, company, block, month } = metaData
         const monthIndex = mapMonthNameToNumber(month)
         return flatMap(data, (record) => {
           const { listOnSpecGas, terminalTypes } = record
@@ -127,6 +127,7 @@ export function processNGData (raw) {
                 type: unit,
                 year,
                 company,
+                block: block || company,
                 terminalTypes,
               }
             })

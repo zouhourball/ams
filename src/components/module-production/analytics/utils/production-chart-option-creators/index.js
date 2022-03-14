@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import {
   get,
   groupBy,
+  reduce,
   property,
   compact,
   values,
@@ -139,13 +140,14 @@ export function config2MhtConfig (configs) {
   })
 }
 function xDataProccessor (data, params) {
+  const validData = data.filter((i) => !i.hasOwnProperty('cameFrom') && i.date)
   let groupedData = {}
   let allDate = []
   const startDate = moment((params && params.startDate) || new Date()).format(
     'DD/MM',
   )
 
-  for (let item of data) {
+  for (let item of validData) {
     let date = newDatePolyfill(item.date)
 
     let dateStr = format(date, 'dd/MM')
@@ -596,8 +598,13 @@ export const tableWithMonthlyPinConfig = [
 ]
 function createProductionDailyTableCreator () {
   return ({ data }) => {
-    const names = uniq(data.map((d) => d.name)).filter((i) => i !== 'WATER')
-    const groupedData = groupBy(data, 'date')
+    const validData = data.filter(
+      (d) => !d.hasOwnProperty('cameFrom') && d.hasOwnProperty('date'),
+    )
+    const names = uniq(validData.map((d) => d.name)).filter(
+      (i) => i !== 'WATER',
+    )
+    const groupedData = groupBy(validData, 'date')
     const newData = Object.keys(groupedData).map((day) => {
       const items = groupedData[day]
       const blocks = groupBy(items, (d) => `${d.company}-${d.block}`)
@@ -665,6 +672,57 @@ function createProductionDailyTableCreator () {
     }
   }
 }
+export const gomiTableRows = [
+  {
+    company: 'PDO',
+    type: 'OIL PRODN',
+    label: 'PDO Oil', // label reflect backend field
+  },
+  {
+    company: 'PDO',
+    type: 'CONDENSATE PROD',
+    label: 'PDO Condensate',
+  },
+  {
+    company: 'HCF',
+    label: 'HCF',
+  },
+  {
+    company: 'OXY',
+    label: 'OXY Norh (B9&B27)',
+    blocks: ['9', '27'],
+  },
+  {
+    company: 'Daleel',
+    label: 'DALEEL',
+  },
+  {
+    company: 'BP',
+    label: 'BP',
+  },
+  {
+    company: 'OXY',
+    blocks: ['53'],
+    label: 'OXY MUKHAIZANA',
+  },
+  {
+    company: 'ARA',
+    label: 'ARA',
+  },
+  {
+    company: 'CCE',
+    label: 'CCED',
+  },
+  {
+    company: 'OQ',
+    label: 'OQ',
+  },
+  {
+    company: 'OXY',
+    label: 'OCCG (B62)',
+    blocks: ['62'],
+  },
+]
 function createGOMITableCreator () {
   return ({ data }) => {
     const { year, month } = getMonths()
@@ -673,57 +731,8 @@ function createGOMITableCreator () {
       denominator = year.length * month.length
     }
     const monthlyData = data.filter((d) => d.cameFrom === 'monthly')
-    const rows = [
-      {
-        company: 'PDO',
-        type: 'OIL PRODN',
-        label: 'PDO Oil',
-      },
-      {
-        company: 'PDO',
-        type: 'CONDENSATE PROD',
-        label: 'PDO Condensate',
-      },
-      {
-        company: 'HCF',
-        label: 'HCF',
-      },
-      {
-        company: 'OXY',
-        label: 'OXY Norh(B9 & B27)',
-        blocks: ['9', '27'],
-      },
-      {
-        company: 'Daleel',
-        label: 'Daleel',
-      },
-      {
-        company: 'BP',
-        label: 'BP',
-      },
-      {
-        company: 'OXY',
-        blocks: ['53'],
-        label: 'OXY MUKHAIZANA(53)',
-      },
-      {
-        company: 'ARA',
-        label: 'ARA',
-      },
-      {
-        company: 'CCE',
-        label: 'CCED',
-      },
-      {
-        company: 'OQ',
-        label: 'OQ',
-      },
-      {
-        company: 'OXY',
-        label: 'OCCG(B62)',
-        blocks: ['62'],
-      },
-    ]
+    const trackingData = data.filter((d) => d.cameFrom === 'tracking')
+    const rows = gomiTableRows
     const getColumnsConfig = (showHighlight) => {
       return [
         {
@@ -772,7 +781,7 @@ function createGOMITableCreator () {
         },
       ]
     }
-    const newData = rows.map((r, index) => {
+    const newData = rows.map((r) => {
       const monthlyDataRow = monthlyData.filter((m) => {
         let validType = m.type === 'OIL PRODN' || m.type === 'CONDENSATE PROD'
         let validBlocks = true
@@ -789,22 +798,41 @@ function createGOMITableCreator () {
           m.dataType === 'Actual'
         )
       })
+      const gomiValue = reduce(
+        trackingData.filter((i) => {
+          if (r.type === 'OIL PRODN') {
+            return i.company === r.company && i.materialTypes[0] === 'oil'
+          } else if (r.type === 'CONDENSATE PROD') {
+            return (
+              i.company === r.company && i.materialTypes[0] === 'condensate'
+            )
+          }
+          return i.company === r.company
+        }),
+        (a, b) => a + +b.value,
+        0,
+      )
       return {
         production: r.label,
-        gomiValue: index,
+        gomiValue: gomiValue,
         monthlyValue: fixNbr(
           monthlyDataRow.reduce((a, b) => a + +b.value, 0) / denominator,
           1,
         ),
       }
     })
+    const footer = {
+      production: 'Total',
+      gomiValue: reduce(newData, (a, b) => a + b.gomiValue, 0),
+      monthlyValue: reduce(newData, (a, b) => a + b.monthlyValue, 0),
+    }
     return {
-      data: newData,
+      data: newData.concat(footer),
       getColumnsConfig,
       hideSearchBar: true,
       rowsPerPage: 12,
       configs: config2MhtConfig(getColumnsConfig()),
-      tableData: newData,
+      tableData: newData.concat(footer),
     }
   }
 }
