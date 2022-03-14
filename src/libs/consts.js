@@ -102,7 +102,7 @@ export const productionFilters = [
     type: 'check',
     label: 'month',
     field: 'month',
-    validForReportType: ['monthly', 'tracking'],
+    validForReportType: ['monthly', 'tracking', 'gomi'],
   },
 ]
 

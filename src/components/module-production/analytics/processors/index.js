@@ -110,7 +110,13 @@ export function processHydrocarbonData (data) {
 export function processGomiData (data) {
   const { monthly, tracking } = data
   const trackingFlatten = flattenDeep(
-    tracking.content.map((c) => c.gomi),
+    tracking.content.map((c) => {
+      return (c.gomi || []).map((gomi) => ({
+        ...gomi,
+        month: c.metaData.month,
+        year: c.metaData.year,
+      }))
+    }),
   ).filter((i) => i && i.value)
   const trackingData = trackingFlatten.map((tracking) => ({
     ...tracking,
