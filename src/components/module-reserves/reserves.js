@@ -507,7 +507,7 @@ const Reserves = ({ subkey }) => {
           if (res?.msg === 'commited') {
             // setCommitedDialog(true)
           }
-          return !res?.error && refetch()
+          refetch()
         },
       },
     )
@@ -527,7 +527,7 @@ const Reserves = ({ subkey }) => {
             setOverrideId(res?.overrideId)
           }
 
-          return !res?.error && refetch()
+          return res?.success && refetch()
         },
       },
     )
@@ -540,7 +540,7 @@ const Reserves = ({ subkey }) => {
           company: company?.name,
           file: body?.filesList,
           processInstanceId: uuid,
-          year: moment(body?.referenceDate?.timestamp).format('YYYY'),
+          // year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
       },
       {
@@ -749,8 +749,8 @@ const Reserves = ({ subkey }) => {
           onSave={(data) => {
             renderDialogData(data).onUpload()
           }}
-          // formatDate={'year'}
-          hideDate
+          formatDate={'year'}
+          hideDate={currentTab === 1}
         />
       )}
 
