@@ -17,6 +17,7 @@ import NavBar from 'components/nav-bar'
 import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
+import UploadReportByTemplate from 'components/upload-report-by-template'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -26,6 +27,11 @@ import {
   deleteAll,
   deletePermit,
   updatePermit,
+  getTemplates,
+  getReportsByTemplate,
+  addReportForSelectedTemplate,
+  addTemplate,
+  deleteRegulations,
 } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
@@ -59,6 +65,15 @@ const Permit = ({ subModule }) => {
   const [size, setSize] = useState(20)
   const [view, setView] = useState('default')
   const [filterValue, setFilterValue] = useState('')
+  const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [filesList, setFileList] = useState([])
+  const [finalReportsByTemplate, setReports] = useState([])
+  const [filters] = useState({
+    /*, setFilters */ textSearch: '',
+    filters: [],
+    companies: [],
+    blocks: [],
+  })
 
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
@@ -67,7 +82,7 @@ const Permit = ({ subModule }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const reportsData = []
+
   useEffect(() => {
     setInformation({
       ...information,
@@ -108,10 +123,58 @@ const Permit = ({ subModule }) => {
     listPermitsByLoggedUser,
   )
 
+  const { data: permitTemplates, refetch: refetchTemplates } = useQuery(
+    ['getTemplates'],
+    getTemplates,
+  )
+  const reportsByTemplate = useMutation(getReportsByTemplate, {
+    onSuccess: (res) => {
+      setReports(res?.data)
+      // refetchReportsByTemplate()
+    },
+  })
+  const addReportsByTemplate = useMutation(addReportForSelectedTemplate, {
+    onSuccess: (res) => {
+      // refetchReportsByTemplate()
+    },
+  })
+  const addTemplateMutation = useMutation(addTemplate, {
+    onSuccess: (res) => {
+      refetchTemplates()
+    },
+  })
+  const reportsData = finalReportsByTemplate?.map((el) => ({
+    fileName: el?.filename,
+    company: el?.company,
+    block: el?.block,
+    submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+    submittedBy: el?.metaData?.createdBy?.name,
+    referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
+  }))
+  const getReportsByFilter = () => {
+    reportsByTemplate.mutate(filters)
+  }
+  useEffect(() => {
+    getReportsByFilter()
+  }, [filters])
   const role = useRole('permitting')
   const reportsActions = [
     { id: 'downTemp', label: 'Download Template', onClick: () => {} },
-    { id: 'uplRep', label: 'Upload Report', onClick: () => {} },
+    {
+      id: 'uplTemplate',
+      label: 'Upload Template',
+      onClick: () => {
+        // addTemplate
+        setShowUploadRapportDialog(true)
+      },
+    },
+    {
+      id: 'uplRep',
+      label: 'Upload Report',
+      onClick: () => {
+        setShowUploadRapportDialog(true)
+      },
+    },
   ]
   const actions =
     currentTab === 0
@@ -179,15 +242,17 @@ const Permit = ({ subModule }) => {
     })
   }
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
-  const reportTabsList = [
-    'End Of Well Report.xlsx',
-    'Quarterly Well Integrity Report.xlsx',
-    'Annual Drilling Report.xls',
-  ]
+  const reportTabsList = permitTemplates?.length
+    ? permitTemplates?.map((el) => el?.filename)
+    : [
+      'End Of Well Report.xlsx',
+      'Quarterly Well Integrity Report.xlsx',
+      'Annual Drilling Report.xls',
+    ]
   const cards = [
-    { id: 1, name: 'org1', icon: placeholder },
-    { id: 2, name: 'org2', icon: placeholder },
-    { id: 3, name: 'org3', icon: placeholder },
+    { id: 1, name: 'Meera Org', icon: placeholder },
+    { id: 2, name: 'ams-org', icon: placeholder },
+    { id: 3, name: 'talent-sourcing', icon: placeholder },
   ]
   const permitData = permitListData?.content?.map((el) => {
     return {
@@ -323,7 +388,34 @@ const Permit = ({ subModule }) => {
         </div>
       )
     })
+  const onUpload = (data) => {
+    addReportsByTemplate.mutate({
+      body: {
+        url: data?.file?.url,
+        fileId: data?.file?.id,
+        category: 'C : Reporting Templates',
+        subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
+        description: '',
+        company: company?.name,
+        block: data?.block,
+        referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
+      },
+      templateId: '5c20856b7da63300013678c5',
+    })
+  }
 
+  const onAddTemplate = (data) => {
+    addTemplateMutation.mutate({
+      url: data?.file?.url,
+      fileId: data?.file?.id,
+      filename: data?.file?.filename,
+      category: 'C : Reporting Templates',
+      subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
+      size: data?.file?.size,
+      description: '',
+      contentType: data?.file?.contentType,
+    })
+  }
   return (
     <>
       <TopBar
@@ -339,15 +431,31 @@ const Permit = ({ subModule }) => {
               key: 1,
               primaryText: 'Delete',
               onClick: () => {
-                deleteAll(ids).then((res) => {
-                  dispatch(
-                    addToast(
-                      <ToastMsg text={'Deleted successfully'} type="success" />,
-                      'hide',
-                    ),
-                  )
-                  refetchList()
-                })
+                view === 'default'
+                  ? deleteAll(ids).then((res) => {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Deleted successfully'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  })
+                  : deleteRegulations(ids).then((res) => {
+                    dispatch(
+                      addToast(
+                        <ToastMsg
+                          text={'Deleted successfully'}
+                          type="success"
+                        />,
+                        'hide',
+                      ),
+                    )
+                    refetchList()
+                  })
               },
             },
           ]
@@ -542,6 +650,30 @@ const Permit = ({ subModule }) => {
               }))
               : []
           }
+        />
+      )}
+      {showUploadRapportDialog && (
+        <UploadReportByTemplate
+          setFileList={setFileList}
+          filesList={filesList}
+          blockList={
+            Array.isArray(blockList) && blockList?.length > 0
+              ? blockList?.map((el) => ({ label: el?.block, value: el?.block }))
+              : []
+          }
+          // onDisplayMHT={onDisplayMHT}
+          title={'Upload Report'}
+          optional={'Attach Supporting Documents'}
+          visible={showUploadRapportDialog}
+          uploadLabel={'Attach Spreadsheet'}
+          onHide={() => {
+            setShowUploadRapportDialog(false)
+            setFileList([])
+          }}
+          onSave={(data) => {
+            onUpload(data)
+          }}
+          onUploadTemp={(data) => onAddTemplate(data)}
         />
       )}
       {showSupportedDocumentDialog && (

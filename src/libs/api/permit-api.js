@@ -140,3 +140,82 @@ export const getPermitDetail = async ({ queryKey }) => {
   }
   return res
 }
+// template APIs
+export const getTemplates = async () => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/C%20:%20Reporting%20Templates/MOG-S03-WELLS%20&%20DRILLING%20MANAGEMENT?excludeLinksFeeds=true`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const getReportsByTemplate = async ({ body }) => {
+  let res
+  /*
+    "textSearch": "",
+    "filters": [],
+    "companies": [],
+    "blocks": []
+  */
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/5c20856b7da63300013678c5/links/query?page=0&size=20`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const addReportForSelectedTemplate = async ({ body, templateId }) => {
+  let res
+
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/${templateId}/links`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const addTemplate = async (body) => {
+  let res
+
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/regulations`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const deleteRegulations = async (objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

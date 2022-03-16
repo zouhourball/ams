@@ -20,13 +20,14 @@ import uploadIcon from './upload-icon.svg'
 
 import './style.scss'
 
-const UploadReportDialog = ({
+const UploadReportByTemplate = ({
   title,
   blockList,
   TypeList,
   visible,
   onHide,
   onSave,
+  onUploadTemp,
   optional,
   hideDate = false,
   onDisplayMHT,
@@ -42,11 +43,10 @@ const UploadReportDialog = ({
   uploadLabel = 'Attach Report',
   row,
 }) => {
-  const fileLoader = false
   const [optionalFiles, setOptionalFile] = useState([])
   const [optionalFileLoader, setOptionalFileLoader] = useState(false)
+  const [fileLoader, setFileLoader] = useState(false)
   const [showDatePickerEnd, setShowDatePickerEnd] = useState(false)
-  const [hasDefault, setHasDefault] = useState(!hideDate)
   const date = new Date()
   const monthAndDay =
     formatDate === 'day'
@@ -72,7 +72,6 @@ const UploadReportDialog = ({
     ...setDate,
     block: previewData?.block,
   })
-  if (previewData?.referenceDate) setHasDefault(!previewData?.referenceDate)
 
   const { data: suppDocsFiles } = useQuery(
     ['getDocumentsById', previewData?.processInstanceId],
@@ -86,57 +85,18 @@ const UploadReportDialog = ({
   }, [suppDocsFiles])
 
   const validData = () => {
-    if (hideDate === false) {
-      if (
-        (filesList?.path &&
-          reportData?.referenceDate &&
-          reportData?.block &&
-          !hasDefault) ||
-        (filesList?.path && reportData?.type && ReportingType && !hasDefault) ||
-        (hideBlock &&
-          reportData?.referenceDate &&
-          filesList?.path &&
-          !hasDefault)
-      ) {
-        return false
-      }
-    } else {
-      if (
-        (filesList?.path &&
-          //! hideDate &&
-          reportData?.referenceDate &&
-          ((reportData?.block && !hideBlock) ||
-            (reportData?.type && ReportingType))) ||
-        (hideDate && reportData?.block && !hideBlock && filesList?.path)
-      ) {
-        return false
-      } else if (
-        hideBlock &&
-        filesList?.path &&
-        !ReportingType &&
-        reportData?.referenceDate
-      ) {
-        return false
-      }
-    }
-
-    return true
+    return !(reportData?.file && reportData?.referenceDate && reportData?.block)
   }
 
   const onUpload = (file) => {
-    // setFileLoader(true)
-    // fileManagerUpload(file).then((res) => {
-    //   // onDisplayMHT
-    //   //   ? onDisplayMHT(...res.files)
-    //   setFile([file])
-    // setFileLoader(false)
-    // })
-    /*
-    onDisplayMHT ? onDisplayMHT(...file) : setFileList([...file[0]])
-    setFileList({ ...file[0] }) */
-    // onSave({ ...reportData, file, optionalFiles })
-    setFileList(file[0])
-    setReportData({ ...reportData, file })
+    setFileLoader(true)
+    fileManagerUpload(file).then((res) => {
+      setReportData({ ...reportData, file: res.files[0] })
+      setFileLoader(false)
+      setFileList(file[0])
+    })
+
+    // setReportData({ ...reportData, file })
   }
   const { getRootProps, getInputProps } = useDropzone({
     accept:
@@ -178,34 +138,15 @@ const UploadReportDialog = ({
       swapTheming: true,
       onClick: () => onHide && onHide(),
     },
+    {
+      children: 'Upload Template',
+      primary: false,
+      flat: true,
+      swapTheming: true,
+      onClick: () => onUploadTemp(reportData),
+    },
     ...uploadBtn,
   ]
-  /* const renderDocumentIcon = (extension) => {
-    const image = ['png', 'jpeg', 'jpg']
-    if (extension === 'doc') {
-      return <FontIcon icon iconClassName={`mdi mdi-office mdi-36px`} />
-    }
-    if (extension === 'pdf') {
-      return <FontIcon icon iconClassName={`mdi mdi-file-pdf mdi-36px`} />
-    }
-    if (extension === 'zip') {
-      return <FontIcon icon iconClassName={`mdi mdi-zip-box mdi-36px`} />
-    }
-    if (extension === 'js') {
-      return (
-        <FontIcon icon iconClassName={`mdi mdi-language-javascript mdi-36px`} />
-      )
-    }
-    if (image.includes(extension)) {
-      return <FontIcon icon iconClassName={`mdi mdi-file-image mdi-36px`} />
-    }
-    if (extension === 'html') {
-      return <FontIcon icon iconClassName={`mdi mdi-language-html5 mdi-36px`} />
-    } else {
-      return <FontIcon icon iconClassName={`mdi mdi-file mdi-36px`} />
-    }
-  } */
-  // formatDate = 'month'
 
   return (
     <DialogContainer
@@ -301,7 +242,6 @@ const UploadReportDialog = ({
               onUpdate={(date) => {
                 setReportData({ ...reportData, referenceDate: date })
                 setShowDatePickerEnd(false)
-                setHasDefault(false)
               }}
               onCancel={() => setShowDatePickerEnd(false)}
               // minValidDate={{
@@ -438,8 +378,8 @@ const UploadReportDialog = ({
   )
 }
 
-export default UploadReportDialog
-UploadReportDialog.defaultProps = {
+export default UploadReportByTemplate
+UploadReportByTemplate.defaultProps = {
   title: 'Upload Monthly HSSE Report',
   blockList: [],
 }

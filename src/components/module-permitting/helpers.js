@@ -4,7 +4,7 @@ import { navigate } from '@reach/router'
 export const reportsConfigs = [
   {
     label: 'File Name',
-    key: 'file',
+    key: 'fileName',
     width: '300',
     icon: 'mdi mdi-spellcheck',
     type: 'text',
