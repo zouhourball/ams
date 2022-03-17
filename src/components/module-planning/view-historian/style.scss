@@ -52,6 +52,14 @@
     background-color: white;
   }
 
+  .user-card {
+    align-items: center;
+    margin: 15px 0;
+    padding: 15px 15px 1px 15px;
+    border-radius: 7px;
+    background-color: white;
+  }
+
   .card {
     margin: 15px 0;
     padding: 10px;
@@ -67,5 +75,43 @@
         padding: 0 10px;
       }
     }
+  }
+
+  .user-info {
+    display: flex;
+    gap: 10px;
+  }
+
+  .md-avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .user-avatar {
+    align-self: center;
+  }
+
+  .user-data {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .card-date {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+
+    span {
+      font-size: 20px;
+    }
+  }
+
+  .user-details {
+    align-self: center;
+  }
+
+  .user-card-divider {
+    margin: 10px 0;
+    border-top: 3px dashed lightgrey;
   }
 }

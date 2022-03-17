@@ -269,3 +269,18 @@ export const getActionsList = async ({ queryKey }) => {
   }
   return res
 }
+
+export const getWbqProcessHistorian = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/wpb/${queryKey[1]}/process-historian`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
