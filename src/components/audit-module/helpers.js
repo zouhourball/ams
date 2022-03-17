@@ -207,73 +207,202 @@ export const requestConfigs = [
 ]
 
 export const actionsHeader = (
+  role,
   row,
   suppDoc,
   showAuditClosureDialog,
   viewClosureReport,
   updateStatus,
 ) => {
-  return [
-    {
-      id: 1,
-      label: 'View Process Historian',
-      onClick: () => {
-        navigate(`/ams/audit/view-historian/${row?.id}`)
-      },
-    },
-    {
-      id: 2,
-      label: 'Close Audit',
-      onClick: () => {
-        updateStatus('CLOSED')
-      },
-    },
-    {
-      id: 3,
-      label: 'Delete',
-      onClick: () => {},
-    },
-    {
-      id: 4,
-      label: 'View Enquiries',
-      onClick: () => {
-        navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
-      },
-    },
-    {
-      id: 5,
-      label: 'Clarify',
-      onClick: () => {},
-    },
-    {
-      id: 6,
-      label: 'Create Report',
-      onClick: () => {
-        showAuditClosureDialog(true)
-      },
-    },
-    {
-      id: 7,
-      label: 'Supporting Documents',
-      onClick: () => {
-        suppDoc(true)
-      },
-    },
-    {
-      id: 8,
-      label: 'View Report',
-      onClick: () => {
-        viewClosureReport(true)
-      },
-    },
-    {
-      id: 9,
-      label: 'View Actions',
-      onClick: () => {
-        navigate(`/ams/audit/audit-details/actions/${row?.id}`)
-      },
-    },
-  ]
+  switch (role) {
+    case 'AU':
+    default:
+      return [
+        {
+          id: 1,
+          label: 'View Process Historian',
+          onClick: () => {
+            navigate(`/ams/audit/view-historian/${row?.id}`)
+          },
+        },
+        // {
+        //   id: 2,
+        //   label: 'Close Audit',
+        //   onClick: () => {
+        //     updateStatus('CLOSED')
+        //   },
+        // },
+        {
+          id: 3,
+          label: 'Delete',
+          onClick: () => {},
+        },
+        {
+          id: 4,
+          label: 'View Enquiries',
+          onClick: () => {
+            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+          },
+        },
+        // {
+        //   id: 5,
+        //   label: 'Clarify',
+        //   onClick: () => {},
+        // },
+        {
+          id: 6,
+          label: 'Create Report',
+          onClick: () => {
+            showAuditClosureDialog(true)
+          },
+        },
+        {
+          id: 7,
+          label: 'Supporting Documents',
+          onClick: () => {
+            suppDoc(true)
+          },
+        },
+        {
+          id: 8,
+          label: 'View Report',
+          onClick: () => {
+            viewClosureReport(true)
+          },
+        },
+        {
+          id: 9,
+          label: 'View Actions',
+          onClick: () => {
+            navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+          },
+        },
+      ]
+    case 'FP':
+      return [
+        {
+          id: 1,
+          label: 'View Process Historian',
+          onClick: () => {
+            navigate(`/ams/audit/view-historian/${row?.id}`)
+          },
+        },
+        // {
+        //   id: 2,
+        //   label: 'Close Audit',
+        //   onClick: () => {
+        //     updateStatus('CLOSED')
+        //   },
+        // },
+        // {
+        //   id: 3,
+        //   label: 'Delete',
+        //   onClick: () => {},
+        // },
+        {
+          id: 4,
+          label: 'View Enquiries',
+          onClick: () => {
+            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+          },
+        },
+        {
+          id: 5,
+          label: 'Clarify',
+          onClick: () => {},
+        },
+        // {
+        //   id: 6,
+        //   label: 'Create Report',
+        //   onClick: () => {
+        //     showAuditClosureDialog(true)
+        //   },
+        // },
+        {
+          id: 7,
+          label: 'Supporting Documents',
+          onClick: () => {
+            suppDoc(true)
+          },
+        },
+        // {
+        //   id: 8,
+        //   label: 'View Report',
+        //   onClick: () => {
+        //     viewClosureReport(true)
+        //   },
+        // },
+        // {
+        //   id: 9,
+        //   label: 'View Actions',
+        //   onClick: () => {
+        //     navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+        //   },
+        // },
+      ]
+    case 'AP':
+      return [
+        {
+          id: 1,
+          label: 'View Process Historian',
+          onClick: () => {
+            navigate(`/ams/audit/view-historian/${row?.id}`)
+          },
+        },
+        // {
+        //   id: 2,
+        //   label: 'Close Audit',
+        //   onClick: () => {
+        //     updateStatus('CLOSED')
+        //   },
+        // },
+        // {
+        //   id: 3,
+        //   label: 'Delete',
+        //   onClick: () => {},
+        // },
+        {
+          id: 4,
+          label: 'View Enquiries',
+          onClick: () => {
+            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+          },
+        },
+        {
+          id: 5,
+          label: 'Clarify',
+          onClick: () => {},
+        },
+        // {
+        //   id: 6,
+        //   label: 'Create Report',
+        //   onClick: () => {
+        //     showAuditClosureDialog(true)
+        //   },
+        // },
+        {
+          id: 7,
+          label: 'Supporting Documents',
+          onClick: () => {
+            suppDoc(true)
+          },
+        },
+        // {
+        //   id: 8,
+        //   label: 'View Report',
+        //   onClick: () => {
+        //     viewClosureReport(true)
+        //   },
+        // },
+        // {
+        //   id: 9,
+        //   label: 'View Actions',
+        //   onClick: () => {
+        //     navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+        //   },
+        // },
+      ]
+  }
 }
 export const enquiryActionsHeader = (
   row,

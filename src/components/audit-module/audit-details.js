@@ -68,6 +68,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
+  const role = 'FP'
 
   const { data: requestDetail } = useQuery(
     ['requestDetail', auditId],
@@ -377,67 +378,132 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
     </Button>,
   ]
   const defaultActions = [
-    <Button
-      key="2"
-      id="viewDoc"
-      className="top-bar-buttons-list-item-btn view-doc"
-      flat
-      swapTheming
-      onClick={() => {}}
-    >
-      Clarify
-    </Button>,
-    <Button
-      key="1"
-      id="viewDoc"
-      className="top-bar-buttons-list-item-btn view-doc"
-      flat
-      swapTheming
-      onClick={() => {
-        setShowSupportedDocumentDialog(true)
-      }}
-    >
-      Supporting documents
-    </Button>,
-    <Button
-      key="3"
-      id="viewDoc"
-      className="top-bar-buttons-list-item-btn view-doc"
-      flat
-      swapTheming
-      onClick={() => {
-        showCreateSpaceDialog(true)
-      }}
-    >
-      Create Audit Space
-    </Button>,
-    requestDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
+    role === 'AU' ? (
       <Button
-        key="4"
+        key="1"
         id="viewDoc"
         className="top-bar-buttons-list-item-btn view-doc"
         flat
         swapTheming
         onClick={() => {
-          updateStatus('ACKNOWLEDGED')
+          setShowSupportedDocumentDialog(true)
         }}
       >
-        Acknowledge
+        Supporting documents
       </Button>
+    ) : role === 'FP' ? (
+      <>
+        <Button
+          key="2"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {}}
+        >
+          Clarify
+        </Button>
+
+        <Button
+          key="1"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {
+            setShowSupportedDocumentDialog(true)
+          }}
+        >
+          Supporting documents
+        </Button>
+
+        <Button
+          key="3"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {
+            showCreateSpaceDialog(true)
+          }}
+        >
+          Create Audit Space
+        </Button>
+      </>
+    ) : role === 'AP' ? (
+      <>
+        <Button
+          key="2"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {}}
+        >
+          Clarify
+        </Button>
+        <Button
+          key="1"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {
+            setShowSupportedDocumentDialog(true)
+          }}
+        >
+          Supporting documents
+        </Button>
+        {requestDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
+          <Button
+            key="4"
+            id="viewDoc"
+            className="top-bar-buttons-list-item-btn view-doc"
+            flat
+            swapTheming
+            onClick={() => {
+              updateStatus('ACKNOWLEDGED')
+            }}
+          >
+            Acknowledge
+          </Button>
+        )}
+      </>
+    ) : (
+      <></>
     ),
-    <Button
-      key="5"
-      id="viewDoc"
-      className="top-bar-buttons-list-item-btn view-doc"
-      flat
-      swapTheming
-      onClick={() => {
-        showNewEnquiryDialog(true)
-      }}
-    >
-      Create New Enquiry
-    </Button>,
   ]
+
+  //  (
+  //   (requestDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
+  //     <Button
+  //       key="4"
+  //       id="viewDoc"
+  //       className="top-bar-buttons-list-item-btn view-doc"
+  //       flat
+  //       swapTheming
+  //       onClick={() => {
+  //         updateStatus('ACKNOWLEDGED')
+  //       }}
+  //     >
+  //       Acknowledge
+  //     </Button>
+  //   ),
+  //     (
+  //       <Button
+  //         key="5"
+  //         id="viewDoc"
+  //         className="top-bar-buttons-list-item-btn view-doc"
+  //         flat
+  //         swapTheming
+  //         onClick={() => {
+  //           showNewEnquiryDialog(true)
+  //         }}
+  //       >
+  //       Create New Enquiry
+  //       </Button>
+  //     ))
+  // ),
   return (
     <div>
       <TopBarDetailAudit

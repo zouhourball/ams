@@ -43,6 +43,7 @@ const Audit = () => {
   const [participants, setParticipants] = useState([])
 
   const { addSupportingDocuments } = documents()
+  const role = 'AU'
 
   const renderData = () => {
     return (
@@ -233,6 +234,7 @@ const Audit = () => {
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
+                    role,
                     selectedRow[0],
                     setShowSupportedDocumentDialog,
                     showAuditClosureDialog,
