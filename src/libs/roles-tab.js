@@ -81,6 +81,12 @@ export const rolesTab = [
     path: 'audit',
   },
   {
+    key: 'regulation',
+    roleOp: 'pulse regulation operator',
+    roleRe: 'pulse regulation regulator',
+    path: 'regulation',
+  },
+  {
     key: 'new-HSE',
     path: 'hse',
     hasSubModule: [

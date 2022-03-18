@@ -155,7 +155,7 @@ export const getTemplates = async () => {
   }
   return res
 }
-export const getReportsByTemplate = async ({ body }) => {
+export const getReportsByTemplate = async ({ queryKey }) => {
   let res
   /*
     "textSearch": "",
@@ -165,10 +165,10 @@ export const getReportsByTemplate = async ({ body }) => {
   */
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/regulations/5c20856b7da63300013678c5/links/query?page=0&size=20`,
+      `${appUrl}/pulse-be/api/v2/regulations/${queryKey[2]}/links/query?page=${queryKey[3]}&size=${queryKey[4]}`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: JSON.stringify(queryKey[1]),
       },
     )
   } catch (e) {

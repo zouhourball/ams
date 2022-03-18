@@ -19,6 +19,8 @@ import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import UploadReportByTemplate from 'components/upload-report-by-template'
 
+import UploadDrillingFileDialog from 'components/upload-drilling-file-dialog'
+
 import ToastMsg from 'components/toast-msg'
 
 import useRole from 'libs/hooks/use-role'
@@ -56,7 +58,7 @@ const Permit = ({ subModule }) => {
   const [currentTab, setCurrentTab] = useState(
     subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
   )
-  const [reportCurrentTab, setReportCurrentTab] = useState(0)
+  const [reportCurrentTab, setReportCurrentTab] = useState(null)
   const [showPermitDialog, setShowPermitDialog] = useState(false)
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
@@ -66,15 +68,16 @@ const Permit = ({ subModule }) => {
   const [view, setView] = useState('default')
   const [filterValue, setFilterValue] = useState('')
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+
+  const [showUploadDrillingFileDialog, setShowUploadDrillingFileDialog] =
+    useState(false)
   const [filesList, setFileList] = useState([])
-  const [finalReportsByTemplate, setReports] = useState([])
   const [filters] = useState({
     /*, setFilters */ textSearch: '',
     filters: [],
     companies: [],
     blocks: [],
   })
-
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
   const dispatch = useDispatch()
@@ -127,12 +130,7 @@ const Permit = ({ subModule }) => {
     ['getTemplates'],
     getTemplates,
   )
-  const reportsByTemplate = useMutation(getReportsByTemplate, {
-    onSuccess: (res) => {
-      setReports(res?.data)
-      // refetchReportsByTemplate()
-    },
-  })
+
   const addReportsByTemplate = useMutation(addReportForSelectedTemplate, {
     onSuccess: (res) => {
       // refetchReportsByTemplate()
@@ -141,41 +139,62 @@ const Permit = ({ subModule }) => {
   const addTemplateMutation = useMutation(addTemplate, {
     onSuccess: (res) => {
       refetchTemplates()
+      setShowUploadDrillingFileDialog(false)
     },
   })
-  const reportsData = finalReportsByTemplate?.map((el) => ({
+
+  const {
+    data: reportsByTemplateList,
+    // refetch: refetchTemplateList,
+    // isLoading: loadingTemplate,
+  } = useQuery(
+    ['getReportsByTemplate', filters, reportCurrentTab, 0, 200],
+    getReportsByTemplate,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const reportsData = (reportsByTemplateList?.data || []).map((el) => ({
     fileName: el?.filename,
-    company: el?.company,
+    company: el?.companies[0],
     block: el?.block,
     submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
     submittedBy: el?.metaData?.createdBy?.name,
     referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
   }))
-  const getReportsByFilter = () => {
-    reportsByTemplate.mutate(filters)
-  }
-  useEffect(() => {
-    getReportsByFilter()
-  }, [filters])
+
   const role = useRole('permitting')
-  const reportsActions = [
-    { id: 'downTemp', label: 'Download Template', onClick: () => {} },
-    {
-      id: 'uplTemplate',
-      label: 'Upload Template',
-      onClick: () => {
-        // addTemplate
-        setShowUploadRapportDialog(true)
-      },
-    },
-    {
-      id: 'uplRep',
-      label: 'Upload Report',
-      onClick: () => {
-        setShowUploadRapportDialog(true)
-      },
-    },
-  ]
+  const roleRegulation = useRole('regulation')
+
+  const reportActions = () => {
+    switch (roleRegulation) {
+      case 'regulator':
+        return [
+          // { id: 'downTemp', label: 'Download Template', onClick: () => {} },
+          {
+            id: 'uplTemplate',
+            label: 'Upload Template',
+            onClick: () => {
+              setShowUploadDrillingFileDialog(true)
+            },
+          },
+        ]
+
+      case 'operator':
+        return [
+          {
+            id: 'uplRep',
+            label: 'Upload Report',
+            onClick: () => {
+              setShowUploadRapportDialog(true)
+            },
+          },
+        ]
+      default:
+        return []
+    }
+  }
+
   const actions =
     currentTab === 0
       ? [
@@ -242,13 +261,6 @@ const Permit = ({ subModule }) => {
     })
   }
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
-  const reportTabsList = permitTemplates?.length
-    ? permitTemplates?.map((el) => el?.filename)
-    : [
-      'End Of Well Report.xlsx',
-      'Quarterly Well Integrity Report.xlsx',
-      'Annual Drilling Report.xls',
-    ]
   const cards = [
     { id: 1, name: 'Meera Org', icon: placeholder },
     { id: 2, name: 'ams-org', icon: placeholder },
@@ -390,32 +402,52 @@ const Permit = ({ subModule }) => {
     })
   const onUpload = (data) => {
     addReportsByTemplate.mutate({
-      body: {
-        url: data?.file?.url,
-        fileId: data?.file?.id,
-        category: 'C : Reporting Templates',
-        subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
-        description: '',
-        company: company?.name,
-        block: data?.block,
-        referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
-      },
-      templateId: '5c20856b7da63300013678c5',
+      body: [
+        {
+          url: data?.file?.url,
+          fileId: data?.file?.id,
+          category: 'C : Reporting Templates',
+          subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
+          description: '',
+          company: company?.name,
+          block: data?.block,
+          referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
+        },
+      ],
+      templateId: reportCurrentTab, // '62332e3c9001322a7f11ef4d',
     })
   }
 
   const onAddTemplate = (data) => {
-    addTemplateMutation.mutate({
-      url: data?.file?.url,
-      fileId: data?.file?.id,
-      filename: data?.file?.filename,
-      category: 'C : Reporting Templates',
-      subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
-      size: data?.file?.size,
-      description: '',
-      contentType: data?.file?.contentType,
-    })
+    const body = [
+      {
+        url: data?.file?.url,
+        fileId: data?.file?.id,
+        filename: data?.file?.filename,
+        category: 'C : Reporting Templates',
+        subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
+        size: data?.file?.size.toString(),
+        description: '',
+        contentType: data?.file?.contentType,
+      },
+    ]
+    addTemplateMutation.mutate(body)
   }
+
+  const tabsListReports =
+    permitTemplates && permitTemplates.length !== 0
+      ? permitTemplates?.map((el) => ({
+        linkToNewTab: `/ams/permitting/dr`,
+        label: el?.filename,
+        key: el?.id,
+      }))
+      : []
+  useEffect(() => {
+    permitTemplates && permitTemplates?.length !== 0
+      ? setReportCurrentTab(permitTemplates[0]?.id)
+      : setReportCurrentTab(tabsListReports[0]?.key)
+  }, [permitTemplates])
+
   return (
     <>
       <TopBar
@@ -547,13 +579,13 @@ const Permit = ({ subModule }) => {
         {view === 'reports' && (
           <>
             <NavBar
-              tabsList={reportTabsList}
+              tabsList={tabsListReports}
               activeTab={reportCurrentTab}
               setActiveTab={(tab) => {
                 setReportCurrentTab(tab)
                 setSelectedRow([])
               }}
-              actions={reportsActions}
+              actions={reportActions()}
             />
             <div className="subModule--table-wrapper reports">
               <div className="header">
@@ -652,6 +684,20 @@ const Permit = ({ subModule }) => {
           }
         />
       )}
+      {showUploadDrillingFileDialog && (
+        <UploadDrillingFileDialog
+          title={'Upload Drilling File'}
+          visible={showUploadDrillingFileDialog}
+          onHide={() => {
+            setShowUploadDrillingFileDialog(false)
+            setFileList([])
+          }}
+          filesList={filesList}
+          setFileList={setFileList}
+          uploadLabel="Attach Spreadsheet"
+          onUploadTemplate={(data) => onAddTemplate(data)}
+        />
+      )}
       {showUploadRapportDialog && (
         <UploadReportByTemplate
           setFileList={setFileList}
@@ -673,7 +719,7 @@ const Permit = ({ subModule }) => {
           onSave={(data) => {
             onUpload(data)
           }}
-          onUploadTemp={(data) => onAddTemplate(data)}
+          onUploadTemp={(data) => onUpload(data)}
         />
       )}
       {showSupportedDocumentDialog && (

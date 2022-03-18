@@ -84,9 +84,9 @@ const UploadReportByTemplate = ({
     }
   }, [suppDocsFiles])
 
-  const validData = () => {
-    return !(reportData?.file && reportData?.referenceDate && reportData?.block)
-  }
+  // const validData = () => {
+  //   return !(reportData?.file && reportData?.referenceDate && reportData?.block)
+  // }
 
   const onUpload = (file) => {
     setFileLoader(true)
@@ -118,18 +118,7 @@ const UploadReportByTemplate = ({
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', */
     onDrop: onUploadOptional,
   })
-  const uploadBtn = {
-    children: row?.id ? 'Update ' : 'Upload',
-    primary: true,
-    flat: true,
-    swapTheming: !validData(),
-    disabled: validData(),
 
-    onClick: () => {
-      onSave({ ...reportData, filesList, optionalFiles })
-      onHide()
-    },
-  }
   const actions = [
     {
       children: 'Discard',
@@ -139,13 +128,12 @@ const UploadReportByTemplate = ({
       onClick: () => onHide && onHide(),
     },
     {
-      children: 'Upload Template',
+      children: 'Upload Report',
       primary: false,
       flat: true,
       swapTheming: true,
       onClick: () => onUploadTemp(reportData),
     },
-    ...uploadBtn,
   ]
 
   return (
