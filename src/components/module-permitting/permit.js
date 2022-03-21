@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Button, TextField, SelectField, Switch } from 'react-md'
+import {
+  Button,
+  TextField,
+  SelectField,
+  SelectionControl,
+  FontIcon,
+} from 'react-md'
 import { navigate } from '@reach/router'
 import { useQuery, useMutation } from 'react-query'
 
@@ -34,6 +40,7 @@ import {
   addReportForSelectedTemplate,
   addTemplate,
   deleteRegulations,
+  getListOfCompaniesBlocks,
 } from 'libs/api/permit-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
@@ -66,18 +73,14 @@ const Permit = ({ subModule }) => {
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
   const [view, setView] = useState('default')
-  const [filterValue, setFilterValue] = useState('')
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
 
   const [showUploadDrillingFileDialog, setShowUploadDrillingFileDialog] =
     useState(false)
   const [filesList, setFileList] = useState([])
-  const [filters] = useState({
-    /*, setFilters */ textSearch: '',
-    filters: [],
-    companies: [],
-    blocks: [],
-  })
+  const [selectedBlocks, setSelectedBlocks] = useState([])
+  const [selectedCompanies, setSelectedCompanies] = useState([])
+
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
   const dispatch = useDispatch()
@@ -131,9 +134,15 @@ const Permit = ({ subModule }) => {
     getTemplates,
   )
 
+  const { data: listCompaniesBlocks } = useQuery(
+    ['getListOfCompaniesBlocks', reportCurrentTab],
+    reportCurrentTab && getListOfCompaniesBlocks,
+  )
+
   const addReportsByTemplate = useMutation(addReportForSelectedTemplate, {
     onSuccess: (res) => {
-      // refetchReportsByTemplate()
+      refetchTemplateList()
+      setShowUploadRapportDialog(false)
     },
   })
   const addTemplateMutation = useMutation(addTemplate, {
@@ -145,15 +154,45 @@ const Permit = ({ subModule }) => {
 
   const {
     data: reportsByTemplateList,
-    // refetch: refetchTemplateList,
+    refetch: refetchTemplateList,
     // isLoading: loadingTemplate,
   } = useQuery(
-    ['getReportsByTemplate', filters, reportCurrentTab, 0, 200],
+    [
+      'getReportsByTemplate',
+      {
+        textSearch: '',
+        filters: [],
+        companies: selectedCompanies,
+        blocks: selectedBlocks.filter(
+          (item, index) => selectedBlocks.indexOf(item) === index,
+        ),
+      },
+      reportCurrentTab,
+      0,
+      200,
+    ],
     getReportsByTemplate,
     {
       refetchOnWindowFocus: false,
     },
   )
+
+  // const renderOrganizations = () => {
+  //   let listOrganizations = []
+  //   if (reportsByTemplateList && !isEmpty(reportsByTemplateList?.data)) {
+  //     ;(reportsByTemplateList?.data || []).forEach((el) => {
+  //       if (el?.companies.length !== 0) {
+  //         listOrganizations.push(el?.companies[0])
+  //       }
+  //     })
+  //   }
+  //   return listOrganizations
+  // }
+
+  // const listOrgs = renderOrganizations().filter(
+  //   (item, index) => renderOrganizations().indexOf(item) === index,
+  // )
+
   const reportsData = (reportsByTemplateList?.data || []).map((el) => ({
     fileName: el?.filename,
     company: el?.companies[0],
@@ -261,11 +300,12 @@ const Permit = ({ subModule }) => {
     })
   }
   const tabsList = ['Permit to Drill', 'Permit to Suspend', 'Permit to Abandon']
-  const cards = [
-    { id: 1, name: 'Meera Org', icon: placeholder },
-    { id: 2, name: 'ams-org', icon: placeholder },
-    { id: 3, name: 'talent-sourcing', icon: placeholder },
-  ]
+  const cards = listCompaniesBlocks?.map((el, index) => ({
+    id: index,
+    name: el?.company,
+    icon: placeholder,
+    blocks: el?.blocks,
+  }))
   const permitData = permitListData?.content?.map((el) => {
     return {
       id: el.id,
@@ -374,6 +414,7 @@ const Permit = ({ subModule }) => {
       status: 'SUBMITTED',
     })
   }
+
   const renderOrgs = () =>
     cards?.map((card) => {
       return (
@@ -382,20 +423,53 @@ const Permit = ({ subModule }) => {
             <img src={card?.icon} />
             <span>{card?.name}</span>
             <span>
-              <Switch />
+              <SelectionControl
+                id={`company-${card.id}`}
+                type="switch"
+                onChange={() => {
+                  setSelectedCompanies((prev) =>
+                    !prev?.includes(card.name)
+                      ? [...prev, card.name]
+                      : prev.filter((el) => el !== card.name),
+                  )
+                }}
+                className="selection-control selection-control-small"
+              />
             </span>
           </div>{' '}
           <SelectField
             id={'orgblocks'}
             className={`selectField`}
-            menuItems={['item1', 'item2']}
+            menuItems={card?.blocks?.map((el) => {
+              return {
+                label: (
+                  <div id="checkbox-active" className="card-menuItem">
+                    <FontIcon
+                      iconClassName={`mdi mdi-checkbox${
+                        selectedBlocks?.includes(el)
+                          ? '-marked selected'
+                          : '-blank-outline'
+                      }`}
+                    />
+                    <div className="card-menuItem-text">{el}</div>
+                  </div>
+                ),
+                value: el,
+              }
+            })}
             position={SelectField.Positions.BELOW}
             sameWidth
             simplifiedMenu={false}
             placeholder={'Select Blocks'}
             block
-            onChange={setFilterValue}
-            value={filterValue}
+            onChange={(item) => {
+              setSelectedBlocks((prev) =>
+                !prev?.includes(item)
+                  ? [...prev, item]
+                  : prev.filter((el) => el !== item),
+              )
+            }}
+            value={''}
           />
         </div>
       )

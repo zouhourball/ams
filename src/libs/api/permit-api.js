@@ -219,3 +219,18 @@ export const deleteRegulations = async (objectIds) => {
   }
   return res
 }
+
+export const getListOfCompaniesBlocks = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/${queryKey[1]}/links/companies.blocks`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
