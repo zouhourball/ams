@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import {
   DialogContainer,
   TextField,
@@ -7,7 +8,6 @@ import {
   CircularProgress,
 } from 'react-md'
 import { useDropzone } from 'react-dropzone'
-import { useState, useEffect } from 'react'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 import { get } from 'lodash-es'
@@ -119,6 +119,13 @@ const UploadReportByTemplate = ({
     onDrop: onUploadOptional,
   })
 
+  const isValidData = () => {
+    if (reportData?.file && reportData?.block) {
+      return true
+    }
+    return false
+  }
+
   const actions = [
     {
       children: 'Discard',
@@ -132,6 +139,7 @@ const UploadReportByTemplate = ({
       primary: false,
       flat: true,
       swapTheming: true,
+      disabled: !isValidData(),
       onClick: () => onUploadTemp(reportData),
     },
   ]

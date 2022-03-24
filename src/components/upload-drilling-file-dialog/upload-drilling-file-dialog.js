@@ -42,7 +42,12 @@ const UploadDrillingFileDialog = ({
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     onDrop: onUpload,
   })
-
+  const isValidData = () => {
+    if (reportData?.file) {
+      return true
+    }
+    return false
+  }
   const actions = [
     {
       children: 'Discard',
@@ -56,6 +61,7 @@ const UploadDrillingFileDialog = ({
       primary: false,
       flat: true,
       swapTheming: true,
+      disabled: !isValidData(),
       onClick: () => onUploadTemplate(reportData),
     },
   ]

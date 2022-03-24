@@ -317,3 +317,80 @@ export const detailReportByVersion = async ({ queryKey }) => {
   }
   return res
 }
+
+export const getTemplatesCostRecovery = async () => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/C%20:%20Reporting%20Templates/MOG-S08-BUDGETARY%20&%20FINANCIAL?excludeLinksFeeds=true`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const addTemplateCostRecovery = async (body) => {
+  let res
+
+  try {
+    res = await fetchJSON(`${appUrl}/pulse-be/api/v2/regulations`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const addReportForSelectedTemplate = async ({ body, templateId }) => {
+  let res
+
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/${templateId}/links`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getReportsByTemplate = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/${queryKey[2]}/links/query?page=${queryKey[3]}&size=${queryKey[4]}`,
+      {
+        method: 'POST',
+        body: JSON.stringify(queryKey[1]),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const deleteReports = async (objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

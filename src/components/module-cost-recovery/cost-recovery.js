@@ -1,5 +1,11 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
-import { Button, SelectField, TextField } from 'react-md'
+import {
+  Button,
+  SelectField,
+  TextField,
+  SelectionControl,
+  FontIcon,
+} from 'react-md'
 import Mht, { setSelectedRow } from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import moment from 'moment'
@@ -13,7 +19,14 @@ import {
   listOfReports,
   overrideReport,
   deleteRows,
+  getTemplatesCostRecovery,
+  addTemplateCostRecovery,
+  addReportForSelectedTemplate,
+  getReportsByTemplate,
+  deleteReports,
 } from 'libs/api/cost-recovery-api'
+
+import { getListOfCompaniesBlocks } from 'libs/api/permit-api'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
@@ -27,6 +40,8 @@ import {
 } from './mht-helper-dialog'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
+import { addToast } from 'modules/app/actions'
+
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import UploadReportDialog from 'components/upload-report-dialog'
@@ -35,7 +50,16 @@ import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import ConfirmDialog from 'components/confirm-dialog'
 
+import UploadReportByTemplate from 'components/upload-report-by-template'
+
 import { configs, actionsHeader } from './helpers'
+import { reportsConfigs } from 'components/module-permitting/helpers'
+import UploadDrillingFileDialog from 'components/upload-drilling-file-dialog'
+import ToastMsg from 'components/toast-msg'
+
+import placeholder from 'images/phase.png'
+
+import 'components/module-permitting/style.scss'
 
 const CostRecovery = ({ subkey }) => {
   const tab = [
@@ -58,6 +82,19 @@ const CostRecovery = ({ subkey }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
+
+  const [selectedBlocks, setSelectedBlocks] = useState([])
+  const [selectedCompanies, setSelectedCompanies] = useState([])
+  const [reportCurrentTab, setReportCurrentTab] = useState(null)
+  const [showUploadDrillingFileDialog, setShowUploadDrillingFileDialog] =
+    useState(false)
+
+  const [
+    showUploadRapportByTemplateDialog,
+    setShowUploadRapportByTemplateDialog,
+  ] = useState(false)
+
+  const [view, setView] = useState('default')
 
   const blockList = getBlocks()
 
@@ -96,6 +133,91 @@ const CostRecovery = ({ subkey }) => {
       },
     ],
     listOfReports,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+
+  const { data: costRecoveryTemplates, refetch: refetchTemplates } = useQuery(
+    ['getTemplates'],
+    getTemplatesCostRecovery,
+  )
+
+  const { data: listCompaniesBlocks, refetch: refetchListOfCompaniesBlocks } =
+    useQuery(
+      ['getListOfCompaniesBlocks', reportCurrentTab],
+      reportCurrentTab && getListOfCompaniesBlocks,
+    )
+
+  const addTemplateMutation = useMutation(addTemplateCostRecovery, {
+    onSuccess: (res) => {
+      refetchTemplates()
+      setShowUploadDrillingFileDialog(false)
+    },
+  })
+
+  const addReportsByTemplate = useMutation(addReportForSelectedTemplate, {
+    onSuccess: (res) => {
+      refetchReports()
+      setShowUploadRapportByTemplateDialog(false)
+      refetchListOfCompaniesBlocks()
+      setFileList([])
+    },
+  })
+
+  const onAddTemplate = (data) => {
+    const body = [
+      {
+        url: data?.file?.url,
+        fileId: data?.file?.id,
+        filename: data?.file?.filename,
+        category: 'C : Reporting Templates',
+        subject: 'MOG-S08-BUDGETARY & FINANCIAL',
+        size: data?.file?.size.toString(),
+        description: data?.title,
+        contentType: data?.file?.contentType,
+      },
+    ]
+    addTemplateMutation.mutate(body)
+  }
+  const onUpload = (data) => {
+    addReportsByTemplate.mutate({
+      body: [
+        {
+          url: data?.file?.url,
+          fileId: data?.file?.id,
+          category: 'C : Reporting Templates',
+          subject: 'MOG-S08-BUDGETARY & FINANCIAL',
+          description: '',
+          company: company?.name,
+          block: data?.block,
+          referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
+        },
+      ],
+      templateId: reportCurrentTab,
+    })
+  }
+
+  const {
+    data: reportsByTemplateList,
+    refetch: refetchReports,
+    // isLoading: loadingTemplate,
+  } = useQuery(
+    [
+      'getReportsByTemplate',
+      {
+        textSearch: '',
+        filters: [],
+        companies: selectedCompanies,
+        blocks: selectedBlocks.filter(
+          (item, index) => selectedBlocks.indexOf(item) === index,
+        ),
+      },
+      reportCurrentTab,
+      0,
+      200,
+    ],
+    getReportsByTemplate,
     {
       refetchOnWindowFocus: false,
     },
@@ -484,11 +606,164 @@ const CostRecovery = ({ subkey }) => {
     )
   }
 
+  const roleRegulation = useRole('regulation')
+
+  const reportActions = () => {
+    switch (roleRegulation) {
+      case 'regulator':
+        return [
+          {
+            id: 'uplTemplate',
+            label: 'Upload Template',
+            onClick: () => {
+              setShowUploadDrillingFileDialog(true)
+            },
+          },
+        ]
+
+      case 'operator':
+        return [
+          {
+            id: 'uplRep',
+            label: 'Upload Report',
+            onClick: () => {
+              setShowUploadRapportByTemplateDialog(true)
+            },
+          },
+        ]
+      default:
+        return []
+    }
+  }
+  const reportsData = (reportsByTemplateList?.data || []).map((el) => ({
+    id: el?.id,
+    fileName: el?.filename,
+    company: el?.companies[0],
+    block: el?.block,
+    submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+    submittedBy: el?.metaData?.createdBy?.name,
+    referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
+  }))
+
+  const deleteReportsMutate = useMutation(deleteReports, {
+    onSuccess: (res) => {
+      if (res[0]?.statusCode === 'OK') {
+        refetchReports()
+        refetchListOfCompaniesBlocks()
+        dispatch(setSelectedRow([]))
+        dispatch(
+          addToast(
+            <ToastMsg text={'Deleted successfully'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+  const renderSelectedRows = () => {
+    return selectedRow?.map((el) => reportsData[el]?.id) || []
+  }
+  const handleDeleteReports = (objectIds) => {
+    deleteReportsMutate.mutate(objectIds)
+  }
+  const cards = listCompaniesBlocks?.map((el, index) => ({
+    id: index,
+    name: el?.company,
+    icon: placeholder,
+    blocks: el?.blocks,
+  }))
+  const renderOrgs = () =>
+    cards?.map((card) => {
+      return (
+        <div className="card" key={card?.id}>
+          <div>
+            <img src={card?.icon} />
+            <span>{card?.name}</span>
+            <span>
+              <SelectionControl
+                id={`company-${card.id}`}
+                type="switch"
+                onChange={() => {
+                  setSelectedCompanies((prev) =>
+                    !prev?.includes(card.name)
+                      ? [...prev, card.name]
+                      : prev.filter((el) => el !== card.name),
+                  )
+                }}
+                className="selection-control selection-control-small"
+              />
+            </span>
+          </div>{' '}
+          <SelectField
+            id={'orgblocks'}
+            className={`selectField`}
+            menuItems={card?.blocks?.map((el) => {
+              return {
+                label: (
+                  <div id="checkbox-active" className="card-menuItem">
+                    <FontIcon
+                      iconClassName={`mdi mdi-checkbox${
+                        selectedBlocks?.includes(el)
+                          ? '-marked selected'
+                          : '-blank-outline'
+                      }`}
+                    />
+                    <div className="card-menuItem-text">{el}</div>
+                  </div>
+                ),
+                value: el,
+              }
+            })}
+            position={SelectField.Positions.BELOW}
+            sameWidth
+            simplifiedMenu={false}
+            placeholder={'Select Blocks'}
+            block
+            onChange={(item) => {
+              setSelectedBlocks((prev) =>
+                !prev?.includes(item)
+                  ? [...prev, item]
+                  : prev.filter((el) => el !== item),
+              )
+            }}
+            value={''}
+          />
+        </div>
+      )
+    })
+
+  const tabsListReports =
+    costRecoveryTemplates && costRecoveryTemplates.length !== 0
+      ? costRecoveryTemplates?.map((el) => ({
+        linkToNewTab: `/ams/costrecovery/costs`,
+        label: el?.filename,
+        key: el?.id,
+      }))
+      : []
+
+  useEffect(() => {
+    costRecoveryTemplates && costRecoveryTemplates?.length !== 0
+      ? setReportCurrentTab(costRecoveryTemplates[0]?.id)
+      : setReportCurrentTab(tabsListReports[0]?.key)
+  }, [costRecoveryTemplates])
+
   return (
     <>
       <TopBar
         title="Cost Recovery Reporting"
-        actions={role === 'operator' ? renderActionsByCurrentTab() : null}
+        actions={
+          role === 'operator' && view === 'default'
+            ? renderActionsByCurrentTab()
+            : null
+        }
+        changeView={setView}
         menuItems={() => {
           return [
             {
@@ -500,82 +775,135 @@ const CostRecovery = ({ subkey }) => {
         }}
         role={role}
       />
-      <div className="subModule">
-        <NavBar
-          tabsList={tabsList}
-          activeTab={currentTab}
-          setActiveTab={(tab) => {
-            setCurrentTab(tab)
-            dispatch(setSelectedRow([]))
-          }}
-        />
-        <div className="subModule--table-wrapper">
-          <Mht
-            configs={configs(UploadSupportedDocumentFromTable)}
-            tableData={renderCurrentTabData()}
-            withSearch={selectedRow?.length === 0}
-            commonActions={selectedRow?.length === 0}
-            onSelectRows={dispatch(setSelectedRow)}
-            withChecked
-            singleSelect
-            hideTotal={false}
-            withFooter
-            withDownloadCsv
-            defaultCsvFileTitle={tab[currentTab]}
-            headerTemplate={
-              selectedRow?.length !== 0 && (
-                <HeaderTemplate
-                  title={`${selectedRow?.length} Row Selected`}
-                  actions={actionsHeader(
-                    'cost-recovery-details',
-                    renderCurrentTabData()[selectedRow[0]]?.id,
-                    tab[currentTab],
-                    role,
-                    setShowSupportedDocumentDialog,
-                    () => setShowDeleteDialog(true),
-                    renderCurrentTabData()[selectedRow[0]],
-                  )}
-                />
-              )
-            }
-            footerTemplate={
-              globalMhtData?.totalPages > 1 && (
-                <>
-                  &nbsp;|&nbsp;Page
-                  <TextField
-                    id="page_num"
-                    lineDirection="center"
-                    block
-                    type={'number'}
-                    className="page"
-                    value={page + 1}
-                    onChange={(v) =>
-                      v >= globalMhtData?.totalPages
-                        ? setPage(globalMhtData?.totalPages - 1)
-                        : setPage(parseInt(v) - 1)
-                    }
-                    // disabled={status === 'closed'}
-                  />
-                  of {globalMhtData?.totalPages}
-                  &nbsp;|&nbsp;Show
-                  <TextField
-                    id="el_num"
-                    lineDirection="center"
-                    block
-                    className="show"
-                    value={size}
-                    onChange={(v) =>
-                      v > globalMhtData?.totalElements
-                        ? setSize(globalMhtData?.totalElements)
-                        : setSize(v)
-                    }
-                  />
-                </>
-              )
-            }
+      {view === 'default' && (
+        <div className="subModule">
+          <NavBar
+            tabsList={tabsList}
+            activeTab={currentTab}
+            setActiveTab={(tab) => {
+              setCurrentTab(tab)
+              dispatch(setSelectedRow([]))
+            }}
           />
+          <div className="subModule--table-wrapper">
+            <Mht
+              configs={configs(UploadSupportedDocumentFromTable)}
+              tableData={renderCurrentTabData()}
+              withSearch={selectedRow?.length === 0}
+              commonActions={selectedRow?.length === 0}
+              onSelectRows={dispatch(setSelectedRow)}
+              withChecked
+              singleSelect
+              hideTotal={false}
+              withFooter
+              withDownloadCsv
+              defaultCsvFileTitle={tab[currentTab]}
+              headerTemplate={
+                selectedRow?.length !== 0 && (
+                  <HeaderTemplate
+                    title={`${selectedRow?.length} Row Selected`}
+                    actions={actionsHeader(
+                      'cost-recovery-details',
+                      renderCurrentTabData()[selectedRow[0]]?.id,
+                      tab[currentTab],
+                      role,
+                      setShowSupportedDocumentDialog,
+                      () => setShowDeleteDialog(true),
+                      renderCurrentTabData()[selectedRow[0]],
+                    )}
+                  />
+                )
+              }
+              footerTemplate={
+                globalMhtData?.totalPages > 1 && (
+                  <>
+                    &nbsp;|&nbsp;Page
+                    <TextField
+                      id="page_num"
+                      lineDirection="center"
+                      block
+                      type={'number'}
+                      className="page"
+                      value={page + 1}
+                      onChange={(v) =>
+                        v >= globalMhtData?.totalPages
+                          ? setPage(globalMhtData?.totalPages - 1)
+                          : setPage(parseInt(v) - 1)
+                      }
+                      // disabled={status === 'closed'}
+                    />
+                    of {globalMhtData?.totalPages}
+                    &nbsp;|&nbsp;Show
+                    <TextField
+                      id="el_num"
+                      lineDirection="center"
+                      block
+                      className="show"
+                      value={size}
+                      onChange={(v) =>
+                        v > globalMhtData?.totalElements
+                          ? setSize(globalMhtData?.totalElements)
+                          : setSize(v)
+                      }
+                    />
+                  </>
+                )
+              }
+            />
+          </div>
         </div>
-      </div>
+      )}
+
+      {view === 'reports' && (
+        <>
+          <NavBar
+            tabsList={tabsListReports}
+            activeTab={reportCurrentTab}
+            setActiveTab={(tab) => {
+              setReportCurrentTab(tab)
+              setSelectedRow([])
+            }}
+            actions={reportActions()}
+          />
+          <div className="subModule--table-wrapper reports">
+            <div className="header">
+              <h3 className="top-bar-title">Organizations</h3>
+            </div>
+            <div className="cards">{renderOrgs()}</div>
+          </div>
+          <div className="subModule--table-wrapper">
+            <Mht
+              hideTotal={false}
+              withFooter
+              configs={reportsConfigs}
+              tableData={reportsData || []}
+              withChecked={roleRegulation === 'operator'}
+              withSearch={selectedRow?.length === 0}
+              onSelectRows={dispatch(setSelectedRow)}
+              // commonActions={
+              //   selectedRow?.length === 0 || selectedRow?.length > 1
+              // }
+              headerTemplate={
+                selectedRow?.length !== 0 && (
+                  <HeaderTemplate
+                    title={`${selectedRow?.length} Row Selected`}
+                    actions={[
+                      {
+                        id: 1,
+                        label: 'Delete',
+                        onClick: () => {
+                          handleDeleteReports(renderSelectedRows())
+                        },
+                      },
+                    ]}
+                  />
+                )
+              }
+            />
+          </div>
+        </>
+      )}
+
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={
@@ -628,6 +956,46 @@ const CostRecovery = ({ subkey }) => {
           }
         />
       )}
+      {showUploadRapportByTemplateDialog && (
+        <UploadReportByTemplate
+          setFileList={setFileList}
+          filesList={filesList}
+          blockList={
+            Array.isArray(blockList) && blockList?.length > 0
+              ? blockList?.map((el) => ({ label: el?.block, value: el?.block }))
+              : []
+          }
+          // onDisplayMHT={onDisplayMHT}
+          title={'Upload Report'}
+          optional={'Attach Supporting Documents'}
+          visible={showUploadRapportByTemplateDialog}
+          uploadLabel={'Attach Spreadsheet'}
+          onHide={() => {
+            setShowUploadRapportByTemplateDialog(false)
+            setFileList([])
+          }}
+          onSave={(data) => {
+            onUpload(data)
+          }}
+          onUploadTemp={(data) => onUpload(data)}
+        />
+      )}
+
+      {showUploadDrillingFileDialog && (
+        <UploadDrillingFileDialog
+          title={'Upload Drilling File'}
+          visible={showUploadDrillingFileDialog}
+          onHide={() => {
+            setShowUploadDrillingFileDialog(false)
+            setFileList([])
+          }}
+          filesList={filesList}
+          setFileList={setFileList}
+          uploadLabel="Attach Spreadsheet"
+          onUploadTemplate={(data) => onAddTemplate(data)}
+        />
+      )}
+
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={

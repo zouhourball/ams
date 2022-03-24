@@ -134,15 +134,17 @@ const Permit = ({ subModule }) => {
     getTemplates,
   )
 
-  const { data: listCompaniesBlocks } = useQuery(
-    ['getListOfCompaniesBlocks', reportCurrentTab],
-    reportCurrentTab && getListOfCompaniesBlocks,
-  )
+  const { data: listCompaniesBlocks, refetch: refetchListOfCompaniesBlocks } =
+    useQuery(
+      ['getListOfCompaniesBlocks', reportCurrentTab],
+      reportCurrentTab && getListOfCompaniesBlocks,
+    )
 
   const addReportsByTemplate = useMutation(addReportForSelectedTemplate, {
     onSuccess: (res) => {
       refetchTemplateList()
       setShowUploadRapportDialog(false)
+      refetchListOfCompaniesBlocks()
     },
   })
   const addTemplateMutation = useMutation(addTemplate, {
@@ -488,7 +490,7 @@ const Permit = ({ subModule }) => {
           referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
         },
       ],
-      templateId: reportCurrentTab, // '62332e3c9001322a7f11ef4d',
+      templateId: reportCurrentTab,
     })
   }
 
@@ -501,7 +503,7 @@ const Permit = ({ subModule }) => {
         category: 'C : Reporting Templates',
         subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
         size: data?.file?.size.toString(),
-        description: '',
+        description: data?.title,
         contentType: data?.file?.contentType,
       },
     ]

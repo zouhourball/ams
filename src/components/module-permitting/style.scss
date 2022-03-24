@@ -57,6 +57,11 @@
         border-radius: 7px;
         background-color: white;
       }
+
+      &-menuItem {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }
