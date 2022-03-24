@@ -209,10 +209,10 @@ export const requestConfigs = [
 export const actionsHeader = (
   role,
   row,
-  suppDoc,
+  // suppDoc,
   showAuditClosureDialog,
   viewClosureReport,
-  updateStatus,
+  // updateStatus,
 ) => {
   switch (role) {
     case 'AU':
@@ -222,7 +222,7 @@ export const actionsHeader = (
           id: 1,
           label: 'View Process Historian',
           onClick: () => {
-            navigate(`/ams/audit/view-historian/${row?.id}`)
+            navigate(`/ams/audit/view-historian/${row?.auditId}`)
           },
         },
         // {
@@ -241,7 +241,7 @@ export const actionsHeader = (
           id: 4,
           label: 'View Enquiries',
           onClick: () => {
-            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+            navigate(`/ams/audit/audit-details/enquiries/${row?.auditId}`)
           },
         },
         // {
@@ -260,7 +260,7 @@ export const actionsHeader = (
           id: 7,
           label: 'Supporting Documents',
           onClick: () => {
-            suppDoc(true)
+            // suppDoc(true)
           },
         },
         {
@@ -274,7 +274,7 @@ export const actionsHeader = (
           id: 9,
           label: 'View Actions',
           onClick: () => {
-            navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+            navigate(`/ams/audit/audit-details/actions/${row?.auditId}`)
           },
         },
       ]
@@ -284,7 +284,7 @@ export const actionsHeader = (
           id: 1,
           label: 'View Process Historian',
           onClick: () => {
-            navigate(`/ams/audit/view-historian/${row?.id}`)
+            navigate(`/ams/audit/view-historian/${row?.auditId}`)
           },
         },
         // {
@@ -303,7 +303,7 @@ export const actionsHeader = (
           id: 4,
           label: 'View Enquiries',
           onClick: () => {
-            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+            navigate(`/ams/audit/audit-details/enquiries/${row?.auditId}`)
           },
         },
         {
@@ -322,7 +322,7 @@ export const actionsHeader = (
           id: 7,
           label: 'Supporting Documents',
           onClick: () => {
-            suppDoc(true)
+            // suppDoc(true)
           },
         },
         // {
@@ -336,7 +336,7 @@ export const actionsHeader = (
         //   id: 9,
         //   label: 'View Actions',
         //   onClick: () => {
-        //     navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+        //     navigate(`/ams/audit/audit-details/actions/${row?.auditId}`)
         //   },
         // },
       ]
@@ -346,7 +346,7 @@ export const actionsHeader = (
           id: 1,
           label: 'View Process Historian',
           onClick: () => {
-            navigate(`/ams/audit/view-historian/${row?.id}`)
+            navigate(`/ams/audit/view-historian/${row?.auditId}`)
           },
         },
         // {
@@ -365,7 +365,7 @@ export const actionsHeader = (
           id: 4,
           label: 'View Enquiries',
           onClick: () => {
-            navigate(`/ams/audit/audit-details/enquiries/${row?.id}`)
+            navigate(`/ams/audit/audit-details/enquiries/${row?.auditId}`)
           },
         },
         {
@@ -384,7 +384,7 @@ export const actionsHeader = (
           id: 7,
           label: 'Supporting Documents',
           onClick: () => {
-            suppDoc(true)
+            // suppDoc(true)
           },
         },
         // {
@@ -398,7 +398,7 @@ export const actionsHeader = (
         //   id: 9,
         //   label: 'View Actions',
         //   onClick: () => {
-        //     navigate(`/ams/audit/audit-details/actions/${row?.id}`)
+        //     navigate(`/ams/audit/audit-details/actions/${row?.auditId}`)
         //   },
         // },
       ]

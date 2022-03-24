@@ -70,14 +70,9 @@ export const rolesTab = [
   },
   {
     key: 'new-audit',
-    roleOp: 'pulse audit operator',
-    roleRe: 'pulse audit regulator',
-    path: 'audit',
-  },
-  {
-    key: 'new-audit',
-    roleOp: 'pulse audit operator',
-    roleRe: 'pulse audit regulator',
+    roleAU: 'target:audit:user',
+    roleFP: 'target:audit:fp',
+    roleAP: 'target:audit:participant',
     path: 'audit',
   },
   {

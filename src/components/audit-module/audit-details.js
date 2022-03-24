@@ -21,9 +21,12 @@ import ResponseDetailsDialog from 'components/audit-module/response-details-dial
 import CreateActionDialog from 'components/audit-module/create-action-dialog'
 
 import { addToast } from 'modules/app/actions'
+import useRole from 'libs/hooks/use-role'
+import moment from 'moment'
 
 import {
   getEnquiries,
+  getAuditByID,
   createWorkspace,
   updateAudit,
   createEnquiry,
@@ -68,22 +71,34 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const role = 'FP'
+  const role = useRole('audit')
 
-  const { data: requestDetail } = useQuery(
+  const { data: requestDetail, refetch: refetchEnq } = useQuery(
     ['requestDetail', auditId],
     auditId && getEnquiries,
   )
-  // const { data: responseDetails } = useQuery(['responseDetail'], getResponses)
-  // const { data: actionsList } = useQuery(['actionsList'], getActions)
-  /* const { data: resolutionsList } = useQuery(
-    ['resolutionsList'],
-    getResolutions,
-  ) */
+  const { data: auditDetails } = useQuery(
+    ['auditDetails', auditId],
+    auditId && getAuditByID,
+  )
+
+  // const { data: responseDetails } = useQuery(
+  //   ['responseDetail', auditId],
+  //   auditId && getResponses,
+  // )
+  // const { data: actionsList } = useQuery(
+  //   ['actionsList', auditId],
+  //   getActions && auditId,
+  // )
+  // const { data: resolutionsList } = useQuery(
+  //   ['resolutionsList', auditId],
+  //   getResolutions && auditId,
+  // )
+  // console.log(getActions, 'sup')
   const company = getOrganizationInfos()
   const successFn = {
     onSuccess: (res) => {
-      if (!res.error) {
+      if (res?.success) {
         showCreateSpaceDialog(false)
         dispatch(
           addToast(
@@ -91,11 +106,14 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
             'hide',
           ),
         )
+        refetchEnq()
       } else {
+        showCreateSpaceDialog(false)
+
         dispatch(
           addToast(
             <ToastMsg
-              text={res.error?.body?.message || 'Something went wrong'}
+              text={res?.errorMsg || 'Something went wrong'}
               type="error"
             />,
             'hide',
@@ -131,16 +149,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   const createResolutionMutation = useMutation(submitResolutionForAction, {
     ...successFn,
   })
-  const dummyDetailData = {
-    title: 'New Audit Request',
-    purpose: 'purpose',
-    auditId: '1111',
-    date: '11/12/2022',
-    scope: 'scooope',
-    expectedDeliv: '12/22/2022',
-    status: 'preloaded',
-    description: 'description test',
-  }
+
   const renderData = () => {
     switch (view) {
       case 'response':
@@ -199,26 +208,14 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           })) || []
         ) */
       default:
-        return [
-          {
-            enquireId: '111',
-            auditId: 'enquire',
-            date: 'date',
-            assignee: 'test',
-            description: 'el?.metaData?.description',
-            status: 'el?.metaData?.status',
-          },
-        ]
-      /* requestDetail?.content?.map((el) => ({
+        return requestDetail?.data?.map((el) => ({
           enquireId: el?.id,
-          auditId: el?.id,
-          date: el?.metaData?.createdAt
-            ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
-            : '',
-          assignee: 'test',
-          description: el?.description,
-          status: el?.metaData?.status,
-        })) */
+          auditId,
+          date: moment(el?.createdAt).format('DD MMM YYYY'),
+          assignee: el?.participants[0],
+          description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
+          status: el?.status,
+        }))
     }
   }
   const selectedRow = selectedRowSelector.map((id) => renderData()[id])
@@ -249,19 +246,21 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
     })
   }
   const createEnquiryOnSubmit = (description, files) => {
+    const filteredFilesAttr = files?.map((file) => ({
+      apiID: file?.id,
+      url: file?.url,
+      size: file?.size,
+      bucket: file?.bucket,
+      filename: file?.filename,
+      subject: file?.subject,
+      contentType: file?.contentType,
+    }))
     const body = {
-      assignee: {
-        email: 'string',
-        name: 'string',
-        sub: 'string',
-      },
-      auditId,
-      company: company?.name,
       description,
-      processInstanceId: uuidv4(),
-      // uploads: files,
+      enquiryDocuments: filteredFilesAttr,
     }
     createEnquiryMutation.mutate({
+      auditId,
       body,
     })
   }
@@ -347,7 +346,19 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           title: 'Resolutions',
         }
       default:
-        return dummyDetailData
+        return {
+          title: auditDetails?.data?.title,
+          purpose: auditDetails?.data?.purpose,
+          auditId: auditDetails?.data?.id,
+          date: moment(auditDetails?.data?.createdAt).format('DD-MM-YYYY'),
+          scope: auditDetails?.data?.scope,
+          expectedDeliv: moment(
+            auditDetails?.data?.expectedDeliverables,
+          ).format('DD-MM-YYYY'),
+          status: auditDetails?.data?.auditStatus,
+          description: auditDetails?.data?.description,
+        }
+      // dummyDetailData
     }
   }
 
@@ -379,18 +390,32 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   ]
   const defaultActions = [
     role === 'AU' ? (
-      <Button
-        key="1"
-        id="viewDoc"
-        className="top-bar-buttons-list-item-btn view-doc"
-        flat
-        swapTheming
-        onClick={() => {
-          setShowSupportedDocumentDialog(true)
-        }}
-      >
-        Supporting documents
-      </Button>
+      <>
+        <Button
+          key="1"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {
+            setShowSupportedDocumentDialog(true)
+          }}
+        >
+          Supporting documents
+        </Button>
+        <Button
+          key="5"
+          id="viewDoc"
+          className="top-bar-buttons-list-item-btn view-doc"
+          flat
+          swapTheming
+          onClick={() => {
+            showNewEnquiryDialog(true)
+          }}
+        >
+          Create New Enquiry
+        </Button>
+      </>
     ) : role === 'FP' ? (
       <>
         <Button
@@ -416,7 +441,20 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
         >
           Supporting documents
         </Button>
-
+        {!auditDetails?.data?.isAcknowledged && (
+          <Button
+            key="4"
+            id="viewDoc"
+            className="top-bar-buttons-list-item-btn view-doc"
+            flat
+            swapTheming
+            onClick={() => {
+              updateStatus('acknowledge')
+            }}
+          >
+            Acknowledge
+          </Button>
+        )}
         <Button
           key="3"
           id="viewDoc"
@@ -454,20 +492,6 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
         >
           Supporting documents
         </Button>
-        {requestDetail?.metaData?.status !== 'ACKNOWLEDGED' && (
-          <Button
-            key="4"
-            id="viewDoc"
-            className="top-bar-buttons-list-item-btn view-doc"
-            flat
-            swapTheming
-            onClick={() => {
-              updateStatus('ACKNOWLEDGED')
-            }}
-          >
-            Acknowledge
-          </Button>
-        )}
       </>
     ) : (
       <></>

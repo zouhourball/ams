@@ -43,9 +43,9 @@ const CreateAuditSpace = ({
   const [datePickerEnd, setDatePickerEnd] = useState(false)
   const validateData = () => {
     return !(
-      information?.participants?.length &&
-      information?.startDate &&
-      information?.endDate
+      information?.assignUsers?.length &&
+      information?.proposeStartDate &&
+      information?.proposeEndDate
     )
   }
   const actions = [
@@ -82,9 +82,9 @@ const CreateAuditSpace = ({
           onClick={() => setDatePickerStart(true)}
           rightIcon={<FontIcon>date_range</FontIcon>}
           value={
-            information?.startDate
-              ? `${moment(new Date(information?.startDate)).format(
-                'DD-MM-YYYY',
+            information?.proposeStartDate
+              ? `${moment(new Date(information?.proposeStartDate)).format(
+                'll',
               )} `
               : ''
           }
@@ -97,10 +97,8 @@ const CreateAuditSpace = ({
           onClick={() => setDatePickerEnd(true)}
           rightIcon={<FontIcon>date_range</FontIcon>}
           value={
-            information?.endDate
-              ? `${moment(new Date(information?.endDate)).format(
-                'DD-MM-YYYY',
-              )} `
+            information?.proposeEndDate
+              ? `${moment(new Date(information?.proposeEndDate)).format('ll')} `
               : ''
           }
           block
@@ -108,16 +106,21 @@ const CreateAuditSpace = ({
         <h4>Assign Users</h4>
         <AutocompleteWithCard
           membersList={membersByOrg()}
-          selectedMembers={information?.participants || []}
+          selectedMembers={
+            information?.assignUsers?.map((sub) =>
+              membersByOrg()?.find((member) => member?.subject === sub),
+            ) || []
+          }
           setSelectedMembers={(v) => {
             setInformation({
               ...information,
-              participants: [
-                ...v?.map((el) => ({
-                  email: el?.email,
-                  name: el?.name,
-                  subject: el?.subject,
-                })),
+              assignUsers: [
+                ...v?.map(
+                  (el) =>
+                    // email: el?.email,
+                    // name: el?.name,
+                    el?.subject,
+                ),
               ],
             })
           }}
@@ -141,7 +144,7 @@ const CreateAuditSpace = ({
             onUpdate={(date) => {
               setInformation({
                 ...information,
-                startDate: date.timestamp,
+                proposeStartDate: moment(date.timestamp).format('YYYY-MM-DD'),
               })
 
               setDatePickerStart(false)
@@ -165,7 +168,7 @@ const CreateAuditSpace = ({
             onUpdate={(date) => {
               setInformation({
                 ...information,
-                endDate: date.timestamp,
+                proposeEndDate: moment(date.timestamp).format('YYYY-MM-DD'),
               })
 
               setDatePickerEnd(false)

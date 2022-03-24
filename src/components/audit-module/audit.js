@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, TextField } from 'react-md'
+import { Button } from 'react-md'
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from 'react-query'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
 } from '@target-energysolutions/mht'
 import moment from 'moment'
+import useRole from 'libs/hooks/use-role'
 
 import {
   getStateAudit,
@@ -13,12 +14,12 @@ import {
   closureReport,
   updateAudit,
 } from 'libs/api/api-audit'
-import documents from 'libs/hooks/documents'
+// import documents from 'libs/hooks/documents'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import HeaderTemplate from 'components/header-template'
-import SupportedDocument from 'components/supported-document'
+// import SupportedDocument from 'components/supported-document'
 import NewAuditRequestDialog from 'components/new-audit-request-dialog'
 import AuditClosureDialog from 'components/audit-closure-dialog'
 import AuditClosureDetailsDialog from 'components/audit-closure-details-dialog'
@@ -30,48 +31,44 @@ import { configs, actionsHeader, dummyData } from './helpers'
 
 const Audit = () => {
   const [currentTab, setCurrentTab] = useState(0)
-  const [page, setPage] = useState(0)
-  const [size, setSize] = useState(20)
+  // const [page, setPage] = useState(0)
+  // const [size, setSize] = useState(20)
   const [uploadDialog, showUploadDialog] = useState(false)
   const [newAuditClosureDialog, showAuditClosureDialog] = useState(false)
   const [closureReportDetails, showClosureReport] = useState(false)
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
-    useState(false)
+  /* const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false) */
   const [participants, setParticipants] = useState([])
 
-  const { addSupportingDocuments } = documents()
-  const role = 'AU'
-
+  // const { addSupportingDocuments } = documents()
+  const role = useRole('audit')
   const renderData = () => {
     return (
-      listStateAudit?.content?.map((el) => ({
-        title: el?.metaData?.title,
+      listStateAudit?.data?.map((el) => ({
+        title: el?.title,
         auditId: el?.id,
-        requestDate: el?.metaData?.createdAt
-          ? moment(el?.metaData?.createdAt).format('DD MMM YYYY')
-          : '',
-        description: el?.metaData?.description,
-        status: el?.metaData?.status,
+        requestDate: moment(el?.expectedDeliverables).format('DD MMM YYYY'),
+        description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
+        status: el?.auditStatus,
       })) || []
     )
   }
-  const selectedRow = selectedRowSelector.map((id) => renderData()[id])
   useEffect(() => {
     setSelectedRow([])
   }, [])
   const dispatch = useDispatch()
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
-  const { data: listStateAudit } = useQuery(
+  const { data: listStateAudit, refetch: refetchListStateAudit } = useQuery(
     [
       'getStateAudit',
-      {
-        size: size,
-        page: page,
-      },
+      // {
+      //   size: size,
+      //   page: page,
+      // },
     ],
     getStateAudit,
   )
@@ -100,27 +97,31 @@ const Audit = () => {
   const submitAuditsMutation = useMutation(submitAudits)
   const submitClosureReportMutation = useMutation(closureReport)
 
-  const handleSupportingDocs = (data) => {
-    addSupportingDocuments(
+  /* const handleSupportingDocs = (data) => {
+     addSupportingDocuments(
       data,
       selectedRow[0]?.processInstanceId ||
         showSupportedDocumentDialog?.processInstanceId,
       // closeDialog,
     )
-  }
+  } */
+  const selectedRow = selectedRowSelector?.map((el) => renderData()[el])
+
   const actions = [
-    <Button
-      key={`audit-btn-1`}
-      className="top-bar-buttons-list-item-btn"
-      flat
-      primary
-      swapTheming
-      onClick={() => {
-        showUploadDialog(true)
-      }}
-    >
-      New Audit Request
-    </Button>,
+    role === 'AU' && (
+      <Button
+        key={`audit-btn-1`}
+        className="top-bar-buttons-list-item-btn"
+        flat
+        primary
+        swapTheming
+        onClick={() => {
+          showUploadDialog(true)
+        }}
+      >
+        New Audit Request
+      </Button>
+    ),
   ]
   const submitRequest = (body) => {
     submitAuditsMutation.mutate(
@@ -128,7 +129,9 @@ const Audit = () => {
         body,
       },
       {
-        onSuccess: (res) => {},
+        onSuccess: (res) => {
+          res?.success && refetchListStateAudit()
+        },
       },
     )
   }
@@ -194,7 +197,7 @@ const Audit = () => {
             withDownloadCsv
             defaultCsvFileTitle={'state-audit'}
             selectedRow={selectedRow}
-            footerTemplate={
+            /* footerTemplate={
               listStateAudit?.totalElements > 1 && (
                 <>
                   &nbsp;|&nbsp;Page
@@ -228,7 +231,7 @@ const Audit = () => {
                   />
                 </>
               )
-            }
+            } */
             headerTemplate={
               (selectedRow?.length === 1 && (
                 <HeaderTemplate
@@ -236,7 +239,7 @@ const Audit = () => {
                   actions={actionsHeader(
                     role,
                     selectedRow[0],
-                    setShowSupportedDocumentDialog,
+                    // setShowSupportedDocumentDialog,
                     showAuditClosureDialog,
                     showClosureReport,
                     updateStatus,
@@ -247,7 +250,7 @@ const Audit = () => {
           />
         </div>
       </div>
-      {showSupportedDocumentDialog && (
+      {/* showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
@@ -261,7 +264,7 @@ const Audit = () => {
             handleSupportingDocs(data)
           }}
         />
-      )}
+        ) */}
       {uploadDialog && (
         <NewAuditRequestDialog
           title={'New Audit Request'}

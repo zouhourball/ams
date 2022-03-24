@@ -6,13 +6,13 @@ import {
   CircularProgress,
 } from 'react-md'
 import { useDropzone } from 'react-dropzone'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
 import { get } from 'lodash-es'
 import { v4 as uuidv4 } from 'uuid'
 
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import { fileManagerUpload } from 'libs/api/api-file-manager'
 
 import uploadIcon from 'images/upload-icon.svg'
@@ -22,22 +22,22 @@ import HtmlEditor from 'components/html-editor'
 import './style.scss'
 
 const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
   const [files, setFiles] = useState([])
   const [fileLoader, setFileLoader] = useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [auditData, setAuditData] = useState({
-    company: company?.name,
+    // company: company?.name,
     processInstanceId: uuidv4(),
   })
-  useEffect(
+  /* useEffect(
     () => setAuditData({ ...auditData, company: company?.name }),
     [company],
-  )
+  ) */
 
   /* "company": "string",
   "description": "string",
-  "expectedDeliverable": "dd-MM-yyyy",
+  "expectedDeliverables": "dd-MM-yyyy",
   "processInstanceId": "string",
   "purpose": "string",
   "scope": "string",
@@ -48,7 +48,16 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
   const onUploadDocument = (file) => {
     setFileLoader(true)
     fileManagerUpload(file).then((res) => {
-      setFiles([...files, ...res.files])
+      const suppDocs = res.files?.map((file) => ({
+        apiID: file?.id,
+        url: file?.url,
+        size: file?.size,
+        bucket: file?.bucket,
+        filename: file?.filename,
+        subject: file?.subject,
+        contentType: file?.contentType,
+      }))
+      setFiles([...files, ...suppDocs])
       setFileLoader(false)
     })
   }
@@ -65,7 +74,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
       auditData?.title &&
       auditData?.purpose &&
       auditData?.scope &&
-      auditData?.expectedDeliverable &&
+      auditData?.expectedDeliverables &&
       files?.length
     )
   }
@@ -76,7 +85,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
     disabled: validateData(),
 
     onClick: () => {
-      onSave({ ...auditData, uploads: files })
+      onSave({ ...auditData, supportingDocuments: files })
       onHide()
     },
   }
@@ -166,7 +175,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
         <div className="md-cell md-cell--12">
           <TextField
             placeholder={'Reference Date'}
-            value={moment(auditData?.expectedDeliverable).format('ll')}
+            value={moment(auditData?.expectedDeliverables).format('ll')}
             className="new-audit-request-dialog-text"
             onChange={() => {}}
             block
@@ -180,7 +189,9 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
               onUpdate={(date) => {
                 setAuditData({
                   ...auditData,
-                  expectedDeliverable: moment(date).format('DD-MM-YYYY'),
+                  expectedDeliverables: moment(date?.timestamp).format(
+                    'YYYY-MM-DD',
+                  ),
                 })
                 setShowDatePicker(false)
               }}
@@ -241,7 +252,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
           )}
           {files?.map((file) => (
             <div
-              key={file.id}
+              key={file.apiID}
               className={`new-audit-request-dialog-file md-cell md-cell--12`}
             >
               {file && file.filename
@@ -257,7 +268,7 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
                 className="actionButton"
                 iconClassName="mdi mdi-delete"
                 onClick={() => {
-                  setFiles(files.filter((el) => el?.id !== file.id))
+                  setFiles(files.filter((el) => el?.apiID !== file.apiID))
                 }}
               />
             </div>

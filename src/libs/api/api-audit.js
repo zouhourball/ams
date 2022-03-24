@@ -1,26 +1,35 @@
 import { fetchJSON } from 'libs/fetch'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
+const auditUrl = 'https://api.dev.meeraspace.com'
 
 export const getStateAudit = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits?sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
-      {
-        method: 'GET',
-      },
-    )
+    res = await fetchJSON(`${auditUrl}/audit-be/api/v1/audit`, {
+      method: 'GET',
+    })
   } catch (e) {
     res = { error: e }
   }
   return res
 }
-export const getEnquiries = async () => {
+export const getAuditByID = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(`${auditUrl}/audit-be/api/v1/audit/${queryKey[1]}`, {
+      method: 'GET',
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const getEnquiries = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/enquiries?sort=metaData.createdAt,desc`,
+      `${auditUrl}/audit-be/api/v1/enquiry/audit/${queryKey[1]}`,
       {
         method: 'GET',
       },
@@ -30,11 +39,11 @@ export const getEnquiries = async () => {
   }
   return res
 }
-export const getResponses = async () => {
+export const getResponses = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/enquiries/responses?sort=metaData.createdAt,desc`,
+      `${auditUrl}/audit-be/api/v1/enquiry/response/${queryKey[1]}`,
       {
         method: 'GET',
       },
@@ -44,11 +53,11 @@ export const getResponses = async () => {
   }
   return res
 }
-export const getActions = async () => {
+export const getActions = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/actions?sort=metaData.createdAt,desc`,
+      `${auditUrl}/audit-be/api/v1/audit/${queryKey[1]}/action`,
       {
         method: 'GET',
       },
@@ -58,7 +67,7 @@ export const getActions = async () => {
   }
   return res
 }
-export const getResolutions = async () => {
+export const getResolutions = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
@@ -76,7 +85,7 @@ export const getResolutions = async () => {
 export const submitAudits = ({ body }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits`, {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/audit`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -101,7 +110,7 @@ export const closureReport = ({ body }) => {
 export const createWorkspace = ({ body, auditId }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/${auditId}/workspace`, {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/audit/${auditId}/workspace`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -110,10 +119,10 @@ export const createWorkspace = ({ body, auditId }) => {
   }
   return res
 }
-export const createEnquiry = ({ body }) => {
+export const createEnquiry = ({ body, auditId }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/enquiries`, {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/enquiry/audit/${auditId}`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -164,7 +173,7 @@ export const updateAudit = async ({ auditId, status }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/${auditId}?status=${status}`,
+      `${auditUrl}/audit-be/api/v1/audit/${auditId}/${status}`,
       {
         method: 'PUT',
       },
