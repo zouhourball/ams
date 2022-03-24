@@ -443,23 +443,23 @@ const AbandonReportDetails = ({ abandonReportId }) => {
               )?.value || 'no',
           },
           {
-            id: 'PAProgram',
+            id: 'mogAttProgChecklist',
             title: 'P/A Program Attachment',
             cellWidth: 'md-cell md-cell-12',
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el?.id === 'PAProgram')?.value ||
-              '',
+              detailData?.data?.find((el) => el?.id === 'mogAttProgChecklist')
+                ?.value || '',
           },
           {
-            id: 'currentWellSchematic',
+            id: 'currWellSchema',
             title: 'Current Well Schematic',
             cellWidth: 'md-cell md-cell-12',
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el?.id === 'currentWellSchematic')
+              detailData?.data?.find((el) => el?.id === 'currWellSchema')
                 ?.value || '',
           },
         ]}

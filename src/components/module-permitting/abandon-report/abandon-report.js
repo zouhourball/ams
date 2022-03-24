@@ -514,10 +514,11 @@ const AbandonReport = ({ abandonReportId }) => {
       value: formData?.data?.emergencyPlansAvailable,
     },
     {
-      id: 'PAProgram',
+      id: 'mogAttProgChecklist',
       title: 'Attach P/A Program',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
+      type: 'attachment',
       required: true,
       onDrop: (value) => {
         // console.log(value)
@@ -526,30 +527,31 @@ const AbandonReport = ({ abandonReportId }) => {
 
           fileManagerUpload(value).then((res) => {
             setLoading(false)
-            onEditValue('PAProgram', res?.files[0]?.url)
+            onEditValue('mogAttProgChecklist', res?.files[0]?.url)
             setCurrentUploadedFile({
               ...currentUploadedFile,
-              PAProgram: res?.files[0],
+              mogAttProgChecklist: res?.files[0],
             })
           })
         } else {
-          onEditValue('PAProgram', '')
+          onEditValue('mogAttProgChecklist', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            PAProgram: '',
+            mogAttProgChecklist: '',
           })
         }
       },
-      file: currentUploadedFile?.PAProgram,
+      file: currentUploadedFile?.mogAttProgChecklist,
       setFile: setCurrentUploadedFile,
       loading: loading,
-      value: currentUploadedFile?.PAProgram,
+      value: currentUploadedFile?.mogAttProgChecklist,
     },
     {
-      id: 'currentWellSchematic',
+      id: 'currWellSchema',
       title: 'Current Well Schematic',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
+      type: 'attachment',
       required: true,
       onDrop: (value) => {
         // console.log(value)
@@ -558,24 +560,24 @@ const AbandonReport = ({ abandonReportId }) => {
 
           fileManagerUpload(value).then((res) => {
             setLoading(false)
-            onEditValue('currentWellSchematic', res?.files[0]?.url)
+            onEditValue('currWellSchema', res?.files[0]?.url)
             setCurrentUploadedFile({
               ...currentUploadedFile,
-              currentWellSchematic: res?.files[0],
+              currWellSchema: res?.files[0],
             })
           })
         } else {
-          onEditValue('currentWellSchematic', '')
+          onEditValue('currWellSchema', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            currentWellSchematic: '',
+            currWellSchema: '',
           })
         }
       },
-      file: currentUploadedFile?.currentWellSchematic,
+      file: currentUploadedFile?.currWellSchema,
       setFile: setCurrentUploadedFile,
       loading: loading,
-      value: currentUploadedFile?.currentWellSchematic,
+      value: currentUploadedFile?.currWellSchema,
     },
   ]
 
@@ -650,6 +652,7 @@ const AbandonReport = ({ abandonReportId }) => {
     title: 'MEM',
     cellWidth: 'md-cell md-cell--12',
     input: 'fileInput',
+    type: 'attachment',
     required: true,
     onDrop: (value) => {
       // console.log(value)

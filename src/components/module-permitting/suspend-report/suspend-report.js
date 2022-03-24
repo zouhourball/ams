@@ -515,10 +515,11 @@ const SuspendReport = ({ suspendReportId }) => {
       value: formData?.data?.emergencyPlansAvailable,
     },
     {
-      id: 'suspensionProgram',
+      id: 'mogAttProgChecklist',
       title: 'Attach Suspension Program',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
+      type: 'attachment',
       required: true,
       onDrop: (value) => {
         // console.log(value)
@@ -527,54 +528,55 @@ const SuspendReport = ({ suspendReportId }) => {
 
           fileManagerUpload(value).then((res) => {
             setLoading(false)
-            onEditValue('suspensionProgram', res?.files[0]?.url)
+            onEditValue('mogAttProgChecklist', res?.files[0]?.url)
             setCurrentUploadedFile({
               ...currentUploadedFile,
-              suspensionProgram: res?.files[0],
+              mogAttProgChecklist: res?.files[0],
             })
           })
         } else {
-          onEditValue('suspensionProgram', '')
+          onEditValue('mogAttProgChecklist', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            suspensionProgram: '',
+            mogAttProgChecklist: '',
           })
         }
       },
-      file: currentUploadedFile?.suspensionProgram,
+      file: currentUploadedFile?.mogAttProgChecklist,
       setFile: setCurrentUploadedFile,
       loading: loading,
-      value: currentUploadedFile?.suspensionProgram,
+      value: currentUploadedFile?.mogAttProgChecklist,
     },
     {
-      id: 'wellSchematic',
+      id: 'currWellSchema',
       title: 'Current Well Schematic',
       cellWidth: 'md-cell md-cell--12',
       input: 'fileInput',
       required: true,
+      type: 'attachment',
       onDrop: (value) => {
         if (value?.length > 0) {
           setLoading(true)
           fileManagerUpload(value).then((res) => {
-            onEditValue('wellSchematic', res?.files[0]?.url)
+            onEditValue('currWellSchema', res?.files[0]?.url)
             setLoading(false)
             setCurrentUploadedFile({
               ...currentUploadedFile,
-              wellSchematic: res?.files[0],
+              currWellSchema: res?.files[0],
             })
           })
         } else {
-          onEditValue('wellSchematic', '')
+          onEditValue('currWellSchema', '')
           setCurrentUploadedFile({
             ...currentUploadedFile,
-            wellSchematic: '',
+            currWellSchema: '',
           })
         }
       },
       loading: loading,
-      value: currentUploadedFile?.wellSchematic,
+      value: currentUploadedFile?.currWellSchema,
       setFile: setCurrentUploadedFile,
-      file: currentUploadedFile?.wellSchematic,
+      file: currentUploadedFile?.currWellSchema,
     },
   ]
 

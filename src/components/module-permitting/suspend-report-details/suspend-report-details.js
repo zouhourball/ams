@@ -454,23 +454,23 @@ const SuspendReportDetails = ({ suspendReportId }) => {
               )?.value || 'no',
           },
           {
-            id: 'suspensionProgram',
+            id: 'mogAttProgChecklist',
             title: 'Attach Suspension Program',
             cellWidth: 'md-cell md-cell-12',
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el?.id === 'suspensionProgram')
+              detailData?.data?.find((el) => el?.id === 'mogAttProgChecklist')
                 ?.value || '',
           },
           {
-            id: 'wellSchematic',
+            id: 'currWellSchema',
             title: 'Current Well Schematic',
             cellWidth: 'md-cell md-cell-12',
             input: 'fileInput',
             required: true,
             value:
-              detailData?.data?.find((el) => el?.id === 'wellSchematic')
+              detailData?.data?.find((el) => el?.id === 'currWellSchema')
                 ?.value || '',
           },
         ]}
