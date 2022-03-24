@@ -879,6 +879,8 @@ const Planning = ({ subModule }) => {
             setShowRescheduleDialog(false)
           }}
           members={/* get(membersData, 'data', []) || */ []}
+          processInstanceId={selectedRow[0]?.processInstanceId}
+          role={role.slice(0, -1)}
         />
       )}
     </>

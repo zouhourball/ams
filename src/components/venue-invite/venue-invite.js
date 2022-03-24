@@ -1,4 +1,4 @@
-import { useMemo, useCallback, useEffect, useRef } from 'react'
+import { useMemo, useCallback, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 import { BaseDialog } from './base-dialog'
 import { Controller, useForm } from 'react-hook-form'
@@ -13,14 +13,11 @@ import AsyncSelect from 'react-select/async-creatable'
 
 import {
   addMinutes,
-  formatISO,
   format,
   startOfDay,
   areIntervalsOverlapping,
   formatRFC3339,
   endOfDay,
-  isBefore,
-  isAfter,
   subDays,
 } from 'date-fns'
 
@@ -29,22 +26,17 @@ import {
   filter,
   some,
   concat,
-  every,
   get,
   isEmpty,
-  flatMap,
   uniq,
   startsWith,
 } from 'lodash-es'
 import { useSelector } from 'react-redux'
-import Select from 'react-select'
 import useSWR from 'swr'
 
-import { RecommendedTime } from './recommend-time'
 // import { useOrgId } from './use-org-id'
 import { DatePicker } from './date-picker'
 import { TimePicker } from './time-picker'
-import { RandomPassword } from './random-password'
 // import guest from 'images/guest.svg'
 import { Avatar } from './avatar.js'
 
@@ -54,6 +46,7 @@ import {
   checkUserAvailable,
   searchMember,
 } from 'libs/api/venue'
+import HtmlEditor from 'components/html-editor'
 
 // import { addToast } from 'modules/app/actions'
 
@@ -116,32 +109,6 @@ export const countDownOpts = [
   { label: '15 minutes', value: 15 * 60 },
 ]
 
-const hourList = [
-  '1:00 AM',
-  '2:00 AM',
-  '3:00 AM',
-  '4:00 AM',
-  '5:00 AM',
-  '6:00 AM',
-  '7:00 AM',
-  '8:00 AM',
-  '9:00 AM',
-  '10:00 AM',
-  '11:00 AM',
-  '12:00 AM',
-  '1:00 PM',
-  '2:00 PM',
-  '3:00 PM',
-  '4:00 PM',
-  '5:00 PM',
-  '6:00 PM',
-  '7:00 PM',
-  '8:00 PM',
-  '9:00 PM',
-  '10:00 PM',
-  '11:00 PM',
-  '12:00 PM',
-]
 const MultiValueLabel = (props) => {
   const { avatar, username } = props.data.meta
 
@@ -221,88 +188,6 @@ const Option = ({ data, innerRef, innerProps, getValue }) => {
   )
 }
 
-const CELL_HEIGHT = 40
-const SelectedTimeSpan = ({
-  endTime,
-  startTime,
-  userAvailableMap,
-  meetingDate,
-}) => {
-  const dateStr = format(meetingDate, 'MM/dd/yyyy')
-  const startDate = new Date(dateStr + format(new Date(startTime), ' HH:mm:00'))
-  const endDate = new Date(dateStr + format(new Date(endTime), ' HH:mm:00'))
-  const height = ((endTime - startTime) / 1000 / 60 / 60) * CELL_HEIGHT
-  const startDay = startOfDay(new Date(startTime)).getTime()
-  const top = ((startTime - startDay) / 1000 / 60 / 60) * CELL_HEIGHT
-  const me = useMe()
-
-  const isOK =
-    isEmpty(userAvailableMap) ||
-    every(userAvailableMap?.times, (itemList) =>
-      every(itemList, (item) => {
-        return !areIntervalsOverlapping(
-          { start: new Date(item.startTime), end: new Date(item.endTime) },
-          { start: startDate, end: endDate },
-        )
-      }),
-    )
-  const unsatisfiedUserLen = filter(userAvailableMap?.times, (itemList) =>
-    some(itemList, (item) => {
-      return areIntervalsOverlapping(
-        { start: new Date(item.startTime), end: new Date(item.endTime) },
-        { start: startDate, end: endDate },
-      )
-    }),
-  ).length
-  const isMeNotOK =
-    unsatisfiedUserLen === 1 &&
-    some(get(userAvailableMap, `times.${me?.user.subject}`, []), (item) =>
-      areIntervalsOverlapping(
-        { start: new Date(item.startTime), end: new Date(item.endTime) },
-        { start: startDate, end: endDate },
-      ),
-    )
-
-  const isOKStr = isOK ? 'Available to All.' : ''
-  const isMeNotOKStr = isMeNotOK ? 'You are busy.' : ''
-  const unsatisfiedUserStr =
-    !isMeNotOK && unsatisfiedUserLen > 0
-      ? `${unsatisfiedUserLen} are busy.`
-      : ''
-
-  return (
-    <div
-      className={classnames('selected-time-span', { error: !isOK })}
-      style={{ height, top }}
-    >
-      {`${format(startTime, 'HH:mm')}-${format(endTime, 'HH:mm')}`} {isOKStr}
-      {isMeNotOKStr}
-      {unsatisfiedUserStr}
-    </div>
-  )
-}
-
-const OccupiedSpans = ({ timeRanges }) => {
-  return (
-    <>
-      {map(timeRanges, (item) => {
-        return (
-          <div
-            style={{
-              position: 'absolute',
-              zIndex: 1,
-              width: '100%',
-              top: item.startTop,
-              height: item.height,
-              background: 'rgba(244, 67, 54, 0.1)',
-            }}
-          ></div>
-        )
-      })}
-    </>
-  )
-}
-
 const VenueInvite = ({
   meeting,
   visible,
@@ -311,6 +196,8 @@ const VenueInvite = ({
   userProfile,
   email,
   refetch,
+  processInstanceId,
+  role,
 }) => {
   const defaultMembers =
     email || useMemo(() => userProfile?.email, [userProfile])
@@ -335,7 +222,8 @@ const VenueInvite = ({
       members: defaultMembers || undefined,
     },
   })
-
+  const [agenda, setAgenda] = useState('')
+  const [objective, setObjective] = useState('')
   // const dispatch = useDispatch()
 
   useEffect(() => {
@@ -381,8 +269,6 @@ const VenueInvite = ({
   const meetingDate = watch('meetingDate')
   const timeRange = watch('timeRange')
   const membersValue = watch('members')
-  const remindTime = watch('remindTime')
-  const countdown = watch('countdown')
 
   const rightRef = useRef(null)
   // locate the selected time position
@@ -481,35 +367,58 @@ const VenueInvite = ({
 
   const handleSave = useCallback(
     async (value) => {
-      const dateStr = format(value.meetingDate, 'MM/dd/yyyy')
-      const startDateStr = formatISO(
-        new Date(dateStr + format(value.timeRange.startTime, ' HH:mm:00')),
-      )
-      const endDateStr = formatISO(
-        new Date(dateStr + format(value.timeRange.endTime, ' HH:mm:00')),
-      )
-      const password = value?.password
-      const members = map(value.members, 'meta.email')
-      const meetingData = {
-        orgId: organizationID,
+      // const dateStr = format(value.meetingDate, 'MM/dd/yyyy')
+      const startDateStr = `${format(value.meetingDate, 'dd-MM-yyyy')} ${format(
+        value.timeRange.startTime,
+        'HH:mm',
+      )}`
+      /* formatISO(
+        new Date(dateStr + format(value.timeRange.startTime, ' HH:mm')),
+      ) */
+      const endDateStr = `${format(value.meetingDate, 'dd-MM-yyyy')} ${format(
+        value.timeRange.endTime,
+        'HH:mm',
+      )}`
+      /* formatISO(
+        new Date(dateStr + format(value.timeRange.endTime, ' HH:mm')),
+      ) */
+
+      // const password = value?.password
+      // const members = map(value.members, 'meta.email')
+      const participants = value.members?.map((el) => ({
+        sub: el?.meta?.subject,
+        name: el?.meta?.username,
+        email: el?.meta?.email,
+      }))
+      /* setMeetingData((data) => ({
+        ...data,
         title: value.title,
-        scheduleStartTime: startDateStr,
-        scheduleEndTime: endDateStr,
-        members,
-        ...(!value.countdown?.value
-          ? {}
-          : { countdown: String(value.countdown?.value) }),
-        ...(!value.remindTime?.value
-          ? {}
-          : { remindTime: String(value.remindTime?.value) }),
-        ...(password ? { password } : {}),
+        timeOffset: format(value.timeRange.startTime, 'X'),
+        startDate: startDateStr,
+        endDate: endDateStr,
+        participants,
+      })) */
+      const meetingData = {
+        orgId: 0,
+        workspaceId: '0',
+        workspaceName: '0',
+
+        // members,
+        processInstanceId,
+        objective,
+        agenda,
+        title: value.title,
+        timeOffset: format(value.timeRange.startTime, 'X'),
+        startDate: startDateStr,
+        endDate: endDateStr,
+        participants,
       }
       if (meeting) {
         await updateMeeting(meeting.id, meetingData)
         refetch()
         // addToast({ type: 'confirm', text: t('edit_meeting_successfully') })
       } else {
-        await createScheduleMeeting(meetingData)
+        await createScheduleMeeting(meetingData, role)
         toggle(false)
         refetch()
         // addToast({ type: 'confirm', text: t('schedule_successfully') })
@@ -526,7 +435,7 @@ const VenueInvite = ({
         })
       toggle(false)
     },
-    [organizationID, meeting, onSave, toggle],
+    [organizationID, meeting, onSave, toggle, agenda, objective],
   )
   const actions = useMemo(
     () => [
@@ -562,42 +471,6 @@ const VenueInvite = ({
   const isOptionDisabled = useCallback((opt) => {
     return opt.meta.invitationStatus === 'invited'
   }, [])
-
-  const timeRanges = useMemo(() => {
-    const list = flatMap(get(userAvailableMap, 'times'))
-    const dayStart = startOfDay(meetingDate)
-    const dayEnd = endOfDay(meetingDate)
-    const listInDay = map(list, (item) => {
-      const rs = {
-        ...item,
-      }
-      if (isBefore(new Date(item.startTime), dayStart)) {
-        rs.startTime = formatISO(dayStart)
-      }
-      if (isAfter(new Date(item.endTime), dayEnd)) {
-        rs.endTime = formatISO(dayEnd)
-      }
-      return rs
-    })
-    const positionList = map(listInDay, (item) => {
-      return {
-        startTop:
-          ((new Date(item.startTime).getTime() - dayStart.getTime()) /
-            1000 /
-            60 /
-            60) *
-          CELL_HEIGHT,
-        height:
-          ((new Date(item.endTime).getTime() -
-            new Date(item.startTime).getTime()) /
-            1000 /
-            60 /
-            60) *
-          CELL_HEIGHT,
-      }
-    })
-    return positionList
-  }, [userAvailableMap, meetingDate])
 
   return (
     <BaseDialog
@@ -716,6 +589,7 @@ const VenueInvite = ({
           <div className="meeting-date-wrapper">
             <Controller
               name="meetingDate"
+              className="date-field"
               as={
                 <DatePicker
                   defaultValue={meetingDate}
@@ -746,14 +620,14 @@ const VenueInvite = ({
               }}
             />
           </div>
-          <div>
+          {/* <div>
             <Controller
               name="timeRange"
               as={<RecommendedTime availableUsersParams={userSelectedTime} />}
               control={control}
             />
           </div>
-          <div className="meeting-date-wrapper">
+           <div className="meeting-date-wrapper">
             <Controller
               name="remindTime"
               control={control}
@@ -833,9 +707,59 @@ const VenueInvite = ({
               as={<RandomPassword disabled={!!meeting} />}
               control={control}
             />
-          )}
+          )} */}
+          <h4>Objective</h4>
+          <HtmlEditor
+            key={'objective'}
+            value={objective}
+            onChange={(d) => setObjective(d)}
+            customToolbar={{
+              options: [
+                'inline',
+                'list',
+                'textAlign',
+                'link',
+                'fontSize',
+                'fontFamily',
+                'blockType',
+                'image',
+                'remove',
+                'history',
+              ],
+              inline: { inDropdown: true },
+              list: { inDropdown: true },
+              textAlign: { inDropdown: true },
+              link: { inDropdown: true },
+              history: { inDropdown: true },
+            }}
+          />
+          <h4>Agenda</h4>
+          <HtmlEditor
+            key={'agenda'}
+            value={agenda}
+            onChange={(d) => setAgenda(d)}
+            customToolbar={{
+              options: [
+                'inline',
+                'list',
+                'textAlign',
+                'link',
+                'fontSize',
+                'fontFamily',
+                'blockType',
+                'image',
+                'remove',
+                'history',
+              ],
+              inline: { inDropdown: true },
+              list: { inDropdown: true },
+              textAlign: { inDropdown: true },
+              link: { inDropdown: true },
+              history: { inDropdown: true },
+            }}
+          />
         </div>
-        <div className="schedule-meeting-right" ref={rightRef}>
+        {/* <div className="schedule-meeting-right" ref={rightRef}>
           <div className="calender-label">
             {format(meetingDate, 'EEEE, dd MMM yyyy')}
           </div>
@@ -856,7 +780,7 @@ const VenueInvite = ({
               meetingDate={meetingDate}
             />
           </div>
-        </div>
+          </div> */}
       </div>
     </BaseDialog>
   )

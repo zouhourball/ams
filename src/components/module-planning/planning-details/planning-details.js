@@ -2,7 +2,7 @@ import { navigate } from '@reach/router'
 import { Button, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import moment from 'moment'
 
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
@@ -81,6 +81,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
         return []
     }
   }, [dataDetails, dataDetailsByVersion])
+
   const versionsList = useMemo(
     () =>
       dataDetails?.versions?.map((v) => ({
@@ -89,6 +90,9 @@ const PlanningDetails = ({ objectId, subModule }) => {
       })),
     [dataDetails],
   )
+  useEffect(() => {
+    versionsList && setVersion(versionsList[versionsList?.length - 1].value)
+  }, [dataDetails])
   const currentYear =
     rawData?.categories &&
     rawData?.categories[0]?.subCategories[0]?.kpis[0]?.values[0]?.year

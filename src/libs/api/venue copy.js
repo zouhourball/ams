@@ -8,12 +8,6 @@ export const meetingAxios = axios.create({
     Authorization: `Bearer ${getAuthToken()}`,
   },
 })
-export const meetingWSAxios = axios.create({
-  baseURL: `${PRODUCT_APP_URL_WS_MEETING}/api/v2`,
-  headers: {
-    Authorization: `Bearer ${getAuthToken()}`,
-  },
-})
 
 meetingAxios.interceptors.request.use((config) => {
   const newConfig = merge({}, config)
@@ -23,8 +17,8 @@ meetingAxios.interceptors.request.use((config) => {
   return newConfig
 })
 
-export const createScheduleMeeting = async (data, committee) => {
-  const { data: rs } = await meetingWSAxios.post(`/${committee}/meetings`, data)
+export const createScheduleMeeting = async (data) => {
+  const { data: rs } = await meetingAxios.post('/meeting/schedule', data)
   return rs?.data ?? {}
 }
 export const updateMeeting = (id, params) => {

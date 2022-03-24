@@ -50,4 +50,7 @@ module.exports = {
   ),
   PRODUCT_APP_URL_WORKSPACE: JSON.stringify('https://dev.meeraspace.com'),
   TOKEN_DOMAIN: JSON.stringify('https://dev.meeraspace.com'),
+  PRODUCT_APP_URL_WS_MEETING: JSON.stringify(
+    'https://api.dev.meeraspace.com/ws-meeting',
+  ),
 }

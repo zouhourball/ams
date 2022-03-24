@@ -16,6 +16,9 @@ $primary-color: #1979ff;
   /* &.md-dialog-container.md-overlay {
     z-index: 9999;
   } */
+  .time-picker-container {
+    width: 70%;
+  }
 
   .md-dialog-content--padded.md-dialog-content {
     display: flex;
@@ -41,6 +44,22 @@ $primary-color: #1979ff;
     }
   }
 
+  .meeting-date-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    > div {
+      width: 50%;
+    }
+
+    .clsprefix-date-picker-wrap {
+      width: 90%;
+      margin-bottom: 0;
+    }
+  }
+
   .inviteContainer {
     margin-bottom: 10px;
 
@@ -54,6 +73,7 @@ $primary-color: #1979ff;
 .schedule-meeting-layout {
   display: flex;
   align-items: stretch;
+  width: 100%;
 }
 
 .schedule-meeting-wrapper {
@@ -186,17 +206,6 @@ $primary-color: #1979ff;
     .app--quicknotes-list-item {
       border-bottom: 1px solid #eaeaea;
       background-color: #fff;
-    }
-  }
-
-  .meeting-date-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-
-    .clsprefix-date-picker-wrap {
-      margin-bottom: 0;
     }
   }
 }
