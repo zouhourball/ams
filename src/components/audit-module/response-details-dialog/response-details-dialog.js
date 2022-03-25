@@ -91,17 +91,17 @@ const ResponseDetailsDialog = ({
       <h4 className="response-details-dialog-title">Attached Document</h4>
       <div className="attachment-detail">
         <div className="attachment-detail-docs-icon-area">
-          {renderDocumentIcon(file.type)}
+          {renderDocumentIcon(file?.type)}
           <div className="attachment-detail-info">
-            <div className="name">{file.filename}</div>
-            <div className="size">{file.size}</div>
+            <div className="name">{file}</div>
+            <div className="size">{file?.size}</div>
           </div>
         </div>
         <Button
           icon
           className="attachment-btn"
           onClick={() => {
-            onDownload(file.id)
+            onDownload(file?.id)
           }}
         >
           save_alt

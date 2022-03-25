@@ -12,6 +12,7 @@ const EnquireDetailsDialog = ({
   assignee,
   onDownload,
   title,
+  enquiryDetails,
 }) => {
   const actions = [
     <Button id="1" key="1" flat onClick={onHide}>
@@ -65,7 +66,9 @@ const EnquireDetailsDialog = ({
       title={
         <>
           {title}
-          <div className={`status status-${status}`}>{status}</div>
+          <div className={`status status-${enquiryDetails?.status}`}>
+            {enquiryDetails?.status}
+          </div>
         </>
       }
       className="enquire-details-dialog"
@@ -73,25 +76,33 @@ const EnquireDetailsDialog = ({
       modal
     >
       <h4 className="enquire-details-dialog-title">Audit ID</h4>
-      <div className="enquire-details-dialog-value">{auditValue}</div>
+      <div className="enquire-details-dialog-value">
+        {enquiryDetails?.auditID}
+      </div>
       <h4 className="enquire-details-dialog-title">Enquiry Description</h4>
-      <div className="enquire-details-dialog-value">{descriptionValue}</div>
+      <div className="enquire-details-dialog-value">
+        {enquiryDetails?.description?.replace(/<\/?[^>]+(>|$)/g, '')}
+      </div>
       <h4 className="enquire-details-dialog-title">
         Attached Enquiry Document
       </h4>
       <div className="attachment-detail">
         <div className="attachment-detail-docs-icon-area">
-          {renderDocumentIcon(file.type)}
+          {renderDocumentIcon(enquiryDetails?.enquiryDocuments[0]?.type)}
           <div className="attachment-detail-info">
-            <div className="name">{file.filename}</div>
-            <div className="size">{file.size}</div>
+            <div className="name">
+              {enquiryDetails?.enquiryDocuments[0]?.filename}
+            </div>
+            <div className="size">
+              {enquiryDetails?.enquiryDocuments[0]?.size}
+            </div>
           </div>
         </div>
         <Button
           icon
           className="attachment-btn"
           onClick={() => {
-            onDownload(file.id)
+            onDownload(enquiryDetails?.enquiryDocuments[0]?.id)
           }}
         >
           save_alt
@@ -100,7 +111,7 @@ const EnquireDetailsDialog = ({
       <h4 className="enquire-details-dialog-title">Assignee</h4>
       <div className="assignee">
         <Avatar src={assignee.avatar} />
-        <div className="assignee-name">{assignee.name}</div>
+        <div className="assignee-name">{enquiryDetails?.participants}</div>
       </div>
     </DialogContainer>
   )

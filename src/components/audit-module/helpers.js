@@ -407,19 +407,21 @@ export const actionsHeader = (
 export const enquiryActionsHeader = (
   row,
   showDetails,
-  updateStatus,
+  updateRow,
   showAssignDialog,
   showResponseDialog,
   setView,
   view,
   showResponseDetails,
   showNewResolutionDialog,
+  role,
 ) => {
   const ackBtn = {
     id: 2,
     label: 'Acknowledge',
     onClick: () => {
-      updateStatus('ACKNOWLEDGED')
+      role === 'FP' && updateRow(row?.enquireId, 'acknowledge')
+      role === 'AP' && updateRow(row?.enquireId, 'acknowledge-assignment')
     },
   }
   const assignBtn = {
@@ -440,7 +442,8 @@ export const enquiryActionsHeader = (
     id: 5,
     label: 'View Response',
     onClick: () => {
-      setView('response')
+      // setView('response')
+      navigate(`/ams/audit/audit-details/response/${row?.enquireId}`)
     },
   }
   const newResponse = {
@@ -467,12 +470,18 @@ export const enquiryActionsHeader = (
     },
   ]
   if (view === 'default') {
-    if (row?.status === 'NEW' || row?.status === 'ASSIGNED') {
+    if (
+      (row?.status === 'NEW' && role === 'FP') ||
+      (row?.status === 'ASSIGNED' && role === 'AP')
+    ) {
       return [...defBtns, ackBtn]
-    } else if (row?.status === 'ACKNOWLEDGED') {
+    } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
       return [...defBtns, assignBtn]
-    } else if (row?.status === 'RESPONDED' && view === 'default') {
-      // row?.status === 'RESPONDED' && view === 'default'
+    } else if (
+      (row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
+        row?.status === 'RESPONDED') &&
+      view === 'default'
+    ) {
       return [...defBtns, viewResponseBtn, newResponseBtn]
     } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
       // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'

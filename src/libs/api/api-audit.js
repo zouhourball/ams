@@ -25,6 +25,21 @@ export const getAuditByID = async ({ queryKey }) => {
   }
   return res
 }
+export const getEnquiryByID = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/enquiry/${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
 export const getEnquiries = async ({ queryKey }) => {
   let res
   try {
@@ -43,7 +58,7 @@ export const getResponses = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${auditUrl}/audit-be/api/v1/enquiry/response/${queryKey[1]}`,
+      `${auditUrl}/audit-be/api/v1/enquiry/${queryKey[1]}/responses`,
       {
         method: 'GET',
       },
@@ -132,13 +147,16 @@ export const createEnquiry = ({ body, auditId }) => {
   return res
 }
 
-export const createResponse = ({ body }) => {
+export const createResponse = ({ body, enquiryID }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/enquiries/responses`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-    })
+    res = fetchJSON(
+      `${auditUrl}/audit-be/api/v1/enquiry/${enquiryID}/response`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -183,14 +201,29 @@ export const updateAudit = async ({ auditId, status }) => {
   }
   return res
 }
-export const assignParticipant = async ({ auditId, body }) => {
+export const acknowledgeEnquiry = async ({ id, status }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/enquiries/${auditId}/assignee`,
+      `${auditUrl}/audit-be/api/v1/enquiry/${id}/${status}`,
       {
         method: 'PUT',
-        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const assignParticipant = async ({ enquiryID, participants }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/enquiry/${enquiryID}/participants`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ participants }),
       },
     )
   } catch (e) {
