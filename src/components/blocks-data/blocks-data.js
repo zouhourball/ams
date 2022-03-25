@@ -7,7 +7,13 @@ import icon from 'images/block-icon.png'
 
 import './style.scss'
 
-const BlocksData = ({ blocks, onAdd, status }) => {
+const BlocksData = ({
+  blocks,
+  onAdd,
+  status,
+  onDeleteBlock,
+  onUpdateBlock,
+}) => {
   const [currentItem, setCurrentItem] = useState(blocks[0]?.id)
   const [blockTitle, setBlockTitle] = useState('')
 
@@ -50,6 +56,8 @@ const BlocksData = ({ blocks, onAdd, status }) => {
           currentItem={currentItem}
           setCurrentItem={setCurrentItem}
           title={comp?.block}
+          onDelete={onDeleteBlock}
+          onEdit={onUpdateBlock}
         />
       ))
     ) : (

@@ -54,3 +54,43 @@ export const addNewBlock = async (body) => {
   }
   return res
 }
+
+export const deleteBlock = async (blockId) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/arm/api/v1/config/blocks/${blockId}`, {
+      method: 'DELETE',
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const updateBlock = async ({ blockId, body }) => {
+  let res
+  try {
+    res = await fetchJSON(`${appUrl}/arm/api/v1/config/blocks/${blockId}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const deleteCompany = async (companyId) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/arm/api/v1/config/companies/${companyId}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

@@ -16,6 +16,7 @@ const CompanyData = ({
   setCurrentItem,
   companiesSource,
   onAddCompany,
+  onDeleteCompany,
 }) => {
   const [company, chooseCompany] = useState({})
   const [match, setMatch] = useState([...companies])
@@ -81,6 +82,7 @@ const CompanyData = ({
           currentItem={currentItem}
           setCurrentItem={() => setCurrentItem(comp?.id)}
           title={comp?.company}
+          onDelete={onDeleteCompany}
         />
       ))
     ) : (

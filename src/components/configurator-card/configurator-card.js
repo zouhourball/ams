@@ -26,23 +26,32 @@ const ConfiguratorCard = ({
     setTitleCard(title)
   }, [title])
 
-  const menuCard = [
-    {
-      primaryText: 'Edit',
-      leftIcon: <FontIcon>edit</FontIcon>,
-      onClick: () => {
-        setDisabled(false)
-      },
-    },
-    {
-      primaryText: 'Delete',
-      leftIcon: <FontIcon>delete</FontIcon>,
-      onClick: () => {
-        // onDelete()
-        setConfirmationDialogVisible(true)
-      },
-    },
-  ]
+  const menuCard = () => {
+    let buttons = []
+
+    if (onEdit) {
+      buttons.push({
+        primaryText: 'Edit',
+        leftIcon: <FontIcon>edit</FontIcon>,
+        onClick: () => {
+          setDisabled(false)
+        },
+      })
+    }
+
+    if (onDelete) {
+      buttons.push({
+        primaryText: 'Delete',
+        leftIcon: <FontIcon>delete</FontIcon>,
+        onClick: () => {
+          // onDelete()
+          setConfirmationDialogVisible(true)
+        },
+      })
+    }
+    return buttons
+  }
+
   return (
     <div
       className={cls(
@@ -70,7 +79,13 @@ const ConfiguratorCard = ({
           >
             close
           </Button>
-          <Button icon onClick={onEdit && onEdit}>
+          <Button
+            icon
+            onClick={() => {
+              onEdit(titleCard, id)
+              setDisabled(true)
+            }}
+          >
             check
           </Button>
         </>
@@ -79,7 +94,7 @@ const ConfiguratorCard = ({
         <MenuButton
           icon
           className="configurator-card-menuButton"
-          menuItems={menuCard}
+          menuItems={menuCard()}
           anchor={{
             x: MenuButton.HorizontalAnchors.INNER_RIGHT,
             y: MenuButton.VerticalAnchors.BOTTOM,
@@ -95,7 +110,8 @@ const ConfiguratorCard = ({
       <ConfirmationDialog
         visible={ConfirmationDialogVisible}
         onClick={() => {
-          onDelete()
+          onDelete(id)
+          setConfirmationDialogVisible(false)
         }}
         onHide={() => setConfirmationDialogVisible(false)}
       />

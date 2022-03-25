@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { useQuery as useQueryGraphql } from 'react-apollo'
 import { useMutation, useQuery } from 'react-query'
+import { useDispatch } from 'react-redux'
 
 import TopBar from 'components/top-bar'
 import ConfiguratorBlock from 'components/configurator-block'
 import CompanyData from 'components/company-data'
 import BlocksData from 'components/blocks-data'
+import ToastMsg from 'components/toast-msg'
+
+import { addToast } from 'modules/app/actions'
 
 import allOrganizations from 'libs/queries/all-organisations.gql'
 import {
@@ -13,11 +17,16 @@ import {
   getConfiguredCompanies,
   getBlockByOrgId,
   addNewBlock,
+  deleteBlock,
+  updateBlock,
+  deleteCompany,
 } from 'libs/api/configurator-api'
 
 import './style.scss'
 
 const ConfiguratorPage = () => {
+  const dispatch = useDispatch()
+
   const [companyTitle, setCompanyTitle] = useState('')
 
   const [currentItem, setCurrentItem] = useState()
@@ -84,6 +93,80 @@ const ConfiguratorPage = () => {
       block,
     })
   }
+
+  const deleteBlockMutate = useMutation(deleteBlock, {
+    onSuccess: (res) => {
+      if (res === true) {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        reFetchBlock()
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
+  const onDeleteBlock = (id) => {
+    deleteBlockMutate.mutate(id)
+  }
+  const updateBlockMutate = useMutation(updateBlock, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        reFetchBlock()
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+  const onUpdateBlock = (name, id) => {
+    const body = {
+      companyId: currentItem,
+      block: name,
+      // regionIds: [],
+    }
+    updateBlockMutate.mutate({
+      blockId: id,
+      body: body,
+    })
+  }
+
+  const deleteCompanyMutate = useMutation(deleteCompany, {
+    onSuccess: (res) => {
+      if (res === true) {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        reFetchCompany()
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+  const onDeleteCompany = (id) => {
+    deleteCompanyMutate.mutate(id)
+  }
   return (
     <div className="configurator">
       <TopBar title="Configurator" actions={null} />
@@ -100,6 +183,7 @@ const ConfiguratorPage = () => {
                 ?.organisationItems || []
             }
             onAddCompany={onAddCompany}
+            onDeleteCompany={onDeleteCompany}
           />
         </ConfiguratorBlock>
 
@@ -108,6 +192,8 @@ const ConfiguratorPage = () => {
             status={currentItem}
             blocks={blocks || []}
             onAdd={onAddBlock}
+            onDeleteBlock={onDeleteBlock}
+            onUpdateBlock={onUpdateBlock}
           />
         </ConfiguratorBlock>
       </div>
