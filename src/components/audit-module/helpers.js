@@ -1,4 +1,5 @@
 import { navigate } from '@reach/router'
+import UserInfoBySubject from 'components/user-info-by-subject'
 
 export const configs = [
   {
@@ -187,6 +188,13 @@ export const requestConfigs = [
     icon: 'mdi mdi-spellcheck',
     type: 'text',
     displayInCsv: true,
+    render: (row) => (
+      <UserInfoBySubject subject={row?.assignee}>
+        {(res) => (
+          <div className="subject">{res ? res.fullName : 'N/A'}</div>
+        )}
+      </UserInfoBySubject>
+    ),
   },
   {
     label: 'Short Description',

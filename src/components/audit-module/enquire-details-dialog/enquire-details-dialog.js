@@ -1,4 +1,8 @@
 import { Button, DialogContainer, FontIcon, Avatar } from 'react-md'
+import { get } from 'lodash-es'
+import { getPublicUrl } from 'libs/utils/custom-function'
+
+import UserInfoBySubject from 'components/user-info-by-subject'
 
 import './style.scss'
 
@@ -110,8 +114,26 @@ const EnquireDetailsDialog = ({
       </div>
       <h4 className="enquire-details-dialog-title">Assignee</h4>
       <div className="assignee">
-        <Avatar src={assignee.avatar} />
-        <div className="assignee-name">{enquiryDetails?.participants}</div>
+        <UserInfoBySubject subject={enquiryDetails?.participants[0]}>
+          {(res) => (
+            <div className="submittedBy">
+              <Avatar
+                src={
+                  get(res, 'photo.aPIURL', null)
+                    ? getPublicUrl(res.photo.aPIURL)
+                    : null
+                }
+              >
+                {get(res, 'photo.aPIURL', null)
+                  ? null
+                  : get(res, 'fullName.0', '')}
+              </Avatar>
+              {res ? res.fullName : 'N/A'}
+            </div>
+          )}
+        </UserInfoBySubject>
+        {/* <Avatar src={assignee.avatar} />
+        <div className="assignee-name">{enquiryDetails?.participants}</div> */}
       </div>
     </DialogContainer>
   )
