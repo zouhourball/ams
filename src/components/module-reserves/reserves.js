@@ -374,18 +374,21 @@ const Reserves = ({ subkey }) => {
           name: 'annual',
           refetch: () => refetchAnnualReserves(),
           totalElements: listAnnualReserves?.totalElements,
+          totalPages: listAnnualReserves?.totalPages,
         }
       case 1:
         return {
           name: 'fyf',
           refetch: () => refetchHistoryAndForecast(),
           totalElements: listHistoryAndForecast?.totalElements,
+          totalPages: listHistoryAndForecast?.totalPages,
         }
       case 2:
         return {
           name: 'annualResource',
           refetch: () => getAnnualResourceDetail(),
           totalElements: listAnnualResourceDetail?.totalElements,
+          totalPages: listAnnualResourceDetail?.totalPages,
         }
       default:
         break

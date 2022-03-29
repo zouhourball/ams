@@ -84,13 +84,24 @@ const Shell = ({ lang }) => {
     if (roles) {
       // debugger
       rolesTab.forEach(
-        ({ key, roleOp, roleRe, roleCh, path, hasSubModule }) => {
+        ({
+          key,
+          roleOp,
+          roleRe,
+          roleAU,
+          roleFP,
+          roleAP,
+          roleCh,
+          path,
+          hasSubModule,
+        }) => {
           if (hasSubModule) {
             const moduleS = { ...subModules.find((sM) => sM.key === key) }
 
             let subM = []
             if (moduleS) {
               hasSubModule.forEach(({ key, roleOp, roleRe, roleCh, path }) => {
+                // console.log(key, roleOp, roleRe, roleCh, path, 'roles')
                 if (
                   roles.includes(
                     `target-subscription-store:${organizationID}:${roleOp}`,
@@ -124,6 +135,15 @@ const Shell = ({ lang }) => {
           } else if (
             roles.includes(
               `target-subscription-store:${organizationID}:${roleOp}`,
+            ) ||
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleAU}`,
+            ) ||
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleFP}`,
+            ) ||
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleAP}`,
             )
           ) {
             basedRoleSubMenus.push({
@@ -157,7 +177,6 @@ const Shell = ({ lang }) => {
         })
       }
     }
-
     return basedRoleSubMenus
   }
 

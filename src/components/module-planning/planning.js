@@ -43,6 +43,7 @@ import {
   updateWpbStatus,
   submitFromDraft,
   getActionsList,
+  // getMeeting,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -101,6 +102,7 @@ const Planning = ({ subModule }) => {
       refetchOnWindowFocus: false,
     },
   )
+
   /* const { data: membersData, refetch: refetchMembers } = useQuery(
     ['getAllProjectMembers', company?.id],
     getAllProjectMembers,
@@ -514,10 +516,14 @@ const Planning = ({ subModule }) => {
   const selectedRow = selectedRowSelector.map((id) => tableDataPlanning[id])
   const { data: actionsList } = useQuery(
     ['wbpActions', selectedRow[0]?.id],
-    selectedRow && getActionsList,
+    selectedRow[0] && getActionsList,
 
     // return array
   )
+  /* const { data: listMeetings, refetch: refetchMeetings } = useQuery(
+    ['listMeetings', selectedRow[0]?.processInstanceId],
+    selectedRow[0] && getMeeting,
+  ) */
   const renderDialogData = (data) => {
     switch (currentTab) {
       case 'wpb':

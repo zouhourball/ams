@@ -3,6 +3,21 @@ import { formDataBody } from 'libs/utils/custom-function'
 
 // const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 const appUrl = PRODUCT_APP_URL_API
+const meetingUrl = PRODUCT_APP_URL_WS_MEETING
+export const getMeeting = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${meetingUrl}/api/v2/workflows/meetings?processInstanceId=${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 
 export const getListPlanning = async ({ queryKey }) => {
   let res

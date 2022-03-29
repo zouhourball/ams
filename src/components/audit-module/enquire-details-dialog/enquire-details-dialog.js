@@ -9,11 +9,11 @@ import './style.scss'
 const EnquireDetailsDialog = ({
   visible,
   onHide,
-  descriptionValue,
+  /* descriptionValue,
   file,
   auditValue,
   status,
-  assignee,
+  assignee, */
   onDownload,
   title,
   enquiryDetails,
@@ -81,7 +81,7 @@ const EnquireDetailsDialog = ({
     >
       <h4 className="enquire-details-dialog-title">Audit ID</h4>
       <div className="enquire-details-dialog-value">
-        {enquiryDetails?.auditID}
+        {enquiryDetails?.auditId}
       </div>
       <h4 className="enquire-details-dialog-title">Enquiry Description</h4>
       <div className="enquire-details-dialog-value">

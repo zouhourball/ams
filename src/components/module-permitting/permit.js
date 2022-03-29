@@ -700,7 +700,7 @@ const Permit = ({ subModule }) => {
                   )
                 }
                 footerTemplate={
-                  permitData?.totalPages > 1 && (
+                  permitListData?.totalPages > 1 && (
                     <>
                       &nbsp;|&nbsp;Page
                       <TextField
@@ -711,24 +711,24 @@ const Permit = ({ subModule }) => {
                         className="page"
                         value={page + 1}
                         onChange={(v) =>
-                          v >= permitData?.totalPages
-                            ? setPage(permitData?.totalPages - 1)
+                          v >= permitListData?.totalPages
+                            ? setPage(permitListData?.totalPages - 1)
                             : setPage(parseInt(v) - 1)
                         }
                         // disabled={status === 'closed'}
                       />
-                      of {permitData?.totalPages}
+                      of {permitListData?.totalPages}
                       &nbsp;|&nbsp;Show
                       <TextField
                         id="el_num"
                         lineDirection="center"
                         block
-                        placeholder={`Max number is ${permitData?.totalElements}`}
+                        placeholder={`Max number is ${permitListData?.totalElements}`}
                         className="show"
                         value={size}
                         onChange={(v) =>
-                          v > permitData?.totalElements
-                            ? setSize(permitData?.totalElements)
+                          v > permitListData?.totalElements
+                            ? setSize(permitListData?.totalElements)
                             : setSize(v)
                         }
                       />

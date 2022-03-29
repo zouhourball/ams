@@ -361,7 +361,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           title: enquiryDetails?.data?.id,
           purpose: enquiryDetails?.data?.purpose,
           // missing from api
-          auditId: enquiryDetails?.data?.id,
+          auditId: enquiryDetails?.data?.auditId,
           date: moment(enquiryDetails?.data?.createdAt).format('DD-MM-YYYY'),
           description: enquiryDetails?.data?.description?.replace(
             /<\/?[^>]+(>|$)/g,

@@ -14,7 +14,10 @@ const PlanningModule = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <PlanningDetails path="/planning-details/:subModule/:objectId" />
-        <ViewHistorian path="/view-historian/:subModule/:objectId" />
+        <ViewHistorian
+          path="/view-historian/:subModule/:objectId"
+          returnTo="planning"
+        />
         <Dashboard path="/analytics/dashboard" />
         <Planning path="/:subModule" />
         <Redirect from="/" to="/ams/planning/wpb" noThrow />

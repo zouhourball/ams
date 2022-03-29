@@ -190,9 +190,7 @@ export const requestConfigs = [
     displayInCsv: true,
     render: (row) => (
       <UserInfoBySubject subject={row?.assignee}>
-        {(res) => (
-          <div className="subject">{res ? res.fullName : 'N/A'}</div>
-        )}
+        {(res) => <div className="subject">{res ? res.fullName : 'N/A'}</div>}
       </UserInfoBySubject>
     ),
   },
@@ -450,7 +448,7 @@ export const enquiryActionsHeader = (
     id: 5,
     label: 'View Response',
     onClick: () => {
-      // setView('response')
+      setView('response')
       navigate(`/ams/audit/audit-details/response/${row?.enquireId}`)
     },
   }
@@ -496,7 +494,10 @@ export const enquiryActionsHeader = (
 
       return [...defBtns, newResponseBtn]
     } else return defBtns
-  } else if (view === 'response' || view === 'actions') {
+  } else if (
+    (view === 'response' || view === 'actions') &&
+    row?.status !== 'NEW'
+  ) {
     return [...defBtns, newResponse, viewResolutionBtn]
   } else return defBtns
 }

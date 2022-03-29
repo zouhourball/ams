@@ -72,7 +72,6 @@ const ViewHistorian = ({
         </div>
         {Object.keys(section?.tasks).length > 0 ? (
           section?.tasks?.map((el) => (
-
             <UserInfoBySubject key={el?.wpbId} subject={el?.subject}>
               {(res) => (
                 <div className="user-card">
