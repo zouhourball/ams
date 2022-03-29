@@ -1,7 +1,7 @@
 import { fetchJSON } from 'libs/fetch'
 
 const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
-const auditUrl = 'https://api.dev.meeraspace.com'
+const auditUrl = PRODUCT_APP_URL_API
 
 export const getStateAudit = async ({ queryKey }) => {
   let res
@@ -239,6 +239,21 @@ export const updateEnquiryByGivenResponse = async ({ responseId, status }) => {
       `${appUrl}/pulse-be/api/v2/audits/enquiries/status/responses/${responseId}?status=${status}`,
       {
         method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const getAuditHistory = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/audit/${queryKey[1]}/history`,
+      {
+        method: 'GET',
       },
     )
   } catch (e) {

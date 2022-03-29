@@ -15,6 +15,8 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
     status,
     blockNumber,
     totalProposals,
+    requestDate,
+    auditId,
   } = detailData
   const renderListButtons = () => {
     return actions.map((action) => action)
@@ -132,6 +134,32 @@ const TopBarDetail = ({ detailData, actions, onClickBack }) => {
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}
                   {submittedDate}
+                </div>
+              </div>
+            )}
+            {auditId && (
+              <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
+                <div className="top-bar-detail-left-information-details-item-key">
+                  {' '}
+                  Audit Id:
+                </div>
+                <div className="top-bar-detail-left-information-details-item-value">
+                  {' '}
+                  {auditId}
+                </div>
+              </div>
+            )}
+            {requestDate && (
+              <div className="top-bar-detail-left-information-details-item">
+                <div className="top-bar-detail-left-information-details-item-sep"></div>
+                <div className="top-bar-detail-left-information-details-item-key">
+                  {' '}
+                  Request Date:
+                </div>
+                <div className="top-bar-detail-left-information-details-item-value">
+                  {' '}
+                  {requestDate}
                 </div>
               </div>
             )}

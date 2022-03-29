@@ -1,0 +1,122 @@
+.view-historian-audit {
+  .dashboard {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .section {
+    width: 100%;
+    margin: 0 5px;
+
+    .sub-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 0 10px 40px;
+      background-color: white;
+      white-space: nowrap;
+
+      h2 {
+        margin-bottom: 0;
+        color: #6d7895;
+      }
+    }
+
+    .header {
+      display: flex;
+      position: relative;
+    }
+  }
+
+  .arrow-right,
+  .empty-right-arrow {
+    width: 0;
+    height: 0;
+    border-top: 27px solid transparent;
+    border-bottom: 27px solid transparent;
+    border-left: 27px solid white;
+  }
+
+  .empty-right-arrow {
+    position: absolute;
+    border-left-color: #f0f2f5;
+  }
+
+  .no-activity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 15px 0;
+    border-radius: 7px;
+    background-color: white;
+  }
+
+  .user-card {
+    align-items: center;
+    margin: 15px 0;
+    padding: 15px 15px 1px 15px;
+    border-radius: 7px;
+    background-color: white;
+  }
+
+  .card {
+    margin: 15px 0;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: white;
+
+    .label {
+      display: flex;
+
+      .text {
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+      }
+    }
+  }
+
+  .user-info {
+    display: flex;
+    gap: 10px;
+  }
+
+  .md-avatar {
+    width: 90px;
+    height: 90px;
+  }
+
+  .user-avatar {
+    align-self: center;
+  }
+
+  .user-data {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .card-date {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+
+    span {
+      font-size: 20px;
+    }
+  }
+
+  .user-details {
+    align-self: center;
+
+    h4 {
+      color: #6d7895;
+    }
+  }
+
+  .user-card-divider {
+    margin: 10px 0;
+    border-top: 3px dashed lightgrey;
+  }
+}

@@ -3,8 +3,9 @@ import { Router, Redirect } from '@reach/router'
 
 const Audit = lazy(() => import('./audit'))
 const AuditDetails = lazy(() => import('./audit-details'))
-const ViewHistorian = lazy(() =>
-  import('components/module-planning/view-historian'),
+
+const ViewHistorianAudit = lazy(() =>
+  import('components/audit-module/view-historian-audit'),
 )
 
 const AuditModule = () => {
@@ -13,7 +14,7 @@ const AuditModule = () => {
       <Router>
         <AuditDetails path="/audit-details/:subkey/:auditId" />
         <Audit path="/:subkey" />
-        <ViewHistorian path="/view-historian/:objectId" returnTo="audit" />
+        <ViewHistorianAudit path="/view-historian/:objectId" returnTo="audit" />
         <Redirect from="/" to="/ams/audit/state-audit" noThrow />
       </Router>
     </Suspense>
