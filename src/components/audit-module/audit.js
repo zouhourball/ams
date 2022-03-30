@@ -27,7 +27,7 @@ import ToastMsg from 'components/toast-msg'
 
 import { addToast } from 'modules/app/actions'
 
-import { configs, actionsHeader, dummyData } from './helpers'
+import { configs, actionsHeader } from './helpers'
 
 const Audit = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -53,11 +53,13 @@ const Audit = () => {
         requestDate: moment(el?.expectedDeliverables).format('DD MMM YYYY'),
         description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
         status: el?.auditStatus,
+        report: el?.report,
       })) || []
     )
   }
   useEffect(() => {
     setSelectedRow([])
+    setParticipants([])
   }, [])
   const dispatch = useDispatch()
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
@@ -136,9 +138,17 @@ const Audit = () => {
     )
   }
   const submitClosureReport = (body) => {
-    submitClosureReportMutation.mutate({
-      body,
-    })
+    submitClosureReportMutation.mutate(
+      {
+        body,
+        auditId: selectedRow[0]?.auditId,
+      },
+      {
+        onSuccess: (res) => {
+          res?.success && refetchListStateAudit()
+        },
+      },
+    )
   }
   const updateStatus = (status) => {
     updateRequestStatus.mutate({
@@ -188,7 +198,7 @@ const Audit = () => {
             singleSelect={true}
             withFooter
             configs={configs}
-            tableData={renderData()?.length ? renderData() : dummyData}
+            tableData={renderData()?.length ? renderData() : []}
             // tableData={dummyData}
             withSearch={selectedRow?.length === 0}
             commonActions={selectedRow?.length === 0}
@@ -288,6 +298,7 @@ const Audit = () => {
           onDiscard={() => showClosureReport(false)}
           visible={closureReportDetails}
           title={'Audit Closure Report'}
+          report={selectedRow[0]?.report}
         />
       )}
     </>

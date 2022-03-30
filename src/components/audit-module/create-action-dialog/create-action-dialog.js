@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { DialogContainer, Button, TextField, FontIcon, Portal } from 'react-md'
 import { DatePicker } from '@target-energysolutions/date-picker'
 import moment from 'moment'
@@ -20,6 +20,7 @@ const CreateActionDialog = ({
   onHide,
   onSubmit,
   members,
+  reportId,
 }) => {
   const [datePickerState, setDatePickerState] = useState(false)
   const organizationID = useSelector((state) => state?.shell?.organizationId)
@@ -28,7 +29,9 @@ const CreateActionDialog = ({
     context: { uri: `${PRODUCT_WORKSPACE_URL}/graphql` },
     variables: { organizationID: organizationID, wsIDs: [] },
   })
-
+  useEffect(() => {
+    setInformation({ reportId })
+  }, [])
   const membersByOrg = () => {
     let members = []
     members = membersByOrganisation?.workers?.map((el) => ({
@@ -41,7 +44,6 @@ const CreateActionDialog = ({
 
     return members
   }
-
   const actions = [
     <Button id="1" key="1" primary flat onClick={onHide}>
       Discard
@@ -51,9 +53,9 @@ const CreateActionDialog = ({
     </Button>,
   ]
   const priority = [
-    { label: 'Low', value: 'low' },
-    { label: 'Medium', value: 'medium' },
-    { label: 'High', value: 'high' },
+    { label: 'Low', value: 'LOW' },
+    { label: 'Medium', value: 'MEDIUM' },
+    { label: 'High', value: 'HIGH' },
   ]
   return (
     <DialogContainer
@@ -90,12 +92,12 @@ const CreateActionDialog = ({
           key={1}
           className="create-action-dialog-textField md-cell md-cell--12"
           label="Reference Audit Report ID"
-          onChange={(v) =>
+          /* onChange={(v) =>
             setInformation({
               ...information,
               reportId: v,
             })
-          }
+          } */
           value={information?.reportId}
           block
         />
@@ -119,8 +121,10 @@ const CreateActionDialog = ({
           onClick={() => setDatePickerState(true)}
           rightIcon={<FontIcon>date_range</FontIcon>}
           value={
-            information?.date
-              ? `${moment(new Date(information?.date)).format('DD/MM/YYYY')} `
+            information?.deadline
+              ? `${moment(new Date(information?.deadline)).format(
+                'YYYY-MM-DD',
+              )} `
               : ''
           }
           block
@@ -140,11 +144,11 @@ const CreateActionDialog = ({
         </div>
         <AutocompleteWithCard
           membersList={membersByOrg()}
-          selectedMembers={information?.participants || []}
+          selectedMembers={information?.assignedParticipants || []}
           setSelectedMembers={(v) =>
             setInformation({
               ...information,
-              participants: v,
+              assignedParticipants: v,
             })
           }
           className={'md-cell md-cell--12'}
@@ -167,7 +171,7 @@ const CreateActionDialog = ({
             onUpdate={(date) => {
               setInformation({
                 ...information,
-                date: date.timestamp,
+                deadline: date.timestamp,
               })
 
               setDatePickerState(false)

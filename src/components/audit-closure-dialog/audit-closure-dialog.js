@@ -1,6 +1,6 @@
 import { DialogContainer, FontIcon, Button, CircularProgress } from 'react-md'
 import { useDropzone } from 'react-dropzone'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { get } from 'lodash-es'
 import { useQuery } from 'react-apollo-hooks'
 import { useSelector } from 'react-redux'
@@ -13,6 +13,7 @@ import workers from 'libs/queries/workers.gql'
 import AutocompleteWithCard from 'components/audit-module/autocomplete-with-card'
 
 import uploadIcon from 'images/upload-icon.svg'
+import fileDataFormatter from 'libs/hooks/file-data-formatter'
 
 import './style.scss'
 
@@ -40,6 +41,9 @@ const AuditClosureDialog = ({
       setFileLoader(false)
     })
   }
+  useEffect(() => {
+    setParticipants([])
+  }, [])
   const {
     getRootProps: getOptionalRootProps,
     getInputProps: getOptionalInputProps,
@@ -58,7 +62,10 @@ const AuditClosureDialog = ({
     disabled: validateData(),
 
     onClick: () => {
-      onSave(files, participants)
+      onSave({
+        reportDocuments: fileDataFormatter(files),
+        assignedUsers: participants?.map((el) => el?.subject),
+      })
       onHide()
     },
   }

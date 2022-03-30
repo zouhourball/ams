@@ -72,7 +72,7 @@ export const getActions = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${auditUrl}/audit-be/api/v1/audit/${queryKey[1]}/action`,
+      `${auditUrl}/audit-be/api/v1/audit/${queryKey[1]}/action-list`,
       {
         method: 'GET',
       },
@@ -109,10 +109,10 @@ export const submitAudits = ({ body }) => {
   }
   return res
 }
-export const closureReport = ({ body }) => {
+export const closureReport = ({ body, auditId }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/reports`, {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/report/audit/${auditId}`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -162,10 +162,10 @@ export const createResponse = ({ body, enquiryID }) => {
   }
   return res
 }
-export const submitNewAction = ({ body }) => {
+export const submitNewAction = ({ body, auditId }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/actions`, {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/audit/${auditId}/action`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -186,12 +186,41 @@ export const submitResolutionForAction = ({ body }) => {
   }
   return res
 }
-
+export const updateEnquiryByGivenResponse = async ({ responseId, status }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/enquiry/response/${responseId}/approval`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ enquiryResponseStatus: status }),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const updateAudit = async ({ auditId, status }) => {
   let res
   try {
     res = await fetchJSON(
       `${auditUrl}/audit-be/api/v1/audit/${auditId}/${status}`,
+      {
+        method: 'PUT',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
+export const submitResponses = async ({ id }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/enquiry/response/${id}/submit`,
       {
         method: 'PUT',
       },
@@ -224,21 +253,6 @@ export const assignParticipant = async ({ enquiryID, participants }) => {
       {
         method: 'PUT',
         body: JSON.stringify({ participants }),
-      },
-    )
-  } catch (e) {
-    res = { error: e }
-  }
-  return res
-}
-
-export const updateEnquiryByGivenResponse = async ({ responseId, status }) => {
-  let res
-  try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/enquiries/status/responses/${responseId}?status=${status}`,
-      {
-        method: 'PUT',
       },
     )
   } catch (e) {

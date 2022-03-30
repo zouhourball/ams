@@ -22,6 +22,7 @@ import CreateActionDialog from 'components/audit-module/create-action-dialog'
 
 import { addToast } from 'modules/app/actions'
 import useRole from 'libs/hooks/use-role'
+import fileDataFormatter from 'libs/hooks/file-data-formatter'
 import moment from 'moment'
 
 import {
@@ -36,10 +37,11 @@ import {
   createResponse,
   updateEnquiryByGivenResponse,
   submitNewAction,
-  // getActions,
+  getActions,
   submitResolutionForAction,
   getResponses,
   // getResolutions,
+  submitResponses,
 } from 'libs/api/api-audit'
 import documents from 'libs/hooks/documents'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
@@ -52,7 +54,7 @@ import {
   enquiryActionsHeader,
 } from './helpers'
 
-const AuditDetails = ({ subkey, auditId = 1 }) => {
+const AuditDetails = ({ subkey, auditId }) => {
   const dispatch = useDispatch()
 
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -84,28 +86,28 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   )
   const { data: auditDetails } = useQuery(
     ['auditDetails', auditId],
-    view === 'default' && auditId && getAuditByID,
+    (view === 'default' || view === 'actions') && auditId && getAuditByID,
   )
 
-  const { data: responseDetails } = useQuery(
+  const { data: responseDetails, refetch: refetchResponses } = useQuery(
     ['responseDetail', auditId],
     view === 'response' && auditId && getResponses,
   )
-  // const { data: actionsList } = useQuery(
-  //   ['actionsList', auditId],
-  //   getActions && auditId,
-  // )
+  const { data: actionsList, refetch: refetchActions } = useQuery(
+    ['actionsList', auditId],
+    view === 'actions' && auditId && getActions,
+  )
   // const { data: resolutionsList } = useQuery(
   //   ['resolutionsList', auditId],
   //   getResolutions && auditId,
   // )
-  // console.log(getActions, 'sup')
   const company = getOrganizationInfos()
   const successFn = {
     onSuccess: (res) => {
       if (res?.success) {
         showCreateSpaceDialog(false)
         showAssignDialog(false)
+        showActionDialog(false)
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -113,6 +115,33 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           ),
         )
         refetchEnq()
+        view === 'actions' && refetchActions()
+      } else {
+        showCreateSpaceDialog(false)
+
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res?.errorMsg || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  }
+  const successResponseFn = {
+    onSuccess: (res) => {
+      if (res?.success) {
+        showResponseDetailsDialog(false)
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchResponses()
       } else {
         showCreateSpaceDialog(false)
 
@@ -156,13 +185,15 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
   const updateEnquiryByResponseMutation = useMutation(
     updateEnquiryByGivenResponse,
     {
-      ...successFn,
+      ...successResponseFn,
     },
   )
   const createResolutionMutation = useMutation(submitResolutionForAction, {
     ...successFn,
   })
-
+  const submitResponseMutation = useMutation(submitResponses, {
+    ...successResponseFn,
+  })
   const renderData = () => {
     switch (view) {
       case 'response':
@@ -174,24 +205,24 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           status: el?.responseStatus,
         }))
       case 'actions':
-        return [
-          {
-            actionId: '111',
-            date: 'action',
-            assignee: 'date',
-            description: 'description',
-            status: 'el?.metaData?.status',
-          },
-        ]
-      /*
-          actionsList?.content?.map((el) => ({
+        // return [
+        //   {
+        //     actionId: '111',
+        //     date: 'action',
+        //     assignee: 'date',
+        //     description: 'description',
+        //     status: 'el?.metaData?.status',
+        //   },
+        // ]
+
+        return actionsList?.data?.map((el) => ({
           actionId: el?.id,
-          date: moment(el?.metaData?.createdAt).format('DD MMM YYYY'),
-          assignee: el?.assignees[0]?.name,
-          description: el?.description,
-          status: el?.metaData?.status,
-          auditId: el?.auditId,
-        })) */
+          date: moment(el?.deadline).format('DD MMM YYYY'),
+          assignee: el?.assignedParticipants?.toString(),
+          description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
+          status: el?.status,
+          auditId: el?.auditReportID,
+        }))
       case 'resolutions':
         return [
           {
@@ -263,20 +294,11 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
       status,
     })
   }
-  const filteredFilesAttr = (files) =>
-    files?.map((file) => ({
-      apiID: file?.id,
-      url: file?.url,
-      size: file?.size,
-      bucket: file?.bucket,
-      filename: file?.filename,
-      subject: file?.subject,
-      contentType: file?.contentType,
-    }))
+
   const createEnquiryOnSubmit = (description, files) => {
     const body = {
       description,
-      enquiryDocuments: filteredFilesAttr(files),
+      enquiryDocuments: fileDataFormatter(files),
     }
     createEnquiryMutation.mutate({
       auditId,
@@ -288,7 +310,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
       enquiryID: selectedRow[0]?.enquireId,
       body: {
         description,
-        enquiryResponseDocuments: filteredFilesAttr(files),
+        enquiryResponseDocuments: fileDataFormatter(files),
       },
     })
   }
@@ -328,7 +350,12 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
       status,
     })
   }
-  const dummyBodyAction = {
+  const submitResponse = (id) => {
+    submitResponseMutation.mutate({
+      id,
+    })
+  }
+  /* const dummyBodyAction = {
     assignees: [
       {
         email: 'string',
@@ -344,10 +371,20 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
     priority: 'HIGH',
     processInstanceId: uuidv4(),
     uploads: ['string'],
-  }
-  const submitAction = (body = dummyBodyAction) => {
+  } */
+  const submitAction = () => {
+    const body = {
+      assignedParticipants: information?.assignedParticipants?.map(
+        (el) => el?.subject,
+      ),
+      deadline: moment(new Date(information?.deadline))?.format('YYYY-MM-DD'),
+      description: information?.description,
+      priority: information?.priority,
+    }
+
     submitActionMutation.mutate({
       body,
+      auditId,
     })
   }
   const renderHeaderDetails = () => {
@@ -364,6 +401,22 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           auditId: enquiryDetails?.data?.auditId,
           date: moment(enquiryDetails?.data?.createdAt).format('DD-MM-YYYY'),
           description: enquiryDetails?.data?.description?.replace(
+            /<\/?[^>]+(>|$)/g,
+            '',
+          ),
+        }
+      case 'actions':
+        return {
+          title: auditDetails?.data?.title,
+          purpose: auditDetails?.data?.purpose,
+          auditId: auditDetails?.data?.id,
+          date: moment(auditDetails?.data?.createdAt).format('DD-MM-YYYY'),
+          scope: auditDetails?.data?.scope,
+          expectedDeliv: moment(
+            auditDetails?.data?.expectedDeliverables,
+          ).format('DD-MM-YYYY'),
+          status: auditDetails?.data?.auditStatus,
+          description: auditDetails?.data?.description?.replace(
             /<\/?[^>]+(>|$)/g,
             '',
           ),
@@ -669,7 +722,8 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
         <ResponseDetailsDialog
           visible={responseDetailsDialog}
           onHide={() => showResponseDetailsDialog(false)}
-          readOnly={role !== 'AU'}
+          // readOnly={role !== 'AU'}
+          role={role}
           title={'Response Details'}
           descriptionValue={selectedRow[0]?.response}
           file={selectedRow[0]?.attachedDocs}
@@ -677,6 +731,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           status={selectedRow[0]?.status}
           onAccept={() => updateEnquiryByResponse('ACCEPTED')}
           onReject={() => updateEnquiryByResponse('REJECTED')}
+          onSubmit={() => submitResponse(selectedRow[0]?.responseId)}
         />
       )}
       {actionDialog && (
@@ -686,6 +741,7 @@ const AuditDetails = ({ subkey, auditId = 1 }) => {
           visible={actionDialog}
           onHide={() => showActionDialog(false)}
           onSubmit={() => submitAction()}
+          reportId={auditDetails?.data?.report?.id}
         />
       )}
       {newResolutionDialog && (

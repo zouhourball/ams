@@ -59,6 +59,7 @@ const TopBarDetail = ({ detailData, actions, onClickBack, view }) => {
                 <div className="top-bar-detail-left-information-details-item-key">
                   {view === 'default' && 'Requested date :'}
                   {view === 'response' && 'Date Raised :'}
+                  {view === 'actions' && 'Request Date :'}
                 </div>
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}
@@ -66,14 +67,14 @@ const TopBarDetail = ({ detailData, actions, onClickBack, view }) => {
                 </div>
               </div>
             )}
-            {purpose && view === 'default' && (
+            {purpose && (view === 'default' || view === 'actions') && (
               <>
                 {' '}
                 <div className="top-bar-detail-left-information-details-item">
                   <div className="top-bar-detail-left-information-details-item-sep"></div>
 
                   <div className="top-bar-detail-left-information-details-item-key">
-                    {view === 'default' && 'Purpose :'}
+                    {(view === 'default' || view === 'actions') && 'Purpose :'}
                   </div>
                   <div className="top-bar-detail-left-information-details-item-value">
                     {' '}
@@ -95,12 +96,12 @@ const TopBarDetail = ({ detailData, actions, onClickBack, view }) => {
                 </div>
               </div>
             )}
-            {scope && view === 'default' && (
+            {scope && (view === 'default' || view === 'actions') && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-sep"></div>
 
                 <div className="top-bar-detail-left-information-details-item-key">
-                  {view === 'default' && 'Scope :'}
+                  {(view === 'default' || view === 'actions') && 'Scope :'}
                 </div>
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}
@@ -108,12 +109,13 @@ const TopBarDetail = ({ detailData, actions, onClickBack, view }) => {
                 </div>
               </div>
             )}
-            {expectedDeliv && view === 'default' && (
+            {expectedDeliv && (view === 'default' || view === 'actions') && (
               <div className="top-bar-detail-left-information-details-item">
                 <div className="top-bar-detail-left-information-details-item-sep"></div>
                 <div className="top-bar-detail-left-information-details-item-key">
                   {' '}
-                  {view === 'default' && 'Expected Deliverable :'}
+                  {(view === 'default' || view === 'actions') &&
+                    'Expected Deliverable :'}
                 </div>
                 <div className="top-bar-detail-left-information-details-item-value">
                   {' '}

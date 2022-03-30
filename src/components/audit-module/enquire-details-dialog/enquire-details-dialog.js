@@ -128,7 +128,9 @@ const EnquireDetailsDialog = ({
                   ? null
                   : get(res, 'fullName.0', '')}
               </Avatar>
-              {res ? res.fullName : 'N/A'}
+              <div className="submittedBy-name">
+                {res ? res.fullName : 'N/A'}
+              </div>
             </div>
           )}
         </UserInfoBySubject>

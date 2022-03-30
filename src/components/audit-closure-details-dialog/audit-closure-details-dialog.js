@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { FontIcon, Button, DialogContainer, Avatar } from 'react-md'
 import { useQuery } from 'react-query'
+import { get } from 'lodash-es'
 
 import { getPublicUrl } from 'libs/api/api-file-manager'
 import { getDocumentsById } from 'libs/api/supporting-document-api'
+import UserInfoBySubject from 'components/user-info-by-subject'
 
 import './style.scss'
 
@@ -11,31 +13,21 @@ const AuditClosureDetailsDialog = ({
   onDiscard,
   visible,
   title,
-  assigneeUser,
+  // assigneeUser,
   processInstanceId,
+  report,
 }) => {
-  const [oldFiles, setOldFiles] = useState([
-    // {
-    //   author: 'zouhourballoum',
-    //   contentType: 'application/octet-stream',
-    //   filename: 'Annual-Gas-Conservation-Plan.34cfdff3.doc',
-    //   fileId: 'upload/156de7b87439bb1096823c2ad854e773a0aec771/4f3c4b801f2a87f08e7409551eec398f/Annual-Gas-Conservation-Plan.34cfdff3.doc',
-    //   id: '620bcf88c5c10261f5aeaf87',
-    //   processInstanceId: '88ff90a4-128e-412b-b09b-a7cde54db08b',
-    //   size: '37 KB',
-    //   url: '/download/upload/156de7b87439bb1096823c2ad854e773a0aec771/4f3c4b801f2a87f08e7409551eec398f/Annual-Gas-Conservation-Plan.34cfdff3.doc',
-    // },
-  ])
+  // const [oldFiles, setOldFiles] = useState(report?.reportDocuments)
 
   const { data: suppDocsFiles } = useQuery(
     ['getDocumentsById', processInstanceId],
     processInstanceId && getDocumentsById,
   )
-
+  // console.log('ffff', report)
   useEffect(() => {
-    if (suppDocsFiles && suppDocsFiles.length > 0) {
-      setOldFiles([...suppDocsFiles])
-    }
+    /* if (suppDocsFiles && suppDocsFiles.length > 0) {
+      // setOldFiles((old) => [old, ...suppDocsFiles])
+    } */
   }, [suppDocsFiles])
 
   const customIncludes = (fileName) => {
@@ -68,8 +60,8 @@ const AuditClosureDetailsDialog = ({
     }
   }
 
-  const renderOldFiles = () => {
-    return oldFiles?.map((file) => {
+  const renderOldFiles = (files) => {
+    return files?.map((file) => {
       return (
         <div className="file" key={file.id}>
           <div className="file-data">
@@ -97,7 +89,7 @@ const AuditClosureDetailsDialog = ({
     </Button>,
   ]
 
-  const nodesFiles = [...renderOldFiles()]
+  // const nodesFiles = [...renderOldFiles()]
   return (
     <DialogContainer
       id="audit-closure-details-dialog"
@@ -110,16 +102,35 @@ const AuditClosureDetailsDialog = ({
       modal
     >
       <h4 className="label">Assignee</h4>
-      <div className="item">
-        <Avatar src={assigneeUser?.avatar} className="item-image" />
-        <div className="item-info">
-          <div className={`item-info-fullName`}>{assigneeUser?.name}</div>
-        </div>
+      <div className="assignees">
+        {report?.assignedUsers?.map((el) => (
+          <UserInfoBySubject key={el} subject={el}>
+            {(res) => (
+              <div className="submittedBy">
+                <Avatar
+                  src={
+                    get(res, 'photo.aPIURL', null)
+                      ? getPublicUrl(res.photo.aPIURL)
+                      : null
+                  }
+                >
+                  {get(res, 'photo.aPIURL', null)
+                    ? null
+                    : get(res, 'fullName.0', '')}
+                </Avatar>
+                <div className="submittedBy-name">
+                  {res ? res.fullName : 'N/A'}
+                </div>
+              </div>
+            )}
+          </UserInfoBySubject>
+        ))}
       </div>
-
       <h4 className="label">Attached Document</h4>
       <div className="supported-document">
-        {nodesFiles?.length > 0 ? nodesFiles : 'There is no Files'}
+        {report?.reportDocuments?.length > 0
+          ? renderOldFiles(report?.reportDocuments)
+          : 'There is no Files'}
       </div>
     </DialogContainer>
   )

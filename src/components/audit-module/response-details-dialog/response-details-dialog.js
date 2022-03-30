@@ -5,17 +5,19 @@ import './style.scss'
 const ResponseDetailsDialog = ({
   visible,
   onHide,
-  readOnly,
+  // readOnly,
   onReject,
   onAccept,
+  role,
   title,
   descriptionLabel,
   descriptionValue,
   file,
   status,
   onDownload,
+  onSubmit,
 }) => {
-  const actions = [
+  const auActions = [
     <Button id="1" key="1" flat onClick={onHide}>
       Discard
     </Button>,
@@ -24,6 +26,14 @@ const ResponseDetailsDialog = ({
     </Button>,
     <Button id="3" key="3" className={'accept'} onClick={onAccept} flat>
       Accept
+    </Button>,
+  ]
+  const fpActions = [
+    <Button id="1" key="1" flat onClick={onHide}>
+      Discard
+    </Button>,
+    <Button id="2" key="2" primary flat onClick={onSubmit}>
+      Submit
     </Button>,
   ]
   const renderDocumentIcon = (type) => {
@@ -70,13 +80,15 @@ const ResponseDetailsDialog = ({
       visible={visible}
       onHide={() => onHide && onHide()}
       actions={
-        !readOnly
-          ? actions
-          : [
-            <Button id="1" key="1" flat onClick={onHide}>
+        role === 'AU' && status !== 'ACCEPTED' && status !== 'REJECTED'
+          ? auActions
+          : role === 'FP' && status !== 'SUBMITTED'
+            ? fpActions
+            : [
+              <Button id="1" key="1" flat onClick={onHide}>
                 Discard
-            </Button>,
-          ]
+              </Button>,
+            ]
       }
       title={
         <>
