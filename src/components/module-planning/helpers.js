@@ -1,4 +1,4 @@
-import { FileInput, FontIcon } from 'react-md'
+import { Button, FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { listAnalytics } from 'libs/api/api-planning'
 
@@ -89,6 +89,27 @@ export const planningConfigs = (supportedDocument, currentTab) => [
       <div className={`table-status ${row?.status}`}>{row?.status}</div>
     ),
     displayInCsv: true,
+  },
+  {
+    label: 'Meetings',
+    key: 'meetings',
+    width: '200',
+    icon: 'mdi mdi-spellcheck',
+    render: (row) => {
+      return (
+        <Button
+          id={row.id}
+          flat
+          primary
+          onClick={(e) => {
+            e.preventDefault()
+            supportedDocument(row)
+          }}
+        >
+          View Meetings
+        </Button>
+      )
+    },
   },
 ]
 
