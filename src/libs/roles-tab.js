@@ -11,12 +11,12 @@ export const rolesTab = [
     roleRe: 'pulse production regulator',
     path: 'production',
   },
-  {
-    key: 'new-hse',
-    roleOp: 'pulse hse operator',
-    roleRe: 'pulse hse regulator',
-    path: 'hse',
-  },
+  // {
+  //   key: 'new-hse',
+  //   roleOp: 'pulse hse operator',
+  //   roleRe: 'pulse hse regulator',
+  //   path: 'hse',
+  // },
 
   {
     key: 'new-cost-recovery',

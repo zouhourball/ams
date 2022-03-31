@@ -133,18 +133,19 @@ const Shell = ({ lang }) => {
               }
             }
           } else if (
-            roles.includes(
+            key !== 'regulation' &&
+            (roles.includes(
               `target-subscription-store:${organizationID}:${roleOp}`,
             ) ||
-            roles.includes(
-              `target-subscription-store:${organizationID}:${roleAU}`,
-            ) ||
-            roles.includes(
-              `target-subscription-store:${organizationID}:${roleFP}`,
-            ) ||
-            roles.includes(
-              `target-subscription-store:${organizationID}:${roleAP}`,
-            )
+              roles.includes(
+                `target-subscription-store:${organizationID}:${roleAU}`,
+              ) ||
+              roles.includes(
+                `target-subscription-store:${organizationID}:${roleFP}`,
+              ) ||
+              roles.includes(
+                `target-subscription-store:${organizationID}:${roleAP}`,
+              ))
           ) {
             basedRoleSubMenus.push({
               ...subModules.find((sM) => sM.key === key),
