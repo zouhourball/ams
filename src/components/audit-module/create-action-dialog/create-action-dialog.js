@@ -30,7 +30,7 @@ const CreateActionDialog = ({
     variables: { organizationID: organizationID, wsIDs: [] },
   })
   useEffect(() => {
-    setInformation({ reportId })
+    setInformation({ reportId, priority: 'MEDIUM' })
   }, [])
   const membersByOrg = () => {
     let members = []

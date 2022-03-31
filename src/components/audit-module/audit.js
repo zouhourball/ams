@@ -12,7 +12,7 @@ import {
   getStateAudit,
   submitAudits,
   closureReport,
-  updateAudit,
+  closingAudit,
 } from 'libs/api/api-audit'
 // import documents from 'libs/hooks/documents'
 
@@ -41,6 +41,30 @@ const Audit = () => {
   )
   /* const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false) */
+  const successFn = {
+    onSuccess: (res) => {
+      if (res.success) {
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchListStateAudit()
+        setSelectedRow([])
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  }
   const [participants, setParticipants] = useState([])
 
   // const { addSupportingDocuments } = documents()
@@ -65,16 +89,10 @@ const Audit = () => {
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
   const { data: listStateAudit, refetch: refetchListStateAudit } = useQuery(
-    [
-      'getStateAudit',
-      // {
-      //   size: size,
-      //   page: page,
-      // },
-    ],
+    ['getStateAudit'],
     getStateAudit,
   )
-  const updateRequestStatus = useMutation(updateAudit, {
+  /* const updateRequestStatus = useMutation(updateAudit, {
     onSuccess: (res) => {
       if (!res.error) {
         dispatch(
@@ -95,10 +113,16 @@ const Audit = () => {
         )
       }
     },
+  }) */
+  const submitAuditsMutation = useMutation(submitAudits, {
+    ...successFn,
   })
-  const submitAuditsMutation = useMutation(submitAudits)
-  const submitClosureReportMutation = useMutation(closureReport)
-
+  const submitClosureReportMutation = useMutation(closureReport, {
+    ...successFn,
+  })
+  const closeAuditMutation = useMutation(closingAudit, {
+    ...successFn,
+  })
   /* const handleSupportingDocs = (data) => {
      addSupportingDocuments(
       data,
@@ -126,34 +150,25 @@ const Audit = () => {
     ),
   ]
   const submitRequest = (body) => {
-    submitAuditsMutation.mutate(
-      {
-        body,
-      },
-      {
-        onSuccess: (res) => {
-          res?.success && refetchListStateAudit()
-        },
-      },
-    )
+    submitAuditsMutation.mutate({
+      body,
+    })
   }
   const submitClosureReport = (body) => {
-    submitClosureReportMutation.mutate(
-      {
-        body,
-        auditId: selectedRow[0]?.auditId,
-      },
-      {
-        onSuccess: (res) => {
-          res?.success && refetchListStateAudit()
-        },
-      },
-    )
+    submitClosureReportMutation.mutate({
+      body,
+      auditId: selectedRow[0]?.auditId,
+    })
   }
-  const updateStatus = (status) => {
+  /* const updateStatus = (status) => {
     updateRequestStatus.mutate({
       auditId: selectedRow[0]?.auditId,
       status,
+    })
+  } */
+  const closeAudit = () => {
+    closeAuditMutation.mutate({
+      auditId: selectedRow[0]?.auditId,
     })
   }
   return (
@@ -252,7 +267,8 @@ const Audit = () => {
                     // setShowSupportedDocumentDialog,
                     showAuditClosureDialog,
                     showClosureReport,
-                    updateStatus,
+                    // updateStatus,
+                    closeAudit,
                   )}
                 />
               )) || <div />

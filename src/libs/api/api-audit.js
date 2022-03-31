@@ -1,6 +1,5 @@
 import { fetchJSON } from 'libs/fetch'
 
-const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 const auditUrl = PRODUCT_APP_URL_API
 
 export const getStateAudit = async ({ queryKey }) => {
@@ -86,7 +85,7 @@ export const getResolutions = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/audits/actions/resolutions?sort=metaData.createdAt,desc`,
+      `${auditUrl}/audit-be/api/v1/action/${queryKey[1]}/resolution-list`,
       {
         method: 'GET',
       },
@@ -174,13 +173,16 @@ export const submitNewAction = ({ body, auditId }) => {
   }
   return res
 }
-export const submitResolutionForAction = ({ body }) => {
+export const submitResolutionForAction = ({ body, actionId }) => {
   let res
   try {
-    res = fetchJSON(`${appUrl}/pulse-be/api/v2/audits/actions/resolutions`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-    })
+    res = fetchJSON(
+      `${auditUrl}/audit-be/api/v1/action/${actionId}/resolution`,
+      {
+        method: 'POST',
+        body: JSON.stringify(body),
+      },
+    )
   } catch (e) {
     res = { error: e }
   }
@@ -230,6 +232,22 @@ export const submitResponses = async ({ id }) => {
   }
   return res
 }
+export const resolutionApproval = async ({ resolutionId, status }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/resolution/${resolutionId}/approval`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({ resolutionStatus: status }),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+
 export const acknowledgeEnquiry = async ({ id, status }) => {
   let res
   try {
@@ -253,6 +271,20 @@ export const assignParticipant = async ({ enquiryID, participants }) => {
       {
         method: 'PUT',
         body: JSON.stringify({ participants }),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const closingAudit = async ({ auditId }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/audit/${auditId}/close`,
+      {
+        method: 'PUT',
       },
     )
   } catch (e) {

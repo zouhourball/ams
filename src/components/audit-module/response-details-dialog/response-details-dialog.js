@@ -16,8 +16,20 @@ const ResponseDetailsDialog = ({
   status,
   onDownload,
   onSubmit,
+  view,
 }) => {
   const auActions = [
+    <Button id="1" key="1" flat onClick={onHide}>
+      Discard
+    </Button>,
+    <Button id="2" key="2" className={'reject'} onClick={onReject} flat>
+      Reject
+    </Button>,
+    <Button id="3" key="3" className={'accept'} onClick={onAccept} flat>
+      Accept
+    </Button>,
+  ]
+  const fpActionsView = [
     <Button id="1" key="1" flat onClick={onHide}>
       Discard
     </Button>,
@@ -82,13 +94,15 @@ const ResponseDetailsDialog = ({
       actions={
         role === 'AU' && status !== 'ACCEPTED' && status !== 'REJECTED'
           ? auActions
-          : role === 'FP' && status !== 'SUBMITTED'
+          : role === 'FP' && status !== 'SUBMITTED' && status !== 'PROPOSED'
             ? fpActions
-            : [
-              <Button id="1" key="1" flat onClick={onHide}>
+            : view === 'resolutions'
+              ? fpActionsView
+              : [
+                <Button id="1" key="1" flat onClick={onHide}>
                 Discard
-              </Button>,
-            ]
+                </Button>,
+              ]
       }
       title={
         <>

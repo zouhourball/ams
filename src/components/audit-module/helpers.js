@@ -219,6 +219,7 @@ export const actionsHeader = (
   showAuditClosureDialog,
   viewClosureReport,
   // updateStatus,
+  closeAudit,
 ) => {
   const defAUActions = [
     {
@@ -228,13 +229,7 @@ export const actionsHeader = (
         navigate(`/ams/audit/view-historian/${row?.auditId}`)
       },
     },
-    // {
-    //   id: 2,
-    //   label: 'Close Audit',
-    //   onClick: () => {
-    //     updateStatus('CLOSED')
-    //   },
-    // },
+
     {
       id: 3,
       label: 'Delete',
@@ -373,27 +368,62 @@ export const actionsHeader = (
     case 'AU':
     default:
       return !row?.report
-        ? [
-          ...defAUActions,
-
-          {
-            id: 6,
-            label: 'Create Report',
-            onClick: () => {
-              showAuditClosureDialog(true)
+        ? row?.status !== 'CLOSED'
+          ? [
+            ...defAUActions,
+            {
+              id: 2,
+              label: 'Close Audit',
+              onClick: () => {
+                closeAudit()
+              },
             },
-          },
-        ]
-        : [
-          ...defAUActions,
-          {
-            id: 8,
-            label: 'View Report',
-            onClick: () => {
-              viewClosureReport(true)
+            {
+              id: 6,
+              label: 'Create Report',
+              onClick: () => {
+                showAuditClosureDialog(true)
+              },
             },
-          },
-        ]
+          ]
+          : [
+            ...defAUActions,
+            {
+              id: 6,
+              label: 'Create Report',
+              onClick: () => {
+                showAuditClosureDialog(true)
+              },
+            },
+          ]
+        : row?.status !== 'CLOSED'
+          ? [
+            ...defAUActions,
+            {
+              id: 2,
+              label: 'Close Audit',
+              onClick: () => {
+                closeAudit()
+              },
+            },
+            {
+              id: 8,
+              label: 'View Report',
+              onClick: () => {
+                viewClosureReport(true)
+              },
+            },
+          ]
+          : [
+            ...defAUActions,
+            {
+              id: 8,
+              label: 'View Report',
+              onClick: () => {
+                viewClosureReport(true)
+              },
+            },
+          ]
     case 'FP':
       return row?.report
         ? [
@@ -457,6 +487,7 @@ export const enquiryActionsHeader = (
       showResponseDialog(true)
     },
   }
+
   const viewResponseBtn = {
     id: 5,
     label: 'View Response',
@@ -477,6 +508,7 @@ export const enquiryActionsHeader = (
     label: 'View Resolution',
     onClick: () => {
       setView('resolutions')
+      navigate(`/ams/audit/audit-details/resolutions/${row?.actionId}`)
     },
   }
   const defBtns = [
@@ -488,35 +520,69 @@ export const enquiryActionsHeader = (
       },
     },
   ]
-  if (view === 'default') {
-    if (
-      (row?.status === 'NEW' && role === 'FP') ||
-      (row?.status === 'ASSIGNED' && role === 'AP')
-    ) {
-      return [...defBtns, ackBtn]
-    } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
-      return [...defBtns, assignBtn]
-    } else if (
-      (row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
-        row?.status === 'RESPONDED') &&
-      view === 'default'
-    ) {
-      return [...defBtns, viewResponseBtn, newResponseBtn]
-    } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
-      // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
+  switch (view) {
+    case 'default':
+      if (
+        (row?.status === 'NEW' && role === 'FP') ||
+        (row?.status === 'ASSIGNED' && role === 'AP')
+      ) {
+        return [...defBtns, ackBtn]
+      } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
+        return [...defBtns, assignBtn]
+      } else if (
+        row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
+        row?.status === 'RESPONDED'
+      ) {
+        return [...defBtns, viewResponseBtn, newResponseBtn]
+      } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
+        // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
 
-      return [...defBtns, newResponseBtn]
-    } else return defBtns
-  } else if (
-    (view === 'response' || view === 'actions') &&
-    row?.status !== 'NEW'
-  ) {
-    return [...defBtns, newResponse, viewResolutionBtn]
-  } else if (view === 'actions') {
-    return [...defBtns, newResponseBtn] /*, viewResolutionBtn */
-  } else if (view === 'actions' && row?.status === 'OPEN') {
-    return [...defBtns, newResponseBtn, viewResolutionBtn]
-  } else return defBtns
+        return [...defBtns, newResponseBtn]
+      } else return defBtns
+    case 'response':
+      if (row?.status !== 'NEW') {
+        return [...defBtns, newResponse]
+      } else return defBtns
+    case 'actions':
+      if (row?.resolutions?.length) {
+        return [...defBtns, newResponse, viewResolutionBtn]
+      }
+      if (row?.status === 'OPEN') {
+        return [...defBtns, newResponse, viewResolutionBtn]
+      } else return [...defBtns, newResponse]
+    case 'resolutions':
+    default:
+      return defBtns
+  }
+  // if (view === 'default') {
+  //   if (
+  //     (row?.status === 'NEW' && role === 'FP') ||
+  //     (row?.status === 'ASSIGNED' && role === 'AP')
+  //   ) {
+  //     return [...defBtns, ackBtn]
+  //   } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
+  //     return [...defBtns, assignBtn]
+  //   } else if (
+  //     row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
+  //     row?.status === 'RESPONDED'
+  //   ) {
+  //     return [...defBtns, viewResponseBtn, newResponseBtn]
+  //   } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
+  //     // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
+
+  //     return [...defBtns, newResponseBtn]
+  //   } else return defBtns
+  // } else if (
+  //   (view === 'response' || view === 'actions') &&
+  //   !!row?.status &&
+  //   row?.status !== 'NEW'
+  // ) {
+  //   return [...defBtns, newResponse, viewResolutionBtn]
+  // } else if (view === 'actions') {
+  //   return [...defBtns, newResponseBtn] /*, viewResolutionBtn */
+  // } else if (view === 'actions' && row?.status === 'OPEN') {
+  //   return [...defBtns, newResponseBtn, viewResolutionBtn]
+  // } else return defBtns
 }
 export const dummyData = [
   {
