@@ -292,7 +292,8 @@ const DrillReport = ({ drillReportId }) => {
           showInputFile(false)
         }
         if (
-          (value === 'oilExploration' || value === 'gasExploration') &&
+          value === 'oilExploration' ||
+          value === 'gasExploration' ||
           formData?.data?.onShoreOffShore === 'Offshore'
         ) {
           setFormData({
@@ -314,11 +315,15 @@ const DrillReport = ({ drillReportId }) => {
       cellWidth: 'md-cell md-cell--4',
       input: 'select',
       menuItems: ['Low', 'Medium', 'High'],
+      disabled:
+        formData?.data?.wellObjective === 'oilExploration' ||
+        formData?.data?.wellObjective === 'gasExploration' ||
+        formData?.data?.onShoreOffShore === 'Offshore',
       required: true,
       onChange: (value) => {
         if (
-          (formData?.data?.wellObjective === 'oilExploration' ||
-            formData?.data?.wellObjective === 'gasExploration') &&
+          formData?.data?.wellObjective === 'oilExploration' ||
+          formData?.data?.wellObjective === 'gasExploration' ||
           formData?.data?.onShoreOffShore === 'Offshore'
         ) {
           onEditValue('wellRiskCategory', 'High')
@@ -363,8 +368,8 @@ const DrillReport = ({ drillReportId }) => {
       required: true,
       onChange: (value) => {
         if (
-          (formData?.data?.wellObjective === 'oilExploration' ||
-            formData?.data?.wellObjective === 'gasExploration') &&
+          formData?.data?.wellObjective === 'oilExploration' ||
+          formData?.data?.wellObjective === 'gasExploration' ||
           value === 'Offshore'
         ) {
           setFormData({

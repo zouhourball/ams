@@ -9,15 +9,17 @@
 
   &-list {
     display: flex;
-    align-items: stretch;
+    //align-items: stretch;
     height: 100%;
     padding: 0 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     &-title {
       display: inline-flex;
       align-items: center;
       margin: 0 8px;
-      padding: 8px 16px;
+      padding: 0 4px 4px 4px;
       transition: all 0.2s ease-in-out;
       color: rgba(#000, 0.35);
       font-size: 16px;
@@ -45,7 +47,10 @@
   }
 
   .buttons-list {
+    max-width: 300px;
+
     &-btn {
+      height: auto;
       margin: 5px 10px;
       border-radius: 8px;
       background-color: #e3eefe;
@@ -63,5 +68,21 @@
         color: white;
       }
     }
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: #3080fc;
   }
 }

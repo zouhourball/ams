@@ -14,13 +14,13 @@ export const configsWpbDialogMht = () => {
       icon: 'mdi mdi-spellcheck',
       type: 'text',
     },
-    {
-      label: 'Data Status',
-      key: 'dataStatus',
-      width: '200',
-      icon: 'mdi mdi-spellcheck',
-      type: 'text',
-    },
+    // {
+    //   label: 'Data Status',
+    //   key: 'dataStatus',
+    //   width: '200',
+    //   icon: 'mdi mdi-spellcheck',
+    //   type: 'text',
+    // },
     {
       label: 'Category',
       key: 'category',
@@ -333,13 +333,13 @@ export const configsFypDialogMht = (startYear = 2021) => {
       icon: 'mdi mdi-spellcheck',
       type: 'text',
     },
-    {
-      label: 'Data Status',
-      key: 'dataStatus',
-      width: '200',
-      icon: 'mdi mdi-spellcheck',
-      type: 'text',
-    },
+    // {
+    //   label: 'Data Status',
+    //   key: 'dataStatus',
+    //   width: '200',
+    //   icon: 'mdi mdi-spellcheck',
+    //   type: 'text',
+    // },
     {
       label: 'Category',
       key: 'category',

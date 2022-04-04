@@ -84,7 +84,7 @@ const FunctionBusinessProcessByOrg = ({
   const [status, setStatus] = useState('All')
   const [agendaData, setAgendaData] = useState(null)
   const [deleteVisibility, setDeleteVisibility] = useState(false)
-  const [workspaceID, setWorkspaceID] = useState(null)
+  const [workspaceID, setWorkspaceID] = useState(0)
   const [info, setInformation] = useState(null)
   useEffect(() => {
     role === 'operator'
@@ -196,8 +196,8 @@ const FunctionBusinessProcessByOrg = ({
           })
             .utc()
             .format('HH:mm')}`,
-          workspaceId: get(agendaData, 'workspace.id', '1619'),
-          workspaceName: get(agendaData, 'workspace.name', 'workspace test'),
+          workspaceId: get(agendaData, 'workspace.id', '0'),
+          workspaceName: get(agendaData, 'workspace.name', 'placeholder'),
           orgId: organizationID,
           // processInstanceId: get(
           //   passToAgendaProposalStatus,
@@ -418,8 +418,8 @@ const FunctionBusinessProcessByOrg = ({
       objective: title,
       startDate: moment(`${date} ${startTime}`, 'DD-MM-YYYY HH:mm').unix(),
       endDate: moment(`${date} ${endTime}`, 'DD-MM-YYYY HH:mm').unix(),
-      workspaceId: workspace.id || '1619',
-      workspaceName: workspace.name || 'workspace test',
+      workspaceId: workspace.id || '0',
+      workspaceName: workspace.name || 'placeholder',
       proposals: chapters.map(({ id }) => id),
       participants: selectedItems,
     }

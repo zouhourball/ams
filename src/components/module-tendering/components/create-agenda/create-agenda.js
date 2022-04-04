@@ -5,7 +5,7 @@ import {
   TextField,
   FontIcon,
   Avatar,
-  SelectField,
+  // SelectField,
 } from 'react-md'
 import HtmlEditor from './html-editor'
 import { connect } from 'react-redux'
@@ -39,7 +39,7 @@ const CreateAgenda = ({
   addToast,
   workspaces,
   workspace,
-  setWorkspace,
+  // setWorkspace,
 }) => {
   const formatDefaultDescription = (
     referenceNumber,
@@ -320,11 +320,11 @@ const CreateAgenda = ({
             required
             id="meeting-title"
             label="Meeting Title"
-            className="add-new-agenda-textField md-cell md-cell--6"
+            className="add-new-agenda-textField md-cell md-cell--12"
             onChange={(value) => setTitle(value)}
             value={title}
           />
-          <SelectField
+          {/* <SelectField
             required
             id="workspace-id"
             menuItems={workspaces}
@@ -336,7 +336,7 @@ const CreateAgenda = ({
             onChange={(value) => setWorkspace(value)}
             value={workspace}
             block
-          />
+          /> */}
           <TextField
             required
             id="agenda-date"

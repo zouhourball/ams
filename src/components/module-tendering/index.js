@@ -276,8 +276,8 @@ const TenderingModule = ({
       comment: proposal.comment,
       title: proposal.title,
       orgId: organizationId,
-      workspaceName: 'workspace test',
-      workspaceId: '1619',
+      workspaceName: 'placeholder',
+      workspaceId: '0',
       companyName: proposal.companyName,
       companyId: proposal.companyId + '',
       referenceNumber: proposal.referenceNumber,
@@ -434,8 +434,8 @@ const TenderingModule = ({
 
   const handlePublishProposal = (id) => {
     publishProposal(id, {
-      workspaceName: 'workspace test',
-      workspaceId: '1619',
+      workspaceName: 'placeholder',
+      workspaceId: '0',
     }).then((res) => {
       if (!res.data.error) {
         addToast(
@@ -590,8 +590,8 @@ const TenderingModule = ({
             //   icon: approved,
             //   onClick: () => {
             //     approvedProposal(selectedRows[0].id, {
-            //       workspaceName: 'workspace test',
-            //       workspaceId: '1619',
+            //       workspaceName: 'placeholder',
+            //       workspaceId: '0',
             //     })
             //   },
             // },
@@ -639,8 +639,8 @@ const TenderingModule = ({
                 approvedProposal(
                   selectedRows[0].id,
                   {
-                    workspaceName: 'workspace test',
-                    workspaceId: '1619',
+                    workspaceName: 'placeholder',
+                    workspaceId: '0',
                   },
                   organizationId,
                 )
@@ -690,8 +690,8 @@ const TenderingModule = ({
 
   const toClarifyProposal = (body) => {
     const clarifyComment = {
-      workspaceName: 'workspace test',
-      workspaceId: '1619',
+      workspaceName: 'placeholder',
+      workspaceId: '0',
       toClarifyComment: body.comment,
       toClarifyAttachments: body.checkedFiles,
     }
@@ -701,8 +701,8 @@ const TenderingModule = ({
   }
   const rejectProposal = (comment) => {
     const rejectComment = {
-      workspaceName: 'workspace test',
-      workspaceId: '1619',
+      workspaceName: 'placeholder',
+      workspaceId: '0',
       rejectionComment: comment,
     }
     rejectedProposal(proposalId, rejectComment, organizationId)
@@ -980,8 +980,8 @@ const TenderingModule = ({
                   }}
                   onReview={(proposalId) =>
                     underReviewProposal(proposalId, {
-                      workspaceName: 'workspace test',
-                      workspaceId: '1619',
+                      workspaceName: 'placeholder',
+                      workspaceId: '0',
                     })
                   }
                   onPublish={(row) => {
@@ -1222,7 +1222,7 @@ export default connect(
     graphql(workspacesByID, {
       options: () => {
         return {
-          variables: { id: '1619' },
+          variables: { id: '0' },
           notifyOnNetworkStatusChange: true,
           context: {
             uri: `${PRODUCT_WORKSPACE_URL}/graphql`,

@@ -64,6 +64,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
     },
   })
   const rawData = version ? dataDetailsByVersion : dataDetails
+  // console.log(rawData?.metaData?.originalFileId, 'report')
   const planningDataDetails = useMemo(() => {
     switch (subModule) {
       case 'wpb':

@@ -261,7 +261,8 @@ const AbandonReport = ({ abandonReportId }) => {
           showInputFile(false)
         }
         if (
-          (value === 'oilExploration' || value === 'gasExploration') &&
+          value === 'oilExploration' ||
+          value === 'gasExploration' ||
           formData?.data?.onShoreOffShore === 'Offshore'
         ) {
           setFormData({
@@ -311,10 +312,14 @@ const AbandonReport = ({ abandonReportId }) => {
       input: 'select',
       menuItems: ['Low', 'Medium', 'High'],
       required: true,
+      disabled:
+        formData?.data?.wellObjective === 'oilExploration' ||
+        formData?.data?.wellObjective === 'gasExploration' ||
+        formData?.data?.onShoreOffShore === 'Offshore',
       onChange: (value) => {
         if (
-          (formData?.data?.wellObjective === 'oilExploration' ||
-            formData?.data?.wellObjective === 'gasExploration') &&
+          formData?.data?.wellObjective === 'oilExploration' ||
+          formData?.data?.wellObjective === 'gasExploration' ||
           formData?.data?.onShoreOffShore === 'Offshore'
         ) {
           onEditValue('wellRiskCategory', 'High')
@@ -332,8 +337,8 @@ const AbandonReport = ({ abandonReportId }) => {
       required: true,
       onChange: (value) => {
         if (
-          (formData?.data?.wellObjective === 'oilExploration' ||
-            formData?.data?.wellObjective === 'gasExploration') &&
+          formData?.data?.wellObjective === 'oilExploration' ||
+          formData?.data?.wellObjective === 'gasExploration' ||
           value === 'Offshore'
         ) {
           setFormData({

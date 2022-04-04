@@ -115,6 +115,7 @@ const GenericForm = ({ fields }) => {
               block
               onChange={field?.onChange}
               value={field?.value}
+              disabled={field?.disabled}
             />
           )
         case 'date':
