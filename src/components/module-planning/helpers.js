@@ -2,7 +2,7 @@ import { Button, FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { listAnalytics } from 'libs/api/api-planning'
 
-export const planningConfigs = (supportedDocument, currentTab) => [
+export const planningConfigs = (supportedDocument, currentTab, displayMeetingList) => [
   {
     label: 'Company',
     key: 'company',
@@ -103,7 +103,7 @@ export const planningConfigs = (supportedDocument, currentTab) => [
           primary
           onClick={(e) => {
             e.preventDefault()
-            supportedDocument(row)
+            displayMeetingList(row.processInstanceId)
           }}
         >
           View Meetings

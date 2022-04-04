@@ -1,0 +1,23 @@
+.meeting-card {
+  &-title {
+    color: #171c1f;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &-time {
+    // font-weight: 500;
+    margin: 10px 0;
+    color: #757678;
+  }
+
+  .submittedBy {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &-avatar {
+      margin-right: 7px;
+    }
+  }
+}

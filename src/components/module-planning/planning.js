@@ -20,6 +20,7 @@ import SupportedDocument from 'components/supported-document'
 import ToastMsg from 'components/toast-msg'
 import ConfirmDialog from 'components/confirm-dialog'
 import VenueInvite from 'components/venue-invite'
+import RightPanelMeeting from './right-panel-meeting'
 
 import documents from 'libs/hooks/documents'
 import useRole from 'libs/hooks/use-role'
@@ -43,7 +44,7 @@ import {
   updateWpbStatus,
   submitFromDraft,
   getActionsList,
-  // getMeeting,
+  getMeeting,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -72,6 +73,7 @@ const Planning = ({ subModule }) => {
   const [overrideId, setOverrideId] = useState()
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false)
+  const [showMeeting, setShowMeeting] = useState(false)
 
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
@@ -520,10 +522,12 @@ const Planning = ({ subModule }) => {
 
     // return array
   )
-  /* const { data: listMeetings, refetch: refetchMeetings } = useQuery(
-    ['listMeetings', selectedRow[0]?.processInstanceId],
-    selectedRow[0] && getMeeting,
-  ) */
+  const [rowId, setRowId] = useState('')
+
+  const { data: listMeetings } = useQuery(
+    ['listMeetings', rowId],
+    rowId && getMeeting,
+  )
   const renderDialogData = (data) => {
     switch (currentTab) {
       case 'wpb':
@@ -628,6 +632,10 @@ const Planning = ({ subModule }) => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
+  const displayMeetingList = (id) => {
+    setRowId(id)
+    setShowMeeting(id)
+  }
   const submitDraft = (subModule, objectId, status) => {
     subModule === 'wpb'
       ? updateWpbStatusToSubmit.mutate({
@@ -680,6 +688,7 @@ const Planning = ({ subModule }) => {
         }}
         role={role}
       />
+
       <NavBar
         tabsList={tabsList}
         activeTab={currentTab}
@@ -719,7 +728,11 @@ const Planning = ({ subModule }) => {
         </div>
       )}
       <Mht
-        configs={planningConfigs(UploadSupportedDocumentFromTable, currentTab)}
+        configs={planningConfigs(
+          UploadSupportedDocumentFromTable,
+          currentTab,
+          displayMeetingList,
+        )}
         tableData={tableDataPlanning}
         hideTotal={false}
         singleSelect={true}
@@ -794,6 +807,12 @@ const Planning = ({ subModule }) => {
             </>
           )
         }
+      />
+      <RightPanelMeeting
+        onClose={() => setShowMeeting(false)}
+        visible={showMeeting}
+        meetings={listMeetings?.content}
+        onCreate={() => setShowRescheduleDialog(true)}
       />
       {showUploadMHTDialog && (
         <MHTDialog

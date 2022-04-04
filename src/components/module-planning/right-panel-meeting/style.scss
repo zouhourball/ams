@@ -1,0 +1,142 @@
+.left-panel-asset {
+  display: flex;
+  position: absolute;
+  z-index: 10;
+  top: 82px;
+  right: 0;
+  flex: 0 0 300px;
+  flex-direction: column;
+  width: 300px;
+  height: calc(100% - 100px);
+  transition: all 400ms;
+  border-radius: 0 5px 5px 0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(47, 56, 66, 0.3);
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 5px;
+    overflow: auto;
+
+    .meeting-card {
+      margin: 5px 10px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      background: #f5f6f8;
+    }
+
+    &-no-data {
+      margin: auto;
+    }
+
+    .card-project {
+      margin: 5px;
+      padding: 16px;
+      border-radius: 5px;
+      background: #fff;
+      color: #6d7893;
+      cursor: pointer;
+
+      &.active {
+        background: #1979ff;
+        color: #fff;
+      }
+
+      &-title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      &-avatar {
+        width: 20px;
+        height: 20px;
+        margin: 0 8px;
+      }
+
+      &-footer {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .md-btn {
+    height: auto;
+    margin: 5px 20px;
+    padding: 12px 10px;
+    border-radius: 8px;
+    background-color: #e3eefe;
+    color: #3080fc;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &-searchFiled {
+    margin: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #fff;
+    line-height: 1;
+
+    .md-icon {
+      cursor: pointer;
+    }
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px 0;
+
+    .title {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+      color: #626f90;
+      font-size: 18px;
+      font-weight: 900;
+
+      .md-icon {
+        margin-right: 8px;
+      }
+    }
+
+    .md-btn {
+      margin: 5px 0;
+      background-color: #fff;
+      color: #626f90;
+    }
+  }
+
+  &-searchWrapper {
+    display: flex;
+    position: relative;
+    padding: 0 5px;
+  }
+
+  &-searchBtn {
+    width: 32px;
+    height: 32px;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 5px;
+
+    &.md-btn--icon:not(.md-background--primary) {
+      background: #fff;
+    }
+  }
+
+  &.isClose {
+    flex: 0;
+    width: 0;
+    opacity: 0;
+
+    .left-panel-asset-content {
+      padding: 0;
+    }
+  }
+}
