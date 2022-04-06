@@ -403,6 +403,13 @@ const DrillReportDetails = ({ drillReportId }) => {
             // required: true,
             value: detailData?.data?.find((el) => el.id === 'remarks')?.value,
           },
+          {
+            id: 'mem',
+            title: 'MEM',
+            cellWidth: 'md-cell md-cell-4',
+            input: 'fileInput',
+            value: detailData?.data?.find((el) => el.id === 'mem')?.value || '',
+          },
         ]}
       />
       {showSupportedDocumentDialog && (

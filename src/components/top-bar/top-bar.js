@@ -69,6 +69,8 @@ const TopBar = ({
         }
       } else if (view === 'file' && pathname.includes('/analytics/dashboard')) {
         navigate(-1)
+      } else if (view === 'file' && changeView) {
+        changeView('default')
       }
     },
     [pathname],

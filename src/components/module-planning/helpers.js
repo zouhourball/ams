@@ -2,7 +2,11 @@ import { Button, FileInput, FontIcon } from 'react-md'
 import { navigate } from '@reach/router'
 import { listAnalytics } from 'libs/api/api-planning'
 
-export const planningConfigs = (supportedDocument, currentTab, displayMeetingList) => [
+export const planningConfigs = (
+  supportedDocument,
+  currentTab,
+  displayMeetingList,
+) => [
   {
     label: 'Company',
     key: 'company',
@@ -197,7 +201,7 @@ export const actionsHeader = (
       id: 3,
       label: 'View Details',
       onClick: () => {
-        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
+        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}/1.0`)
       },
     },
     {
