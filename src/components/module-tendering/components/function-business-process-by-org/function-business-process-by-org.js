@@ -14,6 +14,7 @@ import {
   deleteProposal,
   createMeeting,
   passToAgendaProposal,
+  getMembers,
   approvedProposal,
   rejectedProposal,
 } from 'libs/api/api-tendering'
@@ -47,6 +48,7 @@ const FunctionBusinessProcessByOrg = ({
     deleteProposal,
     createMeeting,
     passToAgendaProposal,
+    getMembers,
     getMeetings,
     approvedProposal,
     rejectedProposal,
@@ -429,7 +431,10 @@ const FunctionBusinessProcessByOrg = ({
   const seeInformation = (info) => {
     setInformation(info)
   }
-
+  const fetchMembers = async () => {
+    const { data: members } = await getMembers(organizationID)
+    return members
+  }
   const handleShowMeeting = async (agenda, proposalId) => {
     if (agenda.workspaceId) {
       const { data: meetings } = await getMeetings(agenda.workspaceId)
@@ -671,6 +676,7 @@ const FunctionBusinessProcessByOrg = ({
           workspace={workspaceID}
           setWorkspace={setWorkspaceID}
           onSave={(agenda) => onCreateAgenda(agenda)}
+          members={fetchMembers}
           disabled={
             (passToAgendaProposalStatus &&
               passToAgendaProposalStatus.pending) ||
@@ -783,6 +789,7 @@ export default connect(
       deleteProposal,
       createMeeting,
       passToAgendaProposal,
+      getMembers,
       getMeetings,
       approvedProposal,
       rejectedProposal,

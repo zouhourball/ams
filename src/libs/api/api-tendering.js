@@ -108,6 +108,20 @@ export async function passToAgendaProposal (body) {
   return res
 }
 
+export async function getMembers (orgID) {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/tdr/api/v1/proposal/tendering-members/organizations/${orgID}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export async function approvedProposal (id, params, orgID) {
   let res
   try {

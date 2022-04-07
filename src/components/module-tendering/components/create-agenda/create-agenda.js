@@ -13,6 +13,7 @@ import { ReactMic } from 'react-mic'
 import moment from 'moment'
 import { graphql } from 'react-apollo'
 import { get } from 'lodash-es'
+import UserInfoBySubject from 'components/user-info-by-subject'
 
 import { DatePicker } from '@target-energysolutions/date-picker'
 
@@ -39,6 +40,7 @@ const CreateAgenda = ({
   addToast,
   workspaces,
   workspace,
+  members,
   // setWorkspace,
 }) => {
   const formatDefaultDescription = (
@@ -73,11 +75,19 @@ const CreateAgenda = ({
       ),
     })),
   )
+  const [allMembers, setMembers] = useState([])
+  useEffect(() => {
+    members().then((res) => {
+      setMembers(res?.data)
+    })
+  }, [])
+
   const handleStartDate = (date) => {
     const validDate = moment(date.timestamp).format('DD-MM-YYYY')
     setDate(validDate)
     setVisibleDate(false)
   }
+
   const onHide = () => {
     setTitle('')
     setDate('')
@@ -162,17 +172,33 @@ const CreateAgenda = ({
   )
 
   const renderMembers = () => {
-    const members = [
+    // const members =
+    /* [
       { user: get(workspacesByID, 'workspaceByID.createdBy', { profile: {} }) },
       ...get(workspacesByID, 'workspaceByID.wsUsers.wsUsers', []),
-    ].filter(({ user: { subject } }) => subject !== currentUser)
-    let formatedMembers = members.map((el) => {
-      return {
-        subject: get(el, 'user.profile.subject', ''),
-        name: get(el, 'user.profile.fullName', ''),
-        imageUrl: get(el, 'user.profile.pictureURL', ''),
-        email: get(el, 'user.profile.email', ''),
-      }
+    ].filter(({ user: { subject } }) => subject !== currentUser) */
+    // const test = allMembers.map((sub) => {
+    //   return (
+    //     <UserInfoBySubject key={sub} subject={sub}>
+    //       {(res) => res}
+    //     </UserInfoBySubject>
+    //   )
+    // })
+    // console.log(test, 'test')
+    let formatedMembers = allMembers.map((sub) => {
+      return (
+        <UserInfoBySubject key={sub} subject={sub}>
+          {(res) => {
+            // console.log(res, 'responseeeeeeee')
+            return {
+              subject: sub,
+              name: res?.fullName,
+              // imageUrl: res?.,
+              // email: get(el, 'user.profile.email', ''),
+            }
+          }}
+        </UserInfoBySubject>
+      )
     })
     if (searchText) {
       const expr = new RegExp(searchText, 'i')

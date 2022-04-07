@@ -2,3 +2,17 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.show,
+.page {
+  width: 50px;
+  height: 30px;
+  margin: 0 10px;
+  padding: 0 15px;
+  border: gray 1px solid;
+  border-radius: 7px;
+}
+
+.page {
+  width: 70px;
+}
