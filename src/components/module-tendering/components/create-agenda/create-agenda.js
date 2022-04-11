@@ -185,55 +185,54 @@ const CreateAgenda = ({
     //   )
     // })
     // console.log(test, 'test')
-    let formatedMembers = allMembers.map((sub) => {
-      return (
-        <UserInfoBySubject key={sub} subject={sub}>
-          {(res) => {
-            // console.log(res, 'responseeeeeeee')
-            return {
-              subject: sub,
-              name: res?.fullName,
-              // imageUrl: res?.,
-              // email: get(el, 'user.profile.email', ''),
-            }
-          }}
-        </UserInfoBySubject>
-      )
-    })
+    // let formatedMembers = allMembers.map((sub) => {
+    //   return (
+    //     <UserInfoBySubject key={sub} subject={sub}>
+    //       {(res) => {
+    //         // console.log(res, 'responseeeeeeee')
+    //         return {
+    //           subject: sub,
+    //           name: res?.fullName,
+    //           // imageUrl: res?.,
+    //           // email: get(el, 'user.profile.email', ''),
+    //         }
+    //       }}
+    //     </UserInfoBySubject>
+    //   )
+    // })
     if (searchText) {
-      const expr = new RegExp(searchText, 'i')
-      formatedMembers = formatedMembers.filter(
+      // const expr = new RegExp(searchText, 'i')
+      /* let formattedMembers = allMembers?.filter(
         (nal) => expr.test(nal['email']) || expr.test(nal['name']),
-      )
+      ) */
     }
     const memberSelected = selectedItems.map((el) => el.subject)
-    return formatedMembers.map((mb, index) => {
+    return allMembers?.map((sub, index) => {
       return (
-        mb?.name && (
-          <div
-            key={index}
-            className={cls(
-              'member md-cell md-cell--4',
-              memberSelected.includes(mb.subject) ? 'selected' : '',
-            )}
-            onClick={() => onSelectMember(mb)}
-          >
-            {mb.imageUrl ? (
-              <Avatar
-                src={getPublicUrl(mb.imageUrl)}
-                className="member_avatar"
-              />
-            ) : (
-              <Avatar className="member_avatar">
-                {mb.name && mb.name.charAt(0)}{' '}
-              </Avatar>
-            )}
-            <div className="member_info">
-              <div className="member_info_fullName">{mb.name}</div>
-              <div className="member_info_email">{mb.email}</div>
-            </div>
-          </div>
-        )
+        <UserInfoBySubject key={sub} subject={sub}>
+          {(res) =>
+            res?.fullName && (
+              <div
+                key={index}
+                className={cls(
+                  'member md-cell md-cell--4',
+                  memberSelected.includes(res?.subject) ? 'selected' : '',
+                )}
+                onClick={() => onSelectMember(res)}
+              >
+                <Avatar
+                  src={getPublicUrl(res?.photo.aPIURL)}
+                  className="member_avatar"
+                />
+
+                <div className="member_info">
+                  <div className="member_info_fullName">{res?.fullName}</div>
+                  <div className="member_info_email">{res?.email}</div>
+                </div>
+              </div>
+            )
+          }
+        </UserInfoBySubject>
       )
     })
   }

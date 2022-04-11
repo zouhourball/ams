@@ -10,7 +10,10 @@ const RightPanelMeeting = ({ onCreate, visible, onClose, meetings }) => {
         <MeetingCard
           key={meeting?.id}
           onNavigateToMeeting={
-            () => window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting-home`)
+            () =>
+              window.open(
+                `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${meeting?.id}/detail`,
+              )
             // window.open(
             //   `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${meeting?.id}`,
             // )

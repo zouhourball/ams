@@ -529,7 +529,8 @@ const AuditDetails = ({ subkey, auditId }) => {
         >
           Supporting documents
         </Button>
-        {!auditDetails?.data?.isAcknowledged && (
+        {!auditDetails?.data?.isAcknowledged &&
+          (role === 'FP' || role === 'AP') && (
           <Button
             key="4"
             id="viewDoc"
@@ -540,21 +541,23 @@ const AuditDetails = ({ subkey, auditId }) => {
               updateStatus('acknowledge')
             }}
           >
-            Acknowledge
+              Acknowledge
           </Button>
         )}
-        <Button
-          key="3"
-          id="viewDoc"
-          className="top-bar-buttons-list-item-btn view-doc"
-          flat
-          swapTheming
-          onClick={() => {
-            showCreateSpaceDialog(true)
-          }}
-        >
-          Create Audit Space
-        </Button>
+        {role === 'FP' && (
+          <Button
+            key="3"
+            id="viewDoc"
+            className="top-bar-buttons-list-item-btn view-doc"
+            flat
+            swapTheming
+            onClick={() => {
+              showCreateSpaceDialog(true)
+            }}
+          >
+            Create Audit Space
+          </Button>
+        )}
       </>
     ) : role === 'AP' ? (
       <>

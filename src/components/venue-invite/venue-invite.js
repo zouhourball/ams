@@ -418,7 +418,13 @@ const VenueInvite = ({
         refetch()
         // addToast({ type: 'confirm', text: t('edit_meeting_successfully') })
       } else {
-        await createScheduleMeeting(meetingData, role)
+        await createScheduleMeeting(meetingData, role).then((res) => {
+          // console.log(res, 'reeeeees')
+          res?.id &&
+            window.open(
+              `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${res?.id}/detail`,
+            )
+        })
         toggle(false)
         refetch()
         // addToast({ type: 'confirm', text: t('schedule_successfully') })
