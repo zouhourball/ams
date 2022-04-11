@@ -183,13 +183,17 @@ export const actionsHeader = (
     },
   }
   const opEntries = [
-    {
-      id: 1,
-      label: 'View Process Historian',
-      onClick: () => {
-        id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-      },
-    },
+    ...(subModule === 'wpb'
+      ? [
+        {
+          id: 1,
+          label: 'View Process Historian',
+          onClick: () => {
+            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+          },
+        },
+      ]
+      : []),
     {
       id: 2,
       label: 'Delete',
@@ -201,16 +205,20 @@ export const actionsHeader = (
       id: 3,
       label: 'View Details',
       onClick: () => {
-        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}/1.0`)
+        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
       },
     },
-    {
-      id: 4,
-      label: 'View Analytics',
-      onClick: () => {
-        listAnalytics(subModule)
-      },
-    },
+    ...(subModule !== 'budgetary-report'
+      ? [
+        {
+          id: 4,
+          label: 'View Analytics',
+          onClick: () => {
+            listAnalytics(subModule)
+          },
+        },
+      ]
+      : []),
     {
       id: 6,
       label: 'Download Original File',
@@ -242,13 +250,17 @@ export const actionsHeader = (
     },
   }
   const regEntries = [
-    {
-      id: 1,
-      label: 'View Process Historian',
-      onClick: () => {
-        id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
-      },
-    },
+    ...(subModule === 'wpb'
+      ? [
+        {
+          id: 1,
+          label: 'View Process Historian',
+          onClick: () => {
+            id && navigate(`/ams/planning/view-historian/${subModule}/${id}`)
+          },
+        },
+      ]
+      : []),
     {
       id: 3,
       label: 'View Details',
@@ -256,13 +268,17 @@ export const actionsHeader = (
         key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
       },
     },
-    {
-      id: 4,
-      label: 'View Analytics',
-      onClick: () => {
-        listAnalytics(subModule)
-      },
-    },
+    ...(subModule !== 'budgetary-report'
+      ? [
+        {
+          id: 4,
+          label: 'View Analytics',
+          onClick: () => {
+            listAnalytics(subModule)
+          },
+        },
+      ]
+      : []),
     // {
     //   id: 5,
     //   label: 'Clarity',
