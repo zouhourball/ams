@@ -49,7 +49,7 @@ const RightPanelMeeting = ({
     <div className={`left-panel-asset ${visible ? '' : 'isClose'}`}>
       <div className="left-panel-asset-top">
         <div className="left-panel-asset-header">
-          <div className="title">Meetings Today</div>
+          <div className="title">Meetings</div>
           <Button icon onClick={onClose}>
             close
           </Button>

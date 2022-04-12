@@ -213,7 +213,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
               handleStatus('accept')
             }}
           >
-            Approve
+            Accept
           </Button>
 
           <Button
