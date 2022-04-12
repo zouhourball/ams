@@ -215,7 +215,7 @@ export const requestConfigs = [
 export const actionsHeader = (
   role,
   row,
-  // suppDoc,
+  suppDoc,
   showAuditClosureDialog,
   viewClosureReport,
   // updateStatus,
@@ -252,7 +252,7 @@ export const actionsHeader = (
       id: 7,
       label: 'Supporting Documents',
       onClick: () => {
-        // suppDoc(true)
+        suppDoc(true)
       },
     },
   ]
@@ -299,7 +299,7 @@ export const actionsHeader = (
       id: 7,
       label: 'Supporting Documents',
       onClick: () => {
-        // suppDoc(true)
+        suppDoc(true)
       },
     },
     // {
@@ -353,7 +353,7 @@ export const actionsHeader = (
       id: 7,
       label: 'Supporting Documents',
       onClick: () => {
-        // suppDoc(true)
+        suppDoc(true)
       },
     },
     // {

@@ -205,7 +205,7 @@ export const actionsHeader = (
       id: 3,
       label: 'View Details',
       onClick: () => {
-        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}/1.0`)
+        key && id && navigate(`/ams/planning/${key}/${subModule}/${id}`)
       },
     },
     ...(subModule !== 'budgetary-report'

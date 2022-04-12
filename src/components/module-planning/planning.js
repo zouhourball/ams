@@ -45,6 +45,7 @@ import {
   submitFromDraft,
   getActionsList,
   getMeeting,
+  respondToMeeting,
 } from 'libs/api/api-planning'
 import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -84,6 +85,12 @@ const Planning = ({ subModule }) => {
   const company = getOrganizationInfos()
   const { addSupportingDocuments } = documents()
   useEffect(() => setSelectedRow([]), [])
+  const mapStateToMeInfo = (state) => state?.query?.DEFAULT?.me?.data || null
+  const useMe = () => {
+    const me = useSelector(mapStateToMeInfo)
+    return me
+  }
+  const me = useMe()
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -354,7 +361,29 @@ const Planning = ({ subModule }) => {
       }
     },
   })
-
+  const respondToMeetingMutation = useMutation(respondToMeeting, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchMeetings()
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const handleUploadReport = (body, uuid) => {
     uploadReportMutate.mutate({
       body: {
@@ -524,7 +553,7 @@ const Planning = ({ subModule }) => {
   )
   const [rowId, setRowId] = useState('')
 
-  const { data: listMeetings } = useQuery(
+  const { data: listMeetings, refetch: refetchMeetings } = useQuery(
     ['listMeetings', rowId],
     rowId && getMeeting,
   )
@@ -662,6 +691,19 @@ const Planning = ({ subModule }) => {
           ? `ENDORSE`
           : `APPROVE`
         : `REJECT`,
+    )
+  }
+  const respondToMeetingHandler = (status, id) => {
+    respondToMeetingMutation.mutate(
+      {
+        id,
+        status,
+      },
+      {
+        onSuccess: () => {
+          window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${id}/detail`)
+        },
+      },
     )
   }
 
@@ -813,6 +855,9 @@ const Planning = ({ subModule }) => {
         visible={showMeeting}
         meetings={listMeetings?.content}
         onCreate={() => setShowRescheduleDialog(true)}
+        rightToCreateMeeting={actionsList?.includes('CREATE_MEETINGS')}
+        respondToMeetingHandler={respondToMeetingHandler}
+        me={me}
       />
       {showUploadMHTDialog && (
         <MHTDialog

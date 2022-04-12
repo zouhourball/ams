@@ -200,36 +200,37 @@ const PlanningDetails = ({ objectId, subModule }) => {
 
     actionsList?.length > 0 &&
       (actionsList?.includes('ENDORSE') || actionsList?.includes('APPROVE')) &&
-      ((
-        <Button
-          key="4"
-          id="accept"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            handleStatus('accept')
-          }}
-        >
-          Accept
-        </Button>
-      ),
-      (
-        <Button
-          key="4"
-          id="reject"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            handleStatus('reject')
-          }}
-        >
-          Reject
-        </Button>
-      )),
+      rawData?.metaData?.status === 'SUBMITTED' && (
+        <>
+          <Button
+            key="4"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              handleStatus('accept')
+            }}
+          >
+            Approve
+          </Button>
+
+          <Button
+            key="4"
+            id="reject"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              handleStatus('reject')
+            }}
+          >
+            Reject
+          </Button>
+        </>
+    ),
 
     // role === 'JMC Chairman' && (
     //   <>

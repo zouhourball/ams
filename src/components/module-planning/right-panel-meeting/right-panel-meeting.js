@@ -3,8 +3,22 @@ import { Button } from 'react-md'
 import MeetingCard from '../meeting-card'
 
 import './style.scss'
-const RightPanelMeeting = ({ onCreate, visible, onClose, meetings }) => {
+const RightPanelMeeting = ({
+  onCreate,
+  visible,
+  onClose,
+  meetings,
+  rightToCreateMeeting,
+  respondToMeetingHandler,
+  me,
+}) => {
   const renderMeetingList = () => {
+    const meetingStatus = (meeting) => {
+      const user = meeting?.participants?.find(
+        (element) => element?.sub === me?.sub,
+      )
+      return user?.status
+    }
     return meetings?.map((meeting) => {
       return (
         <MeetingCard
@@ -24,6 +38,9 @@ const RightPanelMeeting = ({ onCreate, visible, onClose, meetings }) => {
             endDate: meeting?.endDate,
             subject: meeting?.organizer?.sub,
           }}
+          onAccept={() => respondToMeetingHandler('accept', meeting?.id)}
+          onReject={() => respondToMeetingHandler('reject', meeting?.id)}
+          status={meetingStatus(meeting)}
         />
       )
     })
@@ -42,15 +59,21 @@ const RightPanelMeeting = ({ onCreate, visible, onClose, meetings }) => {
           <div className="filterWrapper"></div>
         </div>
       </div>
-      <div className="left-panel-asset-content">{renderMeetingList()}</div>
-      <Button
-        primary
-        flat
-        onClick={() => onCreate && onCreate()}
-        className="left-panel-asset-btn"
-      >
-        Create New Meeting
-      </Button>
+      {meetings?.length ? (
+        <div className="left-panel-asset-content">{renderMeetingList()}</div>
+      ) : (
+        <div className="empty-panel">There is no Meetings</div>
+      )}
+      {rightToCreateMeeting && (
+        <Button
+          primary
+          flat
+          onClick={() => onCreate && onCreate()}
+          className="left-panel-asset-btn"
+        >
+          Create New Meeting
+        </Button>
+      )}
     </div>
   )
 }

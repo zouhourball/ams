@@ -13,16 +13,18 @@ import {
   submitAudits,
   closureReport,
   closingAudit,
+  supportingDocuments,
 } from 'libs/api/api-audit'
 // import documents from 'libs/hooks/documents'
 
 import TopBar from 'components/top-bar'
 import NavBar from 'components/nav-bar'
 import HeaderTemplate from 'components/header-template'
-// import SupportedDocument from 'components/supported-document'
+import SupportedDocumentAudit from 'components/supported-document-audit'
 import NewAuditRequestDialog from 'components/new-audit-request-dialog'
 import AuditClosureDialog from 'components/audit-closure-dialog'
 import AuditClosureDetailsDialog from 'components/audit-closure-details-dialog'
+import fileDataFormatter from 'libs/hooks/file-data-formatter'
 import ToastMsg from 'components/toast-msg'
 
 import { addToast } from 'modules/app/actions'
@@ -39,8 +41,8 @@ const Audit = () => {
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
-  /* const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
-    useState(false) */
+  const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
+    useState(false)
   const successFn = {
     onSuccess: (res) => {
       if (res.success) {
@@ -114,6 +116,30 @@ const Audit = () => {
       }
     },
   }) */
+  const uploadSupportingDocuments = useMutation(supportingDocuments, {
+    onSuccess: (res) => {
+      if (res.success) {
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchListStateAudit()
+        setShowSupportedDocumentDialog(false)
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const submitAuditsMutation = useMutation(submitAudits, {
     ...successFn,
   })
@@ -123,14 +149,12 @@ const Audit = () => {
   const closeAuditMutation = useMutation(closingAudit, {
     ...successFn,
   })
-  /* const handleSupportingDocs = (data) => {
-     addSupportingDocuments(
-      data,
-      selectedRow[0]?.processInstanceId ||
-        showSupportedDocumentDialog?.processInstanceId,
-      // closeDialog,
-    )
-  } */
+  const handleSupportingDocs = (data) => {
+    uploadSupportingDocuments.mutate({
+      data: fileDataFormatter(data),
+      id: selectedRow[0]?.auditId || showSupportedDocumentDialog?.auditId,
+    })
+  }
   const selectedRow = selectedRowSelector?.map((el) => renderData()[el])
 
   const actions = [
@@ -264,7 +288,7 @@ const Audit = () => {
                   actions={actionsHeader(
                     role,
                     selectedRow[0],
-                    // setShowSupportedDocumentDialog,
+                    setShowSupportedDocumentDialog,
                     showAuditClosureDialog,
                     showClosureReport,
                     // updateStatus,
@@ -276,21 +300,18 @@ const Audit = () => {
           />
         </div>
       </div>
-      {/* showSupportedDocumentDialog && (
-        <SupportedDocument
+      {showSupportedDocumentDialog && (
+        <SupportedDocumentAudit
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           // readOnly={role === 'regulator'}
-          processInstanceId={
-            selectedRow[0]?.processInstanceId ||
-            showSupportedDocumentDialog?.processInstanceId
-          }
+          id={selectedRow[0]?.auditId || showSupportedDocumentDialog?.auditId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
         />
-        ) */}
+      )}
       {uploadDialog && (
         <NewAuditRequestDialog
           title={'New Audit Request'}

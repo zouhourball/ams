@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import UserInfoBySubject from 'components/user-info-by-subject'
 
 import TopBarDetailAudit from 'components/top-bar-detail-audit'
-import SupportedDocument from 'components/supported-document'
+import SupportedDocumentAudit from 'components/supported-document-audit'
 import CreateAuditSpace from 'components/audit-module/create-audit-space'
 import ToastMsg from 'components/toast-msg'
 import EnquiryDialog from 'components/enquiry-dialog'
@@ -44,8 +44,8 @@ import {
   getResolutions,
   submitResponses,
   resolutionApproval,
+  supportingDocuments,
 } from 'libs/api/api-audit'
-import documents from 'libs/hooks/documents'
 
 import {
   requestConfigs,
@@ -73,7 +73,6 @@ const AuditDetails = ({ subkey, auditId }) => {
   const [view, setView] =
     subkey === 'enquiries' ? useState('default') : useState(subkey)
   // console.log('view', view)
-  const { addSupportingDocuments } = documents()
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -85,7 +84,7 @@ const AuditDetails = ({ subkey, auditId }) => {
     ['requestDetail', auditId],
     view === 'default' && auditId && getEnquiries,
   )
-  const { data: auditDetails } = useQuery(
+  const { data: auditDetails, refetch: refetchAudit } = useQuery(
     ['auditDetails', auditId],
     (view === 'default' || view === 'actions') && auditId && getAuditByID,
   )
@@ -198,6 +197,30 @@ const AuditDetails = ({ subkey, auditId }) => {
   const updateResolutionMutation = useMutation(resolutionApproval, {
     ...successFn,
   })
+  const uploadSupportingDocuments = useMutation(supportingDocuments, {
+    onSuccess: (res) => {
+      if (res.success) {
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchAudit()
+        setShowSupportedDocumentDialog(false)
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const renderData = () => {
     switch (view) {
       case 'response':
@@ -269,11 +292,15 @@ const AuditDetails = ({ subkey, auditId }) => {
       getEnquiryByID,
   )
   const handleSupportingDocs = (data) => {
-    addSupportingDocuments(
-      data,
-      requestDetail?.metaData?.processInstanceId,
-      // closeDialog,
-    )
+    // addSupportingDocuments(
+    //   data,
+    //   requestDetail?.metaData?.processInstanceId,
+    //   // closeDialog,
+    // )
+    uploadSupportingDocuments.mutate({
+      data: fileDataFormatter(data),
+      id: auditId,
+    })
   }
   const createSpace = () => {
     auditWorkspace.mutate(
@@ -668,15 +695,12 @@ const AuditDetails = ({ subkey, auditId }) => {
         />
       </div>
       {showSupportedDocumentDialog && (
-        <SupportedDocument
+        <SupportedDocumentAudit
           title={'upload supporting documents'}
           visible={showSupportedDocumentDialog}
           onDiscard={() => setShowSupportedDocumentDialog(false)}
           // readOnly={role === 'regulator'}
-          processInstanceId={
-            requestDetail?.metaData?.processInstanceId ||
-            showSupportedDocumentDialog?.processInstanceId
-          }
+          id={auditId}
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}

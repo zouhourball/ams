@@ -300,3 +300,15 @@ export const getWbqProcessHistorian = async ({ queryKey }) => {
   }
   return res
 }
+
+export const respondToMeeting = async ({ id, status }) => {
+  let res
+  try {
+    res = await fetchJSON(`${meetingUrl}/api/v2/meetings/${id}/${status}`, {
+      method: 'PUT',
+    })
+  } catch (error) {
+    res = { e: error }
+  }
+  return res
+}

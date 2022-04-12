@@ -307,3 +307,16 @@ export const getAuditHistory = async ({ queryKey }) => {
   }
   return res
 }
+
+export const supportingDocuments = ({ data, id }) => {
+  let res
+  try {
+    res = fetchJSON(`${auditUrl}/audit-be/api/v1/audit/${id}/docs`, {
+      method: 'POST',
+      body: JSON.stringify({ auditDocuments: data }),
+    })
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}

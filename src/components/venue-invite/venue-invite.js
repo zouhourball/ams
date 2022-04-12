@@ -497,7 +497,7 @@ const VenueInvite = ({
             as={
               <TextField
                 className="schedule-meeting-dialog-text-field"
-                label={`Invitation Title`}
+                label={`Meeting Title`}
                 required
                 id="schedule-meeting-title"
                 error={!!errors?.title}
