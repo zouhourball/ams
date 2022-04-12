@@ -41,7 +41,7 @@ import {
   updatePlanning,
   saveReport,
   updateWpb,
-  updateWpbStatus,
+  // updateWpbStatus,
   submitFromDraft,
   getActionsList,
   getMeeting,
@@ -127,14 +127,14 @@ const Planning = ({ subModule }) => {
       }
     },
   })
-  const updateStatusMutation = useMutation(updateWpbStatus, {
-    onSuccess: (res) => {
-      if (!res?.error) {
-        refetchList()
-        setSelectedRow([])
-      }
-    },
-  })
+  // const updateStatusMutation = useMutation(updateWpbStatus, {
+  //   onSuccess: (res) => {
+  //     if (!res?.error) {
+  //       refetchList()
+  //       setSelectedRow([])
+  //     }
+  //   },
+  // })
   const updatePlanningMutation = useMutation(updatePlanning, {
     onSuccess: (res) => {
       if (!res?.error) {
@@ -676,23 +676,23 @@ const Planning = ({ subModule }) => {
         status,
       })
   }
-  const updateStatus = (objectId, status) => {
-    updateStatusMutation.mutate({
-      objectId,
-      status,
-    })
-  }
-  const handleStatus = (key) => {
-    // const roleKey = role.slice(0, -1)
-    return updateStatus(
-      selectedRow[0]?.id,
-      key === 'accept'
-        ? actionsList?.includes('ENDORSE')
-          ? `ENDORSE`
-          : `APPROVE`
-        : `REJECT`,
-    )
-  }
+  // const updateStatus = (objectId, status) => {
+  //   updateStatusMutation.mutate({
+  //     objectId,
+  //     status,
+  //   })
+  // }
+  // const handleStatus = (key) => {
+  //   // const roleKey = role.slice(0, -1)
+  //   return updateStatus(
+  //     selectedRow[0]?.id,
+  //     key === 'accept'
+  //       ? actionsList?.includes('ENDORSE')
+  //         ? `ENDORSE`
+  //         : `APPROVE`
+  //       : `REJECT`,
+  //   )
+  // }
   const respondToMeetingHandler = (status, id) => {
     respondToMeetingMutation.mutate(
       {
@@ -740,7 +740,7 @@ const Planning = ({ subModule }) => {
           setSelectedRow([])
         }}
       />
-      {actionsList?.length > 0 && selectedRow[0]?.status === 'SUBMITTED' && (
+      {/* actionsList?.length > 0 && selectedRow[0]?.status === 'SUBMITTED' && (
         <div className="btns-section">
           {(actionsList?.includes('ENDORSE') ||
             actionsList?.includes('APPROVE')) && (
@@ -768,7 +768,7 @@ const Planning = ({ subModule }) => {
             </Button>
           )}
         </div>
-      )}
+      ) */}
       <Mht
         configs={planningConfigs(
           UploadSupportedDocumentFromTable,

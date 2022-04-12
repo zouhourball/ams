@@ -5,6 +5,10 @@
   height: 100%;
   background: #f0f0f0;
 
+  .buttons-list {
+    max-width: fit-content;
+  }
+
   .supporting-documents {
     .md-dialog {
       width: 35%;

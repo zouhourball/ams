@@ -221,7 +221,7 @@ const CreateAgenda = ({
                 onClick={() => onSelectMember(res)}
               >
                 <Avatar
-                  src={getPublicUrl(res?.photo.aPIURL)}
+                  src={getPublicUrl(res?.photo?.aPIURL)}
                   className="member_avatar"
                 />
 
