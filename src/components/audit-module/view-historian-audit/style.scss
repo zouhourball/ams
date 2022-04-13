@@ -8,19 +8,29 @@
     width: 100%;
     margin: 0 5px;
 
+    .contents {
+      height: calc(100vh - 165px);
+      overflow-y: auto;
+    }
+
+    h2,
+    h3 {
+      margin-bottom: 0;
+      color: #6d7895;
+    }
+
+    h4 {
+      font-weight: 500;
+    }
+
     .sub-header {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       width: 100%;
       padding: 10px 0 10px 40px;
       background-color: white;
       white-space: nowrap;
-
-      h2 {
-        margin-bottom: 0;
-        color: #6d7895;
-      }
     }
 
     .header {
@@ -47,7 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: calc(100vh - 180px);
     margin: 15px 0;
     border-radius: 7px;
     background-color: white;
@@ -84,8 +94,8 @@
   }
 
   .md-avatar {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
   }
 
   .user-avatar {
@@ -99,11 +109,12 @@
 
   .card-date {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 15px 0;
+    padding: 0 15px;
 
     span {
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 
@@ -111,12 +122,13 @@
     align-self: center;
 
     h4 {
+      margin-bottom: 0;
       color: #6d7895;
     }
   }
 
   .user-card-divider {
     margin: 10px 0;
-    border-top: 3px dashed lightgrey;
+    border-top: 1px dashed lightgrey;
   }
 }

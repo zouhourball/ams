@@ -39,7 +39,7 @@ const EnquiryDialog = ({
     onDrop: onUploadDocument,
   })
   const validateData = () => {
-    return !(description && files?.length)
+    return !(description /* && files?.length */)
   }
   const uploadBtn = {
     children: btnLabel,

@@ -114,6 +114,7 @@ const AuditDetails = ({ subkey, auditId }) => {
           ),
         )
         refetchEnq()
+        refetchAudit()
         view === 'actions' && refetchActions()
         view === 'resolutions' && refetchResolutions()
       } else {

@@ -56,6 +56,20 @@ const ViewHistorian = ({
     return getPublicUrl(newUrl)
   }
   // console.log(listVersions, 'listVersions')
+  const renderPlaceholders = () => {
+    const header = (
+      <div className="header">
+        <div className="empty-right-arrow"></div>
+        <div className="sub-header" style={{ backgroundColor: 'white' }}></div>
+        <div className="arrow-right" style={{ borderLeftColor: 'white' }}></div>
+      </div>
+    )
+    let placeholder = [header]
+    for (let index = 0; index < 4 - processHistorian?.length; index++) {
+      placeholder.push(<div className="no-activity">No Recent Activity</div>)
+    }
+    return <div className="section">{placeholder}</div>
+  }
   const renderSections = () =>
     processHistorian?.map((section, index) => (
       <div key={index} className="section">
@@ -65,47 +79,52 @@ const ViewHistorian = ({
             className="sub-header"
             style={{ backgroundColor: directions[section?.direction] }}
           >
-            <h2>{streams[section?.stream]}</h2>
+            <h3>{streams[section?.stream]}</h3>
             <span>Iteration: {Object.keys(section?.tasks).length}</span>
           </div>
-          <div className="arrow-right"></div>
+          <div
+            className="arrow-right"
+            style={{ borderLeftColor: directions[section?.direction] }}
+          ></div>
         </div>
         {Object.keys(section?.tasks).length > 0 ? (
-          section?.tasks?.map((el) => (
-            <UserInfoBySubject key={el?.wpbId} subject={el?.subject}>
-              {(res) => (
-                <div className="user-card">
-                  <div className="user-info">
-                    <div className="user-avatar">
-                      <Avatar
-                        src={
-                          get(res, 'photo.aPIURL', null)
-                            ? getPublicUrlPhoto(res?.photo?.aPIURL)
-                            : null
-                        }
-                      >
-                        {get(res, 'photo.aPIURL', null)
-                          ? null
-                          : get(res, 'fullName.0', '')}
-                      </Avatar>
+          <div className="contents">
+            {section?.tasks?.map((el) => (
+              <UserInfoBySubject key={el?.wpbId} subject={el?.user?.sub}>
+                {(res) => (
+                  <div className="user-card">
+                    <div className="user-info">
+                      <div className="user-avatar">
+                        <Avatar
+                          src={
+                            get(res, 'photo.aPIURL', null)
+                              ? getPublicUrlPhoto(res?.photo?.aPIURL)
+                              : null
+                          }
+                        >
+                          {get(res, 'photo.aPIURL', null)
+                            ? null
+                            : get(res, 'fullName.0', '')}
+                        </Avatar>
+                      </div>
+                      <div className="user-details">
+                        <h3> {res ? res?.fullName : 'N/A'} </h3>
+                        <h4>{res ? res?.title : 'N/A'}</h4>
+                      </div>
                     </div>
-                    <div className="user-details">
-                      <h2> {res ? res?.fullName : 'N/A'} </h2>
-                      <h4>{res ? res?.title : 'N/A'}</h4>
+                    <div className="user-card-divider"></div>
+                    <div className="card-date">
+                      <span>
+                        {' '}
+                        Date & Time:{' '}
+                        {moment(el?.time).format('DD MMM YYYY HH:mm')}
+                      </span>
                     </div>
                   </div>
-                  <div className="user-card-divider"></div>
-                  <div className="card-date">
-                    <span>
-                      {' '}
-                      Date & Time:{' '}
-                      {moment(el?.time).format('DD MMM YYYY HH:mm')}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </UserInfoBySubject>
-          ))
+                )}
+              </UserInfoBySubject>
+            ))}
+          </div>
         ) : (
           <div className="no-activity">No Recent Activity</div>
         )}
@@ -119,7 +138,10 @@ const ViewHistorian = ({
         actions={[]}
         detailData={detailData}
       />
-      <div className="dashboard">{renderSections()}</div>
+      <div className="dashboard">
+        {renderSections()}
+        {processHistorian?.length < 4 && renderPlaceholders()}
+      </div>
     </div>
   )
 }

@@ -97,46 +97,48 @@ const ViewHistorianAudit = ({
             className="sub-header"
             // style={{ backgroundColor: directions[section?.direction] }}
           >
-            <h2>{section.title}</h2>
+            <h3>{section.title}</h3>
           </div>
           <div className="arrow-right"></div>
         </div>
         {section?.list.length > 0 ? (
-          section?.list?.map((el) => (
-            <UserInfoBySubject key={el?.subject} subject={el?.subject}>
-              {(res) => (
-                <div className="user-card">
-                  <div className="user-info">
-                    <div className="user-avatar">
-                      <Avatar
-                        src={
-                          get(res, 'photo.aPIURL', null)
-                            ? getPublicUrlPhoto(res?.photo?.aPIURL)
-                            : null
-                        }
-                      >
-                        {get(res, 'photo.aPIURL', null)
-                          ? null
-                          : get(res, 'fullName.0', '')}
-                      </Avatar>
+          <div className="contents">
+            {section?.list?.map((el) => (
+              <UserInfoBySubject key={el?.subject} subject={el?.subject}>
+                {(res) => (
+                  <div className="user-card">
+                    <div className="user-info">
+                      <div className="user-avatar">
+                        <Avatar
+                          src={
+                            get(res, 'photo.aPIURL', null)
+                              ? getPublicUrlPhoto(res?.photo?.aPIURL)
+                              : null
+                          }
+                        >
+                          {get(res, 'photo.aPIURL', null)
+                            ? null
+                            : get(res, 'fullName.0', '')}
+                        </Avatar>
+                      </div>
+                      <div className="user-details">
+                        <h3> {res ? res?.fullName : 'N/A'} </h3>
+                        <h4>{renderAction(el?.action)}</h4>
+                      </div>
                     </div>
-                    <div className="user-details">
-                      <h2> {res ? res?.fullName : 'N/A'} </h2>
-                      <h4>{renderAction(el?.action)}</h4>
+                    <div className="user-card-divider"></div>
+                    <div className="card-date">
+                      <span>
+                        {' '}
+                        Date & Time:{' '}
+                        {moment(el?.date).format('DD MMM YYYY HH:mm')}
+                      </span>
                     </div>
                   </div>
-                  <div className="user-card-divider"></div>
-                  <div className="card-date">
-                    <span>
-                      {' '}
-                      Date & Time:{' '}
-                      {moment(el?.date).format('DD MMM YYYY HH:mm')}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </UserInfoBySubject>
-          ))
+                )}
+              </UserInfoBySubject>
+            ))}
+          </div>
         ) : (
           <div className="no-activity">No Recent Activity</div>
         )}

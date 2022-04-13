@@ -530,11 +530,15 @@ export const enquiryActionsHeader = (
       } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
         return [...defBtns, assignBtn]
       } else if (
-        row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
-        row?.status === 'RESPONDED'
+        (row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
+          row?.status === 'RESPONDED') &&
+        role === 'AP'
       ) {
         return [...defBtns, viewResponseBtn, newResponseBtn]
-      } else if (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') {
+      } else if (
+        (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') &&
+        role === 'AP'
+      ) {
         // row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED'
 
         return [...defBtns, newResponseBtn]

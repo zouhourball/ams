@@ -8,23 +8,34 @@
     width: 100%;
     margin: 0 5px;
 
+    h2,
+    h3 {
+      margin-bottom: 0;
+      color: #6d7895;
+    }
+
     .sub-header {
       display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
       width: 100%;
       padding: 10px 0 10px 40px;
       background-color: white;
 
-      h2 {
-        margin-bottom: 0;
+      h3 {
+        color: black;
       }
     }
 
-    .header {
-      display: flex;
-      position: relative;
+    h4 {
+      color: #6d7895;
+      font-weight: 500;
     }
+  }
+
+  .header {
+    display: flex;
+    position: relative;
   }
 
   .arrow-right,
@@ -45,11 +56,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     height: 100%;
     height: calc(100vh - 180px);
     margin: 15px 0;
     border-radius: 7px;
     background-color: white;
+  }
+
+  .contents {
+    height: calc(100vh - 165px);
+    overflow-y: auto;
   }
 
   .user-card {
@@ -83,8 +100,8 @@
   }
 
   .md-avatar {
-    width: 90px;
-    height: 90px;
+    width: 60px;
+    height: 60px;
   }
 
   .user-avatar {
@@ -98,11 +115,12 @@
 
   .card-date {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin: 15px 0;
+    padding: 0 15px;
 
     span {
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 
@@ -112,6 +130,6 @@
 
   .user-card-divider {
     margin: 10px 0;
-    border-top: 3px dashed lightgrey;
+    border-top: 1px dashed lightgrey;
   }
 }
