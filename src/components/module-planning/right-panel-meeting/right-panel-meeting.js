@@ -23,15 +23,7 @@ const RightPanelMeeting = ({
       return (
         <MeetingCard
           key={meeting?.id}
-          onNavigateToMeeting={
-            () =>
-              window.open(
-                `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${meeting?.id}/detail`,
-              )
-            // window.open(
-            //   `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${meeting?.id}`,
-            // )
-          }
+          onNavigateToMeeting={() => window.open(`meeting/${meeting?.id}`)}
           meetings={{
             title: meeting?.title,
             startDate: meeting?.startDate,
