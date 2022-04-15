@@ -701,7 +701,7 @@ const Planning = ({ subModule }) => {
       },
       {
         onSuccess: () => {
-          window.open(`${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${id}/detail`)
+          window.open(`meeting/${id}`)
         },
       },
     )

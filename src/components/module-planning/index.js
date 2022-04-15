@@ -8,6 +8,7 @@ const PlanningDetails = lazy(() =>
 const ViewHistorian = lazy(() =>
   import('components/module-planning/view-historian'),
 )
+const PlanningMeeting = lazy(() => import('components/ws-meeting'))
 const Dashboard = lazy(() => import('components/module-planning/analytics'))
 const PlanningModule = () => {
   return (
@@ -20,6 +21,7 @@ const PlanningModule = () => {
         />
         <Dashboard path="/analytics/dashboard" />
         <Planning path="/:subModule" />
+        <PlanningMeeting path="/meeting/:meetingId" />
         <Redirect from="/" to="/ams/planning/wpb" noThrow />
       </Router>
     </Suspense>

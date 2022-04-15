@@ -6,7 +6,7 @@ import { getAuthToken } from 'libs/utils/oauth-token'
 
 export default function configureApolloClient () {
   return new ApolloClient({
-    // uri: GRAPHQL_API,
+    uri: `${PRODUCT_WORKSPACE_URL}/graphql`,
     request (operation) {
       const accessToken = getAuthToken()
       operation.setContext(({ headers }) => {

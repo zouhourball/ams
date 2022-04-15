@@ -52,3 +52,7 @@ export const searchMember = async (_key, params) => {
 export const deleteMeeting = (id) => {
   return meetingAxios.delete(`/meeting/${id}`)
 }
+export const scheduleVenueMeeting = async (params) => {
+  const { data } = await meetingAxios.post('/meeting/schedule', params)
+  return data?.data ?? {}
+}

@@ -45,6 +45,7 @@ import {
   createScheduleMeeting,
   checkUserAvailable,
   searchMember,
+  scheduleVenueMeeting,
 } from 'libs/api/venue'
 import HtmlEditor from 'components/html-editor'
 
@@ -162,7 +163,7 @@ const AcceptedBtn = (props) => {
 }
 const Option = ({ data, innerRef, innerProps, getValue }) => {
   const { avatar, username, email, invitationStatus } = data.meta
-  const isSelected = find(getValue(), { value: data?.value })
+  const isSelected = getValue().find((i) => i.value === data.value)
   return (
     <div ref={innerRef} className="user-option-item" {...innerProps}>
       <Avatar
@@ -418,12 +419,17 @@ const VenueInvite = ({
         refetch()
         // addToast({ type: 'confirm', text: t('edit_meeting_successfully') })
       } else {
-        await createScheduleMeeting(meetingData, role).then((res) => {
-          // console.log(res, 'reeeeees')
-          res?.id &&
-            window.open(
-              `${PRODUCT_APP_URL_FLUXBLE_MEETING}/meeting/${res?.id}/detail`,
-            )
+        await createScheduleMeeting(meetingData, role).then(async (res) => {
+          await scheduleVenueMeeting({
+            meetingID: res?.id,
+            members: [],
+            orgId: organizationID,
+            scheduleEndTime: new Date(res?.endDate).toISOString(),
+            scheduleStartTime: new Date(res?.startDate).toISOString(),
+            source: 'meeting',
+            title: res?.title,
+          })
+          res?.id && window.open(`meeting/${res?.id}`)
         })
         toggle(false)
         refetch()

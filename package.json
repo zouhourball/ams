@@ -60,7 +60,7 @@
     "@reach/router": "^1.3.4",
     "@rooks/use-outside-click": "^4.11.2",
     "@rooks/use-toggle": "^4.11.2",
-    "@target-energysolutions/app-shell": "23.12.16",
+    "@target-energysolutions/app-shell": "23.13.9",
     "@target-energysolutions/auth-check": "^0.3.7",
     "@target-energysolutions/charts-enhance": "^1.0.1",
     "@target-energysolutions/data-table": "^2.9.1",
@@ -71,16 +71,17 @@
     "@target-energysolutions/grid-dnd": "^0.2.3",
     "@target-energysolutions/hoc-oauth": "^1.3.2",
     "@target-energysolutions/map": "^0.9.1",
-    "@target-energysolutions/messenger": "^17.1.11",
+    "@target-energysolutions/meeting": "^6.1.2",
+    "@target-energysolutions/messenger": "^17.2.2",
     "@target-energysolutions/mht": "2.22.3-beta.4",
     "@target-energysolutions/multi-select-dropdown": "^1.5.2",
     "@target-energysolutions/react-hoc-query": "^1.0.4",
     "@target-energysolutions/sidebar-drawer": "^1.0.2",
     "@target-energysolutions/supporting-documents": "^0.4.7",
-    "@target-energysolutions/task-manager": "^6.0.1",
+    "@target-energysolutions/task-manager": "^8.6.7",
     "@target-energysolutions/tiny-i18n": "^2.1.2",
     "@target-energysolutions/tools": "^1.2.1",
-    "@target-energysolutions/utils": "^1.4.1",
+    "@target-energysolutions/utils": "^2.1.3",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
     "@typescript-eslint/parser": "^3.5.0",
@@ -95,8 +96,8 @@
     "draft-js": "^0.11.7",
     "draft-js-import-html": "^1.4.1",
     "draftjs-to-html": "^0.9.1",
-    "git-revision-webpack-plugin": "3.0.6",
     "echarts": "4.1.0",
+    "git-revision-webpack-plugin": "3.0.6",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "html-webpack-plugin": "^4.3.0",
@@ -222,5 +223,10 @@
   "browserslist": [
     "last 5 versions",
     "ie 11"
-  ]
+  ],
+  "pnpm": {
+    "overrides": {
+      "grpc-web": "1.2.1"
+    }
+  }
 }
