@@ -2,11 +2,11 @@ name: push helm chart
 
 env:
   GITLAB_REGISTRY: registry.gitlab.com/target-digital-transformation/devops
-  DEFAULT_MOULE: true     ## true, ingore, default is true
-  SECOND_MODULE: "null" ## null, ignore, ${MODULE_NAME},  default is null
-  SECOND_MODULE_FOR_COMMON: "common2 common3"
+  DEFAULT_MOULE: true ## true, ingore, default is true
+  SECOND_MODULE: 'null' ## null, ignore, ${MODULE_NAME},  default is null
+  SECOND_MODULE_FOR_COMMON: 'common2 common3'
   THIRD_MODULE: ignore
-  THIRD_MODULE_FOR_COMMON: "common4 common5"
+  THIRD_MODULE_FOR_COMMON: 'common4 common5'
   # TES_MANIFEST_TEMPOARAY: ${{ secrets.TES_MANIFEST_TEMPOARAY }}
   ALIAS_GITHUB_REPOSITORY: ${{ github.repository }}
   HELM_REPO: https://chartmuseum.dev.meeraspace.com/
@@ -17,11 +17,11 @@ env:
 on:
   push:
     tags:
-      - '*.*.*'    
+      - '*.*.*'
 
 jobs:
   tag_image:
-    runs-on: [self-hosted, linux, k8s]
+    runs-on: ubuntu-latest
     name: tag and push image
     if: contains(github.ref, 'refs/tags/')
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
@@ -60,7 +60,7 @@ jobs:
           fi
 
   push_chart_to_helm_repo:
-    runs-on: [self-hosted, linux, k8s]
+    runs-on: ubuntu-latest
     name: push chart to helm repo
     if: contains(github.ref, 'refs/tags/')
     needs:
@@ -70,7 +70,7 @@ jobs:
         if: contains(github.ref, 'mixedmanual')
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0   
+          fetch-depth: 0
 
       - name: Get branch Name
         if: contains(github.ref, 'mixedmanual')
@@ -95,7 +95,7 @@ jobs:
           ALIAS_GITHUB_REPOSITORY: ${{ github.repository }}
 
   sync_helm_chart_to_env:
-    runs-on: [self-hosted, linux, k8s]
+    runs-on: ubuntu-latest
     name: sync helm chart to env
     if: contains(github.ref, 'refs/tags/')
     needs:
@@ -115,7 +115,6 @@ jobs:
         with:
           ALIAS_GITHUB_REPOSITORY: ${{ github.repository }}
           TES_ENV: test
-
 #       - name: auto sync to env-test2
 #         uses: tespkg/action@sync_helm_chart
 #         with:
