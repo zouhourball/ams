@@ -368,7 +368,7 @@ export const actionsHeader = (
     case 'AU':
     default:
       return !row?.report
-        ? row?.status !== 'CLOSED'
+        ? row?.status !== 'CLOSED' && row?.actions?.length
           ? [
             ...defAUActions,
             {
@@ -396,7 +396,7 @@ export const actionsHeader = (
               },
             },
           ]
-        : row?.status !== 'CLOSED'
+        : row?.status !== 'CLOSED' && row?.actions?.length
           ? [
             ...defAUActions,
             {
@@ -496,7 +496,7 @@ export const enquiryActionsHeader = (
       navigate(`/ams/audit/audit-details/response/${row?.enquireId}`)
     },
   }
-  const newResponse = {
+  const newResolution = {
     id: 6,
     label: 'New Resolution',
     onClick: () => {
@@ -527,14 +527,17 @@ export const enquiryActionsHeader = (
         (row?.status === 'ASSIGNED' && role === 'AP')
       ) {
         return [...defBtns, ackBtn]
-      } else if (row?.status === 'ACKNOWLEDGED_BY_FP') {
+      } else if (row?.status === 'ACKNOWLEDGED_BY_FP' && role === 'FP') {
         return [...defBtns, assignBtn]
+      } else if (row?.status === 'RESPONDED' && role === 'AP') {
+        return [...defBtns, viewResponseBtn, newResponseBtn]
+      } else if (row?.status === 'RESPONDED' && role === 'FP') {
+        return [...defBtns, viewResponseBtn]
       } else if (
-        (row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' ||
-          row?.status === 'RESPONDED') &&
+        row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' &&
         role === 'AP'
       ) {
-        return [...defBtns, viewResponseBtn, newResponseBtn]
+        return [...defBtns, newResponseBtn]
       } else if (
         (row?.status === 'ASSIGNED' || row?.status === 'ACKNOWLEDGED') &&
         role === 'AP'
@@ -544,16 +547,20 @@ export const enquiryActionsHeader = (
         return [...defBtns, newResponseBtn]
       } else return defBtns
     case 'response':
-      if (row?.status !== 'NEW') {
-        return [...defBtns, newResponse]
+      if (row?.status !== 'NEW' && role === 'AP') {
+        return [...defBtns, newResolution]
       } else return defBtns
     case 'actions':
-      if (row?.resolutions?.length) {
-        return [...defBtns, newResponse, viewResolutionBtn]
+      if (row?.resolutions?.length && role === 'AP') {
+        return [...defBtns, newResolution, viewResolutionBtn]
+      } else if (role === 'AP') {
+        return [...defBtns, newResolution]
+      } else if (role === 'FP') {
+        return [...defBtns, viewResolutionBtn]
       }
-      if (row?.status === 'OPEN') {
-        return [...defBtns, newResponse, viewResolutionBtn]
-      } else return [...defBtns, newResponse]
+      if (row?.status === 'OPEN' && role === 'AP') {
+        return [...defBtns, newResolution, viewResolutionBtn]
+      } else return [...defBtns]
     case 'resolutions':
     default:
       return defBtns
@@ -581,7 +588,7 @@ export const enquiryActionsHeader = (
   //   !!row?.status &&
   //   row?.status !== 'NEW'
   // ) {
-  //   return [...defBtns, newResponse, viewResolutionBtn]
+  //   return [...defBtns, newResolution, viewResolutionBtn]
   // } else if (view === 'actions') {
   //   return [...defBtns, newResponseBtn] /*, viewResolutionBtn */
   // } else if (view === 'actions' && row?.status === 'OPEN') {

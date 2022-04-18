@@ -107,6 +107,7 @@ const AuditDetails = ({ subkey, auditId }) => {
         showCreateSpaceDialog(false)
         showAssignDialog(false)
         showActionDialog(false)
+        showResponseDetailsDialog(false)
         dispatch(
           addToast(
             <ToastMsg text={res.message || 'success'} type="success" />,
@@ -115,6 +116,7 @@ const AuditDetails = ({ subkey, auditId }) => {
         )
         refetchEnq()
         refetchAudit()
+        setSelectedRow([])
         view === 'actions' && refetchActions()
         view === 'resolutions' && refetchResolutions()
       } else {
@@ -143,6 +145,7 @@ const AuditDetails = ({ subkey, auditId }) => {
           ),
         )
         refetchResponses()
+        setSelectedRow([])
       } else {
         showCreateSpaceDialog(false)
 
@@ -231,6 +234,7 @@ const AuditDetails = ({ subkey, auditId }) => {
           response: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
           attachedDocs: el?.enquiryResponseDocuments[0]?.filename,
           status: el?.responseStatus,
+          attachedDocsObj: el?.enquiryResponseDocuments[0],
         }))
       case 'actions':
         return actionsList?.data?.map((el) => ({
@@ -764,16 +768,20 @@ const AuditDetails = ({ subkey, auditId }) => {
           // readOnly={view === 'resolutions'}
           role={role}
           title={
-            view === 'resolutions' ? 'Resolution Details' : 'Response Details'
+            (view === 'resolutions' && 'Resolution Details') ||
+            (view === 'actions' && 'Action Details') ||
+            'Response Details'
           }
           descriptionValue={
-            view === 'resolutions'
+            view === 'resolutions' || view === 'actions'
               ? selectedRow[0]?.description
               : selectedRow[0]?.response
           }
-          file={selectedRow[0]?.attachedDocs}
+          file={selectedRow[0]?.attachedDocsObj}
           descriptionLabel={
-            view === 'resolutions' ? 'Resolution Description' : 'Response'
+            (view === 'resolutions' && 'Resolution Description') ||
+            (view === 'actions' && 'Action Description') ||
+            'Response'
           }
           status={selectedRow[0]?.status}
           onAccept={() =>

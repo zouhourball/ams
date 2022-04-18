@@ -87,56 +87,64 @@ const EnquireDetailsDialog = ({
       <div className="enquire-details-dialog-value">
         {enquiryDetails?.description?.replace(/<\/?[^>]+(>|$)/g, '')}
       </div>
-      <h4 className="enquire-details-dialog-title">
-        Attached Enquiry Document
-      </h4>
-      <div className="attachment-detail">
-        <div className="attachment-detail-docs-icon-area">
-          {renderDocumentIcon(enquiryDetails?.enquiryDocuments[0]?.type)}
-          <div className="attachment-detail-info">
-            <div className="name">
-              {enquiryDetails?.enquiryDocuments[0]?.filename}
-            </div>
-            <div className="size">
-              {enquiryDetails?.enquiryDocuments[0]?.size}
-            </div>
-          </div>
-        </div>
-        <Button
-          icon
-          className="attachment-btn"
-          onClick={() => {
-            onDownload(enquiryDetails?.enquiryDocuments[0]?.id)
-          }}
-        >
-          save_alt
-        </Button>
-      </div>
-      <h4 className="enquire-details-dialog-title">Assignee</h4>
-      <div className="assignee">
-        <UserInfoBySubject subject={enquiryDetails?.participants[0]}>
-          {(res) => (
-            <div className="submittedBy">
-              <Avatar
-                src={
-                  get(res, 'photo.aPIURL', null)
-                    ? getPublicUrl(res.photo.aPIURL)
-                    : null
-                }
-              >
-                {get(res, 'photo.aPIURL', null)
-                  ? null
-                  : get(res, 'fullName.0', '')}
-              </Avatar>
-              <div className="submittedBy-name">
-                {res ? res.fullName : 'N/A'}
+      {enquiryDetails?.enquiryDocuments[0] && (
+        <>
+          <h4 className="enquire-details-dialog-title">
+            Attached Enquiry Document
+          </h4>
+          <div className="attachment-detail">
+            <div className="attachment-detail-docs-icon-area">
+              {renderDocumentIcon(enquiryDetails?.enquiryDocuments[0]?.type)}
+              <div className="attachment-detail-info">
+                <div className="name">
+                  {enquiryDetails?.enquiryDocuments[0]?.filename}
+                </div>
+                <div className="size">
+                  {enquiryDetails?.enquiryDocuments[0]?.size}
+                </div>
               </div>
             </div>
-          )}
-        </UserInfoBySubject>
-        {/* <Avatar src={assignee.avatar} />
+            <Button
+              icon
+              className="attachment-btn"
+              onClick={() => {
+                onDownload(enquiryDetails?.enquiryDocuments[0]?.id)
+              }}
+            >
+              save_alt
+            </Button>
+          </div>
+        </>
+      )}
+      {enquiryDetails?.participants[0] && (
+        <>
+          <h4 className="enquire-details-dialog-title">Assignee</h4>
+          <div className="assignee">
+            <UserInfoBySubject subject={enquiryDetails?.participants[0]}>
+              {(res) => (
+                <div className="submittedBy">
+                  <Avatar
+                    src={
+                      get(res, 'photo.aPIURL', null)
+                        ? getPublicUrl(res.photo.aPIURL)
+                        : null
+                    }
+                  >
+                    {get(res, 'photo.aPIURL', null)
+                      ? null
+                      : get(res, 'fullName.0', '')}
+                  </Avatar>
+                  <div className="submittedBy-name">
+                    {res ? res.fullName : 'N/A'}
+                  </div>
+                </div>
+              )}
+            </UserInfoBySubject>
+            {/* <Avatar src={assignee.avatar} />
         <div className="assignee-name">{enquiryDetails?.participants}</div> */}
-      </div>
+          </div>
+        </>
+      )}
     </DialogContainer>
   )
 }

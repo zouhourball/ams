@@ -1,4 +1,5 @@
 import { Button, DialogContainer, FontIcon } from 'react-md'
+import { handlePrint } from 'components/module-permitting/print-component'
 
 import './style.scss'
 
@@ -12,7 +13,7 @@ const ResponseDetailsDialog = ({
   title,
   descriptionLabel,
   descriptionValue,
-  file,
+  file = {},
   status,
   onDownload,
   onSubmit,
@@ -94,44 +95,65 @@ const ResponseDetailsDialog = ({
       actions={
         role === 'AU' && status !== 'ACCEPTED' && status !== 'REJECTED'
           ? auActions
-          : role === 'FP' && status !== 'SUBMITTED' && status !== 'PROPOSED'
+          : role === 'FP' &&
+            status !== 'SUBMITTED' &&
+            status !== 'PROPOSED' &&
+            view === 'response'
             ? fpActions
-            : view === 'resolutions'
+            : view === 'resolutions' &&
+            role === 'FP' &&
+            status !== 'ACCEPTED' &&
+            status !== 'REJECTED'
               ? fpActionsView
               : [
                 <Button id="1" key="1" flat onClick={onHide}>
                 Discard
+                </Button>,
+                <Button
+                  id="2"
+                  key="2"
+                  flat
+                  onClick={() => handlePrint('Details', '', '', '', 'details')}
+                >
+                Print
                 </Button>,
               ]
       }
       title={
         <>
           {title}
-          <div className={`status status-${status}`}>{status}</div>
+          {status && <div className={`status status-${status}`}>{status}</div>}
         </>
       }
       className="response-details-dialog"
     >
-      <h4 className="response-details-dialog-title">{descriptionLabel}</h4>
-      <div className="response-details-dialog-value">{descriptionValue}</div>
-      <h4 className="response-details-dialog-title">Attached Document</h4>
-      <div className="attachment-detail">
-        <div className="attachment-detail-docs-icon-area">
-          {renderDocumentIcon(file?.type)}
-          <div className="attachment-detail-info">
-            <div className="name">{file}</div>
-            <div className="size">{file?.size}</div>
-          </div>
-        </div>
-        <Button
-          icon
-          className="attachment-btn"
-          onClick={() => {
-            onDownload(file?.id)
-          }}
-        >
-          save_alt
-        </Button>
+      {' '}
+      <div id="details">
+        <h4 className="response-details-dialog-title">{descriptionLabel}</h4>
+        <div className="response-details-dialog-value">{descriptionValue}</div>
+        {file?.id && (
+          <>
+            <h4 className="response-details-dialog-title">Attached Document</h4>
+            <div className="attachment-detail">
+              <div className="attachment-detail-docs-icon-area">
+                {renderDocumentIcon(file?.type)}
+                <div className="attachment-detail-info">
+                  <div className="name">{file?.fullname}</div>
+                  <div className="size">{file?.size}</div>
+                </div>
+              </div>
+              <Button
+                icon
+                className="attachment-btn"
+                onClick={() => {
+                  onDownload(file?.id)
+                }}
+              >
+                save_alt
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </DialogContainer>
   )
@@ -143,12 +165,7 @@ ResponseDetailsDialog.defaultProps = {
   title: 'Resolution Details',
   descriptionLabel: 'Resolution Description',
   descriptionValue: 'text',
-  file: {
-    id: '44',
-    type: 'xlsx',
-    filename: 'New Resolution.xlsx',
-    size: '2 MB',
-  },
+  file: {},
   // readOnly:true,
   status: 'new',
 }

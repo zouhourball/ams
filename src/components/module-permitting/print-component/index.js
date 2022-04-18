@@ -1,5 +1,11 @@
-export const handlePrint = (title, company, name, date) => {
-  var content = document.getElementById('details-permit').innerHTML
+export const handlePrint = (
+  title,
+  company,
+  name,
+  date,
+  id = 'details-permit',
+) => {
+  var content = document.getElementById(id).innerHTML
   /* var pri = document.getElementById(frameId).contentWindow
   // var innerDoc = pri?.document.getElementsByClassName('field')
 
@@ -23,6 +29,9 @@ export const handlePrint = (title, company, name, date) => {
   .field span {
      color: #878d92;
   } 
+  h4{
+    margin: 0 10px
+  }
   .details-permit {
     margin: 20px 0 0 0; 
     padding: 20px 20px 0 20px; 
@@ -33,8 +42,11 @@ export const handlePrint = (title, company, name, date) => {
     color: #6d7895;
   }
   `
+  const header = company
+    ? `<span>Company: ${company}</span> | <span>Submitted by: ${name}</span> | <span>Submitted Date: ${date}</span><span>Company: ${company}</span> | <span>Submitted by: ${name}</span> | <span>Submitted Date: ${date}</span>`
+    : ''
   a.document.write(
-    `<style>${style}</style><body> <h1>${title}</h1><br> <span>Company: ${company}</span> | <span>Submitted by: ${name}</span> | <span>Submitted Date: ${date}</span> <br>
+    `<style>${style}</style><body> <h1>${title}</h1><br> ${header} <br>
     <div class='details-permit'>  ${content}  </div>
     </body></html>`,
   )
