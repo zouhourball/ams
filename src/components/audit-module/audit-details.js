@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { navigate } from '@reach/router'
+// import { navigate } from '@reach/router'
 import { Button } from 'react-md'
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -55,7 +55,7 @@ import {
   enquiryActionsHeader,
 } from './helpers'
 
-const AuditDetails = ({ subkey, auditId }) => {
+const AuditDetails = ({ subkey, auditId, navigate }) => {
   const dispatch = useDispatch()
 
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -79,6 +79,7 @@ const AuditDetails = ({ subkey, auditId }) => {
   const role = useRole('audit')
   useEffect(() => {
     subkey !== 'enquiries' && setView(subkey)
+    setSelectedRow([])
   }, [subkey])
   const { data: requestDetail, refetch: refetchEnq } = useQuery(
     ['requestDetail', auditId],
@@ -651,10 +652,20 @@ const AuditDetails = ({ subkey, auditId }) => {
   //       </Button>
   //     ))
   // ),
+  const returnBackward = () => {
+    setView('default')
+    navigate(
+      `/ams/audit/audit-details/enquiries/${renderHeaderDetails()?.auditId}`,
+    )
+  }
   return (
     <div>
       <TopBarDetailAudit
-        onClickBack={() => navigate(`/ams/audit`)}
+        onClickBack={() => {
+          subkey === 'enquiries' || subkey === 'actions'
+            ? navigate(`/ams/audit/audit-details`)
+            : returnBackward()
+        }}
         actions={
           view === 'default'
             ? defaultActions

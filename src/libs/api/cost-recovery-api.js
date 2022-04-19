@@ -290,10 +290,15 @@ export const overrideReport = async ({ body, overrideId, key }) => {
   return res
 }
 export const detailReport = async ({ queryKey }) => {
+  const pagination =
+    queryKey[0] === 'transaction'
+      ? `/rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`
+      : ''
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}`,
+      /// rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}
+      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}${pagination}`,
       {
         method: 'GET',
       },

@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button, SelectField } from 'react-md'
+import { Button, SelectField, TextField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import { useMemo, useState } from 'react'
@@ -42,6 +42,8 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [version, setVersion] = useState('1.0')
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
 
   const dispatch = useDispatch()
 
@@ -103,15 +105,26 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const role = useRole('costrecovery')
 
   const { addSupportingDocuments } = documents()
-  const { data: reportDetail } = useQuery([subModule, detailId], detailReport, {
-    refetchOnWindowFocus: false,
-  })
-  const { data: reportDetailByVersion } = useQuery(
-    [subModule, detailId, version],
-    detailReportByVersion,
+  const { data: reportDetail } = useQuery(
+    [
+      subModule,
+      detailId,
+      {
+        size: size,
+        page: page,
+      },
+    ],
+    detailReport,
     {
       refetchOnWindowFocus: false,
     },
+  )
+  const { data: reportDetailByVersion } = useQuery(
+    [subModule, detailId, version],
+    detailReportByVersion,
+    /* {
+      refetchOnWindowFocus: false,
+    }, */
   )
   const rawData = subModule === 'costs' ? reportDetailByVersion : reportDetail
   const closeDialog = (resp) => {
@@ -222,7 +235,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         )
       case 'transaction':
         return (
-          reportDetail?.data?.map((el) => ({
+          reportDetail?.content?.map((el) => ({
             block: el?.block,
             transactionDate: el?.transactionDate,
             transactionReference: el?.transactionReference,
@@ -475,6 +488,42 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
               />
             )}
           </>
+        }
+        footerTemplate={
+          reportDetail?.totalPages > 1 &&
+          subModule === 'transaction' && (
+            <>
+              &nbsp;|&nbsp;Page
+              <TextField
+                id="page_num"
+                lineDirection="center"
+                block
+                type={'number'}
+                className="page"
+                value={page + 1}
+                onChange={(v) =>
+                  v >= reportDetail?.totalPages
+                    ? setPage(reportDetail?.totalPages - 1)
+                    : setPage(parseInt(v) - 1)
+                }
+                // disabled={status === 'closed'}
+              />
+              of {reportDetail?.totalPages}
+              &nbsp;|&nbsp;Show
+              <TextField
+                id="el_num"
+                lineDirection="center"
+                block
+                className="show"
+                value={size}
+                onChange={(v) =>
+                  v > reportDetail?.totalElements
+                    ? setSize(reportDetail?.totalElements)
+                    : setSize(v)
+                }
+              />
+            </>
+          )
         }
       />
       {showSupportedDocumentDialog && (
