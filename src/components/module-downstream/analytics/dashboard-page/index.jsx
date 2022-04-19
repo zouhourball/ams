@@ -15,7 +15,7 @@ import {
   pie,
   toolbox,
   vbar,
-  line,
+  // line,
   vbarline,
   stack,
   flattenTransform,
@@ -32,17 +32,19 @@ const isActualLifting = eq('type', 'actualLifted')
 const isCONSUMER = eq('terminalTypes', 'CONSUMER')
 const isSm3 = eq('type', 'Sm3 x 103')
 const isSUPPLIER = eq('terminalTypes', 'SUPPLIER')
-const isRate = eq('type', 'rate')
+// const isRate = eq('type', 'rate')
 const isNoRate = or(
   eq('type', 'M95'),
   eq('type', 'M91'),
   eq('type', 'Kerosen'),
   eq('type', 'M98'),
   eq('type', 'GasOil'),
+  eq('type', 'Jet'),
 )
+export const drillPathFull = { drillPath: ['company', 'governorat'] }
 const isSUPPLIERandSm3 = and(isSUPPLIER, isSm3)
 const isCONSUMERandSm3 = and(isCONSUMER, isSm3)
-const mc21 = mcDFBySize(2, 1, ['company'])
+const mc21 = mcDFBySize(2, 1, ['company', 'reportType'])
 const mc41 = mcDFBySize(4, 1, ['company'])
 
 const mc11 = mcDFBySize(1, 1, ['company'])
@@ -175,15 +177,15 @@ const vBarStackMap = stack({
     showLegend: true,
   },
 })
-const LineWithGover = line({
-  map: {
-    split1By: 'governorat',
-    value1Key: 'rate',
-  },
-  setting: {
-    showLegend: true,
-  },
-})
+// const LineWithGover = line({
+//   map: {
+//     split1By: 'governorat',
+//     value1Key: 'rate',
+//   },
+//   setting: {
+//     showLegend: true,
+//   },
+// })
 const filterByCompanyBlock = () => ({
   filter: {
     type: 'simple',
@@ -226,7 +228,7 @@ const mc21StackBar = mc21(
   }),
 )
 const mc41Bar = mc41('bar', null)
-const mc41Line = mc41('line', null)
+// const mc41Line = mc41('line', null)
 const mc21Bar = mc21('bar', null)
 const calculateNg = (data, type) => {
   const monthArr = extractUniqValue(data, 'month')
@@ -1092,6 +1094,22 @@ export const chartsToDraw = [
         charts: [
           mc21Pie(
             creatorMaker({
+              type: 'drillablePie',
+              config: {
+                filterBy: query(eq('type', 'M95')),
+                groupHandlerName: 'sum-stationNumber',
+              },
+            }),
+          )(
+            'Filling Station',
+            {
+              ...drillPathFull,
+              pinConfig: {},
+            },
+            {},
+          ),
+          mc21Pie(
+            creatorMaker({
               type: 'pie',
               config: {
                 sliceByKeys: ['governorat'],
@@ -1160,28 +1178,28 @@ export const chartsToDraw = [
             },
             {},
           ),
-          mc41Line(
-            creatorMaker({
-              type: 'bar',
-              config: {
-                sliceByKeys: ['type', 'governorat'],
-                groupHandlerName: 'sum-value',
-                filterBy: query(isRate),
-              },
-            }),
-          )(
-            'Governorat/Rate',
-            {
-              pinConfig: configMerge(
-                title('Governorat/Rate'),
-                LineWithGover,
-                toolbox,
-                filterByCompanyBlock,
-                numberNdFmt(0),
-              ),
-            },
-            {},
-          ),
+          // mc41Line(
+          //   creatorMaker({
+          //     type: 'bar',
+          //     config: {
+          //       sliceByKeys: ['type', 'governorat'],
+          //       groupHandlerName: 'sum-value',
+          //       filterBy: query(isRate),
+          //     },
+          //   }),
+          // )(
+          //   'Governorat/Rate',
+          //   {
+          //     pinConfig: configMerge(
+          //       title('Governorat/Rate'),
+          //       LineWithGover,
+          //       toolbox,
+          //       filterByCompanyBlock,
+          //       numberNdFmt(0),
+          //     ),
+          //   },
+          //   {},
+          // ),
         ],
       },
     ],

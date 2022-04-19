@@ -1,5 +1,5 @@
 import { mapDataCvtCreator } from 'components/analytics/utils'
-import { flatMap, capitalize } from 'lodash-es'
+import { flatMap, capitalize, upperFirst } from 'lodash-es'
 import { MonthNames } from 'libs/consts'
 import { fixNbr, mapMonthNameToNumber } from 'libs/utils'
 
@@ -144,12 +144,13 @@ export function processRSData (raw) {
       flatMap(content, (record) => {
         const { metaData, data } = record
         const { month, year, company, category } = metaData
-        if (category !== 'Retail Sales') return []
+        // if (category !== 'Retail Sales') return []
         const base = {
           month: MonthNames[mapMonthNameToNumber(capitalize(month)) - 1],
           year,
           company,
           unit: 'LTR',
+          reportType: upperFirst(category),
         }
         return flatMap(data, (item) => {
           const { governorat, dataGov } = item
@@ -160,6 +161,7 @@ export function processRSData (raw) {
               saleQuantityKerosen,
               saleQuantityM98,
               saleQuantityGasOil,
+              saleQuantityJet,
               rate,
               ...rest
             } = item
@@ -197,6 +199,13 @@ export function processRSData (raw) {
                 ...rest,
                 type: 'GasOil',
                 value: saleQuantityGasOil,
+                governorat,
+                ...base,
+              },
+              {
+                ...rest,
+                type: 'Jet',
+                value: saleQuantityJet,
                 governorat,
                 ...base,
               },

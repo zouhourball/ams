@@ -96,7 +96,7 @@ export const productionFilters = [
     type: 'check',
     label: 'year',
     field: 'year',
-    validForReportType: ['monthly', 'tracking', 'hydrocarbon'],
+    validForReportType: ['monthly', 'tracking', 'hydrocarbon', 'gomi'],
   },
   {
     type: 'check',
