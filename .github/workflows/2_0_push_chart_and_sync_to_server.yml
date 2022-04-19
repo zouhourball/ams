@@ -41,24 +41,8 @@ jobs:
             docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${IMAGE_TAG}
             docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:latest
             docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}
+            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}:${IMAGE_TAG}
           fi
-
-          if [ "$SECOND_MODULE" != "ignore" ] && [ "$SECOND_MODULE" != "null" ] && [ "$SECOND_MODULE" != "" ] ;
-          then
-            docker pull ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8}
-            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${IMAGE_TAG}
-            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}:latest
-            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${SECOND_MODULE}
-          fi
-
-          if [ "$THIRD_MODULE" != "ignore" ] && [ "$THIRD_MODULE" != "null" ] && [ "$THIRD_MODULE" != "" ] ;
-          then
-            docker pull ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8}
-            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${IMAGE_TAG}
-            docker tag ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:${GITHUB_SHA::8} ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}:latest
-            docker push ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}-${THIRD_MODULE}            
-          fi
-
   push_chart_to_helm_repo:
     runs-on: ubuntu-latest
     name: push chart to helm repo
