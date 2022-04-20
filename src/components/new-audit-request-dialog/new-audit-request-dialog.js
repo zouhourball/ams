@@ -71,11 +71,13 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
   })
   const validateData = () => {
     return !(
-      auditData?.title &&
-      auditData?.purpose &&
-      auditData?.scope &&
-      auditData?.expectedDeliverables &&
-      files?.length
+      (
+        auditData?.title &&
+        auditData?.purpose &&
+        auditData?.scope &&
+        auditData?.expectedDeliverables
+      )
+      // && files?.length
     )
   }
   const uploadBtn = {
@@ -176,11 +178,12 @@ const NewAuditRequestDialog = ({ title, visible, onHide, onSave }) => {
           <TextField
             placeholder={'Reference Date'}
             value={moment(auditData?.expectedDeliverables).format('ll')}
-            className="new-audit-request-dialog-text"
+            className="new-audit-request-dialog-text date-field"
             onChange={() => {}}
             block
             rightIcon={<FontIcon iconClassName="mdi mdi-calendar" />}
             onClick={() => setShowDatePicker(true)}
+            label={'Expected Deliverables'}
           />
           {showDatePicker && (
             <DatePicker
