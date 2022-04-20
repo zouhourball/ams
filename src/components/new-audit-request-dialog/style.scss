@@ -4,6 +4,12 @@
     border-radius: 10px;
   }
 
+  .date-field {
+    label {
+      transform: translate3d(-4px, -6px, 0);
+    }
+  }
+
   .md-title {
     padding: 16px 30px;
     border-bottom: 1px solid #dcdcdc;

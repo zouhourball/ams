@@ -531,7 +531,7 @@ export const enquiryActionsHeader = (
         return [...defBtns, assignBtn]
       } else if (row?.status === 'RESPONDED' && role === 'AP') {
         return [...defBtns, viewResponseBtn, newResponseBtn]
-      } else if (row?.status === 'RESPONDED' && role === 'FP') {
+      } else if (row?.status === 'RESPONDED' /* && role === 'FP' */) {
         return [...defBtns, viewResponseBtn]
       } else if (
         row?.status === 'ACKNOWLEDGED_BY_PARTICIPANT' &&
