@@ -1097,7 +1097,7 @@ export const chartsToDraw = [
               type: 'drillablePie',
               config: {
                 filterBy: query(eq('type', 'M95')),
-                groupHandlerName: 'sum-stationNumber',
+                groupHandlerName: 'sum-fillingStation',
               },
             }),
           )(

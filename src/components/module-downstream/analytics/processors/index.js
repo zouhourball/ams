@@ -173,6 +173,7 @@ export function processRSData (raw) {
                 value: saleQuantityM95,
                 governorat,
                 ...base,
+                fillingStation: 1,
               },
               {
                 ...rest,
