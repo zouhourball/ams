@@ -7,8 +7,9 @@ import { navigate } from '@reach/router'
 
 import Mht from '@target-energysolutions/mht'
 
+import { useQuery } from 'react-query'
+
 import {
-  getMeetings,
   getAllProposals,
   getAllProposalsByCompany,
   deleteProposal,
@@ -17,6 +18,7 @@ import {
   getMembers,
   approvedProposal,
   rejectedProposal,
+  getMeetingsList,
 } from 'libs/api/api-tendering'
 import mutate from 'libs/hocs/mutate'
 
@@ -49,7 +51,6 @@ const FunctionBusinessProcessByOrg = ({
     createMeeting,
     passToAgendaProposal,
     getMembers,
-    getMeetings,
     approvedProposal,
     rejectedProposal,
   },
@@ -435,12 +436,16 @@ const FunctionBusinessProcessByOrg = ({
     const { data: members } = await getMembers(organizationID)
     return members
   }
+
+  const { data: listMeetings } = useQuery(
+    ['meetingsList', '0'],
+    getMeetingsList,
+  )
   const handleShowMeeting = async (agenda, proposalId) => {
     if (agenda.workspaceId) {
-      const { data: meetings } = await getMeetings(agenda.workspaceId)
       const meeting =
-        meetings?.content?.length > 0 &&
-        meetings.content.find(
+        listMeetings?.content?.length > 0 &&
+        listMeetings.content.find(
           (el) => +get(el, 'additionalInfos.proposalId', null) === proposalId,
         )
       meeting &&
@@ -483,7 +488,7 @@ const FunctionBusinessProcessByOrg = ({
               !row.toClarifyComment && row.proposalStateEnum !== 'Clarify',
           },
           {
-            id: 1,
+            id: 2,
             label: 'edit',
             onClick: () => {
               onEditProposal(row)
@@ -491,19 +496,19 @@ const FunctionBusinessProcessByOrg = ({
             disabled: !(row.proposalStateEnum === 'Clarify'),
           },
           {
-            id: 1,
+            id: 3,
             label: 'Supporting Documents',
             onClick: () => handleAttachedFiles(row),
           },
 
           {
-            id: 1,
+            id: 4,
             label: 'Delete',
             onClick: () => onDeleteProposal(row.id),
             disabled: row.proposalStateEnum !== 'New',
           },
           {
-            id: 1,
+            id: 5,
             label: 'Meeting View',
             onClick: () => handleShowMeeting(row?.agendas[0], row.id),
             disabled: !['Rejected', 'Approved', 'PassedToAgenda'].includes(
@@ -790,7 +795,6 @@ export default connect(
       createMeeting,
       passToAgendaProposal,
       getMembers,
-      getMeetings,
       approvedProposal,
       rejectedProposal,
     },

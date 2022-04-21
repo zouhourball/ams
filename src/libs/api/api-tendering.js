@@ -262,11 +262,11 @@ export async function getWorkflowMeetings (
   return res
 }
 
-export async function getMeetings (wspId, startDate, endDate) {
+export async function getMeetingsList ({ queryKey }) {
   let res
   try {
     res = await fetchJSON(
-      `${PRODUCT_APP_URL_API}/ws-meeting/api/v2/meetings?workspaceIds=${wspId}&date=${startDate}&endDate=${endDate}&size=1000`,
+      `${PRODUCT_APP_URL_API}/ws-meeting/api/v2/meetings?workspaceIds=${queryKey[1]}&date=${queryKey[2]}&endDate=${queryKey[3]}&size=1000`,
       {
         method: 'GET',
         credentials: 'include',
@@ -279,6 +279,7 @@ export async function getMeetings (wspId, startDate, endDate) {
   }
   return res
 }
+
 export const acceptMeeting = async (meetingId) => {
   let res = await fetchJSON(
     `${PRODUCT_APP_URL_API}/ws-meeting/api/v2/meetings/${meetingId}/accept`,
