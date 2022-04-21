@@ -138,7 +138,7 @@ const ResponseDetailsDialog = ({
               <div className="attachment-detail-docs-icon-area">
                 {renderDocumentIcon(file?.type)}
                 <div className="attachment-detail-info">
-                  <div className="name">{file?.fullname}</div>
+                  <div className="name">{file?.filename}</div>
                   <div className="size">{file?.size}</div>
                 </div>
               </div>

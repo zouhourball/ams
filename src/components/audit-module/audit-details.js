@@ -263,6 +263,7 @@ const AuditDetails = ({ subkey, auditId, navigate }) => {
               (file) => file?.filename,
             ),
             date: moment(el?.createdAt).format('DD MMM YYYY'),
+            attachedDocsObj: el?.resolutionDocuments[0],
           })) || []
         )
       /* [
