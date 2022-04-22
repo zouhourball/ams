@@ -4,6 +4,7 @@ import { get } from 'lodash-es'
 import { navigate } from '@reach/router'
 
 import UserInfoBySubject from '../../components/user-info-by-subject'
+import MeetingAction from '../meeting-action'
 
 import { getPublicUrl } from 'libs/utils/custom-function'
 import { fetchJSON } from 'libs/fetch'
@@ -202,7 +203,7 @@ export const config = (
   {
     label: 'Actions',
     render: (row) => (
-      <div>
+      <div className="actions">
         {role === 'secretary' && (
           <Button
             onClick={() => onReview(row.id)}
@@ -292,24 +293,32 @@ export const config = (
             delete
           </Button>
         )}
-        ,
+
         {
-          <Button
-            onClick={() => handleShowMeeting(row?.agendas[0], row.id)}
-            icon
+          <MeetingAction
+            processInstanceId={row?.agendas[0]?.processInstanceId}
             disabled={
               !['Rejected', 'Approved', 'PassedToAgenda'].includes(
                 row.proposalStateEnum,
               )
             }
-            primary
-            iconClassName="mdi mdi-eye-outline"
-            title="Meeting View"
           />
+          // <Button
+          //   onClick={() => handleShowMeeting(row?.agendas[0], row.id)}
+          //   icon
+          //   disabled={
+          //     !['Rejected', 'Approved', 'PassedToAgenda'].includes(
+          //       row.proposalStateEnum,
+          //     )
+          //   }
+          //   primary
+          //   iconClassName="mdi mdi-eye-outline"
+          //   title="Meeting View"
+          // />
         }
       </div>
     ),
-    width: 300,
+    width: 500,
   },
 ]
 

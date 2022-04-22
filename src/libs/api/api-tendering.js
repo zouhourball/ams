@@ -1,6 +1,8 @@
 import { fetchJSON } from 'libs/fetch'
 
-const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
+// const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
+const appUrl = PRODUCT_APP_URL_API
+const meetingUrl = PRODUCT_APP_URL_WS_MEETING
 
 export async function getInfos () {
   let res
@@ -487,5 +489,20 @@ export async function getAccess (action, subject) {
       }),
     },
   )
+  return res
+}
+
+export const meetings = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${meetingUrl}/api/v2/workflows/meetings?processInstanceId=${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
   return res
 }

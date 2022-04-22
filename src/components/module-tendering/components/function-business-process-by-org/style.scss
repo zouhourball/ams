@@ -2,6 +2,10 @@
   &-dataTable {
     // height: calc(100% - 52px);
 
+    .actions {
+      display: contents;
+    }
+
     .xeena-table-body {
       .xeena-cell-checkbox {
         .md-text--theme-secondary {

@@ -71,6 +71,9 @@ const FunctionBusinessProcessByOrg = lazy(() =>
 const CreateProposal = lazy(() => import('./components/create-proposal'))
 const VendorDevelopment = lazy(() => import('./components/vendor-development'))
 const TableViewDetails = lazy(() => import('./components/table-view-details'))
+
+const PlanningMeeting = lazy(() => import('components/ws-meeting'))
+
 // const MeetingsList = lazy(() => import('./components/meetings-list'))
 // const AgendaRequest = lazy(() => import('./components/agenda-request'))
 const Reports = lazy(() => import('./components/reports'))
@@ -1182,6 +1185,7 @@ const TenderingModule = ({
             />
             <AgendaRequest path="/agenda-request" /> */}
                 <Reports path="/rp" />
+                <PlanningMeeting path="/fbp/meeting/:meetingId" />
               </Router>
             </Suspense>
           </QueryClientProvider>

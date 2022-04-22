@@ -19,6 +19,7 @@ import {
   approvedProposal,
   rejectedProposal,
   getMeetingsList,
+  // meetings,
 } from 'libs/api/api-tendering'
 import mutate from 'libs/hocs/mutate'
 
@@ -202,11 +203,11 @@ const FunctionBusinessProcessByOrg = ({
           workspaceId: get(agendaData, 'workspace.id', '0'),
           workspaceName: get(agendaData, 'workspace.name', 'placeholder'),
           orgId: organizationID,
-          // processInstanceId: get(
-          //   passToAgendaProposalStatus,
-          //   'data.data.processInstanceId',
-          //   null,
-          // ),
+          processInstanceId: get(
+            passToAgendaProposalStatus,
+            'data.data.processInstanceId',
+            null,
+          ),
           participants: agendaData.selectedItems.map((el) => {
             return {
               sub: el.subject,
@@ -441,6 +442,11 @@ const FunctionBusinessProcessByOrg = ({
     ['meetingsList', '0'],
     getMeetingsList,
   )
+  // const { data: meetingss } = useQuery(
+  //   ['meetingsList', 'c681c16a-c6a8-413a-b146-45df7eef60d6'],
+  //   meetings,
+  // )
+  // console.log(meetingss, 'getMeetingsList')
   const handleShowMeeting = async (agenda, proposalId) => {
     if (agenda.workspaceId) {
       const meeting =
@@ -611,6 +617,7 @@ const FunctionBusinessProcessByOrg = ({
         ]
     }
   }
+
   return (
     <>
       {role !== 'operator' && (
