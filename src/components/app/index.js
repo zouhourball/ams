@@ -165,6 +165,11 @@ const Shell = ({ lang }) => {
               ...subModules.find((sM) => sM.key === key),
               path,
             })
+          } else if (roles.includes(`target:tendering:member`)) {
+            basedRoleSubMenus.push({
+              ...subModules.find((sM) => sM.key === key),
+              path,
+            })
           }
         },
       )
@@ -180,7 +185,6 @@ const Shell = ({ lang }) => {
     }
     return basedRoleSubMenus
   }
-
   const newSubModules = renderMenus()
 
   const token = getAuthToken()

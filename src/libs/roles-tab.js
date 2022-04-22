@@ -60,6 +60,7 @@ export const rolesTab = [
     roleOp: 'target:tendering:operator',
     roleRe: 'target:tendering:secretary',
     roleCh: 'target:tendering:chairman',
+    roleMe: 'target:tendering:member',
     path: 'tendering',
   },
   {

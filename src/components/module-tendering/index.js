@@ -130,7 +130,7 @@ const TenderingModule = ({
   const roles = {
     Start: 'operator',
     [`target:tendering:secretary`]: 'secretary',
-    [`target-subscription-store:${organizationId}:tendering:member`]: 'member',
+    [`target:tendering:member`]: 'member',
     [`target-subscription-store:${organizationId}:target:tendering:operator`]:
       'operator',
     [`target-subscription-store:${organizationId}:target:tendering:chairman`]:
@@ -170,7 +170,7 @@ const TenderingModule = ({
         `target-subscription-store:${organizationId}:target:tendering:chairman` ||
       role ===
         `target-subscription-store:${organizationId}:target:tendering:operator` ||
-      role === `target-subscription-store:${organizationId}:tendering:member`,
+      role === `target:tendering:member`,
   )
 
   const userRole = useMemo(() => {
@@ -192,7 +192,6 @@ const TenderingModule = ({
     }
     return userRoleState
   }, [userRoles, getDelegationStatus, organizationId])
-
   const updateControl = useRef(false)
 
   useEffect(() => {
@@ -774,6 +773,7 @@ const TenderingModule = ({
 
       case 'secretary':
       case 'chairman':
+      case 'member':
         return source !== 'newfbp' && subSource !== 'plan' ? !subSource : true
     }
   }

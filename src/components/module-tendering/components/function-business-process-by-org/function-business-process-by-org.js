@@ -7,8 +7,6 @@ import { navigate } from '@reach/router'
 
 import Mht from '@target-energysolutions/mht'
 
-import { useQuery } from 'react-query'
-
 import {
   getAllProposals,
   getAllProposalsByCompany,
@@ -18,7 +16,7 @@ import {
   getMembers,
   approvedProposal,
   rejectedProposal,
-  getMeetingsList,
+  // getMeetingsList,
   // meetings,
 } from 'libs/api/api-tendering'
 import mutate from 'libs/hocs/mutate'
@@ -83,6 +81,7 @@ const FunctionBusinessProcessByOrg = ({
   onPublish,
 }) => {
   const { t } = useTranslation()
+
   const changeNewProposal = usePrevious(newProposal)
   const changeClarifiedProposal = usePrevious(clarifiedProposal)
   const [status, setStatus] = useState('All')
@@ -438,28 +437,24 @@ const FunctionBusinessProcessByOrg = ({
     return members
   }
 
-  const { data: listMeetings } = useQuery(
-    ['meetingsList', '0'],
-    getMeetingsList,
-  )
-  // const { data: meetingss } = useQuery(
-  //   ['meetingsList', 'c681c16a-c6a8-413a-b146-45df7eef60d6'],
-  //   meetings,
+  // const { data: listMeetings } = useQuery(
+  //   ['meetingsList', '0'],
+  //   getMeetingsList,
   // )
-  // console.log(meetingss, 'getMeetingsList')
-  const handleShowMeeting = async (agenda, proposalId) => {
-    if (agenda.workspaceId) {
-      const meeting =
-        listMeetings?.content?.length > 0 &&
-        listMeetings.content.find(
-          (el) => +get(el, 'additionalInfos.proposalId', null) === proposalId,
-        )
-      meeting &&
-        window.open(
-          `${PRODUCT_APP_URL_WORKSPACE}/${meeting.orgId}/workspace/${meeting.workspaceId}/meeting/${meeting.id}`,
-        )
-    }
-  }
+
+  // const handleShowMeeting = async (agenda, proposalId) => {
+  //   if (agenda.workspaceId) {
+  //     const meeting =
+  //       listMeetings?.content?.length > 0 &&
+  //       listMeetings.content.find(
+  //         (el) => +get(el, 'additionalInfos.proposalId', null) === proposalId,
+  //       )
+  //     meeting &&
+  //       window.open(
+  //         `${PRODUCT_APP_URL_WORKSPACE}/${meeting.orgId}/workspace/${meeting.workspaceId}/meeting/${meeting.id}`,
+  //       )
+  //   }
+  // }
 
   const mhtConfig = useMemo(
     () =>
@@ -470,7 +465,7 @@ const FunctionBusinessProcessByOrg = ({
         seeInformation,
         onDeleteProposal,
         handleAttachedFiles,
-        handleShowMeeting,
+        // handleShowMeeting,
         onEditProposal,
       ),
     [role, onReview, onClarify, onDeleteProposal, handleAttachedFiles],
@@ -513,14 +508,14 @@ const FunctionBusinessProcessByOrg = ({
             onClick: () => onDeleteProposal(row.id),
             disabled: row.proposalStateEnum !== 'New',
           },
-          {
-            id: 5,
-            label: 'Meeting View',
-            onClick: () => handleShowMeeting(row?.agendas[0], row.id),
-            disabled: !['Rejected', 'Approved', 'PassedToAgenda'].includes(
-              row.proposalStateEnum,
-            ),
-          },
+          // {
+          //   id: 5,
+          //   label: 'Meeting View',
+          //   onClick: () => handleShowMeeting(row?.agendas[0], row.id),
+          //   disabled: !['Rejected', 'Approved', 'PassedToAgenda'].includes(
+          //     row.proposalStateEnum,
+          //   ),
+          // },
         ]
 
       case 'secretary':
@@ -562,14 +557,14 @@ const FunctionBusinessProcessByOrg = ({
               label: 'Supporting Documents',
               onClick: () => handleAttachedFiles(row),
             },
-            {
-              id: 1,
-              label: 'Meeting View',
-              onClick: () => handleShowMeeting(row?.agendas[0], row.id),
-              disabled: !['Rejected', 'Approved', 'PassedToAgenda'].includes(
-                row.proposalStateEnum,
-              ),
-            },
+            // {
+            //   id: 1,
+            //   label: 'Meeting View',
+            //   onClick: () => handleShowMeeting(row?.agendas[0], row.id),
+            //   disabled: !['Rejected', 'Approved', 'PassedToAgenda'].includes(
+            //     row.proposalStateEnum,
+            //   ),
+            // },
           ]
         } else {
           return [

@@ -31,7 +31,7 @@ export const config = (
   seeInformation,
   onDelete,
   handleAttachedFiles,
-  handleShowMeeting,
+  // handleShowMeeting,
   onEditProposal,
 ) => [
   {

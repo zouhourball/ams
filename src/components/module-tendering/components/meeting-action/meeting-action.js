@@ -1,17 +1,27 @@
 import { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { meetings } from 'libs/api/api-tendering'
 import { Button } from 'react-md'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { get } from 'lodash-es'
+
+import { addToast } from 'modules/app/actions'
+import { respondToMeeting } from 'libs/api/api-planning'
+
+import ToastMsg from '../../components/toast-msg'
 
 import './style.scss'
 
 const MeetingAction = ({ processInstanceId, disabled }) => {
+  const dispatch = useDispatch()
+
   const [status, setStatus] = useState(null)
-  const { data: meeting } = useQuery(
+  const { data: meeting, refetch } = useQuery(
     ['meetingsList', processInstanceId],
     meetings,
+    {
+      refetchOnWindowFocus: false,
+    },
   )
   const currentUser = useSelector(
     ({ query }) => query?.DEFAULT?.me?.data?.subject,
@@ -27,15 +37,59 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
         )[0].status,
       )
   }, [meeting])
+  const respondToMeetingMutation = useMutation(respondToMeeting, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+
+  const respondToMeetingHandler = (status, id) => {
+    respondToMeetingMutation.mutate(
+      {
+        id,
+        status,
+      },
+      {
+        onSuccess: () => {
+          refetch()
+        },
+      },
+    )
+  }
   const renderMeetingView = () => {
     switch (status) {
       case 'JOINNED':
         return (
           <Button
-            // onClick={() => handleShowMeeting(row?.agendas[0], row.id)}
             onClick={() =>
-              meetings &&
-              window.open(`meeting/${get(meeting, 'content.0.id', '')}`)
+              window.open(
+                `${PRODUCT_APP_URL_WORKSPACE}/${get(
+                  meeting,
+                  'content.0.orgId',
+                  '',
+                )}/workspace/${get(
+                  meeting,
+                  'content.0.workspaceId',
+                  '',
+                )}/meeting/${get(meeting, 'content.0.id', '')}`,
+              )
             }
             icon
             disabled={disabled}
@@ -47,46 +101,47 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
 
       case 'PENDING':
         return (
-          <div className="btns">
+          <div>
             <Button
+              icon
+              disabled={disabled}
               primary
-              flat
-              // onClick={() => onAccept && onAccept()}
-              className="left-panel-asset-btn"
+              title="Accept Meeting"
+              onClick={() =>
+                respondToMeetingHandler(
+                  'accept',
+                  get(meeting, 'content.0.id', ''),
+                )
+              }
             >
-              Accept
+              event_available
             </Button>
+
             <Button
+              icon
+              disabled={disabled}
               primary
-              flat
-              // onClick={() => onReject && onReject()}
-              className="left-panel-asset-btn"
+              title="Reject Meeting"
+              onClick={() =>
+                respondToMeetingHandler(
+                  'reject',
+                  get(meeting, 'content.0.id', ''),
+                )
+              }
             >
-              Reject
+              event_busy
             </Button>
           </div>
         )
 
       case 'DECLINED':
-        return <div>rejected</div>
+        return <div className="rejected">Meeting Rejected</div>
 
       default:
         return <div />
     }
   }
-  return (
-    <div className="meeting-action">
-      {renderMeetingView()}
-      {/* <Button
-        // onClick={() => handleShowMeeting(row?.agendas[0], row.id)}
-        icon
-        disabled={disabled}
-        primary
-        iconClassName="mdi mdi-eye-outline"
-        title="Meeting View"
-      /> */}
-    </div>
-  )
+  return <div className="meeting-action">{renderMeetingView()}</div>
 }
 
 export default MeetingAction
