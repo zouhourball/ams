@@ -39,13 +39,13 @@ const isNoRate = or(
   eq('type', 'Kerosen'),
   eq('type', 'M98'),
   eq('type', 'GasOil'),
-  eq('type', 'Jet'),
+  eq('type', 'Jet A 1'),
 )
 export const drillPathFull = { drillPath: ['company', 'governorat'] }
 const isSUPPLIERandSm3 = and(isSUPPLIER, isSm3)
 const isCONSUMERandSm3 = and(isCONSUMER, isSm3)
 const mc21 = mcDFBySize(2, 1, ['company', 'reportType'])
-const mc41 = mcDFBySize(4, 1, ['company'])
+const mc41 = mcDFBySize(4, 1, ['company', 'reportType'])
 
 const mc11 = mcDFBySize(1, 1, ['company'])
 const mc42 = mcDFBySize(4, 2, ['company'])
@@ -1096,6 +1096,7 @@ export const chartsToDraw = [
             creatorMaker({
               type: 'drillablePie',
               config: {
+                showUnit: false,
                 filterBy: query(eq('type', 'M95')),
                 groupHandlerName: 'sum-fillingStation',
               },

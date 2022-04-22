@@ -205,7 +205,7 @@ export function processRSData (raw) {
               },
               {
                 ...rest,
-                type: 'Jet',
+                type: 'Jet A 1',
                 value: saleQuantityJet,
                 governorat,
                 ...base,
