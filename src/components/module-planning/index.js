@@ -21,7 +21,7 @@ const PlanningModule = () => {
         />
         <Dashboard path="/analytics/dashboard" />
         <Planning path="/:subModule" />
-        <PlanningMeeting path="/meeting/:meetingId" />
+        <PlanningMeeting path="/:objectId/meeting/:meetingId" />
         <Redirect from="/" to="/ams/planning/wpb" noThrow />
       </Router>
     </Suspense>

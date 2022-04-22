@@ -22,7 +22,7 @@ const WsMeeting = () => {
   // console.log(me, 'me')
   const token = getAccessToken()
   const organizationId = useOrgId()
-  const { meetingId } = useParams()
+  const { meetingId, objectId } = useParams()
   const dispatch = useDispatch()
   const isEnterprise = +organizationId > 0
   const client = clients[isEnterprise ? 'enterprise' : 'individual']
@@ -85,6 +85,7 @@ const WsMeeting = () => {
             onOpenDiscussionGroup={(chat, meeting) => {
               handleOpenDiscussionGroup(chat, meeting, organizationId)
             }}
+            amsReportId={objectId}
             // workspace={ {} }
             meetingId={meetingId}
             onMeetingClose={() => {}}

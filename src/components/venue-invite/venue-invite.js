@@ -199,6 +199,7 @@ const VenueInvite = ({
   refetch,
   processInstanceId,
   role,
+  id,
 }) => {
   const defaultMembers =
     email || useMemo(() => userProfile?.email, [userProfile])
@@ -429,7 +430,7 @@ const VenueInvite = ({
             source: 'meeting',
             title: res?.title,
           })
-          res?.id && window.open(`meeting/${res?.id}`)
+          res?.id && window.open(`${id}/meeting/${res?.id}`)
         })
         toggle(false)
         refetch()

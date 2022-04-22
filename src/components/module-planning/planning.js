@@ -665,6 +665,11 @@ const Planning = ({ subModule }) => {
     setRowId(id)
     setShowMeeting(id)
   }
+  const reportId = useMemo(() => {
+    const item = tableDataPlanning.find((i) => i.processInstanceId === rowId)
+    if (item) return item.id
+  }, [tableDataPlanning, rowId])
+
   const submitDraft = (subModule, objectId, status) => {
     subModule === 'wpb'
       ? updateWpbStatusToSubmit.mutate({
@@ -701,12 +706,11 @@ const Planning = ({ subModule }) => {
       },
       {
         onSuccess: () => {
-          window.open(`meeting/${id}`)
+          window.open(`${reportId}/meeting/${id}`)
         },
       },
     )
   }
-
   return (
     <>
       <TopBar
@@ -854,6 +858,7 @@ const Planning = ({ subModule }) => {
         onClose={() => setShowMeeting(false)}
         visible={showMeeting}
         meetings={listMeetings?.content}
+        reportId={reportId}
         onCreate={() => setShowRescheduleDialog(true)}
         rightToCreateMeeting={actionsList?.includes('CREATE_MEETINGS')}
         respondToMeetingHandler={respondToMeetingHandler}

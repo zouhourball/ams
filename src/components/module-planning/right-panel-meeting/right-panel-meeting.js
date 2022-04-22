@@ -6,6 +6,7 @@ import './style.scss'
 const RightPanelMeeting = ({
   onCreate,
   visible,
+  reportId,
   onClose,
   meetings,
   rightToCreateMeeting,
@@ -23,7 +24,9 @@ const RightPanelMeeting = ({
       return (
         <MeetingCard
           key={meeting?.id}
-          onNavigateToMeeting={() => window.open(`meeting/${meeting?.id}`)}
+          onNavigateToMeeting={() =>
+            window.open(`${reportId}/meeting/${meeting?.id}`)
+          }
           meetings={{
             title: meeting?.title,
             startDate: meeting?.startDate,

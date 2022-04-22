@@ -71,7 +71,7 @@
     "@target-energysolutions/grid-dnd": "^0.2.3",
     "@target-energysolutions/hoc-oauth": "^1.3.2",
     "@target-energysolutions/map": "^0.9.1",
-    "@target-energysolutions/meeting": "^6.1.2",
+    "@target-energysolutions/meeting": "^6.1.3",
     "@target-energysolutions/messenger": "^17.2.2",
     "@target-energysolutions/mht": "2.22.3-beta.4",
     "@target-energysolutions/multi-select-dropdown": "^1.5.2",
