@@ -17,7 +17,7 @@ import { getOption } from 'libs/utils/custom-chart-option'
 import MultiSelectDropdown from '@target-energysolutions/multi-select-dropdown'
 import { query, includedIn } from 'libs/utils/query'
 import '@target-energysolutions/multi-select-dropdown/styles.css'
-import echartsBridge from './echarts-bridge.js'
+import './toolbox-view.js'
 import update from 'immutability-helper'
 import Toolbox from './toolbox'
 import { pinToWorkSpace } from 'libs/api/api-pin'
@@ -653,6 +653,10 @@ export default class ChartGroupChart extends React.Component {
                   })
                 },
               },
+              SaveDataView: {
+                show: true,
+                icon: 'path://M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z',
+              },
             },
           },
           title: {
@@ -1005,7 +1009,6 @@ export default class ChartGroupChart extends React.Component {
     if (this.chart && !this.chart.isDisposed()) {
       // this.chart.off("click")
       this.chart.dispose()
-      echartsBridge.dispose(this.chart)
       this.chart = null
     }
   }
