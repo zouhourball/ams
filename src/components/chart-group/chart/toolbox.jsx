@@ -7,7 +7,7 @@ import { Card } from 'react-md'
 const iconCollection = {
   myPin: 'mdi-pin',
   myRestore: 'mdi-update',
-  SaveDataView: 'mdi-file-import',
+  SaveDataView: 'mdi-import',
   dataView: 'mdi-border-all',
   saveAsImage: 'mdi-file-import',
 }
