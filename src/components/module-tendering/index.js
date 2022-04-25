@@ -72,7 +72,7 @@ const CreateProposal = lazy(() => import('./components/create-proposal'))
 const VendorDevelopment = lazy(() => import('./components/vendor-development'))
 const TableViewDetails = lazy(() => import('./components/table-view-details'))
 
-const PlanningMeeting = lazy(() => import('components/ws-meeting'))
+const TenderingMeeting = lazy(() => import('./components/ws-meeting'))
 
 // const MeetingsList = lazy(() => import('./components/meetings-list'))
 // const AgendaRequest = lazy(() => import('./components/agenda-request'))
@@ -804,10 +804,14 @@ const TenderingModule = ({
   ]
   return (
     <div className="tendering">
-      {source !== 'newfbp' && section !== 'details' && barView() && (
-        <TopBar title="Tendering" actions={null} />
-      )}
-      {source !== 'newfbp' && section !== 'details' && barView() && (
+      {source !== 'newfbp' &&
+        section !== 'details' &&
+        barView() &&
+        subSource !== 'meeting' && <TopBar title="Tendering" actions={null} />}
+      {source !== 'newfbp' &&
+        section !== 'details' &&
+        barView() &&
+        subSource !== 'meeting' && (
         <NavBar
           tabsList={tabsList}
           activeTab={currentTab}
@@ -1185,7 +1189,7 @@ const TenderingModule = ({
             />
             <AgendaRequest path="/agenda-request" /> */}
                 <Reports path="/rp" />
-                <PlanningMeeting path="/fbp/meeting/:meetingId" />
+                <TenderingMeeting path="/fbp/meeting/:meetingId" />
               </Router>
             </Suspense>
           </QueryClientProvider>

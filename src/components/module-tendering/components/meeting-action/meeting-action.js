@@ -78,19 +78,9 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
       case 'JOINNED':
         return (
           <Button
-            onClick={() =>
-              window.open(
-                `${PRODUCT_APP_URL_WORKSPACE}/${get(
-                  meeting,
-                  'content.0.orgId',
-                  '',
-                )}/workspace/${get(
-                  meeting,
-                  'content.0.workspaceId',
-                  '',
-                )}/meeting/${get(meeting, 'content.0.id', '')}`,
-              )
-            }
+            onClick={() => {
+              window.open(`meeting/${get(meeting, 'content.0.id', '')}`)
+            }}
             icon
             disabled={disabled}
             primary
@@ -128,6 +118,7 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
                   get(meeting, 'content.0.id', ''),
                 )
               }
+              className="rejected"
             >
               event_busy
             </Button>
@@ -135,7 +126,17 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
         )
 
       case 'DECLINED':
-        return <div className="rejected">Meeting Rejected</div>
+        return (
+          <Button
+            icon
+            disabled={true}
+            // primary
+            title="Meeting Rejected"
+            className="rejected"
+          >
+            close
+          </Button>
+        )
 
       default:
         return <div />
