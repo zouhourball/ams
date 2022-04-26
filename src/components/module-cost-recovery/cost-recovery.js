@@ -290,9 +290,12 @@ const CostRecovery = ({ subkey }) => {
         submittedDate: el?.metaData?.createdAt
           ? moment(el?.metaData?.createdAt).format('DD MMM, YYYY')
           : '',
-        referenceDate: `${moment(el?.metaData?.month).format('MMM')} ${
-          el?.metaData?.year
-        }`,
+        referenceDate:
+          currentTab === 0
+            ? el?.metaData?.year
+            : `${moment(el?.metaData?.month).format('MMM')} ${
+                el?.metaData?.year
+            }`,
         statusDate: el?.metaData?.updatedAt
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
