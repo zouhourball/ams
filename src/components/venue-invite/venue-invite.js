@@ -3,11 +3,12 @@ import classnames from 'classnames'
 import { BaseDialog } from './base-dialog'
 import { Controller, useForm } from 'react-hook-form'
 // import { getInvitedUsers } from 'libs/hooks/use-invited-users'
+// import { getPublicUrl } from 'libs/utils/custom-function'
 
 import { ErrorMessage } from '@hookform/error-message'
 import { TextField, Button, CircularProgress } from 'react-md'
-import CheckCircleIcon from 'mdi-react/CheckCircleIcon'
-import AccountPlusIcon from 'mdi-react/AccountPlusIcon'
+// import CheckCircleIcon from 'mdi-react/CheckCircleIcon'
+// import AccountPlusIcon from 'mdi-react/AccountPlusIcon'
 
 import AsyncSelect from 'react-select/async-creatable'
 
@@ -33,6 +34,7 @@ import {
 } from 'lodash-es'
 import { useSelector } from 'react-redux'
 import useSWR from 'swr'
+import { useQuery } from 'react-query'
 
 // import { useOrgId } from './use-org-id'
 import { DatePicker } from './date-picker'
@@ -44,10 +46,12 @@ import {
   updateMeeting,
   createScheduleMeeting,
   checkUserAvailable,
-  searchMember,
+  // searchMember,
   scheduleVenueMeeting,
 } from 'libs/api/venue'
 import HtmlEditor from 'components/html-editor'
+
+import { searchOpAndChairman } from 'libs/api/api-planning'
 
 // import { addToast } from 'modules/app/actions'
 
@@ -111,7 +115,7 @@ export const countDownOpts = [
 ]
 
 const MultiValueLabel = (props) => {
-  const { avatar, username } = props.data.meta
+  const { pictureUrl: avatar, fullName: username } = props.data.meta
 
   return (
     <div className="user-multi-value-label">
@@ -136,34 +140,39 @@ const MultiValueLabel = (props) => {
   )
 }
 
-const AddUserBtn = (props) => {
-  return (
-    <Button
-      iconEl={<AccountPlusIcon size={12} />}
-      {...props}
-      className={classnames(props.className, 'primary')}
-    >
-      Add
-    </Button>
-  )
-}
+// const AddUserBtn = (props) => {
+//   return (
+//     <Button
+//       iconEl={<AccountPlusIcon size={12} />}
+//       {...props}
+//       className={classnames(props.className, 'primary')}
+//     >
+//       Add
+//     </Button>
+//   )
+// }
 
-const AcceptedBtn = (props) => {
-  const { invited, ...rest } = props
-  return (
-    <Button
-      iconEl={<CheckCircleIcon size={12} />}
-      iconBefore
-      {...rest}
-      className={classnames(props.className, 'accept')}
-    >
-      {invited ? 'Invited' : 'Added'}
-    </Button>
-  )
-}
+// const AcceptedBtn = (props) => {
+//   const { invited, ...rest } = props
+//   return (
+//     <Button
+//       iconEl={<CheckCircleIcon size={12} />}
+//       iconBefore
+//       {...rest}
+//       className={classnames(props.className, 'accept')}
+//     >
+//       {invited ? 'Invited' : 'Added'}
+//     </Button>
+//   )
+// }
 const Option = ({ data, innerRef, innerProps, getValue }) => {
-  const { avatar, username, email, invitationStatus } = data.meta
-  const isSelected = getValue().find((i) => i.value === data.value)
+  const {
+    pictureUrl: avatar,
+    fullName: username,
+    email,
+    // invitationStatus,
+  } = data.meta
+  // const isSelected = getValue().find((i) => i.value === data.value)
   return (
     <div ref={innerRef} className="user-option-item" {...innerProps}>
       <Avatar
@@ -176,7 +185,7 @@ const Option = ({ data, innerRef, innerProps, getValue }) => {
         <div className="title">{username}</div>
         <div className="desc">{email}</div>
       </div>
-      <div>
+      {/* {<div>
         {invitationStatus !== 'no_invited' || isSelected ? (
           <AcceptedBtn
             invited={invitationStatus !== 'no_invited'}
@@ -184,7 +193,7 @@ const Option = ({ data, innerRef, innerProps, getValue }) => {
         ) : (
           <AddUserBtn />
         )}
-      </div>
+      </div>} */}
     </div>
   )
 }
@@ -323,7 +332,22 @@ const VenueInvite = ({
     visible ? [availableUsersParams, 'available-users'] : null,
     checkUserAvailable,
   )
+  const { data: membersList } = useQuery(
+    ['searchOpAndChairman'],
+    searchOpAndChairman,
+  )
   const loadMembers = useCallback(
+    async (keywords) => {
+      const options = membersList?.map((el) => ({
+        label: el?.fullName,
+        value: el?.email,
+        meta: el,
+      }))
+      return options?.filter((el) => el?.label?.includes(keywords))
+    },
+    [membersList],
+  )
+  /* useCallback(
     async (keywords) => {
       const params = {
         meetingID: meeting?.id,
@@ -342,8 +366,8 @@ const VenueInvite = ({
         (item) => item.value !== me?.email,
       )
     },
-    [meeting, organizationID, me],
-  )
+    [me, meeting, organizationId]
+    ) */
   const isValidNewOption = useCallback((inputValue, selectValue, options) => {
     if (
       validateEmail(inputValue) &&
@@ -443,7 +467,7 @@ const VenueInvite = ({
             subject: user.meta.subject,
             name: user.meta.username,
             email: user.meta.email,
-            pictureUrl: getAvatar(user.meta.avatar),
+            pictureUrl: getAvatar(user.meta.pictureUrl),
           })),
         })
       toggle(false)

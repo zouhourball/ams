@@ -312,3 +312,17 @@ export const respondToMeeting = async ({ id, status }) => {
   }
   return res
 }
+export const searchOpAndChairman = async () => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/planning/meeting/users?orgID=0`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (error) {
+    res = { e: error }
+  }
+  return res
+}
