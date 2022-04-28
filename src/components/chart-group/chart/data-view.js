@@ -61,7 +61,7 @@ class ExportDataView extends DataViewBridge {
       toolboxModal.ecModel,
     )
     super.showDataView(model, api)
-    this.exportFromTable(api.getDom())
+    this.exportFromTable(api.getDom().querySelectorAll('tr'))
     super.hideDateView(model, api)
   }
 
@@ -74,25 +74,40 @@ class ExportDataView extends DataViewBridge {
       'data'
     )
   }
-  exportFromTable (dom) {
+
+  exportFromTable (trs) {
+    const data = Array.from(trs)
+      .map((tr) =>
+        Array.from(tr.querySelectorAll('td'))
+          .map((td) => td.innerText)
+          .join(','),
+      )
+      .join('\n')
     downloadFromBlob(
-      new Blob(
-        [
-          `<html>
-        <head>
-          <meta charset="UTF-8">
-          <title>Data view</title>
-        </head>
-        <body>
-          ${dom.outerHTML}
-        </body>
-      </html>`,
-        ],
-        { type: 'html' },
-      ),
-      this.getFileName() + '.html',
+      new Blob([data], { type: 'csv' }),
+      this.getFileName() + '.csv',
     )
   }
+
+  // exportFromTable (dom) {
+  //   downloadFromBlob(
+  //     new Blob(
+  //       [
+  //         `<html>
+  //       <head>
+  //         <meta charset="UTF-8">
+  //         <title>Data view</title>
+  //       </head>
+  //       <body>
+  //         ${dom.outerHTML}
+  //       </body>
+  //     </html>`,
+  //       ],
+  //       { type: 'html' },
+  //     ),
+  //     this.getFileName() + '.html',
+  //   )
+  // }
 }
 
 featureManager.register('SaveDataView', ExportDataView)
