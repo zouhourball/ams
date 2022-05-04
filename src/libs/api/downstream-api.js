@@ -1,7 +1,8 @@
 import { fetchJSON } from 'libs/fetch'
 import { formDataBody } from 'libs/utils/custom-function'
 
-const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
+const appUrl = PRODUCT_APP_URL_API
+// const appUrl = process.env.NODE_ENV === 'production' ? PRODUCT_APP_URL_API : ''
 
 // lpg
 
