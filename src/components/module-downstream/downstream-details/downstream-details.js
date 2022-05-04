@@ -76,10 +76,14 @@ const DownstreamDetails = ({
           downstreamDetail?.data?.map((el) => ({
             company: el?.company,
             quota: el?.quota,
-            lifting: [
-              { source1: el?.actualLifted[0]?.value },
-              { source2: el?.actualLifted[1]?.value },
-            ],
+            lifting: el?.actualLifted?.map(
+              (element, index) => {
+                return {
+                  [`source${index + 1}`]: element?.value,
+                }
+              },
+              // { source2: el?.actualLifted[1]?.value },
+            ),
             total: el?.totalLifted,
             remarks: el?.remarks,
             variance: el?.variance,
@@ -232,10 +236,12 @@ const DownstreamDetails = ({
       status: status,
     })
   }
+  const sourceLength =
+    subModule === 'lpg' ? downstreamDetail?.data[0]?.actualLifted?.length : 0
   const configTable = () => {
     switch (subModule) {
       case 'lpg':
-        return configsLpgDialogMht()
+        return configsLpgDialogMht(sourceLength)
       case 'ng':
         return configsNgDialogMht()
       case 'rs':

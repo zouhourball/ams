@@ -1,4 +1,14 @@
-export const configsLpgDialogMht = () => {
+export const configsLpgDialogMht = (length) => {
+  let actualLiftingCols = []
+  for (let i = 1; i <= length; i++) {
+    actualLiftingCols.push({
+      label: `Source ${i}`,
+      subKey: `source${i}`,
+      icon: 'mdi mdi-spellcheck',
+      width: 200,
+    })
+  }
+  // console.log('actualLiftingCols', actualLiftingCols)
   return [
     {
       label: 'Company',
@@ -21,20 +31,7 @@ export const configsLpgDialogMht = () => {
       width: '600',
       icon: 'mdi mdi-spellcheck',
       type: 'subColumns',
-      columns: [
-        {
-          label: 'Source 1',
-          subKey: 'source1',
-          icon: 'mdi mdi-spellcheck',
-          width: 200,
-        },
-        {
-          label: 'Source 2',
-          subKey: 'source2',
-          icon: 'mdi mdi-spellcheck',
-          width: 200,
-        },
-      ],
+      columns: actualLiftingCols,
     },
     {
       label: 'Total Lifted MT',
