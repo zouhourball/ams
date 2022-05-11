@@ -99,8 +99,8 @@ const UploadReportByTemplate = ({
     // setReportData({ ...reportData, file })
   }
   const { getRootProps, getInputProps } = useDropzone({
-    accept:
-      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    // accept:
+    //   'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     onDrop: onUpload,
   })
   const onUploadOptional = (file) => {
