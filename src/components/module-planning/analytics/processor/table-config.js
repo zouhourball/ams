@@ -75,7 +75,7 @@ export function budgetDataFormatter (data) {
     years.forEach((year) => {
       common[`${year}-value`] = reduce(
         filter(items, (i) => i.year === year),
-        (a, b) => a + +b || 0,
+        (a, b) => a + +b.value || 0,
         0,
       )
     })
