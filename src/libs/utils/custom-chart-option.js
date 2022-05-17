@@ -1,4 +1,4 @@
-import { merge, isArray, cloneDeep, round } from 'lodash-es'
+import { merge, isArray, cloneDeep, round, get } from 'lodash-es'
 import humanize from 'humanize-plus'
 import {
   customLineOption,
@@ -239,12 +239,20 @@ export function pieCreator (config) {
   const arr = [
     {
       tooltip: {
-        formatter: ({ data }) =>
-          `${((data && data.value) || '').toLocaleString() || '-'} ${
-            (showUnit && unit) || ''
-          }`,
+        formatter: ({ data }) => {
+          return `${get(data, 'name')} ${
+            ((data && data.value) || '').toLocaleString() || '-'
+          } ${(showUnit && unit) || ''}`
+        },
       },
       legend: { data: keys },
+      series: [
+        {
+          labelLine: {
+            show: keys.length < 60,
+          },
+        },
+      ],
     },
   ]
   return pieOption({

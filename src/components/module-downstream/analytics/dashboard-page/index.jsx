@@ -209,7 +209,6 @@ const generateTitleWithHtml = (str, noBracket) => (
     {str}
     {noBracket ? null : '('}
     Sm
-    <sup className="sup-title">3</sup>x 10
     <sup className="sup-title">3</sup>
     {noBracket ? null : ')'}
   </span>
