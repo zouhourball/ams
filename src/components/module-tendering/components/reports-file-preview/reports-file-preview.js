@@ -21,20 +21,31 @@ export default class ReportsFilePreview extends Component {
     const { hideDialog } = this.props
     hideDialog()
   }
-
-  componentDidUpdate (prevProps) {
+  componentDidMount () {
     const {
       file,
       mutations: { getPreviewPDFFile, getPreviewFile },
     } = this.props
-    if (file && prevProps.file !== file) {
-      if (file.contentType === 'application/pdf') {
-        getPreviewPDFFile(file.fileId)
-      } else {
-        getPreviewFile(file.fileId)
-      }
+    if (file.contentType === 'application/pdf') {
+      getPreviewPDFFile(file.fileId)
+    } else {
+      getPreviewFile(file.fileId)
     }
   }
+
+  // componentDidUpdate(prevProps) {
+  //   const {
+  //     file,
+  //     mutations: { getPreviewPDFFile, getPreviewFile },
+  //   } = this.props
+  //   if (file && prevProps.file !== file) {
+  //     if (file.contentType === 'application/pdf') {
+  //       getPreviewPDFFile(file.fileId)
+  //     } else {
+  //       getPreviewFile(file.fileId)
+  //     }
+  //   }
+  // }
 
   renderUrl = () => {
     const { getPreviewPDFFileStatus, getPreviewFileStatus, file } = this.props

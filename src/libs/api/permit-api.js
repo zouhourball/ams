@@ -79,6 +79,20 @@ export const deleteAll = async (objectIds) => {
   }
   return res
 }
+export const deleteReports = async (objectIds) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/regulations/?objectIds=${objectIds}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 
 export const listPermitsByLoggedUser = async ({ queryKey }) => {
   // orgId = 1, priorityId = 2

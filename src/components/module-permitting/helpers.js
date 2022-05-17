@@ -414,6 +414,29 @@ export const permitAbandonData = [
     status: 'Submitted',
   },
 ]
+export const actionsHeaderReports = (
+  key,
+  row,
+  role,
+  supportedDocument,
+  handleDeletePermit,
+  setPreview,
+) => [
+  {
+    id: 1,
+    label: 'Delete',
+    onClick: () => {
+      handleDeletePermit(row?.id)
+    },
+  },
+  {
+    id: 2,
+    label: 'Preview',
+    onClick: () => {
+      setPreview(true)
+    },
+  },
+]
 
 export const actionsHeader = (
   key,

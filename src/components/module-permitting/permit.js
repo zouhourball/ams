@@ -24,8 +24,11 @@ import UploadPermitDialog from './upload-permit-dialog'
 import HeaderTemplate from 'components/header-template'
 import SupportedDocument from 'components/supported-document'
 import UploadReportByTemplate from 'components/upload-report-by-template'
+// import PreviewDialog from 'components/module-permitting/preview-dialog'
+import ReportsFilePreview from 'components/module-tendering/components/reports-file-preview'
 
 import UploadDrillingFileDialog from 'components/upload-drilling-file-dialog'
+// import * as apiR from 'libs/api/api-reports'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -33,6 +36,7 @@ import useRole from 'libs/hooks/use-role'
 import {
   listPermitsByLoggedUser,
   deleteAll,
+  deleteReports,
   deletePermit,
   updatePermit,
   getTemplates,
@@ -55,6 +59,7 @@ import {
   // permitSuspendData,
   // permitAbandonData,
   actionsHeader,
+  actionsHeaderReports,
 } from './helpers'
 
 import './style.scss'
@@ -81,6 +86,8 @@ const Permit = ({ subModule }) => {
   const [selectedBlocks, setSelectedBlocks] = useState([])
   const [selectedCompanies, setSelectedCompanies] = useState([])
 
+  const [preview, setPreview] = useState(false)
+
   const blockList = getBlocks()
   const { addSupportingDocuments } = documents()
   const dispatch = useDispatch()
@@ -106,6 +113,7 @@ const Permit = ({ subModule }) => {
   useEffect(() => {
     setSelectedRow([])
   }, [])
+
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const { data: permitListData, refetch: refetchList } = useQuery(
     [
@@ -195,17 +203,22 @@ const Permit = ({ subModule }) => {
   // )
 
   const reportsData = (reportsByTemplateList?.data || []).map((el) => ({
+    id: el?.id,
     fileName: el?.filename,
     company: el?.companies[0],
     block: el?.block,
-    submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-    submittedBy: el?.metaData?.createdBy?.name,
-    referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
+    submittedDate: moment(el?.uploadDate).format('DD MMM, YYYY'),
+    submittedBy: el?.author,
+    referenceDate: moment(el?.referenceDate).format('DD MMM, YYYY'),
+    url: el?.url,
+    file: el,
   }))
 
   const role = useRole('permitting')
   const roleRegulation = useRole('regulation')
-
+  const onDownloadTemplate = (url) => {
+    window.open(`${PRODUCT_APP_URL_API}/fm${url}`)
+  }
   const reportActions = () => {
     switch (roleRegulation) {
       case 'regulator':
@@ -324,7 +337,7 @@ const Permit = ({ subModule }) => {
     }
   })
   const selectedRow = selectedRowSelector?.map((id) =>
-    permitData ? permitData[id] : null,
+    view === 'reports' ? reportsData[id] : permitData ? permitData[id] : null,
   )
   // const renderCurrentTabData = () => {
   //   switch (currentTab) {
@@ -370,8 +383,8 @@ const Permit = ({ subModule }) => {
         navigate(`/ams/permitting/drill-report`)
         break
       default:
-        localStorage.setItem('drill-report', JSON.stringify(information))
-        navigate(`/ams/permitting/drill-report`)
+        localStorage.setItem('reports', JSON.stringify(information))
+        navigate(`/ams/permitting/reports`)
     }
   }
   const closeDialog = (resp) => {
@@ -399,7 +412,7 @@ const Permit = ({ subModule }) => {
       case 0:
         return 'drill-report'
       default:
-        return 'drill-report'
+        return 'reports'
     }
   }
   useEffect(() => {
@@ -522,7 +535,30 @@ const Permit = ({ subModule }) => {
       ? setReportCurrentTab(permitTemplates[0]?.id)
       : setReportCurrentTab(tabsListReports[0]?.key)
   }, [permitTemplates])
+  const onDeleteReports = (id) => {
+    deleteReports([id]).then((res) => {
+      if (res) {
+        setSelectedRow([])
+        setPreview(false)
 
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        refetchTemplateList()
+      } else {
+        refetchTemplateList()
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    })
+  }
   return (
     <>
       <TopBar
@@ -675,11 +711,12 @@ const Permit = ({ subModule }) => {
                 configs={reportsConfigs}
                 tableData={reportsData || []}
                 withSearch
+                singleSelect={true}
                 commonActions={
                   selectedRow?.length === 0 || selectedRow?.length > 1
                 }
                 // onSelectRows={setSelectedRow}
-                // withChecked
+                withChecked
                 // singleSelect={true}
                 // selectedRow={selectedRow}
                 // withDownloadCsv
@@ -688,13 +725,13 @@ const Permit = ({ subModule }) => {
                   selectedRow?.length === 1 && (
                     <HeaderTemplate
                       title={`${selectedRow.length} Row Selected`}
-                      actions={actionsHeader(
+                      actions={actionsHeaderReports(
                         renderKey(),
                         selectedRow[0],
                         role,
                         setShowSupportedDocumentDialog,
-                        handleDeletePermit,
-                        submitDraft,
+                        onDeleteReports,
+                        setPreview,
                       )}
                     />
                   )
@@ -807,6 +844,23 @@ const Permit = ({ subModule }) => {
           }
           onSaveUpload={(data) => handleSupportingDocs(data)}
           readOnly={role === 'regulator'}
+        />
+      )}
+      {/* {preview && (
+        <PreviewDialog
+          title={'Preview'}
+          visible={preview}
+          onDiscard={() => setPreview(false)}
+          file={selectedRow[0]}
+        />
+      )} */}
+      {preview && (
+        <ReportsFilePreview
+          hideDialog={() => setPreview(false)}
+          visible={preview}
+          file={selectedRow[0]?.file}
+          downloadFile={() => onDownloadTemplate(selectedRow[0]?.url)}
+          deleteFile={() => onDeleteReports(selectedRow[0]?.id)}
         />
       )}
     </>
