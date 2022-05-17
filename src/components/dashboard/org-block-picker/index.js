@@ -9,18 +9,20 @@ import APEX from 'images/companies/APEX.png'
 import ARA from 'images/companies/ARA.png'
 import BP from 'images/companies/BP.png'
 import CCED from 'images/companies/CCED.png'
+import OQ from 'images/companies/OQ.png'
 import DNO from 'images/companies/DNO.png'
 import Daleel from 'images/companies/Daleel.png'
 import HCF from 'images/companies/HCF.png'
 import Lasso from 'images/companies/Lasso.png'
-import Masirah from 'images/companies/Masirah.png'
 import OOCEP from 'images/companies/OOCEP.png'
 import OXY from 'images/companies/OXY.png'
 import PDO from 'images/companies/PDO.png'
+import CCE from 'images/companies/CCE.png'
 import PetroTel from 'images/companies/PetroTel.png'
 import PetrogasKahil from 'images/companies/PetrogasKahil.png'
 import medco from 'images/companies/medco.png'
 import target from 'images/companies/target.png'
+import MasirahOil from 'images/companies/Masirah.png'
 import { createPortal } from 'react-dom'
 const images = {
   APEX,
@@ -28,17 +30,19 @@ const images = {
   BP,
   CCED,
   DNO,
-  Daleel,
+  DALEEL: Daleel,
   HCF,
   Lasso,
-  Masirah,
+  'MASIRAH OIL': MasirahOil,
   OOCEP,
   OXY,
   PDO,
-  PetroTel,
-  PetrogasKahil,
-  medco,
-  target,
+  PETROTEL: PetroTel,
+  PETROGASKAHIL: PetrogasKahil,
+  MEDCO: medco,
+  TARGET: target,
+  OQ,
+  CCE,
 }
 const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
   const menuItems = useMemo(() => {
@@ -106,7 +110,7 @@ const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
     [name, blocks, onChange],
   )
 
-  const companyPic = images[name]
+  const companyPic = images[name.toUpperCase()]
 
   const placeholder = useMemo(() => {
     if (!selectedBlocks.length) {

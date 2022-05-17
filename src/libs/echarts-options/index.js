@@ -946,10 +946,13 @@ export const mapOption = ({ mapName, data }) => ({
  * }
  */
 export const pieOption = ({ data, onPieClick, option }) => {
-  return merge(
+  const result = merge(
     {},
     baseOption(),
     {
+      legend: {
+        type: 'scroll',
+      },
       toolbox: {
         feature: {
           dataView: {
@@ -1000,11 +1003,9 @@ export const pieOption = ({ data, onPieClick, option }) => {
             },
           },
           labelLine: {
-            normal: {
-              smooth: 0.2,
-              length: 20,
-              length2: 20,
-            },
+            smooth: 0.2,
+            length: 20,
+            length2: 20,
           },
           itemStyle: {
             normal: {
@@ -1022,6 +1023,7 @@ export const pieOption = ({ data, onPieClick, option }) => {
     },
     ...option,
   )
+  return result
 }
 
 export const waterfall = ({

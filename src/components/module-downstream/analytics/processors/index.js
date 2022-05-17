@@ -123,7 +123,7 @@ export function processNGData (raw) {
               return {
                 ...rest,
                 month: MonthNames[monthIndex - 1],
-                unit: 'sm³ x 10³',
+                unit: 'sm³',
                 type: unit,
                 year,
                 company,
