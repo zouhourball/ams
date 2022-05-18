@@ -532,6 +532,10 @@ const summaryConfig = [
         name: 'Source 2',
         dataKey: 'Source 2',
       },
+      {
+        name: 'Source 3',
+        dataKey: 'Source 3',
+      },
     ],
   },
   {
@@ -684,6 +688,9 @@ export const chartsToDraw = [
                     const Source2Data = dataByFormCompany.filter(
                       (i) => i.source === 'Source 2',
                     )
+                    const source3Data = dataByFormCompany.filter(
+                      (i) => i.source === 'Source 3',
+                    )
                     const totalLiftedData = dataByFormCompany.filter(
                       (i) => i.type === 'totalLifted',
                     )
@@ -695,6 +702,7 @@ export const chartsToDraw = [
                       quota: sumBy(quotaData, 'value'),
                       'Source 1': fixNbr(sumBy(Source1Data, 'value'), 2),
                       'Source 2': fixNbr(sumBy(Source2Data, 'value'), 2),
+                      'Source 3': fixNbr(sumBy(source3Data, 'value'), 2),
                       totalLifted: sumBy(totalLiftedData, 'value'),
                       variance: sumBy(varianceData, 'value'),
                     }

@@ -250,22 +250,15 @@ export function processData (raw) {
               unit,
               value: fixNbr(d[type], 0),
             }))
-            .concat([
-              {
+            .concat(
+              actualLifted.map((a) => ({
                 ...base,
                 type: 'actualLifted',
-                source: actualLifted[0].unit,
+                source: a.unit,
                 unit,
-                value: +actualLifted[0].value,
-              },
-              {
-                ...base,
-                type: 'actualLifted',
-                source: actualLifted[1].unit,
-                unit,
-                value: +actualLifted[1].value,
-              },
-            ])
+                value: +a.value,
+              })),
+            )
         })
       })
     )
