@@ -93,7 +93,7 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
         return (
           <div>
             <Button
-              icon
+              // icon
               disabled={disabled}
               primary
               title="Accept Meeting"
@@ -104,11 +104,12 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
                 )
               }
             >
-              event_available
+              {/* event_available */}
+              Accept
             </Button>
 
             <Button
-              icon
+              // icon
               disabled={disabled}
               primary
               title="Reject Meeting"
@@ -120,7 +121,8 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
               }
               className="rejected"
             >
-              event_busy
+              {/* event_busy */}
+              Reject
             </Button>
           </div>
         )
