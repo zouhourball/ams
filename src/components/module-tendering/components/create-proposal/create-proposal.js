@@ -14,6 +14,7 @@ import { graphql } from 'react-apollo'
 
 import { DatePicker } from '@target-energysolutions/date-picker'
 
+import meCompanies from './helper.js'
 import File from './file'
 
 import { getBlocksList } from 'libs/api/api-tendering'
@@ -31,7 +32,7 @@ const CreateProposal = ({
   onDelete,
   setProposal,
   canSubmitReview,
-  meCompanies,
+  // meCompanies,
   handleExistProposal,
   proposalId,
   setIsVisibleTopBar,
@@ -167,6 +168,10 @@ const CreateProposal = ({
       referenceNumber: `${findCompany.companyName}/`,
     })
   }
+
+  // useEffect(() => {
+  //   setProposal({ ...proposal, originalCostEstimate: 100 })
+  // }, [proposal])
 
   const OBJECT_ITEMS = [
     {
@@ -347,6 +352,135 @@ const CreateProposal = ({
     }
   }
 
+  useEffect(() => {
+    let type = `${companyName}-${blockNumber}-${contractType?.replace(' ', '')}`
+    switch (type) {
+      case 'OQ-60-Competitive':
+        onEditProposal('originalCostEstimate', 2000000)
+        break
+      case 'OQ-48-Competitive':
+        onEditProposal('originalCostEstimate', 2000000)
+        break
+      case 'OQ-60-Singlesource':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'OQ-48-Singlesource':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'Daleel-5-Competitive':
+        onEditProposal('originalCostEstimate', 1000000)
+        break
+      case 'Daleel-5-Singlesource':
+        onEditProposal('originalCostEstimate', 250000)
+        break
+      case 'CCED-3&4-Competitive':
+        onEditProposal('originalCostEstimate', 1000000)
+        break
+      case 'CCED-3&4-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'ARA-44-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'ARA-44-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'ARA-31-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'ARA-31-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'HCF-7-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'HCF-7-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'HCF-15-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'HCF-15-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'MOGC-8-Competitive':
+        onEditProposal('originalCostEstimate', 2000000)
+        break
+      case 'MOGC-8-Singlesource':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'APEX-36-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'APEX-36-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'MOL-66-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'MOL-66-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'PTO-17-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'PTO-17-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'PTO-40-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'PTO-40-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'PTO-39-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'PTO-39-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'PTO-67-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'PTO-67-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'MEDCO-56-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'MEDCO-56-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'MASIRAH OIL-50-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'MASIRAH OIL-50-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'OMAN LASSO-54-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'OMAN LASSO-54-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'TYTHES TOM-49-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'TYTHES TOM-49-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      case 'PETROLEB-57-Competitive':
+        onEditProposal('originalCostEstimate', 500000)
+        break
+      case 'PETROLEB-57-Singlesource':
+        onEditProposal('originalCostEstimate', 100000)
+        break
+      default:
+        onEditProposal('originalCostEstimate', null)
+        break
+    }
+  }, [companyName, blockNumber, contractType])
+
   return (
     <div className="createProposal">
       <div className="createProposal_topBar">
@@ -412,7 +546,9 @@ const CreateProposal = ({
           position={SelectField.Positions.BELOW}
           menuItems={renderBlocs()}
           value={blockNumber.toString()}
-          onChange={(v) => onEditProposal('blockNumber', v)}
+          onChange={(v) => {
+            onEditProposal('blockNumber', v)
+          }}
           placeholder={'Block Number *'}
           label={'Block Number'}
           required
