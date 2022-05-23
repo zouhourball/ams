@@ -169,12 +169,12 @@ export const actionsHeader = (
   accessibilityInitMeeting,
   setShowRescheduleDialog,
 ) => {
-  const statusArray = [
-    'SUBMITTED',
-    'REJECTED_BY_JMC',
-    'REJECTED_BY_FINCOM',
-    'REJECTED_BY_TECOM',
-  ]
+  // const statusArray = [
+  //   'SUBMITTED',
+  //   'REJECTED_BY_JMC',
+  //   'REJECTED_BY_FINCOM',
+  //   'REJECTED_BY_TECOM',
+  // ]
   const updateBtn = {
     id: 5,
     label: 'Update',
@@ -303,9 +303,10 @@ export const actionsHeader = (
     case 'operator':
       return status === 'DRAFT'
         ? [...opEntries, draftBtn]
-        : statusArray?.includes(status)
-          ? [...opEntries, updateBtn]
-          : opEntries
+        : [...opEntries, updateBtn]
+    // : statusArray?.includes(status)
+    //   ? [...opEntries, updateBtn]
+    //   : opEntries
     case 'regulator':
     default:
       return accessibilityInitMeeting
