@@ -411,11 +411,13 @@ const VenueInvite = ({
 
       // const password = value?.password
       // const members = map(value.members, 'meta.email')
-      const participants = value.members?.map((el) => ({
-        sub: el?.meta?.subject,
-        name: el?.meta?.username,
-        email: el?.meta?.email,
-      }))
+      const participants = value.members?.map((el) => {
+        return {
+          sub: el?.meta?.subject,
+          name: el?.meta?.fullName,
+          email: el?.meta?.email,
+        }
+      })
       /* setMeetingData((data) => ({
         ...data,
         title: value.title,
