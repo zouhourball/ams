@@ -1217,7 +1217,7 @@ const Inventory = () => {
             // renderDialogData().onClick()
             onAddReportByCurrentTab(data)
           }}
-          formatDate={currentTab === 'annual-base' ? 'month' : 'day'}
+          formatDate={currentTab === 'annual-base' ? 'year' : 'day'}
         />
       )}
 
