@@ -798,7 +798,7 @@ const Permit = ({ subModule }) => {
       )}
       {showUploadDrillingFileDialog && (
         <UploadDrillingFileDialog
-          title={'Upload Drilling File'}
+          title={'Upload Financial Report'}
           visible={showUploadDrillingFileDialog}
           onHide={() => {
             setShowUploadDrillingFileDialog(false)
