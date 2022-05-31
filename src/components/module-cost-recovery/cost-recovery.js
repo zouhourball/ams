@@ -643,9 +643,9 @@ const CostRecovery = ({ subkey }) => {
     fileName: el?.filename,
     company: el?.companies[0],
     block: el?.block,
-    submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
-    submittedBy: el?.metaData?.createdBy?.name,
-    referenceDate: moment(el?.metaData?.referenceDate).format('DD MMM, YYYY'),
+    submittedDate: moment(el?.uploadDate).format('DD MMM, YYYY'),
+    submittedBy: el?.owner?.name,
+    referenceDate: moment(el?.referenceDate).format('DD MMM, YYYY'),
   }))
 
   const deleteReportsMutate = useMutation(deleteReports, {
@@ -743,7 +743,7 @@ const CostRecovery = ({ subkey }) => {
     })
 
   const tabsListReports =
-    costRecoveryTemplates && costRecoveryTemplates.length !== 0
+    costRecoveryTemplates && costRecoveryTemplates.length
       ? costRecoveryTemplates?.map((el) => ({
         linkToNewTab: `/ams/costrecovery/costs`,
         label: el?.filename,
@@ -752,7 +752,7 @@ const CostRecovery = ({ subkey }) => {
       : []
 
   useEffect(() => {
-    costRecoveryTemplates && costRecoveryTemplates?.length !== 0
+    costRecoveryTemplates && costRecoveryTemplates?.length
       ? setReportCurrentTab(costRecoveryTemplates[0]?.id)
       : setReportCurrentTab(tabsListReports[0]?.key)
   }, [costRecoveryTemplates])

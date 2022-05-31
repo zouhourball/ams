@@ -208,7 +208,7 @@ const Permit = ({ subModule }) => {
     company: el?.companies[0],
     block: el?.block,
     submittedDate: moment(el?.uploadDate).format('DD MMM, YYYY'),
-    submittedBy: el?.author,
+    submittedBy: el?.owner?.name,
     referenceDate: moment(el?.referenceDate).format('DD MMM, YYYY'),
     url: el?.url,
     file: el,
@@ -523,7 +523,7 @@ const Permit = ({ subModule }) => {
     addTemplateMutation.mutate(body)
   }
   const tabsListReports =
-    permitTemplates && permitTemplates?.length !== 0
+    permitTemplates && permitTemplates?.length
       ? permitTemplates?.map((el) => ({
         linkToNewTab: `/ams/permitting/dr`,
         label: el?.filename,
@@ -531,7 +531,7 @@ const Permit = ({ subModule }) => {
       }))
       : []
   useEffect(() => {
-    permitTemplates && permitTemplates?.length !== 0
+    permitTemplates && permitTemplates?.length
       ? setReportCurrentTab(permitTemplates[0]?.id)
       : setReportCurrentTab(tabsListReports[0]?.key)
   }, [permitTemplates])
