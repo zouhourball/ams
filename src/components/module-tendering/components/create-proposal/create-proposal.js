@@ -14,7 +14,7 @@ import { graphql } from 'react-apollo'
 
 import { DatePicker } from '@target-energysolutions/date-picker'
 
-import meCompanies from './helper.js'
+// import meCompanies from './helper.js'
 import File from './file'
 
 import { getBlocksList } from 'libs/api/api-tendering'
@@ -32,7 +32,7 @@ const CreateProposal = ({
   onDelete,
   setProposal,
   canSubmitReview,
-  // meCompanies,
+  meCompanies,
   handleExistProposal,
   proposalId,
   setIsVisibleTopBar,
