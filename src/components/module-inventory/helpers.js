@@ -229,17 +229,26 @@ export const actionsHeader = (
             onClick: () => {},
           }, */
           {
+            id: 1,
+            label: 'Download Original File',
+            onClick: () => {
+              downloadOriginalFile(originalFileId, originalFileName)
+            },
+          },
+          {
             id: 2,
             label: 'View Details',
             onClick: () => {
               key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
             },
           },
-          /*      {
+          {
             id: 3,
             label: 'View Documents',
-            onClick: () => {},
-          }, */
+            onClick: () => {
+              supportedDocument(id)
+            },
+          },
         ]
       } else if (tab === 'base-consumption') {
         return [
