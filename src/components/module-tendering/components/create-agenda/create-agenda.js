@@ -244,7 +244,6 @@ const CreateAgenda = ({
   const stopRecording = () => {
     setRecord(false)
   }
-
   const onDeleteRecording = (position) => {
     setChapters(
       chapters.map((elem) =>
@@ -289,6 +288,9 @@ const CreateAgenda = ({
       }
       setChapters(
         chapters.map((elem) =>
+          // elem.id === selectedProposal
+          //   ? { ...elem, voiceMemos: [...elem.voiceMemos, voiceMemo] }
+          //   : elem,
           elem.id === selectedProposal
             ? { ...elem, voiceMemos: [...elem.voiceMemos, voiceMemo] }
             : elem,
@@ -329,7 +331,6 @@ const CreateAgenda = ({
       />
     ))
   }
-
   return (
     <DialogContainer
       id="add-new-agenda"

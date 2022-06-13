@@ -470,8 +470,7 @@ const FunctionBusinessProcessByOrg = ({
       ),
     [role, onReview, onClarify, onDeleteProposal, handleAttachedFiles],
   )
-
-  const actionsHeader = (row) => {
+  const renderBtns = (row) => {
     switch (role) {
       case 'operator':
       default:
@@ -612,6 +611,21 @@ const FunctionBusinessProcessByOrg = ({
         ]
     }
   }
+  const actionsHeader = (row, numOfSelectedItems) => {
+    if (numOfSelectedItems === 1) {
+      return renderBtns(row[0])
+    } else if (role === 'secretary') {
+      return !row.find((el) => el?.proposalStateEnum !== 'UnderReview')
+        ? [
+          {
+            id: 1,
+            label: 'Create Agenda',
+            onClick: () => setOpenCreateAgenda(true),
+          },
+        ]
+        : []
+    } else return []
+  }
 
   return (
     <>
@@ -637,14 +651,14 @@ const FunctionBusinessProcessByOrg = ({
         withSearch={selectedRows?.length === 0}
         commonActions={selectedRows?.length === 0 || selectedRows?.length > 1}
         headerTemplate={
-          selectedRows?.length === 1 ? (
+          selectedRows?.length > 0 ? (
             <HeaderTemplate
               title={
                 selectedRows?.length === 1
                   ? `1 Row Selected`
                   : `${selectedRows?.length} Rows selected`
               }
-              actions={actionsHeader(selectedRows[0])}
+              actions={actionsHeader(selectedRows, selectedRows?.length)}
             />
           ) : (
             <div>

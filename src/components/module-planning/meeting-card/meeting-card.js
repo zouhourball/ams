@@ -18,7 +18,10 @@ const MeetingCard = ({
   return (
     <div
       className="meeting-card"
-      onClick={() => status === 'JOINNED' && onNavigateToMeeting()}
+      onClick={
+        () => onNavigateToMeeting()
+        // status === 'JOINNED' &&
+      }
     >
       <div className="meeting-card-title">{title}</div>
       <div className="meeting-card-time">
