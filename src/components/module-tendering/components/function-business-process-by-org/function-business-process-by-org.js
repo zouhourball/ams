@@ -210,7 +210,7 @@ const FunctionBusinessProcessByOrg = ({
           participants: agendaData.selectedItems.map((el) => {
             return {
               sub: el.subject,
-              name: el.name,
+              name: el.fullName,
               email: el.email,
               // role: String
             }
