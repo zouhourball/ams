@@ -749,7 +749,7 @@ const CreateProposal = ({
               translation={{ update: 'select' }}
               onUpdate={handleStartDate}
               onCancel={() => setCanDisplayStartDate(false)}
-              minValidDate={{ timestamp: new Date().getTime() }}
+              // minValidDate={{ timestamp: new Date().getTime() }}
             />
           </div>
         )}
@@ -763,7 +763,11 @@ const CreateProposal = ({
               translation={{ update: 'select' }}
               onUpdate={handleEndDate}
               onCancel={() => setCanDisplayEndDate(false)}
-              minValidDate={{ timestamp: new Date().getTime() }}
+              minValidDate={
+                estimatedDurationPerPeriodFirmStartValue
+                  ? { timestamp: estimatedDurationPerPeriodFirmStartValue }
+                  : { timestamp: new Date().getTime() }
+              }
             />
           </div>
         )}
