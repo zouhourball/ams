@@ -889,7 +889,7 @@ const CostRecovery = ({ subkey }) => {
               withChecked
               withSearch={selectedRow?.length === 0}
               singleSelect={true}
-              onSelectRows={dispatch(setSelectedRow)}
+              // onSelectRows={dispatch(setSelectedRow)}
               // commonActions={
               //   selectedRow?.length === 0 || selectedRow?.length > 1
               // }
