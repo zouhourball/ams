@@ -984,7 +984,22 @@ export const costRecoveryDetailsConfigs = [
     ],
   },
 ]
-
+export const actionsHeaderReports = (row, handleDeletePermit, setPreview) => [
+  {
+    id: 1,
+    label: 'Delete',
+    onClick: () => {
+      handleDeletePermit(row?.id)
+    },
+  },
+  {
+    id: 2,
+    label: 'Preview',
+    onClick: () => {
+      setPreview(true)
+    },
+  },
+]
 export const costRecoveryDetailsData = [
   {
     id: 'dddj2333',

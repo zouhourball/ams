@@ -49,10 +49,11 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import ConfirmDialog from 'components/confirm-dialog'
+import ReportsFilePreview from 'components/module-tendering/components/reports-file-preview'
 
 import UploadReportByTemplate from 'components/upload-report-by-template'
 
-import { configs, actionsHeader } from './helpers'
+import { configs, actionsHeader, actionsHeaderReports } from './helpers'
 import { reportsConfigs } from 'components/module-permitting/helpers'
 import UploadDrillingFileDialog from 'components/upload-drilling-file-dialog'
 import ToastMsg from 'components/toast-msg'
@@ -82,6 +83,7 @@ const CostRecovery = ({ subkey }) => {
   const [subSubModule, setSubSubModule] = useState('dataActualLifting')
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
+  const [preview, setPreview] = useState(false)
 
   const [selectedBlocks, setSelectedBlocks] = useState([])
   const [selectedCompanies, setSelectedCompanies] = useState([])
@@ -322,7 +324,9 @@ const CostRecovery = ({ subkey }) => {
       },
     }
   }
-
+  const onDownloadTemplate = (url) => {
+    window.open(`${PRODUCT_APP_URL_API}/fm${url}`)
+  }
   const onDisplayMHT = (file) => {
     setShowUploadMHTDialog(true)
     setShowUploadRapportDialog(false)
@@ -646,6 +650,8 @@ const CostRecovery = ({ subkey }) => {
     submittedDate: moment(el?.uploadDate).format('DD MMM, YYYY'),
     submittedBy: el?.owner?.name,
     referenceDate: moment(el?.referenceDate).format('DD MMM, YYYY'),
+    url: el?.url,
+    file: el,
   }))
 
   const deleteReportsMutate = useMutation(deleteReports, {
@@ -880,8 +886,9 @@ const CostRecovery = ({ subkey }) => {
               withFooter
               configs={reportsConfigs}
               tableData={reportsData || []}
-              withChecked={roleRegulation === 'operator'}
+              withChecked
               withSearch={selectedRow?.length === 0}
+              singleSelect={true}
               onSelectRows={dispatch(setSelectedRow)}
               // commonActions={
               //   selectedRow?.length === 0 || selectedRow?.length > 1
@@ -890,15 +897,11 @@ const CostRecovery = ({ subkey }) => {
                 selectedRow?.length !== 0 && (
                   <HeaderTemplate
                     title={`${selectedRow?.length} Row Selected`}
-                    actions={[
-                      {
-                        id: 1,
-                        label: 'Delete',
-                        onClick: () => {
-                          handleDeleteReports(renderSelectedRows())
-                        },
-                      },
-                    ]}
+                    actions={actionsHeaderReports(
+                      selectedRow[0],
+                      handleDeleteReports(renderSelectedRows()),
+                      setPreview,
+                    )}
                   />
                 )
               }
@@ -983,7 +986,15 @@ const CostRecovery = ({ subkey }) => {
           onUploadTemp={(data) => onUpload(data)}
         />
       )}
-
+      {preview && (
+        <ReportsFilePreview
+          hideDialog={() => setPreview(false)}
+          visible={preview}
+          file={selectedRow[0]?.file}
+          downloadFile={() => onDownloadTemplate(selectedRow[0]?.url)}
+          deleteFile={() => handleDeleteReports(renderSelectedRows())}
+        />
+      )}
       {showUploadDrillingFileDialog && (
         <UploadDrillingFileDialog
           title={'Upload Financial Report'}
