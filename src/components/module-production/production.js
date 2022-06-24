@@ -53,8 +53,8 @@ import {
   MonthlyTrackingDetailsConfigs,
 } from './helpers'
 
-const Production = () => {
-  const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
+const Production = ({ subModule }) => {
+  // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
 
   const [currentTab, setCurrentTab] = useState(subModule)
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
@@ -483,21 +483,24 @@ const Production = () => {
   }
 
   const { data: listDailyProduction, refetch: refetchList } = useQuery(
-    [
-      'getListProduction',
-      currentTab,
-      {
-        size: size,
-        page: page,
-      },
-    ],
-    getListProduction,
+    'getListProduction',
+    () =>
+      getListProduction({
+        queryKey: [
+          currentTab,
+          {
+            size,
+            page,
+          },
+        ],
+      }),
     {
       refetchOnWindowFocus: false,
     },
   )
   useEffect(() => {
     setPage(0)
+    refetchList()
   }, [currentTab])
   const dailyData = (get(currentUpload, 'values', []) || []).map((el) => {
     return {
@@ -1083,6 +1086,9 @@ const Production = () => {
                     ? setSize(listDailyProduction?.totalElements)
                     : setSize(v)
                 }
+                onBlur={() => {
+                  refetchList()
+                }}
               />
             </>
           )

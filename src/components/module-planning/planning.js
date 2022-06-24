@@ -98,19 +98,25 @@ const Planning = ({ subModule }) => {
   // const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
 
   const { data: listPlanning, refetch: refetchList } = useQuery(
-    [
-      'getListPlanning',
-      currentTab,
-      {
-        size: size,
-        page: page,
-      },
-    ],
-    getListPlanning,
+    'getListPlanning',
+    () =>
+      getListPlanning({
+        queryKey: [
+          currentTab,
+          {
+            size,
+            page,
+          },
+        ],
+      }),
     {
       refetchOnWindowFocus: false,
+      keepPreviousData: true,
     },
   )
+  useEffect(() => {
+    refetchList()
+  }, [currentTab])
 
   /* const { data: membersData, refetch: refetchMembers } = useQuery(
     ['getAllProjectMembers', company?.id],
@@ -537,7 +543,7 @@ const Planning = ({ subModule }) => {
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
         ...(currentTab === 'wpb' && {
-          latestVersion: el?.versions[el?.versions?.length - 1],
+          latestVersion: get(el, 'versions', '[]')[el?.versions?.length - 1],
         }),
         status: get(el, 'metaData.status', 'n/a'),
       }
@@ -849,6 +855,9 @@ const Planning = ({ subModule }) => {
                     ? setSize(listPlanning?.totalElements)
                     : setSize(v)
                 }
+                onBlur={() => {
+                  refetchList()
+                }}
               />
             </>
           )

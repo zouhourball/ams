@@ -92,8 +92,9 @@ const Inventory = () => {
     setSelectedRow([])
   }, [])
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
-    ['getListAnnualBase', 'base', page, size],
-    getInventories,
+    'getListAnnualBase',
+
+    () => getInventories({ queryKey: ['base', page, size] }),
     {
       refetchOnWindowFocus: false,
     },
@@ -101,23 +102,32 @@ const Inventory = () => {
   const {
     data: listAssetTransfer,
     refetch: refetchListAssetTransferInventory,
-  } = useQuery(['getListAnnualBase', 'transfer', page, size], getInventories, {
-    refetchOnWindowFocus: false,
-  })
-  const { data: listDisposal, refetch: refetchListDisposalInventory } =
-    useQuery(['getListAnnualBase', 'disposal', page, size], getInventories, {
+  } = useQuery(
+    'getListAnnualBase',
+    () => getInventories({ queryKey: ['transfer', page, size] }),
+    {
       refetchOnWindowFocus: false,
-    })
+    },
+  )
+  const { data: listDisposal, refetch: refetchListDisposalInventory } =
+    useQuery(
+      'getListAnnualBase',
+      () => getInventories({ queryKey: ['disposal', page, size] }),
+      {
+        refetchOnWindowFocus: false,
+      },
+    )
   const { data: listInventoriesAccepted } = useQuery(
-    ['getListInventoriesAccepted', page, size],
-    getInventoriesAccepted,
+    'getListInventoriesAccepted',
+
+    () => getInventoriesAccepted({ queryKey: [page, size] }),
     {
       refetchOnWindowFocus: false,
     },
   )
 
   const { data: companies } = useQuery(
-    ['getCompaniesInventory'],
+    'getCompaniesInventory',
     getCompaniesInventory,
     {
       refetchOnWindowFocus: false,
@@ -994,6 +1004,7 @@ const Inventory = () => {
   }
   useEffect(() => {
     setPage(0)
+    refetchAfterCommitByCurrentTab()
   }, [currentTab])
   const paginationData = () => {
     switch (currentTab) {
@@ -1159,6 +1170,9 @@ const Inventory = () => {
                       ? setSize(paginationData()?.totalElements)
                       : setSize(v)
                   }
+                  onBlur={() => {
+                    refetchAfterCommitByCurrentTab()
+                  }}
                 />
               </>
             )

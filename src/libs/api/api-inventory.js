@@ -10,7 +10,7 @@ export const getInventories = async ({ queryKey }) => {
   // `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[1]}&page=${queryKey[2]}&size=${queryKey[3]}&sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==${queryKey[0]}&page=${queryKey[1]}&size=${queryKey[2]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },
@@ -46,7 +46,7 @@ export const getInventoriesAccepted = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&page=${queryKey[1]}&size=${queryKey[2]}&sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/inventory/list?query=metaData.category==base;metaData.status==ACCEPTED&page=${queryKey[0]}&size=${queryKey[1]}&sort=metaData.createdAt,desc`,
       {
         method: 'GET',
       },

@@ -116,25 +116,27 @@ const Permit = ({ subModule }) => {
 
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const { data: permitListData, refetch: refetchList } = useQuery(
-    [
-      'listPermitsByLoggedUser',
-      {
-        permitType:
-          currentTab === 0
-            ? 'Drill'
-            : currentTab === 1
-              ? 'Suspend'
-              : currentTab === 2
-                ? 'Abandon'
-                : '',
-      },
-      {
-        size: size,
-        page: page,
-      },
-      // },
-    ],
-    listPermitsByLoggedUser,
+    'listPermitsByLoggedUser',
+    () =>
+      listPermitsByLoggedUser({
+        queryKey: [
+          {
+            permitType:
+              currentTab === 0
+                ? 'Drill'
+                : currentTab === 1
+                  ? 'Suspend'
+                  : currentTab === 2
+                    ? 'Abandon'
+                    : '',
+          },
+          {
+            size,
+            page,
+          },
+          // },
+        ],
+      }),
   )
 
   const { data: permitTemplates, refetch: refetchTemplates } = useQuery(
@@ -417,6 +419,7 @@ const Permit = ({ subModule }) => {
   }
   useEffect(() => {
     setPage(0)
+    refetchList()
   }, [currentTab])
   const updatePermitMutation = useMutation(updatePermit, {
     onSuccess: (res) => {
@@ -679,6 +682,9 @@ const Permit = ({ subModule }) => {
                             ? setSize(permitListData?.totalElements)
                             : setSize(v)
                         }
+                        onBlur={() => {
+                          refetchList()
+                        }}
                       />
                     </>
                   )
@@ -734,42 +740,6 @@ const Permit = ({ subModule }) => {
                         setPreview,
                       )}
                     />
-                  )
-                }
-                footerTemplate={
-                  permitListData?.totalPages > 1 && (
-                    <>
-                      &nbsp;|&nbsp;Page
-                      <TextField
-                        id="page_num"
-                        lineDirection="center"
-                        block
-                        type={'number'}
-                        className="page"
-                        value={page + 1}
-                        onChange={(v) =>
-                          v >= permitListData?.totalPages
-                            ? setPage(permitListData?.totalPages - 1)
-                            : setPage(parseInt(v) - 1)
-                        }
-                        // disabled={status === 'closed'}
-                      />
-                      of {permitListData?.totalPages}
-                      &nbsp;|&nbsp;Show
-                      <TextField
-                        id="el_num"
-                        lineDirection="center"
-                        block
-                        placeholder={`Max number is ${permitListData?.totalElements}`}
-                        className="show"
-                        value={size}
-                        onChange={(v) =>
-                          v > permitListData?.totalElements
-                            ? setSize(permitListData?.totalElements)
-                            : setSize(v)
-                        }
-                      />
-                    </>
                   )
                 }
               />
