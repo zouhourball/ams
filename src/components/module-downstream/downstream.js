@@ -99,34 +99,40 @@ const Downstream = ({ subkey }) => {
   const role = useRole('downstream')
 
   const { data: listLiquefiedPetroleumGas, refetch: refetchLpgList } = useQuery(
-    [
-      'listLpgDownstreamByLoggedUser',
-      currentTab === 0 && {
-        size: size,
-        page: page,
-      },
-    ],
-    listLpgDownstreamByLoggedUser,
+    'listLpgDownstreamByLoggedUser',
+    () =>
+      listLpgDownstreamByLoggedUser({
+        queryKey: [
+          currentTab === 0 && {
+            size,
+            page,
+          },
+        ],
+      }),
   )
   const { data: ListNaturalGas, refetch: refetchNgList } = useQuery(
-    [
-      'listNgDownstreamByLoggedUser',
-      currentTab === 1 && {
-        size: size,
-        page: page,
-      },
-    ],
-    listNgDownstreamByLoggedUser,
+    'listNgDownstreamByLoggedUser',
+    () =>
+      listNgDownstreamByLoggedUser({
+        queryKey: [
+          currentTab === 1 && {
+            size,
+            page,
+          },
+        ],
+      }),
   )
   const { data: LisPetroleumProducts, refetch: refetchRsList } = useQuery(
-    [
-      'listRsDownstreamByLoggedUser',
-      currentTab === 2 && {
-        size: size,
-        page: page,
-      },
-    ],
-    listRsDownstreamByLoggedUser,
+    'listRsDownstreamByLoggedUser',
+    () =>
+      listRsDownstreamByLoggedUser({
+        queryKey: [
+          currentTab === 2 && {
+            size,
+            page,
+          },
+        ],
+      }),
   )
 
   const { mutate: uploadLpgMutate, data: responseUploadLpg } =
@@ -991,6 +997,11 @@ const Downstream = ({ subkey }) => {
                         : setSize(v)
                     }
                     // disabled={status === 'closed'}
+                    onBlur={() => {
+                      currentTab === 0 && refetchLpgList()
+                      currentTab === 1 && refetchNgList()
+                      currentTab === 2 && refetchRsList()
+                    }}
                   />
                 </>
               )

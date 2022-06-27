@@ -82,38 +82,40 @@ const Reserves = ({ subkey }) => {
   const company = getOrganizationInfos()
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
-    [
-      'getAnnualReport',
-      {
-        size: size,
-        page: page,
-      },
-    ],
-    getAnnualReport,
+    'getAnnualReport',
+    () =>
+      getAnnualReport({
+        queryKey: [
+          {
+            size,
+            page,
+          },
+        ],
+      }),
   )
   const { data: listHistoryAndForecast, refetch: refetchHistoryAndForecast } =
-    useQuery(
-      [
-        'getHistoryAndForecast',
+    useQuery('getHistoryAndForecast', () =>
+      getHistoryAndForecast({
+        queryKey: [
+          {
+            size,
+            page,
+          },
+        ],
+      }),
+    )
+  const {
+    data: listAnnualResourceDetail,
+    refetch: refetchAnnualResourceDetail,
+  } = useQuery('getAnnualResourceDetail', () =>
+    getAnnualResourceDetail({
+      queryKey: [
         {
           size: size,
           page: page,
         },
       ],
-      getHistoryAndForecast,
-    )
-  const {
-    data: listAnnualResourceDetail,
-    refetch: refetchAnnualResourceDetail,
-  } = useQuery(
-    [
-      'getAnnualResourceDetail',
-      {
-        size: size,
-        page: page,
-      },
-    ],
-    getAnnualResourceDetail,
+    }),
   )
 
   const {
@@ -676,6 +678,11 @@ const Reserves = ({ subkey }) => {
                         ? setSize(renderSectionKey()?.totalElements)
                         : setSize(v)
                     }
+                    onBlur={() => {
+                      currentTab === 0 && refetchAnnualReserves()
+                      currentTab === 1 && refetchHistoryAndForecast()
+                      currentTab === 2 && refetchAnnualResourceDetail()
+                    }}
                   />
                 </>
               )

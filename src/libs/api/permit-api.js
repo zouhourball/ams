@@ -99,7 +99,7 @@ export const listPermitsByLoggedUser = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v1/permit/list?query=metaData.permitType==${queryKey[1]?.permitType}&sort=metaData.createdAt,desc&page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
+      `${appUrl}/pulse-be/api/v1/permit/list?query=metaData.permitType==${queryKey[0]?.permitType}&sort=metaData.createdAt,desc&page=${queryKey[1]?.page}&size=${queryKey[1]?.size}`,
       {
         method: 'GET',
       },

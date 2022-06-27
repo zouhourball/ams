@@ -78,6 +78,8 @@ body {
   }
 
   .xeena-data-table {
+    height: 96vh !important;
+
     .wrapper.white {
       border-bottom: 0;
     }
@@ -173,7 +175,7 @@ body {
     }
 
     .xeena-table-container.withFooter {
-      height: calc(100% - 110px);
+      height: calc(100% - 220px);
     }
   }
 
@@ -212,7 +214,7 @@ body {
     position: relative;
     height: 100%;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
     background: #f1f3f4;
   }
 
@@ -293,4 +295,28 @@ body,
       }
     }
   }
+}
+
+.btns-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.show,
+.page {
+  width: 50px;
+  height: 30px;
+  margin: 0 10px;
+  padding: 0 15px;
+  border: gray 1px solid;
+  border-radius: 7px;
+}
+
+.page {
+  width: 70px;
+}
+
+.app-shellwrapper-content > div,
+.module-container {
+  overflow-y: hidden;
 }

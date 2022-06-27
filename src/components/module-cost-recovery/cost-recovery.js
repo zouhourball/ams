@@ -110,6 +110,10 @@ const CostRecovery = ({ subkey }) => {
     (state) => state?.selectRowsReducers?.selectedRows,
   )
 
+  const selectedRowSelector = useSelector(
+    (state) => state?.selectRowsReducers?.selectedRows,
+  )
+
   const dispatch = useDispatch()
   const { mutate: uploadReportMutation, data: uploadData } =
     useMutation(uploadReport)
@@ -118,28 +122,40 @@ const CostRecovery = ({ subkey }) => {
 
   const { mutate: commitSub } = useMutation(commitSubModule)
 
-  useEffect(() => {
-    dispatch(setSelectedRow([]))
-  }, [])
+  // const sizeValue = useMemo(() => setTimeout(() => size, 5000), [size])
 
   const {
     data: globalMhtData,
     refetch: refetchCurrentData,
     // isLoading: loading,
   } = useQuery(
-    [
-      tab[currentTab],
-      {
-        size: size,
-        page: page,
-      },
-    ],
-    listOfReports,
+    'costRecovery',
+    () =>
+      listOfReports({
+        queryKey: [
+          tab[currentTab],
+          {
+            size,
+            page,
+          },
+        ],
+      }),
     {
+      // enabled: false,
       refetchOnWindowFocus: false,
+      // keepPreviousData: true,
     },
   )
-
+  useEffect(() => {
+    dispatch(setSelectedRow([]))
+    // refetchCurrentData()
+  }, [])
+  useEffect(() => {
+    dispatch(setSelectedRow([]))
+  }, [view])
+  useEffect(() => {
+    refetchCurrentData()
+  }, [currentTab])
   const { data: costRecoveryTemplates, refetch: refetchTemplates } = useQuery(
     ['getTemplates'],
     getTemplatesCostRecovery,
@@ -654,9 +670,36 @@ const CostRecovery = ({ subkey }) => {
     file: el,
   }))
 
-  const deleteReportsMutate = useMutation(deleteReports, {
-    onSuccess: (res) => {
-      if (res[0]?.statusCode === 'OK') {
+  const selectedRowReports = selectedRowSelector?.map((id) => reportsData[id])
+
+  // const deleteReportsMutate = useMutation(deleteReports, {
+  //   onSuccess: (res) => {
+  //     if (res[0]?.statusCode === 'OK') {
+  //       refetchReports()
+  //       refetchListOfCompaniesBlocks()
+  //       dispatch(setSelectedRow([]))
+  //       dispatch(
+  //         addToast(
+  //           <ToastMsg text={'Deleted successfully'} type="success" />,
+  //           'hide',
+  //         ),
+  //       )
+  //     } else {
+  //       dispatch(
+  //         addToast(
+  //           <ToastMsg text={'Something went wrong'} type="error" />,
+  //           'hide',
+  //         ),
+  //       )
+  //     }
+  //   },
+  // })
+  const renderSelectedRows = () => {
+    return selectedRowReports?.map((el) => el?.id) || []
+  }
+  const handleDeleteReports = (objectIds) => {
+    deleteReports([objectIds]).then((res) => {
+      if (res) {
         refetchReports()
         refetchListOfCompaniesBlocks()
         dispatch(setSelectedRow([]))
@@ -674,13 +717,7 @@ const CostRecovery = ({ subkey }) => {
           ),
         )
       }
-    },
-  })
-  const renderSelectedRows = () => {
-    return selectedRow?.map((el) => reportsData[el]?.id) || []
-  }
-  const handleDeleteReports = (objectIds) => {
-    deleteReportsMutate.mutate(objectIds)
+    })
   }
   const cards = listCompaniesBlocks?.map((el, index) => ({
     id: index,
@@ -854,6 +891,9 @@ const CostRecovery = ({ subkey }) => {
                           ? setSize(globalMhtData?.totalElements)
                           : setSize(v)
                       }
+                      onBlur={() => {
+                        refetchCurrentData()
+                      }}
                     />
                   </>
                 )
@@ -870,7 +910,7 @@ const CostRecovery = ({ subkey }) => {
             activeTab={reportCurrentTab}
             setActiveTab={(tab) => {
               setReportCurrentTab(tab)
-              setSelectedRow([])
+              dispatch(setSelectedRow([]))
             }}
             actions={reportActions()}
           />
@@ -887,19 +927,20 @@ const CostRecovery = ({ subkey }) => {
               configs={reportsConfigs}
               tableData={reportsData || []}
               withChecked
-              withSearch={selectedRow?.length === 0}
+              withSearch
               singleSelect={true}
               // onSelectRows={dispatch(setSelectedRow)}
-              // commonActions={
-              //   selectedRow?.length === 0 || selectedRow?.length > 1
-              // }
+              commonActions={
+                selectedRowReports?.length === 0 ||
+                selectedRowReports?.length > 1
+              }
               headerTemplate={
-                selectedRow?.length !== 0 && (
+                selectedRowReports?.length !== 0 && (
                   <HeaderTemplate
-                    title={`${selectedRow?.length} Row Selected`}
+                    title={`${selectedRowReports?.length} Row Selected`}
                     actions={actionsHeaderReports(
-                      selectedRow[0],
-                      handleDeleteReports(renderSelectedRows()),
+                      selectedRowReports[0],
+                      () => handleDeleteReports(renderSelectedRows()),
                       setPreview,
                     )}
                   />
@@ -990,8 +1031,8 @@ const CostRecovery = ({ subkey }) => {
         <ReportsFilePreview
           hideDialog={() => setPreview(false)}
           visible={preview}
-          file={selectedRow[0]?.file}
-          downloadFile={() => onDownloadTemplate(selectedRow[0]?.url)}
+          file={selectedRowReports[0]?.file}
+          downloadFile={() => onDownloadTemplate(selectedRowReports[0]?.url)}
           deleteFile={() => handleDeleteReports(renderSelectedRows())}
         />
       )}
