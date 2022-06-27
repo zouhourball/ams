@@ -1,0 +1,132 @@
+.customSelect_wrapper {
+  position: relative;
+  // z-index: 10;
+
+  &_textField {
+    padding: 13px 16px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+
+    .md-text-field-inline-indicator--block {
+      right: 8px;
+    }
+  }
+
+  &_tabs {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+
+    &_tab {
+      padding: 1px 8px;
+      border: solid 1px #f1f1f1;
+      background-color: #f1f1f1;
+      color: rgba($color: #000, $alpha: 0.54);
+      cursor: pointer;
+
+      &:first-child {
+        border-radius: 12px 0 0 12px;
+      }
+
+      &:last-child {
+        border-radius: 0 12px 12px 0;
+      }
+    }
+
+    .selected {
+      border-color: #1565c0;
+      background-color: #1565c0;
+      color: #fff;
+    }
+  }
+
+  &_list {
+    position: absolute;
+    z-index: 9;
+    left: 0;
+    width: 100%;
+    min-height: 10px;
+    background: #fff;
+
+    &_addSection {
+      padding: 8px 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    &_items {
+      max-height: 225px;
+      overflow: auto;
+
+      &_image {
+        margin-right: 8px;
+      }
+    }
+
+    .itemMultiPick {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px dashed #eee;
+      cursor: pointer;
+
+      .md-icon {
+        margin-right: 5px;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &_checkboxes {
+        .md-text--theme-secondary {
+          color: #1565c0;
+        }
+      }
+
+      .md-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+
+      .list_wrapper_list_items_label {
+        color: rgba($color: #000, $alpha: 0.83);
+        font-size: 12px;
+      }
+
+      .list_wrapper_list_items_position {
+        color: rgba($color: #000, $alpha: 0.38);
+        font-size: 12px;
+      }
+    }
+
+    .itemSinglePick {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      cursor: pointer;
+
+      &:hover {
+        background: #efefef;
+      }
+
+      .list_wrapper_list_items_image {
+        width: 40px;
+        height: 40px;
+        // overflow: hidden;
+        // border-radius: 50%;
+        .md-avatar--default {
+          background: #fff;
+        }
+
+        > img {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}

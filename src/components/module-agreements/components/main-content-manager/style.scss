@@ -1,0 +1,97 @@
+.main-content-manager {
+  width: 100%;
+  padding: 0 8px;
+  overflow: auto;
+
+  &-card-wrapper {
+    margin: 0 -8px;
+    padding: 0;
+  }
+
+  &-button {
+    padding: 7px;
+  }
+
+  .empty-content {
+    position: static;
+    height: auto;
+  }
+
+  .deleted {
+    position: absolute;
+    top: 8px;
+    left: 110px;
+    padding: 8px 24px;
+    border-radius: 0 15px 15px 0;
+    background-color: #f70000;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .empty-content div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .empty-content-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+
+    .emptyText {
+      margin-top: 31px;
+      color: #a7a7a7;
+      font-size: 20px;
+    }
+  }
+
+  .list-cardloader {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .members-list {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+
+    &-avatar {
+      margin-right: 7px;
+    }
+  }
+}
+
+.delete-agreement-dialog {
+  &.md-dialog-container {
+    z-index: 100;
+  }
+
+  .md-dialog {
+    width: 420px;
+    border-radius: 5px;
+    text-align: center;
+
+    &-content {
+      color: rgba($color: #000, $alpha: 0.84);
+      font-size: 16px;
+
+      img {
+        margin: 0 0 20px;
+      }
+    }
+
+    &-footer {
+      justify-content: center;
+      border-top: none;
+    }
+  }
+}

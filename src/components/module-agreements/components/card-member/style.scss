@@ -1,0 +1,99 @@
+.cardMember {
+  display: flex;
+  position: relative;
+  height: 85px;
+  margin: 8px 0;
+  padding: 8px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  background-color: #eeeeef;
+
+  &-delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    transition: all 400ms;
+    border: 1px solid #a5a3a3;
+    opacity: 1;
+    background: #eee;
+
+    .md-icon {
+      font-size: 10px;
+    }
+  }
+
+  &-avatar {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    margin-right: 8px;
+  }
+
+  &-details {
+    flex-grow: 1;
+
+    &-status {
+      color: rgba($color: #000, $alpha: 0.34);
+    }
+
+    &-label {
+      font-weight: 600;
+    }
+  }
+
+  &-dorpDown {
+    height: auto;
+    margin-top: 5px;
+
+    .target-multi-select-dropdown-container {
+      width: 200px;
+      margin-left: 0;
+      background: none;
+      box-shadow: none;
+      cursor: pointer;
+
+      .target-multi-select-dropdown-selected-display {
+        padding: 0;
+        background: none;
+        color: #1565c0;
+        line-height: 1;
+      }
+
+      .target-multi-select-dropdown-toggle-icon {
+        top: -5px;
+        right: 100px;
+      }
+
+      .target-multi-select-dropdown-selected-display-label {
+        text-indent: unset;
+      }
+
+      .target-multi-select-dropdown-list {
+        margin-top: 8px;
+        background: #fdfdfd;
+      }
+
+      .target-multi-select-dropdown-item {
+        background: transparent;
+
+        &:hover {
+          background-color: #eeeeef;
+        }
+      }
+    }
+
+    .md-icon-text {
+      padding-left: 0;
+      color: #1565c0;
+    }
+  }
+
+  &:hover {
+    .cardMember-delete-button {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,140 @@
+.expand-tabs {
+  display: flex;
+  position: relative;
+  flex: 0 0 auto;
+  flex-flow: column nowrap;
+  width: auto;
+
+  &-content {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  &-block {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  .expend-btn {
+    display: inline-flex;
+    position: absolute;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  $btn-width: 14px;
+  $btn-height: 100px;
+  $btn-padding-def: 0;
+
+  &.left-tab {
+    padding-right: $btn-width + $btn-padding-def;
+
+    .expend-btn {
+      right: $btn-padding-def;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+
+  &.right-tab {
+    padding-left: $btn-width + $btn-padding-def;
+
+    .expend-btn {
+      left: $btn-padding-def;
+      border-radius: 4px 0 0 4px;
+    }
+  }
+
+  &.top-tab {
+    padding-bottom: $btn-width + $btn-padding-def;
+
+    .expend-btn {
+      bottom: $btn-padding-def;
+      border-radius: 0 0 4px 4px;
+    }
+  }
+
+  &.bottom-tab {
+    padding-top: $btn-width + $btn-padding-def;
+
+    .expend-btn {
+      top: $btn-padding-def;
+      border-radius: 4px 4px 0 0;
+    }
+  }
+
+  &.height-element {
+    .expend-btn {
+      left: 50%;
+      width: $btn-height;
+      height: $btn-width;
+      transform: translateX(-50%);
+    }
+
+    &.closed {
+      .expand-tabs-block {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &.width-element {
+    .expend-btn {
+      top: 50%;
+      width: $btn-width;
+      height: $btn-height;
+      transform: translateY(-50%);
+    }
+
+    &.closed {
+      .expand-tabs-block {
+        max-width: 0;
+        padding-right: 0;
+        padding-left: 0;
+        overflow: hidden;
+      }
+    }
+  }
+
+  &.closed {
+    .expend-btn {
+      .md-icon {
+        transform: rotateZ(180deg);
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #dfdfdf;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: darken(#dfdfdf, 10);
+  }
+}

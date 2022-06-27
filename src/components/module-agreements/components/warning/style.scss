@@ -1,0 +1,89 @@
+.warning {
+  .wrapperTimeline {
+    border-radius: 8px;
+    background: #f8f8f8;
+    color: #868686;
+  }
+
+  .warningText {
+    .label {
+      display: block;
+      width: 80%;
+      margin: 0 10% 8px;
+      color: black;
+      font-size: 17px;
+      text-align: center;
+    }
+
+    .span {
+      display: block;
+      width: 80%;
+      margin: 0 10%;
+      color: #868686;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .alert-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: red;
+      font-size: 70px;
+    }
+  }
+
+  .warning-modalFooter__Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+
+    .no-button {
+      height: 30px;
+      margin: 0 4px;
+      margin-right: 5px;
+      padding: 4px;
+      border: 1px solid #1565c0;
+    }
+
+    .yes-button {
+      height: 30px;
+      margin: 0 4px;
+      border: 1px solid;
+      border: 1px solid #1565c0;
+      background: #1565c0;
+      color: #fff;
+    }
+  }
+}
+
+.warning-DialogForm {
+  .md-dialog {
+    width: 21%;
+    border-radius: 8px;
+
+    h2.md-title {
+      display: none;
+      padding: 15px 25px;
+      background: #1464c0;
+      -webkit-box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.2) inset;
+      box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.2) inset;
+      color: #fff;
+      text-align: left;
+      text-transform: capitalize;
+    }
+  }
+
+  .md-dialog--picker {
+    width: auto;
+  }
+
+  .md-dialog-content {
+    overflow-y: auto;
+  }
+
+  .md-dialog-content--padded {
+    padding: 0;
+  }
+}

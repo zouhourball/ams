@@ -1,0 +1,8 @@
+query companyByID($organisationID: ID!) {
+  companyByID(id: $organisationID) {
+    name
+    companyLogo {
+      aPIID
+    }
+  }
+}

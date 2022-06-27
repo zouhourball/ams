@@ -10,7 +10,7 @@ import './style.scss'
 
 const Permitting = lazy(() => import('components/module-permitting'))
 const Audit = lazy(() => import('components/audit-module'))
-const Agreement = lazy(() => import('components/module-agreements'))
+// const Agreement = lazy(() => import('components/module-agreements'))
 // const TenderingModule = lazy(() => import('components/module-tendering'))
 const InventoryHome = lazy(() => import('components/module-inventory'))
 const Downstream = lazy(() => import('components/module-downstream'))
@@ -20,6 +20,7 @@ const HSE = lazy(() => import('components/module-hse'))
 const Reserves = lazy(() => import('components/module-reserves'))
 const Production = lazy(() => import('components/module-production'))
 const ConfiguratorPage = lazy(() => import('components/configurator-page'))
+const HomeAgreement = lazy(() => import('components/module-agreements/components/home-agreement'))
 
 const queryClient = new QueryClient()
 
@@ -49,7 +50,7 @@ const Home = ({ location: { pathname }, defaultModule }) => {
               <Downstream path="/downstream/*" />
               <InventoryHome path="/inventory/*" />
               {/* <TenderingModule path="/tendering/*" /> */}
-              <Agreement path="/agreement/*" />
+              <HomeAgreement path="/agreement/*" />
               <Audit path="/audit/*" />
               <ConfiguratorPage path="/configurator" />
             </Router>

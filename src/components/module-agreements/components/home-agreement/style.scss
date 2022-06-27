@@ -1,0 +1,58 @@
+.psa-container {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+}
+
+.add-psa-btn {
+  // height: 100%;
+  align-self: center;
+  margin: auto 16px;
+  border-radius: 17px;
+  background: rgba($color: #1565c0, $alpha: 0.1);
+}
+
+.main-content {
+  position: relative;
+  height: calc(100% - 60px);
+  overflow: auto;
+
+  > div {
+    height: 100%;
+  }
+
+  &.psa-page {
+    overflow: visible;
+  }
+
+  [role='group'] {
+    height: 100%;
+  }
+
+  &.no-Bar {
+    height: 100%;
+  }
+}
+
+.empty_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border-radius: 4px;
+  background: #fff;
+  color: rgba(0, 0, 0, 0.34);
+  font-size: 18px;
+
+  &_icon {
+    width: 90px;
+    margin-bottom: 16px;
+
+    &.material-icons.md-icon {
+      font-size: 60px;
+    }
+  }
+}

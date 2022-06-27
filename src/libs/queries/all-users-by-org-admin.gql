@@ -1,0 +1,23 @@
+query allUsersByOrgAdmin(
+  $organisationID: String!
+  $filter: UserSearchInput
+  $cursor: SimpleCursor
+) {
+  allUsersByOrgAdmin(
+    organisationID: $organisationID
+    filter: $filter
+    cursor: $cursor
+  ) {
+    userItems {
+      username
+      status
+      subject
+      roles
+      lastLoginTime
+      title
+      pictureURL
+      isAdmin
+    }
+    totalCount
+  }
+}

@@ -1,0 +1,131 @@
+.block-details {
+  position: relative;
+
+  &-textField {
+    margin-bottom: 16px;
+    padding: 12px 13px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+
+    &:focus-within {
+      border-color: #1565c0;
+    }
+
+    .md-floating-label--floating {
+      z-index: 9;
+      padding: 0 5px;
+      transform: translate3d(-4px, -6px, 0);
+      background: #fff;
+      color: #0065c7;
+
+      &.md-text--error {
+        color: #f44336;
+      }
+    }
+
+    .md-text-field--floating-margin {
+      position: relative;
+      bottom: 2px;
+      min-height: 20px;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .md-floating-label--inactive {
+      transform: translate3d(0, 16px, 0);
+    }
+
+    .md-divider {
+      display: none;
+    }
+
+    .md-text-field-icon--positioned {
+      margin-bottom: 0;
+    }
+
+    .md-list--menu-tl {
+      top: 40px;
+    }
+  }
+
+  &-selectField {
+    .md-icon-text {
+      max-width: calc(100% - 38px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .md-text-field {
+      border: 1px solid #eee;
+      border-radius: 4px;
+
+      &--floating-margin {
+        height: auto;
+        margin-top: 0;
+        padding: 12px 13px;
+      }
+    }
+
+    .md-floating-label {
+      z-index: 9;
+      padding: 0 5px;
+      background: #fff;
+
+      &--inactive {
+        transform: translate3d(8px, 13px, 0);
+      }
+
+      &--floating {
+        transform: translate3d(10px, -6px, 0);
+        color: #0065c7;
+      }
+    }
+
+    .md-list {
+      padding-bottom: 0;
+    }
+
+    &.noBorder {
+      .md-text-field {
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    .md-divider {
+      display: none;
+    }
+  }
+
+  &-datePicker-date {
+    position: absolute;
+    top: 20%;
+    left: 38%;
+  }
+
+  .wrapper {
+    position: relative;
+    padding: 8px 0 0;
+    border: 1px solid #eee;
+
+    .block-details-textField {
+      padding: 12px 6px;
+
+      .md-floating-label--floating,
+      .md-floating-label--inactive-sized {
+        font-size: 10px;
+      }
+    }
+
+    &-label {
+      position: absolute;
+      top: -10px;
+      left: 8px;
+      padding: 0 6px;
+      background: #fff;
+      color: #1565c0;
+    }
+  }
+}

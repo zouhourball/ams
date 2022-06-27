@@ -1,0 +1,58 @@
+.file-details {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 5px;
+  background: #f1f1f1;
+
+  .file-info {
+    max-width: calc(100% - 128px);
+    margin-right: auto;
+    margin-left: 8px;
+  }
+
+  .file-name {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-size {
+    color: rgba($color: #000, $alpha: 0.54);
+    font-size: 12px;
+  }
+
+  .mdi-file-pdf {
+    color: red;
+  }
+
+  .mdi-office {
+    color: #1565c0;
+  }
+
+  .mdi-file-image {
+    color: #ab47bc;
+  }
+
+  .file-icon {
+    font-size: 35px;
+
+    &.pdf {
+      color: red;
+    }
+  }
+
+  .actionButton {
+    width: 25px;
+    height: 25px;
+    margin-left: 4px;
+    padding: 3px;
+    background: #fff;
+    color: rgba($color: #000, $alpha: 0.3);
+
+    .md-icon {
+      font-size: 18px;
+    }
+  }
+}

@@ -64,6 +64,7 @@ dependencies:
   react: 17.0.2
   react-apollo: 3.1.5_17cf48168b13df53548652083bee7635
   react-apollo-hooks: 0.5.0_graphql@15.8.0+react@17.0.2
+  react-content-loader: 4.3.4_react@17.0.2
   react-day-picker: 7.4.10_react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-draft-wysiwyg: 1.14.7_238eb5982f30a9897f3f19039e5e474f
@@ -207,7 +208,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jCH+k2Vjlno4YWl6g535nHR09PwCEmTBKAG6VqF+rhkrSPRLfgpU2maagwbZPLjaHuU5Jd1DFQ2KJpQuI6uG8w==
-  /@apollo/client/3.5.10_graphql@15.8.0+react@17.0.2:
+  /@apollo/client/3.6.9_graphql@15.8.0+react@17.0.2:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       '@wry/context': 0.6.1
@@ -220,13 +221,13 @@ packages:
       prop-types: 15.8.1
       react: 17.0.2
       symbol-observable: 4.0.0
-      ts-invariant: 0.9.4
+      ts-invariant: 0.10.3
       tslib: 2.3.1
-      zen-observable-ts: 1.2.3
+      zen-observable-ts: 1.2.5
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
-      react: ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
@@ -236,7 +237,7 @@ packages:
       subscriptions-transport-ws:
         optional: true
     resolution:
-      integrity: sha512-tL3iSpFe9Oldq7gYikZK1dcYxp1c01nlSwtsMz75382HcI6fvQXyFXUCJTTK3wgO2/ckaBvRGw7VqjFREdVoRw==
+      integrity: sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==
   /@apollo/react-common/3.1.4_556b533c078ddf6e4bd3e9a27655a5e4:
     dependencies:
       '@types/react': 17.0.38
@@ -317,7 +318,7 @@ packages:
       integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollo/react-hooks/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.6.9_graphql@15.8.0+react@17.0.2
     dev: false
     peerDependencies:
       graphql: '*'
@@ -341,7 +342,7 @@ packages:
       integrity: sha512-wuLPkKlctNn3u8EU8rlECyktpOUCeekFfb0KhIKknpGY6Lza2Qu0bThx7D9MIbVEzhKadNNrzLcpk0Y8/5UuWg==
   /@apollo/react-testing/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.6.9_graphql@15.8.0+react@17.0.2
     dev: true
     peerDependencies:
       graphql: '*'
@@ -22528,19 +22529,19 @@ packages:
     dev: false
     resolution:
       integrity: sha512-e4g0EJtAjk64xgnFPD6kTBUtpnMVzDrMb12N1YZV0VvSlhnVT3SGxiYTLdGy8Q5cYHOIC/FAHmZ10eGrAguicQ==
+  /ts-invariant/0.10.3:
+    dependencies:
+      tslib: 2.3.1
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-uivwYcQaxAucv1CzRp2n/QdYPo4ILf9VXgH19zEIjFx2EJufV16P0JtJVpYHy89DItG6Kwj2oIUjrcK5au+4tQ==
   /ts-invariant/0.4.4:
     dependencies:
       tslib: 1.14.1
     dev: false
     resolution:
       integrity: sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==
-  /ts-invariant/0.9.4:
-    dependencies:
-      tslib: 2.3.1
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-63jtX/ZSwnUNi/WhXjnK8kz4cHHpYS60AnmA6ixz17l7E12a5puCWFlNpkne5Rl0J8TBPVHpGjsj4fxs8ObVLQ==
   /ts-loader/6.2.2_typescript@3.9.10:
     dependencies:
       chalk: 2.4.2
@@ -24017,11 +24018,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Yj3yXweRc8LdRMrCC8nIc4kkjWecPAUVh0TI0OUrWXx6aX790vLcDlWca6I4vsyCGH3LpWxq0dJRcMOFoVqmeg==
-  /zen-observable-ts/1.2.3:
+  /zen-observable-ts/1.2.5:
     dependencies:
       zen-observable: 0.8.15
     resolution:
-      integrity: sha512-hc/TGiPkAWpByykMwDcem3SdUgA4We+0Qb36bItSuJC9xD0XVBZoFHYoadAomDSNf64CG8Ydj0Qb8Od8BUWz5g==
+      integrity: sha512-QZWQekv6iB72Naeake9hS1KxHlotfRpe+WGNbNx5/ta+R3DNjVO2bswf63gXlWDcs+EMd7XY8HfVQyP1X6T4Zg==
   /zen-observable/0.8.15:
     resolution:
       integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
@@ -24170,6 +24171,7 @@ specifiers:
   react: 17.0.2
   react-apollo: ^3.1.5
   react-apollo-hooks: ^0.5.0
+  react-content-loader: ^4.3.2
   react-day-picker: ^7.4.10
   react-dom: 17.0.2
   react-draft-wysiwyg: ^1.14.7

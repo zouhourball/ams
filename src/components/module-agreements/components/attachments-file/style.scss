@@ -1,0 +1,82 @@
+.dropzone {
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #eee;
+  text-align: center;
+  cursor: pointer;
+
+  p {
+    margin: 16px;
+  }
+}
+
+.dropzone-wrapper {
+  margin: 16px;
+  padding: 24px 16px;
+  border-radius: 4px;
+  background: #fff;
+
+  &-blue-text {
+    color: #1565c0;
+  }
+}
+
+.filesContainer {
+  // margin: 0 -8px;
+  padding: 8px 0;
+}
+
+.previewDialog {
+  .md-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: #1565c0;
+  }
+
+  .md-dialog {
+    border-radius: 5px;
+  }
+
+  &-closeButton {
+    padding: 8px;
+  }
+}
+
+.attachments {
+  .custom-expansion-panel_body {
+    padding: 16px;
+  }
+
+  .attachmentList {
+    .attachmentPanel {
+      margin: 8px 0;
+      border: 1px solid #eee;
+      border-radius: 5px;
+
+      &.md-paper--1 {
+        box-shadow: none;
+      }
+
+      .md-panel-header {
+        height: 30px;
+        padding: 0 16px;
+        background: #f0f0f0;
+
+        .md-panel-column {
+          display: flex;
+          align-items: center;
+          color: rgba($color: #000, $alpha: 0.54);
+
+          > img {
+            margin-right: 8px;
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+  }
+}

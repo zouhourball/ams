@@ -1,0 +1,25 @@
+.app-starterkit-blockokr {
+  &-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    background: #00a3e8;
+    color: white;
+    text-align: center;
+  }
+
+  &-icon {
+    height: 50%;
+  }
+
+  &-title {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    margin: 0;
+    color: white;
+  }
+}

@@ -1,0 +1,46 @@
+.relinquishment {
+  position: relative;
+
+  &-textField {
+    margin-bottom: 16px;
+    padding: 12px 13px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+
+    &:focus-within {
+      border-color: #1565c0;
+    }
+
+    .md-text-field--floating-margin {
+      position: relative;
+      bottom: 6px;
+      margin: 0;
+    }
+
+    .md-floating-label--floating {
+      z-index: 9;
+      padding: 0 5px;
+      transform: translate3d(-4px, -6px, 0);
+      background: #fff;
+      color: #0065c7;
+
+      &.md-text--error {
+        color: #f44336;
+      }
+    }
+
+    .md-floating-label--inactive {
+      transform: translate3d(0, 12px, 0);
+    }
+
+    .md-divider {
+      display: none;
+    }
+  }
+
+  &-datePicker-date {
+    position: absolute;
+    top: 10%;
+    left: 38%;
+  }
+}

@@ -1,0 +1,240 @@
+.master-contract {
+  margin-bottom: 8px;
+  background: #fff;
+
+  &.custom-expansion-panel {
+    margin-top: 0;
+  }
+
+  &-dropzone {
+    padding: 8px;
+
+    .md-icon {
+      color: rgba(0, 0, 0, 0.28);
+      font-size: 35px;
+    }
+
+    .dropzone {
+      p {
+        margin: 8px;
+      }
+    }
+  }
+
+  .header-contract-panel {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    height: 34px;
+    margin-bottom: 0;
+    padding: 8px;
+    background-color: #f1f1f1;
+
+    .contract-label {
+      margin-left: unset;
+      color: rgb(110, 110, 110);
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .md-avatar {
+      width: 25px;
+      border: none;
+      background-color: #eeeeef;
+    }
+  }
+
+  .md-expansion-panel--expanded {
+    margin-top: 0;
+  }
+
+  .no-files {
+    width: 100%;
+    color: #6d6d6d;
+    text-align: center;
+  }
+}
+
+.content-contract-panel {
+  max-height: 200px;
+  //margin: 10px;
+  padding: 7px 7px;
+  overflow: auto;
+
+  .agreementFile {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 3px;
+    background: #f1f1f1;
+
+    &-file-details {
+      display: flex;
+      align-items: center;
+
+      .file-icon {
+        font-size: 40px;
+
+        .pdf {
+          color: red;
+        }
+      }
+
+      .file-name {
+        max-width: calc(100% - 140px);
+        margin-right: auto;
+        margin-left: 5px;
+        color: #6d6d6d;
+        font-size: 16px;
+        font-weight: 400;
+
+        .title {
+          margin-right: 5px;
+          overflow: hidden;
+          font-size: 14px;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .file-size {
+        color: rgba(0, 0, 0, 0.47);
+        font-size: 12px;
+      }
+
+      .mdi-office {
+        color: #1565c0;
+      }
+
+      .mdi-file-image {
+        color: #ab47bc;
+      }
+
+      .uploadButton {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        background: #f1f1f2;
+        color: #9c9b9b;
+      }
+    }
+
+    &-footer {
+      display: flex;
+      margin-top: 5px;
+      color: rgba(0, 0, 0, 0.54);
+
+      &-details {
+        display: flex;
+        align-items: center;
+        font-size: 11px;
+
+        &:first-child {
+          padding: 0;
+        }
+
+        .md-icon {
+          margin-right: 5px;
+          font-size: 16px;
+        }
+
+        .md-icon-text {
+          flex-grow: 0;
+          flex-shrink: unset;
+          padding-right: 10px;
+          padding-left: 5px;
+          border-right: 1px solid #989797;
+          font-weight: inherit;
+          line-height: inherit;
+        }
+
+        .md-icon-separator {
+          display: flex;
+          align-items: center;
+        }
+
+        .md-avatar {
+          width: 22px;
+          height: 22px;
+
+          .md-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+    }
+
+    .title-wrapper {
+      display: flex;
+      align-items: center;
+      border-radius: 4px 4px 0 0;
+      background: #f1f1f1;
+      color: #ccc;
+
+      h3 {
+        margin: 0;
+        color: #6e6e6e;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+
+      .md-icon {
+        margin: 8px;
+        color: #1565c0;
+        font-size: 18px;
+        line-height: 1;
+      }
+    }
+  }
+
+  .dropzone-wrapper {
+    margin: 0;
+    padding: 10px 0;
+    border-radius: 4px;
+    background: #fff;
+
+    &-blue-text {
+      color: #1565c0;
+    }
+
+    .dropzone {
+      width: 100%;
+      border: 2px dotted #ccc;
+      border-radius: 4px;
+      background: #eee;
+      text-align: center;
+      cursor: pointer;
+
+      p {
+        margin: 0;
+        padding-bottom: 10px;
+        color: #4e4c4c;
+      }
+
+      .md-icon {
+        color: #848484ab;
+        font-size: 40px;
+        line-height: 50px;
+      }
+    }
+  }
+}
+
+.previewDialog {
+  .md-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    color: #1565c0;
+  }
+
+  .md-dialog {
+    border-radius: 5px;
+  }
+
+  &-closeButton {
+    padding: 8px;
+  }
+}
