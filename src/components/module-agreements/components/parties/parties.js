@@ -280,8 +280,8 @@ function Parties ({
       )}
       {addDialogVisible && (
         <CompaniesInfoById
-          organisationIDs={(get(allCompanies, 'data.content', []) || []).map(
-            (elem) => (elem.id ? elem.id.toString() : ''),
+          organisationIDs={get(allCompanies, 'data.content', []).map((elem) =>
+            elem.id ? elem.id.toString() : '',
           )}
         >
           {(organizations) => {
@@ -308,10 +308,9 @@ function Parties ({
                 type={type}
                 companies={type ? get(companies, `${type}`, []) : []}
                 shareholdersList={
-                  organizations?.map(
-                    (elem) => {
-                      return { ...elem, company_id: elem?.organisationID }
-                    }) || []
+                  organizations?.map((elem) => {
+                    return { ...elem, company_id: elem?.organisationID }
+                  }) || []
                 }
                 visible={addDialogVisible}
                 organizationID={organizationID}

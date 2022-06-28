@@ -1,19 +1,26 @@
-import companiesByOrgID from 'libs/queries/companies-by-org-id.gql'
+import companiesByOrganizationIDs from 'libs/queries/companies-by-org-id.gql'
 import { graphql } from 'react-apollo'
 import { get } from 'lodash-es'
-const CompanyInfoByOrg = ({ organization, children }) => {
-  return <>{children && children(organization)}</>
+
+const CompaniesInfoById = ({ organizations, children }) => {
+  return <>{children && children(organizations)}</>
 }
 
-export default graphql(companiesByOrgID, {
-  options: props => ({
-    context: { uri: `${PRODUCT_APP_URL_PROFILE}/graphql` },
-    notifyOnNetworkStatusChange: true,
-    variables: { organisationIDs: [`${get(props, 'organisationID', null)}`] },
-  }),
-  props: response => {
+export default graphql(companiesByOrganizationIDs, {
+  options: (props) => {
     return {
-      organization: get(response, 'data.companiesByOrganisationIDs', []),
+      context: { uri: `${PRODUCT_APP_URL_PROFILE}/graphql` },
+      notifyOnNetworkStatusChange: true,
+      variables: { organisationIDs: props?.organisationIDs?.filter(el => el !== '23') },
     }
   },
-})(CompanyInfoByOrg)
+  props: (response) => {
+    return {
+      organizations: get(
+        response,
+        'data.companiesByOrganisationIDs',
+        [],
+      ).filter((elem) => !!elem),
+    }
+  },
+})(CompaniesInfoById)

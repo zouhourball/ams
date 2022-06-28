@@ -1092,6 +1092,10 @@ const PSAgreement = ({
     }
     return roles
   }
+  const approve = (e, sectionId) => {
+    e.stopPropagation()
+    updateSectionEntity(organizationID, agreementId, sectionId, 'APPROVE')
+  }
   const amend = (e, sectionId, sectionName) => {
     e.stopPropagation()
     setVisibilityRemarksDialog(true)
