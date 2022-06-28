@@ -220,10 +220,8 @@ const PSAgreement = ({
   const [explorationCommitmentData, setExplorationCommitmentData] = useState({
     values: {},
   })
-  const [
-    modifiedExplorationCommitment,
-    setModifiedExplorationCommitment,
-  ] = useState(false)
+  const [modifiedExplorationCommitment, setModifiedExplorationCommitment] =
+    useState(false)
   const [newAgreementData, setNewAgreementData] = useState({})
   const [, setSectionToShow] = useState([])
   const [legalTermsData, setLegalTermsData] = useState('')
@@ -234,6 +232,7 @@ const PSAgreement = ({
   const [relinquishments, setRelinquishments] = useState({
     relinquishments: null,
   })
+
   const [modifiedRelinquishments, setModifiedRelinquishments] = useState(false)
   const [fiscalTerms, setFiscalTerms] = useState([])
   const [attachments, setAttachments] = useState({})
@@ -250,10 +249,8 @@ const PSAgreement = ({
   const [fiscalTermsUpdateStatus, setFiscalTermsUpdateStatus] = useState()
   const [polygonUpdateStatus, setPolygonUpdateStatus] = useState()
   const [submitSectionsStatuses, setSubmitSectionsStatuses] = useState([])
-  const [
-    relinquishmentsUpdateStatus,
-    setRelinquishmentsUpdateStatus,
-  ] = useState()
+  const [relinquishmentsUpdateStatus, setRelinquishmentsUpdateStatus] =
+    useState()
   const [submitDialog, setSubmitDialog] = useState(false)
   const [submitDialogVisible, setSubmitDialogVisible] = useState(false)
   const [allowOpenDialog, setAllowOpenDialog] = useState(true)
@@ -266,10 +263,10 @@ const PSAgreement = ({
     description: false,
     scope: false,
   })
+
   const [deleteFile, setDeleteFile] = useState(false)
   const [expandTop, setExpandTop] = useState(true)
-
-  const getSectionData = sectionName => {
+  const getSectionData = (sectionName) => {
     switch (sectionName) {
       case 'Master Contract':
         // return activityId ? activityName === sectionName ? getMasterContractHistoryStatus : {} : getMasterContractStatus
@@ -301,13 +298,13 @@ const PSAgreement = ({
     }
   }
 
-  const addDirtySections = sectionName => {
+  const addDirtySections = (sectionName) => {
     if (!dirtySections.includes(sectionName)) {
       setDirtySections([...dirtySections, sectionName])
     }
   }
   /// ////////////////////////////////////
-  const usePrevious = value => {
+  const usePrevious = (value) => {
     const ref = useRef()
     useEffect(() => {
       ref.current = value
@@ -463,11 +460,11 @@ const PSAgreement = ({
       submitDialog.readyToSubmit &&
       [...success].length === submitDialog.readyToSubmit.length
     ) {
-      navigate('/agreement/content')
+      navigate('/ams/agreement/content')
     } else {
       setSubmitDialogVisible(false)
       setSubmitSectionsStatuses([...error])
-      success.forEach(v => {
+      success.forEach((v) => {
         setDirtySections(removeFromArray(dirtySections, v))
       })
       setAmendedAgreement(false)
@@ -488,16 +485,16 @@ const PSAgreement = ({
     submitBlockDetailsStatus,
   ])
   /// ////////////////////////////
-  const formatExplorationCommitmentTable = table => {
+  const formatExplorationCommitmentTable = (table) => {
     const precision = 2
     const unitsTable = table
       .filter(
         ({ unit }, index, self) =>
-          index === self.findIndex(elem => elem.unit === unit),
+          index === self.findIndex((elem) => elem.unit === unit),
       )
       .map(({ unit }) => ({ unit }))
     table.forEach(({ year, unit, value }) => {
-      const unitObject = unitsTable.find(elem => elem.unit === unit)
+      const unitObject = unitsTable.find((elem) => elem.unit === unit)
       if (unitObject) {
         const formattedValue = numberToPrettifiedString(value, precision)
         Object.assign(unitObject, { [year]: formattedValue })
@@ -508,12 +505,12 @@ const PSAgreement = ({
   const formatExplorationCommitmentBody = () => {
     const precision = 2
     const maxNumberLength = 12
-    const formatStructure = table =>
+    const formatStructure = (table) =>
       flatMap(
-        table.map(elem =>
+        table.map((elem) =>
           Object.keys(elem)
-            .filter(key => key !== 'unit')
-            .map(key => ({
+            .filter((key) => key !== 'unit')
+            .map((key) => ({
               unit: elem.unit,
               year: +key,
               value: +prettifiedStringToNumber(
@@ -523,7 +520,7 @@ const PSAgreement = ({
               ),
             })),
         ),
-        value => value,
+        (value) => value,
       )
     return Object.assign(
       {},
@@ -545,7 +542,6 @@ const PSAgreement = ({
     //   ),
     // }
   }
-
   useEffect(() => {
     if (!getSectionData('Parties').pending && getSectionData('Parties').data) {
       let partiesData = get(getSectionData('Parties'), 'data', {
@@ -574,7 +570,7 @@ const PSAgreement = ({
 
   useEffect(() => {
     if (!submitAgreementStatus.pending && submitAgreementStatus.data) {
-      window.location.href = `/agreement/content/current/${submitAgreementStatus.data.id}`
+      window.location.href = `/ams/agreement/content/current/${submitAgreementStatus.data.id}`
     }
   }, [submitAgreementStatus])
 
@@ -602,7 +598,7 @@ const PSAgreement = ({
     }
   }, [fileManagerUploadContractStatus])
 
-  const getUploadedFiles = file => {
+  const getUploadedFiles = (file) => {
     fileManagerUploadContract(file, 'upload')
     addDirtySections('Master Contract')
   }
@@ -708,11 +704,11 @@ const PSAgreement = ({
       clearMutation()
     }
   }, [])
-  const testSectionToShow = sectionName => {
+  const testSectionToShow = (sectionName) => {
     return (
       isWritable(sectionName) &&
       isWritable(sectionName).find(
-        elem => elem.id === 1 || elem.id === 2 || elem.id === 3,
+        (elem) => elem.id === 1 || elem.id === 2 || elem.id === 3,
       )
     )
   }
@@ -721,7 +717,7 @@ const PSAgreement = ({
       getAgreementsByIdStatus &&
       getAgreementsByIdStatus.data &&
       !getAgreementsByIdStatus.pending &&
-      get(user, 'subject', null)
+      user
     ) {
       if (testSectionToShow('Block Details') && !activityId) {
         getBlockDetails(organizationID, agreementId)
@@ -774,12 +770,12 @@ const PSAgreement = ({
         ...get(getSectionData('Block Details'), 'data', {}),
       }
       blockDetailsNumberType.forEach(({ key, precision }) => {
-        if (has(blockDetailsFormatted, key.join('.'))) {
+        if (has(blockDetailsFormatted, key?.join('.'))) {
           set(
             blockDetailsFormatted,
-            key.join('.'),
+            key?.join('.'),
             numberToPrettifiedString(
-              get(blockDetailsFormatted, key.join('.'), 0),
+              get(blockDetailsFormatted, key?.join('.'), 0),
               precision || 0,
             ),
           )
@@ -835,11 +831,11 @@ const PSAgreement = ({
           relinquishments: null,
         },
       )
-      if (formattedRelinquishments.relinquishments) {
+      if (formattedRelinquishments?.relinquishments) {
         formattedRelinquishments = {
           ...formattedRelinquishments,
-          relinquishments: formattedRelinquishments.relinquishments.map(
-            elem => ({
+          relinquishments: formattedRelinquishments?.relinquishments?.map(
+            (elem) => ({
               ...elem,
               area_by_contract: numberToPrettifiedString(
                 elem.area_by_contract,
@@ -859,7 +855,7 @@ const PSAgreement = ({
         get(getSectionData('Polygon'), 'data', {
           polygons: [],
         }).polygons || []
-      ).map(elem => ({
+      ).map((elem) => ({
         ...elem,
         x: numberToPrettifiedString(elem.x, 6),
         y: numberToPrettifiedString(elem.y, 6),
@@ -909,7 +905,7 @@ const PSAgreement = ({
       // setFiscalTerms(get(getFiscalTermsStatus, 'data', []))
       setFiscalTerms({
         ...fiscal,
-        costs: get(fiscal, 'costs', []).map(elem => ({
+        costs: get(fiscal, 'costs', []).map((elem) => ({
           ...elem,
           value: elem.value,
         })),
@@ -962,9 +958,9 @@ const PSAgreement = ({
       }
       setAttachments({
         ...newDocs,
-        attachments: attachmentCategoryList.map(cat => {
+        attachments: attachmentCategoryList.map((cat) => {
           const fileList = newDocs.attachments.filter(
-            elem => elem.category === cat.label,
+            (elem) => elem.category === cat.label,
           )
           return {
             category: cat,
@@ -1033,12 +1029,12 @@ const PSAgreement = ({
   const uploadDocs = (file, cat) => {
     let newFileList = get(attachments, 'attachments', [])
     const findFileCategory = get(attachments, 'attachments', []).find(
-      el => el.category.label === cat,
+      (el) => el.category.label === cat,
     )
     if (findFileCategory) {
       setAttachments({
         ...attachments,
-        attachments: get(attachments, 'attachments', []).map(elem => {
+        attachments: get(attachments, 'attachments', []).map((elem) => {
           if (elem.category.label === cat) {
             return { category: elem.category, files: [...elem.files, ...file] }
           } else {
@@ -1062,32 +1058,31 @@ const PSAgreement = ({
     addDirtySections('Attachments')
   }
 
-  const handleExplorationCommitmentData = data => {
+  const handleExplorationCommitmentData = (data) => {
     setExplorationCommitmentData(data)
     setModifiedExplorationCommitment(true)
     addDirtySections('Exploration Commitments')
   }
 
-  const handleLegalTermsData = data => {
+  const handleLegalTermsData = (data) => {
     setLegalTermsData(data)
     addDirtySections('Legal Terms Obligations')
   }
-  const handleObligationData = data => {
+  const handleObligationData = (data) => {
     setObligationData(data)
     addDirtySections('Obligations')
   }
-
-  const isWritable = sectionName => {
+  const isWritable = (sectionName) => {
     let roles = false
     const sections = get(getAgreementsByIdStatus, 'data.sections_details', [])
     if (sections) {
       const findSection = sections.find(
-        sct => sct.section_entity.section.name === sectionName,
+        (sct) => sct.section_entity.section.name === sectionName,
       )
 
       if (findSection) {
         const isMember = findSection.members.find(
-          mem => mem.user_sub === get(user, 'subject', null),
+          (mem) => mem.user_sub === user,
         )
 
         if (isMember) {
@@ -1097,10 +1092,6 @@ const PSAgreement = ({
     }
     return roles
   }
-  const approve = (e, sectionId) => {
-    e.stopPropagation()
-    updateSectionEntity(organizationID, agreementId, sectionId, 'APPROVE')
-  }
   const amend = (e, sectionId, sectionName) => {
     e.stopPropagation()
     setVisibilityRemarksDialog(true)
@@ -1108,11 +1099,11 @@ const PSAgreement = ({
     setSectionNameToApproveAmend(sectionName)
   }
 
-  const renderPanelActions = section => {
+  const renderPanelActions = (section) => {
     if (!activityId) {
       const sections = get(getAgreementsByIdStatus, 'data.sections_details', [])
       const findSection = sections
-        ? sections.find(elem => elem.section_entity.section.name === section)
+        ? sections.find((elem) => elem.section_entity.section.name === section)
         : {}
       const sectionId = get(findSection, 'section_entity.id')
       const sectionName = get(findSection, 'section_entity.section.name')
@@ -1123,7 +1114,7 @@ const PSAgreement = ({
             icon
             primary
             key={1}
-            onClick={e => amend(e, sectionId, sectionName)}
+            onClick={(e) => amend(e, sectionId, sectionName)}
           >
             edit
           </Button>
@@ -1133,7 +1124,7 @@ const PSAgreement = ({
             primary
             swapTheming
             key={2}
-            onClick={e => approve(e, sectionId)}
+            onClick={(e) => approve(e, sectionId)}
           >
             check
           </Button>
@@ -1153,19 +1144,19 @@ const PSAgreement = ({
   const renderTree = [
     {
       name: 'Agreement',
-      link: () => navigate('/agreement/content'),
+      link: () => navigate('/ams/agreement/content'),
     },
     {
       name: (
         <TextField
           className="psa-agreement-title-textField"
           block
-          onChange={title =>
+          onChange={(title) =>
             setNewAgreementData({ ...newAgreementData, title })
           }
           autoComplete="off"
           value={get(newAgreementData, 'title', '')}
-          onKeyDown={e => e.key === 'Enter' && updateAgreementTitle()}
+          onKeyDown={(e) => e.key === 'Enter' && updateAgreementTitle()}
           onBlur={() => updateAgreementTitle()}
         />
       ),
@@ -1205,7 +1196,7 @@ const PSAgreement = ({
     }
 
     if (sectionsStatus) {
-      sectionsStatus.forEach(item => {
+      sectionsStatus.forEach((item) => {
         if (item.section_entity.status !== 'APPROVED') {
           validAmendement = false
         }
@@ -1219,7 +1210,7 @@ const PSAgreement = ({
     {
       label: t('discard'),
       action: () => {
-        navigate('/agreement/content')
+        navigate('/ams/agreement/content')
       },
       isVisible: true,
       swapTheming: false,
@@ -1258,12 +1249,12 @@ const PSAgreement = ({
         'data.sections_details',
       )
       const findSection = networkSections.find(
-        sct => sct.section_entity.section.name === section.label,
+        (sct) => sct.section_entity.section.name === section.label,
       )
       if (findSection) {
         if (
           currentRole &&
-          currentRole.map(cr => cr.name).includes('Uploader') &&
+          currentRole.map((cr) => cr.name).includes('Uploader') &&
           (findSection.section_entity.status === 'NOT SUBMITTED' ||
             findSection.section_entity.status === 'SUBMITTED' ||
             findSection.section_entity.status === 'AMENDED' ||
@@ -1283,16 +1274,16 @@ const PSAgreement = ({
   const onDelete = (file, cat) => {
     let agreementFiles = attachments.attachments
     const findDeletedCategory = agreementFiles.find(
-      item => item.category.label === cat.label,
+      (item) => item.category.label === cat.label,
     )
     if (findDeletedCategory) {
       const newFilesCat = findDeletedCategory.files.filter(
-        item => item.file_name !== file.name,
+        (item) => item.file_name !== file.name,
       )
       setAttachments({
         ...attachments,
         attachments: [
-          ...agreementFiles.filter(item => item.category.label !== cat.label),
+          ...agreementFiles.filter((item) => item.category.label !== cat.label),
           {
             category: cat,
             files: newFilesCat,
@@ -1310,12 +1301,10 @@ const PSAgreement = ({
     } else {
       listTypes.forEach(({ id }) => {
         const keys = flatMap(
-          get(
-            explorationCommitmentData,
-            `values.${id}`,
-            [],
-          ).map(({ unit, ...years }) => Object.keys(years)),
-          e => e.map(year => +year),
+          get(explorationCommitmentData, `values.${id}`, []).map(
+            ({ unit, ...years }) => Object.keys(years),
+          ),
+          (e) => e.map((year) => +year),
         )
         const start = Math.min(...keys)
         const end = Math.max(...keys)
@@ -1324,13 +1313,16 @@ const PSAgreement = ({
           { length: end - start + 1 },
           (data, index) => start + index,
         )
-        get(explorationCommitmentData, `values.${id}`, []).forEach(element => {
-          res =
-            res &&
-            yearsConfig.filter(
-              year => !isNaN(+prettifiedStringToNumber(element[year], 2, 12)),
-            ).length === yearsConfig.length
-        })
+        get(explorationCommitmentData, `values.${id}`, []).forEach(
+          (element) => {
+            res =
+              res &&
+              yearsConfig.filter(
+                (year) =>
+                  !isNaN(+prettifiedStringToNumber(element[year], 2, 12)),
+              ).length === yearsConfig.length
+          },
+        )
       })
     }
     return res
@@ -1376,19 +1368,22 @@ const PSAgreement = ({
   const formatPartiesBody = () => {
     return {
       ...parties,
-      operators: parties.operators.map(elem => ({
+      operators: parties.operators.map((elem) => ({
         ...elem,
         id: +elem.id,
       })),
-      shareholders: parties.shareholders.map(elem => ({
+      shareholders: parties.shareholders.map((elem) => ({
         ...elem,
         id: +elem.id,
       })),
-      service_providers: parties.service_providers.map(elem => ({
+      service_providers: parties.service_providers.map((elem) => ({
         ...elem,
         id: +elem.id,
       })),
-      contractors: parties.contractors.map(elem => ({ ...elem, id: +elem.id })),
+      contractors: parties.contractors.map((elem) => ({
+        ...elem,
+        id: +elem.id,
+      })),
     }
   }
 
@@ -1449,7 +1444,7 @@ const PSAgreement = ({
   }
   const renderFiscalTerms = () => {
     return {
-      costs: fiscalTerms.costs.map(elem => ({
+      costs: fiscalTerms.costs.map((elem) => ({
         ...elem,
         value: elem.value,
       })),
@@ -1485,7 +1480,7 @@ const PSAgreement = ({
         submitRelinquishments(
           organizationID,
           agreementId,
-          relinquishments.relinquishments.map(elem => ({
+          relinquishments.relinquishments.map((elem) => ({
             ...elem,
             area_by_contract: +prettifiedStringToNumber(
               elem.area_by_contract,
@@ -1561,7 +1556,7 @@ const PSAgreement = ({
         submitPolygon(
           organizationID,
           agreementId,
-          polygon.polygons.map(elem => ({
+          polygon.polygons.map((elem) => ({
             ...elem,
             x: +prettifiedStringToNumber(elem.x, 6, 9),
             y: +prettifiedStringToNumber(elem.y, 6, 9),
@@ -1570,7 +1565,7 @@ const PSAgreement = ({
         ),
       validate: () => {
         const statusOn = get(polygon, 'polygons', []).filter(
-          item => item.status === 'ON',
+          (item) => item.status === 'ON',
         )
         if (statusOn.length < 3) {
           setAllowOpenDialog(false)
@@ -1634,7 +1629,7 @@ const PSAgreement = ({
         submitAttachments(
           organizationID,
           agreementId,
-          attachments.attachments.map(elem => ({
+          attachments.attachments.map((elem) => ({
             ...elem,
             category: elem.category.label,
           })),
@@ -1655,11 +1650,11 @@ const PSAgreement = ({
       )
 
       const findSection = apiSections.find(
-        sct => sct.section_entity.section.id === section.id,
+        (sct) => sct.section_entity.section.id === section.id,
       )
       if (
         role &&
-        role.find(elem => elem.id === 2) &&
+        role.find((elem) => elem.id === 2) &&
         findSection &&
         (findSection.section_entity.status === 'NOT SUBMITTED' ||
           findSection.section_entity.status === 'SUBMITTED' ||
@@ -1676,7 +1671,7 @@ const PSAgreement = ({
   const refetchSectionRelated = () => {
     for (let section of sections) {
       const role = isWritable(section.label)
-      if (role && role.find(elem => elem.id === 1)) {
+      if (role && role.find((elem) => elem.id === 1)) {
         section.refetch()
       }
     }
@@ -1728,12 +1723,9 @@ const PSAgreement = ({
     return valid
   }
 
-  const handleDownload = file => {
+  const handleDownload = (file) => {
     // const file = get(getSectionData('Master Contract'), 'data')
-    const url = file.url
-      .split('/')
-      .slice(2)
-      .join('/')
+    const url = file.url.split('/').slice(2).join('/')
     const name = file.file_name
     fileManagerDownload(url, name)
   }
@@ -1748,7 +1740,7 @@ const PSAgreement = ({
       case 'cost':
         setFiscalTerms({
           ...fiscalTerms,
-          costs: rows.map(row => {
+          costs: rows.map((row) => {
             return {
               category: row.category,
               sub_category: row.subCategory,
@@ -1847,7 +1839,7 @@ const PSAgreement = ({
   }
   const getPolygonData = () => {
     const polygonData = get(polygon, 'polygons', []) || []
-    return polygonData.map(el => {
+    return polygonData.map((el) => {
       return {
         startDate: el.start_date,
         status: el.status,
@@ -1857,7 +1849,7 @@ const PSAgreement = ({
       }
     })
   }
-  const onAddPolygon = row => {
+  const onAddPolygon = (row) => {
     setPolygon({
       ...polygon,
       polygons: [
@@ -1873,7 +1865,7 @@ const PSAgreement = ({
     })
     addDirtySections('Polygon')
   }
-  const updateRemarks = remarks => {
+  const updateRemarks = (remarks) => {
     updateSectionEntity(
       organizationID,
       agreementId,
@@ -1885,7 +1877,7 @@ const PSAgreement = ({
   const showActionTest = (section, dataFromApi) => {
     return (
       isWritable(section) &&
-      isWritable(section).find(elem => elem.id === 1) &&
+      isWritable(section).find((elem) => elem.id === 1) &&
       get(dataFromApi, 'data.section_entity.status', '') === 'SUBMITTED'
     )
   }
@@ -1943,7 +1935,7 @@ const PSAgreement = ({
 
     return message
   }
-  const renderSectionTitle = title => {
+  const renderSectionTitle = (title) => {
     let dataTitle = title
     if (title === 'Exploration Commitments') {
       dataTitle = 'Minimum Exploration Work and Expenditure Obligations'
@@ -1952,7 +1944,7 @@ const PSAgreement = ({
     }
     return dataTitle
   }
-  const renderSubmitSections = onClickSection => {
+  const renderSubmitSections = (onClickSection) => {
     let message = []
     if (submitDialog && submitDialog.readyToSubmit.length > 0) {
       const submitted = submitDialog.readyToSubmit.map((nrs, index) => (
@@ -1997,7 +1989,7 @@ const PSAgreement = ({
 
     return message
   }
-  const onDeleteRow = row => {
+  const onDeleteRow = (row) => {
     setPolygon({
       ...polygon,
       polygons: polygon.polygons
@@ -2008,7 +2000,7 @@ const PSAgreement = ({
     })
   }
 
-  const onDeleteRowRelinquishments = row => {
+  const onDeleteRowRelinquishments = (row) => {
     setRelinquishments({
       ...relinquishments,
       relinquishments: relinquishments.relinquishments
@@ -2045,7 +2037,7 @@ const PSAgreement = ({
   const fisRef = useRef()
   const attRef = useRef()
 
-  const onClickSection = section => {
+  const onClickSection = (section) => {
     setSubmitDialogVisible(false)
     setVisiblePortal(false)
 
@@ -2079,25 +2071,19 @@ const PSAgreement = ({
     }
   }
 
-  const activityNavigate = ind => {
+  const activityNavigate = (ind) => {
     let path = ''
     if (pathname.split('/').length === 5) {
       path = pathname
     } else {
-      path = pathname
-        .split('/')
-        .slice(0, -2)
-        .join('/')
+      path = pathname.split('/').slice(0, -2).join('/')
     }
     window.location.href = `${path}/${ind.id}/${ind.title}`
   }
 
   const todayNavigate = () => {
     if (pathname.split('/').length === 7) {
-      const path = pathname
-        .split('/')
-        .slice(0, -2)
-        .join('/')
+      const path = pathname.split('/').slice(0, -2).join('/')
       window.location.href = `${path}`
     }
   }
@@ -2110,7 +2096,7 @@ const PSAgreement = ({
         <>
           BLOCK DETAILS
           <Button
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               if (visiblePortal) {
                 setVisiblePortal(false)
@@ -2152,7 +2138,7 @@ const PSAgreement = ({
         <>
           MINIMUM EXPLORATION WORK AND EXPENDITURE OBLIGATIONS
           <Button
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               if (visiblePortal) {
                 setVisiblePortal(false)
@@ -2196,7 +2182,7 @@ const PSAgreement = ({
             <>
               RELINQUISHMENTS & NEW AREAS
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
                   if (visiblePortal) {
                     setVisiblePortal(false)
@@ -2279,7 +2265,7 @@ const PSAgreement = ({
             <>
               POLYGON
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
                   if (visiblePortal) {
                     setVisiblePortal(false)
@@ -2358,7 +2344,7 @@ const PSAgreement = ({
         <>
           LEGAL TERMS
           <Button
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               if (visiblePortal) {
                 setVisiblePortal(false)
@@ -2398,7 +2384,7 @@ const PSAgreement = ({
         <>
           OBLIGATIONS OF THE CONTRACTOR
           <Button
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               if (visiblePortal) {
                 setVisiblePortal(false)
@@ -2438,7 +2424,7 @@ const PSAgreement = ({
             <>
               FISCAL TERMS
               <Button
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
                   if (visiblePortal) {
                     setVisiblePortal(false)
@@ -2494,7 +2480,7 @@ const PSAgreement = ({
         <>
           ATTACHMENTS
           <Button
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               if (visiblePortal) {
                 setVisiblePortal(false)
@@ -2521,7 +2507,7 @@ const PSAgreement = ({
       activityId={activityId}
     />
   )
-  const sectionToRender = section => {
+  const sectionToRender = (section) => {
     switch (section) {
       case 'renderBlockDetailsSection':
         return renderBlockDetailsSection()
@@ -2543,11 +2529,11 @@ const PSAgreement = ({
         return null
     }
   }
-  const addBlockDetails = values => {
+  const addBlockDetails = (values) => {
     setBlockDetails(values)
     addDirtySections('Block Details')
   }
-  const renderActivitiesColor = sectionName => {
+  const renderActivitiesColor = (sectionName) => {
     switch (sectionName) {
       case 'Master Contract':
         return 'yellow'
@@ -2572,7 +2558,7 @@ const PSAgreement = ({
     }
   }
   const renderActivities = () => {
-    const timelineData = get(getTimelineHistoryStatus, 'data', []).map(el => {
+    const timelineData = get(getTimelineHistoryStatus, 'data', []).map((el) => {
       return {
         date: new Date(el.created_at).getTime(),
         title: el.section,
@@ -2589,7 +2575,6 @@ const PSAgreement = ({
       },
     ]
   }
-
   return (
     <>
       <NavigateMenu tree={renderTree} actions={renderActions} />
@@ -2599,7 +2584,7 @@ const PSAgreement = ({
             <div className="psa-agreement-top-title">Activities</div>
             <Activities
               activities={renderActivities()}
-              onClickIndicator={ind => activityNavigate(ind)}
+              onClickIndicator={(ind) => activityNavigate(ind)}
               onClickToday={todayNavigate}
             />
           </div>
@@ -2737,7 +2722,7 @@ const PSAgreement = ({
             <div className="psa-agreement-sideBar psa-agreement-right">
               <AddSections
                 role={isWritable}
-                handleSectionToShow={sectionToShow => {
+                handleSectionToShow={(sectionToShow) => {
                   setSectionToShow(sectionToShow)
                 }}
                 sectionsList={get(
@@ -2755,7 +2740,7 @@ const PSAgreement = ({
       {visibilityRemarksDialog && (
         <Remarks
           closeDialog={() => setVisibilityRemarksDialog(false)}
-          onAdd={remarks => updateRemarks(remarks)}
+          onAdd={(remarks) => updateRemarks(remarks)}
           section={sectionNameToApproveAmend}
         />
       )}
@@ -2816,7 +2801,8 @@ const PSAgreement = ({
 export default connect(
   ({ query, shell }) => ({
     organizationID: shell.organizationId,
-    user: get(query, 'DEFAULT.me.data.user'),
+    user: get(query, 'DEFAULT.me.data.subject'),
+    roles: query?.DEFAULT?.me?.data?.roles,
   }),
   {
     clearMutation: act.clearMutation,
@@ -2870,5 +2856,5 @@ export default connect(
 )
 
 const removeFromArray = (arr, value) => {
-  return arr.filter(ele => ele !== value)
+  return arr.filter((ele) => ele !== value)
 }

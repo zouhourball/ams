@@ -100,3 +100,34 @@ export const formDataBody = (body) => {
   }
   return newBody
 }
+export const numberToPrettifiedString = (value, precision = 3) => {
+  return (+(value + '').replace(/,/gm, '') || 0)
+    .toFixed(precision)
+    .replace(
+      new RegExp(
+        `(?!^)(?=(?:\\d{3})+(?:${precision > 0 ? '\\.' : '$'}))`,
+        'gm',
+      ),
+      ',',
+    )
+}
+
+export const prettifiedStringToNumber = (
+  value,
+  precision = 3,
+  maxNumberLength = 12,
+) => {
+  let pattern = new RegExp(
+    `^\\d*${precision > 0 ? `(.?\\d{0,${precision}})?` : ''}$`,
+  )
+  const v = value.replace(/,/gm, '')
+  if (
+    !isNaN(+v) &&
+    v.length <= maxNumberLength + (v.includes('.') ? precision + 1 : 0) &&
+    pattern.test(v)
+  ) {
+    return v
+  } else {
+    return null
+  }
+}

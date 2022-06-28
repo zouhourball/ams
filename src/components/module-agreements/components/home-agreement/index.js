@@ -23,7 +23,6 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
 
   useEffect(() => {
     const urlSubs = pathname.split('/').filter(pth => pth)
-    console.log(urlSubs, 'urlSubs')
 
     if (urlSubs.length === 3 && urlSubs[2] === 'content') {
       setIsVisibleTopBar(true)
@@ -111,7 +110,6 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
       return '/agreement/content'
     }
   }
-  console.log(organizationId, 'organizationId')
   return (
     <div className="psa-container">
       {isVisibleTopBar && (
@@ -133,7 +131,7 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
       >
         <Router>
           <NotFound default />
-          <Redirect from="/agreement" to={renderTo()} noThrow />
+          <Redirect from="/ams/agreement" to={renderTo()} noThrow />
           {hasRoleConfigurator() && (
             <PSA path="/configurator" organizationId={organizationId} />
           )}

@@ -45,7 +45,7 @@ function Parties ({
   const [type, setType] = useState('')
   const [updateStatus, setUpdateStatus] = useState(false)
 
-  const usePrevious = value => {
+  const usePrevious = (value) => {
     const ref = useRef()
     useEffect(() => {
       ref.current = value
@@ -77,16 +77,16 @@ function Parties ({
 
   const disableButton =
     activityId ||
-    !(role && role.find(elem => elem.id === 2)) ||
+    !(role && role.find((elem) => elem.id === 2)) ||
     (role &&
-      role.find(elem => elem.id === 2) &&
+      role.find((elem) => elem.id === 2) &&
       status === 'APPROVED' &&
       !amendedAgreement)
 
   const onSave = (data, type) => {
-    const dataDialog = data.map(dataValue => {
+    const dataDialog = data.map((dataValue) => {
       const noc = allCompanies.data.content.find(
-        el => el.id === dataValue.company_id,
+        (el) => el.id === dataValue.company_id,
       )?.noc
       return {
         ...dataValue,
@@ -95,7 +95,6 @@ function Parties ({
     })
     onDialogSave(type, dataDialog)
   }
-
   return (
     <div className={cls('parties', updateStatus || '')}>
       <div className="parties-title">
@@ -133,17 +132,16 @@ function Parties ({
                 <PartiesLoader />
               ) : (
                 <CompaniesInfoById
-                  organisationIDs={(
-                    get(companies, 'operators', []) || []
-                  ).map(elem =>
-                    elem.company_id ? elem.company_id.toString() : '',
+                  organisationIDs={(get(companies, 'operators', []) || []).map(
+                    (elem) =>
+                      elem.company_id ? elem.company_id.toString() : '',
                   )}
                 >
-                  {organizations =>
+                  {(organizations) =>
                     renderCards(
-                      companies && companies.operators,
+                      companies && companies?.operators,
                       role,
-                      data => setParties('operators', data),
+                      (data) => setParties('operators', data),
                       organizations,
                       false,
                     )
@@ -180,15 +178,15 @@ function Parties ({
                 <CompaniesInfoById
                   organisationIDs={(
                     get(companies, 'shareholders', []) || []
-                  ).map(elem =>
+                  ).map((elem) =>
                     elem.company_id ? elem.company_id.toString() : '',
                   )}
                 >
-                  {organizations =>
+                  {(organizations) =>
                     renderCards(
-                      companies && companies.shareholders,
+                      companies && companies?.shareholders,
                       role,
-                      data => setParties('shareholders', data),
+                      (data) => setParties('shareholders', data),
                       organizations,
                     )
                   }
@@ -221,17 +219,15 @@ function Parties ({
               <PartiesLoader />
             ) : (
               <CompaniesInfoById
-                organisationIDs={(
-                  get(companies, 'contractors', []) || []
-                ).map(elem =>
-                  elem.company_id ? elem.company_id.toString() : '',
+                organisationIDs={(get(companies, 'contractors', []) || []).map(
+                  (elem) => (elem.company_id ? elem.company_id.toString() : ''),
                 )}
               >
-                {organizations =>
+                {(organizations) =>
                   renderCards(
-                    companies && companies.contractors,
+                    companies && companies?.contractors,
                     role,
-                    data => setParties('contractors', data),
+                    (data) => setParties('contractors', data),
                     organizations,
                   )
                 }
@@ -265,15 +261,15 @@ function Parties ({
               <CompaniesInfoById
                 organisationIDs={(
                   get(companies, 'service_providers', []) || []
-                ).map(elem =>
+                ).map((elem) =>
                   elem.company_id ? elem.company_id.toString() : '',
                 )}
               >
-                {organizations =>
+                {(organizations) =>
                   renderCards(
-                    companies && companies.service_providers,
+                    companies && companies?.['service_providers'],
                     role,
-                    data => setParties('service_providers', data),
+                    (data) => setParties('service_providers', data),
                     organizations,
                   )
                 }
@@ -284,16 +280,16 @@ function Parties ({
       )}
       {addDialogVisible && (
         <CompaniesInfoById
-          organisationIDs={(
-            get(allCompanies, 'data.content', []) || []
-          ).map(elem => (elem.id ? elem.id.toString() : ''))}
+          organisationIDs={(get(allCompanies, 'data.content', []) || []).map(
+            (elem) => (elem.id ? elem.id.toString() : ''),
+          )}
         >
-          {organizations => {
+          {(organizations) => {
             return type === 'shareholders' ? (
               <AddDialogShareholders
                 companies={get(companies, `shareholders`, []) || []}
                 shareholdersList={
-                  organizations.map(elem => {
+                  organizations?.map((elem) => {
                     return { ...elem, company_id: elem.organisationID }
                   }) || []
                 }
@@ -302,7 +298,7 @@ function Parties ({
                 onHide={() => {
                   setAddDialogVisible(false)
                 }}
-                onSave={data => {
+                onSave={(data) => {
                   onSave(data, type)
                 }}
                 onSearchShareHolders={setSearchCompanies}
@@ -312,16 +308,17 @@ function Parties ({
                 type={type}
                 companies={type ? get(companies, `${type}`, []) : []}
                 shareholdersList={
-                  organizations.map(elem => {
-                    return { ...elem, company_id: elem.organisationID }
-                  }) || []
+                  organizations?.map(
+                    (elem) => {
+                      return { ...elem, company_id: elem?.organisationID }
+                    }) || []
                 }
                 visible={addDialogVisible}
                 organizationID={organizationID}
                 onHide={() => {
                   setAddDialogVisible(false)
                 }}
-                onSave={data => {
+                onSave={(data) => {
                   onSave(data, type)
                 }}
                 onSearchShareHolders={setSearchCompanies}
@@ -343,12 +340,12 @@ const renderCards = (
 ) => {
   return (
     items &&
-    items.map((el, key) => (
+    items?.map((el, key) => (
       <CompanyInfoById
         key={key}
         organisationID={el.company_id ? el.company_id.toString() : ''}
       >
-        {organization => {
+        {(organization) => {
           return (
             organization && (
               <div className="parties-card" key={key}>
