@@ -10,7 +10,7 @@ import PSA from 'components//module-agreements/components/psa'
 import PSAgreement from 'components/module-agreements/components/psa-agreement'
 import Visualiser from 'components/module-agreements/images/topBar/Visualiser.svg'
 import dashboard from 'components/module-agreements/images/topBar/dashboard.svg'
-import newPsa from 'components/module-agreements/images/topBar/new-psa.svg'
+// import newPsa from 'components/module-agreements/images/topBar/new-psa.svg'
 import NotFound from 'components/module-agreements/components/not-found'
 import { useTranslation } from 'libs/langs'
 
@@ -52,7 +52,7 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
         <Button
           primary
           key={'cnp'}
-          iconEl={<img src={newPsa} width="18px" />}
+          // iconEl={<img src={newPsa} width="18px" />}
           className="add-psa-btn"
           flat
           onClick={() => handelOnClickItem('new agreement')}

@@ -80,6 +80,14 @@ export default class AutocompleteWithButton extends Component {
     return filteredData.map(elem => {
       return (
         <div key={elem.id} className="itemMultiPick">
+
+          <div className="list_wrapper_list_items_image">
+            <Avatar src={elem.img ? getPublicUrl(elem.img) : avatar} />
+          </div>
+          <div>
+            <div className="list_wrapper_list_items_label">{elem.label}</div>
+            <div className="list_wrapper_list_items_position">{elem.label}</div>
+          </div>
           <Checkbox
             id={elem.id}
             onChange={val => {
@@ -114,13 +122,6 @@ export default class AutocompleteWithButton extends Component {
             uncheckedCheckboxIcon={<FontIcon>radio_button_unchecked</FontIcon>}
             checkedCheckboxIcon={<FontIcon primary>check_circle</FontIcon>}
           />
-          <div className="list_wrapper_list_items_image">
-            <Avatar src={elem.img ? getPublicUrl(elem.img) : avatar} />
-          </div>
-          <div>
-            <div className="list_wrapper_list_items_label">{elem.label}</div>
-            <div className="list_wrapper_list_items_position">{elem.label}</div>
-          </div>
         </div>
       )
     })

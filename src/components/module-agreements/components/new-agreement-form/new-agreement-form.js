@@ -52,6 +52,7 @@ const NewAgreementForm = props => {
                 editorLabelClassName="new-agreement-label"
                 wrapperClassName={`${newAgreementError.description &&
                   'error'} new-agreement-description`}
+                stopEditing={true}
                 // maxLength={100}
               />
               <HtmlEditor

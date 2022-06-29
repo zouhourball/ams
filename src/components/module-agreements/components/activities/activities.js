@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import { useState, Fragment } from 'react'
 import moment from 'moment'
 import { Button } from 'react-md'
 

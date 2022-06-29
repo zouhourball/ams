@@ -237,7 +237,7 @@ const AddSections = ({
                     </div>
                   }
                 >
-                  <Avatar
+                  {/* <Avatar
                     className={cls(
                       'section_item-avatar',
                       hasRole ? section.color : 'disabled',
@@ -252,7 +252,7 @@ const AddSections = ({
                     }
                     role="presentation"
                     onClick={() => onClickSection(section.name)}
-                  />
+                  /> */}
                 </Item>
               )
             })

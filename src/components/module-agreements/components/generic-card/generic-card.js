@@ -1,15 +1,15 @@
-import { Avatar, MenuButton, ListItem, FontIcon, List } from 'react-md'
-import { get } from 'lodash-es'
+import { Avatar, MenuButton, ListItem } from 'react-md'
+// import { get } from 'lodash-es'
 
-import obligations from 'components/module-agreements/components/add-sections/images/obligations.svg'
-import relinquishments from 'components/module-agreements/components/add-sections/images/relinquishments.svg'
-import block from 'components/module-agreements/components/add-sections/images/block.svg'
-import polygon from 'components/module-agreements/components/add-sections/images/polygon.svg'
-import fiscal from 'components/module-agreements/components/add-sections/images/fiscal.svg'
-import exploration from 'components/module-agreements/components/add-sections/images/exploration.svg'
-import attachmentIcon from 'components/module-agreements/components/add-sections/images/attachmentIcon.svg'
-import masterContract from 'components/module-agreements/components/add-sections/images/masterContract.svg'
-import parties from 'components/module-agreements/components/add-sections/images/parties.svg'
+// import obligations from 'components/module-agreements/components/add-sections/images/obligations.svg'
+// import relinquishments from 'components/module-agreements/components/add-sections/images/relinquishments.svg'
+// import block from 'components/module-agreements/components/add-sections/images/block.svg'
+// import polygon from 'components/module-agreements/components/add-sections/images/polygon.svg'
+// import fiscal from 'components/module-agreements/components/add-sections/images/fiscal.svg'
+// import exploration from 'components/module-agreements/components/add-sections/images/exploration.svg'
+// import attachmentIcon from 'components/module-agreements/components/add-sections/images/attachmentIcon.svg'
+// import masterContract from 'components/module-agreements/components/add-sections/images/masterContract.svg'
+// import parties from 'components/module-agreements/components/add-sections/images/parties.svg'
 
 import avatarCompany from 'components/module-agreements/images/avatarCompany.png'
 import add from 'components/module-agreements/images/add.png'
@@ -65,80 +65,80 @@ const GenericCard = ({
     )
   }
 
-  const RenderIcon = section => {
-    switch (section) {
-      case 'Block Details':
-        return block
-      case 'Obligations':
-        return obligations
-      case 'Attachments':
-        return attachmentIcon
-      case 'Fiscal Terms':
-        return fiscal
-      case 'Polygon':
-        return polygon
-      case 'Exploration Commitments':
-        return exploration
-      case 'Relinquishments & new Areas':
-        return relinquishments
-      case 'Parties':
-        return parties
-      case 'Master Contract':
-        return masterContract
-      case 'Legal Terms Obligations':
-        return relinquishments
-      default:
-        break
-    }
-  }
+  // const RenderIcon = section => {
+  //   switch (section) {
+  //     case 'Block Details':
+  //       return block
+  //     case 'Obligations':
+  //       return obligations
+  //     case 'Attachments':
+  //       return attachmentIcon
+  //     case 'Fiscal Terms':
+  //       return fiscal
+  //     case 'Polygon':
+  //       return polygon
+  //     case 'Exploration Commitments':
+  //       return exploration
+  //     case 'Relinquishments & new Areas':
+  //       return relinquishments
+  //     case 'Parties':
+  //       return parties
+  //     case 'Master Contract':
+  //       return masterContract
+  //     case 'Legal Terms Obligations':
+  //       return relinquishments
+  //     default:
+  //       break
+  //   }
+  // }
 
-  const renderSections = () => {
-    const sections = get(genericCardData, 'sections_details', [])
-    let sectionsList = []
-    if (sections) {
-      sectionsList = sections.map(sec => {
-        return {
-          name: sec.section_entity.section.name,
-          submitted: sec.section_entity.status,
-          icon: RenderIcon(sec.section_entity.section.name),
-        }
-      })
-    }
-    const renderSectionTitle = title => {
-      let dataTitle = title
-      if (title === 'Exploration Commitments') {
-        dataTitle = t('minimum_exploration')
-      } else if (title === 'Obligations') {
-        dataTitle = t('obligations_contractor')
-      }
-      return dataTitle
-    }
-    return sectionsList.map(({ name, submitted, icon }, index) => {
-      return (
-        <ListItem
-          key={index}
-          primaryText={renderSectionTitle(name)}
-          leftIcon={
-            icon ? (
-              <img src={icon} width="16px" />
-            ) : (
-              <FontIcon key="data">data_usage</FontIcon>
-            )
-          }
-          rightIcon={
-            <div
-              className={`generic-card-label generic-card-label-${submitted
-                .toLowerCase()
-                .replace(/ /g, '-')}`}
-            >
-              {submitted}
-            </div>
-          }
-          onClick={e => null}
-        />
-      )
-    })
-  }
+  // const renderSections = () => {
+  //   const sections = get(genericCardData, 'sections_details', [])
+  //   let sectionsList = []
+  //   if (sections) {
+  //     sectionsList = sections.map(sec => {
+  //       return {
+  //         name: sec.section_entity.section.name,
+  //         submitted: sec.section_entity.status,
+  //         icon: RenderIcon(sec.section_entity.section.name),
+  //       }
+  //     })
+  //   }
+  //   const renderSectionTitle = title => {
+  //     let dataTitle = title
+  //     if (title === 'Exploration Commitments') {
+  //       dataTitle = t('minimum_exploration')
+  //     } else if (title === 'Obligations') {
+  //       dataTitle = t('obligations_contractor')
+  //     }
+  //     return dataTitle
+  //   }
+  //   return sectionsList.map(({ name, submitted, icon }, index) => {
+  //     return (
+  //       <ListItem
+  //         key={index}
+  //         primaryText={renderSectionTitle(name)}
+  //         leftIcon={
+  //           icon ? (
+  //             <img src={icon} width="16px" />
+  //           ) : (
+  //             <FontIcon key="data">data_usage</FontIcon>
+  //           )
+  //         }
+  //         rightIcon={
+  //           <div
+  //             className={`generic-card-label generic-card-label-${submitted
+  //               .toLowerCase()
+  //               .replace(/ /g, '-')}`}
+  //           >
+  //             {submitted}
+  //           </div>
+  //         }
+  //         onClick={e => null}
+  //       />
+  //     )
+  //   })
+  // }
 
   const { title, description, deleted } = genericCardData
 
@@ -202,9 +202,9 @@ const GenericCard = ({
       <div className="generic-card-description">
         {description.replace(/<\/?[^>]+(>|$)/g, '')}
       </div>
-      <div className="generic-card-details">
+      {/* <div className="generic-card-details">
         <List className="generic-card-list">{renderSections()}</List>
-      </div>
+      </div> */}
     </div>
   )
 }

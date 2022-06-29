@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { cls } from 'reactutils'
 import { Button } from 'react-md'
-import { navigate } from '@reach/router'
+// import { navigate } from '@reach/router'
 import EamTopBar from '@target-energysolutions/eam-top-bar'
 
 import agreementManager from 'components/module-agreements/images/topBar/agreement-Manager.svg'
@@ -165,7 +165,7 @@ export default class TopBar extends Component {
                 </>
               )}
             </div>
-            <Button
+            {/* <Button
               className="top-bar_close-btn"
               icon
               onClick={() => {
@@ -174,7 +174,7 @@ export default class TopBar extends Component {
               }}
             >
               exit_to_app
-            </Button>
+            </Button> */}
           </>
         }
       />

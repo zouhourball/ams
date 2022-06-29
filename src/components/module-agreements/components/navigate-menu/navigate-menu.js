@@ -19,12 +19,13 @@ export default class NavigateMenu extends React.Component {
             // flat
             // primary
             // swapTheming={elem.swapTheming && elem.active}
-            icon
+            // icon
             onClick={() => elem.action()}
             className="details-top-bar_actions-button"
             disabled={!elem.active}
           >
-            {elem.icon}
+            {/* {elem.icon} */}
+            {elem?.label}
           </Button>
         )
       }

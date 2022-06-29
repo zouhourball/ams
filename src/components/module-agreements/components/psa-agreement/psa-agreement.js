@@ -1,6 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { navigate } from '@reach/router'
-import { Button, DialogContainer, FontIcon, Portal, TextField } from 'react-md'
+import {
+  Button,
+  DialogContainer,
+  FontIcon,
+  Portal,
+  TextField,
+  ExpansionList,
+  ExpansionPanel,
+} from 'react-md'
+import FontIcons from 'react-md/lib/FontIcons'
+
 import { connect } from 'react-redux'
 import mutate from 'libs/hocs/mutate'
 import { get, flatMap, has, set } from 'lodash-es'
@@ -85,7 +95,7 @@ import RemarksFooter from 'components/module-agreements/components/remarks-foote
 import { TableLoader } from '../loaders/loaders'
 import Warning from 'components/module-agreements/components/warning'
 import { listTypes } from '../exploration-commitment/helpers'
-import ExpandTabs from 'components/module-agreements/components/expand-tabs'
+// import ExpandTabs from 'components/module-agreements/components/expand-tabs'
 import icon1 from 'components/module-agreements/images/psaIcon/block details.svg'
 import icon2 from 'components/module-agreements/images/psaIcon/explorationCommitments.svg'
 import icon3 from 'components/module-agreements/images/psaIcon/docs.svg'
@@ -265,7 +275,7 @@ const PSAgreement = ({
   })
 
   const [deleteFile, setDeleteFile] = useState(false)
-  const [expandTop, setExpandTop] = useState(true)
+  // const [expandTop, setExpandTop] = useState(true)
   const getSectionData = (sectionName) => {
     switch (sectionName) {
       case 'Master Contract':
@@ -1147,7 +1157,7 @@ const PSAgreement = ({
   }
   const renderTree = [
     {
-      name: 'Agreement',
+      name: 'New PSA',
       link: () => navigate('/ams/agreement/content'),
     },
     {
@@ -1219,7 +1229,7 @@ const PSAgreement = ({
       isVisible: true,
       swapTheming: false,
       active: true,
-      icon: 'close',
+      // icon: 'close',
     },
     !verifyAllStatus()
       ? {
@@ -1231,7 +1241,7 @@ const PSAgreement = ({
         isVisible: !activityId,
         swapTheming: true,
         active: true,
-        icon: 'send',
+        // icon: 'send',
       }
       : {
         label: 'New Amendement',
@@ -2583,77 +2593,86 @@ const PSAgreement = ({
     <>
       <NavigateMenu tree={renderTree} actions={renderActions} />
       <div className="psa-agreement" id="mainContent">
-        <ExpandTabs position="top" expand={expandTop} onChange={setExpandTop}>
-          <div className="psa-agreement-top">
-            <div className="psa-agreement-top-title">Activities</div>
-            <Activities
-              activities={renderActivities()}
-              onClickIndicator={(ind) => activityNavigate(ind)}
-              onClickToday={todayNavigate}
-            />
-          </div>
-        </ExpandTabs>
-        <div className={`psa-agreement-content ${expandTop ? '' : 'full'}`}>
+        {/* <ExpandTabs position="top" expand={expandTop} onChange={setExpandTop}> */}
+        <div className="psa-agreement-top">
+          {/* <div className="psa-agreement-top-title">Activities</div> */}
+          <ExpansionList className="approvers-panel">
+            <ExpansionPanel
+              label="Activities"
+              footer={null}
+              defaultExpanded
+              expanderIcon={<FontIcons>arrow_drop_up</FontIcons>}
+            >
+              <Activities
+                activities={renderActivities()}
+                onClickIndicator={(ind) => activityNavigate(ind)}
+                onClickToday={todayNavigate}
+              />
+            </ExpansionPanel>
+          </ExpansionList>
+        </div>
+        {/* </ExpandTabs> */}
+        <div className={`psa-agreement-content `}>
           {showSideBar() && (
-            <ExpandTabs>
-              <div className="psa-agreement-sideBar psa-agreement-left">
-                {testSectionToShow('Master Contract') && (
-                  <MasterContract
-                    amendedAgreement={amendedAgreement}
-                    getUploadedFiles={getUploadedFiles}
-                    uploadedFile={uploadedFile}
-                    collapsePanelLabel={t('master_contract')}
-                    role={isWritable('Master Contract')}
-                    member={member}
-                    AgreementFiles={uploadedFile[0]}
-                    leftIcon={attachmentIcon}
-                    iconColor="gris"
-                    onClickDownload={handleDownload}
-                    agreementId={agreementId}
-                    showAction={showActionTest(
-                      'Master Contract',
-                      getSectionData('Master Contract'),
-                    )}
-                    getMasterContractStatus={getSectionData('Master Contract')}
-                    actions={renderPanelActions('Master Contract')}
-                    loading={getSectionData('Master Contract').pending}
-                    updateSectionEntityStatus={updateSectionEntityStatus}
-                    activityId={activityId}
-                    onDeleteUploadedFile={onDeleteUploadedFile}
-                  />
-                )}
+            // <ExpandTabs>
+            <div className="psa-agreement-sideBar psa-agreement-left">
+              {testSectionToShow('Master Contract') && (
+                <MasterContract
+                  amendedAgreement={amendedAgreement}
+                  getUploadedFiles={getUploadedFiles}
+                  uploadedFile={uploadedFile}
+                  collapsePanelLabel={t('master_contract')}
+                  role={isWritable('Master Contract')}
+                  member={member}
+                  AgreementFiles={uploadedFile[0]}
+                  leftIcon={attachmentIcon}
+                  iconColor="gris"
+                  onClickDownload={handleDownload}
+                  agreementId={agreementId}
+                  showAction={showActionTest(
+                    'Master Contract',
+                    getSectionData('Master Contract'),
+                  )}
+                  getMasterContractStatus={getSectionData('Master Contract')}
+                  actions={renderPanelActions('Master Contract')}
+                  loading={getSectionData('Master Contract').pending}
+                  updateSectionEntityStatus={updateSectionEntityStatus}
+                  activityId={activityId}
+                  onDeleteUploadedFile={onDeleteUploadedFile}
+                />
+              )}
 
-                {testSectionToShow('Parties') && (
-                  <Parties
-                    amendedAgreement={amendedAgreement}
-                    title={t('parties')}
-                    companies={parties}
-                    role={isWritable('Parties')}
-                    onDialogSave={handleDialogSave}
-                    agreementId={agreementId}
-                    searchCompanies={searchCompanies}
-                    setSearchCompanies={setSearchCompanies}
-                    setParties={(type, companies) => {
-                      setParties({ ...parties, [type]: companies })
-                      addDirtySections('Parties')
-                    }}
-                    showAction={showActionTest(
-                      'Parties',
-                      getSectionData('Parties'),
-                    )}
-                    actions={renderPanelActions('Parties')}
-                    loading={getSectionData('Parties').pending}
-                    updateSectionEntityStatus={updateSectionEntityStatus}
-                    remark={get(
-                      getSectionData('Parties'),
-                      'data.section_entity.remarks',
-                      '',
-                    )}
-                    activityId={activityId}
-                  />
-                )}
-              </div>
-            </ExpandTabs>
+              {testSectionToShow('Parties') && (
+                <Parties
+                  amendedAgreement={amendedAgreement}
+                  title={t('parties')}
+                  companies={parties}
+                  role={isWritable('Parties')}
+                  onDialogSave={handleDialogSave}
+                  agreementId={agreementId}
+                  searchCompanies={searchCompanies}
+                  setSearchCompanies={setSearchCompanies}
+                  setParties={(type, companies) => {
+                    setParties({ ...parties, [type]: companies })
+                    addDirtySections('Parties')
+                  }}
+                  showAction={showActionTest(
+                    'Parties',
+                    getSectionData('Parties'),
+                  )}
+                  actions={renderPanelActions('Parties')}
+                  loading={getSectionData('Parties').pending}
+                  updateSectionEntityStatus={updateSectionEntityStatus}
+                  remark={get(
+                    getSectionData('Parties'),
+                    'data.section_entity.remarks',
+                    '',
+                  )}
+                  activityId={activityId}
+                />
+              )}
+            </div>
+            // </ExpandTabs>
           )}
           <div ref={mainRef} className="psa-agreement-main">
             <NewAgreementForm
@@ -2718,27 +2737,27 @@ const PSAgreement = ({
               </div>
             )}
           </div>
-          <ExpandTabs
+          {/* <ExpandTabs
             position="right"
             className={`${visiblePortal ? 'right-side-over-portal' : ''}`}
             expand={!visiblePortal}
-          >
-            <div className="psa-agreement-sideBar psa-agreement-right">
-              <AddSections
-                role={isWritable}
-                handleSectionToShow={(sectionToShow) => {
-                  setSectionToShow(sectionToShow)
-                }}
-                sectionsList={get(
-                  getAgreementsByIdStatus,
-                  'data.sections_details',
-                  [],
-                )}
-                loading={getSectionData('Attachments').pending}
-                onClickSection={onClickSection}
-              />
-            </div>
-          </ExpandTabs>
+          > */}
+          <div className="psa-agreement-sideBar psa-agreement-right">
+            <AddSections
+              role={isWritable}
+              handleSectionToShow={(sectionToShow) => {
+                setSectionToShow(sectionToShow)
+              }}
+              sectionsList={get(
+                getAgreementsByIdStatus,
+                'data.sections_details',
+                [],
+              )}
+              loading={getSectionData('Attachments').pending}
+              onClickSection={onClickSection}
+            />
+          </div>
+          {/* </ExpandTabs> */}
         </div>
       </div>
       {visibilityRemarksDialog && (
