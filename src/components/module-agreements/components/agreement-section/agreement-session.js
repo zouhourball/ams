@@ -95,9 +95,10 @@ const AgreementSession = ({
         items={uniqBy(
           [
             ...(isAllUsersByOrgAdmin ? allUsersByOrgAdmin : userProfiles)
-              .map(({ subject, fullName, photo, roles }) => ({
+              .map(({ subject, fullName, photo, roles, title }) => ({
                 id: subject,
                 label: fullName,
+                title,
                 img: get(photo, 'aPIID', null),
                 roles,
               }))
@@ -176,12 +177,13 @@ const AgreementSession = ({
         className="agreement-session_title"
         // onClick={() => navigate(`/psa/agreement/${data.id}`)}
       >
-        {data.icon ? (
+        {/* {data.icon ? (
           <FontIcon iconClassName={data.icon}></FontIcon>
         ) : (
           <img src={data.image} />
-        )}{' '}
+        )}{' '} */}
         <span className="title">{renderDataTitle(data.title)}</span>
+        <span>{membreitem?.length}</span>
       </h2>
       <div className="agreement-session_content">
         <div className="agreement-session_content_selectField_main">
@@ -257,22 +259,24 @@ export default graphql(allUserProfiles, {
     ),
     searchUser: response.allUserProfiles.refetch,
   }),
-})(graphql(allUsersByOrgAdmin, {
-  name: 'allUsersByOrgAdmin',
-  options: (props) => ({
-    context: { uri: `${PRODUCT_APP_URL_CONFIGURATOR}/graphql` },
-    notifyOnNetworkStatusChange: true,
-    variables: { organisationID: props.organizationID },
-  }),
-  props: (response) => ({
-    allUsersByOrgAdmin: get(
-      response,
-      'allUsersByOrgAdmin.allUsersByOrgAdmin.userItems',
-      [],
-    ).map((userProfile) => ({
-      ...userProfile,
-      fullName: userProfile.username,
-      photo: { aPIID: userProfile.pictureURL },
-    })),
-  }),
-})(AgreementSession))
+})(
+  graphql(allUsersByOrgAdmin, {
+    name: 'allUsersByOrgAdmin',
+    options: (props) => ({
+      context: { uri: `${PRODUCT_APP_URL_CONFIGURATOR}/graphql` },
+      notifyOnNetworkStatusChange: true,
+      variables: { organisationID: props.organizationID },
+    }),
+    props: (response) => ({
+      allUsersByOrgAdmin: get(
+        response,
+        'allUsersByOrgAdmin.allUsersByOrgAdmin.userItems',
+        [],
+      ).map((userProfile) => ({
+        ...userProfile,
+        fullName: userProfile.username,
+        photo: { aPIID: userProfile.pictureURL },
+      })),
+    }),
+  })(AgreementSession),
+)

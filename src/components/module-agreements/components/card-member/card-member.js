@@ -60,6 +60,9 @@ const CardMember = ({
         <div className="cardMember-details-status">
           {userProfile.status || 'N/A'}
         </div>
+      </div>
+      <div>
+        <span>Role:</span>
         <CustomSelectField
           id="member"
           items={roles.map(({ id, name }) => ({ id, label: name }))}

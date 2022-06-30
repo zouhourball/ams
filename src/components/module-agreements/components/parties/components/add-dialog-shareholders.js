@@ -6,7 +6,7 @@ import {
   TextField,
   SelectField,
   Portal,
-  Slider,
+  // Slider,
   FontIcon,
 } from 'react-md'
 import moment from 'moment'
@@ -65,16 +65,16 @@ const AddDialogShareholders = ({
     setItem('')
     setVisibleDatePicker(false)
   }
-  const renderValidPercentage = () => {
-    const valid = companiesList
-      .filter(
-        ({ start_date, end_date }) =>
-          moment().valueOf() >= moment(start_date).valueOf() &&
-          moment().valueOf() <= moment(end_date).valueOf(),
-      )
-      .reduce((total, next) => total + parseInt(next.percentage), 0)
-    return valid
-  }
+  // const renderValidPercentage = () => {
+  //   const valid = companiesList
+  //     .filter(
+  //       ({ start_date, end_date }) =>
+  //         moment().valueOf() >= moment(start_date).valueOf() &&
+  //         moment().valueOf() <= moment(end_date).valueOf(),
+  //     )
+  //     .reduce((total, next) => total + parseInt(next.percentage), 0)
+  //   return valid
+  // }
   const onAddCompany = () => {
     setCompaniesList([
       ...companiesList,
@@ -109,7 +109,7 @@ const AddDialogShareholders = ({
         { date: start_date, sign: '+', value: percentage },
         { date: end_date, sign: '-', value: percentage },
       ]),
-      e => e,
+      (e) => e,
     )
       .sort((a, b) => moment(a.date).valueOf() - moment(b.date).valueOf())
       .reduce((prevValue, nextValue) => {
@@ -166,7 +166,9 @@ const AddDialogShareholders = ({
   const list =
     shareholdersList &&
     shareholdersList
-      .filter(({ id }) => !concernedPeriods.find(company => company.id === id))
+      .filter(
+        ({ id }) => !concernedPeriods.find((company) => company.id === id),
+      )
       .map(({ name, id, companyLogo, company_id }) => ({
         id,
         label: name,
@@ -198,10 +200,10 @@ const AddDialogShareholders = ({
         />
         <AutocompleteWithButton
           useForOrgs={true}
-          onTextChange={text => {
+          onTextChange={(text) => {
             onSearchShareHolders(text)
           }}
-          onClickItem={newList => {
+          onClickItem={(newList) => {
             setItem(
               newList && newList.length
                 ? list.find(({ id }) => id === newList[0])
@@ -242,7 +244,7 @@ const AddDialogShareholders = ({
           label={t('add_percentage')}
           type="number"
           value={percentage !== '' ? +percentage : ''}
-          onChange={percentage => {
+          onChange={(percentage) => {
             setPercentage(+percentage)
           }}
           autoComplete="off"
@@ -266,7 +268,7 @@ const AddDialogShareholders = ({
 
       <div className="add-dialog-shareholders-slider">
         <div className="add-dialog-shareholders-slider-cover"></div>
-        <Slider
+        {/* <Slider
           id="add-dialog-shareholders-slider"
           className="add-dialog-shareholders-slider-percentage md-cell md-cell--11"
           min={0}
@@ -274,19 +276,19 @@ const AddDialogShareholders = ({
           step={1}
           value={renderValidPercentage()}
           onChange={() => null}
-        />
-        <div className="add-dialog-shareholders-slider-percentageText md-cell md-cell--1">
+        /> */}
+        {/* <div className="add-dialog-shareholders-slider-percentageText md-cell md-cell--1">
           {renderValidPercentage()}%
-        </div>
+        </div> */}
       </div>
 
       <div className="md-grid">
         <CompaniesInfoById
-          organisationIDs={companiesList.map(elem =>
+          organisationIDs={companiesList.map((elem) =>
             elem.company_id.toString(),
           )}
         >
-          {organizations =>
+          {(organizations) =>
             renderCards(companiesList, setCompaniesList, organizations)
           }
         </CompaniesInfoById>

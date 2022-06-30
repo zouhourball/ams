@@ -26,12 +26,12 @@ export default class AutocompleteWithButton extends Component {
     const { search } = this.state
     const selectedCompany =
       selectedItemsArray && selectedItemsArray.length > 0
-        ? items.find(elem => elem.id === selectedItemsArray[0])
+        ? items.find((elem) => elem.id === selectedItemsArray[0])
         : null
     const prevPropsSelectedCompany =
       prevProps.selectedItemsArray && prevProps.selectedItemsArray.length > 0
         ? prevProps.items.find(
-          elem => elem.id === prevProps.selectedItemsArray[0],
+          (elem) => elem.id === prevProps.selectedItemsArray[0],
         )
         : null
     if (
@@ -70,27 +70,28 @@ export default class AutocompleteWithButton extends Component {
     const { items, onClickItem, selectedItemsArray } = this.props
     const { search } = this.state
     let filteredData = search
-      ? items.filter(item =>
+      ? items.filter((item) =>
         item.label.toLowerCase().includes(search.toLowerCase()),
       )
       : items
     // if (selectedItemsArray.length > 0) {
     //   filteredData = filteredData.filter(item2 => selectedItemsArray.includes(item2.id))
     // }
-    return filteredData.map(elem => {
+    return filteredData.map((elem) => {
       return (
         <div key={elem.id} className="itemMultiPick">
-
           <div className="list_wrapper_list_items_image">
             <Avatar src={elem.img ? getPublicUrl(elem.img) : avatar} />
           </div>
           <div>
             <div className="list_wrapper_list_items_label">{elem.label}</div>
-            <div className="list_wrapper_list_items_position">{elem.label}</div>
+            <div className="list_wrapper_list_items_position">
+              {elem.title ? elem.title : elem.label}
+            </div>
           </div>
           <Checkbox
             id={elem.id}
-            onChange={val => {
+            onChange={(val) => {
               if (val) {
                 // const selected = selectedItemsArray.find(
                 //   item => item === elem.id,
@@ -103,7 +104,7 @@ export default class AutocompleteWithButton extends Component {
               }
               if (!val) {
                 const selected = selectedItemsArray.find(
-                  item => item === elem.id,
+                  (item) => item === elem.id,
                 )
                 // selected &&
                 //   this.setState({
@@ -112,7 +113,7 @@ export default class AutocompleteWithButton extends Component {
                 //     ),
                 //   })
                 onClickItem(
-                  selectedItemsArray.filter(item => selected !== item),
+                  selectedItemsArray.filter((item) => selected !== item),
                 )
               }
             }}
@@ -130,7 +131,7 @@ export default class AutocompleteWithButton extends Component {
     const { items, onClickItem } = this.props
     const { search } = this.state
     let filteredData = search
-      ? items.filter(item =>
+      ? items.filter((item) =>
         item.label.toLowerCase().includes(search.toLowerCase()),
       )
       : items
@@ -187,7 +188,7 @@ export default class AutocompleteWithButton extends Component {
               {listVisible ? 'arrow_drop_up' : 'arrow_drop_down'}
             </FontIcon>
           }
-          onChange={val => {
+          onChange={(val) => {
             this.setState({
               search: val,
               listVisible: true,

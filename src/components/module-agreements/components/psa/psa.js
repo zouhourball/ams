@@ -36,7 +36,6 @@ const PSA = ({
   deleteConfigurationStatus,
   getCurrentConfigurationStatus,
 }) => {
-  console.log(organizationId, 'organizationId')
   const prevConfiguration = usePrevious(addUpdateConfigurationStatus)
   const prevDelete = usePrevious(deleteConfigurationStatus)
 

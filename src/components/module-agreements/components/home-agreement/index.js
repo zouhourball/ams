@@ -22,7 +22,7 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
   const [subSectionLabel, setSubsectionLabel] = useState('visualizer')
 
   useEffect(() => {
-    const urlSubs = pathname.split('/').filter(pth => pth)
+    const urlSubs = pathname.split('/').filter((pth) => pth)
 
     if (urlSubs.length === 3 && urlSubs[2] === 'content') {
       setIsVisibleTopBar(true)
@@ -34,7 +34,7 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
     }
   }, [pathname])
   useEffect(() => {
-    const urlSubs = pathname.split('/').filter(pth => pth)
+    const urlSubs = pathname.split('/').filter((pth) => pth)
     if (!hasRoleConfigurator() && urlSubs[2] === 'configurator') {
       navigate('/')
     }
@@ -94,20 +94,20 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
     return subMenus
   }
 
-  const handelOnClickItem = item => {
+  const handelOnClickItem = (item) => {
     switch (item) {
       case 'new agreement':
         navigate('/ams/agreement/content/new')
         break
     }
   }
-
   const renderTo = () => {
     // return '/agreement/content'
+
     if (hasRoleConfigurator()) {
-      return '/agreement/configurator'
+      return '/ams/agreement/configurator'
     } else {
-      return '/agreement/content'
+      return '/ams/agreement/content'
     }
   }
   return (
@@ -131,7 +131,7 @@ const HomeAgreement = ({ location: { pathname }, roles, organizationId }) => {
       >
         <Router>
           <NotFound default />
-          <Redirect from="/ams/agreement" to={renderTo()} noThrow />
+          <Redirect from="/" to={renderTo()} noThrow />
           {hasRoleConfigurator() && (
             <PSA path="/configurator" organizationId={organizationId} />
           )}

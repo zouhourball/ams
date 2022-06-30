@@ -4,7 +4,7 @@ import { Button } from 'react-md'
 // import { navigate } from '@reach/router'
 import EamTopBar from '@target-energysolutions/eam-top-bar'
 
-import agreementManager from 'components/module-agreements/images/topBar/agreement-Manager.svg'
+// import agreementManager from 'components/module-agreements/images/topBar/agreement-Manager.svg'
 // import Visualiser from 'images/topBar/Visualiser.svg'
 // import positionIcon from 'images/positionIcon.svg'
 // import { modules } from 'libs/consts'
@@ -104,10 +104,10 @@ export default class TopBar extends Component {
       onSwitchView,
       withSwitch,
 
-      subSection,
+      // subSection,
       subSectionLabel,
       actionButtons,
-      t,
+      // t,
     } = this.props
 
     // const { label } = this.renderLabelActionButton()
@@ -126,46 +126,46 @@ export default class TopBar extends Component {
     //     }}
     //   />,
     // ]
-
     return (
       // <div className="top-bar">
       <EamTopBar
         currentModule={
-          <div className="title">
-            <img src={agreementManager} width="18px" />
-            {t('agree_manager')}
-          </div>
+          <h1 className="title">
+            {/* <img src={agreementManager} width="18px" /> */}
+            Agreement (PSA) / {subSectionLabel}
+          </h1>
         }
-        subModules={subSection || []}
+        // subModules={subSection || []}
         currentSubModule={subSectionLabel}
         primaryActions={actionButtons}
         secondaryActions={
-          <>
-            <div className="top-bar_viewSwitch">
-              {withSwitch && (
-                <>
-                  <Button
-                    icon
-                    className={cls(
-                      'infoIcon',
-                      view === 'card' ? 'selected' : '',
-                    )}
-                    iconClassName="mdi mdi-view-grid"
-                    onClick={() => onSwitchView('card')}
-                  />
-                  <Button
-                    icon
-                    className={cls(
-                      'infoIcon',
-                      view === 'grid' ? 'selected' : '',
-                    )}
-                    iconClassName="mdi mdi-grid"
-                    onClick={() => onSwitchView('grid')}
-                  />
-                </>
-              )}
-            </div>
-            {/* <Button
+          subSectionLabel === 'visualizer' && (
+            <>
+              <div className="top-bar_viewSwitch">
+                {withSwitch && (
+                  <>
+                    <Button
+                      icon
+                      className={cls(
+                        'infoIcon',
+                        view === 'card' ? 'selected' : '',
+                      )}
+                      iconClassName="mdi mdi-view-grid"
+                      onClick={() => onSwitchView('card')}
+                    />
+                    <Button
+                      icon
+                      className={cls(
+                        'infoIcon',
+                        view === 'grid' ? 'selected' : '',
+                      )}
+                      iconClassName="mdi mdi-grid"
+                      onClick={() => onSwitchView('grid')}
+                    />
+                  </>
+                )}
+              </div>
+              {/* <Button
               className="top-bar_close-btn"
               icon
               onClick={() => {
@@ -175,7 +175,8 @@ export default class TopBar extends Component {
             >
               exit_to_app
             </Button> */}
-          </>
+            </>
+          )
         }
       />
       // <div className="top-bar_subSection">

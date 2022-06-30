@@ -30,7 +30,7 @@ export default class StepperLink extends React.Component {
               <div className="infoWrapper-component">{elem.compForIcon}</div>
             </div>
           )}
-          {index < tree.length - 1 && <span>&nbsp;&nbsp;/&nbsp;&nbsp; </span>}
+          {/* {index < tree.length - 1 && <span>&nbsp;&nbsp;/&nbsp;&nbsp; </span>} */}
         </Fragment>
       )
     })

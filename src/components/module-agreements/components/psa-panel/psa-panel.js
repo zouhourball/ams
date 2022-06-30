@@ -1,13 +1,12 @@
-import React from 'react'
-import { ExpansionList, ExpansionPanel, FontIcon, Avatar } from 'react-md'
+import { ExpansionList, ExpansionPanel } from 'react-md'
 
 import './style.scss'
 
-export const HeaderOption = props => {
+export const HeaderOption = (props) => {
   return (
     <>
       <div className="psaPanel_header_leftSide">
-        {props.icon && (
+        {/* {props.icon && (
           <Avatar
             src={props.icon}
             className={`psaPanel_header_leftSide-avatar ${props.iconColor}`}
@@ -17,7 +16,7 @@ export const HeaderOption = props => {
         )}
         {props.iconClassName && (
           <FontIcon iconClassName={props.iconClassName} />
-        )}
+        )} */}
         <div className="psaPanel_label">{props.label}</div>
         <div className="statusIcon">{props.statusIcon}</div>
         {props.count && <div className="psaPanel_count">{props.count}</div>}
@@ -29,7 +28,7 @@ export const HeaderOption = props => {
   )
 }
 
-export const MainListPanel = props => {
+export const MainListPanel = (props) => {
   return (
     <ExpansionList className="psaPanel" {...props}>
       {props.children}
@@ -37,7 +36,7 @@ export const MainListPanel = props => {
   )
 }
 
-export const CollapsedPanel = props => {
+export const CollapsedPanel = (props) => {
   return (
     <ExpansionPanel
       focused
