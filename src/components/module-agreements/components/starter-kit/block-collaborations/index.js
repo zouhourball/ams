@@ -1,4 +1,3 @@
-import React from 'react'
 import { List, Avatar, FontIcon } from 'react-md'
 import collaborationsIcon from 'images/apps/collaborations.svg'
 import InfoItem from '../info-item'
@@ -36,12 +35,12 @@ export default function BlockCollaborations (props) {
         </section>
       </div>
       <List className="app-starterkit-blockcollaborations-infolist">
-        {operationList.map(m => (
+        {operationList.map((m) => (
           <InfoItem
             key={m.label}
             className="app-starterkit-blockcollaborations-infoitem"
             tileClassName="app-starterkit-blockcollaborations-infoitem-tile"
-            onClick={e => {
+            onClick={(e) => {
               e.stopPropagation()
               m.onClick()
             }}
@@ -58,8 +57,7 @@ export default function BlockCollaborations (props) {
 
 BlockCollaborations.defaultProps = {
   title: 'Collaborations',
-  desc:
-    'Meera collaboration will provide you convinient messaging on multiple ways',
+  desc: 'Meera collaboration will provide you convinient messaging on multiple ways',
 }
 
 BlockCollaborations.propTypes = {

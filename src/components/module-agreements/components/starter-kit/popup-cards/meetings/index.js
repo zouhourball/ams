@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import meetingsSVG from 'images/apps/meetings.svg'
 import createMeetingSVG from 'images/started-kit-cards/create_meeting.svg'

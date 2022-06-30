@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-md'
 import OptimizationSvg from 'images/starter-kit/optimization.svg'
 import './style.scss'

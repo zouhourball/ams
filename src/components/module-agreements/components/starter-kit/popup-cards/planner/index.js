@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import plannerSVG from 'images/apps/planner.svg'
 import calendarSVG from 'images/started-kit-cards/calendar.svg'

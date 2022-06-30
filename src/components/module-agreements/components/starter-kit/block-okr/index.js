@@ -1,4 +1,3 @@
-import React from 'react'
 import okrIcon from 'images/apps/okrs.svg'
 import PropTypes from 'prop-types'
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import okrSVG from 'images/apps/okrs.svg'
 import './styles.scss'

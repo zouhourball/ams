@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import { Component, Fragment } from 'react'
 import { hot } from 'react-hot-loader'
 import { memoize } from 'lodash-es'
 

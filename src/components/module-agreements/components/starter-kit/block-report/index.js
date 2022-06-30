@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-md'
 import ReportSvg from 'images/starter-kit/regulation_reporting.svg'
 import './style.scss'

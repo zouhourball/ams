@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import jobsSVG from 'images/jobs.svg'
 import viewAllJobsSVG from 'images/view-all-jobs.svg'

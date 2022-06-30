@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 
 import { Button, TextField, Checkbox, FontIcon } from 'react-md'
 
@@ -42,16 +42,16 @@ export default class SelectFieldWithButton extends Component {
         <div key={index} className="itemMultiPick">
           <Checkbox
             id={elem.id}
-            onChange={val => {
+            onChange={(val) => {
               if (val) {
                 onClickItem([...selectedItemsArray, elem.id])
               }
               if (!val) {
                 const selected = selectedItemsArray.find(
-                  item => item === elem.id,
+                  (item) => item === elem.id,
                 )
                 onClickItem(
-                  selectedItemsArray.filter(item => selected !== item),
+                  selectedItemsArray.filter((item) => selected !== item),
                 )
               }
             }}
@@ -72,7 +72,7 @@ export default class SelectFieldWithButton extends Component {
     const { search } = this.state
     let filteredData = search
       ? items.filter(
-        item =>
+        (item) =>
           item && item.name.toLowerCase().includes(search.toLowerCase()),
       )
       : items
@@ -100,7 +100,7 @@ export default class SelectFieldWithButton extends Component {
       })
     )
   }
-  handleAddNew = category => {
+  handleAddNew = (category) => {
     const { addCategory } = this.props
     if (category) {
       this.setState({ onClickAdd: true, newCategory: false, category: '' })
@@ -120,13 +120,8 @@ export default class SelectFieldWithButton extends Component {
       selectedItems,
       disabled,
     } = this.props
-    const {
-      listVisible,
-      onClickAdd,
-      newCategory,
-      category,
-      search,
-    } = this.state
+    const { listVisible, onClickAdd, newCategory, category, search } =
+      this.state
     // selectedItemsArray && selectedItemsArray.length > 0
     //   ? items.find(elem => elem.id === selectedItemsArray[0])
     //   : null
@@ -156,7 +151,7 @@ export default class SelectFieldWithButton extends Component {
               {listVisible ? 'arrow_drop_up' : 'arrow_drop_down'}
             </Button>
           }
-          onChange={val =>
+          onChange={(val) =>
             this.setState({
               search: val,
             })
@@ -184,7 +179,7 @@ export default class SelectFieldWithButton extends Component {
                   value={category}
                   block
                   autoComplete="off"
-                  onChange={value => this.setState({ category: value })}
+                  onChange={(value) => this.setState({ category: value })}
                   inlineIndicator={
                     <FontIcon onClick={() => this.handleAddNew(category)}>
                       check_circle_outline

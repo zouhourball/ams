@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar, FontIcon, ListItem } from 'react-md'
 import cn from 'classnames'
 import PropTypes from 'prop-types'
@@ -6,14 +5,8 @@ import PropTypes from 'prop-types'
 import './styles.scss'
 
 export default function InfoItem (props) {
-  const {
-    profile,
-    className,
-    leftIcon,
-    rightIcon,
-    primaryText,
-    ...rest
-  } = props
+  const { profile, className, leftIcon, rightIcon, primaryText, ...rest } =
+    props
 
   return (
     <ListItem

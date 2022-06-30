@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { FontIcon, List, ListItem } from 'react-md'
 
 import './documents.scss'
@@ -19,7 +17,7 @@ export default function Documents ({ title, documentsList }) {
   )
 }
 
-const renderDocumentsList = documentsList => {
+const renderDocumentsList = (documentsList) => {
   return documentsList.map((el, key) => (
     <ListItem
       key={key}
@@ -33,7 +31,7 @@ const renderDocumentsList = documentsList => {
   ))
 }
 
-const renderNestedDocumentsList = nestedDocumentsList => {
+const renderNestedDocumentsList = (nestedDocumentsList) => {
   return nestedDocumentsList.map((el, key) => (
     <ListItem
       key={key}

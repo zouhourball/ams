@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-md'
 import RoadSafetySvg from 'images/starter-kit/road_safety.svg'
 import './style.scss'

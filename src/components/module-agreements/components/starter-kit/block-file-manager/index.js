@@ -1,12 +1,11 @@
-import React from 'react'
 import PropType from 'prop-types'
 import fileMnager from 'images/started-kit-cards/file_manager.svg'
 import upload from 'images/started-kit-cards/upload.svg'
 import './styles.scss'
 
-const BlockFileManager = props => {
+const BlockFileManager = (props) => {
   const { onClick, onButtonClick } = props
-  const handleButtonClick = event => {
+  const handleButtonClick = (event) => {
     event.stopPropagation()
     onButtonClick && onButtonClick()
   }

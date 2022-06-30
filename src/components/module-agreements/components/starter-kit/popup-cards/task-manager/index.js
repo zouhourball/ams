@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import taskManagerSVG from 'images/apps/task_manager.svg'
 

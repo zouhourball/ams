@@ -1,11 +1,10 @@
-import React from 'react'
 import PropType from 'prop-types'
 import event from 'images/started-kit-cards/event.svg'
 import './styles.scss'
 
-const BlockPlanner = props => {
+const BlockPlanner = (props) => {
   const { onClick, onButtonClick } = props
-  const handleButtonClick = event => {
+  const handleButtonClick = (event) => {
     event.stopPropagation()
     onButtonClick && onButtonClick()
   }

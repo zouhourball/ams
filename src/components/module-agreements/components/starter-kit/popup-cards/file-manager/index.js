@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import fileManagerSVG from 'images/file-manager.svg'
 import uploadFilesSVG from 'images/upload-files.svg'

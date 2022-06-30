@@ -1,4 +1,3 @@
-import React from 'react'
 import CardItem from '../card-item'
 import cls from 'classnames'
 import './styles.scss'
@@ -37,7 +36,7 @@ const CardLayout = ({
         </div>
       </div>
       <div>
-        {actions.map(i => (
+        {actions.map((i) => (
           <CardItem key={i.label} action={i} />
         ))}
       </div>

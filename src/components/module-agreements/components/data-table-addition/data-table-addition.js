@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { TextField, SelectField, Portal, FontIcon, Button } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { DatePicker } from '@target-energysolutions/date-picker'
@@ -33,7 +33,7 @@ function DataTableAddition ({
 
   const [isDatePickerVisible, setDatePickerVisible] = useState(false)
 
-  const formatDate = date => {
+  const formatDate = (date) => {
     return date.day + '/' + date.month + '/' + date.year
   }
 
@@ -44,9 +44,9 @@ function DataTableAddition ({
   }
   const disableButton =
     activityId ||
-    !(role && role.find(elem => elem.id === 2)) ||
+    !(role && role.find((elem) => elem.id === 2)) ||
     (role &&
-      role.find(elem => elem.id === 2) &&
+      role.find((elem) => elem.id === 2) &&
       status === 'APPROVED' &&
       !amendedAgreement) ||
     disabled
@@ -55,11 +55,11 @@ function DataTableAddition ({
     if (relatedTo && relatedTo.length) {
       data = []
       data = items.filter(
-        elem =>
+        (elem) =>
           relatedTo.length ===
           relatedTo
-            .map(relatedToKey => elem[relatedToKey] === row[relatedToKey])
-            .filter(valid => !!valid).length,
+            .map((relatedToKey) => elem[relatedToKey] === row[relatedToKey])
+            .filter((valid) => !!valid).length,
       )
     }
     return data
@@ -92,7 +92,7 @@ function DataTableAddition ({
             value={row[key]}
             autoComplete="off"
             // type={textType || ''}
-            onChange={value => {
+            onChange={(value) => {
               if (textType !== 'number') {
                 setRow({ ...row, [key]: value })
               } else if (textType === 'number') {
@@ -126,7 +126,7 @@ function DataTableAddition ({
             value={row[key]}
             type="number"
             autoComplete="off"
-            onChange={value => {
+            onChange={(value) => {
               setRow({ ...row, [key]: value })
             }}
           />
@@ -141,7 +141,7 @@ function DataTableAddition ({
             disabled={disableButton}
             menuItems={renderItems(items, relatedTo)}
             value={row[key]}
-            onChange={value => {
+            onChange={(value) => {
               setRow({ ...row, [key]: value })
             }}
             position={SelectField.Positions.BELOW}
@@ -157,7 +157,7 @@ function DataTableAddition ({
             disabled={disableButton}
             value={row[key]}
             menuItems={renderItems(items, relatedTo)}
-            onChange={value => {
+            onChange={(value) => {
               setRow(
                 Object.assign(
                   {
@@ -205,7 +205,7 @@ function DataTableAddition ({
                   endView="day"
                   defaultView="day"
                   translation={{ update: 'select' }}
-                  onUpdate={date => handleOnUpdate(date, key)}
+                  onUpdate={(date) => handleOnUpdate(date, key)}
                   onCancel={() => setDatePickerVisible(false)}
                 />
               </Portal>
@@ -260,9 +260,9 @@ function DataTableAddition ({
     return filteredConfig
   }
   const hideInput =
-    !(role && role.find(elem => elem.id === 2)) ||
+    !(role && role.find((elem) => elem.id === 2)) ||
     (role &&
-      role.find(elem => elem.id === 2) &&
+      role.find((elem) => elem.id === 2) &&
       status === 'APPROVED' &&
       !amendedAgreement)
   const validButton = () => {

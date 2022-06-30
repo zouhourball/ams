@@ -1,11 +1,10 @@
-import React from 'react'
 import PropType from 'prop-types'
 import task from 'images/started-kit-cards/task_manager.svg'
 import './styles.scss'
 
-const TaskManagerCard = props => {
+const TaskManagerCard = (props) => {
   const { onClick, onButtonClick } = props
-  const handleButtonClick = event => {
+  const handleButtonClick = (event) => {
     event.stopPropagation()
     onButtonClick && onButtonClick()
   }

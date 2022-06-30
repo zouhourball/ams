@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { Tooltipped, Avatar, FontIcon } from 'react-md'
 // import { memberList } from './helpers'
 
@@ -24,7 +24,7 @@ export default class UsersAvatarList extends Component {
               if (participants) {
                 return (
                   <UserInfoBySubject subject={member}>
-                    {res => (
+                    {(res) => (
                       <Tooltipped
                         label={res.fullName}
                         position="right"
@@ -51,8 +51,9 @@ export default class UsersAvatarList extends Component {
             }),
             memberList.length > maxParticipants ? (
               <Tooltipped
-                label={`${memberList.length -
-                    maxParticipants} ${'more participants'}`}
+                label={`${
+                  memberList.length - maxParticipants
+                } ${'more participants'}`}
                 position="right"
                 setPosition
               >

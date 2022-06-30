@@ -1,4 +1,3 @@
-import React from 'react'
 import moment from 'moment'
 import { Button } from 'react-md'
 export const configs = (onDelete, status, role) => [
@@ -97,11 +96,11 @@ export const configs = (onDelete, status, role) => [
     label: '',
     key: 'action',
     width: '140',
-    render: row =>
+    render: (row) =>
       role &&
-      role.find(elem => elem.id === 2) &&
+      role.find((elem) => elem.id === 2) &&
       role &&
-      role.find(elem => elem.id === 2) &&
+      role.find((elem) => elem.id === 2) &&
       status !== 'APPROVED' && (
         <Button
           id="relinquishments-remove-button"
@@ -202,14 +201,16 @@ export const configsAddition = (onDelete, status, role) => [
     key: 'action',
     // eslint-disable-next-line react/display-label
     width: '140',
-    render: row => {
+    render: (row) => {
       return (
         <Button
           id="polygon-remove-button"
           icon
           disabled={
-            !(role && role.find(elem => elem.id === 2)) ||
-            (role && role.find(elem => elem.id === 2) && status === 'APPROVED')
+            !(role && role.find((elem) => elem.id === 2)) ||
+            (role &&
+              role.find((elem) => elem.id === 2) &&
+              status === 'APPROVED')
           }
           onClick={() => onDelete(row)}
           primary

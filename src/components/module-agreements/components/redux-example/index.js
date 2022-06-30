@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { hot } from 'react-hot-loader'
@@ -32,7 +32,7 @@ ReduxExample.propTypes = {
 
 export default hot(module)(
   connect(
-    state => ({
+    (state) => ({
       count: state.app.count,
     }),
     {

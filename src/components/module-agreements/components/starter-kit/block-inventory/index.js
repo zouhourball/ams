@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-md'
 import InventorySvg from 'images/starter-kit/inventory.svg'
 import './style.scss'

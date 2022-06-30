@@ -1,4 +1,3 @@
-import React from 'react'
 import PropType from 'prop-types'
 import InfoItem from '../info-item'
 import createMeeting from 'images/started-kit-cards/create_meeting.svg'
@@ -6,7 +5,7 @@ import meeting from 'images/started-kit-cards/meetings.svg'
 
 import './styles.scss'
 
-const BlockMeetings = props => {
+const BlockMeetings = (props) => {
   const { onClick, onButtonClick } = props
   return (
     <div className="start-blockmeetings">
@@ -22,7 +21,7 @@ const BlockMeetings = props => {
         className="start-blockmeeting-infoitem"
         tileClassName="start-blockmeeting-infoitem-tile"
         primaryText={'Create A Meeting'}
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation()
           onButtonClick()
         }}

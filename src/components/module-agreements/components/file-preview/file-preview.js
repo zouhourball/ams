@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FontIcon, CircularProgress } from 'react-md'
 
 import { getPreviewFile, getPreviewPDFFile } from 'libs/api/api-file-manager'
@@ -13,7 +13,7 @@ const FilePreview = ({ testLink, isPdf }) => {
 
   const recursiveStatus = () => {
     getPreviewFile(testLink)
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           setFileResult(res.blobURL)
         }
@@ -28,7 +28,7 @@ const FilePreview = ({ testLink, isPdf }) => {
       setLoading(true)
       isPdf
         ? getPreviewPDFFile(testLink)
-          .then(res => {
+          .then((res) => {
             if (res.ok) {
               setFileResult(res.blobURL)
             }

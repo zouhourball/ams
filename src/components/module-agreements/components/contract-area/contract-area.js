@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { MeeraMap } from '@target-energysolutions/gis-map'
 import icon from './contact.svg'
 import { useTranslation } from 'libs/langs'

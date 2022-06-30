@@ -1,4 +1,3 @@
-import React from 'react'
 import CardLayout from '../card-layout'
 import collaborationSVG from 'images/apps/collaborations.svg'
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button, TextField, DialogContainer } from 'react-md'
 import { useTranslation } from 'libs/langs'
 
@@ -7,7 +7,7 @@ import './style.scss'
 const Remarks = ({ closeDialog, onAdd, section }) => {
   const { t } = useTranslation()
   const [remarks, setRemarks] = useState('')
-  const handleChangeRemarks = value => {
+  const handleChangeRemarks = (value) => {
     setRemarks(value)
   }
   const handleAdd = () => {
@@ -30,7 +30,7 @@ const Remarks = ({ closeDialog, onAdd, section }) => {
                 id="remarks-rejection"
                 value={remarks}
                 label={t('add_remarks')}
-                onChange={value => handleChangeRemarks(value)}
+                onChange={(value) => handleChangeRemarks(value)}
                 className="new-agreement-textField"
                 autoComplete="off"
                 rows={5}

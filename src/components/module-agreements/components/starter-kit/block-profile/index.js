@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Avatar, List } from 'react-md'
 import InfoItem from '../info-item'
 import PropTypes from 'prop-types'
@@ -9,7 +8,7 @@ function nameTransfer (name = '') {
   return name
     .trim()
     .split(/\s|-/)
-    .map(i => i.charAt(0))
+    .map((i) => i.charAt(0))
     .join('')
     .toUpperCase()
     .substring(0, 3)
@@ -48,7 +47,7 @@ export default function BlockProfile (props) {
         </Button>
       </section>
       <List className="app-starterkit-blockprofile-infolist">
-        {infoList.map(m => (
+        {infoList.map((m) => (
           <InfoItem
             key={m.label}
             className="app-starterkit-blockprofile-infoitem"

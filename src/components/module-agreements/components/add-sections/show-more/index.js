@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { FontIcon, Button } from 'react-md'
 import cls from 'classnames'
 import PropTypes from 'prop-types'
@@ -20,7 +20,7 @@ export default class ShowMore extends Component {
     visible: false,
   }
   handleClick = () => {
-    this.setState(state => {
+    this.setState((state) => {
       return { visible: !state.visible }
     })
   }

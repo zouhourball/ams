@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { AccessibleFakeButton, Button } from 'react-md'
 import FileManager from './file-manager'
 import Workspace from './workspace'
@@ -34,7 +34,7 @@ const CARD_COMP = {
   [CARD_TYPE.OKR]: Okr,
   [CARD_TYPE.PLANNER]: Planner,
 }
-const PopupCards = props => {
+const PopupCards = (props) => {
   const {
     visible,
     type,

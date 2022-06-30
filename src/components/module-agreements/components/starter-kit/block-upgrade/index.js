@@ -1,11 +1,10 @@
-import React from 'react'
 import PropType from 'prop-types'
 import upgrade from 'images/started-kit-cards/upgrade.svg'
 import './styles.scss'
 
-const UpgradeCard = props => {
+const UpgradeCard = (props) => {
   const { onClick, onButtonClick } = props
-  const handleButtonClick = event => {
+  const handleButtonClick = (event) => {
     event.stopPropagation()
     onButtonClick && onButtonClick()
   }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, DialogContainer } from 'react-md'
 import { useTranslation } from 'libs/langs'
 

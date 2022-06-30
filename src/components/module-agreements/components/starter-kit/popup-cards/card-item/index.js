@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { Button, FontIcon } from 'react-md'
 import './styles.scss'
 
@@ -31,7 +31,7 @@ const CardItem = ({ action = {} }) => {
       </div>
       {!withoutBtn ? (
         <Button
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             if (onBtnClick) {
               onBtnClick()

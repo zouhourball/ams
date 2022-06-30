@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { TextField, FontIcon, List, ListItem } from 'react-md'
 
 import './text-field-with-list.scss'
@@ -22,7 +22,7 @@ export const TextFieldWithList = ({
     }
   }, [])
 
-  const outSideClick = e => {
+  const outSideClick = (e) => {
     if (myRef.current && myRef.current.contains(e.target)) {
       return
     }

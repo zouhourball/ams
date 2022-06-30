@@ -1,4 +1,4 @@
-import React, { useRef, Fragment, useState } from 'react'
+import { useRef, Fragment, useState } from 'react'
 import { Button } from 'react-md'
 import BlockNotification from './block-notification'
 import BlockFileManager from './block-file-manager'
@@ -79,7 +79,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--workspace"
-            onClick={e => handleBlockClick(CARD_TYPE.WORKSPCAE, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.WORKSPCAE, e)}
           >
             <BlockWorkspace
               onCreateClick={() => {
@@ -99,7 +99,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--fm"
-            onClick={e => handleBlockClick(CARD_TYPE.FILE_MANAGER, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.FILE_MANAGER, e)}
           >
             <BlockFileManager
               onButtonClick={() => {
@@ -109,13 +109,13 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--okr"
-            onClick={e => handleBlockClick(CARD_TYPE.OKR, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.OKR, e)}
           >
             <BlockOKR />
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--meetings"
-            onClick={e => handleBlockClick(CARD_TYPE.MEETINGS, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.MEETINGS, e)}
           >
             <BlockMeetings
               onButtonClick={() => {
@@ -134,7 +134,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--collaborations"
-            onClick={e => handleBlockClick(CARD_TYPE.COLLABORATION, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.COLLABORATION, e)}
           >
             <BlockCollaborations
               onInviteMember={() => {}}
@@ -143,7 +143,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--planner"
-            onClick={e => handleBlockClick(CARD_TYPE.PLANNER, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.PLANNER, e)}
           >
             <BlockPlanner
               onButtonClick={() => {
@@ -153,7 +153,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--taskmanager"
-            onClick={e => handleBlockClick(CARD_TYPE.TASKMANAGER, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.TASKMANAGER, e)}
           >
             <BlockTaskManager
               onButtonClick={() => {
@@ -164,7 +164,7 @@ export default function StarterKit (props) {
           </div>
           <div
             className="app-starterkit-block-item app-starterkit-block-item--jobs"
-            onClick={e => handleBlockClick(CARD_TYPE.JOBS, e)}
+            onClick={(e) => handleBlockClick(CARD_TYPE.JOBS, e)}
           >
             <BlockJobs />
           </div>

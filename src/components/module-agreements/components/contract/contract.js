@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Avatar, Button, FontIcon } from 'react-md'
 import { useTranslation } from 'libs/langs'
 
@@ -47,7 +45,7 @@ export default function Contract ({ title, file, user, onClickDownload }) {
   )
 }
 
-const renderFileIcon = type => {
+const renderFileIcon = (type) => {
   switch (type) {
     case 'pdf':
       return (

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import './style.scss'
 import { FontIcon } from 'react-md'
 import { useTranslation } from 'libs/langs'

@@ -1,9 +1,8 @@
-import React from 'react'
 import PropType from 'prop-types'
 import notification from 'images/started-kit-cards/notifications.svg'
 import './styles.scss'
 
-const NotificationCard = props => {
+const NotificationCard = (props) => {
   const { onClick } = props
   return (
     <div className="notification-card" onClick={onClick}>

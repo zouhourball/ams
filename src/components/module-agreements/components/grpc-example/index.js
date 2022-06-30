@@ -1,5 +1,3 @@
-import React from 'react'
-
 import helloWorldProto from 'protos/hello-world.proto'
 
 const client = new helloWorldProto.HelloWorldClient(GRPC_API)

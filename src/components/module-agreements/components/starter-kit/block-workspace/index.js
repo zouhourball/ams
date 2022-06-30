@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button } from 'react-md'
 import cover from 'images/apps/workspace.jpg'
 import PropTypes from 'prop-types'
@@ -19,7 +18,7 @@ export default function BlockWorkspace (props) {
         flat
         primary
         className="app-starterkit-blockworkspace-btncreate"
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation()
           onCreateClick()
         }}

@@ -1,4 +1,3 @@
-import React from 'react'
 import { List, Avatar, FontIcon } from 'react-md'
 import jobsIcon from 'images/apps/jobs.svg'
 import InfoItem from '../info-item'
@@ -27,7 +26,7 @@ export default function BlockJobs (props) {
       </div>
 
       <List className="app-starterkit-blockjobs-infolist">
-        {infoList.map(m => (
+        {infoList.map((m) => (
           <InfoItem
             key={m.label}
             className="app-starterkit-blockjobs-infoitem"

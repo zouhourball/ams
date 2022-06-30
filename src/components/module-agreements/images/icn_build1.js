@@ -1,4 +1,3 @@
-import React from 'react'
 const svg = (
   <svg
     id="图层_1"

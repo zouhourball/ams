@@ -1,4 +1,3 @@
-import React from 'react'
 import cls from 'classnames'
 import addSkillSVG from 'images/add-skills.svg'
 import cover from 'images/apps/workspace.jpg'
@@ -34,7 +33,7 @@ const WorkspaceCard = ({ className, onCreate, onView, ...rest }) => {
           </div>
         </div>
         <div className="ws-bigcard-workspace-items">
-          {actoins.map(i => (
+          {actoins.map((i) => (
             <ActionItem onClick={i.onClick} key={i.label} action={i} />
           ))}
         </div>
