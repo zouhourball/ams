@@ -665,7 +665,23 @@ export default class ChartGroupChart extends React.Component {
           },
         })
     const baseColorOptions = {
-      color: ['#4F69FF', '#4DB6AC', '#FF5B5A', '#93E196', '#C1CAFF'],
+      color: [
+        '#4F69FF',
+        '#4DB6AC',
+        '#FF5B5A',
+        '#93E196',
+        '#C1CAFF',
+        '#FCA532',
+        '#37C4F4',
+        '#9C63F8',
+        '#E1E124',
+        '#E558FF',
+        '#CF45B2',
+        '#1DBB5F',
+        '#D44731',
+        '#21A1C9',
+        '#5B39CC',
+      ],
     }
     if (this.props.type === 'stack') {
       baseColorOptions.color = [
