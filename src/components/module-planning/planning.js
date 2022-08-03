@@ -552,7 +552,7 @@ const Planning = ({ subModule }) => {
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   const selectedRow = selectedRowSelector.map((id) => tableDataPlanning[id])
   const { data: actionsList } = useQuery(
-    ['wbpActions', selectedRow[0]?.id],
+    ['wbpActions', selectedRow[0]?.id, company?.organisationID],
     selectedRow[0] && getActionsList,
 
     // return array

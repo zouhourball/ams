@@ -364,11 +364,14 @@ export const actionsHeader = (
     //   },
     // },
   ]
+
   switch (role) {
     case 'AU':
     default:
       return !row?.report
-        ? row?.status !== 'CLOSED' && row?.actions?.length
+        ? row?.status !== 'CLOSED' &&
+          row?.actions?.length > 0 &&
+          row?.enquiries?.filter((el) => el?.status === 'RESPONDED')?.length > 0
           ? [
             ...defAUActions,
             {
@@ -396,7 +399,9 @@ export const actionsHeader = (
               },
             },
           ]
-        : row?.status !== 'CLOSED' && row?.actions?.length
+        : row?.status !== 'CLOSED' &&
+          row?.actions?.length > 0 &&
+          row?.enquiries?.filter((el) => el?.status === 'RESPONDED')?.length > 0
           ? [
             ...defAUActions,
             {
@@ -551,7 +556,7 @@ export const enquiryActionsHeader = (
         return [...defBtns, newResolution]
       } else return defBtns
     case 'actions':
-      if (row?.resolutions?.length && role === 'AP') {
+      if (row?.resolutions?.length > 0 && role === 'AP') {
         return [...defBtns, newResolution, viewResolutionBtn]
       } else if (role === 'AP') {
         return [...defBtns, newResolution]

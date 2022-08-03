@@ -169,11 +169,11 @@ export const updateWpb = async ({ objectId, body }) => {
   }
   return res
 }
-export const updateWpbStatus = async ({ objectId, status }) => {
+export const updateWpbStatus = async ({ objectId, status, orgId }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/wpb/update?objectId=${objectId}&action=${status}`,
+      `${appUrl}/pulse-be/api/v2/planning/wpb/update?objectId=${objectId}&action=${status}&orgID=${orgId}`,
       {
         method: 'PUT',
       },
@@ -275,7 +275,7 @@ export const getActionsList = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/wpb/${queryKey[1]}/actions`,
+      `${appUrl}/pulse-be/api/v2/planning/wpb/${queryKey[1]}/actions?orgID=${queryKey[2]}`,
       {
         method: 'GET',
       },

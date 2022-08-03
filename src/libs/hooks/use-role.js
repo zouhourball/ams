@@ -12,15 +12,35 @@ const useRole = (path) => {
   const planningRoles = () => {
     if (roles?.includes(findModule.roleJmcChair)) {
       return 'JMCC'
-    } else if (roles?.includes(findModule.roleTecSec)) {
+    } else if (
+      `target-subscription-store:${organizationID}:${roles?.includes(
+        findModule.roleTecSec,
+      )}`
+    ) {
       return 'TECOMS'
-    } else if (roles?.includes(findModule.roleFinSec)) {
+    } else if (
+      `target-subscription-store:${organizationID}:${roles?.includes(
+        findModule.roleFinSec,
+      )}`
+    ) {
       return 'FINCOMS'
-    } else if (roles?.includes(findModule.roleJmcSec)) {
+    } else if (
+      `target-subscription-store:${organizationID}:${roles?.includes(
+        findModule.roleJmcSec,
+      )}`
+    ) {
       return 'JMCS'
-    } else if (roles?.includes(findModule.roleTecChair)) {
+    } else if (
+      `target-subscription-store:${organizationID}:${roles?.includes(
+        findModule.roleTecChair,
+      )}`
+    ) {
       return 'TECOMC'
-    } else if (roles?.includes(findModule.roleFinChair)) {
+    } else if (
+      `target-subscription-store:${organizationID}:${roles?.includes(
+        findModule.roleFinChair,
+      )}`
+    ) {
       return 'FINCOMC'
     } else if (roles?.includes(findModule.roleRe)) {
       return 'regulator'

@@ -80,6 +80,8 @@ const Audit = () => {
         description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
         status: el?.auditStatus,
         report: el?.report,
+        actions: el?.actions,
+        enquiries: el?.enquiries,
       })) || []
     )
   }

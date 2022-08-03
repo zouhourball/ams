@@ -7,6 +7,7 @@ import moment from 'moment'
 
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import useRole from 'libs/hooks/use-role'
+import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import {
   getDetailPlanningById,
   getDetailPlanningByVersion,
@@ -31,6 +32,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [version, setVersion] = useState('1.0')
+  const company = getOrganizationInfos()
   const role = useRole('planning')
   const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
@@ -44,7 +46,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
       getDetailPlanningByVersion,
   )
   const { data: actionsList } = useQuery(
-    ['wbpActions', objectId],
+    ['wbpActions', objectId, company?.organisationID],
     getActionsList,
 
     // return array
@@ -142,6 +144,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
     updateStatusMutation.mutate({
       objectId,
       status,
+      orgId: company?.organisationID,
     })
   }
   const handleStatus = (key) => {
