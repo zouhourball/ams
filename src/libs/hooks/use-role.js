@@ -10,7 +10,13 @@ const useRole = (path) => {
   const allRoles = [...rolesTab, ...nestedRoles]
   const findModule = allRoles?.find((module) => module?.path === path)
   const planningRoles = () => {
-    if (roles?.includes(findModule.roleJmcChair)) {
+    if (
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleOp}`,
+      )
+    ) {
+      return 'operator'
+    } else if (roles?.includes(findModule.roleJmcChair)) {
       return 'JMCC'
     } else if (
       roles?.includes(
@@ -44,12 +50,6 @@ const useRole = (path) => {
       return 'FINCOMC'
     } else if (roles?.includes(findModule.roleRe)) {
       return 'regulator'
-    } else if (
-      roles?.includes(
-        `target-subscription-store:${organizationID}:${findModule.roleOp}`,
-      )
-    ) {
-      return 'operator'
     } else return null
   }
 
