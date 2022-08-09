@@ -14,7 +14,7 @@ const EnquireDetailsDialog = ({
   auditValue,
   status,
   assignee, */
-  onDownload,
+  // onDownload,
   title,
   enquiryDetails,
 }) => {
@@ -108,7 +108,9 @@ const EnquireDetailsDialog = ({
               icon
               className="attachment-btn"
               onClick={() => {
-                onDownload(enquiryDetails?.enquiryDocuments[0]?.id)
+                window.open(
+                  getPublicUrl(enquiryDetails?.enquiryDocuments[0]?.url),
+                )
               }}
             >
               save_alt

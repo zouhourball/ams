@@ -76,7 +76,7 @@ const Audit = () => {
       listStateAudit?.data?.map((el) => ({
         title: el?.title,
         auditId: el?.id,
-        requestDate: moment(el?.expectedDeliverables).format('DD MMM YYYY'),
+        requestDate: moment(el?.createdAt).format('DD MMM YYYY'),
         description: el?.description?.replace(/<\/?[^>]+(>|$)/g, ''),
         status: el?.auditStatus,
         report: el?.report,

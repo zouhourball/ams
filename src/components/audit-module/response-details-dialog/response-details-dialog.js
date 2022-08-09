@@ -1,5 +1,6 @@
 import { Button, DialogContainer, FontIcon } from 'react-md'
 import { handlePrint } from 'components/module-permitting/print-component'
+import { getPublicUrl } from 'libs/utils/custom-function'
 
 import './style.scss'
 
@@ -146,7 +147,7 @@ const ResponseDetailsDialog = ({
                 icon
                 className="attachment-btn"
                 onClick={() => {
-                  onDownload(file?.id)
+                  window.open(getPublicUrl(file?.url))
                 }}
               >
                 save_alt

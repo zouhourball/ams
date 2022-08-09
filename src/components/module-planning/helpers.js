@@ -302,8 +302,12 @@ export const actionsHeader = (
   switch (role) {
     case 'operator':
       return status === 'DRAFT'
-        ? [...opEntries, draftBtn]
-        : [...opEntries, updateBtn]
+        ? accessibilityInitMeeting
+          ? [...opEntries, initMeeting, draftBtn]
+          : [...opEntries, draftBtn]
+        : accessibilityInitMeeting
+          ? [...opEntries, initMeeting, updateBtn]
+          : [...opEntries, updateBtn]
     // : statusArray?.includes(status)
     //   ? [...opEntries, updateBtn]
     //   : opEntries
