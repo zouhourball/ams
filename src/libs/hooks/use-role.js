@@ -13,33 +13,33 @@ const useRole = (path) => {
     if (roles?.includes(findModule.roleJmcChair)) {
       return 'JMCC'
     } else if (
-      `target-subscription-store:${organizationID}:${roles?.includes(
-        findModule.roleTecSec,
-      )}`
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleTecSec}`,
+      )
     ) {
       return 'TECOMS'
     } else if (
-      `target-subscription-store:${organizationID}:${roles?.includes(
-        findModule.roleFinSec,
-      )}`
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleFinSec}`,
+      )
     ) {
       return 'FINCOMS'
     } else if (
-      `target-subscription-store:${organizationID}:${roles?.includes(
-        findModule.roleJmcSec,
-      )}`
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleJmcSec}`,
+      )
     ) {
       return 'JMCS'
     } else if (
-      `target-subscription-store:${organizationID}:${roles?.includes(
-        findModule.roleTecChair,
-      )}`
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleTecChair}`,
+      )
     ) {
       return 'TECOMC'
     } else if (
-      `target-subscription-store:${organizationID}:${roles?.includes(
-        findModule.roleFinChair,
-      )}`
+      roles?.includes(
+        `target-subscription-store:${organizationID}:${findModule.roleFinChair}`,
+      )
     ) {
       return 'FINCOMC'
     } else if (roles?.includes(findModule.roleRe)) {
