@@ -94,7 +94,7 @@ const ResponseDetailsDialog = ({
       visible={visible}
       onHide={() => onHide && onHide()}
       actions={
-        role === 'AU' && status !== 'ACCEPTED' && status !== 'REJECTED'
+        role === 'AU' && status === 'SUBMITTED' // status !== 'ACCEPTED' && status !== 'REJECTED' &&
           ? auActions
           : role === 'FP' &&
             status !== 'SUBMITTED' &&

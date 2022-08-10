@@ -5,9 +5,12 @@ const auditUrl = PRODUCT_APP_URL_API
 export const getStateAudit = async ({ queryKey }) => {
   let res
   try {
-    res = await fetchJSON(`${auditUrl}/audit-be/api/v1/audit`, {
-      method: 'GET',
-    })
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/audit?sort=createdAt,desc`,
+      {
+        method: 'GET',
+      },
+    )
   } catch (e) {
     res = { error: e }
   }

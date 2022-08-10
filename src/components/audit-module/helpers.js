@@ -391,13 +391,13 @@ export const actionsHeader = (
           ]
           : [
             ...defAUActions,
-            {
-              id: 6,
-              label: 'Create Report',
-              onClick: () => {
-                showAuditClosureDialog(true)
-              },
-            },
+            // {
+            //   id: 6,
+            //   label: 'Create Report',
+            //   onClick: () => {
+            //     showAuditClosureDialog(true)
+            //   },
+            // },
           ]
         : row?.status !== 'CLOSED' &&
           row?.actions?.length > 0 &&
