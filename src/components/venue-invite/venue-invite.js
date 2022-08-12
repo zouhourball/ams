@@ -427,7 +427,7 @@ const VenueInvite = ({
         participants,
       })) */
       const meetingData = {
-        orgId: 0,
+        orgId: organizationID,
         workspaceId: '0',
         workspaceName: '0',
 
