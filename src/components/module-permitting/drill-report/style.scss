@@ -1,4 +1,8 @@
 .drill-report {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   .top-bar-buttons-icons {
     display: none;
   }
