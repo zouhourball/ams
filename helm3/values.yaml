@@ -44,7 +44,6 @@ image:
 
   extraEnv:
     MEERA_APP_OAUTH_CLIENT_ID: prime
-    MEERA_APP_OAUTH_CLIENT_SECRET: DzXZxyDObSpsnR7qLqQ4p1LEVoIiE49e
 
 
   extraENVRulehandled:

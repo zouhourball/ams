@@ -16,7 +16,7 @@ dependencies:
   '@target-energysolutions/filter-item': 1.1.8_599bbb940c87d3b83bac9ed82f49c9aa
   '@target-energysolutions/gis-map': 2.9.97_a80b76efc85a2664fd1fc41b68ece4a1
   '@target-energysolutions/grid-dnd': 0.2.3_react-dom@17.0.2+react@17.0.2
-  '@target-energysolutions/hoc-oauth': 1.3.2_75cb922c19ee1b7939faae9b4d1f4cf7
+  '@target-energysolutions/hoc-oauth': 2.1.2_75cb922c19ee1b7939faae9b4d1f4cf7
   '@target-energysolutions/map': 0.9.7_75cb922c19ee1b7939faae9b4d1f4cf7
   '@target-energysolutions/meeting': 6.1.3_e0424a8ff397efb9f5ef8b2ce5cca415
   '@target-energysolutions/messenger': 17.2.2_47f8f26069ce9abe2bd1c1f091aa091c
@@ -207,7 +207,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-jCH+k2Vjlno4YWl6g535nHR09PwCEmTBKAG6VqF+rhkrSPRLfgpU2maagwbZPLjaHuU5Jd1DFQ2KJpQuI6uG8w==
-  /@apollo/client/3.5.10_graphql@15.8.0+react@17.0.2:
+  /@apollo/client/3.6.9_graphql@15.8.0+react@17.0.2:
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1_graphql@15.8.0
       '@wry/context': 0.6.1
@@ -220,13 +220,13 @@ packages:
       prop-types: 15.8.1
       react: 17.0.2
       symbol-observable: 4.0.0
-      ts-invariant: 0.9.4
+      ts-invariant: 0.10.3
       tslib: 2.3.1
-      zen-observable-ts: 1.2.3
+      zen-observable-ts: 1.2.5
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
       graphql-ws: ^5.5.5
-      react: ^16.8.0 || ^17.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
       subscriptions-transport-ws: ^0.9.0 || ^0.11.0
     peerDependenciesMeta:
       graphql-ws:
@@ -236,7 +236,7 @@ packages:
       subscriptions-transport-ws:
         optional: true
     resolution:
-      integrity: sha512-tL3iSpFe9Oldq7gYikZK1dcYxp1c01nlSwtsMz75382HcI6fvQXyFXUCJTTK3wgO2/ckaBvRGw7VqjFREdVoRw==
+      integrity: sha512-Y1yu8qa2YeaCUBVuw08x8NHenFi0sw2I3KCu7Kw9mDSu86HmmtHJkCAifKVrN2iPgDTW/BbP3EpSV8/EQCcxZA==
   /@apollo/react-common/3.1.4_556b533c078ddf6e4bd3e9a27655a5e4:
     dependencies:
       '@types/react': 17.0.38
@@ -317,7 +317,7 @@ packages:
       integrity: sha512-y0CJ393DLxIIkksRup4nt+vSjxalbZBXnnXxYbviq/woj+zKa431zy0yT4LqyRKpFy9ahMIwxBnBwfwIoupqLQ==
   /@apollo/react-hooks/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.6.9_graphql@15.8.0+react@17.0.2
     dev: false
     peerDependencies:
       graphql: '*'
@@ -341,7 +341,7 @@ packages:
       integrity: sha512-wuLPkKlctNn3u8EU8rlECyktpOUCeekFfb0KhIKknpGY6Lza2Qu0bThx7D9MIbVEzhKadNNrzLcpk0Y8/5UuWg==
   /@apollo/react-testing/4.0.0_graphql@15.8.0+react@17.0.2:
     dependencies:
-      '@apollo/client': 3.5.10_graphql@15.8.0+react@17.0.2
+      '@apollo/client': 3.6.9_graphql@15.8.0+react@17.0.2
     dev: true
     peerDependencies:
       graphql: '*'
@@ -5539,11 +5539,12 @@ packages:
       react-dom: ^16.2.0
     resolution:
       integrity: sha512-KvHYqUu+yqjXgSKlV+lbeXifoY7LwfYTj3OIXhfTDx830p7vwjzLtvsvqI5pRN2x+dgC1OS07w/PX5a8mkVlcg==
-  /@target-energysolutions/hoc-oauth/1.3.2_75cb922c19ee1b7939faae9b4d1f4cf7:
+  /@target-energysolutions/hoc-oauth/2.1.2_75cb922c19ee1b7939faae9b4d1f4cf7:
     dependencies:
       client-oauth2: 4.3.3
       fake-progress: 1.0.4
       jsonwebtoken: 8.5.1
+      nanoid: 4.0.0
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -5555,7 +5556,7 @@ packages:
       react: ^16.2.0
       react-dom: ^16.2.0
     resolution:
-      integrity: sha512-c/bpqyA1DjxM2KF+OUOAz+lrYsphgNNcrZpsH3XaEN9FZIHoRRgKD7JAZGKXFeBDq++68+qvg302jUDFJ+CMEA==
+      integrity: sha512-zs+wSB+MSZ4HzTpjRbiwMPaltLttPV3cFShWI3j57thRjwXkTYPOr77f06vR6CHkXX8bA++uVLy0ot23GL1yig==
   /@target-energysolutions/jsonscript/0.0.3:
     dev: false
     resolution:
@@ -15069,7 +15070,7 @@ packages:
   /lodash.includes/4.3.0:
     dev: false
     resolution:
-      integrity: sha1-YLuYqHy5I8aMoeUTJUgzFISfVT8=
+      integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==
   /lodash.intersection/4.4.0:
     dev: false
     resolution:
@@ -15077,26 +15078,26 @@ packages:
   /lodash.isboolean/3.0.3:
     dev: false
     resolution:
-      integrity: sha1-bC4XHbKiV82WgC/UOwGyDV9YcPY=
+      integrity: sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==
   /lodash.isequal/4.5.0:
     resolution:
       integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=
   /lodash.isinteger/4.0.4:
     dev: false
     resolution:
-      integrity: sha1-YZwK89A/iwTDH1iChAt3sRzWg0M=
+      integrity: sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==
   /lodash.isnumber/3.0.3:
     dev: false
     resolution:
-      integrity: sha1-POdoEMWSjQM1IwGsKHMX8RwLH/w=
+      integrity: sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==
   /lodash.isplainobject/4.0.6:
     dev: false
     resolution:
-      integrity: sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
+      integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==
   /lodash.isstring/4.0.1:
     dev: false
     resolution:
-      integrity: sha1-1SfftUVuynzJu5XV2ur4i6VKVFE=
+      integrity: sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==
   /lodash.memoize/4.1.2:
     dev: true
     resolution:
@@ -15108,7 +15109,7 @@ packages:
   /lodash.once/4.1.1:
     dev: false
     resolution:
-      integrity: sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+      integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==
   /lodash.set/4.3.2:
     dev: false
     resolution:
@@ -15905,6 +15906,13 @@ packages:
     dev: false
     resolution:
       integrity: sha1-sFVPaa2J4i0JB/ehKwmTpdlhN+8=
+  /nanoid/4.0.0:
+    dev: false
+    engines:
+      node: ^14 || ^16 || >=18
+    hasBin: true
+    resolution:
+      integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==
   /nanomatch/1.2.13:
     dependencies:
       arr-diff: 4.0.0
@@ -22528,19 +22536,19 @@ packages:
     dev: false
     resolution:
       integrity: sha512-e4g0EJtAjk64xgnFPD6kTBUtpnMVzDrMb12N1YZV0VvSlhnVT3SGxiYTLdGy8Q5cYHOIC/FAHmZ10eGrAguicQ==
+  /ts-invariant/0.10.3:
+    dependencies:
+      tslib: 2.3.1
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-uivwYcQaxAucv1CzRp2n/QdYPo4ILf9VXgH19zEIjFx2EJufV16P0JtJVpYHy89DItG6Kwj2oIUjrcK5au+4tQ==
   /ts-invariant/0.4.4:
     dependencies:
       tslib: 1.14.1
     dev: false
     resolution:
       integrity: sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==
-  /ts-invariant/0.9.4:
-    dependencies:
-      tslib: 2.3.1
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-63jtX/ZSwnUNi/WhXjnK8kz4cHHpYS60AnmA6ixz17l7E12a5puCWFlNpkne5Rl0J8TBPVHpGjsj4fxs8ObVLQ==
   /ts-loader/6.2.2_typescript@3.9.10:
     dependencies:
       chalk: 2.4.2
@@ -24017,11 +24025,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Yj3yXweRc8LdRMrCC8nIc4kkjWecPAUVh0TI0OUrWXx6aX790vLcDlWca6I4vsyCGH3LpWxq0dJRcMOFoVqmeg==
-  /zen-observable-ts/1.2.3:
+  /zen-observable-ts/1.2.5:
     dependencies:
       zen-observable: 0.8.15
     resolution:
-      integrity: sha512-hc/TGiPkAWpByykMwDcem3SdUgA4We+0Qb36bItSuJC9xD0XVBZoFHYoadAomDSNf64CG8Ydj0Qb8Od8BUWz5g==
+      integrity: sha512-QZWQekv6iB72Naeake9hS1KxHlotfRpe+WGNbNx5/ta+R3DNjVO2bswf63gXlWDcs+EMd7XY8HfVQyP1X6T4Zg==
   /zen-observable/0.8.15:
     resolution:
       integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==
@@ -24084,7 +24092,7 @@ specifiers:
   '@target-energysolutions/filter-item': ^1.0.2
   '@target-energysolutions/gis-map': ^2.9.81
   '@target-energysolutions/grid-dnd': ^0.2.3
-  '@target-energysolutions/hoc-oauth': ^1.3.2
+  '@target-energysolutions/hoc-oauth': ^2.1.2
   '@target-energysolutions/map': ^0.9.1
   '@target-energysolutions/meeting': ^6.1.3
   '@target-energysolutions/messenger': ^17.2.2

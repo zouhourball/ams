@@ -69,7 +69,7 @@
     "@target-energysolutions/filter-item": "^1.0.2",
     "@target-energysolutions/gis-map": "^2.9.81",
     "@target-energysolutions/grid-dnd": "^0.2.3",
-    "@target-energysolutions/hoc-oauth": "^1.3.2",
+    "@target-energysolutions/hoc-oauth": "^2.1.2",
     "@target-energysolutions/map": "^0.9.1",
     "@target-energysolutions/meeting": "^6.1.3",
     "@target-energysolutions/messenger": "^17.2.2",
