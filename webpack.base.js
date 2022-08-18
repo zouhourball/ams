@@ -35,6 +35,7 @@ module.exports = {
           /\/node_modules\/@target-energysolutions\/messenger/,
           /\/node_modules\/pdfjs-dist/,
           /\/node_modules\/@jitsi\/js-utils/,
+          /\/node_modules\/pinyin/,
           /\/src/,
         ],
         loader: 'babel-loader',
