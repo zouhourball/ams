@@ -370,17 +370,17 @@ export const actionsHeader = (
     default:
       return !row?.report
         ? row?.status !== 'CLOSED' &&
-          row?.actions?.length > 0 &&
+          // row?.actions?.length > 0 &&
           row?.enquiries?.filter((el) => el?.status === 'RESPONDED')?.length > 0
           ? [
             ...defAUActions,
-            {
-              id: 2,
-              label: 'Close Audit',
-              onClick: () => {
-                closeAudit()
-              },
-            },
+            // {
+            //   id: 2,
+            //   label: 'Close Audit',
+            //   onClick: () => {
+            //     closeAudit()
+            //   },
+            // },
             {
               id: 6,
               label: 'Create Report',
