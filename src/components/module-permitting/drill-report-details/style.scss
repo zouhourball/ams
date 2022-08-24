@@ -1,4 +1,8 @@
 .drill-report-details {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
   .top-bar-buttons-icons {
     display: none;
   }

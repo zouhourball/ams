@@ -2,9 +2,11 @@ $borderColor: #f0f2f5;
 $titleColor: #878d92;
 
 .details-permit {
+  flex-grow: 1;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 0 auto 20px;
   padding: 20px;
+  overflow: auto;
   border-radius: 10px;
   background-color: white;
 
