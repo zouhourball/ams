@@ -23,6 +23,7 @@
         var obj = JSON.parse(globalEnv);
         var config = Object.assign(
           {
+            OAUTH_CLIENT_SECRET: '${env:// .WORKSPACE_FE_OAUTH_CLIENT_SECRET }',
             OAUTH_CLIENT_ID: '${env:// .WORKSPACE_FE_OAUTH_CLIENT_ID }',
             OAUTH_CALLBACK_HOST: '${env:// .WORKSPACE_FE_OAUTH_CALLBACK_HOST }',
           },
