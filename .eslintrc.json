@@ -8,6 +8,7 @@
     "DEBUG": false,
     "APP_VERSION": false,
     "GIT_COMMIT_HASH": false,
+    "OAUTH_CLIENT_SECRET": false,
     "OAUTH_HOST": false,
     "OAUTH_CLIENT_ID": false,
     "GRPC_API": false,
