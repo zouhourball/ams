@@ -831,7 +831,10 @@ const Inventory = () => {
 
       submittedDate: moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
       submittedBy: get(el, 'metaData.createdBy.name', 'n/a'),
-      referenceDate: moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
+      referenceDate:
+        currentTab === 'annual-base'
+          ? el?.metaData?.year
+          : moment(el?.metaData?.reportDate).format('DD MMM, YYYY'),
       statusDate: el?.metaData?.updatedAt
         ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
         : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),

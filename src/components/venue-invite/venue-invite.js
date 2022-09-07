@@ -333,7 +333,7 @@ const VenueInvite = ({
     checkUserAvailable,
   )
   const { data: membersList } = useQuery(
-    ['searchOpAndChairman'],
+    ['searchOpAndChairman', organizationID],
     searchOpAndChairman,
   )
   const loadMembers = useCallback(
@@ -343,7 +343,11 @@ const VenueInvite = ({
         value: el?.email,
         meta: el,
       }))
-      return options?.filter((el) => el?.label?.includes(keywords))
+
+      const result = await options?.filter((el) =>
+        el?.label?.includes(keywords),
+      )
+      return result
     },
     [membersList],
   )
@@ -555,6 +559,10 @@ const VenueInvite = ({
                 cacheOptions
                 defaultOptions
                 backspaceRemovesValue={false}
+                value={membersList?.map((el) => ({
+                  label: el?.fullName,
+                  value: el?.email,
+                }))}
                 loadOptions={loadMembers}
                 hideSelectedOptions={false}
                 placeholder={'Invite member'}

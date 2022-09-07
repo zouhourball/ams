@@ -312,11 +312,11 @@ export const respondToMeeting = async ({ id, status }) => {
   }
   return res
 }
-export const searchOpAndChairman = async () => {
+export const searchOpAndChairman = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/planning/meeting/users?orgID=0`,
+      `${appUrl}/pulse-be/api/v2/planning/meeting/users?orgID=${queryKey[1]}`,
       {
         method: 'GET',
       },

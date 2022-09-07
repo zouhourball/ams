@@ -156,7 +156,7 @@ const SupportedDocumentAudit = ({
           )}
           <FontIcon
             onClick={() => {
-              window.open(getPublicUrl(file?.fileId))
+              window.open(getPublicUrl(file?.apiID))
             }}
           >
             download
@@ -200,7 +200,6 @@ const SupportedDocumentAudit = ({
           Discard
       </Button>,
     ]
-
   const nodesFiles = [...renderOldFiles(), ...renderFiles()]
   return (
     <DialogContainer
