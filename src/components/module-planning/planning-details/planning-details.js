@@ -202,8 +202,9 @@ const PlanningDetails = ({ objectId, subModule }) => {
     ),
 
     actionsList?.length > 0 &&
-      (actionsList?.includes('ENDORSE') || actionsList?.includes('APPROVE')) &&
-      rawData?.metaData?.status === 'SUBMITTED' && (
+      (actionsList?.includes('ENDORSE') ||
+        actionsList?.includes('APPROVE')) && (
+        // rawData?.metaData?.status === 'SUBMITTED' &&
         <>
           <Button
             key="4"
