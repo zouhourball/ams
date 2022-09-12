@@ -11,6 +11,8 @@ import { useMemo, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { messengerAct } from '@target-energysolutions/messenger'
 
+import './style.scss'
+
 const APICtx = optimisticAPI.APICtx
 const apolloClient = configureApolloClient
 const clients = {
