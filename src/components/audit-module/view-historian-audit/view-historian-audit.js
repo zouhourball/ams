@@ -48,13 +48,14 @@ const ViewHistorianAudit = ({
         list: renderProcessHistorianList('AUDIT_REQUEST'),
         title: 'Audit Request',
       },
+
+      {
+        list: renderProcessHistorianList('ACKNOWLEDGE_OF_PARTICIPANT'),
+        title: 'Acknowledged Of Focal Point',
+      },
       {
         list: renderProcessHistorianList('INVITE_PARTICIPANT'),
         title: 'Invite Participant',
-      },
-      {
-        list: renderProcessHistorianList('ACKNOWLEDGE_OF_PARTICIPANT'),
-        title: 'Acknowledged Of Participant',
       },
       {
         list: renderProcessHistorianList('NONE'),
