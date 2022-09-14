@@ -147,12 +147,16 @@ const PlanningDetails = ({ objectId, subModule }) => {
       orgId: company?.organisationID,
     })
   }
-  const handleStatus = (key) => {
-    const roleKey = role.slice(0, -1)
 
+  const handleStatus = (key) => {
+    // const roleKey = role?.slice(0, -1)
     return updateStatus(
       objectId,
-      key === 'accept' ? (roleKey === 'JMC' ? `APPROVE` : `ENDORSE`) : `REJECT`,
+      key === 'accept'
+        ? actionsList?.includes('APPROVE')
+          ? `APPROVE`
+          : `ENDORSE`
+        : `REJECT`,
     )
   }
   const actions = [
