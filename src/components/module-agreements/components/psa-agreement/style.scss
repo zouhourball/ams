@@ -1,0 +1,192 @@
+.psa-agreement-title-textField {
+  margin-left: -10px;
+  padding: 12px 13px;
+  border: 1px solid rgba(238, 238, 238, 0);
+  border-radius: 4px;
+
+  .md-text {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &:focus-within {
+    border-color: #1565c0;
+  }
+}
+
+.psa-agreement {
+  display: flex;
+  position: relative;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  height: calc(100% - 58px);
+  overflow: visible;
+
+  &-top {
+    margin-bottom: 8px;
+    border-radius: 3px;
+    background: #fff;
+    color: rgba($color: #000, $alpha: 0.54);
+
+    &-title {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+      font-weight: 500;
+    }
+  }
+
+  &-main {
+    position: relative;
+    z-index: 0;
+    flex: 1 1 auto;
+    height: 100%;
+    overflow: auto;
+  }
+
+  &-content {
+    display: flex;
+    height: calc(100% - 217px);
+    transition: height 0.2s ease-in-out;
+
+    &.full {
+      height: calc(100% - 14px);
+    }
+  }
+
+  &-sideBar {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 320px;
+    height: 100%;
+    overflow: auto;
+  }
+
+  &-left {
+    margin-right: 8px;
+  }
+
+  &-right {
+    margin-left: 8px;
+  }
+
+  .right-side-over-portal {
+    position: fixed;
+    z-index: 99;
+    top: 116px;
+    right: 0;
+    bottom: 16px;
+  }
+}
+
+.submitDialog {
+  .md-dialog {
+    z-index: 99;
+    width: 35%;
+    min-width: 375px;
+  }
+
+  .md-title {
+    margin-bottom: 16px;
+    padding: 10px;
+    background: #1565c0;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  .submitSection {
+    &-msg {
+      color: #ffa726;
+      font-size: 18px;
+      text-align: center;
+
+      .warningIcon {
+        font-size: 40px;
+      }
+    }
+
+    &-title {
+      margin-top: 16px;
+      color: rgba($color: #000, $alpha: 0.8);
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    &-items {
+      display: list-item;
+      margin: 3px 0 3px 34px;
+      color: rgba(0, 0, 0, 0.54);
+
+      &.notSub {
+        cursor: pointer;
+
+        &:hover {
+          color: rgba($color: #1564c0, $alpha: 0.54);
+        }
+      }
+    }
+  }
+}
+
+.deleteDialog {
+  .md-dialog {
+    z-index: 99;
+    width: 35%;
+    min-width: 375px;
+  }
+
+  .md-title {
+    margin-bottom: 16px;
+    padding: 10px;
+    background: #1565c0;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  .md-dialog-content {
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.expandButton {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  margin-left: auto;
+  padding: 7px;
+  background: rgba($color: #000, $alpha: 0.04);
+
+  .md-icon {
+    font-size: 15px;
+  }
+}
+
+.fakeDialog {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  &-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    border-radius: 10px;
+    background: #fff;
+
+    .custom-expansion-panel {
+      height: 100%;
+      margin: 0;
+    }
+  }
+
+  .md-paper--1 {
+    box-shadow: none;
+  }
+}

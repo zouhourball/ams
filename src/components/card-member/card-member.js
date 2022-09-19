@@ -27,8 +27,8 @@ const CardMember = ({
       )}
       <Avatar src={image || avatar} />
       <div className="cardItem-info">
-        <div className="cardItem-info-fullName">{fullName}</div>
-        <div className="cardItem-info-job">{title}</div>
+        <div className="cardItem-info-fullName">{fullName || ''}</div>
+        <div className="cardItem-info-job">{ title || ''}</div>
       </div>
       {view && (
         <Button

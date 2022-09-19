@@ -64,6 +64,7 @@ dependencies:
   react: 17.0.2
   react-apollo: 3.1.5_17cf48168b13df53548652083bee7635
   react-apollo-hooks: 0.5.0_graphql@15.8.0+react@17.0.2
+  react-content-loader: 4.3.4_react@17.0.2
   react-day-picker: 7.4.10_react@17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-draft-wysiwyg: 1.14.7_238eb5982f30a9897f3f19039e5e474f
@@ -24170,6 +24171,7 @@ specifiers:
   react: 17.0.2
   react-apollo: ^3.1.5
   react-apollo-hooks: ^0.5.0
+  react-content-loader: ^4.3.2
   react-day-picker: ^7.4.10
   react-dom: 17.0.2
   react-draft-wysiwyg: ^1.14.7

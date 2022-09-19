@@ -92,6 +92,7 @@ const Shell = ({ lang }) => {
           roleFP,
           roleAP,
           roleCh,
+          roleConf,
           path,
           hasSubModule,
         }) => {
@@ -105,6 +106,9 @@ const Shell = ({ lang }) => {
                 if (
                   roles.includes(
                     `target-subscription-store:${organizationID}:${roleOp}`,
+                  ) ||
+                  roles.includes(
+                    `target-subscription-store:${organizationID}:target:${roleConf}`,
                   )
                 ) {
                   subM.push({
@@ -133,19 +137,18 @@ const Shell = ({ lang }) => {
               }
             }
           } else if (
-            key !== 'regulation' &&
-            (roles.includes(
+            roles.includes(
               `target-subscription-store:${organizationID}:${roleOp}`,
             ) ||
-              roles.includes(
-                `target-subscription-store:${organizationID}:${roleAU}`,
-              ) ||
-              roles.includes(
-                `target-subscription-store:${organizationID}:${roleFP}`,
-              ) ||
-              roles.includes(
-                `target-subscription-store:${organizationID}:${roleAP}`,
-              ))
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleAU}`,
+            ) ||
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleFP}`,
+            ) ||
+            roles.includes(
+              `target-subscription-store:${organizationID}:${roleAP}`,
+            )
           ) {
             basedRoleSubMenus.push({
               ...subModules.find((sM) => sM.key === key),
@@ -186,6 +189,7 @@ const Shell = ({ lang }) => {
     return basedRoleSubMenus
   }
   const newSubModules = renderMenus()
+  // console.log(roles, 'roles', newSubModules, 'newSubModules', subModules)
 
   const token = getAuthToken()
 

@@ -1,0 +1,30 @@
+.profile-showmore {
+  &-container--visible {
+    position: relative;
+    padding-bottom: 40px;
+  }
+
+  &-container {
+    position: relative;
+  }
+
+  &-button {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    align-items: center;
+    min-width: auto;
+    height: auto;
+    padding: 0;
+    transform: translateX(-50%);
+    background: #fff;
+    font-size: 14px;
+    text-transform: none;
+
+    .md-icon {
+      margin-right: 8px;
+      font-size: 20px;
+    }
+  }
+}

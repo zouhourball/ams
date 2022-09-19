@@ -1,0 +1,32 @@
+.custom-expansion-panel {
+  position: relative;
+  margin: 8px 0;
+  background: #fff;
+
+  &_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  &_body {
+    height: 100%;
+    min-height: 500px;
+    // max-height: 2048px;
+    overflow: auto;
+    transition: max-height 400ms cubic-bezier(0, 1.005, 0.01, 0.995);
+
+    .padding-content {
+      padding: 16px;
+    }
+
+    &.hidden {
+      min-height: 0;
+      max-height: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  }
+}

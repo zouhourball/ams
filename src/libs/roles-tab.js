@@ -64,10 +64,23 @@ export const rolesTab = [
     path: 'tendering',
   },
   {
-    key: 'agreement',
-    roleOp: 'pulse agreement operator',
-    roleRe: 'pulse agreement regulator',
+    key: 'new-psa',
+    roleConf: 'psa:configurator',
     path: 'agreement',
+    hasSubModule: [
+      {
+        roleOp: 'psa:configurator',
+        roleRe: 'psa:configurator',
+        key: 'new-configurator',
+        path: 'configurator',
+      },
+      {
+        roleOp: 'psa:configurator',
+        roleRe: 'psa:configurator',
+        key: 'new-visualizer',
+        path: 'visualizer',
+      },
+    ],
   },
   {
     key: 'new-audit',
@@ -82,6 +95,12 @@ export const rolesTab = [
     roleRe: 'pulse regulation regulator',
     path: 'regulation',
   },
+  // {
+  //   key: 'psa',
+  //   roleOp: 'psa:configurator',
+  //   roleRe: 'pulse regulation regulator',
+  //   path: 'agreement',
+  // },
   {
     key: 'new-HSE',
     path: 'hse',

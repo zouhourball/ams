@@ -1,0 +1,65 @@
+.app-starterkit-blockjobs {
+  &-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+    background: #e53935;
+    color: white;
+    text-align: center;
+  }
+
+  &-infolist {
+    padding: 0;
+    background: none;
+  }
+
+  &-infoitem {
+    border-top: 1px solid white;
+
+    &-tile {
+      height: 65px;
+    }
+  }
+
+  &-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+  }
+
+  &-iconwrapper {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-icon {
+    width: 80px;
+    margin: 80px 0 60px;
+  }
+
+  &-title {
+    width: 100%;
+    color: white;
+    text-align: left;
+  }
+
+  &-desc {
+    color: white;
+    text-align: left;
+  }
+
+  &-btncreate {
+    height: 32px;
+    border: 1px solid white;
+    border-radius: 4px;
+    color: white;
+    text-transform: none;
+  }
+}

@@ -1,0 +1,264 @@
+.top-bar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 50px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: white;
+
+  &_title {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-right: 1px solid #eee;
+    color: rgba($color: #000, $alpha: 0.84);
+    font-weight: bold;
+
+    &_icon {
+      margin-right: 8px;
+      padding: 5px 5px 4px;
+      border-radius: 3px;
+      background: #0490f3;
+      line-height: 1em;
+    }
+  }
+
+  &_subSection {
+    display: flex;
+    align-items: stretch;
+  }
+
+  &_selectFieldWrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 16px 0 7px;
+    border-right: 1px solid #eee;
+
+    &:last-child {
+      border: none;
+    }
+  }
+
+  &_selectField {
+    min-width: 240px;
+    height: 36px;
+    border-radius: 4px;
+    background: #ebebeb;
+
+    .md-paper--1 {
+      box-shadow: none;
+    }
+
+    .dropDawnMenu_button {
+      height: 100%;
+
+      &:hover {
+        background: none;
+      }
+    }
+
+    .md-list-tile {
+      padding: 0;
+
+      .dropDawnMenu_button {
+        width: 100%;
+      }
+    }
+
+    .md-select-field--btn {
+      height: 32px;
+      padding-top: 0;
+      padding-right: 16px;
+      padding-bottom: 0;
+      padding-left: 0;
+    }
+
+    .md-text {
+      color: #5f6369;
+    }
+  }
+
+  &_button {
+    font-size: 14px;
+    text-transform: none;
+  }
+
+  &_viewSwitch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 16px;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+
+    .infoIcon {
+      width: 30px;
+      height: 30px;
+      padding: 4px;
+      border: 1px solid #eee;
+      border-radius: 3px;
+
+      &.selected {
+        background: rgba($color: #000, $alpha: 0.12);
+      }
+
+      &.md-btn--icon {
+        padding: 2px;
+      }
+
+      &:first-child {
+        border-right: none;
+        border-radius: 3px 0 0 3px;
+      }
+
+      &:last-child {
+        border-left: none;
+        border-radius: 0 3px 3px 0;
+      }
+    }
+  }
+
+  &_filter-btn {
+    align-self: center;
+    margin: 6px;
+
+    i {
+      font-size: 26px;
+    }
+  }
+
+  .searchFieldWrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 8px 16px;
+  }
+
+  &_searchField {
+    padding: 8px;
+    border-radius: 4px;
+    background: #eee;
+  }
+
+  &_addWorkflow {
+    display: flex;
+    align-items: center;
+    border-radius: 0 4px 4px 0;
+    background: #1565c0;
+
+    &.disabled {
+      background: #b1b1b1;
+    }
+
+    .fakeButton {
+      padding: 0 8px;
+
+      .md-icon,
+      .md-icon-text {
+        color: #fff;
+      }
+    }
+
+    .md-paper--1 {
+      box-shadow: none;
+    }
+
+    .md-text--secondary {
+      color: #fff;
+    }
+
+    .md-text-field {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .md-list-tile {
+      padding-left: 10px;
+    }
+
+    .md-tile-content--left-icon {
+      padding-left: 8px;
+    }
+  }
+
+  &-select-section {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    min-width: 220px;
+    padding: 7px 7px 7px 16px;
+
+    .section-fake-button {
+      width: 100%;
+      padding: 0 16px;
+      border-radius: 4px;
+      background: #eee;
+    }
+
+    .md-list {
+      margin-top: 8px;
+      background: #fff;
+
+      &-item {
+        border-bottom: 1px solid #eee;
+        background: #fff;
+
+        .md-list {
+          margin-left: 16px;
+        }
+
+        &:first-child {
+          border-radius: 5px 5px 0 0;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+          border-radius: 0 0 5px 5px;
+        }
+      }
+
+      &--menu-cascading {
+        padding: 0;
+
+        .md-list-tile {
+          height: auto !important;
+          padding: 10px 16px;
+          border-radius: inherit;
+        }
+
+        .md-tile-content--left-icon {
+          padding-left: 16px;
+        }
+      }
+    }
+
+    .fake-button-sep {
+      margin: 0 8px;
+    }
+  }
+
+  .position-btn {
+    height: 100%;
+    margin: 0;
+  }
+
+  &_close-btn {
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    margin: auto 16px;
+    padding: 4px;
+    border: 1px solid;
+    border-radius: 4px;
+    color: #e22e2e;
+
+    .md-ink-container {
+      display: none;
+    }
+
+    &:hover {
+      background-color: rgba($color: #e22e2e, $alpha: 0.05);
+    }
+  }
+}

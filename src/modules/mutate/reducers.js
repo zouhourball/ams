@@ -1,7 +1,8 @@
 import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
-import { updateMutation } from './actions'
+import { updateMutation, clearMutation } from './actions'
 const initial = {
+  agreement: {},
   /**
    * [moduleName]:{
    *   [mutationName]:{
@@ -16,7 +17,7 @@ const initial = {
 export default handleActions(
   {
     [updateMutation] (state, { payload }) {
-      const { moduleName, mutationName, key, value } = payload
+      const { moduleName, mutationName, key, value, notPending } = payload
       if (!(moduleName in state)) {
         state[moduleName] = {
           [mutationName]: {},
@@ -27,11 +28,31 @@ export default handleActions(
       }
       return update(state, {
         [moduleName]: {
-          [mutationName]: {
-            [key]: {
-              $set: value,
+          [mutationName]: notPending
+            ? {
+              [key]: {
+                $set: value,
+              },
+              pending: {
+                $set: false,
+              },
+            }
+            : {
+              [key]: {
+                $set: value,
+              },
             },
-          },
+        },
+      })
+    },
+    [clearMutation] (state = initial) {
+      return update(state, {
+        agreement: {
+          $set: state.agreement['getAgreementsStatus']
+            ? {
+              getAgreementsStatus: state.agreement['getAgreementsStatus'],
+            }
+            : {},
         },
       })
     },

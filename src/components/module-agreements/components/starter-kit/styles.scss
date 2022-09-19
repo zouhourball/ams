@@ -1,0 +1,118 @@
+.app-starterkit {
+  &-overlay {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    height: 0;
+    overflow: hidden;
+    background: #173361;
+
+    &.md-overlay--active {
+      height: fit-content;
+      overflow-y: auto;
+    }
+  }
+
+  &-block-container {
+    display: grid;
+    // height: 1410px;
+    grid-auto-rows: minmax(140px, auto);
+    grid-gap: 10px;
+    grid-template-columns: repeat(4, 300px);
+    grid-template-rows: repeat(9, 150px);
+    min-width: 904px;
+    height: 100%;
+    min-height: 1500px;
+    padding: 40px 10px;
+    color: white;
+  }
+
+  &-block-item {
+    &--profile {
+      grid-column: 1;
+      grid-row: 1 / 5;
+    }
+
+    &--workspace {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+    }
+
+    &--notification {
+      grid-column: 3 / 3;
+      grid-row: 1 / 2;
+    }
+
+    &--fm {
+      grid-column: 4 / 4;
+      grid-row: 1 / 3;
+    }
+
+    &--okr {
+      grid-column: 2 / 3;
+      grid-row: 3 / 3;
+    }
+
+    &--meetings {
+      grid-column: 3 / 4;
+      grid-row: 2 / 4;
+    }
+
+    &--upgrade {
+      grid-column: 4 / 4;
+      grid-row: 3 / 4;
+    }
+
+    &--collaborations {
+      grid-column: 2 / 3;
+      grid-row: 4 / 7;
+    }
+
+    &--planner {
+      grid-column: 3 / 5;
+      grid-row: 4 / 5;
+    }
+
+    &--taskmanager {
+      grid-column: 3 / 5;
+      grid-row: 5 / 7;
+    }
+
+    &--jobs {
+      grid-column: 1 / 2;
+      grid-row: 5 / 8;
+    }
+
+    &--reporting {
+      grid-column: 2 / 4;
+      grid-row: 7 / 8;
+    }
+
+    &--assets {
+      grid-column: 4 / 5;
+      grid-row: 7 / 9;
+    }
+
+    &--roadsafety {
+      grid-column: 1 / 3;
+      grid-row: 8 / 10;
+    }
+
+    &--optimization {
+      grid-column: 3 / 4;
+      grid-row: 8 / 10;
+    }
+
+    &--inventory {
+      grid-column: 4 / 5;
+      grid-row: 9 / 10;
+    }
+  }
+
+  &-btnclose {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}

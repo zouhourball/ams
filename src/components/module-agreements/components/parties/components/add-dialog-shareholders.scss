@@ -1,0 +1,245 @@
+.add-dialog-shareholders {
+  position: relative;
+
+  > .md-dialog {
+    width: 50%;
+    min-width: 320px;
+
+    .md-dialog-content {
+      &--padded {
+        min-height: 300px;
+        padding: 16px;
+        background: #fff;
+      }
+    }
+
+    .md-dialog-footer--inline {
+      background: #fff;
+    }
+  }
+
+  h2.md-title {
+    padding: 10px;
+    background: #1565c0;
+    color: #fff;
+  }
+
+  &_textField {
+    height: 40px;
+    padding: 11px 13px;
+    border: 1px solid #bfbdbd;
+    border-radius: 4px;
+
+    &:focus-within {
+      border-color: #1565c0;
+    }
+
+    .md-text-field--floating-margin {
+      margin: 0;
+    }
+
+    .md-floating-label--floating {
+      z-index: 9;
+      padding: 0 5px;
+      transform: translate3d(-4px, -6px, 0);
+      background: #fff;
+      color: #0065c7;
+
+      &.md-text--error {
+        color: #f44336;
+      }
+    }
+
+    .md-floating-label--inactive {
+      max-width: calc(100% - 46px);
+      overflow: hidden;
+      transform: translate3d(0, 12px, 0);
+      text-overflow: ellipsis;
+    }
+
+    .md-divider {
+      display: none;
+    }
+
+    .md-text-field-icon {
+      margin-bottom: 0;
+      font-size: 17px;
+    }
+
+    &.noBorder {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .md-text-field-inline-indicator--floating {
+      top: 4px !important;
+      right: 4px;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+    }
+
+    .md-text-field-message-container {
+      position: absolute;
+      bottom: -18px;
+      left: 0;
+
+      &--right-icon-offset {
+        padding-right: 0;
+      }
+    }
+  }
+
+  &_selectField {
+    height: 40px;
+    margin-right: 16px;
+  }
+
+  .form {
+    display: flex;
+    margin: 16px 0 0;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed #eee;
+
+    .add-dialog_selectField {
+      flex: 4;
+      margin-right: 16px;
+    }
+
+    .add-dialog_textField {
+      flex: 3;
+      margin-right: 16px;
+    }
+
+    button {
+      border-radius: 3px;
+      background: #1565c0;
+      color: #fff;
+
+      &.md-text--disabled {
+        background: #ddd;
+      }
+    }
+  }
+
+  .card {
+    display: flex;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f1f1f1;
+    color: rgba($color: #000, $alpha: 0.54);
+
+    &-details {
+      flex-grow: 1;
+      padding: 10px;
+      line-height: 1em;
+
+      h5 {
+        margin-bottom: 0;
+        color: rgba($color: #000, $alpha: 0.84);
+        font-weight: 500;
+      }
+    }
+
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .deleteButton {
+        padding: 8px;
+      }
+    }
+
+    &-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: bold;
+
+      &-label {
+        color: rgba(0, 0, 0, 0.4);
+        font-size: 13px;
+      }
+
+      &-percentage {
+        color: green;
+        font-size: 18px;
+        font-weight: bold;
+
+        &.grey {
+          color: rgba(0, 0, 0, 0.4);
+        }
+      }
+    }
+
+    img {
+      width: 60px;
+      height: 60px;
+      margin: 10px;
+      border-radius: 50%;
+    }
+
+    .md-menu-container {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+
+      .md-btn--icon {
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        background: #fff;
+      }
+    }
+  }
+
+  &-slider {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 50px;
+    // margin: 0 0 0 18px;
+
+    &-cover {
+      position: absolute;
+      z-index: 9;
+      width: 100%;
+      height: 55px;
+    }
+
+    .md-slider-track-fill {
+      position: absolute;
+      height: 8px;
+      border-radius: 5px;
+      background: green;
+    }
+
+    .md-fake-btn {
+      display: none;
+    }
+
+    &-percentageText {
+      padding: 10px;
+      color: green;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    &-percentage {
+      .md-slider-track {
+        height: 8px;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+
+.datePickerWrapper-parties {
+  .target-date-picker-monthview-foot {
+    display: none;
+  }
+}

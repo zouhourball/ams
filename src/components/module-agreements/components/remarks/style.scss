@@ -1,0 +1,75 @@
+.remarks {
+  //display: flex;
+  justify-content: center;
+
+  .wrapperTimeline {
+    align-items: center;
+    background: #f8f8f8;
+    color: #868686;
+  }
+
+  .remarksText {
+    display: flex;
+    align-items: center;
+    color: #868686;
+
+    .new-agreement-textField {
+      border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .modalFooter__Buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    //margin-bottom: 12px;
+    .discard-button {
+      margin-right: 5px;
+      padding: 4px;
+      border: 1px solid;
+      border-radius: 3px;
+    }
+
+    .add-button {
+      padding-top: 5px;
+      padding-right: 22px;
+      padding-bottom: 8px;
+      padding-left: 22px;
+      border: 1px solid;
+      border-radius: 6px;
+      background: #1565c0;
+      color: #fff;
+    }
+  }
+}
+
+.DialogForm {
+  .md-dialog {
+    width: 30%;
+
+    h2.md-title {
+      padding: 15px 25px;
+      background: #1464c0;
+      -webkit-box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.2) inset;
+      box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.2) inset;
+      color: #fff;
+      text-align: left;
+      text-transform: capitalize;
+    }
+  }
+
+  .md-dialog--picker {
+    width: auto;
+  }
+
+  .md-dialog-content {
+    overflow-y: auto;
+  }
+
+  .md-dialog-content--padded {
+    padding: 0;
+  }
+}

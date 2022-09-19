@@ -1,0 +1,21 @@
+query allUserProfiles($fullName: String, $limit: Int, $offset: Int) {
+  allUserProfiles(
+    where: {
+      conjunction: AND
+      fullName_ilike: $fullName
+      subject_nlike: "null"
+    }
+    limit: $limit
+    offset: $offset
+  ) {
+    userProfiles {
+      userID
+      subject
+      title
+      fullName
+      photo {
+        aPIID
+      }
+    }
+  }
+}

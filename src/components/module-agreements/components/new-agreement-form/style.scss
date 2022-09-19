@@ -1,0 +1,131 @@
+.new-agreement {
+  padding: 16px;
+  background: #fff;
+
+  &-sub-title {
+    padding: 8px;
+    border-radius: 4px;
+    background: #eee;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  &-content {
+    font-size: 16px;
+  }
+
+  &-textField {
+    margin-bottom: 16px;
+    padding: 12px 13px;
+    border: 1px solid rgba($color: #000, $alpha: 0.54);
+    border-radius: 4px;
+
+    &:focus-within {
+      border-color: #1565c0;
+    }
+
+    .md-text-field--floating-margin {
+      position: relative;
+      bottom: 1px;
+      margin: 0;
+    }
+
+    .md-floating-label--floating {
+      z-index: 9;
+      padding: 0 5px;
+      transform: translate3d(-4px, -6px, 0);
+      background: #fff;
+      color: #0065c7;
+
+      &.md-text--error {
+        color: #f44336;
+      }
+    }
+
+    .md-floating-label--inactive {
+      transform: translate3d(0, 12px, 0);
+    }
+
+    .md-divider {
+      display: none;
+    }
+  }
+
+  .HtmlEditor {
+    .editorLabel {
+      margin-bottom: 5px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .rdw-editor-wrapper {
+      margin-bottom: 16px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      border-radius: 3px;
+
+      &.error {
+        border-color: #f44336;
+      }
+
+      .editorToolbar {
+        background: rgba(0, 0, 0, 0.1);
+
+        .rdw-option-wrapper {
+          border-color: transparent;
+          background: none;
+
+          &:hover {
+            background: #dedede;
+            box-shadow: none;
+          }
+        }
+
+        .rdw-block-wrapper .rdw-dropdown-selectedtext {
+          color: rgba(0, 0, 0, 0.5);
+        }
+
+        .rdw-fontsize-wrapper .rdw-dropdown-selectedtext {
+          color: rgba(0, 0, 0, 0.5);
+        }
+
+        .rdw-fontfamily-wrapper .rdw-dropdown-selectedtext {
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .editorContent {
+        background: #fff;
+      }
+    }
+  }
+
+  &-titleView {
+    margin-bottom: 16px;
+    color: #4c4b4b;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  &-descriptionView {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #eee;
+    color: rgba(0, 0, 0, 0.7);
+
+    p {
+      margin-bottom: 0;
+      color: rgba(0, 0, 0, 0.6);
+      font-weight: 500;
+    }
+  }
+
+  &-contentView {
+    margin-bottom: 10px;
+  }
+
+  .error {
+    border-color: #f44336;
+  }
+}

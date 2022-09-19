@@ -1,0 +1,74 @@
+.details-top-bar {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  height: 50px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: white;
+
+  &_left {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+
+    &-template {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      font-weight: 500;
+
+      > button {
+        margin-left: 8px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &_actions {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 20px;
+    padding-left: 10px;
+    border-left: 1px solid #eee;
+
+    &-button {
+      width: 30px;
+      // min-width: 100px;
+      height: 30px;
+      margin: 0 10px;
+      padding: 4px;
+      background: #d9e9fb;
+      color: #1564c0;
+      // border-radius: 4px;
+
+      &.md-text--disabled {
+        background: rgba(0, 0, 0, 0.12);
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  &_navigation {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 16px;
+    font-weight: bold;
+
+    .arrowIcon {
+      &.material-icons.md-icon {
+        margin: 0 5px;
+        font-size: 27px;
+      }
+    }
+  }
+
+  &_left-memberList {
+    display: flex;
+    align-items: center;
+  }
+}
