@@ -225,7 +225,17 @@ const Permit = ({ subModule }) => {
     switch (roleRegulation) {
       case 'regulator':
         return [
-          // { id: 'downTemp', label: 'Download Template', onClick: () => {} },
+          {
+            id: 'downTemp',
+            label: 'Download Template',
+            onClick: () => {
+              onDownloadTemplate(
+                tabsListReports?.find(
+                  (el) => (el?.id || el?.key) === reportCurrentTab,
+                )?.url,
+              )
+            },
+          },
           {
             id: 'uplTemplate',
             label: 'Upload Template',
@@ -237,6 +247,18 @@ const Permit = ({ subModule }) => {
 
       case 'operator':
         return [
+          {
+            id: 'downTemp',
+            label: 'Download Template',
+            onClick: () => {
+              onDownloadTemplate(
+                tabsListReports?.find(
+                  (el) => (el?.id || el?.key) === reportCurrentTab,
+                )?.url,
+              )
+            },
+          },
+
           {
             id: 'uplRep',
             label: 'Upload Report',
@@ -529,10 +551,12 @@ const Permit = ({ subModule }) => {
     permitTemplates && permitTemplates?.length
       ? permitTemplates?.map((el) => ({
         linkToNewTab: `/ams/permitting/dr`,
+        url: el?.url,
         label: el?.filename,
         key: el?.id,
       }))
       : []
+
   useEffect(() => {
     permitTemplates && permitTemplates?.length
       ? setReportCurrentTab(permitTemplates[0]?.id)

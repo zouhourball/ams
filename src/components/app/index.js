@@ -186,7 +186,7 @@ const Shell = ({ lang }) => {
         })
       }
     }
-    return basedRoleSubMenus
+    return basedRoleSubMenus?.filter((el) => el?.path !== 'regulation')
   }
   const newSubModules = renderMenus()
   // console.log(roles, 'roles', newSubModules, 'newSubModules', subModules)

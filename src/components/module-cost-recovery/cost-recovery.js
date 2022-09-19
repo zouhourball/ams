@@ -636,6 +636,17 @@ const CostRecovery = ({ subkey }) => {
       case 'regulator':
         return [
           {
+            id: 'downTemp',
+            label: 'Download Template',
+            onClick: () => {
+              onDownloadTemplate(
+                tabsListReports?.find(
+                  (el) => (el?.id || el?.key) === reportCurrentTab,
+                )?.url,
+              )
+            },
+          },
+          {
             id: 'uplTemplate',
             label: 'Upload Template',
             onClick: () => {
@@ -646,6 +657,17 @@ const CostRecovery = ({ subkey }) => {
 
       case 'operator':
         return [
+          {
+            id: 'downTemp',
+            label: 'Download Template',
+            onClick: () => {
+              onDownloadTemplate(
+                tabsListReports?.find(
+                  (el) => (el?.id || el?.key) === reportCurrentTab,
+                )?.url,
+              )
+            },
+          },
           {
             id: 'uplRep',
             label: 'Upload Report',
@@ -791,6 +813,7 @@ const CostRecovery = ({ subkey }) => {
         linkToNewTab: `/ams/costrecovery/costs`,
         label: el?.filename,
         key: el?.id,
+        url: el?.url,
       }))
       : []
 
