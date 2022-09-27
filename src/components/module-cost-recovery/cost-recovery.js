@@ -24,6 +24,7 @@ import {
   addReportForSelectedTemplate,
   getReportsByTemplate,
   deleteReports,
+  detailReport,
 } from 'libs/api/cost-recovery-api'
 
 import { getListOfCompaniesBlocks } from 'libs/api/permit-api'
@@ -104,6 +105,11 @@ const CostRecovery = ({ subkey }) => {
 
   const [, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
+  const [transactionReportId, setTransactionReportId] = useState('')
+  const [uploadPagination, setUploadPagination] = useState({
+    rowsNumber: 20,
+    pageNumber: 0,
+  })
 
   const role = useRole('costrecovery')
   const selectedRow = useSelector(
@@ -115,8 +121,31 @@ const CostRecovery = ({ subkey }) => {
   )
 
   const dispatch = useDispatch()
-  const { mutate: uploadReportMutation, data: uploadData } =
-    useMutation(uploadReport)
+  // const {mutate: getTransactionReport, data: reportDetail } = useMutation(
+
+  const { data: reportDetail } = useQuery(
+    [
+      'transaction',
+      transactionReportId,
+      {
+        size: uploadPagination?.rowsNumber,
+        page: uploadPagination?.pageNumber,
+      },
+    ],
+    transactionReportId && detailReport,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  const { mutate: uploadReportMutation, data: uploadData } = useMutation(
+    uploadReport,
+    {
+      onSuccess: (res) => {
+        currentTab === 3 && setTransactionReportId(res?.data?.id)
+        // initiate get
+      },
+    },
+  )
 
   const { mutate: overrideReportMutate } = useMutation(overrideReport)
 
@@ -495,7 +524,7 @@ const CostRecovery = ({ subkey }) => {
 
   const resTransactionData = () => {
     return (
-      uploadData?.data?.data?.map((el) => ({
+      reportDetail?.content?.map((el) => ({
         block: el?.block,
         transactionDate: el?.transactionDate,
         transactionReference: el?.transactionReference,
@@ -541,7 +570,7 @@ const CostRecovery = ({ subkey }) => {
       default:
         return resAnnualCostData()
     }
-  }, [subSubModule, uploadData])
+  }, [subSubModule, uploadData, reportDetail])
 
   const closeDialog = (resp) => {
     resp &&
@@ -999,6 +1028,54 @@ const CostRecovery = ({ subkey }) => {
             setShowUploadMHTDialog(false)
           }}
           onCommit={handleCommit}
+          footerTemplate={
+            reportDetail?.totalPages > 1 &&
+            currentTab === 3 && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={uploadPagination?.pageNumber + 1}
+                  onChange={(v) =>
+                    v >= reportDetail?.totalPages
+                      ? setUploadPagination((prev) => ({
+                        ...prev,
+                        pageNumber: reportDetail?.totalPages - 1,
+                      }))
+                      : setUploadPagination((prev) => ({
+                        ...prev,
+                        pageNumber: parseInt(v) - 1,
+                      }))
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {reportDetail?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={uploadPagination?.rowsNumber}
+                  onChange={(v) =>
+                    v > reportDetail?.totalElements
+                      ? setUploadPagination((prev) => ({
+                        ...prev,
+                        rowsNumber: reportDetail?.totalElements,
+                      }))
+                      : setUploadPagination((prev) => ({
+                        ...prev,
+                        rowsNumber: v,
+                      }))
+                  }
+                />
+              </>
+            )
+          }
         />
       )}
       {showUploadRapportDialog && (

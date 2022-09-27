@@ -27,6 +27,7 @@ import {
   commitRows,
   saveRows,
   deleteAllInventory,
+  getDetailInventoryById,
 } from 'libs/api/api-inventory'
 import {
   downloadOriginalFile,
@@ -83,6 +84,12 @@ const Inventory = () => {
   const [currentInventoryId, setCurrentInventoryId] = useState('')
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
+  const [baseReportId, setBaseReportId] = useState('')
+  const [uploadPagination, setUploadPagination] = useState({
+    rowsNumber: 20,
+    pageNumber: 0,
+  })
+  // const [selectFieldValue, setSelectFieldValue] = useState('latest')
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
@@ -145,6 +152,55 @@ const Inventory = () => {
         return refetchInventory()
     }
   }
+  // const { data: snapshotDataOfBase, refetch: refetchSnapshotBase } = useQuery(
+  //   ['getSnapshotOfBase', baseReportId, selectFieldValue],
+  //   selectFieldValue !== 'latest' &&
+  //   baseReportId &&
+  //     getSnapshotOfBase,
+  //   {
+  //     refetchOnWindowFocus: false,
+  //   },
+  // )
+  const subModuleByCurrentTab = () => {
+    switch (currentTab) {
+      case 'annual-base':
+        return 'base'
+      case 'asset-consumption':
+        return ''
+      case 'surplus-declaration':
+        return ''
+      case 'asset-transfer':
+        return 'transfer'
+      case 'asset-disposal':
+        return 'disposal'
+      case 'new-asset-addition':
+        return 'addition'
+      default:
+        return ''
+    }
+  }
+
+  const { data: inventoryData } = useQuery(
+    [
+      'getDetailInventoryById',
+      subModuleByCurrentTab(),
+      baseReportId,
+      {
+        size: uploadPagination?.rowsNumber,
+        page: uploadPagination?.pageNumber,
+      },
+    ],
+    baseReportId && getDetailInventoryById,
+    {
+      refetchOnWindowFocus: false,
+    },
+  )
+  useEffect(() => {
+    baseReportId && onDisplayMHT(inventoryData?.content)
+    // baseReportId &&
+    // console.log(inventoryData?.content, dataDisplayedMHT, 'test3')
+  }, [inventoryData])
+  // console.log(inventoryData, baseReportId, currentUpload, 'test')
   const uploadAnnualBaseReportMutate = useMutation(
     uploadAnnualBaseInventoryReport,
 
@@ -152,7 +208,8 @@ const Inventory = () => {
       onSuccess: (res) => {
         if (!res.error) {
           setCurrentUpload(res)
-          onDisplayMHT(...res.values)
+          currentTab === 'annual-base' && setBaseReportId(res?.data?.id)
+
           dispatch(
             addToast(
               <ToastMsg
@@ -210,7 +267,12 @@ const Inventory = () => {
       },
     },
   )
-
+  // const snaps = [
+  //   { label: 'latest', value: 'latest' },
+  //   ...(inventoryData?.content || [])?.map((el) => {
+  //     return { label: el?.date, value: el?.transactionId }
+  //   }),
+  // ]
   const uploadAssetTransferReportMutate = useMutation(
     uploadAssetTransferInventoryReport,
 
@@ -541,7 +603,7 @@ const Inventory = () => {
     // setSelectedRow([])
   }
   const mhtUploadedAnnualAssetData = (
-    get(currentUpload, 'data.rows', []) || []
+    get(inventoryData, 'content', []) || []
   ).map((el) => {
     return {
       id: el?.rowId,
@@ -587,25 +649,6 @@ const Inventory = () => {
       overrideId: overrideId,
       body: currentUpload?.data,
     })
-  }
-
-  const subModuleByCurrentTab = () => {
-    switch (currentTab) {
-      case 'annual-base':
-        return 'base'
-      case 'asset-consumption':
-        return ''
-      case 'surplus-declaration':
-        return ''
-      case 'asset-transfer':
-        return 'transfer'
-      case 'asset-disposal':
-        return 'disposal'
-      case 'new-asset-addition':
-        return 'addition'
-      default:
-        return ''
-    }
   }
 
   const commitUploadByTab = () => {
@@ -1185,6 +1228,23 @@ const Inventory = () => {
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={<div></div>}
+          // headerTemplate={currentTab === 'annual-base' ? (
+          //   <SelectField
+          //     id="base-version"
+          //     menuItems={snaps}
+          //     block
+          //     position={SelectField.Positions.BELOW}
+          //     value={selectFieldValue}
+          //     onChange={(v) => {
+          //       if (v === 'latest') {
+          //         setSelectFieldValue(v)
+          //       } else {
+          //         setSelectFieldValue(v)
+          //       }
+          //     }}
+          //     simplifiedMenu={false}
+          //   />
+          // ) : <div></div>}
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
@@ -1199,6 +1259,54 @@ const Inventory = () => {
           onSave={() => {
             saveUploadByTab()
           }}
+          footerTemplate={
+            inventoryData?.totalPages > 1 &&
+            currentTab === 3 && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={uploadPagination?.pageNumber + 1}
+                  onChange={(v) =>
+                    v >= inventoryData?.totalPages
+                      ? setUploadPagination((prev) => ({
+                        ...prev,
+                        pageNumber: inventoryData?.totalPages - 1,
+                      }))
+                      : setUploadPagination((prev) => ({
+                        ...prev,
+                        pageNumber: parseInt(v) - 1,
+                      }))
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {inventoryData?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={uploadPagination?.rowsNumber}
+                  onChange={(v) =>
+                    v > inventoryData?.totalElements
+                      ? setUploadPagination((prev) => ({
+                        ...prev,
+                        rowsNumber: inventoryData?.totalElements,
+                      }))
+                      : setUploadPagination((prev) => ({
+                        ...prev,
+                        rowsNumber: v,
+                      }))
+                  }
+                />
+              </>
+            )
+          }
         />
       )}
       {showUploadRapportDialog && (

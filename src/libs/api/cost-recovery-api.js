@@ -197,14 +197,15 @@ export const updateCostsCost = async ({ objectId, status }) => {
 export const commitSubModule = async ({ body, key }) => {
   // console.log(body, 'body')
   let res
+  let apiUrl =
+    key === 'transaction'
+      ? `${appUrl}/pulse-be/api/v2/costRecovery/${key}/${body?.id}/commit`
+      : `${appUrl}/pulse-be/api/v2/costRecovery/${key}/commit`
   try {
-    res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/costRecovery/${key}/commit`,
-      {
-        method: 'POST',
-        body: JSON.stringify(body),
-      },
-    )
+    res = await fetchJSON(apiUrl, {
+      method: 'POST',
+      ...(key === 'transaction' ? {} : { body: JSON.stringify(body) }),
+    })
   } catch (e) {
     res = { error: e }
   }

@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button, SelectField } from 'react-md'
+import { Button, DialogContainer, SelectField } from 'react-md'
 import Mht from '@target-energysolutions/mht'
 import { useQuery, useMutation } from 'react-query'
 import { useMemo, useState, useCallback, useEffect } from 'react'
@@ -31,6 +31,8 @@ import './style.scss'
 const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
+
+  const [confirmDialog, setConfirmDialog] = useState(false)
   const [version, setVersion] = useState('1.0')
   const company = getOrganizationInfos()
   const role = useRole('planning')
@@ -218,7 +220,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
             primary
             swapTheming
             onClick={() => {
-              handleStatus('accept')
+              setConfirmDialog(true)
             }}
           >
             Accept
@@ -233,6 +235,9 @@ const PlanningDetails = ({ objectId, subModule }) => {
             swapTheming
             onClick={() => {
               handleStatus('reject')
+              window.location.assign(
+                `mailto:${rawData?.metaData?.createdBy?.email}`,
+              )
             }}
           >
             Reject
@@ -326,6 +331,41 @@ const PlanningDetails = ({ objectId, subModule }) => {
           // }
           // }
         />
+      )}
+      {confirmDialog && (
+        <DialogContainer
+          id={'confirm-dialog'}
+          visible={confirmDialog}
+          onHide={() => setConfirmDialog(false)}
+        >
+          <h2>Are you Sure to Accept the Recod</h2>
+          <Button
+            key="5"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              setConfirmDialog(false)
+            }}
+          >
+            Discard
+          </Button>
+          <Button
+            key="6"
+            id="hide"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              handleStatus('accept')
+            }}
+          >
+            Accept
+          </Button>
+        </DialogContainer>
       )}
     </div>
   )

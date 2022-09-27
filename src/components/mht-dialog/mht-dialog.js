@@ -16,6 +16,7 @@ const MHTDialog = ({
   propsDataTable,
   propsConfigs,
   headerTemplate,
+  footerTemplate = <div />,
   id,
 }) => {
   const actions = () => {
@@ -79,8 +80,10 @@ const MHTDialog = ({
         withSearch
         title={title}
         commonActions
+        withFooter
         withSubColumns
         headerTemplate={headerTemplate}
+        footerTemplate={footerTemplate}
       />
     </DialogContainer>
   )

@@ -256,10 +256,14 @@ export const channelUpdate = async ({ inventoryId, channelId }) => {
 }
 
 export const getDetailInventoryById = async ({ queryKey }) => {
+  const pagination =
+    queryKey[1] === 'base'
+      ? `/rows?page=${queryKey[3]?.page}&size=${queryKey[3]?.size}`
+      : ''
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}?sort=metaData.createdAt,desc`,
+      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}${pagination}`,
       {
         method: 'GET',
       },
