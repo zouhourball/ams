@@ -33,6 +33,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
     useState(false)
 
   const [confirmDialog, setConfirmDialog] = useState(false)
+  const [rejectDialog, setRejectDialog] = useState(false)
   const [version, setVersion] = useState('1.0')
   const company = getOrganizationInfos()
   const role = useRole('planning')
@@ -234,10 +235,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
             primary
             swapTheming
             onClick={() => {
-              handleStatus('reject')
-              window.location.assign(
-                `mailto:${rawData?.metaData?.createdBy?.email}`,
-              )
+              setRejectDialog(true)
             }}
           >
             Reject
@@ -338,7 +336,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
           visible={confirmDialog}
           onHide={() => setConfirmDialog(false)}
         >
-          <h2>Are you Sure to Accept the Recod</h2>
+          <h2>Are you Sure to Accept the Record</h2>
           <Button
             key="5"
             id="accept"
@@ -364,6 +362,44 @@ const PlanningDetails = ({ objectId, subModule }) => {
             }}
           >
             Accept
+          </Button>
+        </DialogContainer>
+      )}
+      {rejectDialog && (
+        <DialogContainer
+          id={'reject-dialog'}
+          visible={rejectDialog}
+          onHide={() => setRejectDialog(false)}
+        >
+          <h2>Are you Sure to Reject the Record</h2>
+          <Button
+            key="5"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              setRejectDialog(false)
+            }}
+          >
+            Discard
+          </Button>
+          <Button
+            key="6"
+            id="hide"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              handleStatus('reject')
+              window.location.assign(
+                `mailto:${rawData?.metaData?.createdBy?.email}`,
+              )
+            }}
+          >
+            Reject
           </Button>
         </DialogContainer>
       )}

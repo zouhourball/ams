@@ -24,7 +24,8 @@ import {
   addReportForSelectedTemplate,
   getReportsByTemplate,
   deleteReports,
-  detailReport,
+  detailReportRows,
+  updateCostsVersion,
 } from 'libs/api/cost-recovery-api'
 
 import { getListOfCompaniesBlocks } from 'libs/api/permit-api'
@@ -132,7 +133,7 @@ const CostRecovery = ({ subkey }) => {
         page: uploadPagination?.pageNumber,
       },
     ],
-    transactionReportId && detailReport,
+    transactionReportId && detailReportRows,
     {
       refetchOnWindowFocus: false,
     },
@@ -211,7 +212,38 @@ const CostRecovery = ({ subkey }) => {
       setFileList([])
     },
   })
-
+  const updateReportMutate = useMutation(updateCostsVersion, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchCurrentData()
+        setShowUploadRapportDialog(false)
+        setShowUploadMHTDialog(false)
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
+  const onUpdateReport = () => {
+    updateReportMutate.mutate({
+      subModule: tab[currentTab],
+      objectId: renderCurrentTabData()[selectedRow[0]]?.id,
+      body: uploadData?.data,
+    })
+  }
   const onAddTemplate = (data) => {
     const body = [
       {
@@ -1027,7 +1059,11 @@ const CostRecovery = ({ subkey }) => {
           onHide={() => {
             setShowUploadMHTDialog(false)
           }}
-          onCommit={handleCommit}
+          onCommit={() => {
+            selectedRow[0] && currentTab === 0
+              ? onUpdateReport()
+              : handleCommit()
+          }}
           footerTemplate={
             reportDetail?.totalPages > 1 &&
             currentTab === 3 && (

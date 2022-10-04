@@ -176,7 +176,21 @@ export const findAllCostsByUserCompanyAccess = async ({ queryKey }) => {
   }
   return res
 }
-
+export const updateCostsVersion = async ({ subModule, objectId, body }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/costRecovery/${subModule}/${objectId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify(body),
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
 export const updateCostsCost = async ({ objectId, status }) => {
   let res
   try {
@@ -290,16 +304,27 @@ export const overrideReport = async ({ body, overrideId, key }) => {
   }
   return res
 }
-export const detailReport = async ({ queryKey }) => {
-  const pagination =
-    queryKey[0] === 'transaction'
-      ? `/rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`
-      : ''
+export const detailReportRows = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
       /// rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}
-      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}${pagination}`,
+      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}/rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const detailReport = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      /// rows?page=${queryKey[2]?.page}&size=${queryKey[2]?.size}
+      `${appUrl}/pulse-be/api/v2/costRecovery/${queryKey[0]}/${queryKey[1]}`,
       {
         method: 'GET',
       },

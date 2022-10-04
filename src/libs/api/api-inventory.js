@@ -109,7 +109,7 @@ export const commitInventory = async ({ subModule, body }) => {
       `${appUrl}/pulse-be/api/v2/inventory/${subModule}/${body?.id}/commit`,
       {
         method: 'POST',
-        body: JSON.stringify(body),
+        body: subModule === 'base' ? JSON.stringify({}) : JSON.stringify(body),
       },
     )
   } catch (e) {
@@ -254,16 +254,25 @@ export const channelUpdate = async ({ inventoryId, channelId }) => {
   }
   return res
 }
-
-export const getDetailInventoryById = async ({ queryKey }) => {
-  const pagination =
-    queryKey[1] === 'base'
-      ? `/rows?page=${queryKey[3]?.page}&size=${queryKey[3]?.size}`
-      : ''
+export const getReportRows = async ({ queryKey }) => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}${pagination}`,
+      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}/rows?page=${queryKey[3]?.page}&size=${queryKey[3]?.size}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
+export const getDetailInventoryById = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/pulse-be/api/v2/inventory/${queryKey[1]}/${queryKey[2]}`,
       {
         method: 'GET',
       },

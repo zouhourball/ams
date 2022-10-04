@@ -1,5 +1,5 @@
 import { navigate } from '@reach/router'
-import { Button, FontIcon, SelectField } from 'react-md'
+import { Button, FontIcon, SelectField, TextField } from 'react-md'
 import { useMutation, useQuery } from 'react-query'
 import { useDispatch, useSelector } from 'react-redux'
 import { get } from 'lodash-es'
@@ -25,6 +25,7 @@ import {
   getAdditionsList,
   getSnapshotsByInventoryId,
   getSnapshotOfBase,
+  getReportRows,
 } from 'libs/api/api-inventory'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -59,6 +60,8 @@ const InventoryDetails = () => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [showDatePicker, setShowDatePicker] = useState(false)
+  const [page, setPage] = useState(0)
+  const [size, setSize] = useState(20)
   const categoryKeyword = [
     'base',
     'assetTransferRequestProcess',
@@ -76,6 +79,18 @@ const InventoryDetails = () => {
     {
       refetchOnWindowFocus: false,
     },
+  )
+  const { data: rowsData } = useQuery(
+    [
+      'getReportRows',
+      'base',
+      inventoryId,
+      {
+        size,
+        page,
+      },
+    ],
+    currentTabName === 'base' && getReportRows,
   )
   // console.log(currentTabName)
   const { data: inventoryAcceptedData, refetch: refetchInventoryAccepted } =
@@ -102,6 +117,10 @@ const InventoryDetails = () => {
   )
   const { data: snapshotDataOfBase, refetch: refetchSnapshotBase } = useQuery(
     ['getSnapshotOfBase', inventoryId, selectFieldValue],
+    {
+      size,
+      page,
+    },
     selectFieldValue !== 'latest' &&
       currentTabName === 'base' &&
       getSnapshotOfBase,
@@ -237,11 +256,9 @@ const InventoryDetails = () => {
   }
 
   const mhtBaseDetailData = (
-    get(
-      inventoryData || inventoryAcceptedData || transactionData,
-      'rows',
-      [],
-    ) || []
+    currentTabName === 'base'
+      ? get(rowsData, 'content', [])
+      : get(inventoryData, 'rows', []) || get(transactionData, 'rows') || []
   ).map((el) => {
     return {
       id: el?.rowId,
@@ -840,6 +857,42 @@ const InventoryDetails = () => {
               />
             ) : (
               ''
+            )
+          }
+          footerTemplate={
+            rowsData?.totalPages > 1 &&
+            currentTabName === 'base' && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={page + 1}
+                  onChange={(v) =>
+                    v >= rowsData?.totalPages
+                      ? setPage(rowsData?.totalPages - 1)
+                      : setPage(parseInt(v) - 1)
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {rowsData?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={size}
+                  onChange={(v) =>
+                    v > rowsData?.totalElements
+                      ? setSize(rowsData?.totalElements)
+                      : setSize(v)
+                  }
+                />
+              </>
             )
           }
         />

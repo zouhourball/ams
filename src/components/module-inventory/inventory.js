@@ -27,7 +27,7 @@ import {
   commitRows,
   saveRows,
   deleteAllInventory,
-  getDetailInventoryById,
+  getReportRows,
 } from 'libs/api/api-inventory'
 import {
   downloadOriginalFile,
@@ -182,7 +182,7 @@ const Inventory = () => {
 
   const { data: inventoryData } = useQuery(
     [
-      'getDetailInventoryById',
+      'getReportRows',
       subModuleByCurrentTab(),
       baseReportId,
       {
@@ -190,7 +190,7 @@ const Inventory = () => {
         page: uploadPagination?.pageNumber,
       },
     ],
-    baseReportId && getDetailInventoryById,
+    baseReportId && getReportRows,
     {
       refetchOnWindowFocus: false,
     },
@@ -1261,7 +1261,7 @@ const Inventory = () => {
           }}
           footerTemplate={
             inventoryData?.totalPages > 1 &&
-            currentTab === 3 && (
+            currentTab === 'annual-base' && (
               <>
                 &nbsp;|&nbsp;Page
                 <TextField

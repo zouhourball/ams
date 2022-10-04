@@ -16,6 +16,7 @@ import {
   updateFacilitiesCost,
   detailReport,
   detailReportByVersion,
+  detailReportRows,
 } from 'libs/api/cost-recovery-api'
 
 import TopBarDetail from 'components/top-bar-detail'
@@ -105,7 +106,10 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
   const role = useRole('costrecovery')
 
   const { addSupportingDocuments } = documents()
-  const { data: reportDetail } = useQuery(
+  const { data: reportDetail } = useQuery([subModule, detailId], detailReport, {
+    refetchOnWindowFocus: false,
+  })
+  const { data: rowsData } = useQuery(
     [
       subModule,
       detailId,
@@ -114,11 +118,12 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         page: page,
       },
     ],
-    detailReport,
+    detailReportRows,
     {
       refetchOnWindowFocus: false,
     },
   )
+
   const { data: reportDetailByVersion } = useQuery(
     [subModule, detailId, version],
     detailReportByVersion,
@@ -235,7 +240,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         )
       case 'transaction':
         return (
-          reportDetail?.content?.map((el) => ({
+          rowsData?.content?.map((el) => ({
             block: el?.block,
             transactionDate: el?.transactionDate,
             transactionReference: el?.transactionReference,
@@ -264,7 +269,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       default:
         return []
     }
-  }, [subModule, subSubModule, reportDetail, reportDetailByVersion])
+  }, [subModule, subSubModule, reportDetail, reportDetailByVersion, rowsData])
 
   const detailData = useMemo(() => {
     const data = {
@@ -490,7 +495,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
           </>
         }
         footerTemplate={
-          reportDetail?.totalPages > 1 &&
+          rowsData?.totalPages > 1 &&
           subModule === 'transaction' && (
             <>
               &nbsp;|&nbsp;Page
@@ -502,13 +507,13 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
                 className="page"
                 value={page + 1}
                 onChange={(v) =>
-                  v >= reportDetail?.totalPages
-                    ? setPage(reportDetail?.totalPages - 1)
+                  v >= rowsData?.totalPages
+                    ? setPage(rowsData?.totalPages - 1)
                     : setPage(parseInt(v) - 1)
                 }
                 // disabled={status === 'closed'}
               />
-              of {reportDetail?.totalPages}
+              of {rowsData?.totalPages}
               &nbsp;|&nbsp;Show
               <TextField
                 id="el_num"
@@ -517,8 +522,8 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
                 className="show"
                 value={size}
                 onChange={(v) =>
-                  v > reportDetail?.totalElements
-                    ? setSize(reportDetail?.totalElements)
+                  v > rowsData?.totalElements
+                    ? setSize(rowsData?.totalElements)
                     : setSize(v)
                 }
               />
