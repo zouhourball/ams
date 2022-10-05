@@ -821,6 +821,7 @@ export const actionsHeader = (
   supportedDocument,
   deleteRow,
   row,
+  setShowUploadRapportDialog,
 ) => {
   switch (role) {
     case 'regulator':
@@ -883,6 +884,14 @@ export const actionsHeader = (
           primary: true,
           onClick: () => {
             supportedDocument(subKey)
+          },
+        },
+        {
+          id: 5,
+          label: 'Update',
+          primary: true,
+          onClick: () => {
+            setShowUploadRapportDialog(true)
           },
         },
       ]

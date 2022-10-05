@@ -940,6 +940,7 @@ const CostRecovery = ({ subkey }) => {
                       setShowSupportedDocumentDialog,
                       () => setShowDeleteDialog(true),
                       renderCurrentTabData()[selectedRow[0]],
+                      setShowUploadRapportDialog,
                     )}
                   />
                 )
