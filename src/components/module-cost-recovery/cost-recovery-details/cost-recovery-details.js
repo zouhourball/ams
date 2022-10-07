@@ -156,6 +156,32 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
       originalFileName: rawData?.metaData?.originalFileName,
     }
   }
+  const renderMonths = (index, data) => {
+    let end = index * 3
+    let start = end - 3
+    let monthCells = [] // { actual: data[i]?.actual, plan: data[i]?.plan }
+    for (let i = start; i < end; i++) {
+      monthCells.push({
+        [data[i]?.month]: [
+          { actual: data[i]?.actual },
+          { plan: data[i]?.plan },
+        ],
+      })
+    }
+    return monthCells
+  }
+  const renderMvals = (data) => {
+    let elements = {}
+    let qIndex = 1
+
+    for (let i = 0; i < 8; i++) {
+      if (i % 2 === 0) {
+        elements = { ...elements, ['month' + i]: renderMonths(qIndex, data) }
+        qIndex++
+      }
+    }
+    return elements
+  }
   const costRecoveryDetailsData = useMemo(() => {
     switch (subModule) {
       case 'costs':
@@ -178,6 +204,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
               },
               { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
             ],
+            ...renderMvals(el?.mvalues),
           })) || []
         )
       case 'contracts':
@@ -407,7 +434,7 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
     switch (subModule) {
       case 'costs':
         return (costRecoveryDetailsConfigs || [])?.map((el) =>
-          el.key !== 'year'
+          el?.key !== 'year'
             ? el
             : {
               ...el,

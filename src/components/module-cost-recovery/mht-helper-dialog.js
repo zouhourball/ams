@@ -1,3 +1,80 @@
+import moment from 'moment'
+const renderMonths = (index) => {
+  let end = index * 3
+  let start = end - 3
+  let monthCells = []
+  for (let i = start; i < end; i++) {
+    monthCells.push({
+      label: moment.monthsShort(i).toUpperCase(),
+      subKey: moment.monthsShort(i).toUpperCase(),
+      icon: 'mdi mdi-spellcheck',
+      width: 100,
+      subColumns: [
+        {
+          label: 'Plan',
+          subKeyS: 'plan',
+          width: 100,
+          icon: 'mdi mdi-pound-box',
+        },
+        {
+          label: 'Actual',
+          subKeyS: 'actual',
+          width: 100,
+          icon: 'mdi mdi-pound-box',
+        },
+      ],
+    })
+  }
+  return monthCells
+}
+const renderMonthsAndQuarter = () => {
+  let elements = []
+  let qIndex = 1
+  for (let i = 0; i < 8; i++) {
+    if (i % 2 === 0) {
+      elements.push({
+        label: 'Month',
+        key: `month${i}`,
+        width: '600',
+        icon: 'mdi mdi-spellcheck',
+        type: 'subColumns',
+        columns: renderMonths(qIndex),
+      })
+    } else {
+      elements.push({
+        label: `Quarter`,
+        key: `quarter${i}`,
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        type: 'subColumns',
+        columns: [
+          {
+            label: `Q${qIndex}`,
+            subKey: `q${qIndex}`,
+            icon: 'mdi mdi-spellcheck',
+            width: 200,
+            subColumns: [
+              {
+                label: 'Plan',
+                subKeyS: 'plan',
+                width: 100,
+                icon: 'mdi mdi-pound-box',
+              },
+              {
+                label: 'Actual',
+                subKeyS: 'actual',
+                width: 100,
+                icon: 'mdi mdi-pound-box',
+              },
+            ],
+          },
+        ],
+      })
+      qIndex++
+    }
+  }
+  return elements
+}
 export const configsAnnualCostsDialogMht = () => {
   return [
     {
@@ -93,6 +170,7 @@ export const configsAnnualCostsDialogMht = () => {
         },
       ],
     },
+    ...renderMonthsAndQuarter(),
   ]
 }
 export const configsLiftingCostsDialogMht = (subSubModule) => {

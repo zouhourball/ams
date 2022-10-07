@@ -469,7 +469,32 @@ const CostRecovery = ({ subkey }) => {
         return configsAnnualCostsDialogMht()
     }
   }, [showUploadMHTDialog])
+  const renderMonths = (index, data) => {
+    let end = index * 3
+    let start = end - 3
+    let monthCells = [] // { actual: data[i]?.actual, plan: data[i]?.plan }
+    for (let i = start; i < end; i++) {
+      monthCells.push({
+        [data[i]?.month]: [
+          { actual: data[i]?.actual },
+          { plan: data[i]?.plan },
+        ],
+      })
+    }
+    return monthCells
+  }
+  const renderMvals = (data) => {
+    let elements = {}
+    let qIndex = 1
 
+    for (let i = 0; i < 8; i++) {
+      if (i % 2 === 0) {
+        elements = { ...elements, ['month' + i]: renderMonths(qIndex, data) }
+        qIndex++
+      }
+    }
+    return elements
+  }
   const resAnnualCostData = () => {
     return (
       uploadData?.data?.items?.map((el) => ({
@@ -490,6 +515,7 @@ const CostRecovery = ({ subkey }) => {
           },
           { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
         ],
+        ...renderMvals(el?.mvalues),
       })) || []
     )
   }

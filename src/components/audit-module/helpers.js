@@ -221,6 +221,7 @@ export const actionsHeader = (
   // updateStatus,
   closeAudit,
 ) => {
+  // console.log(row, 'row')
   const defAUActions = [
     {
       id: 1,
@@ -400,7 +401,7 @@ export const actionsHeader = (
             // },
           ]
         : row?.status !== 'CLOSED' &&
-          row?.actions?.length > 0 &&
+          // row?.actions?.length > 0 &&
           row?.enquiries?.filter((el) => el?.status === 'RESPONDED')?.length > 0
           ? [
             ...defAUActions,
