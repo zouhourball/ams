@@ -505,315 +505,321 @@ const CreateProposal = ({
           </Button>
         </div>
       </div>
-      <div className="createProposal_section md-grid">
-        <div className="createProposal_section_header md-cell md-cell--12">
-          Proposal Details
-        </div>
-        <SelectField
-          id="companyName"
-          label={'company Name'}
-          placeholder="Company Name"
-          menuItems={renderCompany()}
-          position={SelectField.Positions.BELOW}
-          itemLabel="companyName"
-          itemValue="companyId"
-          block
-          className="createProposal_section_selectField md-cell md-cell--6"
-          value={proposal.companyId}
-          onChange={(v) => onEditCompany(v)}
-          required
-        />
-        <TextField
-          id="referenceNumber"
-          label={'Reference Number'}
-          className="createProposal_section_textField md-cell md-cell--6"
-          value={proposal.referenceNumber}
-          onChange={(v) =>
-            new RegExp(`^${proposal.companyName}\\/.*`, 'g').test(v)
-              ? onEditProposal('referenceNumber', v)
-              : null
-          }
-          onKeyDown={(e) =>
-            e.keyCode === 13 &&
-            !proposalId &&
-            handleExistProposal(referenceNumber)
-          }
-          required
-        />
-        <SelectField
-          id="block-number"
-          className="createProposal_section_selectField md-cell md-cell--6"
-          position={SelectField.Positions.BELOW}
-          menuItems={renderBlocs()}
-          value={blockNumber.toString()}
-          onChange={(v) => {
-            onEditProposal('blockNumber', v)
-          }}
-          placeholder={'Block Number *'}
-          label={'Block Number'}
-          required
-        />
-        <SelectField
-          id="contract-type"
-          className="newProposal-selectFields md-cell md-cell--6 "
-          position={SelectField.Positions.BELOW}
-          menuItems={contractTypeItems}
-          value={proposal.contractType}
-          onChange={(v) => {
-            onEditProposal('contractType', v)
-          }}
-          placeholder={'Proposal Type'}
-          label={'Proposal Type'}
-          required
-        />{' '}
-        <SelectField
-          id="threadHoldLevel-Level"
-          className="createProposal_section_selectField md-cell md-cell--6"
-          position={SelectField.Positions.BELOW}
-          menuItems={OBJECT_ITEMS}
-          value={proposal.threadHoldLevel}
-          onChange={(v) => {
-            onEditProposal('threadHoldLevel', v)
-          }}
-          placeholder={'threadHoldLevel Level'}
-          label={'ThreadHoldLevel Level'}
-          required
-        />
-        <SelectField
-          id="Tender-Status"
-          className="createProposal_section_selectField md-cell md-cell--6"
-          position={SelectField.Positions.BELOW}
-          menuItems={tenderStatusItems}
-          value={proposal.tenderStatus}
-          onChange={(v) => onEditProposal('tenderStatus', v)}
-          placeholder={'Tender Status'}
-          label={'Tender Status'}
-          required
-        />
-        <TextField
-          id="title"
-          className="createProposal_section_textField textArea md-cell md-cell--6"
-          value={proposal.title}
-          onChange={(v) => onEditProposal('title', v)}
-          label={'Proposal Title'}
-          required
-        />
-        <TextField
-          id="comment"
-          className="createProposal_section_textField textArea md-cell md-cell--6"
-          value={proposal.comment}
-          onChange={(v) => onEditProposal('comment', v)}
-          label={'Description'}
-        />
-        <TextField
-          id="Budget Approved by JMC"
-          className="createProposal_section_textField md-cell md-cell--12"
-          value={proposal.budgetApprovedByJMC}
-          onChange={(v) => onEditProposal('budgetApprovedByJMC', v)}
-          label={'Budget Approved by JMC (USD)*'}
-          required
-          type="number"
-        />
-        <TextField
-          id="Original Cost Estimate"
-          className="createProposal_section_textField md-cell md-cell--12"
-          value={originalCostEstimate || ''}
-          onChange={(v) => {
-            // eslint-disable-next-line no-useless-escape
-            let pattern = /\d*([.,\/]?\d+)/
-            if (
-              (pattern.test(v) || v === '') &&
-              contractType &&
-              threadHoldLevel
-            ) {
-              onEditProposal('originalCostEstimate', v)
+      <div className="createProposal_container">
+        <div className="createProposal_section md-grid">
+          <div className="createProposal_section_header md-cell md-cell--12">
+            Proposal Details
+          </div>
+          <SelectField
+            id="companyName"
+            label={'company Name'}
+            placeholder="Company Name"
+            menuItems={renderCompany()}
+            position={SelectField.Positions.BELOW}
+            itemLabel="companyName"
+            itemValue="companyId"
+            block
+            className="createProposal_section_selectField md-cell md-cell--6"
+            value={proposal.companyId}
+            onChange={(v) => onEditCompany(v)}
+            required
+          />
+          <TextField
+            id="referenceNumber"
+            label={'Reference Number'}
+            className="createProposal_section_textField md-cell md-cell--6"
+            value={proposal.referenceNumber}
+            onChange={(v) =>
+              new RegExp(`^${proposal.companyName}\\/.*`, 'g').test(v)
+                ? onEditProposal('referenceNumber', v)
+                : null
             }
-          }}
-          label={'Original Cost Estimate (USD)*'}
-          error={
-            [
-              'Tender Strategy',
-              'Technical Evaluation',
-              'Commercial Evaluation & Award Recommendation',
-            ].includes(tenderStatus) && !companyCost()
-          }
-          min={0}
-          errorText={
-            [
-              'Tender Strategy',
-              'Technical Evaluation',
-              'Commercial Evaluation & Award Recommendation',
-            ].includes(tenderStatus) &&
-            threadHoldLevel &&
-            originalCostEstimate
-              ? `Original Estimate Cost should be ${
-                threadHoldLevel === 'Major' ? 'Greater than' : 'Less than'
-              } ${contractType === 'Competitive' ? majorCost() : minorCost()}`
-              : ''
-          }
-          required
-          type="number"
-        />
-      </div>
-      <div className="createProposal_section md-grid">
-        <div className="createProposal_section_header md-cell md-cell--12">
-          Estimated Duration (Firm/Option)
-        </div>
-        <SelectField
-          id="estimatedDurationPerPeriodType"
-          className="createProposal_section_selectField md-cell md-cell--12"
-          position={SelectField.Positions.BELOW}
-          menuItems={['Firm', 'Option']}
-          value={proposal.estimatedDurationPerPeriodType}
-          onChange={(v) => onEditProposal('estimatedDurationPerPeriodType', v)}
-          placeholder={'Type'}
-          label={'Per Period'}
-          required
-        />
-        <>
-          {proposal.estimatedDurationPerPeriodType === 'Option' ? (
-            <>
-              <TextField
-                id="estimatedDurationPerPeriodOption_1"
-                className="createProposal_section_textField md-cell md-cell--4"
-                label="Year"
-                placeholder="Year"
-                value={options && +options[0]}
-                onChange={(v) => onChangeOptions(0, v)}
-                type="number"
-                block
-              />
-              <TextField
-                id="estimatedDurationPerPeriodOption_2"
-                className="createProposal_section_textField md-cell md-cell--4"
-                label="Year"
-                value={options && +options[1]}
-                onChange={(v) => onChangeOptions(1, v)}
-                type="number"
-                block
-              />
-              <TextField
-                id="estimatedDurationPerPeriodOption_3"
-                className="createProposal_section_textField md-cell md-cell--4"
-                label="Year"
-                value={options && +options[2]}
-                onChange={(v) => onChangeOptions(2, v)}
-                type="number"
-                block
-              />
-            </>
-          ) : (
-            <>
-              <TextField
-                id={'start-date'}
-                required
-                label={'Start Date'}
-                className="createProposal_section_textField md-cell md-cell--6"
-                rightIcon={<FontIcon>today</FontIcon>}
-                onClick={() => setCanDisplayStartDate(true)}
-                value={
-                  proposal.estimatedDurationPerPeriodFirmStartValue
-                    ? moment(
-                      proposal.estimatedDurationPerPeriodFirmStartValue,
-                    ).format('DD/MM/YYYY')
-                    : ''
-                }
-                block
-              />
-              <TextField
-                id={'end-date'}
-                required
-                label={'End Date'}
-                className="createProposal_section_textField md-cell md-cell--6"
-                rightIcon={<FontIcon>today</FontIcon>}
-                onClick={() => setCanDisplayEndDate(true)}
-                value={
-                  proposal.estimatedDurationPerPeriodFirmEndValue
-                    ? moment(
-                      proposal.estimatedDurationPerPeriodFirmEndValue,
-                    ).format('DD/MM/YYYY')
-                    : ''
-                }
-                block
-              />
-            </>
-          )}
-        </>
-        {canDisplayStartDate && (
-          <div className="datePicker-wrapper">
-            <DatePicker
-              singlePick
-              startView="year"
-              endView="day"
-              defaultView="day"
-              translation={{ update: 'select' }}
-              onUpdate={handleStartDate}
-              onCancel={() => setCanDisplayStartDate(false)}
-              // minValidDate={{ timestamp: new Date().getTime() }}
-            />
-          </div>
-        )}
-        {canDisplayEndDate && (
-          <div className="datePicker-wrapper">
-            <DatePicker
-              singlePick
-              startView="year"
-              endView="day"
-              defaultView="day"
-              translation={{ update: 'select' }}
-              onUpdate={handleEndDate}
-              onCancel={() => setCanDisplayEndDate(false)}
-              minValidDate={
-                estimatedDurationPerPeriodFirmStartValue
-                  ? { timestamp: estimatedDurationPerPeriodFirmStartValue }
-                  : { timestamp: new Date().getTime() }
+            onKeyDown={(e) =>
+              e.keyCode === 13 &&
+              !proposalId &&
+              handleExistProposal(referenceNumber)
+            }
+            required
+          />
+          <SelectField
+            id="block-number"
+            className="createProposal_section_selectField md-cell md-cell--6"
+            position={SelectField.Positions.BELOW}
+            menuItems={renderBlocs()}
+            value={blockNumber.toString()}
+            onChange={(v) => {
+              onEditProposal('blockNumber', v)
+            }}
+            placeholder={'Block Number *'}
+            label={'Block Number'}
+            required
+          />
+          <SelectField
+            id="contract-type"
+            className="newProposal-selectFields md-cell md-cell--6 "
+            position={SelectField.Positions.BELOW}
+            menuItems={contractTypeItems}
+            value={proposal.contractType}
+            onChange={(v) => {
+              onEditProposal('contractType', v)
+            }}
+            placeholder={'Proposal Type'}
+            label={'Proposal Type'}
+            required
+          />{' '}
+          <SelectField
+            id="threadHoldLevel-Level"
+            className="createProposal_section_selectField md-cell md-cell--6"
+            position={SelectField.Positions.BELOW}
+            menuItems={OBJECT_ITEMS}
+            value={proposal.threadHoldLevel}
+            onChange={(v) => {
+              onEditProposal('threadHoldLevel', v)
+            }}
+            placeholder={'threadHoldLevel Level'}
+            label={'ThreadHoldLevel Level'}
+            required
+          />
+          <SelectField
+            id="Tender-Status"
+            className="createProposal_section_selectField md-cell md-cell--6"
+            position={SelectField.Positions.BELOW}
+            menuItems={tenderStatusItems}
+            value={proposal.tenderStatus}
+            onChange={(v) => onEditProposal('tenderStatus', v)}
+            placeholder={'Tender Status'}
+            label={'Tender Status'}
+            required
+          />
+          <TextField
+            id="title"
+            className="createProposal_section_textField textArea md-cell md-cell--6"
+            value={proposal.title}
+            onChange={(v) => onEditProposal('title', v)}
+            label={'Proposal Title'}
+            required
+          />
+          <TextField
+            id="comment"
+            className="createProposal_section_textField textArea md-cell md-cell--6"
+            value={proposal.comment}
+            onChange={(v) => onEditProposal('comment', v)}
+            label={'Description'}
+          />
+          <TextField
+            id="Budget Approved by JMC"
+            className="createProposal_section_textField md-cell md-cell--12"
+            value={proposal.budgetApprovedByJMC}
+            onChange={(v) => onEditProposal('budgetApprovedByJMC', v)}
+            label={'Budget Approved by JMC (USD)*'}
+            required
+            type="number"
+          />
+          <TextField
+            id="Original Cost Estimate"
+            className="createProposal_section_textField md-cell md-cell--12"
+            value={originalCostEstimate || ''}
+            onChange={(v) => {
+              // eslint-disable-next-line no-useless-escape
+              let pattern = /\d*([.,\/]?\d+)/
+              if (
+                (pattern.test(v) || v === '') &&
+                contractType &&
+                threadHoldLevel
+              ) {
+                onEditProposal('originalCostEstimate', v)
               }
-            />
-          </div>
-        )}
-        <TextField
-          id="estimatedDurationPerJob"
-          value={proposal.estimatedDurationPerJob}
-          onChange={(v) => onEditProposal('estimatedDurationPerJob', v)}
-          placeholder=""
-          label="Per Job"
-          className="createProposal_section_textField md-cell md-cell--12"
-        />
-      </div>
-      <div className="createProposal_section md-grid">
-        <div className="createProposal_section_header md-cell md-cell--12">
-          Attachments
+            }}
+            label={'Original Cost Estimate (USD)*'}
+            error={
+              [
+                'Tender Strategy',
+                'Technical Evaluation',
+                'Commercial Evaluation & Award Recommendation',
+              ].includes(tenderStatus) && !companyCost()
+            }
+            min={0}
+            errorText={
+              [
+                'Tender Strategy',
+                'Technical Evaluation',
+                'Commercial Evaluation & Award Recommendation',
+              ].includes(tenderStatus) &&
+              threadHoldLevel &&
+              originalCostEstimate
+                ? `Original Estimate Cost should be ${
+                  threadHoldLevel === 'Major' ? 'Greater than' : 'Less than'
+                } ${
+                  contractType === 'Competitive' ? majorCost() : minorCost()
+                }`
+                : ''
+            }
+            required
+            type="number"
+          />
         </div>
-        <Dropzone
-          className="createProposal_section_download"
-          onDrop={uploadFiles}
-        >
-          {({ getRootProps, getInputProps }) => (
-            <div
-              className={`createProposal_section_dropZone md-cell md-cell--12 ${
-                proposal.fileAttachment &&
-                renderListOfFiles(proposal.fileAttachment).length === 0
-                  ? 'withMargin'
-                  : ''
-              }`}
-              {...getRootProps()}
-            >
-              {!spinner ? (
-                <>
-                  <input {...getInputProps()} />
-                  <div className="createProposal_section_dropZone_content">
-                    <p>Attach Proposal & Other Related Documents</p>
-                    <FontIcon>save_alt</FontIcon>
-                  </div>
-                </>
-              ) : (
-                <CircularProgress className="upload-spinner" />
-              )}
+        <div className="createProposal_section md-grid">
+          <div className="createProposal_section_header md-cell md-cell--12">
+            Estimated Duration (Firm/Option)
+          </div>
+          <SelectField
+            id="estimatedDurationPerPeriodType"
+            className="createProposal_section_selectField md-cell md-cell--12"
+            position={SelectField.Positions.BELOW}
+            menuItems={['Firm', 'Option']}
+            value={proposal.estimatedDurationPerPeriodType}
+            onChange={(v) =>
+              onEditProposal('estimatedDurationPerPeriodType', v)
+            }
+            placeholder={'Type'}
+            label={'Per Period'}
+            required
+          />
+          <>
+            {proposal.estimatedDurationPerPeriodType === 'Option' ? (
+              <>
+                <TextField
+                  id="estimatedDurationPerPeriodOption_1"
+                  className="createProposal_section_textField md-cell md-cell--4"
+                  label="Year"
+                  placeholder="Year"
+                  value={options && +options[0]}
+                  onChange={(v) => onChangeOptions(0, v)}
+                  type="number"
+                  block
+                />
+                <TextField
+                  id="estimatedDurationPerPeriodOption_2"
+                  className="createProposal_section_textField md-cell md-cell--4"
+                  label="Year"
+                  value={options && +options[1]}
+                  onChange={(v) => onChangeOptions(1, v)}
+                  type="number"
+                  block
+                />
+                <TextField
+                  id="estimatedDurationPerPeriodOption_3"
+                  className="createProposal_section_textField md-cell md-cell--4"
+                  label="Year"
+                  value={options && +options[2]}
+                  onChange={(v) => onChangeOptions(2, v)}
+                  type="number"
+                  block
+                />
+              </>
+            ) : (
+              <>
+                <TextField
+                  id={'start-date'}
+                  required
+                  label={'Start Date'}
+                  className="createProposal_section_textField md-cell md-cell--6"
+                  rightIcon={<FontIcon>today</FontIcon>}
+                  onClick={() => setCanDisplayStartDate(true)}
+                  value={
+                    proposal.estimatedDurationPerPeriodFirmStartValue
+                      ? moment(
+                        proposal.estimatedDurationPerPeriodFirmStartValue,
+                      ).format('DD/MM/YYYY')
+                      : ''
+                  }
+                  block
+                />
+                <TextField
+                  id={'end-date'}
+                  required
+                  label={'End Date'}
+                  className="createProposal_section_textField md-cell md-cell--6"
+                  rightIcon={<FontIcon>today</FontIcon>}
+                  onClick={() => setCanDisplayEndDate(true)}
+                  value={
+                    proposal.estimatedDurationPerPeriodFirmEndValue
+                      ? moment(
+                        proposal.estimatedDurationPerPeriodFirmEndValue,
+                      ).format('DD/MM/YYYY')
+                      : ''
+                  }
+                  block
+                />
+              </>
+            )}
+          </>
+          {canDisplayStartDate && (
+            <div className="datePicker-wrapper">
+              <DatePicker
+                singlePick
+                startView="year"
+                endView="day"
+                defaultView="day"
+                translation={{ update: 'select' }}
+                onUpdate={handleStartDate}
+                onCancel={() => setCanDisplayStartDate(false)}
+                // minValidDate={{ timestamp: new Date().getTime() }}
+              />
             </div>
           )}
-        </Dropzone>
-        <div className="createProposal_section_fileWrapper md-grid">
-          {renderListOfFiles(proposal.fileAttachment)}
+          {canDisplayEndDate && (
+            <div className="datePicker-wrapper">
+              <DatePicker
+                singlePick
+                startView="year"
+                endView="day"
+                defaultView="day"
+                translation={{ update: 'select' }}
+                onUpdate={handleEndDate}
+                onCancel={() => setCanDisplayEndDate(false)}
+                minValidDate={
+                  estimatedDurationPerPeriodFirmStartValue
+                    ? { timestamp: estimatedDurationPerPeriodFirmStartValue }
+                    : { timestamp: new Date().getTime() }
+                }
+              />
+            </div>
+          )}
+          <TextField
+            id="estimatedDurationPerJob"
+            value={proposal.estimatedDurationPerJob}
+            onChange={(v) => onEditProposal('estimatedDurationPerJob', v)}
+            placeholder=""
+            label="Per Job"
+            className="createProposal_section_textField md-cell md-cell--12"
+          />
+        </div>
+        <div className="createProposal_section md-grid">
+          <div className="createProposal_section_header md-cell md-cell--12">
+            Attachments
+          </div>
+          <Dropzone
+            className="createProposal_section_download"
+            onDrop={uploadFiles}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <div
+                className={`createProposal_section_dropZone md-cell md-cell--12 ${
+                  proposal.fileAttachment &&
+                  renderListOfFiles(proposal.fileAttachment).length === 0
+                    ? 'withMargin'
+                    : ''
+                }`}
+                {...getRootProps()}
+              >
+                {!spinner ? (
+                  <>
+                    <input {...getInputProps()} />
+                    <div className="createProposal_section_dropZone_content">
+                      <p>Attach Proposal & Other Related Documents</p>
+                      <FontIcon>save_alt</FontIcon>
+                    </div>
+                  </>
+                ) : (
+                  <CircularProgress className="upload-spinner" />
+                )}
+              </div>
+            )}
+          </Dropzone>
+          <div className="createProposal_section_fileWrapper md-grid">
+            {renderListOfFiles(proposal.fileAttachment)}
+          </div>
         </div>
       </div>
     </div>
