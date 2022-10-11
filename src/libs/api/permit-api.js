@@ -159,7 +159,7 @@ export const getTemplates = async () => {
   let res
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/regulations/C%20:%20Reporting%20Templates/MOG-S03-WELLS%20&%20DRILLING%20MANAGEMENT?excludeLinksFeeds=true`,
+      `${appUrl}/pulse-be/api/v2/regulations/C%20:%20Reporting%20Templates/MOG-S03-WELLS%20&%20DRILLING%20MANAGEMENT?excludeLinksFeeds=true&sort=uploadDate,desc`,
       {
         method: 'GET',
       },
@@ -179,7 +179,7 @@ export const getReportsByTemplate = async ({ queryKey }) => {
   */
   try {
     res = await fetchJSON(
-      `${appUrl}/pulse-be/api/v2/regulations/${queryKey[2]}/links/query?page=${queryKey[3]}&size=${queryKey[4]}`,
+      `${appUrl}/pulse-be/api/v2/regulations/${queryKey[2]}/links/query?page=${queryKey[3]}&size=${queryKey[4]}&sort=uploadDate,desc`,
       {
         method: 'POST',
         body: JSON.stringify(queryKey[1]),
