@@ -378,6 +378,7 @@ const CostRecovery = ({ subkey }) => {
         statusDate: el?.metaData?.updatedAt
           ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
           : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
+        ...(currentTab === 0 ? { latestVersion: el?.currentVersion } : {}),
         id: el?.id,
         processInstanceId: el?.metaData?.processInstanceId,
         originalFileId: el?.metaData?.originalFileId,
@@ -476,20 +477,33 @@ const CostRecovery = ({ subkey }) => {
     for (let i = start; i < end; i++) {
       monthCells.push({
         [data[i]?.month]: [
-          { actual: data[i]?.actual },
           { plan: data[i]?.plan },
+          { actual: data[i]?.actual },
         ],
       })
     }
     return monthCells
   }
-  const renderMvals = (data) => {
+  const renderQuarters = (data, i) => {
+    let quarter = data?.find((el) => el?.quarter === `Q${i}`)
+    return [
+      {
+        ['Q' + i]: [{ plan: quarter?.plan }, { actual: quarter?.actual }],
+      },
+    ]
+  }
+  const renderMvals = (data, qData) => {
     let elements = {}
     let qIndex = 1
 
     for (let i = 0; i < 8; i++) {
       if (i % 2 === 0) {
         elements = { ...elements, ['month' + i]: renderMonths(qIndex, data) }
+      } else {
+        elements = {
+          ...elements,
+          ['quarter' + i]: renderQuarters(qData, qIndex),
+        }
         qIndex++
       }
     }
@@ -515,7 +529,14 @@ const CostRecovery = ({ subkey }) => {
           },
           { ytd: el?.qvalues?.map((el) => ({ actual: el?.actual || '' })) },
         ],
-        ...renderMvals(el?.mvalues),
+        ...renderMvals(el?.mvalues, el?.qvalues),
+        // month0: [
+        //   {
+        //     JAN: [
+        //       { plan: 'ljqdhfjzebdf' },
+        //       { actual: '99999999' },
+        //     ] },
+        // ],
       })) || []
     )
   }
@@ -943,7 +964,7 @@ const CostRecovery = ({ subkey }) => {
           />
           <div className="subModule--table-wrapper">
             <Mht
-              configs={configs(UploadSupportedDocumentFromTable)}
+              configs={configs(UploadSupportedDocumentFromTable, currentTab)}
               tableData={renderCurrentTabData()}
               withSearch={selectedRow?.length === 0}
               commonActions={selectedRow?.length === 0}

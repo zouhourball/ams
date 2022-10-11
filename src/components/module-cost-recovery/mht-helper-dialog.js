@@ -38,6 +38,33 @@ const renderMonthsAndQuarter = () => {
         width: '600',
         icon: 'mdi mdi-spellcheck',
         type: 'subColumns',
+        // columns: [{
+        //   label: 'JAN',
+        //   subKey: 'JAN',
+        //   icon: 'mdi mdi-spellcheck',
+        //   width: 100,
+        //   subColumns: [
+        //     {
+        //       label: 'Plan',
+        //       subKeyS: 'plan',
+        //       width: 100,
+        //       icon: 'mdi mdi-pound-box',
+        //       // render: (el) => {
+        //       //   console.log(el, 'el pl')
+        //       //   return <h1>hhh</h1>
+        //       // },
+        //     },
+        //     {
+        //       label: 'actual',
+        //       subKeyS: 'actual',
+        //       width: 100,
+        //       icon: 'mdi mdi-pound-box',
+        //       // render: (el) => {
+        //       //   console.log(el, 'el ac')
+        //       //   return <h1>test</h1>
+        //       // },
+        //     },
+        //   ] } ],
         columns: renderMonths(qIndex),
       })
     } else {
@@ -50,7 +77,7 @@ const renderMonthsAndQuarter = () => {
         columns: [
           {
             label: `Q${qIndex}`,
-            subKey: `q${qIndex}`,
+            subKey: `Q${qIndex}`,
             icon: 'mdi mdi-spellcheck',
             width: 200,
             subColumns: [

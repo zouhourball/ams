@@ -3,91 +3,189 @@ import { navigate } from '@reach/router'
 import { downloadOriginalFile } from 'libs/api/supporting-document-api'
 import moment from 'moment'
 
-export const configs = (supportedDocument) => [
-  {
-    label: 'Company',
-    key: 'company',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    type: 'text',
-    displayInCsv: true,
-  },
+export const configs = (supportedDocument, currentTab) => {
+  if (currentTab === 0) {
+    return [
+      {
+        label: 'Company',
+        key: 'company',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        type: 'text',
+        displayInCsv: true,
+      },
 
-  {
-    label: 'Block',
-    key: 'block',
-    width: '200',
-    type: 'text',
-    icon: 'mdi mdi-spellcheck',
-    displayInCsv: true,
-  },
-  {
-    label: 'Submitted Date',
-    key: 'submittedDate',
-    width: '200',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
-    icon: 'mdi mdi-spellcheck',
-    displayInCsv: true,
-  },
-  {
-    label: 'Submitted By',
-    key: 'submittedBy',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    displayInCsv: true,
-  },
-  {
-    label: 'Reference Date',
-    key: 'referenceDate',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
-    displayInCsv: true,
-  },
-  {
-    label: 'Status Date',
-    key: 'statusDate',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    // type: 'date',
-    // dateFormat: 'DD MMM, YYYY',
-    displayInCsv: true,
-  },
-  {
-    label: 'Supporting Documents',
-    key: 'supportingDocuments',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    render: (row) => (
-      <Button
-        className="upload-docs-button"
-        id={row.id}
-        flat
-        primary
-        iconBefore
-        iconChildren={<FontIcon>save_alt</FontIcon>}
-        onClick={(e) => {
-          e.preventDefault()
-          supportedDocument(row)
-        }}
-      >
-        Upload Documents
-      </Button>
-    ),
-  },
-  {
-    label: 'Status',
-    key: 'status',
-    width: '200',
-    icon: 'mdi mdi-spellcheck',
-    render: (row) => (
-      <div className={`table-status ${row?.status}`}>{row?.status}</div>
-    ),
-    displayInCsv: true,
-  },
-]
+      {
+        label: 'Block',
+        key: 'block',
+        width: '200',
+        type: 'text',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Submitted Date',
+        key: 'submittedDate',
+        width: '200',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Submitted By',
+        key: 'submittedBy',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Reference Date',
+        key: 'referenceDate',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        displayInCsv: true,
+      },
+      {
+        label: 'Status Date',
+        key: 'statusDate',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        displayInCsv: true,
+      },
+      {
+        label: 'Latest version',
+        key: 'latestVersion',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Supporting Documents',
+        key: 'supportingDocuments',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        render: (row) => (
+          <Button
+            className="upload-docs-button"
+            id={row.id}
+            flat
+            primary
+            iconBefore
+            iconChildren={<FontIcon>save_alt</FontIcon>}
+            onClick={(e) => {
+              e.preventDefault()
+              supportedDocument(row)
+            }}
+          >
+            Upload Documents
+          </Button>
+        ),
+      },
+      {
+        label: 'Status',
+        key: 'status',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        render: (row) => (
+          <div className={`table-status ${row?.status}`}>{row?.status}</div>
+        ),
+        displayInCsv: true,
+      },
+    ]
+  } else {
+    return [
+      {
+        label: 'Company',
+        key: 'company',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        type: 'text',
+        displayInCsv: true,
+      },
+
+      {
+        label: 'Block',
+        key: 'block',
+        width: '200',
+        type: 'text',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Submitted Date',
+        key: 'submittedDate',
+        width: '200',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Submitted By',
+        key: 'submittedBy',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        displayInCsv: true,
+      },
+      {
+        label: 'Reference Date',
+        key: 'referenceDate',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        displayInCsv: true,
+      },
+      {
+        label: 'Status Date',
+        key: 'statusDate',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        // type: 'date',
+        // dateFormat: 'DD MMM, YYYY',
+        displayInCsv: true,
+      },
+
+      {
+        label: 'Supporting Documents',
+        key: 'supportingDocuments',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        render: (row) => (
+          <Button
+            className="upload-docs-button"
+            id={row.id}
+            flat
+            primary
+            iconBefore
+            iconChildren={<FontIcon>save_alt</FontIcon>}
+            onClick={(e) => {
+              e.preventDefault()
+              supportedDocument(row)
+            }}
+          >
+            Upload Documents
+          </Button>
+        ),
+      },
+      {
+        label: 'Status',
+        key: 'status',
+        width: '200',
+        icon: 'mdi mdi-spellcheck',
+        render: (row) => (
+          <div className={`table-status ${row?.status}`}>{row?.status}</div>
+        ),
+        displayInCsv: true,
+      },
+    ]
+  }
+}
 /* export const annualCostConfigs = (supportedDocument) => [
   {
     label: 'Company',
@@ -949,7 +1047,7 @@ const renderMonthsAndQuarter = () => {
         columns: [
           {
             label: `Q${qIndex}`,
-            subKey: `q${qIndex}`,
+            subKey: `Q${qIndex}`,
             icon: 'mdi mdi-spellcheck',
             width: 200,
             subColumns: [

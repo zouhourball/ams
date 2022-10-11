@@ -133,8 +133,8 @@ const TenderingModule = ({
     [`target:tendering:member`]: 'member',
     [`target-subscription-store:${organizationId}:target:tendering:operator`]:
       'operator',
-    [`target-subscription-store:${organizationId}:target:tendering:chairman`]:
-      'chairman',
+    // [`target-subscription-store:${organizationId}:target:tendering:chairman`]:
+    [`target:tendering:chairman`]: 'chairman',
   }
 
   const [hidePrimaryTopBar, setHidePrimaryTopBar] = useState(false)
@@ -167,9 +167,9 @@ const TenderingModule = ({
     (role) =>
       role === `target:tendering:secretary` ||
       role ===
-        `target-subscription-store:${organizationId}:target:tendering:chairman` ||
-      role ===
-        `target-subscription-store:${organizationId}:target:tendering:operator` ||
+        // `target-subscription-store:${organizationId}:target:tendering:chairman` ||
+        `target:tendering:chairman` ||
+      role === `target:tendering:operator` ||
       role === `target:tendering:member`,
   )
 
@@ -179,9 +179,7 @@ const TenderingModule = ({
     if (
       delegateRoles &&
       delegateRoles[0]?.['ac_roles']?.find(
-        (el) =>
-          el ===
-          `target-subscription-store:${organizationId}:target:tendering:chairman`,
+        (el) => el === `target:tendering:chairman`,
       )
     ) {
       userRoleState = 'chairman'
@@ -214,9 +212,7 @@ const TenderingModule = ({
       !(
         getDelegationStatus?.data?.data &&
         getDelegationStatus?.data?.data[0]?.['ac_roles']?.find(
-          (el) =>
-            el ===
-            `target-subscription-store:${organizationId}:target:tendering:chairman`,
+          (el) => el === `target:tendering:chairman`,
         )
       )
     ) {
