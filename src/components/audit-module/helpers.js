@@ -402,7 +402,7 @@ export const actionsHeader = (
           ]
         : row?.status !== 'CLOSED' &&
           // row?.actions?.length > 0 &&
-          row?.enquiries?.filter((el) => el?.status === 'RESPONDED')?.length > 0
+          row?.hasResolutions
           ? [
             ...defAUActions,
             {

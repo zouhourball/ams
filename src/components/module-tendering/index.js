@@ -136,7 +136,6 @@ const TenderingModule = ({
     // [`target-subscription-store:${organizationId}:target:tendering:chairman`]:
     [`target:tendering:chairman`]: 'chairman',
   }
-
   const [hidePrimaryTopBar, setHidePrimaryTopBar] = useState(false)
   const [newProposalVisible, setNewProposalVisible] = useState(false)
   // const [ongoingProposalVisible, setOngoingProposalVisible] = useState(false)
@@ -503,8 +502,6 @@ const TenderingModule = ({
 
     switch (userRole) {
       case 'operator':
-        // console.log(subSource, 'subSourceee')
-
         if (source === 'fbp' && subSource) {
           return [
             // {

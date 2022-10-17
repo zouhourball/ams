@@ -92,6 +92,7 @@ const Shell = ({ lang }) => {
           roleFP,
           roleAP,
           roleCh,
+          roleMe,
           roleConf,
           path,
           hasSubModule,
@@ -102,7 +103,6 @@ const Shell = ({ lang }) => {
             let subM = []
             if (moduleS) {
               hasSubModule.forEach(({ key, roleOp, roleRe, roleCh, path }) => {
-                // console.log(key, roleOp, roleRe, roleCh, path, 'roles')
                 if (
                   roles.includes(
                     `target-subscription-store:${organizationID}:${roleOp}`,
@@ -168,7 +168,7 @@ const Shell = ({ lang }) => {
               ...subModules.find((sM) => sM.key === key),
               path,
             })
-          } else if (roles.includes(`target:tendering:member`)) {
+          } else if (roles.includes(roleMe) || roles.includes(roleCh)) {
             basedRoleSubMenus.push({
               ...subModules.find((sM) => sM.key === key),
               path,
@@ -189,7 +189,6 @@ const Shell = ({ lang }) => {
     return basedRoleSubMenus?.filter((el) => el?.path !== 'regulation')
   }
   const newSubModules = renderMenus()
-  // console.log(roles, 'roles', newSubModules, 'newSubModules', subModules)
 
   const token = getAuthToken()
 

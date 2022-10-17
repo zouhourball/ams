@@ -82,9 +82,12 @@ const Audit = () => {
         report: el?.report,
         actions: el?.actions,
         enquiries: el?.enquiries,
+        hasResolutions:
+          el?.actions?.filter((el) => el?.resolutions?.length > 0).length > 0,
       })) || []
     )
   }
+
   useEffect(() => {
     setSelectedRow([])
     setParticipants([])
@@ -197,6 +200,7 @@ const Audit = () => {
       auditId: selectedRow[0]?.auditId,
     })
   }
+
   return (
     <>
       <TopBar
