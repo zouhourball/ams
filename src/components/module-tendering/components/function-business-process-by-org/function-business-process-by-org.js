@@ -581,34 +581,42 @@ const FunctionBusinessProcessByOrg = ({
           ]
         }
       case 'chairman':
-        return [
-          {
-            id: 1,
-            label: 'Reject',
-            className: 'functionBusinessProcessByOrg-dataTable-btn reject',
-            onClick: () => {
-              // setProposalId(selectedRows[0].id)
-              // setOpenRejectComment(true)
+        return row.proposalStateEnum === 'PassedToAgenda'
+          ? [
+            {
+              id: 1,
+              label: 'Reject',
+              className: 'functionBusinessProcessByOrg-dataTable-btn reject',
+              onClick: () => {
+                // setProposalId(selectedRows[0].id)
+                // setOpenRejectComment(true)
+              },
+              disabled: !['PassedToAgenda'].includes(row.proposalStateEnum),
             },
-            disabled: !['PassedToAgenda'].includes(row.proposalStateEnum),
-          },
-          {
-            id: 1,
-            label: 'Approve',
-            className: 'functionBusinessProcessByOrg-dataTable-btn approve',
-            onClick: () => {
-              approvedProposal(
-                row.id,
-                {
-                  workspaceName: 'workspace test',
-                  workspaceId: '1619',
-                },
-                organizationID,
-              )
+            {
+              id: 1,
+              label: 'Approve',
+              className: 'functionBusinessProcessByOrg-dataTable-btn approve',
+              onClick: () => {
+                approvedProposal(
+                  row.id,
+                  {
+                    workspaceName: 'workspace test',
+                    workspaceId: '1619',
+                  },
+                  organizationID,
+                ).then(() => {
+                  getAllProposalsByCompany(
+                    decodeURIComponent(orgId),
+                    organizationID,
+                  )
+                  setSelectedRows([])
+                })
+              },
+              disabled: !['PassedToAgenda'].includes(row.proposalStateEnum),
             },
-            disabled: !['PassedToAgenda'].includes(row.proposalStateEnum),
-          },
-        ]
+          ]
+          : []
     }
   }
   const actionsHeader = (row, numOfSelectedItems) => {

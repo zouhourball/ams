@@ -422,7 +422,7 @@ const HSSE = () => {
           }}
           onSave={onUpload}
           previewData={selectedRow[0]}
-          formatDate="year"
+          formatDate="month"
         />
       )}
 
