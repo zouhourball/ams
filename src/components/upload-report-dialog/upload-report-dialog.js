@@ -64,6 +64,7 @@ const UploadReportDialog = ({
       ? moment(previewData?.referenceDate.toString()).valueOf()
       : {
         year: date.getFullYear(),
+
         ...monthAndDay,
         timestamp: date.getTime(),
       },
@@ -164,12 +165,12 @@ const UploadReportDialog = ({
     flat: true,
     swapTheming: !validData(),
     disabled: validData(),
-
     onClick: () => {
       onSave({ ...reportData, filesList, optionalFiles })
       onHide()
     },
   }
+
   const actions = [
     {
       children: 'Discard',
