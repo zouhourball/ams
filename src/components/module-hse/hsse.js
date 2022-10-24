@@ -138,7 +138,7 @@ const HSSE = () => {
               ? moment(el?.createdAt).format('DD MMM, YYYY')
               : '',
             submittedBy: el?.metaData?.createdBy?.name,
-            referenceDate: el?.metaData?.year,
+            referenceDate: el?.metaData?.month + ',' + el?.metaData?.year,
             statusDate: el?.metaData?.updatedAt
               ? moment(el?.metaData?.updatedAt).format('DD MMM, YYYY')
               : moment(el?.metaData?.createdAt).format('DD MMM, YYYY'),
@@ -159,6 +159,7 @@ const HSSE = () => {
         file: body?.file[0],
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),
+        month: body?.referenceDate?.month?.toString(),
       },
     })
   }
