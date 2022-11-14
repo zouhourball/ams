@@ -119,7 +119,7 @@ export default graphql(seeUserProfileBySubject, {
     )
     return {
       userProfile: {
-        img: get(photo, 'aPIID', ''),
+        img: photo?.aPIID,
         label: fullName,
         status: title,
         subject,
