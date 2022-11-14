@@ -25,7 +25,7 @@ const CardMember = ({
   const { t } = useTranslation()
 
   useEffect(() => {
-    setVisible(visibilityTester.test(userProfile.label))
+    setVisible(visibilityTester.test(userProfile?.label))
   }, [visibilityTester])
 
   const roles = useSelector(({ query }) =>
@@ -44,21 +44,21 @@ const CardMember = ({
         onClick={() => onRemoveUser(member)}
         className="cardMember-delete-button"
       />
-      {userProfile.img ? (
+      {userProfile?.img ? (
         <Avatar
-          src={getPublicUrl(userProfile.img)}
+          src={getPublicUrl(userProfile?.img)}
           role="presentation"
           className="cardMember-avatar"
         />
       ) : (
         <Avatar role="presentation" className="cardMember-avatar">
-          {userProfile.label ? userProfile.label[0] : ''}
+          {userProfile?.label ? userProfile?.label[0] : ''}
         </Avatar>
       )}
       <div className="cardMember-details">
-        <div className="cardMember-details-label">{userProfile.label}</div>
+        <div className="cardMember-details-label">{userProfile?.label}</div>
         <div className="cardMember-details-status">
-          {userProfile.status || 'N/A'}
+          {userProfile?.status || 'N/A'}
         </div>
       </div>
       <div>
@@ -119,7 +119,7 @@ export default graphql(seeUserProfileBySubject, {
     )
     return {
       userProfile: {
-        img: get(photo, 'aPIID', null),
+        img: get(photo, 'aPIID', ''),
         label: fullName,
         status: title,
         subject,
