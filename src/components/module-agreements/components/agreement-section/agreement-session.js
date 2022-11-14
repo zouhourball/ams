@@ -99,7 +99,7 @@ const AgreementSession = ({
                 id: subject,
                 label: fullName,
                 title,
-                img: get(photo, 'aPIID', null),
+                img: photo?.aPIID,
                 roles,
               }))
               .filter(
@@ -274,8 +274,8 @@ export default graphql(allUserProfiles, {
         [],
       ).map((userProfile) => ({
         ...userProfile,
-        fullName: userProfile.username,
-        photo: { aPIID: userProfile.pictureURL },
+        fullName: userProfile?.username,
+        photo: { aPIID: userProfile?.pictureURL },
       })),
     }),
   })(AgreementSession),

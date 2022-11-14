@@ -103,10 +103,10 @@ const PSA = ({
         // organizationID={organizationId}
         key={index}
         data={{
-          ...findAgreementDetail(agreement.id),
+          ...findAgreementDetail(agreement?.id),
           ...agreement,
-          ...findAgreementConfig(agreement.id),
-          loading: getCurrentConfigurationStatus.pending,
+          ...findAgreementConfig(agreement?.id),
+          loading: getCurrentConfigurationStatus?.pending,
         }}
         className="md-cell md-cell--3"
         addUpdateStream={addUpdateStream}
