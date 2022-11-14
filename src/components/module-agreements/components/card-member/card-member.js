@@ -109,20 +109,17 @@ export default graphql(seeUserProfileBySubject, {
   options: (props) => ({
     context: { uri: `${PRODUCT_APP_URL_PROFILE}/graphql` },
     notifyOnNetworkStatusChange: true,
-    variables: { subject: get(props, 'member.subject', null) },
+    variables: { subject: get(props, 'member.subject', '') },
   }),
   props: (response) => {
-    const { photo, fullName, title, subject } = get(
-      response,
-      'data.seeUserProfileBySubject.user',
-      {},
-    )
+    const user = get(response, 'data.seeUserProfileBySubject.user', {})
+
     return {
       userProfile: {
-        img: photo?.aPIID,
-        label: fullName,
-        status: title,
-        subject,
+        img: user?.photo?.aPIID,
+        label: user?.fullName,
+        status: user?.title,
+        subject: user?.subject,
       },
     }
   },
