@@ -252,36 +252,36 @@ const FlaringDetails = ({ flaringId, subModule }) => {
       </Button>
     ),
     role === 'regulator' &&
-    get(flaringData, 'metaData.status', '') === 'SUBMITTED' &&
-    subModule === 'annual-forecast' ? (
-      <>
-        <Button
-          key="4"
-          id="accept"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            onAcknowledge(subModule, objectId, 'ACCEPTED')
-          }}
-        >
-          Accept
-        </Button>
-        <Button
-          key="4"
-          id="reject"
-          className="top-bar-buttons-list-item-btn"
-          flat
-          primary
-          swapTheming
-          onClick={() => {
-            onAcknowledge(subModule, objectId, 'REJECTED')
-          }}
-        >
-          Reject
-        </Button>
-      </>
+      get(flaringData, 'metaData.status', '') === 'SUBMITTED' &&
+      (subModule === 'annual-forecast' ? (
+        <>
+          <Button
+            key="4"
+            id="accept"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, objectId, 'ACCEPTED')
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            key="4"
+            id="reject"
+            className="top-bar-buttons-list-item-btn"
+            flat
+            primary
+            swapTheming
+            onClick={() => {
+              onAcknowledge(subModule, objectId, 'REJECTED')
+            }}
+          >
+            Reject
+          </Button>
+        </>
       ) : (
         <Button
           key="4"
@@ -294,9 +294,9 @@ const FlaringDetails = ({ flaringId, subModule }) => {
             onAcknowledge(subModule, objectId, 'ACKNOWLEDGED')
           }}
         >
-        Acknowledge
+          Acknowledge
         </Button>
-      ),
+      )),
   ]
   return (
     <div className="details-container">

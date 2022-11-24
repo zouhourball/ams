@@ -232,7 +232,7 @@ const HSSE = () => {
             dispatch(
               addToast(
                 <ToastMsg
-                  text={res.message || 'Report uploaded successfully'}
+                  text={res.message || 'Report updated successfully'}
                   type="success"
                 />,
                 'hide',

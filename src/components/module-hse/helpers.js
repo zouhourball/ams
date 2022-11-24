@@ -568,7 +568,7 @@ export const actionsHeader = (
   ]
   const draftBtn = {
     id: 6,
-    label: 'Update',
+    label: 'Submit Draft report',
     onClick: () => {
       submitDraft(id)
     },
