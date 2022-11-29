@@ -182,6 +182,8 @@ const CostRecovery = ({ subkey }) => {
   }, [])
   useEffect(() => {
     dispatch(setSelectedRow([]))
+    setSize(20)
+    setPage(0)
   }, [view])
   useEffect(() => {
     refetchCurrentData()
@@ -293,8 +295,8 @@ const CostRecovery = ({ subkey }) => {
         ),
       },
       reportCurrentTab,
-      0,
-      200,
+      page,
+      size,
     ],
     getReportsByTemplate,
     {
@@ -1076,6 +1078,46 @@ const CostRecovery = ({ subkey }) => {
                       setPreview,
                     )}
                   />
+                )
+              }
+              footerTemplate={
+                reportsByTemplateList?.total > size && (
+                  <>
+                    &nbsp;|&nbsp;Page
+                    <TextField
+                      id="page_num"
+                      lineDirection="center"
+                      block
+                      type={'number'}
+                      className="page"
+                      value={page + 1}
+                      onChange={(v) =>
+                        v >= Math.ceil(reportsByTemplateList?.total / size)
+                          ? setPage(
+                            Math.ceil(reportsByTemplateList?.total / size),
+                          )
+                          : setPage(parseInt(v) - 1)
+                      }
+                      // disabled={status === 'closed'}
+                    />
+                    of {Math.ceil(reportsByTemplateList?.total / size)}
+                    &nbsp;|&nbsp;Show
+                    <TextField
+                      id="el_num"
+                      lineDirection="center"
+                      block
+                      className="show"
+                      value={size}
+                      onChange={(v) =>
+                        v > reportsByTemplateList?.total
+                          ? setSize(reportsByTemplateList?.total)
+                          : setSize(v)
+                      }
+                      onBlur={() => {
+                        refetchReports()
+                      }}
+                    />
+                  </>
                 )
               }
             />

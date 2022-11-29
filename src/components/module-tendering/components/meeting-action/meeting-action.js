@@ -82,7 +82,7 @@ const MeetingAction = ({ processInstanceId, disabled }) => {
               window.open(`meeting/${get(meeting, 'content.0.id', '')}`)
             }}
             icon
-            disabled={disabled}
+            disabled={false || disabled} // DISABLED THIS FEATURE TEMPORARY
             primary
             iconClassName="mdi mdi-eye-outline"
             title="Meeting View"

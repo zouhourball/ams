@@ -180,8 +180,8 @@ const Permit = ({ subModule }) => {
         ),
       },
       reportCurrentTab,
-      0,
-      200,
+      page,
+      size,
     ],
     getReportsByTemplate,
     {
@@ -441,8 +441,10 @@ const Permit = ({ subModule }) => {
   }
   useEffect(() => {
     setPage(0)
+    setSize(20)
     refetchList()
-  }, [currentTab])
+    refetchTemplateList()
+  }, [currentTab, view])
   const updatePermitMutation = useMutation(updatePermit, {
     onSuccess: (res) => {
       refetchList()
@@ -751,6 +753,46 @@ const Permit = ({ subModule }) => {
                 // selectedRow={selectedRow}
                 // withDownloadCsv
                 // defaultCsvFileTitle={renderKey()}
+                footerTemplate={
+                  reportsByTemplateList?.total > size && (
+                    <>
+                      &nbsp;|&nbsp;Page
+                      <TextField
+                        id="page_num"
+                        lineDirection="center"
+                        block
+                        type={'number'}
+                        className="page"
+                        value={page + 1}
+                        onChange={(v) =>
+                          v >= Math.ceil(reportsByTemplateList?.total / size)
+                            ? setPage(
+                              Math.ceil(reportsByTemplateList?.total / size),
+                            )
+                            : setPage(parseInt(v) - 1)
+                        }
+                        // disabled={status === 'closed'}
+                      />
+                      of {Math.ceil(reportsByTemplateList?.total / size)}
+                      &nbsp;|&nbsp;Show
+                      <TextField
+                        id="el_num"
+                        lineDirection="center"
+                        block
+                        className="show"
+                        value={size}
+                        onChange={(v) =>
+                          v > reportsByTemplateList?.total
+                            ? setSize(reportsByTemplateList?.total)
+                            : setSize(v)
+                        }
+                        onBlur={() => {
+                          refetchTemplateList()
+                        }}
+                      />
+                    </>
+                  )
+                }
                 headerTemplate={
                   selectedRow?.length === 1 && (
                     <HeaderTemplate
