@@ -673,52 +673,53 @@ function createProductionDailyTableCreator () {
   }
 }
 export const gomiTableRows = [
+  // company为数组因为不同模块上传的公司名不一样
   {
-    company: 'PDO',
+    company: ['PDO'],
     type: 'OIL PRODN',
     label: 'PDO Oil', // label reflect backend field
   },
   {
-    company: 'PDO',
+    company: ['PDO'],
     type: 'CONDENSATE PROD',
     label: 'PDO Condensate',
   },
   {
-    company: 'HCF',
+    company: ['HCF'],
     label: 'HCF',
   },
   {
-    company: 'OXY',
+    company: ['OXY Norh', 'OXY'],
     label: 'OXY Norh (B9&B27)',
     blocks: ['9', '27'],
   },
   {
-    company: 'Daleel',
+    company: ['DALEEL', 'Daleel'],
     label: 'DALEEL',
   },
   {
-    company: 'BP',
+    company: ['BP'],
     label: 'BP',
   },
   {
-    company: 'OXY',
+    company: ['OXY MUKHAIZANA', 'OXY'],
     blocks: ['53'],
     label: 'OXY MUKHAIZANA',
   },
   {
-    company: 'ARA',
+    company: ['ARA'],
     label: 'ARA',
   },
   {
-    company: 'CCE',
+    company: ['CCE'],
     label: 'CCED',
   },
   {
-    company: 'OQ',
+    company: ['OQ'],
     label: 'OQ',
   },
   {
-    company: 'OXY',
+    company: ['OXY'],
     label: 'OCCG (B62)',
     blocks: ['62'],
   },
@@ -792,7 +793,7 @@ function createGOMITableCreator () {
           validType = r.type === m.type
         }
         return (
-          m.company === r.company &&
+          (r.company.includes(m.company)) &&
           validType &&
           validBlocks &&
           m.dataType === 'Actual'
@@ -801,13 +802,13 @@ function createGOMITableCreator () {
       const gomiValue = reduce(
         trackingData.filter((i) => {
           if (r.type === 'OIL PRODN') {
-            return i.company === r.company && i.materialTypes[0] === 'oil'
+            return r.company.includes(i.company) && i.materialTypes[0] === 'oil'
           } else if (r.type === 'CONDENSATE PROD') {
             return (
-              i.company === r.company && i.materialTypes[0] === 'condensate'
+              r.company.includes(i.company) && i.materialTypes[0] === 'condensate'
             )
           }
-          return i.company === r.company
+          return r.company.includes(i.company)
         }),
         (a, b) => a + +b.value,
         0,
