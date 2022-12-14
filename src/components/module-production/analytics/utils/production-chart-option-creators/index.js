@@ -711,7 +711,7 @@ export const gomiTableRows = [
     label: 'ARA',
   },
   {
-    company: ['CCE'],
+    company: ['CCE', 'CCED'],
     label: 'CCED',
   },
   {
@@ -719,7 +719,7 @@ export const gomiTableRows = [
     label: 'OQ',
   },
   {
-    company: ['OXY'],
+    company: ['OCCG', 'OXY'],
     label: 'OCCG (B62)',
     blocks: ['62'],
   },
@@ -782,18 +782,18 @@ function createGOMITableCreator () {
         },
       ]
     }
-    const newData = rows.map((r) => {
+    const newData = rows.map((r, index) => {
       const monthlyDataRow = monthlyData.filter((m) => {
         let validType = m.type === 'OIL PRODN' || m.type === 'CONDENSATE PROD'
         let validBlocks = true
         if (r.blocks) {
-          validType = r.blocks.includes(m.block)
+          validBlocks = r.blocks.includes(m.block)
         }
         if (r.type) {
           validType = r.type === m.type
         }
         return (
-          (r.company.includes(m.company)) &&
+          r.company.includes(m.company) &&
           validType &&
           validBlocks &&
           m.dataType === 'Actual'
@@ -805,7 +805,8 @@ function createGOMITableCreator () {
             return r.company.includes(i.company) && i.materialTypes[0] === 'oil'
           } else if (r.type === 'CONDENSATE PROD') {
             return (
-              r.company.includes(i.company) && i.materialTypes[0] === 'condensate'
+              r.company.includes(i.company) &&
+              i.materialTypes[0] === 'condensate'
             )
           }
           return r.company.includes(i.company)

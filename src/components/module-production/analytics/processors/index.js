@@ -56,6 +56,7 @@ import { flatten, flattenDeep, concat, merge } from 'lodash-es'
 import { mapMonthNameToNumber } from 'libs/utils/wpb-data-helper'
 import { compareAsc, getDaysInMonth } from 'date-fns'
 import { mapDataCvtCreator } from 'components/analytics/utils'
+import { gomiTableRows } from '../utils/production-chart-option-creators'
 export function processDailyData (data) {
   const { content } = data
 
@@ -122,10 +123,19 @@ export function processGomiData (data) {
     ...tracking,
     block: tracking.blocks.toString(),
     cameFrom: 'tracking',
+    company: gomiTableRows.find((i) => i.company.includes(tracking.company))
+      ?.company[0],
   }))
   const monthlyData = monthly.map((m) => ({
     ...m,
     cameFrom: 'monthly',
+    company:
+      gomiTableRows.find((i) => {
+        if (i.blocks) {
+          return i.blocks.includes(m.block) && i.company.includes(m.company)
+        }
+        return i.company.includes(m.company)
+      })?.company[0] || m.company,
   }))
   return [...trackingData, ...monthlyData]
 }

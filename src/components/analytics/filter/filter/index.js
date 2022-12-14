@@ -76,6 +76,9 @@ export default class Filter extends PureComponent {
                 mapMonthNameToNumber(b.toUpperCase()),
             )
           }
+          if (c.field === 'year') {
+            data.sort((a, b) => a - b)
+          }
           return {
             ...c,
             value:

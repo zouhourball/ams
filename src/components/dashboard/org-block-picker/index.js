@@ -129,7 +129,13 @@ const OrgItem = ({ name, blocks, selectedBlocks, onChange }) => {
         ) : (
           <FontIcon>domain</FontIcon>
         )}
-        <span className="org-item-companyname">{name}</span>
+        <a
+          className="org-item-companyname"
+          href="javascript:void(0)"
+          title={name}
+        >
+          {name}
+        </a>
         <SelectionControl
           id={`company-${name}`}
           type="switch"

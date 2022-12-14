@@ -247,4 +247,5 @@ export const hideDateRangeRePortType = [
   'MONTHLY STATION',
   'MONTHLY',
   'ANNUAL FORECAST',
+  'gomi',
 ]
