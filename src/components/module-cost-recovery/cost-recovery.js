@@ -187,7 +187,7 @@ const CostRecovery = ({ subkey }) => {
   }, [view])
   useEffect(() => {
     refetchCurrentData()
-  }, [currentTab])
+  }, [currentTab, page])
   const { data: costRecoveryTemplates, refetch: refetchTemplates } = useQuery(
     ['getTemplates'],
     getTemplatesCostRecovery,

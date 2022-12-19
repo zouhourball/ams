@@ -678,8 +678,7 @@ const Permit = ({ subModule }) => {
                   )
                 }
                 footerTemplate={
-                  permitListData?.totalPages > 1 &&
-                  (
+                  permitListData?.totalPages > 1 && (
                     <>
                       &nbsp;|&nbsp;Page
                       <TextField
@@ -756,8 +755,7 @@ const Permit = ({ subModule }) => {
                 // withDownloadCsv
                 // defaultCsvFileTitle={renderKey()}
                 footerTemplate={
-                  reportsByTemplateList?.total > size &&
-                   (
+                  reportsByTemplateList?.total > size && (
                     <>
                       &nbsp;|&nbsp;Page
                       <TextField
@@ -767,13 +765,12 @@ const Permit = ({ subModule }) => {
                         type={'number'}
                         className="page"
                         value={page + 1}
-                        onChange={(v) =>
-                          v >= Math.ceil(reportsByTemplateList?.total / size)
-                            ? setPage(
-                              Math.ceil(reportsByTemplateList?.total / size),
-                            )
-                            : setPage(parseInt(v) - 1)
-                        }
+                        onChange={(v) => {
+                          v > 0 &&
+                            parseInt(v) - 1 <
+                              Math.ceil(reportsByTemplateList?.total / size) &&
+                            setPage(parseInt(v) - 1)
+                        }}
                         // disabled={status === 'closed'}
                       />
                       of {Math.ceil(reportsByTemplateList?.total / size)}
@@ -794,7 +791,7 @@ const Permit = ({ subModule }) => {
                         }}
                       />
                     </>
-                   )
+                  )
                 }
                 headerTemplate={
                   selectedRow?.length === 1 && (

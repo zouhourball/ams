@@ -82,7 +82,17 @@ const Reserves = ({ subkey }) => {
   const company = getOrganizationInfos()
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
-    'getAnnualReport',
+    [
+      'getAnnualReport',
+      {
+        queryKey: [
+          {
+            size,
+            page,
+          },
+        ],
+      },
+    ],
     () =>
       getAnnualReport({
         queryKey: [

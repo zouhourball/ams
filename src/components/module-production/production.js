@@ -53,6 +53,8 @@ import {
   MonthlyTrackingDetailsConfigs,
 } from './helpers'
 
+import './style.scss'
+
 const Production = ({ subModule }) => {
   // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
 
@@ -502,6 +504,11 @@ const Production = ({ subModule }) => {
     setPage(0)
     refetchList()
   }, [currentTab])
+
+  useEffect(() => {
+    refetchList()
+  }, [page])
+
   const dailyData = (get(currentUpload, 'values', []) || []).map((el) => {
     return {
       production: [{ item: el?.name }, { uom: el?.unit }],
@@ -956,7 +963,7 @@ const Production = ({ subModule }) => {
     setDataDisplayedMHT(file)
   }
   return (
-    <>
+    <div className="production-page">
       <TopBar
         title="Production Reporting"
         actions={
@@ -1015,85 +1022,87 @@ const Production = ({ subModule }) => {
         }}
         // onSelectRows={setSelectedRow}
       />
-      <Mht
-        configs={renderCurrentTabConfigs()}
-        tableData={renderCurrentTabData()}
-        hideTotal={false}
-        singleSelect={true}
-        withFooter
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        onSelectRows={dispatch(setSelectedRow)}
-        withChecked
-        // selectedRow={selectedRow}
-        withDownloadCsv
-        defaultCsvFileTitle={currentTab}
-        headerTemplate={
-          selectedRow?.length === 1 ? (
-            <HeaderTemplate
-              title={
-                selectedRow?.length === 1
-                  ? `1 Row Selected`
-                  : `${selectedRow?.length} Rows selected`
-              }
-              actions={actionsHeader(
-                'production-details',
-                renderCurrentTabData()[selectedRow[0]]?.id,
-                currentTab,
-                currentSubsubModule(),
-                role,
-                setShowSupportedDocumentDialog,
-                renderCurrentTabData()[selectedRow[0]]?.originalFileId,
-                downloadOriginalFile,
-                handleDeleteProduction,
-                renderCurrentTabData()[selectedRow[0]]?.fileName,
-                renderCurrentTabData()[selectedRow[0]]?.status,
-                submitDraft,
-              )}
-            />
-          ) : (
-            <div />
-          )
-        }
-        footerTemplate={
-          listDailyProduction?.totalPages > 1 && (
-            <>
-              &nbsp;|&nbsp;Page
-              <TextField
-                id="page_num"
-                lineDirection="center"
-                block
-                type={'number'}
-                className="page"
-                value={page + 1}
-                onChange={(v) =>
-                  v >= listDailyProduction?.totalPages
-                    ? setPage(listDailyProduction?.totalPages - 1)
-                    : setPage(parseInt(v) - 1)
+      <div className="mht-production">
+        <Mht
+          configs={renderCurrentTabConfigs()}
+          tableData={renderCurrentTabData()}
+          hideTotal={false}
+          singleSelect={true}
+          withFooter
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+          onSelectRows={dispatch(setSelectedRow)}
+          withChecked
+          // selectedRow={selectedRow}
+          withDownloadCsv
+          defaultCsvFileTitle={currentTab}
+          headerTemplate={
+            selectedRow?.length === 1 ? (
+              <HeaderTemplate
+                title={
+                  selectedRow?.length === 1
+                    ? `1 Row Selected`
+                    : `${selectedRow?.length} Rows selected`
                 }
-                // disabled={status === 'closed'}
+                actions={actionsHeader(
+                  'production-details',
+                  renderCurrentTabData()[selectedRow[0]]?.id,
+                  currentTab,
+                  currentSubsubModule(),
+                  role,
+                  setShowSupportedDocumentDialog,
+                  renderCurrentTabData()[selectedRow[0]]?.originalFileId,
+                  downloadOriginalFile,
+                  handleDeleteProduction,
+                  renderCurrentTabData()[selectedRow[0]]?.fileName,
+                  renderCurrentTabData()[selectedRow[0]]?.status,
+                  submitDraft,
+                )}
               />
-              of {listDailyProduction?.totalPages}
-              &nbsp;|&nbsp;Show
-              <TextField
-                id="el_num"
-                lineDirection="center"
-                block
-                className="show"
-                value={size}
-                onChange={(v) =>
-                  v > listDailyProduction?.totalElements
-                    ? setSize(listDailyProduction?.totalElements)
-                    : setSize(v)
-                }
-                onBlur={() => {
-                  refetchList()
-                }}
-              />
-            </>
-          )
-        }
-      />
+            ) : (
+              <div />
+            )
+          }
+          footerTemplate={
+            listDailyProduction?.totalPages > 1 && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={page + 1}
+                  onChange={(v) =>
+                    v >= listDailyProduction?.totalPages
+                      ? setPage(listDailyProduction?.totalPages - 1)
+                      : setPage(parseInt(v) - 1)
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {listDailyProduction?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={size}
+                  onChange={(v) =>
+                    v > listDailyProduction?.totalElements
+                      ? setSize(listDailyProduction?.totalElements)
+                      : setSize(v)
+                  }
+                  onBlur={() => {
+                    refetchList()
+                  }}
+                />
+              </>
+            )
+          }
+        />
+      </div>
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={
@@ -1210,7 +1219,7 @@ const Production = ({ subModule }) => {
           </p>
         </DialogContainer>
       )}
-    </>
+    </div>
   )
 }
 export default Production

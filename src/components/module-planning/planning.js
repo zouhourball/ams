@@ -116,7 +116,7 @@ const Planning = ({ subModule }) => {
   )
   useEffect(() => {
     refetchList()
-  }, [currentTab])
+  }, [currentTab, page])
 
   /* const { data: membersData, refetch: refetchMembers } = useQuery(
     ['getAllProjectMembers', company?.id],

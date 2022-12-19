@@ -175,6 +175,15 @@ const Downstream = ({ subkey }) => {
   useEffect(() => {
     setPage(0)
   }, [currentTab])
+  useEffect(() => {
+    if (currentTab === 0) {
+      refetchLpgList()
+    } else if (currentTab === 1) {
+      refetchNgList()
+    } else if (currentTab === 2) {
+      refetchRsList()
+    }
+  }, [page])
 
   const submitDraft = (subModule, objectId) => {
     const body = {

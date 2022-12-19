@@ -99,7 +99,7 @@ const Inventory = () => {
     setSelectedRow([])
   }, [])
   const { data: listAnnualBase, refetch: refetchInventory } = useQuery(
-    'getListAnnualBase',
+    ['getListAnnualBase', { queryKey: ['base', page, size] }],
 
     () => getInventories({ queryKey: ['base', page, size] }),
     {
@@ -110,7 +110,7 @@ const Inventory = () => {
     data: listAssetTransfer,
     refetch: refetchListAssetTransferInventory,
   } = useQuery(
-    'getListAnnualBase',
+    ['getListAnnualBase', { queryKey: ['transfer', page, size] }],
     () => getInventories({ queryKey: ['transfer', page, size] }),
     {
       refetchOnWindowFocus: false,
@@ -118,14 +118,14 @@ const Inventory = () => {
   )
   const { data: listDisposal, refetch: refetchListDisposalInventory } =
     useQuery(
-      'getListAnnualBase',
+      ['getListAnnualBase', { queryKey: ['disposal', page, size] }],
       () => getInventories({ queryKey: ['disposal', page, size] }),
       {
         refetchOnWindowFocus: false,
       },
     )
   const { data: listInventoriesAccepted } = useQuery(
-    'getListInventoriesAccepted',
+    ['getListInventoriesAccepted', { queryKey: [page, size] }],
 
     () => getInventoriesAccepted({ queryKey: [page, size] }),
     {

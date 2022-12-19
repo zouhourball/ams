@@ -1,0 +1,15 @@
+.production-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .top-bar {
+    flex-shrink: 0;
+  }
+
+  .mht-production {
+    flex-grow: 1;
+    max-height: calc(100% - 142px);
+    padding: 5px;
+  }
+}
