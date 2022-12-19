@@ -22,7 +22,6 @@ import {
 import mutate from 'libs/hocs/mutate'
 
 import { usePrevious } from 'libs/utils/use-previous'
-import { useTranslation } from 'libs/langs'
 
 import * as act from 'modules/app/actions'
 
@@ -80,8 +79,6 @@ const FunctionBusinessProcessByOrg = ({
   publishProposal,
   onPublish,
 }) => {
-  const { t } = useTranslation()
-
   const changeNewProposal = usePrevious(newProposal)
   const changeClarifiedProposal = usePrevious(clarifiedProposal)
   const [status, setStatus] = useState('All')
@@ -738,7 +735,7 @@ const FunctionBusinessProcessByOrg = ({
               swapTheming
               onClick={() => deleteProposal(deleteVisibility)}
             >
-              {t('confirm')}
+              Confirm
             </Button>,
           ]}
           title="Confirm delete Proposal"
