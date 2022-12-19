@@ -588,6 +588,7 @@ const Permit = ({ subModule }) => {
       }
     })
   }
+
   return (
     <>
       <TopBar
@@ -634,7 +635,7 @@ const Permit = ({ subModule }) => {
         }}
         role={role}
       />
-      <div className="subModule">
+      <div className="subModule costum">
         {view === 'default' && (
           <>
             <NavBar
@@ -677,7 +678,8 @@ const Permit = ({ subModule }) => {
                   )
                 }
                 footerTemplate={
-                  permitListData?.totalPages > 1 && (
+                  permitListData?.totalPages > 1 &&
+                  (
                     <>
                       &nbsp;|&nbsp;Page
                       <TextField
@@ -754,7 +756,8 @@ const Permit = ({ subModule }) => {
                 // withDownloadCsv
                 // defaultCsvFileTitle={renderKey()}
                 footerTemplate={
-                  reportsByTemplateList?.total > size && (
+                  reportsByTemplateList?.total > size &&
+                   (
                     <>
                       &nbsp;|&nbsp;Page
                       <TextField
@@ -791,7 +794,7 @@ const Permit = ({ subModule }) => {
                         }}
                       />
                     </>
-                  )
+                   )
                 }
                 headerTemplate={
                   selectedRow?.length === 1 && (

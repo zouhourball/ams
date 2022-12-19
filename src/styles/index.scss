@@ -7,8 +7,7 @@
   font-family: 'Proxima Nova';
   font-style: normal;
   font-weight: 700;
-  src:
-    url('../fonts/ProximaNova/ProximaNova-Bold.woff2') format('woff2'),
+  src: url('../fonts/ProximaNova/ProximaNova-Bold.woff2') format('woff2'),
     url('../fonts/ProximaNova/ProximaNova-Bold.woff') format('woff');
   font-display: swap;
 }
@@ -17,8 +16,7 @@
   font-family: 'Proxima Nova';
   font-style: normal;
   font-weight: 900;
-  src:
-    url('../fonts/ProximaNova/ProximaNova-Extrabld.woff2') format('woff2'),
+  src: url('../fonts/ProximaNova/ProximaNova-Extrabld.woff2') format('woff2'),
     url('../fonts/ProximaNova/ProximaNova-Extrabld.woff') format('woff');
   font-display: swap;
 }
@@ -27,8 +25,7 @@
   font-family: 'Proxima Nova';
   font-style: normal;
   font-weight: 400;
-  src:
-    url('../fonts/ProximaNova/ProximaNova-Regular.woff2') format('woff2'),
+  src: url('../fonts/ProximaNova/ProximaNova-Regular.woff2') format('woff2'),
     url('../fonts/ProximaNova/ProximaNova-Regular.woff') format('woff');
   font-display: swap;
 }
@@ -61,8 +58,9 @@ body {
   .subModule {
     display: flex;
     flex-direction: column;
-    min-height: calc(100% - 92px);
+    height: calc(100% - 92px);
     padding: 5px;
+    overflow: auto;
 
     &--table-wrapper {
       flex-grow: 1;
@@ -78,8 +76,6 @@ body {
   }
 
   .xeena-data-table {
-    height: 96vh !important;
-
     .wrapper.white {
       border-bottom: 0;
     }
@@ -114,7 +110,9 @@ body {
       .xeena-row {
         border-bottom-width: 1px;
 
-        .order-check-column .order-check-buttonWrapper .md-text--theme-secondary {
+        .order-check-column
+          .order-check-buttonWrapper
+          .md-text--theme-secondary {
           color: #1979ff;
         }
 
@@ -172,10 +170,6 @@ body {
 
     .xeena-table-footer {
       border-top: 0;
-    }
-
-    .xeena-table-container.withFooter {
-      height: calc(100% - 220px);
     }
   }
 
@@ -318,5 +312,5 @@ body,
 
 .app-shellwrapper-content > div,
 .module-container {
-  overflow-y: hidden;
+  overflow: hidden;
 }
