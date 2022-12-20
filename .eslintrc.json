@@ -64,7 +64,8 @@
     "ELEVATE_GOOGLE_ANALYTICS_ID": false,
     "OKR_EAM": false,
     "DASHBOARD_ID": false,
-    "TOKEN_DOMAIN": false
+    "TOKEN_DOMAIN": false,
+    "PRODUCT_APP_AMS_REGULATOR":false
   },
   "extends": ["standard", "plugin:react/recommended", "plugin:jest/all"],
   "parser": "@typescript-eslint/parser",
