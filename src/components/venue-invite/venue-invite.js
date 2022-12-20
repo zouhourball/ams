@@ -444,7 +444,7 @@ const VenueInvite = ({
         startDate: startDateStr,
         endDate: endDateStr,
         participants,
-        url: `${PRODUCT_APP_URL_API}/ams/planning/${id}/meeting/`,
+        url: `${PRODUCT_APP_AMS_REGULATOR}/ams/planning/${id}/meeting/`,
       }
       if (meeting) {
         await updateMeeting(meeting.id, meetingData)

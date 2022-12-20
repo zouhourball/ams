@@ -53,4 +53,7 @@ module.exports = {
   PRODUCT_APP_URL_WS_MEETING: JSON.stringify(
     'https://api.dev.meeraspace.com/ws-meeting',
   ),
+  PRODUCT_APP_AMS_REGULATOR: JSON.stringify(
+    'https://regulator-reporting.dev.meeraspace.com',
+  ),
 }
