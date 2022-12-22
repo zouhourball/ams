@@ -15,6 +15,7 @@ import useRole from 'libs/hooks/use-role'
 
 import {
   uploadAnnualBaseInventoryReport,
+  updateInventory,
   uploadAssetDisposalInventoryReport,
   getInventories,
   getInventoriesAccepted,
@@ -201,6 +202,32 @@ const Inventory = () => {
     // console.log(inventoryData?.content, dataDisplayedMHT, 'test3')
   }, [inventoryData])
   // console.log(inventoryData, baseReportId, currentUpload, 'test')
+  const updateInventoryMutation = useMutation(updateInventory, {
+    onSuccess: (res) => {
+      if (!res.error) {
+        refetchInventory()
+        refetchListAssetTransferInventory()
+        refetchAfterCommitByCurrentTab()
+        setSelectedRow([])
+        dispatch(
+          addToast(
+            <ToastMsg text={res.message || 'success'} type="success" />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+    },
+  })
   const uploadAnnualBaseReportMutate = useMutation(
     uploadAnnualBaseInventoryReport,
 
@@ -1052,6 +1079,12 @@ const Inventory = () => {
     setPage(0)
     refetchAfterCommitByCurrentTab()
   }, [currentTab])
+  const onChangeStatus = (status) => {
+    updateInventoryMutation.mutate({
+      inventoryId: selectedRow[0]?.id,
+      status: status,
+    })
+  }
   const paginationData = () => {
     switch (currentTab) {
       case 'annual-base':
@@ -1176,6 +1209,8 @@ const Inventory = () => {
                   selectedRow[0]?.originalFileId,
                   selectedRow[0]?.originalFileName,
                   downloadOriginalFile,
+                  onChangeStatus,
+                  selectedRow[0],
                 )}
               />
             ) : (

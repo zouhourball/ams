@@ -218,7 +218,47 @@ export const actionsHeader = (
   originalFileId,
   originalFileName,
   downloadOriginalFile,
+  onChangeStatus,
+  row,
 ) => {
+  const draftBtn = {
+    id: 5,
+    label: 'Submit Draft report',
+    onClick: () => {
+      onChangeStatus('SUBMITTED')
+    },
+  }
+  const opEntries = [
+    {
+      id: 1,
+      label: 'Delete',
+      onClick: () => {
+        handleDeleteInventory(id)
+      },
+    },
+    {
+      id: 2,
+      label: 'View Details',
+      onClick: () => {
+        key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
+      },
+    },
+    {
+      id: 3,
+      label: 'Download Original File',
+      onClick: () => {
+        downloadOriginalFile(originalFileId, originalFileName)
+      },
+    },
+
+    {
+      id: 4,
+      label: 'Upload Documents',
+      onClick: () => {
+        supportedDocument(id)
+      },
+    },
+  ]
   switch (role) {
     case 'regulator':
       if (tab === 'base') {
@@ -341,37 +381,9 @@ export const actionsHeader = (
       return []
     case 'operator':
       if (tab === 'base') {
-        return [
-          {
-            id: 1,
-            label: 'Delete',
-            onClick: () => {
-              handleDeleteInventory(id)
-            },
-          },
-          {
-            id: 2,
-            label: 'View Details',
-            onClick: () => {
-              key && id && navigate(`/ams/inventory/${key}/${id}/${tab}`)
-            },
-          },
-          {
-            id: 3,
-            label: 'Download Original File',
-            onClick: () => {
-              downloadOriginalFile(originalFileId, originalFileName)
-            },
-          },
-
-          {
-            id: 4,
-            label: 'Upload Documents',
-            onClick: () => {
-              supportedDocument(id)
-            },
-          },
-        ]
+        return row?.status === 'DRAFT'
+          ? [...opEntries, draftBtn]
+          : [...opEntries]
       } else if (tab === 'base-consumption') {
         return [
           {
