@@ -609,18 +609,13 @@ const CreateProposal = ({
           <TextField
             id="Budget Approved by JMC"
             className="createProposal_section_textField md-cell md-cell--12"
-            value={proposal.budgetApprovedByJMC
-              .replace(/,/gi, '')
-              .split(/(?=(?:\d{3})+$)/)
-              .join(',')}
+            value={proposal.budgetApprovedByJMC}
             onChange={(v) => {
-              const reg = new RegExp('^[0-9]+$')
-              // console.log(reg.test(v), 'test')
-              reg.test(v) && onEditProposal('budgetApprovedByJMC', v)
+              onEditProposal('budgetApprovedByJMC', v)
             }}
             label={'Budget Approved by JMC (USD)*'}
             required
-            // type="number"
+            type="number"
           />
           <TextField
             id="Original Cost Estimate"
