@@ -45,6 +45,8 @@ const CreateProposal = ({
   }, [])
 
   const [canDisplayStartDate, setCanDisplayStartDate] = useState(false)
+  const [blur, setBlur] = useState(true)
+  const [costBlur, setCostBlur] = useState(true)
   const [canDisplayEndDate, setCanDisplayEndDate] = useState(false)
   const [options, setOptions] = useState(
     proposal.estimatedDurationPerPeriodOptionValue
@@ -609,18 +611,28 @@ const CreateProposal = ({
           <TextField
             id="Budget Approved by JMC"
             className="createProposal_section_textField md-cell md-cell--12"
-            value={proposal.budgetApprovedByJMC}
+            value={
+              blur
+                ? (+proposal.budgetApprovedByJMC)?.toLocaleString('en-US')
+                : proposal.budgetApprovedByJMC
+            }
             onChange={(v) => {
               onEditProposal('budgetApprovedByJMC', v)
             }}
             label={'Budget Approved by JMC (USD)*'}
             required
-            type="number"
+            type={!blur ? 'number' : null}
+            onFocus={() => setBlur(false)}
+            onBlur={() => setBlur(true)}
           />
           <TextField
             id="Original Cost Estimate"
             className="createProposal_section_textField md-cell md-cell--12"
-            value={originalCostEstimate || ''}
+            value={
+              costBlur
+                ? (+originalCostEstimate)?.toLocaleString('en-US')
+                : originalCostEstimate
+            }
             onChange={(v) => {
               // eslint-disable-next-line no-useless-escape
               let pattern = /\d*([.,\/]?\d+)/
@@ -657,7 +669,9 @@ const CreateProposal = ({
                 : ''
             }
             required
-            type="number"
+            type={!costBlur ? 'number' : null}
+            onFocus={() => setCostBlur(false)}
+            onBlur={() => setCostBlur(true)}
           />
         </div>
         <div className="createProposal_section md-grid">
