@@ -26,10 +26,10 @@ export default class ReportsFilePreview extends Component {
       file,
       mutations: { getPreviewPDFFile, getPreviewFile },
     } = this.props
-    if (file.contentType === 'application/pdf') {
+    if (file?.contentType === 'application/pdf') {
       getPreviewPDFFile(file.fileId)
     } else {
-      getPreviewFile(file.fileId)
+      getPreviewFile(file?.fileId)
     }
   }
 
