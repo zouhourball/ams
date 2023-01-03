@@ -297,11 +297,11 @@ export const config = (
         {
           <MeetingAction
             processInstanceId={row?.agendas[0]?.processInstanceId}
-            disabled={
-              !['Rejected', 'Approved', 'PassedToAgenda'].includes(
-                row.proposalStateEnum,
-              )
-            }
+            // disabled={
+            //   !['Rejected', 'Approved', 'PassedToAgenda'].includes(
+            //     row.proposalStateEnum,
+            //   )
+            // }
           />
           // <Button
           //   onClick={() => handleShowMeeting(row?.agendas[0], row.id)}

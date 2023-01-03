@@ -42,6 +42,7 @@ function ProcessHistorianSection ({
           'PassedToAgenda',
           'Approved',
           'Rejected',
+          'ApprovedPublished',
         ].includes(state)
           ? 'PassedToAgenda'
           : '',
@@ -68,7 +69,12 @@ function ProcessHistorianSection ({
         id: 1,
         status: ['New', 'Clarify', 'Clarified', 'UnderReview'].includes(state)
           ? 'UnderReview'
-          : ['PassedToAgenda', 'Approved', 'Rejected'].includes(state)
+          : [
+            'PassedToAgenda',
+            'Approved',
+            'Rejected',
+            'ApprovedPublished',
+          ].includes(state)
             ? 'PassedToAgenda'
             : '',
         title: 'Checklist Process',
@@ -95,7 +101,12 @@ function ProcessHistorianSection ({
         id: 2,
         status: ['New', 'Clarify', 'Clarified', 'UnderReview'].includes(state)
           ? 'UnderReview'
-          : ['PassedToAgenda', 'Approved', 'Rejected'].includes(state)
+          : [
+            'PassedToAgenda',
+            'Approved',
+            'Rejected',
+            'ApprovedPublished',
+          ].includes(state)
             ? 'PassedToAgenda'
             : '',
         title: 'Pre-TBC Meeting',
@@ -122,7 +133,7 @@ function ProcessHistorianSection ({
         id: 3,
         status: ['PassedToAgenda'].includes(state)
           ? 'UnderReview'
-          : ['Approved', 'Rejected'].includes(state)
+          : ['Approved', 'Rejected', 'ApprovedPublished'].includes(state)
             ? 'PassedToAgenda'
             : '',
         title: 'MOG TBC Meeting',
@@ -147,7 +158,7 @@ function ProcessHistorianSection ({
       },
       {
         id: 4,
-        status: ['Approved', 'Rejected'].includes(state)
+        status: ['Approved', 'Rejected', 'ApprovedPublished'].includes(state)
           ? 'PassedToAgenda'
           : '',
         title: 'Post MOG TBC',
