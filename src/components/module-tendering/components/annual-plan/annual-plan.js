@@ -302,6 +302,7 @@ const AnnualPlan = ({
           submissionDate: v.submissionDate / 1000,
         }))}
         withChecked
+        withFooter
         withSearch={selectedRows?.length === 0}
         commonActions={selectedRows?.length === 0 || selectedRows?.length > 1}
         onSelectRows={selectRows}

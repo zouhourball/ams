@@ -779,90 +779,93 @@ const Planning = ({ subModule }) => {
           )}
         </div>
       ) */}
-      <Mht
-        configs={planningConfigs(
-          UploadSupportedDocumentFromTable,
-          currentTab,
-          displayMeetingList,
-        )}
-        tableData={tableDataPlanning}
-        hideTotal={false}
-        singleSelect={true}
-        withFooter
-        withSearch={selectedRow?.length === 0}
-        commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
-        withChecked
-        selectedRow={selectedRow}
-        withDownloadCsv
-        defaultCsvFileTitle={currentTab}
-        headerTemplate={
-          selectedRow?.length === 1 ? (
-            <HeaderTemplate
-              title={
-                selectedRow?.length === 1
-                  ? `1 Row Selected`
-                  : `${selectedRow?.length} Rows selected`
-              }
-              actions={actionsHeader(
-                'planning-details',
-                selectedRow[0]?.id,
-                role,
-                setShowSupportedDocumentDialog,
-                currentTab,
-                handleDeletePlanning,
-                downloadOriginalFile,
-                selectedRow[0]?.originalFileId,
-                selectedRow[0]?.fileName,
-                submitDraft,
-                selectedRow[0]?.status,
-                setShowUploadRapportDialog,
-                actionsList?.length && actionsList?.includes('CREATE_MEETINGS'),
-                setShowRescheduleDialog,
-              )}
-            />
-          ) : (
-            ''
-          )
-        }
-        footerTemplate={
-          listPlanning?.totalPages > 1 && (
-            <>
-              &nbsp;|&nbsp;Page
-              <TextField
-                id="page_num"
-                lineDirection="center"
-                block
-                type={'number'}
-                className="page"
-                value={page + 1}
-                onChange={(v) =>
-                  v >= listPlanning?.totalPages
-                    ? setPage(listPlanning?.totalPages - 1)
-                    : setPage(parseInt(v) - 1)
+      <div className="planning-mht">
+        <Mht
+          configs={planningConfigs(
+            UploadSupportedDocumentFromTable,
+            currentTab,
+            displayMeetingList,
+          )}
+          tableData={tableDataPlanning}
+          hideTotal={false}
+          singleSelect={true}
+          withFooter
+          withSearch={selectedRow?.length === 0}
+          commonActions={selectedRow?.length === 0 || selectedRow?.length > 1}
+          withChecked
+          selectedRow={selectedRow}
+          withDownloadCsv
+          defaultCsvFileTitle={currentTab}
+          headerTemplate={
+            selectedRow?.length === 1 ? (
+              <HeaderTemplate
+                title={
+                  selectedRow?.length === 1
+                    ? `1 Row Selected`
+                    : `${selectedRow?.length} Rows selected`
                 }
-                // disabled={status === 'closed'}
+                actions={actionsHeader(
+                  'planning-details',
+                  selectedRow[0]?.id,
+                  role,
+                  setShowSupportedDocumentDialog,
+                  currentTab,
+                  handleDeletePlanning,
+                  downloadOriginalFile,
+                  selectedRow[0]?.originalFileId,
+                  selectedRow[0]?.fileName,
+                  submitDraft,
+                  selectedRow[0]?.status,
+                  setShowUploadRapportDialog,
+                  actionsList?.length &&
+                    actionsList?.includes('CREATE_MEETINGS'),
+                  setShowRescheduleDialog,
+                )}
               />
-              of {listPlanning?.totalPages}
-              &nbsp;|&nbsp;Show
-              <TextField
-                id="el_num"
-                lineDirection="center"
-                block
-                className="show"
-                value={size}
-                onChange={(v) =>
-                  v > listPlanning?.totalElements
-                    ? setSize(listPlanning?.totalElements)
-                    : setSize(v)
-                }
-                onBlur={() => {
-                  refetchList()
-                }}
-              />
-            </>
-          )
-        }
-      />
+            ) : (
+              ''
+            )
+          }
+          footerTemplate={
+            listPlanning?.totalPages > 1 && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={page + 1}
+                  onChange={(v) =>
+                    v >= listPlanning?.totalPages
+                      ? setPage(listPlanning?.totalPages - 1)
+                      : setPage(parseInt(v) - 1)
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {listPlanning?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={size}
+                  onChange={(v) =>
+                    v > listPlanning?.totalElements
+                      ? setSize(listPlanning?.totalElements)
+                      : setSize(v)
+                  }
+                  onBlur={() => {
+                    refetchList()
+                  }}
+                />
+              </>
+            )
+          }
+        />
+      </div>
       <RightPanelMeeting
         onClose={() => setShowMeeting(false)}
         visible={showMeeting}

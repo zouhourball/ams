@@ -1,6 +1,7 @@
 .annualPlan {
   position: relative;
-  height: 100%;
+  max-height: calc(100% - 142px);
+  padding: 5px;
   overflow-y: scroll;
 
   .submissionBy {

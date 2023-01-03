@@ -9,6 +9,8 @@ import { getAllProposals, deleteProposal } from 'libs/api/api-tendering'
 
 import { config } from './helper'
 
+import 'components/module-tendering/style.scss'
+
 const VendorDevelopment = ({
   mutations: { getAllProposals, deleteProposal },
   getAllProposalsStatus,
@@ -189,15 +191,18 @@ const VendorDevelopment = ({
   }
 
   return (
-    <Mht
-      configs={config}
-      tableData={renderAllProposals()}
-      withChecked
-      withSearch
-      commonActions
-      onSelectRows={selectRows}
-      actions={renderActions()}
-    />
+    <div className="mht-tendering">
+      <Mht
+        configs={config}
+        tableData={renderAllProposals()}
+        withChecked
+        withSearch
+        commonActions
+        onSelectRows={selectRows}
+        actions={renderActions()}
+        withFooter
+      />
+    </div>
   )
 }
 export default mutate({

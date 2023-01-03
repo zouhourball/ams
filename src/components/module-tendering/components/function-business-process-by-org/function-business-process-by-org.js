@@ -645,52 +645,55 @@ const FunctionBusinessProcessByOrg = ({
           }}
         />
       )}
-      <Mht
-        id="tendering-function-business-process-by-org"
-        configs={mhtConfig}
-        tableData={renderAllProposals()}
-        withChecked
-        className="functionBusinessProcessByOrg-dataTable"
-        onSelectRows={selectRows}
-        actions={[]}
-        withSearch={selectedRows?.length === 0}
-        commonActions={selectedRows?.length === 0 || selectedRows?.length > 1}
-        headerTemplate={
-          selectedRows?.length > 0 ? (
-            <HeaderTemplate
-              title={
-                selectedRows?.length === 1
-                  ? `1 Row Selected`
-                  : `${selectedRows?.length} Rows selected`
-              }
-              actions={actionsHeader(selectedRows, selectedRows?.length)}
-            />
-          ) : (
-            <div>
-              <MenuButton
-                menuItems={renderDataByStatus()}
-                iconChildren="arrow_drop_down"
-                iconBefore={false}
-                simplifiedMenu={false}
-              >
-                {status}
-              </MenuButton>
+      <div className="mht-tendering">
+        <Mht
+          id="tendering-function-business-process-by-org"
+          configs={mhtConfig}
+          tableData={renderAllProposals()}
+          withChecked
+          className="functionBusinessProcessByOrg-dataTable"
+          onSelectRows={selectRows}
+          actions={[]}
+          withFooter
+          withSearch={selectedRows?.length === 0}
+          commonActions={selectedRows?.length === 0 || selectedRows?.length > 1}
+          headerTemplate={
+            selectedRows?.length > 0 ? (
+              <HeaderTemplate
+                title={
+                  selectedRows?.length === 1
+                    ? `1 Row Selected`
+                    : `${selectedRows?.length} Rows selected`
+                }
+                actions={actionsHeader(selectedRows, selectedRows?.length)}
+              />
+            ) : (
+              <div>
+                <MenuButton
+                  menuItems={renderDataByStatus()}
+                  iconChildren="arrow_drop_down"
+                  iconBefore={false}
+                  simplifiedMenu={false}
+                >
+                  {status}
+                </MenuButton>
+              </div>
+            )
+          }
+          renderEmpty={
+            <div className="emptyContent">
+              <div>
+                <img src={emptyProposals} width="50px" />
+                <p>
+                  You haven’t created any proposal yet <br />
+                  click New Plan on top right to create new...
+                </p>
+              </div>
             </div>
-          )
-        }
-        renderEmpty={
-          <div className="emptyContent">
-            <div>
-              <img src={emptyProposals} width="50px" />
-              <p>
-                You haven’t created any proposal yet <br />
-                click New Plan on top right to create new...
-              </p>
-            </div>
-          </div>
-        }
-        defaultCsvFileTitle="Function Business Process"
-      />
+          }
+          defaultCsvFileTitle="Function Business Process"
+        />
+      </div>
       {openCreateAgenda && selectedRows.length !== 0 && (
         <CreateAgenda
           organizationID={organizationID}

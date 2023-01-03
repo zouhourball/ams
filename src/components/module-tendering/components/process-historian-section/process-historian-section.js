@@ -136,7 +136,7 @@ function ProcessHistorianSection ({
           : ['Approved', 'Rejected', 'ApprovedPublished'].includes(state)
             ? 'PassedToAgenda'
             : '',
-        title: 'MOG TBC Meeting',
+        title: 'MEM TBC Meeting',
         members: [],
         cardData: get(
           getProposalHistoryStatus,
@@ -161,7 +161,7 @@ function ProcessHistorianSection ({
         status: ['Approved', 'Rejected', 'ApprovedPublished'].includes(state)
           ? 'PassedToAgenda'
           : '',
-        title: 'Post MOG TBC',
+        title: 'Post MEM TBC',
         members: [],
         cardData: get(
           getProposalHistoryStatus,
