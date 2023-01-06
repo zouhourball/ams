@@ -364,9 +364,11 @@ const Production = ({ subModule }) => {
       })) || []
     )
   }
+
   const handleDeleteProduction = (id) => {
     deleteProduction(currentTab, id).then((res) => {
       // debugger
+      // if (res === 'sucess') {
       if (res?.success) {
         dispatch(setSelectedRow([]))
         setShowDeleteDialog(false)
@@ -1118,8 +1120,8 @@ const Production = ({ subModule }) => {
         <DeleteDialog
           onDiscard={() => setShowDeleteDialog(false)}
           visible={showDeleteDialog}
-          title="title "
-          text=" text 1"
+          title="Confirm delete Proposal "
+          text=" Are you sure you want to delete this proposal ? "
           hideDialog={() => setShowDeleteDialog(false)}
           handleDeleteProduction={() =>
             handleDeleteProduction(showDeleteDialog)
