@@ -1303,8 +1303,9 @@ const CostRecovery = ({ subkey }) => {
           onDiscard={() => setShowConfirmDialog(false)}
           visible={showConfirmDialog || showDeleteDialog}
           handleOverride={handleOverride}
-          message={'Do you confirm override ?'}
+          message={'Are you sure you want to Override ?'}
           confirmLabel={'Override'}
+          title="Confirm Override"
         />
       )}
 
@@ -1313,8 +1314,9 @@ const CostRecovery = ({ subkey }) => {
           onDiscard={() => setShowDeleteDialog(false)}
           visible={showDeleteDialog}
           handleOverride={() => handleDelete()}
-          message={'Do you confirm Delete ?'}
+          message={'Are you sure you want to delete this proposal ?'}
           confirmLabel={'Confirm'}
+          title="Confirm delete "
         />
       )}
     </>

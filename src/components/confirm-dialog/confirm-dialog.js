@@ -1,4 +1,5 @@
 import { DialogContainer, Button } from 'react-md'
+import './style.scss'
 
 const ConfirmDialog = ({
   message,
@@ -22,7 +23,7 @@ const ConfirmDialog = ({
       actions={actions}
       visible={visible}
       title={title}
-      className="override-dialog"
+      className="deleteDialog"
     >
       <div className="override-dialog-message">{message}</div>
     </DialogContainer>
