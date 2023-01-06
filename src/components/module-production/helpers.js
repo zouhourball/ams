@@ -485,6 +485,7 @@ export const actionsHeader = (
   originalFileId,
   downloadOriginalFile,
   handleDeleteProduction,
+  setShowDeleteDialog,
   fileName,
   status,
   submitDraft,
@@ -519,7 +520,7 @@ export const actionsHeader = (
             id: 3,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction(id)
+              setShowDeleteDialog(id)
             },
           },
         ]
@@ -556,7 +557,8 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction(id)
+              setShowDeleteDialog(id)
+              // handleDeleteProduction(id)
             },
           },
 
@@ -595,7 +597,7 @@ export const actionsHeader = (
             id: 1,
             label: 'Delete',
             onClick: () => {
-              handleDeleteProduction(id)
+              setShowDeleteDialog(id)
             },
           },
           {

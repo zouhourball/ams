@@ -40,6 +40,7 @@ import HeaderTemplate from 'components/header-template'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
 import getBlocks from 'libs/hooks/get-blocks'
+import DeleteDialog from 'components/delete-dialog'
 
 import {
   dailyProductionConfigs,
@@ -63,6 +64,7 @@ const Production = ({ subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   // const [selectedRow, setSelectedRow] = useState([])
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [overrideDialog, setOverrideDialog] = useState(false)
   const [overrideId, setOverrideId] = useState()
@@ -364,8 +366,10 @@ const Production = ({ subModule }) => {
   }
   const handleDeleteProduction = (id) => {
     deleteProduction(currentTab, id).then((res) => {
-      if (res || res === 'sucess') {
+      // debugger
+      if (res === 'sucess') {
         dispatch(setSelectedRow([]))
+        setShowDeleteDialog(false)
 
         dispatch(
           addToast(
@@ -1054,6 +1058,7 @@ const Production = ({ subModule }) => {
                   renderCurrentTabData()[selectedRow[0]]?.originalFileId,
                   downloadOriginalFile,
                   handleDeleteProduction,
+                  setShowDeleteDialog,
                   renderCurrentTabData()[selectedRow[0]]?.fileName,
                   renderCurrentTabData()[selectedRow[0]]?.status,
                   submitDraft,
@@ -1103,6 +1108,25 @@ const Production = ({ subModule }) => {
           }
         />
       </div>
+      {/* title,
+  text,
+  hideDialog,
+  visible,
+  handleDeleteProduction, */}
+
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="title "
+          text=" text 1"
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() =>
+            handleDeleteProduction(showDeleteDialog)
+          }
+        />
+      )}
+
       {showUploadMHTDialog && (
         <MHTDialog
           headerTemplate={
