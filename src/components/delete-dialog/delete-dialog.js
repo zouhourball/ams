@@ -11,7 +11,7 @@ export default function DeleteDialog ({
     <Button key={1} flat onClick={hideDialog}>
       Discard
     </Button>,
-    <Button key={1} primary flat onClick={(handleDeleteProduction, hideDialog)}>
+    <Button key={1} primary flat onClick={handleDeleteProduction}>
       Confirm
     </Button>,
   ]

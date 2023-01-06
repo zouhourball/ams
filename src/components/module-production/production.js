@@ -367,7 +367,7 @@ const Production = ({ subModule }) => {
   const handleDeleteProduction = (id) => {
     deleteProduction(currentTab, id).then((res) => {
       // debugger
-      if (res === 'sucess') {
+      if (res?.success) {
         dispatch(setSelectedRow([]))
         setShowDeleteDialog(false)
 

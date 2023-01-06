@@ -23,6 +23,7 @@ import {
   saveReport,
   updateReserveReport,
   deleteAll,
+  deleteReport,
 } from 'libs/api/api-reserves'
 import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
@@ -49,8 +50,9 @@ import {
   annualResource,
   annualReservesDetailsConfigs,
 } from './helpers'
+import DeleteDialog from 'components/delete-dialog'
 
-const Reserves = ({ subkey }) => {
+const Reserves = ({ subkey, row, section, setRow }) => {
   const dispatch = useDispatch()
 
   const [currentTab, setCurrentTab] = useState(
@@ -61,6 +63,7 @@ const Reserves = ({ subkey }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const [overrideDialog, setDialogOverride] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const [showUploadMHTDialog, setShowUploadMHTDialog] = useState(false)
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
@@ -168,7 +171,27 @@ const Reserves = ({ subkey }) => {
   ])
 
   // const onSaveReportMutate = useMutation(saveReport)
-
+  const handleDeleteProduction = () => {
+    deleteReport(showDeleteDialog, renderSectionKey().name).then((res) => {
+      if (res?.success) {
+        setSelectedRow([])
+        dispatch(
+          addToast(
+            <ToastMsg text={'Successfully deleted'} type="success" />,
+            'hide',
+          ),
+        )
+        return section?.refetch()
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg text={'Something went wrong'} type="error" />,
+            'hide',
+          ),
+        )
+      }
+    })
+  }
   const annualReservesReportingActionsHelper = [
     {
       title: 'Upload Annual Reserves Report',
@@ -706,9 +729,9 @@ const Reserves = ({ subkey }) => {
                     selectedRow[0],
                     role,
                     setShowSupportedDocumentDialog,
-                    setSelectedRow,
                     renderSectionKey(),
                     submitDraft,
+                    setShowDeleteDialog,
                   )}
                 />
               )) || <div />
@@ -817,6 +840,17 @@ const Reserves = ({ subkey }) => {
             This file already exists. Would you like to override it ?
           </p>
         </DialogContainer>
+      )}
+
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="title "
+          text=" text 1"
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeleteProduction()}
+        />
       )}
     </>
   )
