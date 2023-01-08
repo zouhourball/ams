@@ -69,6 +69,7 @@ import {
 } from './mht-helper-dialog'
 
 import './style.scss'
+import DeleteDialog from 'components/delete-dialog'
 const Downstream = ({ subkey }) => {
   const dispatch = useDispatch()
 
@@ -144,6 +145,7 @@ const Downstream = ({ subkey }) => {
   const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
   const commitNgMutate = useMutation(commitLoadDownstreamNg)
   const commitRsMutate = useMutation(commitLoadDownstreamRs)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const overrideLpgMutation = useMutation(overrideDownstreamLpg)
   const overrideNgMutation = useMutation(overrideDownstreamNg)
@@ -520,6 +522,29 @@ const Downstream = ({ subkey }) => {
         break
     }
   }
+
+  // const handleDeleteProduction = () => {
+  //   deleteReport(showDeleteDialog, renderSectionKey().name).then((res) => {
+  //     if (res?.success) {
+  //       setSelectedRow([])
+  //       dispatch(
+  //         addToast(
+  //           <ToastMsg text={'Successfully deleted'} type="success" />,
+  //           'hide',
+  //         ),
+  //       )
+  //       return section?.refetch()
+  //     } else {
+  //       dispatch(
+  //         addToast(
+  //           <ToastMsg text={'Something went wrong'} type="error" />,
+  //           'hide',
+  //         ),
+  //       )
+  //     }
+  //   })
+  // }
+
   const handleDeleteDownstream = (row = selectedRow[0]) => {
     setSelectedRow([])
     switch (currentTab) {
@@ -1031,7 +1056,7 @@ const Downstream = ({ subkey }) => {
 
                     role,
                     setShowSupportedDocumentDialog,
-                    handleDeleteDownstream,
+                    setShowDeleteDialog,
                     selectedRow[0]?.originalFileId,
                     downloadOriginalFile,
                     selectedRow[0]?.fileName,
@@ -1138,6 +1163,16 @@ const Downstream = ({ subkey }) => {
             This file already exists. Would you like to override it ?
           </p>
         </DialogContainer>
+      )}
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="title "
+          text=" text 1"
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeleteDownstream()}
+        />
       )}
     </>
   )
