@@ -350,7 +350,7 @@ export const actionsHeader = (
   subKey,
   role,
   supportedDocument,
-  deleteDownstream,
+  setShowDeleteDialog,
   originalFileId,
   downloadOriginalFile,
   fileName,
@@ -369,7 +369,9 @@ export const actionsHeader = (
       id: 1,
       label: 'Delete',
       onClick: () => {
-        deleteDownstream()
+        setShowDeleteDialog(id)
+
+        // deleteDownstream()
       },
     },
     {
