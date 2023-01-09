@@ -812,7 +812,7 @@ const Planning = ({ subModule }) => {
                   role,
                   setShowSupportedDocumentDialog,
                   currentTab,
-                  showDeleteDialog,
+                  setShowDeleteDialog,
                   downloadOriginalFile,
                   selectedRow[0]?.originalFileId,
                   selectedRow[0]?.fileName,
