@@ -94,3 +94,18 @@ export const deleteCompany = async (companyId) => {
   }
   return res
 }
+
+export const getCompanyInfo = async ({ queryKey }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${appUrl}/arm/api/v1/companies?orgId=${queryKey[1]}`,
+      {
+        method: 'GET',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
