@@ -556,6 +556,7 @@ const Downstream = ({ subkey }) => {
           {
             onSuccess: (res) => {
               refetchLpgList()
+              setShowDeleteDialog(false)
             },
           },
         )
@@ -567,6 +568,7 @@ const Downstream = ({ subkey }) => {
           {
             onSuccess: (res) => {
               refetchNgList()
+              setShowDeleteDialog(false)
             },
           },
         )
@@ -578,6 +580,7 @@ const Downstream = ({ subkey }) => {
           {
             onSuccess: (res) => {
               refetchRsList()
+              setShowDeleteDialog(false)
             },
           },
         )

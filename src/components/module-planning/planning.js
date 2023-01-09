@@ -265,7 +265,7 @@ const Planning = ({ subModule }) => {
     onSuccess: (res) => {
       refetchList()
 
-      if (!res.error) {
+      if (res?.success) {
         setSelectedRow([])
         dispatch(
           addToast(
@@ -979,7 +979,16 @@ const Planning = ({ subModule }) => {
           title="Confirm delete Proposal "
           text=" Are you sure you want to delete this proposal ? "
           hideDialog={() => setShowDeleteDialog(false)}
-          handleDeleteProduction={() => handleDeletePlanning()}
+          handleDeleteProduction={() =>
+            Promise.all(
+              selectedRow?.map((row) =>
+                handleDeletePlanning(currentTab, row?.id),
+              ),
+            ).then(() => {
+              refetchList()
+              setShowDeleteDialog(false)
+            })
+          }
         />
       )}
     </>

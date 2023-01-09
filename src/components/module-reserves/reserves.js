@@ -181,6 +181,7 @@ const Reserves = ({ subkey, row, section, setRow }) => {
             'hide',
           ),
         )
+        setShowDeleteDialog(false)
         return section?.refetch()
       } else {
         dispatch(
