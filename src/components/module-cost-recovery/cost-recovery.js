@@ -40,7 +40,7 @@ import {
   affiliateConfig,
   configsLiftingCostsDialogMht,
 } from './mht-helper-dialog'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import { addToast } from 'modules/app/actions'
 
@@ -63,6 +63,7 @@ import ToastMsg from 'components/toast-msg'
 import placeholder from 'images/phase.png'
 
 import 'components/module-permitting/style.scss'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const CostRecovery = ({ subkey }) => {
   const tab = [
@@ -102,7 +103,8 @@ const CostRecovery = ({ subkey }) => {
 
   const blockList = getBlocks()
 
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
 
   const [, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
@@ -270,7 +272,7 @@ const CostRecovery = ({ subkey }) => {
           category: 'C : Reporting Templates',
           subject: 'MOG-S08-BUDGETARY & FINANCIAL',
           description: '',
-          company: company?.name,
+          company: companyOrg?.company,
           block: data?.block,
           referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
         },
@@ -421,7 +423,7 @@ const CostRecovery = ({ subkey }) => {
         data: {
           block: data?.block,
           file: data?.file[0],
-          company: company?.name || 'ams-org',
+          company: companyOrg?.company,
           processInstanceId: uuid,
           year: +data?.referenceDate?.year,
           ...month,

@@ -62,6 +62,7 @@ import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 
 import './style.scss'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 const Planning = ({ subModule }) => {
   const dispatch = useDispatch()
 
@@ -85,6 +86,8 @@ const Planning = ({ subModule }) => {
   const role = useRole('planning')
   const blocks = getBlocks()
   const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const { addSupportingDocuments } = documents()
   useEffect(() => setSelectedRow([]), [])
   const mapStateToMeInfo = (state) => state?.query?.DEFAULT?.me?.data || null
@@ -396,7 +399,7 @@ const Planning = ({ subModule }) => {
     uploadReportMutate.mutate({
       body: {
         block: body?.block,
-        company: company?.name || 'ams-org',
+        company: companyOrg?.company,
         file: body?.file[0],
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),

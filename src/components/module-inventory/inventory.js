@@ -38,7 +38,7 @@ import {
 import documents from 'libs/hooks/documents'
 import getBlocks from 'libs/hooks/get-blocks'
 import { addToast } from 'modules/app/actions'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import ToastMsg from 'components/toast-msg'
 import TopBar from 'components/top-bar'
@@ -56,6 +56,7 @@ import {
   // assetConsumptionDetailsData,
 } from './helpers'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 /* import ConfirmDialog from 'components/confirm-dialog'
  */
@@ -79,7 +80,9 @@ const Inventory = () => {
 
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const role = useRole('inventory')
   const { addSupportingDocuments } = documents()
   const blocks = getBlocks()
@@ -547,7 +550,7 @@ const Inventory = () => {
         uploadAnnualBaseReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name,
+            company: companyOrg?.company,
             category: 'base',
             file: body?.file,
             processInstanceId: uuid,
@@ -561,10 +564,10 @@ const Inventory = () => {
         uploadAssetTransferReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name,
+            company: companyOrg?.company,
             // category: 'assetTransferRequestProcess',
             file: body?.file,
-            companyToTransfer: body?.company,
+            companyToTransfer: body?.companyOrg,
             processInstanceId: uuid,
             // month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
@@ -577,7 +580,7 @@ const Inventory = () => {
         uploadAssetDisposalReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name,
+            company: companyOrg?.company,
             // category: 'assetDisposalRequestProcess',
             file: body?.file,
             processInstanceId: uuid,
@@ -590,7 +593,7 @@ const Inventory = () => {
         uploadAnnualBaseReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name,
+            company: companyOrg?.company,
             category: 'addition',
             file: body?.file,
             processInstanceId: uuid,

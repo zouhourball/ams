@@ -50,7 +50,7 @@ import HeaderTemplate from 'components/header-template'
 // import { userRole } from 'components/shared-hook/get-roles'
 import MHTDialog from 'components/mht-dialog'
 import SupportedDocument from 'components/supported-document'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import ToastMsg from 'components/toast-msg'
 
 import {
@@ -70,6 +70,7 @@ import {
 
 import './style.scss'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 const Downstream = ({ subkey }) => {
   const dispatch = useDispatch()
 
@@ -96,7 +97,11 @@ const Downstream = ({ subkey }) => {
     setSelectedRow([])
   }, [])
   const { addSupportingDocuments } = documents()
-  const company = getOrganizationInfos()
+
+  // const company = getOrganizationInfos()
+
+  const companyOrg = getCompanyInfos()
+
   const role = useRole('downstream')
 
   const { data: listLiquefiedPetroleumGas, refetch: refetchLpgList } = useQuery(
@@ -288,7 +293,7 @@ const Downstream = ({ subkey }) => {
         return uploadLpgMutate(
           {
             body: {
-              company: company?.name || 'ams-org',
+              company: companyOrg?.company,
               file: body?.file[0],
               month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuid,
@@ -309,7 +314,7 @@ const Downstream = ({ subkey }) => {
         return uploadNgMutate(
           {
             body: {
-              company: company?.name || 'ams-org',
+              company: companyOrg?.company,
               file: body?.file[0],
               month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuid,
@@ -330,7 +335,7 @@ const Downstream = ({ subkey }) => {
         return uploadRsMutate(
           {
             body: {
-              company: company?.name || 'ams-org',
+              company: companyOrg?.company,
               file: body?.file[0],
               month: moment(body?.referenceDate?.timestamp).format('MMMM'),
               processInstanceId: uuid,

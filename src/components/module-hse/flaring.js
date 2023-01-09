@@ -27,7 +27,7 @@ import {
   downloadAnnualPlan,
 } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import { addToast } from 'modules/app/actions'
 
@@ -57,6 +57,7 @@ import {
 
 import './style.scss'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const Flaring = () => {
   const dispatch = useDispatch()
@@ -83,7 +84,9 @@ const Flaring = () => {
     setSelectedRow([])
   }, [])
   const blocks = getBlocks()
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const { addSupportingDocuments } = documents()
   useEffect(() => {
     setPage(0)
@@ -454,7 +457,7 @@ const Flaring = () => {
         uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file[0],
             processInstanceId: uuid,
             date: moment(body?.referenceDate?.timestamp).format('YYYY-MM-DD'),
@@ -467,7 +470,7 @@ const Flaring = () => {
         uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file[0],
             processInstanceId: uuid,
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
@@ -480,7 +483,7 @@ const Flaring = () => {
         uploadAnnualForecastMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file[0],
             processInstanceId: uuid,
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),

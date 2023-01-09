@@ -15,7 +15,7 @@ import {
   downloadOriginalFile,
   downloadTemp,
 } from 'libs/api/supporting-document-api'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import ToastMsg from 'components/toast-msg'
 
@@ -55,6 +55,7 @@ import {
 } from './helpers'
 
 import './style.scss'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const Production = ({ subModule }) => {
   // const subModule = get(location, 'pathname', '/').split('/').reverse()[0]
@@ -81,7 +82,9 @@ const Production = ({ subModule }) => {
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
 
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const role = useRole('production')
 
   useEffect(() => {
@@ -439,7 +442,7 @@ const Production = ({ subModule }) => {
         uploadDailyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file,
             processInstanceId: uuid,
             dailyDate: moment(body?.referenceDate?.timestamp).format(
@@ -453,7 +456,7 @@ const Production = ({ subModule }) => {
         uploadMonthlyReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file,
             processInstanceId: uuid,
             month: moment(body?.referenceDate?.timestamp).format('MMMM'),
@@ -466,7 +469,7 @@ const Production = ({ subModule }) => {
         uploadMonthlyTrackingReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file,
             processInstanceId: uuid,
             month: moment(body?.referenceDate?.timestamp).format('MMMM'),
@@ -479,7 +482,7 @@ const Production = ({ subModule }) => {
         uploadOmanHydrocarbonReportMutate.mutate({
           body: {
             block: body?.block,
-            company: company?.name || 'ams-org',
+            company: companyOrg?.company,
             file: body?.file[0],
             processInstanceId: uuid,
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),

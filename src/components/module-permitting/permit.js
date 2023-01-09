@@ -68,6 +68,7 @@ import DeleteDialog from 'components/delete-dialog'
 
 const Permit = ({ subModule }) => {
   const company = getOrganizationInfos()
+
   const [currentTab, setCurrentTab] = useState(
     subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
   )
