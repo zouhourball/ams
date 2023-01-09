@@ -30,6 +30,7 @@ import ToastMsg from 'components/toast-msg'
 import { addToast } from 'modules/app/actions'
 
 import { configs, actionsHeader } from './helpers'
+import DeleteDialog from 'components/delete-dialog'
 
 const Audit = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -94,6 +95,7 @@ const Audit = () => {
   }, [])
   const dispatch = useDispatch()
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const { data: listStateAudit, refetch: refetchListStateAudit } = useQuery(
     ['getStateAudit'],
@@ -292,6 +294,7 @@ const Audit = () => {
                 <HeaderTemplate
                   title={`${selectedRow.length} Row Selected`}
                   actions={actionsHeader(
+                    setShowDeleteDialog,
                     role,
                     selectedRow[0],
                     setShowSupportedDocumentDialog,
@@ -342,6 +345,16 @@ const Audit = () => {
           visible={closureReportDetails}
           title={'Audit Closure Report'}
           report={selectedRow[0]?.report}
+        />
+      )}
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="Confirm delete Proposal "
+          text=" Are you sure you want to delete this proposal ? "
+          hideDialog={() => setShowDeleteDialog(false)}
+          // handleDeleteProduction={() => h()}
         />
       )}
     </>

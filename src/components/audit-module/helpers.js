@@ -213,6 +213,7 @@ export const requestConfigs = [
 ]
 
 export const actionsHeader = (
+  setShowDeleteDialog,
   role,
   row,
   suppDoc,
@@ -234,7 +235,8 @@ export const actionsHeader = (
     {
       id: 3,
       label: 'Delete',
-      onClick: () => {},
+      setShowDeleteDialog,
+      // onClick: () => {},
     },
     {
       id: 4,
