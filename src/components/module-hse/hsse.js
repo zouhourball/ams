@@ -46,6 +46,7 @@ import {
   actionsHeader,
   hsseDetailsConfigs,
 } from './helpers'
+import DeleteDialog from 'components/delete-dialog'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -72,7 +73,7 @@ const HSSE = () => {
     ['hsseList'],
     hsseList,
   )
-
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const blocks = getBlocks()
   const company = getOrganizationInfos()
 
@@ -293,10 +294,11 @@ const HSSE = () => {
         { objectId: selectedRow[0]?.id },
         {
           onSuccess: (res) => {
-            if (!res.error) {
+            if (res?.success === true) {
               refetchHsse()
               dispatch(setSelectedRowDispatch([]))
               setSelectedRow([])
+              setShowDeleteDialog(false)
             }
           },
         },
@@ -371,7 +373,7 @@ const HSSE = () => {
                     selectedRow[0]?.id,
                     role,
                     setShowSupportedDocumentDialog,
-                    handleDeleteHsse,
+                    setShowDeleteDialog,
                     downloadOriginalFile,
                     selectedRow[0]?.originalFileId,
                     selectedRow[0]?.fileName,
@@ -458,6 +460,17 @@ const HSSE = () => {
           onSaveUpload={(data) => {
             handleSupportingDocs(data)
           }}
+        />
+      )}
+
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="title "
+          text=" text 1"
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeleteHsse()}
         />
       )}
     </>

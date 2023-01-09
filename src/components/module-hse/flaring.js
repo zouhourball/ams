@@ -56,6 +56,7 @@ import {
 } from './helpers'
 
 import './style.scss'
+import DeleteDialog from 'components/delete-dialog'
 
 const Flaring = () => {
   const dispatch = useDispatch()
@@ -73,7 +74,7 @@ const Flaring = () => {
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
-
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const selectedRow = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
@@ -402,13 +403,13 @@ const Flaring = () => {
         return null
     }
   }
-
   const handleDeleteFlaring = (id) => {
     // const selectedRows = selectedRow?.map((el) => renderCurrentTabData()[el])
     selectedRow?.length > 0 &&
       deleteFlaring(subModule, id).then((res) => {
-        if (res) {
+        if (res?.success === true) {
           setSelectedRow([])
+          setShowDeleteDialog(false)
           dispatch(
             addToast(
               <ToastMsg text={'Successfully deleted'} type="success" />,
@@ -687,7 +688,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           currentTab,
-          handleDeleteFlaring,
+          setShowDeleteDialog,
           downloadOriginalFile,
           renderCurrentTabData()[selectedRow[0]]?.originalFileId,
           renderCurrentTabData()[selectedRow[0]]?.fileName,
@@ -701,7 +702,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           currentTab,
-          handleDeleteFlaring,
+          setShowDeleteDialog,
           downloadOriginalFile,
           renderCurrentTabData()[selectedRow[0]]?.originalFileId,
           renderCurrentTabData()[selectedRow[0]]?.fileName,
@@ -716,7 +717,7 @@ const Flaring = () => {
           role,
           setShowSupportedDocumentDialog,
           currentTab,
-          handleDeleteFlaring,
+          setShowDeleteDialog,
           downloadOriginalFile,
           renderCurrentTabData()[selectedRow[0]]?.originalFileId,
           renderCurrentTabData()[selectedRow[0]]?.fileName,
@@ -749,6 +750,7 @@ const Flaring = () => {
   const UploadSupportedDocumentFromTable = (row) => {
     setShowSupportedDocumentDialog(row)
   }
+
   return (
     <>
       <TopBar
@@ -939,6 +941,16 @@ const Flaring = () => {
               flaringSuppDocs(data)
             }}
             readOnly={role === 'regulator'}
+          />
+        )}
+        {showDeleteDialog && (
+          <DeleteDialog
+            onDiscard={() => setShowDeleteDialog(false)}
+            visible={showDeleteDialog}
+            title="title "
+            text=" text 1"
+            hideDialog={() => setShowDeleteDialog(false)}
+            handleDeleteProduction={() => handleDeleteFlaring(selectedRow[0])}
           />
         )}
       </div>
