@@ -61,6 +61,7 @@ import { addToast } from 'modules/app/actions'
 import { planningConfigs, actionsHeader, wpbData, fypData } from './helpers'
 
 import './style.scss'
+import DeleteDialog from 'components/delete-dialog'
 const Planning = ({ subModule }) => {
   const dispatch = useDispatch()
 
@@ -75,6 +76,7 @@ const Planning = ({ subModule }) => {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [showRescheduleDialog, setShowRescheduleDialog] = useState(false)
   const [showMeeting, setShowMeeting] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
@@ -810,7 +812,7 @@ const Planning = ({ subModule }) => {
                   role,
                   setShowSupportedDocumentDialog,
                   currentTab,
-                  handleDeletePlanning,
+                  showDeleteDialog,
                   downloadOriginalFile,
                   selectedRow[0]?.originalFileId,
                   selectedRow[0]?.fileName,
@@ -968,6 +970,16 @@ const Planning = ({ subModule }) => {
           members={/* get(membersData, 'data', []) || */ []}
           processInstanceId={selectedRow[0]?.processInstanceId}
           role={role.slice(0, -1)}
+        />
+      )}
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="title "
+          text=" text 1"
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeletePlanning()}
         />
       )}
     </>

@@ -158,7 +158,7 @@ export const actionsHeader = (
   role,
   supportedDocument,
   subModule,
-  onDelete,
+  showDeleteDialog,
   downloadOriginalFile,
   originalFileId,
   // handleUpdateUploadRapport,
@@ -198,7 +198,7 @@ export const actionsHeader = (
       id: 2,
       label: 'Delete',
       onClick: () => {
-        onDelete(subModule, id)
+        showDeleteDialog(subModule, id)
       },
     },
     {

@@ -419,14 +419,14 @@ export const actionsHeaderReports = (
   row,
   role,
   supportedDocument,
-  handleDeletePermit,
+  setShowDeleteDialog,
   setPreview,
 ) => [
   {
     id: 1,
     label: 'Delete',
     onClick: () => {
-      handleDeletePermit(row?.id)
+      setShowDeleteDialog(row?.id)
     },
   },
   {
