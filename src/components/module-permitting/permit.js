@@ -318,9 +318,9 @@ const Permit = ({ subModule }) => {
         ]
   const handleDeletePermit = (id) => {
     deletePermit(id).then((res) => {
-      if (res) {
+      if (res?.success) {
         setSelectedRow([])
-
+        setShowDeleteDialog(false)
         dispatch(
           addToast(
             <ToastMsg text={'Successfully deleted'} type="success" />,
@@ -908,7 +908,7 @@ const Permit = ({ subModule }) => {
           title="Confirm delete Proposal "
           text=" Are you sure you want to delete this proposal ? "
           hideDialog={() => setShowDeleteDialog(false)}
-          handleDeleteProduction={() => handleDeletePermit()}
+          handleDeleteProduction={() => handleDeletePermit(selectedRow[0]?.id)}
         />
       )}
     </>

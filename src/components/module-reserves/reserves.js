@@ -175,13 +175,14 @@ const Reserves = ({ subkey, row, section, setRow }) => {
     deleteReport(showDeleteDialog, renderSectionKey().name).then((res) => {
       if (res?.success) {
         setSelectedRow([])
+        setShowDeleteDialog(false)
         dispatch(
           addToast(
             <ToastMsg text={'Successfully deleted'} type="success" />,
             'hide',
           ),
         )
-        setShowDeleteDialog(false)
+
         return section?.refetch()
       } else {
         dispatch(

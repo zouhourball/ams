@@ -513,9 +513,10 @@ const Inventory = () => {
   )
   const deleteInventoryMutate = useMutation(deleteInventory, {
     onSuccess: (res) => {
-      if (!res.error) {
+      if (res?.success) {
         setSelectedRow([])
         refetchAfterCommitByCurrentTab()
+        setShowDeleteDialog(false)
         dispatch(
           addToast(
             <ToastMsg
@@ -1443,7 +1444,9 @@ const Inventory = () => {
           title="Confirm delete Proposal "
           text=" Are you sure you want to delete this proposal ? "
           hideDialog={() => setShowDeleteDialog(false)}
-          handleDeleteProduction={() => handleDeleteInventory()}
+          handleDeleteProduction={() =>
+            handleDeleteInventory(selectedRow[0]?.id)
+          }
         />
       )}
     </div>
