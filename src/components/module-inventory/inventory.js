@@ -55,6 +55,7 @@ import {
   assetDisposalDetailsConfigs,
   // assetConsumptionDetailsData,
 } from './helpers'
+import DeleteDialog from 'components/delete-dialog'
 
 /* import ConfirmDialog from 'components/confirm-dialog'
  */
@@ -74,7 +75,7 @@ const Inventory = () => {
   const [dataDisplayedMHT, setDataDisplayedMHT] = useState({})
   const [filesList, setFileList] = useState([])
 
-  /* const [showDeleteDialog, setShowDeleteDialog] = useState(false) */
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const [currentUpload, setCurrentUpload] = useState()
   const dispatch = useDispatch()
@@ -1203,7 +1204,7 @@ const Inventory = () => {
                   role,
                   setShowSupportedDocumentDialog,
                   createCategoryAndTransactionByTab(),
-                  handleDeleteInventory,
+                  setShowDeleteDialog,
                   setShowUploadRapportDialog,
                   setCurrentInventoryId,
                   selectedRow[0]?.originalFileId,
@@ -1435,6 +1436,16 @@ const Inventory = () => {
           confirmLabel={'Confirm'}
         />
       )} */}
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="Confirm delete Proposal "
+          text=" Are you sure you want to delete this proposal ? "
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeleteInventory()}
+        />
+      )}
     </div>
   )
 }
