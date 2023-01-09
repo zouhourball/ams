@@ -64,6 +64,7 @@ import {
 
 import './style.scss'
 import placeholder from 'images/phase.png'
+import DeleteDialog from 'components/delete-dialog'
 
 const Permit = ({ subModule }) => {
   const company = getOrganizationInfos()
@@ -79,6 +80,7 @@ const Permit = ({ subModule }) => {
   const [size, setSize] = useState(20)
   const [view, setView] = useState('default')
   const [showUploadRapportDialog, setShowUploadRapportDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 
   const [showUploadDrillingFileDialog, setShowUploadDrillingFileDialog] =
     useState(false)
@@ -671,7 +673,7 @@ const Permit = ({ subModule }) => {
                         selectedRow[0],
                         role,
                         setShowSupportedDocumentDialog,
-                        handleDeletePermit,
+                        setShowDeleteDialog,
                         submitDraft,
                       )}
                     />
@@ -897,6 +899,16 @@ const Permit = ({ subModule }) => {
           file={selectedRow[0]?.file}
           downloadFile={() => onDownloadTemplate(selectedRow[0]?.url)}
           deleteFile={() => onDeleteReports(selectedRow[0]?.id)}
+        />
+      )}
+      {showDeleteDialog && (
+        <DeleteDialog
+          onDiscard={() => setShowDeleteDialog(false)}
+          visible={showDeleteDialog}
+          title="Confirm delete Proposal "
+          text=" Are you sure you want to delete this proposal ? "
+          hideDialog={() => setShowDeleteDialog(false)}
+          handleDeleteProduction={() => handleDeletePermit()}
         />
       )}
     </>
