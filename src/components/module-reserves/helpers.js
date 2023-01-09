@@ -392,7 +392,7 @@ export const actionsHeader = (
   const opEntries = [
     {
       id: 1,
-      label: 'Deletes',
+      label: 'Delete',
       onClick: () => {
         setShowDeleteDialog(row?.id)
       },
