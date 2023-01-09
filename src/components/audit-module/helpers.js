@@ -235,8 +235,10 @@ export const actionsHeader = (
     {
       id: 3,
       label: 'Delete',
-      setShowDeleteDialog,
-      // onClick: () => {},
+
+      onClick: () => {
+        setShowDeleteDialog(row?.auditId)
+      },
     },
     {
       id: 4,
