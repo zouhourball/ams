@@ -25,7 +25,7 @@ import {
 } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 import documents from 'libs/hooks/documents'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 
 import { addToast } from 'modules/app/actions'
 
@@ -47,6 +47,7 @@ import {
   hsseDetailsConfigs,
 } from './helpers'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const HSSE = () => {
   const [currentTab, setCurrentTab] = useState(0)
@@ -75,7 +76,8 @@ const HSSE = () => {
   )
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const blocks = getBlocks()
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
 
   const { mutate, data: uploadDataResponse } = useMutation(uploadHsse, {
     onSuccess: (res) => {
@@ -159,7 +161,7 @@ const HSSE = () => {
     mutate({
       body: {
         block: body?.block,
-        company: company?.name || 'ams-org',
+        company: companyOrg?.company,
         file: body?.file[0],
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),

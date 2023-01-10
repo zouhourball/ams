@@ -26,7 +26,8 @@ import { userRole } from 'components/shared-hook/get-roles'
 import { v4 as uuidv4 } from 'uuid'
 import documents from 'libs/hooks/documents'
 import { addToast } from 'modules/app/actions'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const Emissions = () => {
   const dispatch = useDispatch()
@@ -38,7 +39,9 @@ const Emissions = () => {
   const [filesList, setFileList] = useState([])
   const blocks = getBlocks()
   const { addSupportingDocuments } = documents()
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const { mutate, data: uploadDataResponse } = useMutation(uploadHsse, {
     onSuccess: (res) => {
       if (!res.error) {
@@ -129,7 +132,7 @@ const Emissions = () => {
     mutate({
       body: {
         block: body?.block,
-        company: company?.name || 'ams-org',
+        company: companyOrg?.company,
         file: body?.file[0],
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),

@@ -27,6 +27,7 @@ import { wpbData, fypData } from '../helpers'
 import { buildObjectFromArray } from '../utils'
 
 import './style.scss'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const PlanningDetails = ({ objectId, subModule }) => {
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
@@ -36,6 +37,8 @@ const PlanningDetails = ({ objectId, subModule }) => {
   const [rejectDialog, setRejectDialog] = useState(false)
   const [version, setVersion] = useState('1.0')
   const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
+
   const role = useRole('planning')
   const { data: dataDetails, refetch } = useQuery(
     ['getDetailPlanningById', objectId, subModule],
@@ -147,7 +150,7 @@ const PlanningDetails = ({ objectId, subModule }) => {
     updateStatusMutation.mutate({
       objectId,
       status,
-      orgId: company?.organisationID,
+      orgId: companyOrg?.organisationID,
     })
   }
 

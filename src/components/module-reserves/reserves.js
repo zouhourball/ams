@@ -29,7 +29,7 @@ import { downloadTemp } from 'libs/api/supporting-document-api'
 import getBlocks from 'libs/hooks/get-blocks'
 
 import documents from 'libs/hooks/documents'
-import getOrganizationInfos from 'libs/hooks/get-organization-infos'
+// import getOrganizationInfos from 'libs/hooks/get-organization-infos'
 import { addToast } from 'modules/app/actions'
 
 import TopBar from 'components/top-bar'
@@ -51,6 +51,7 @@ import {
   annualReservesDetailsConfigs,
 } from './helpers'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const Reserves = ({ subkey, row, section, setRow }) => {
   const dispatch = useDispatch()
@@ -82,7 +83,8 @@ const Reserves = ({ subkey, row, section, setRow }) => {
     setShowSupportedDocumentDialog(row)
   }
   const role = useRole('reserves')
-  const company = getOrganizationInfos()
+  // const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
 
   const { data: listAnnualReserves, refetch: refetchAnnualReserves } = useQuery(
     [
@@ -510,7 +512,7 @@ const Reserves = ({ subkey, row, section, setRow }) => {
       {
         body: {
           block: body?.block,
-          company: company?.name,
+          company: companyOrg?.company,
           file: body?.filesList,
           processInstanceId: uuid,
           year: moment(body?.referenceDate?.timestamp).format('YYYY'),
@@ -577,7 +579,7 @@ const Reserves = ({ subkey, row, section, setRow }) => {
       {
         body: {
           block: body?.block,
-          company: company?.name,
+          company: companyOrg?.company,
           file: body?.filesList,
           processInstanceId: uuid,
           // year: moment(body?.referenceDate?.timestamp).format('YYYY'),
@@ -595,9 +597,9 @@ const Reserves = ({ subkey, row, section, setRow }) => {
       {
         body: {
           block: body?.block,
-          company: company?.name,
+          company: companyOrg?.company,
           file: body?.filesList,
-          hydrocarbonType: body?.hydrocarbonType.toUpperCase(),
+          hydrocarbonType: body?.hydrocarbonType?.toUpperCase(),
           processInstanceId: uuid,
           year: moment(body?.referenceDate?.timestamp).format('YYYY'),
         },
