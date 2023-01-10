@@ -21,3 +21,17 @@
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.18);
   }
 }
+
+.details-container {
+  height: 100%;
+
+  &-mht {
+    max-height: calc(100% - 90px);
+    padding: 5px;
+    overflow: auto;
+
+    &.plusHeight {
+      max-height: calc(100% - 190px);
+    }
+  }
+}

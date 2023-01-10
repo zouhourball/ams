@@ -1,4 +1,7 @@
 .suspend-report-details {
+  height: 100%;
+  overflow: auto;
+
   .top-bar-buttons-icons {
     display: none;
   }
@@ -9,4 +12,9 @@
       color: gray;
     }
   }
+
+  // .details-permit {
+  //   max-height: calc(100% - 90px);
+  //   overflow: auto;
+  // }
 }
