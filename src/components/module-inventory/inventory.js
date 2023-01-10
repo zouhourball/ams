@@ -567,7 +567,7 @@ const Inventory = () => {
             company: companyOrg?.company,
             // category: 'assetTransferRequestProcess',
             file: body?.file,
-            companyToTransfer: body?.companyOrg,
+            companyToTransfer: body?.company,
             processInstanceId: uuid,
             // month: moment(body?.referenceDate).format('MMMM'),
             year: moment(body?.referenceDate?.timestamp).format('YYYY'),
