@@ -13,7 +13,7 @@ const getCompanyInfos = () => {
       enabled: !!orgId,
     },
   )
-  return organization?.[0]
+  return organization?.find((el) => +el?.id === +orgId)
 }
 
 export default getCompanyInfos
