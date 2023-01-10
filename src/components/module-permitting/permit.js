@@ -65,9 +65,11 @@ import {
 import './style.scss'
 import placeholder from 'images/phase.png'
 import DeleteDialog from 'components/delete-dialog'
+import getCompanyInfos from 'libs/hooks/get-company-infos'
 
 const Permit = ({ subModule }) => {
   const company = getOrganizationInfos()
+  const companyOrg = getCompanyInfos()
 
   const [currentTab, setCurrentTab] = useState(
     subModule === 'dr' ? 0 : subModule === 'sr' ? 1 : 2,
@@ -528,7 +530,7 @@ const Permit = ({ subModule }) => {
           category: 'C : Reporting Templates',
           subject: 'MOG-S03-WELLS & DRILLING MANAGEMENT',
           description: '',
-          company: company?.name,
+          company: companyOrg?.company,
           block: data?.block,
           referenceDate: `${data?.referenceDate?.year}-${data?.referenceDate?.month}-${data?.referenceDate?.day}`,
         },
