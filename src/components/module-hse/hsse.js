@@ -161,7 +161,7 @@ const HSSE = () => {
     mutate({
       body: {
         block: body?.block,
-        company: companyOrg?.company || 'ams-org',
+        company: companyOrg?.company,
         file: body?.file[0],
         processInstanceId: uuid,
         year: moment(body?.referenceDate?.timestamp).format('YYYY'),
