@@ -67,7 +67,7 @@ const appendFileToForm = (form, file) => {
 }
 
 export function fileManagerUpload (files, bucket = 'upload') {
-  const uploadURL = `/fm/upload?bucket=${bucket}&share_with=${'sys:anonymous'},sys:authenticated&permission=${'view'}`
+  const uploadURL = `${PRODUCT_APP_URL_API}/fm/upload?bucket=${bucket}&share_with=${'sys:anonymous'},sys:authenticated&permission=${'view'}`
   const opts = {
     method: 'POST',
     isFormData: true,
