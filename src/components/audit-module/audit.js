@@ -14,6 +14,7 @@ import {
   closureReport,
   closingAudit,
   supportingDocuments,
+  deleteAudit,
 } from 'libs/api/api-audit'
 // import documents from 'libs/hooks/documents'
 
@@ -70,6 +71,40 @@ const Audit = () => {
   }
   const [participants, setParticipants] = useState([])
 
+  const deleteAuditMutate = useMutation(deleteAudit, {
+    onSuccess: (res) => {
+      if (res?.success) {
+        setSelectedRow([])
+        setShowDeleteDialog(false)
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.message || 'Deleted successfully'}
+              type="success"
+            />,
+            'hide',
+          ),
+        )
+      } else {
+        dispatch(
+          addToast(
+            <ToastMsg
+              text={res.error?.body?.message || 'Something went wrong'}
+              type="error"
+            />,
+            'hide',
+          ),
+        )
+      }
+      refetchListStateAudit()
+    },
+  })
+  const handleDeleteInventory = (auditID) => {
+    deleteAuditMutate.mutate({
+      auditID,
+    })
+    // setSelectedRow([])
+  }
   // const { addSupportingDocuments } = documents()
   const role = useRole('audit')
   const renderData = () => {
@@ -162,7 +197,9 @@ const Audit = () => {
       id: selectedRow[0]?.auditId || showSupportedDocumentDialog?.auditId,
     })
   }
+
   const selectedRow = selectedRowSelector?.map((el) => renderData()[el])
+  console.log(selectedRow, 'selectedRow')
 
   const actions = [
     role === 'AU' && (
@@ -354,7 +391,9 @@ const Audit = () => {
           title="Confirm delete Proposal "
           text=" Are you sure you want to delete this proposal ? "
           hideDialog={() => setShowDeleteDialog(false)}
-          // handleDeleteProduction={() => h()}
+          handleDeleteProduction={() =>
+            handleDeleteInventory(selectedRow[0]?.auditId)
+          }
         />
       )}
     </>

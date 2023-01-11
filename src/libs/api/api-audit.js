@@ -323,3 +323,19 @@ export const supportingDocuments = ({ data, id }) => {
   }
   return res
 }
+/// Delete Audit By id
+
+export const deleteAudit = async ({ auditID }) => {
+  let res
+  try {
+    res = await fetchJSON(
+      `${auditUrl}/audit-be/api/v1/audit/${auditID}`,
+      {
+        method: 'DELETE',
+      },
+    )
+  } catch (e) {
+    res = { error: e }
+  }
+  return res
+}
