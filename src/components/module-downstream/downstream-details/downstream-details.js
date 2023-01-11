@@ -344,15 +344,21 @@ const DownstreamDetails = ({
           />
         </div>
       )}
-      <Mht
-        configs={configTable()}
-        tableData={DownstreamDetailsData}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-      />
+      <div
+        className={`details-container-mht ${
+          subModule === 'rs' && 'plusHeight'
+        }`}
+      >
+        <Mht
+          configs={configTable()}
+          tableData={DownstreamDetailsData}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}

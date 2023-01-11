@@ -295,28 +295,30 @@ const PlanningDetails = ({ objectId, subModule }) => {
         onClickBack={() => navigate(`/ams/planning/${subModule}`)}
         actions={actions}
       />
-      <Mht
-        configs={configsMht()}
-        tableData={planningDataDetails}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-        headerTemplate={
-          subModule === 'wpb' && (
-            <SelectField
-              id="versions"
-              menuItems={versionsList}
-              block
-              position={SelectField.Positions.BELOW}
-              value={version}
-              onChange={setVersion}
-              simplifiedMenu={false}
-            />
-          )
-        }
-      />
+      <div className="details-container-mht">
+        <Mht
+          configs={configsMht()}
+          tableData={planningDataDetails}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+          headerTemplate={
+            subModule === 'wpb' && (
+              <SelectField
+                id="versions"
+                menuItems={versionsList}
+                block
+                position={SelectField.Positions.BELOW}
+                value={version}
+                onChange={setVersion}
+                simplifiedMenu={false}
+              />
+            )
+          }
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}

@@ -1,4 +1,6 @@
 .production-details {
+  height: 100%;
+
   .top-bar-buttons-icons {
     display: none;
   }
@@ -21,5 +23,12 @@
       padding: 0 5px;
       font-weight: bold;
     }
+  }
+
+  &-mht {
+    flex-grow: 1;
+    max-height: calc(100% - 142px);
+    padding: 5px;
+    overflow: auto;
   }
 }

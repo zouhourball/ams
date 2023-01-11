@@ -490,86 +490,88 @@ const CostRecoveryDetails = ({ location: { pathname }, detailId, subkey }) => {
         actions={actions}
         detailData={detailData}
       />
-      <Mht
-        configs={configs()}
-        tableData={costRecoveryDetailsData}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-        headerTemplate={
-          <>
-            {subModule === 'prodLifting' && (
-              <SelectField
-                id="prod-lifting"
-                menuItems={[
-                  {
-                    label: 'Base Production',
-                    value: 'dataBasedProduction',
-                  },
-                  {
-                    label: 'Actual Lifting',
-                    value: 'dataActualLifting',
-                  },
-                ]}
-                block
-                position={SelectField.Positions.BELOW}
-                value={subSubModule}
-                onChange={setSubSubModule}
-                simplifiedMenu={false}
-              />
-            )}{' '}
-            {subModule === 'costs' && (
-              <SelectField
-                id="versions"
-                menuItems={versionsList}
-                block
-                position={SelectField.Positions.BELOW}
-                value={version}
-                onChange={setVersion}
-                simplifiedMenu={false}
-              />
-            )}
-          </>
-        }
-        footerTemplate={
-          rowsData?.totalPages > 1 &&
-          subModule === 'transaction' && (
+      <div className="cost-recovery-details-mht">
+        <Mht
+          configs={configs()}
+          tableData={costRecoveryDetailsData}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+          headerTemplate={
             <>
-              &nbsp;|&nbsp;Page
-              <TextField
-                id="page_num"
-                lineDirection="center"
-                block
-                type={'number'}
-                className="page"
-                value={page + 1}
-                onChange={(v) =>
-                  v >= rowsData?.totalPages
-                    ? setPage(rowsData?.totalPages - 1)
-                    : setPage(parseInt(v) - 1)
-                }
-                // disabled={status === 'closed'}
-              />
-              of {rowsData?.totalPages}
-              &nbsp;|&nbsp;Show
-              <TextField
-                id="el_num"
-                lineDirection="center"
-                block
-                className="show"
-                value={size}
-                onChange={(v) =>
-                  v > rowsData?.totalElements
-                    ? setSize(rowsData?.totalElements)
-                    : setSize(v)
-                }
-              />
+              {subModule === 'prodLifting' && (
+                <SelectField
+                  id="prod-lifting"
+                  menuItems={[
+                    {
+                      label: 'Base Production',
+                      value: 'dataBasedProduction',
+                    },
+                    {
+                      label: 'Actual Lifting',
+                      value: 'dataActualLifting',
+                    },
+                  ]}
+                  block
+                  position={SelectField.Positions.BELOW}
+                  value={subSubModule}
+                  onChange={setSubSubModule}
+                  simplifiedMenu={false}
+                />
+              )}{' '}
+              {subModule === 'costs' && (
+                <SelectField
+                  id="versions"
+                  menuItems={versionsList}
+                  block
+                  position={SelectField.Positions.BELOW}
+                  value={version}
+                  onChange={setVersion}
+                  simplifiedMenu={false}
+                />
+              )}
             </>
-          )
-        }
-      />
+          }
+          footerTemplate={
+            rowsData?.totalPages > 1 &&
+            subModule === 'transaction' && (
+              <>
+                &nbsp;|&nbsp;Page
+                <TextField
+                  id="page_num"
+                  lineDirection="center"
+                  block
+                  type={'number'}
+                  className="page"
+                  value={page + 1}
+                  onChange={(v) =>
+                    v >= rowsData?.totalPages
+                      ? setPage(rowsData?.totalPages - 1)
+                      : setPage(parseInt(v) - 1)
+                  }
+                  // disabled={status === 'closed'}
+                />
+                of {rowsData?.totalPages}
+                &nbsp;|&nbsp;Show
+                <TextField
+                  id="el_num"
+                  lineDirection="center"
+                  block
+                  className="show"
+                  value={size}
+                  onChange={(v) =>
+                    v > rowsData?.totalElements
+                      ? setSize(rowsData?.totalElements)
+                      : setSize(v)
+                  }
+                />
+              </>
+            )
+          }
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}

@@ -512,47 +512,48 @@ const ProductionDetails = ({ subModule, productionId }) => {
           <div>{productionData?.totalGDTORPIC || 'n/a'}</div>
         </div>
       )}
-
-      <Mht
-        configs={renderCurrentTabDetailsConfigs()}
-        tableData={renderDetailsDataBySubModule()}
-        withSearch
-        commonActions
-        withSubColumns
-        hideTotal={false}
-        withFooter
-        headerTemplate={
-          subModule === 'monthly' ? (
-            <SelectField
-              id="monthly-prod"
-              menuItems={[
-                { label: 'Monthly Production', value: 'production' },
-                { label: 'Monthly Well Counts', value: 'wellCount' },
-              ]}
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={setSelectFieldValue}
-              simplifiedMenu={false}
-            />
-          ) : subModule === 'monthly-tracking' ? (
-            <SelectField
-              id="monthly-prod-tracking"
-              menuItems={[
-                { label: 'Monthly Tracking', value: 'data' },
-                { label: 'GOMI', value: 'gomi' },
-              ]}
-              block
-              position={SelectField.Positions.BELOW}
-              value={selectFieldValue}
-              onChange={setSelectFieldValue}
-              simplifiedMenu={false}
-            />
-          ) : (
-            <></>
-          )
-        }
-      />
+      <div className="production-details-mht">
+        <Mht
+          configs={renderCurrentTabDetailsConfigs()}
+          tableData={renderDetailsDataBySubModule()}
+          withSearch
+          commonActions
+          withSubColumns
+          hideTotal={false}
+          withFooter
+          headerTemplate={
+            subModule === 'monthly' ? (
+              <SelectField
+                id="monthly-prod"
+                menuItems={[
+                  { label: 'Monthly Production', value: 'production' },
+                  { label: 'Monthly Well Counts', value: 'wellCount' },
+                ]}
+                block
+                position={SelectField.Positions.BELOW}
+                value={selectFieldValue}
+                onChange={setSelectFieldValue}
+                simplifiedMenu={false}
+              />
+            ) : subModule === 'monthly-tracking' ? (
+              <SelectField
+                id="monthly-prod-tracking"
+                menuItems={[
+                  { label: 'Monthly Tracking', value: 'data' },
+                  { label: 'GOMI', value: 'gomi' },
+                ]}
+                block
+                position={SelectField.Positions.BELOW}
+                value={selectFieldValue}
+                onChange={setSelectFieldValue}
+                simplifiedMenu={false}
+              />
+            ) : (
+              <></>
+            )
+          }
+        />
+      </div>
       {showSupportedDocumentDialog && (
         <SupportedDocument
           title={'upload supporting documents'}
