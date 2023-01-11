@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useQuery, useMutation } from 'react-query'
-import { Button, DialogContainer, TextField } from 'react-md'
+import { Button, DialogContainer, SelectField, TextField } from 'react-md'
 
 import Mht, {
   setSelectedRow as setSelectedRowAction,
@@ -88,10 +88,12 @@ const Downstream = ({ subkey }) => {
   const [overrideId, setOverrideId] = useState()
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(20)
+  const [selectedValue, setSelectedValue] = useState()
 
   const selectedRowSelector = useSelector(
     (state) => state?.selectRowsReducers?.selectedRows,
   )
+
   const setSelectedRow = (data) => dispatch(setSelectedRowAction(data))
   useEffect(() => {
     setSelectedRow([])
@@ -147,6 +149,9 @@ const Downstream = ({ subkey }) => {
     useMutation(uploadNg)
   const { mutate: uploadRsMutate, data: responseUploadRs } =
     useMutation(uploadRs)
+  useEffect(() => {
+    setSelectedValue(responseUploadRs?.data?.data?.[0]?.governorat)
+  }, [responseUploadRs])
   const commitLpgMutation = useMutation(commitLoadDownstreamLpg)
   const commitNgMutate = useMutation(commitLoadDownstreamNg)
   const commitRsMutate = useMutation(commitLoadDownstreamRs)
@@ -832,20 +837,22 @@ const Downstream = ({ subkey }) => {
         )
       case 2:
         return (
-          responseUploadRs?.data?.data[0]?.dataGov?.map((el) => ({
-            gov: el?.wiliyat,
-            sn: el?.stationNumber,
-            product: [
-              { m95: el?.saleQuantityM95 },
-              { m91: el?.saleQuantityM91 },
-              { kerosen: el?.saleQuantityKerosen },
-              { jet: el?.saleQuantityJet },
-              { gas: el?.saleQuantityGasOil },
-              { m98: el?.saleQuantityM98 },
+          responseUploadRs?.data?.data
+            ?.find((el) => el?.governorat === selectedValue)
+            ?.dataGov?.map((el) => ({
+              gov: el?.wiliyat,
+              sn: el?.stationNumber,
+              product: [
+                { m95: el?.saleQuantityM95 },
+                { m91: el?.saleQuantityM91 },
+                { kerosen: el?.saleQuantityKerosen },
+                { jet: el?.saleQuantityJet },
+                { gas: el?.saleQuantityGasOil },
+                { m98: el?.saleQuantityM98 },
 
-              { totalProduct: el?.saleQuantityTotal },
-            ],
-          })) || []
+                { totalProduct: el?.saleQuantityTotal },
+              ],
+            })) || []
         )
 
       default:
@@ -865,7 +872,7 @@ const Downstream = ({ subkey }) => {
   }
   const dataMht = useMemo(() => {
     return downstreamRespData()
-  }, [responseUploadLpg, responseUploadNg, responseUploadRs])
+  }, [responseUploadLpg, responseUploadNg, responseUploadRs, selectedValue])
 
   const renderDialogData = (data) => {
     const uuid = uuidv4()
@@ -1079,7 +1086,23 @@ const Downstream = ({ subkey }) => {
       </div>
       {showUploadMHTDialog && (
         <MHTDialog
-          headerTemplate={<div></div>}
+          headerTemplate={
+            <div className="selector">
+              <SelectField
+                id="select-field-2"
+                placeholder="Select Governorate"
+                className="selectField md-cell md-cell--4"
+                value={selectedValue}
+                menuItems={responseUploadRs?.data?.data?.map(
+                  (el) => el?.governorat,
+                )}
+                onChange={setSelectedValue}
+                simplifiedMenu={true}
+                block
+                position={SelectField.Positions.BELOW}
+              />
+            </div>
+          }
           visible={showUploadMHTDialog}
           onHide={() => {
             setShowUploadMHTDialog(false)
