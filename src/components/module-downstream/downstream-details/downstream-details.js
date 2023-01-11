@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { navigate } from '@reach/router'
-import { Button } from 'react-md'
+import { Button, SelectField } from 'react-md'
 import { useQuery, useMutation } from 'react-query'
 import { useDispatch } from 'react-redux'
 import moment from 'moment'
@@ -43,6 +43,7 @@ const DownstreamDetails = ({
   const [showSupportedDocumentDialog, setShowSupportedDocumentDialog] =
     useState(false)
   const dispatch = useDispatch()
+  const [selectedValue, setSelectedValue] = useState()
 
   const role = useRole('downstream')
   const subModule = pathname?.split('/')[4]
@@ -52,6 +53,9 @@ const DownstreamDetails = ({
     ['detailLpgDownstreamByLoggedUser', subModule, downstreamId],
     subModule && detailLpgDownstreamByLoggedUser,
   )
+  useEffect(() => {
+    setSelectedValue(downstreamDetail?.data?.[0].governorat)
+  }, [downstreamDetail])
   const closeDialog = (resp) => {
     resp &&
       resp[0]?.statusCode === 'OK' &&
@@ -69,6 +73,7 @@ const DownstreamDetails = ({
   const handleSupportingDocs = (data) => {
     costsSuppDocs(data)
   }
+
   const DownstreamDetailsData = useMemo(() => {
     switch (subModule) {
       case 'lpg':
@@ -158,25 +163,28 @@ const DownstreamDetails = ({
         )
       case 'rs':
         return (
-          downstreamDetail?.data[0]?.dataGov.map((el) => ({
-            gov: el?.wiliyat,
-            sn: el?.stationNumber,
-            product: [
-              { m95: el?.saleQuantityM95 },
-              { m91: el?.saleQuantityM91 },
-              { kerosen: el?.saleQuantityKerosen },
-              { jet: el?.saleQuantityJet },
-              { gas: el?.saleQuantityGasOil },
-              { m98: el?.saleQuantityM98 },
+          downstreamDetail?.data
+            ?.find((el) => el?.governorat === selectedValue)
+            ?.dataGov.map((el) => ({
+              gov: el?.wiliyat,
+              sn: el?.stationNumber,
+              product: [
+                { m95: el?.saleQuantityM95 },
+                { m91: el?.saleQuantityM91 },
+                { kerosen: el?.saleQuantityKerosen },
+                { jet: el?.saleQuantityJet },
+                { gas: el?.saleQuantityGasOil },
+                { m98: el?.saleQuantityM98 },
 
-              { totalProduct: el?.saleQuantityTotal },
-            ],
-          })) || []
+                { totalProduct: el?.saleQuantityTotal },
+              ],
+            })) || []
         )
       default:
         return {}
     }
-  }, [downstreamDetail, subModule])
+  }, [downstreamDetail, subModule, selectedValue])
+
   const detailData = useMemo(() => {
     switch (subModule) {
       case 'lpg':
@@ -320,6 +328,22 @@ const DownstreamDetails = ({
         actions={actions}
         detailData={detailData}
       />
+
+      {subModule === 'rs' && (
+        <div className="selector">
+          <SelectField
+            id="select-field-2"
+            placeholder="Select Governorate"
+            className="selectField md-cell md-cell--4"
+            value={selectedValue}
+            menuItems={downstreamDetail?.data?.map((el) => el?.governorat)}
+            onChange={setSelectedValue}
+            simplifiedMenu={true}
+            block
+            position={SelectField.Positions.BELOW}
+          />
+        </div>
+      )}
       <Mht
         configs={configTable()}
         tableData={DownstreamDetailsData}
