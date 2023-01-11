@@ -199,7 +199,6 @@ const Audit = () => {
   }
 
   const selectedRow = selectedRowSelector?.map((el) => renderData()[el])
-  console.log(selectedRow, 'selectedRow')
 
   const actions = [
     role === 'AU' && (

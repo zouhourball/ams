@@ -11,3 +11,14 @@
 .page {
   width: 70px;
 }
+
+.selector {
+  width: 200px;
+  margin-right: 8px;
+  background-color: #fff;
+
+  .selectField {
+    width: 100%;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.18);
+  }
+}
